@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TelegramBot.WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:TelegramBot.WebApi.Controllers.BotController.GetAllAsync">
+            <summary>
+            Get all bots
+            </summary>
+            <response code="200">
+            [{"BotId":1,"Name":"LeoVnBot","System":"IBC","AccessToken":"5237914512:AAFlfL-a8mJZMLpEuyDE7QDB3d8Hn8aV7lY"}]
+            </response>
+        </member>
+        <member name="M:TelegramBot.WebApi.Controllers.SettingController.GenerateStartUri(System.Int32,System.Int32,TelegramBot.WebApi.Params.GenerateStartUriParam)">
+            <summary>
+            Generate telegram start URI
+            </summary>
+            <response code="200">
+            https://t.me/LeoVnBot?start=47TfJ2awd8NkARFq4ktqmA==
+            </response>
+        </member>
+    </members>
+</doc>

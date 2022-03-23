@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Functions>
+  <Function Name="Setting">
+    <Setting Key="GetAllBot" SpName="Age_Chatbot_BotSelAll" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+  </Function>
+</Functions>
