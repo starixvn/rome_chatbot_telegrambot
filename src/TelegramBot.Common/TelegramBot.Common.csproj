@@ -3,10 +3,18 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
+    <CodeAnalysisRuleSet>..\..\.sonarlint\alpha-servicescsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="..\..\.sonarlint\alpha-services\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fanex.Logging.RabbitMQ" Version="1.0.1" />
+    <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

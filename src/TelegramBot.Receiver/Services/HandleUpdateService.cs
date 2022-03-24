@@ -24,13 +24,13 @@ namespace TelegramBot.Receiver.Services
     public class HandleUpdateService : IHandleUpdateService
     {
         private readonly ILogger logger;
-        private readonly BotConfiguration botConfiguration;
+        private readonly ReceiverConfiguration botConfiguration;
         private readonly ICommandService commandService;
 
         public IEnumerable<BotEntity> BotEntities { get; set; }
         public IEnumerable<ITelegramBotClient> BotClients { get; set; }
 
-        public HandleUpdateService(ILogger logger, BotConfiguration botConfiguration, ICommandService commandService)
+        public HandleUpdateService(ILogger logger, ReceiverConfiguration botConfiguration, ICommandService commandService)
         {
             this.logger = logger;
             this.botConfiguration = botConfiguration;

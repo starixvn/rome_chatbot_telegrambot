@@ -1,9 +1,17 @@
+using Fanex.Data.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
+using System.Linq;
+using TelegramBot.Common.Configurations;
+using TelegramBot.Common.Extensions;
+using TelegramBot.Common.Services;
+using TelegramBot.WebApi.Extensions;
 
 namespace TelegramBot
 {
@@ -19,11 +27,18 @@ namespace TelegramBot
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddSingleton(new WebApiConfiguration(Configuration));
+            services.AddSingleton<IDynamicRepository, DynamicRepository>();
+            services.AddSingleton<ICryptography, Cryptography>();
+            services.AddFanexLogging(Configuration);
+            services.AddInfrastructure();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TelegramBot", Version = "v1" });
+                c.CustomSchemaIds(type => type.FullName);
+                var xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly).ToList();
+                xmlFiles.ForEach(xmlFile => c.IncludeXmlComments(xmlFile));
             });
         }
 
@@ -45,6 +60,8 @@ namespace TelegramBot
             {
                 endpoints.MapControllers();
             });
+
+            app.UseFanexDataWithSqlServer(Configuration, env);
         }
     }
 }

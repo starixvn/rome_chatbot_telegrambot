@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Linq;
 using TelegramBot.Client.DependencyInjection;
-using TelegramBot.Client.Services;
+using TelegramBot.Common.Configurations;
+using TelegramBot.Common.Extensions;
+using TelegramBot.Receiver.Extensions;
 using TelegramBot.Receiver.Services;
 
 namespace TelegramBot.Receiver
@@ -22,8 +23,12 @@ namespace TelegramBot.Receiver
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddClient(Configuration);
-            services.AddHostedService<WebhookService>();
-            services.AddScoped<IHandleUpdateService, HandleUpdateService>();
+            var receiverConfiguration = new ReceiverConfiguration();
+            Configuration.GetSection(nameof(ReceiverConfiguration)).Bind(receiverConfiguration);
+            services.AddSingleton(receiverConfiguration);
+            services.AddFanexLogging(Configuration);
+            services.AddHostedService<TelegramHostedService>();
+            services.AddSingleton<IHandleUpdateService, HandleUpdateService>();
             services.AddControllers().AddNewtonsoftJson();
         }
 
@@ -36,20 +41,11 @@ namespace TelegramBot.Receiver
 
             app.UseRouting();
             app.UseCors();
-
-            var botService = app.ApplicationServices.GetService<IBotService>();
-            var bots = botService.GetAllAsync().GetAwaiter().GetResult();
-            app.UseEndpoints(endpoints =>
+            var receiverConfiguration = app.ApplicationServices.GetService<ReceiverConfiguration>();
+            if (receiverConfiguration.IsUsingWebhook)
             {
-                bots.ToList().ForEach(bot =>
-                {
-                    endpoints.MapControllerRoute(
-                        name: "tgwebhook",
-                        pattern: $"bot/{bot.AccessToken}",
-                        new { controller = "Webhook", action = "Post" });
-                });
-                endpoints.MapControllers();
-            });
+                app.UseWebhook();
+            }
         }
     }
 }
