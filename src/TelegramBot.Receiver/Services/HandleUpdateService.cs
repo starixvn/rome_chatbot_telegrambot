@@ -9,6 +9,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using TelegramBot.Client.Services;
 using TelegramBot.Common.Configurations;
+using TelegramBot.Common.Constants;
 using TelegramBot.Common.Entities;
 
 namespace TelegramBot.Receiver.Services
@@ -23,23 +24,25 @@ namespace TelegramBot.Receiver.Services
 
     public class HandleUpdateService : IHandleUpdateService
     {
-        private readonly ILogger logger;
-        private readonly ReceiverConfiguration botConfiguration;
-        private readonly ICommandService commandService;
+        private readonly ILogger _logger;
+        private readonly ReceiverConfiguration _botConfiguration;
+        private readonly ICommandService _commandService;
+        private readonly ISettingService _settingService;
 
         public IEnumerable<BotEntity> BotEntities { get; set; }
         public IEnumerable<ITelegramBotClient> BotClients { get; set; }
 
-        public HandleUpdateService(ILogger logger, ReceiverConfiguration botConfiguration, ICommandService commandService)
+        public HandleUpdateService(ILogger logger, ReceiverConfiguration botConfiguration, ICommandService commandService, ISettingService settingService)
         {
-            this.logger = logger;
-            this.botConfiguration = botConfiguration;
-            this.commandService = commandService;
+            _logger = logger;
+            _botConfiguration = botConfiguration;
+            _commandService = commandService;
+            _settingService = settingService;
         }
 
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken = default)
         {
-            if (botConfiguration.IsMaintenance)
+            if (_botConfiguration.IsMaintenance)
             {
                 try
                 {
@@ -58,8 +61,8 @@ namespace TelegramBot.Receiver.Services
 
             var handler = update.Type switch
             {
-                UpdateType.Message => BotOnMessageReceived(update.Message!),
-                UpdateType.CallbackQuery => BotOnCallbackQueryReceived(update.CallbackQuery!),
+                UpdateType.Message => BotOnMessageReceived(botClient, update.Message!),
+                UpdateType.CallbackQuery => BotOnCallbackQueryReceived(botClient, update.CallbackQuery!),
                 _ => UnknownUpdateHandlerAsync(botClient, update)
             };
             try
@@ -72,31 +75,31 @@ namespace TelegramBot.Receiver.Services
             }
         }
 
-        private Task BotOnMessageReceived(ITelegramBotClient botClient, Message message)
-        {
-            return BotOnMessageReceived(message);
-        }
-
-        private async Task BotOnMessageReceived(Message message)
+        private async Task BotOnMessageReceived(ITelegramBotClient botClient, Message message)
         {
             if (message.Type != MessageType.Text)
+            {
                 return;
+            }
 
-            await commandService.ExecuteAsync(message.Chat.Id, message.Text, false);
+            if (message.Text!.StartsWith("/start"))
+            {
+                await _settingService.StartAsync(botClient.BotId.Value, message.Chat.Id, message.Text, message.From.Username, LanguageCodes.English);
+            }
+            else
+            {
+                await _commandService.ExecuteAsync(botClient.BotId.Value, message.Chat.Id, message.Text, false);
+            }
         }
 
-        private Task BotOnCallbackQueryReceived(ITelegramBotClient botClient, CallbackQuery callbackQuery)
+        private async Task BotOnCallbackQueryReceived(ITelegramBotClient botClient, CallbackQuery callbackQuery)
         {
-            return BotOnCallbackQueryReceived(callbackQuery);
-        }
-
-        private async Task BotOnCallbackQueryReceived(CallbackQuery callbackQuery)
-        {
-            await commandService.ExecuteAsync(callbackQuery.Message.Chat.Id, callbackQuery.Data, true);
+            await _commandService.ExecuteAsync(botClient.BotId.Value, callbackQuery.Message.Chat.Id, callbackQuery.Data, true);
         }
 
         private async Task UnknownUpdateHandlerAsync(ITelegramBotClient botClient, Update update)
         {
+            await _logger.ErrorAsync($"Unknown update: {update.Type}").ConfigureAwait(false);
             await botClient.SendTextMessageAsync(
                 chatId: update.Message.Chat.Id,
                 text: "Unknown update!").ConfigureAwait(false);
@@ -115,7 +118,7 @@ namespace TelegramBot.Receiver.Services
                 _ => exception.ToString()
             };
 
-            await logger.ErrorAsync(errorMessage);
+            await _logger.ErrorAsync(errorMessage);
         }
     }
 }

@@ -12,7 +12,7 @@
             [{"BotId":1,"Name":"LeoVnBot","System":"IBC","AccessToken":"5237914512:AAFlfL-a8mJZMLpEuyDE7QDB3d8Hn8aV7lY"}]
             </response>
         </member>
-        <member name="M:TelegramBot.WebApi.Controllers.SettingController.GenerateStartUri(System.Int32,System.Int32,TelegramBot.WebApi.Params.GenerateStartUriParam)">
+        <member name="M:TelegramBot.WebApi.Controllers.SettingController.GenerateStartUri(TelegramBot.WebApi.Params.GenerateStartUriParam)">
             <summary>
             Generate telegram start URI
             </summary>

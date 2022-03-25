@@ -2,5 +2,6 @@
 <Functions>
   <Function Name="Setting">
     <Setting Key="GetAllBot" SpName="Age_Chatbot_BotSelAll" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="CustBotAccountIns" SpName="Age_Chatbot_CustBotAccountIns" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
   </Function>
 </Functions>

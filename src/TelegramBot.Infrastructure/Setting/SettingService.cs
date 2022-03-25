@@ -8,6 +8,8 @@ namespace TelegramBot.Infrastructure.Setting
     public interface ISettingService
     {
         Task<CustBot> GetCustBotAsync(long chatId);
+
+        Task<Result> InsertCustBot(int botId, long chatId, int custId, int subAccId, string messengerName, string language);
     }
 
     public class SettingService : ISettingService
@@ -17,6 +19,13 @@ namespace TelegramBot.Infrastructure.Setting
         public SettingService(IDynamicRepository dynamicRepository)
         {
             this.dynamicRepository = dynamicRepository;
+        }
+
+        public async Task<Result> InsertCustBot(int botId, long chatId, int custId, int subAccId, string messengerName, string language)
+        {
+            var criteria = new CustBotAccountInsCriteria(botId, chatId, custId, subAccId, messengerName, language);
+            await dynamicRepository.ExecuteAsync(criteria);
+            return new Result(criteria.ErrCode, criteria.ErrMessage);
         }
 
         public async Task<CustBot> GetCustBotAsync(long chatId)
