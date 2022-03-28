@@ -11,6 +11,7 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
             CustId = custId;
             SubAccId = subAccId;
             MessengerName = messengerName;
+            Language = language;
         }
 
         public int BotId { get; }
@@ -27,7 +28,7 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
 
         public int ErrCode { get; set; }
 
-        public string ErrMessage { get; set; }
+        public string ErrMsg { get; set; }
 
         public string GetSettingKey() => "CustBotAccountIns";
 

@@ -53,7 +53,7 @@ namespace TelegramBot.WebApi.Controllers
             var custId = int.Parse(words[0]);
             var subAccId = int.Parse(words[1]);
             var bot = await _botService.GetAsync(param.MessengerBotId);
-            return await _settingService.InsertCustBot(bot.BotId, param.ChatId, custId, subAccId, param.MessengerName, param.Language);
+            return await _settingService.InsertCustBotAsync(bot.BotId, param.ChatId, custId, subAccId, param.MessengerName, param.Language);
         }
     }
 }

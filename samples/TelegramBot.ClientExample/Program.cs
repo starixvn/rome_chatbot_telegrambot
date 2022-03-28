@@ -21,11 +21,14 @@ namespace TelegramBot.ClientExample
             var bots = await botService.GetAllAsync();
             Console.WriteLine(JsonConvert.SerializeObject(bots));
 
-            var startUri = await settingService.GenerateStartUriAsync(1, 1, "IBC", false);
+            const int custId = 68287;
+            const int subAccId = 10911;
+            var startUri = await settingService.GenerateStartUriAsync(custId, subAccId, "IBC", false);
             Console.WriteLine(startUri);
 
             var firstBot = bots.First();
-            var telegramCommand = $"/start {startUri.Substring(startUri.IndexOf("=") + 1)}";
+            var telegramCommand = $"/start {startUri.Substring(startUri.IndexOf("=", StringComparison.InvariantCulture) + 1)}";
+
             var result = await settingService.StartAsync(firstBot.MessengerBotId, 1, telegramCommand, "test", LanguageCodes.English);
             Console.WriteLine(JsonConvert.SerializeObject(result));
 
