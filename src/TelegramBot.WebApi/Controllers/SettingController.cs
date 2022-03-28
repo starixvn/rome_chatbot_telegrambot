@@ -42,6 +42,9 @@ namespace TelegramBot.WebApi.Controllers
             return $"https://t.me/{bot.Name}?start={encryptKey}";
         }
 
+        /// <summary>
+        /// Save messenger and customer
+        /// </summary>
         [Route("start"), HttpPost]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]

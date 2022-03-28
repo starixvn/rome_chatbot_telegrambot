@@ -1,6 +1,7 @@
 ﻿using Fanex.Logging;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,14 +36,17 @@ namespace TelegramBot.Receiver.Services
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             await logger.InfoAsync($"Worker {typeof(TelegramHostedService).Assembly.GetName().Name} running at: {DateTimeOffset.Now}");
-            handleUpdateSerice.BotEntities = await botService.GetAllAsync().ConfigureAwait(false);
-            handleUpdateSerice.BotClients = handleUpdateSerice.BotEntities.Select(x => new TelegramBotClient(x.AccessToken));
-            var tasks = handleUpdateSerice.BotClients.Select(botClient =>
+            handleUpdateSerice.BotEntities = (await botService.GetAllAsync().ConfigureAwait(false)).ToList();
+            var botClients = new List<ITelegramBotClient>();
+            var tasks = handleUpdateSerice.BotEntities.Select(botEntity =>
             {
+                var botClient = new TelegramBotClient(botEntity.AccessToken);
+                botClients.Add(botClient);
+
                 if (receiverConfiguration.IsUsingWebhook)
                 {
                     return botClient.SetWebhookAsync(
-                        url: $"{receiverConfiguration.HostAddress}/{botClient.BotId}",
+                        url: $"{receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
                         allowedUpdates: allowedUpdates,
                         cancellationToken: cancellationToken);
                 }
@@ -56,6 +60,7 @@ namespace TelegramBot.Receiver.Services
                     return botClient.GetMeAsync(cancellationToken);
                 }
             });
+            handleUpdateSerice.BotClients = botClients;
             await Task.WhenAll(tasks).ConfigureAwait(false);
         }
 

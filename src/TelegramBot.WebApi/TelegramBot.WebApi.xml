@@ -20,5 +20,10 @@
             https://t.me/LeoVnBot?start=47TfJ2awd8NkARFq4ktqmA==
             </response>
         </member>
+        <member name="M:TelegramBot.WebApi.Controllers.SettingController.StartAsync(TelegramBot.WebApi.Params.StartParam)">
+            <summary>
+            Save messenger and customer
+            </summary>
+        </member>
     </members>
 </doc>

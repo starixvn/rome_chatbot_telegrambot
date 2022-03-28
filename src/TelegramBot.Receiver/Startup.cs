@@ -6,7 +6,6 @@ using Microsoft.Extensions.Hosting;
 using TelegramBot.Client.DependencyInjection;
 using TelegramBot.Common.Configurations;
 using TelegramBot.Common.Extensions;
-using TelegramBot.Receiver.Extensions;
 using TelegramBot.Receiver.Services;
 
 namespace TelegramBot.Receiver
@@ -44,7 +43,14 @@ namespace TelegramBot.Receiver
             var receiverConfiguration = app.ApplicationServices.GetService<ReceiverConfiguration>();
             if (receiverConfiguration.IsUsingWebhook)
             {
-                app.UseWebhook();
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllerRoute(
+                        name: $"tgwebhook",
+                        pattern: "bot/{accessToken}",
+                        new { controller = "Webhook", action = "Post" });
+                    endpoints.MapControllers();
+                });
             }
         }
     }

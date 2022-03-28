@@ -5,13 +5,21 @@ using TelegramBot.Receiver.Services;
 
 namespace TelegramBot.Receiver.Controllers
 {
-    public class WebhookController : ControllerBase
+    public class WebhookController : Controller
     {
-        [HttpPost]
-        public async Task<IActionResult> Post([FromServices] HandleUpdateService handleUpdateService,
-                                          [FromBody] Update update)
+        private readonly IHandleUpdateService _handleUpdateService;
+
+        public WebhookController(IHandleUpdateService handleUpdateService)
         {
-            await handleUpdateService.HandleUpdateAsync(null, update);
+            _handleUpdateService = handleUpdateService;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(string accessToken, [FromBody] Update update)
+        {
+            var id = _handleUpdateService.BotEntities.FindIndex(x => x.AccessToken == accessToken);
+            var botClient = _handleUpdateService.BotClients[id];
+            await _handleUpdateService.HandleUpdateAsync(botClient, update);
             return Ok();
         }
     }

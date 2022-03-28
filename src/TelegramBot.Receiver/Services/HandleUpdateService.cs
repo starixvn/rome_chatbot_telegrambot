@@ -16,8 +16,8 @@ namespace TelegramBot.Receiver.Services
 {
     public interface IHandleUpdateService
     {
-        IEnumerable<BotEntity> BotEntities { get; set; }
-        IEnumerable<ITelegramBotClient> BotClients { get; set; }
+        List<BotEntity> BotEntities { get; set; }
+        List<ITelegramBotClient> BotClients { get; set; }
         Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken = default);
         Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken);
     }
@@ -29,8 +29,8 @@ namespace TelegramBot.Receiver.Services
         private readonly ICommandService _commandService;
         private readonly ISettingService _settingService;
 
-        public IEnumerable<BotEntity> BotEntities { get; set; }
-        public IEnumerable<ITelegramBotClient> BotClients { get; set; }
+        public List<BotEntity> BotEntities { get; set; }
+        public List<ITelegramBotClient> BotClients { get; set; }
 
         public HandleUpdateService(ILogger logger, ReceiverConfiguration botConfiguration, ICommandService commandService, ISettingService settingService)
         {
@@ -112,11 +112,9 @@ namespace TelegramBot.Receiver.Services
 
         public async Task HandleErrorAsync(Exception exception)
         {
-            var errorMessage = exception switch
-            {
-                ApiRequestException apiRequestException => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
-                _ => exception.ToString()
-            };
+            var errorMessage = exception is ApiRequestException apiRequestException
+                ? $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}"
+                : exception.ToString();
 
             await _logger.ErrorAsync(errorMessage);
         }

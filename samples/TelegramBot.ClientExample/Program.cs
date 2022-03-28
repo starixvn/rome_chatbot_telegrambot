@@ -29,7 +29,8 @@ namespace TelegramBot.ClientExample
             var firstBot = bots.First();
             var telegramCommand = $"/start {startUri.Substring(startUri.IndexOf("=", StringComparison.InvariantCulture) + 1)}";
 
-            var result = await settingService.StartAsync(firstBot.MessengerBotId, 1, telegramCommand, "test", LanguageCodes.English);
+            const long chatId = 1293288125;
+            var result = await settingService.StartAsync(firstBot.MessengerBotId, chatId, telegramCommand, "test", LanguageCodes.English);
             Console.WriteLine(JsonConvert.SerializeObject(result));
 
             Console.Write("Press any key to exit");
