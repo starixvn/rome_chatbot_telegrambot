@@ -2,9 +2,9 @@
 {
     public static class LanguageCodes
     {
-        public static readonly string English = "en-US";
-        public static readonly string Chinese = "zh-CN";
-        public static readonly string Taiwan = "zh-TW";
-        public static readonly string Vietnamese = "vi-VN";
+        public const string English = "en-US";
+        public const string Chinese = "zh-CN";
+        public const string Taiwan = "zh-TW";
+        public const string Vietnamese = "vi-VN";
     }
 }

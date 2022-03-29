@@ -61,6 +61,16 @@ namespace TelegramBot.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter this private OTP to &lt;b&gt;the associated site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot.
+        ///&lt;b&gt;OTP:&lt;/b&gt; &lt;code&gt;{0}&lt;/code&gt;.
+        /// </summary>
+        public static string Setting_OTP_Help {
+            get {
+                return ResourceManager.GetString("Setting_OTP_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sorry, the system is under maintenance from {0} to {1} GMT+8. Please come back later..
         /// </summary>
         public static string UnderMaintenance {

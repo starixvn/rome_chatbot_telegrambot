@@ -9,6 +9,8 @@ namespace TelegramBot.Client.Services
     {
         Task<string> GenerateStartUriAsync(int custId, int subAccId, string system, bool isTest);
         Task<Result> StartAsync(long messengerBotId, long chatId, string message, string messengerName, string language);
+        Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp);
+        Task<Result> UnlinkAsync(int botId, int custId, int subAccId);
     }
 
     public class SettingService : ISettingService
@@ -44,6 +46,31 @@ namespace TelegramBot.Client.Services
                     message,
                     messengerName,
                     language
+                });
+        }
+
+        public async Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp)
+        {
+            return await httpClient.PostAsJsonAsync<Result>(
+                $"setting/link",
+                new
+                {
+                    botId,
+                    custId,
+                    subAccId,
+                    otp
+                });
+        }
+
+        public async Task<Result> UnlinkAsync(int botId, int custId, int subAccId)
+        {
+            return await httpClient.PostAsJsonAsync<Result>(
+                $"setting/unlink",
+                new
+                {
+                    botId,
+                    custId,
+                    subAccId
                 });
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Fanex.Logging;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
 using TelegramBot.Common.Configurations;
 
 namespace TelegramBot.Infrastructure.Message
@@ -27,6 +28,7 @@ namespace TelegramBot.Infrastructure.Message
         {
             var botClient = botClientFactory.GetOrCreate(messengerBotId);
             await botClient.SendTextMessageAsync(
+                parseMode: ParseMode.Html,
                 chatId: chatId,
                 text: message);
         }

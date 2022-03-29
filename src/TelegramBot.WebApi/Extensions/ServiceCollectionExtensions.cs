@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Fanex.Caching.Redis;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command;
 using TelegramBot.Infrastructure.Message;
@@ -15,6 +17,12 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<ICommandService, CommandService>();
             services.AddSingleton<ISenderService, SenderService>();
             services.AddSingleton<IBotClientFactory, BotClientFactory>();
+            return services;
+        }
+
+        public static IServiceCollection AddFanexCaching(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddRedisCache(configuration.GetSection("Fanex.Caching.Redis"));
             return services;
         }
     }

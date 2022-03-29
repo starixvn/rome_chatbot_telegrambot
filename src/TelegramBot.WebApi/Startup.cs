@@ -27,10 +27,13 @@ namespace TelegramBot
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(new WebApiConfiguration(Configuration));
+            var webApiConfiguration = new WebApiConfiguration();
+            Configuration.GetSection(nameof(WebApiConfiguration)).Bind(webApiConfiguration);
+            services.AddSingleton(webApiConfiguration);
             services.AddSingleton<IDynamicRepository, DynamicRepository>();
             services.AddSingleton<ICryptography, Cryptography>();
             services.AddFanexLogging(Configuration);
+            services.AddFanexCaching(Configuration);
             services.AddInfrastructure();
             services.AddControllers();
             services.AddSwaggerGen(c =>
