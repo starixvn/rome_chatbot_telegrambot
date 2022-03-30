@@ -6,16 +6,16 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["TelegramBot/TelegramBot.csproj", "TelegramBot/"]
-RUN dotnet restore "TelegramBot/TelegramBot.csproj"
+COPY ["TelegramBot.WebApi/TelegramBot.WebApi.csproj", "TelegramBot/"]
+RUN dotnet restore "TelegramBot.WebApi/TelegramBot.WebApi.csproj"
 COPY . .
-WORKDIR "/src/TelegramBot"
-RUN dotnet build "TelegramBot.csproj" -c Release -o /app/build
+WORKDIR "/src/TelegramBot.WebApi"
+RUN dotnet build "TelegramBot.WebApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "TelegramBot.csproj" -c Release -o /app/publish
+RUN dotnet publish "TelegramBot.WebApi.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "TelegramBot.dll"]
+ENTRYPOINT ["dotnet", "TelegramBot.WebApi.dll"]

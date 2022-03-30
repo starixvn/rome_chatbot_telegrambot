@@ -1,4 +1,7 @@
 using Fanex.Data.Repository;
+using Fanex.Logging.Extensions;
+using Fanex.Logging.Extensions.AspNetCore;
+using Fanex.Logging.Extensions.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -43,6 +46,12 @@ namespace TelegramBot
                 var xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly).ToList();
                 xmlFiles.ForEach(xmlFile => c.IncludeXmlComments(xmlFile));
             });
+
+            ExceptionHandler
+                // To use custom config
+                .UseConfig(new LoggingConfiguration()
+                .GetHttpHeaderInfo()
+                .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +73,7 @@ namespace TelegramBot
                 endpoints.MapControllers();
             });
 
+            app.UseUM(Configuration);
             app.UseFanexDataWithSqlServer(Configuration, env);
         }
     }
