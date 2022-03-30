@@ -27,7 +27,7 @@
         </member>
         <member name="M:TelegramBot.WebApi.Controllers.SettingController.ResendOtpAsync(TelegramBot.WebApi.Params.ResendOtpParam)">
             <summary>
-            Link with OTP
+            Resend OTP
             </summary>
         </member>
         <member name="M:TelegramBot.WebApi.Controllers.SettingController.LinkAsync(TelegramBot.WebApi.Params.LinkParam)">
@@ -42,7 +42,7 @@
         </member>
         <member name="M:TelegramBot.WebApi.Controllers.SettingController.GetCustBotMessengerAsync(TelegramBot.WebApi.Params.GetCustBotMessengerParam)">
             <summary>
-            Unlink
+            Get cust bot messenger
             </summary>
         </member>
     </members>

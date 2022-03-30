@@ -6,7 +6,7 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["TelegramBot.WebApi/TelegramBot.WebApi.csproj", "TelegramBot/"]
+COPY ["TelegramBot.WebApi/TelegramBot.WebApi.csproj", "TelegramBot.WebApi/"]
 RUN dotnet restore "TelegramBot.WebApi/TelegramBot.WebApi.csproj"
 COPY . .
 WORKDIR "/src/TelegramBot.WebApi"

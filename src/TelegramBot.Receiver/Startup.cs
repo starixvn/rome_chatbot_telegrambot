@@ -12,6 +12,8 @@ namespace TelegramBot.Receiver
 {
     public class Startup
     {
+        private ReceiverConfiguration receiverConfiguration;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -21,17 +23,29 @@ namespace TelegramBot.Receiver
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddClient(Configuration);
-            var receiverConfiguration = new ReceiverConfiguration();
+            receiverConfiguration = new ReceiverConfiguration();
             Configuration.GetSection(nameof(ReceiverConfiguration)).Bind(receiverConfiguration);
             services.AddSingleton(receiverConfiguration);
+            services.AddClient(Configuration);
             services.AddFanexLogging(Configuration);
             services.AddHostedService<TelegramHostedService>();
             services.AddSingleton<IHandleUpdateService, HandleUpdateService>();
-            services.AddControllers().AddNewtonsoftJson();
+
+            if (receiverConfiguration.IsUsingWebhook)
+            {
+                services.AddControllers().AddNewtonsoftJson();
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (receiverConfiguration.IsUsingWebhook)
+            {
+                ConfigureWebhook(app, env);
+            }
+        }
+
+        private void ConfigureWebhook(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -40,18 +54,14 @@ namespace TelegramBot.Receiver
 
             app.UseRouting();
             app.UseCors();
-            var receiverConfiguration = app.ApplicationServices.GetService<ReceiverConfiguration>();
-            if (receiverConfiguration.IsUsingWebhook)
+            app.UseEndpoints(endpoints =>
             {
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllerRoute(
-                        name: $"tgwebhook",
-                        pattern: "bot/{accessToken}",
-                        new { controller = "Webhook", action = "Post" });
-                    endpoints.MapControllers();
-                });
-            }
+                endpoints.MapControllerRoute(
+                    name: $"tgwebhook",
+                    pattern: "bot/{accessToken}",
+                    new { controller = "Webhook", action = "Post" });
+                endpoints.MapControllers();
+            });
         }
     }
 }

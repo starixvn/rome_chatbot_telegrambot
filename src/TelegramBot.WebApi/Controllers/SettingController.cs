@@ -59,7 +59,7 @@ namespace TelegramBot.WebApi.Controllers
         }
 
         /// <summary>
-        /// Link with OTP
+        /// Resend OTP
         /// </summary>
         [Route("resend-otp"), HttpPost]
         [Produces(MediaTypeNames.Application.Json)]
@@ -92,7 +92,7 @@ namespace TelegramBot.WebApi.Controllers
         }
 
         /// <summary>
-        /// Unlink
+        /// Get cust bot messenger
         /// </summary>
         [Route("custBotMessenger"), HttpPost]
         [Produces(MediaTypeNames.Application.Json)]
