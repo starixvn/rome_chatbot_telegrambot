@@ -27,7 +27,7 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
-            var custBot = await settingService.GetCustBotAsync(chatId);
+            var custBotMessenger = await settingService.GetCustBotMessengerAsync(0, 0, false);
             await senderService.SendMessage(messengerBotId, chatId, message).ConfigureAwait(false);
         }
     }

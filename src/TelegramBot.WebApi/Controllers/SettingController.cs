@@ -55,7 +55,18 @@ namespace TelegramBot.WebApi.Controllers
             var words = plainKey.Split(':');
             var custId = int.Parse(words[0]);
             var subAccId = int.Parse(words[1]);
-            return await _settingService.StartAsync(param.MessengerBotId, param.ChatId, custId, subAccId, param.MessengerName, param.Language);
+            return await _settingService.StartAsync(param.MessengerBotId, param.ChatId, custId, subAccId, param.MessengerName, param.Language, param.IP);
+        }
+
+        /// <summary>
+        /// Link with OTP
+        /// </summary>
+        [Route("resend-otp"), HttpPost]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
+        public async Task<Result> ResendOtpAsync(ResendOtpParam param)
+        {
+            return await _settingService.ResendOtpAsync(param.BotId, param.CustId, param.SubAccId, param.IsTest);
         }
 
         /// <summary>
@@ -66,7 +77,7 @@ namespace TelegramBot.WebApi.Controllers
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
         public async Task<Result> LinkAsync(LinkParam param)
         {
-            return await _settingService.LinkAsync(param.BotId, param.CustId, param.SubAccId, param.Otp);
+            return await _settingService.LinkAsync(param.BotId, param.CustId, param.SubAccId, param.Otp, param.IP);
         }
 
         /// <summary>
@@ -77,7 +88,18 @@ namespace TelegramBot.WebApi.Controllers
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
         public async Task<Result> UnlinkAsync(UnlinkParam param)
         {
-            return await _settingService.UnlinkAsync(param.BotId, param.CustId, param.SubAccId);
+            return await _settingService.UnlinkAsync(param.BotId, param.CustId, param.SubAccId, param.IP);
+        }
+
+        /// <summary>
+        /// Unlink
+        /// </summary>
+        [Route("custBotMessenger"), HttpPost]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(CustBotMessenger), StatusCodes.Status200OK)]
+        public async Task<CustBotMessenger> GetCustBotMessengerAsync(GetCustBotMessengerParam param)
+        {
+            return await _settingService.GetCustBotMessengerAsync(param.CustId, param.SubAccId, param.IsTest);
         }
     }
 }

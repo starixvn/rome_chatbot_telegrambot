@@ -3,25 +3,27 @@ using Fanex.Data.Repository;
 using System;
 using System.Threading.Tasks;
 using TelegramBot.Common.Configurations;
-using TelegramBot.Common.Constants;
 using TelegramBot.Common.Extensions;
 using TelegramBot.Common.Models;
 using TelegramBot.Common.Resources;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
+using TelegramBot.Infrastructure.Setting.Constants;
 using TelegramBot.Infrastructure.Setting.Criteria;
 
 namespace TelegramBot.Infrastructure.Setting
 {
     public interface ISettingService
     {
-        Task<CustBot> GetCustBotAsync(long chatId);
+        Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId, bool isTest);
 
-        Task<Result> StartAsync(long messengerBotId, long chatId, int custId, int subAccId, string messengerName, string language);
+        Task<Result> StartAsync(long messengerBotId, long chatId, int custId, int subAccId, string messengerName, string language, string ip);
 
-        Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp);
+        Task<Result> ResendOtpAsync(int botId, int custId, int subAccId, bool isTest);
 
-        Task<Result> UnlinkAsync(int botId, int custId, int subAccId);
+        Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip);
+
+        Task<Result> UnlinkAsync(int botId, int custId, int subAccId, string ip);
     }
 
     public class SettingService : ISettingService
@@ -41,17 +43,17 @@ namespace TelegramBot.Infrastructure.Setting
             _senderService = senderService;
         }
 
-        public async Task<Result> StartAsync(long messengerBotId, long chatId, int custId, int subAccId, string messengerName, string language)
+        public async Task<Result> StartAsync(long messengerBotId, long chatId, int custId, int subAccId, string messengerName, string language, string ip)
         {
             var bot = await _botService.GetAsync(messengerBotId);
-            var criteria = new CustBotAccountInsCriteria(bot.BotId, chatId, custId, subAccId, messengerName, language);
+            var criteria = new CustBotAccountInsCriteria(bot.BotId, chatId, custId, subAccId, messengerName, language, ip);
             await _dynamicRepository.ExecuteAsync(criteria);
-            if (criteria.ErrCode != ErrorCodes.Success)
+            if (!criteria.IsSuccess)
             {
                 return new Result(criteria.ErrCode, criteria.ErrMsg);
             }
 
-            var otp = ThreadSafeRandom.Next(0, 999999).ToString("D6");
+            var otp = GenerateOtp();
             var cacheKey = $"{custId}_{subAccId}";
             var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webApiConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
@@ -60,36 +62,55 @@ namespace TelegramBot.Infrastructure.Setting
             return Result.CreateSuccessfulResult();
         }
 
-        public async Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp)
+        public async Task<Result> ResendOtpAsync(int botId, int custId, int subAccId, bool isTest)
+        {
+            var bot = await _botService.GetAsync(botId);
+            var otp = GenerateOtp();
+            var cacheKey = $"{custId}_{subAccId}";
+            var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webApiConfiguration.OtpExpirationInMinutes));
+            await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
+            var message = string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help)), otp);
+            var custBotMessenger = await GetCustBotMessengerAsync(custId, subAccId, isTest);
+            await _senderService.SendMessage(bot.MessengerBotId, custBotMessenger.ChatId, message);
+            return Result.CreateSuccessfulResult();
+        }
+
+        public async Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip)
         {
             var cacheKey = $"{custId}_{subAccId}";
             var expectedOtp = await _cacheService.GetAsync<string>(cacheKey);
             if (string.IsNullOrEmpty(expectedOtp))
             {
-                return new Result(-1, "OTP is expired");
+                return new Result(ErrorCodes.OTP_Expired, "OTP is expired");
             }
 
             if (otp != expectedOtp)
             {
-                return new Result(-2, "Invalid OTP");
+                return new Result(ErrorCodes.OTP_Invalid, "Invalid OTP");
             }
 
-            var criteria = new CustBotAccountStatusUpdCriteria(botId, custId, subAccId, true, true);
+            var criteria = new CustBotAccountStatusUpdCriteria(botId, custId, subAccId, true, true, ip);
             await _dynamicRepository.ExecuteAsync(criteria);
             return new Result(criteria.ErrCode, criteria.ErrMsg);
         }
 
-        public async Task<Result> UnlinkAsync(int botId, int custId, int subAccId)
+        public async Task<Result> UnlinkAsync(int botId, int custId, int subAccId, string ip)
         {
-            var criteria = new CustBotAccountStatusUpdCriteria(botId, custId, subAccId, false, false);
+            var criteria = new CustBotAccountStatusUpdCriteria(botId, custId, subAccId, false, false, ip);
             await _dynamicRepository.ExecuteAsync(criteria);
             return new Result(criteria.ErrCode, criteria.ErrMsg);
         }
 
-        public async Task<CustBot> GetCustBotAsync(long chatId)
+        public async Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId, bool isTest)
         {
-            var criteria = new GetCustBotCriteria(chatId);
-            return await _dynamicRepository.GetAsync<CustBot>(criteria);
+            var criteria = new CustBotMessengerSelCriteria(custId, subAccId, isTest);
+            return await _dynamicRepository.GetAsync<CustBotMessenger>(criteria);
+        }
+
+        private static string GenerateOtp()
+        {
+            const int maxValue = 999999;
+            return ThreadSafeRandom.Next(0, maxValue).ToString("D6");
         }
     }
 }

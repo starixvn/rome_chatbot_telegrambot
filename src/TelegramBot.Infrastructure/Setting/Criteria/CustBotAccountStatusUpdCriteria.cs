@@ -5,13 +5,14 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
 {
     public class CustBotAccountStatusUpdCriteria : ResultCriteriaBase, INonQueryCommand
     {
-        public CustBotAccountStatusUpdCriteria(int botId, int custId, int subAccId, bool status, bool isVerifyOTP)
+        public CustBotAccountStatusUpdCriteria(int botId, int custId, int subAccId, bool status, bool isVerifyOTP, string ip)
         {
             BotId = botId;
             CustId = custId;
             SubAccId = subAccId;
             Status = status;
-            IsVerifyOTP = status;
+            IsVerifyOTP = isVerifyOTP;
+            IP = ip;
         }
 
         public int BotId { get; }
@@ -23,6 +24,8 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
         public bool Status { get; }
 
         public bool IsVerifyOTP { get; }
+
+        public string IP { get; }
 
         public string GetSettingKey() => "CustBotAccountStatusUpd";
 

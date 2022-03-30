@@ -9,5 +9,7 @@
         public int SubAccId { get; set; }
 
         public string Otp { get; set; }
+
+        public string IP { get; set; }
     }
 }

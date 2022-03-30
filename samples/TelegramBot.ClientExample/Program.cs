@@ -37,14 +37,17 @@ namespace TelegramBot.ClientExample
             const int custId = 68287;
             const int subAccId = 10911;
             const long chatId = 1293288125;
+            const bool isTest = false;
+            const string system = "IBC";
+            const string messengerName = "test";
             Result result;
             var firstBot = bots.First();
 
-            var startUri = await settingService.GenerateStartUriAsync(custId, subAccId, "IBC", false);
+            var startUri = await settingService.GenerateStartUriAsync(custId, subAccId, system, isTest);
             Write("Generate start uri", startUri);
 
             var telegramCommand = $"/start {startUri.Substring(startUri.IndexOf("=", StringComparison.InvariantCulture) + 1)}";
-            result = await settingService.StartAsync(firstBot.MessengerBotId, chatId, telegramCommand, "test", LanguageCodes.English);
+            result = await settingService.StartAsync(firstBot.MessengerBotId, chatId, telegramCommand, messengerName, LanguageCodes.English);
             Write("Start and save chat", result);
 
             var cacheKey = $"{custId}_{subAccId}";
@@ -54,8 +57,17 @@ namespace TelegramBot.ClientExample
             result = await settingService.LinkAsync(firstBot.BotId, custId, subAccId, $"${otp}aa");
             Write("Link with incorrect OTP", result);
 
+            result = await settingService.ResendOtpAsync(firstBot.BotId, custId, subAccId, isTest);
+            Write("Resend new OTP", result);
+
+            otp = await cacheService.GetAsync<string>(cacheKey);
+            Write("New OTP", otp);
+
             result = await settingService.LinkAsync(firstBot.BotId, custId, subAccId, otp);
             Write("Link with correct OTP", result);
+
+            var custBotMessenger = await settingService.GetCustBotMessengerAsync(custId, subAccId, isTest);
+            Write("CustBotMessenger", custBotMessenger);
 
             result = await settingService.UnlinkAsync(firstBot.BotId, custId, subAccId);
             Write("Unlink", result);

@@ -12,6 +12,7 @@ namespace TelegramBot.Infrastructure.Bot
         Task<List<BotEntity>> GetAllAsync();
         Task<BotEntity> GetAsync(string system, bool isTest);
         Task<BotEntity> GetAsync(long messengerBotId);
+        Task<BotEntity> GetAsync(int botId);
     }
 
     public class BotService : IBotService
@@ -50,6 +51,12 @@ namespace TelegramBot.Infrastructure.Bot
         {
             var bots = await GetAllAsync().ConfigureAwait(false);
             return bots.FirstOrDefault(x => x.MessengerBotId == messengerBotId);
+        }
+
+        public async Task<BotEntity> GetAsync(int botId)
+        {
+            var bots = await GetAllAsync().ConfigureAwait(false);
+            return bots.FirstOrDefault(x => x.BotId == botId);
         }
     }
 }

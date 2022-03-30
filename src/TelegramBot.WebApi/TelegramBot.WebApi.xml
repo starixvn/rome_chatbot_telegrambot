@@ -25,12 +25,22 @@
             Save messenger and customer
             </summary>
         </member>
+        <member name="M:TelegramBot.WebApi.Controllers.SettingController.ResendOtpAsync(TelegramBot.WebApi.Params.ResendOtpParam)">
+            <summary>
+            Link with OTP
+            </summary>
+        </member>
         <member name="M:TelegramBot.WebApi.Controllers.SettingController.LinkAsync(TelegramBot.WebApi.Params.LinkParam)">
             <summary>
             Link with OTP
             </summary>
         </member>
         <member name="M:TelegramBot.WebApi.Controllers.SettingController.UnlinkAsync(TelegramBot.WebApi.Params.UnlinkParam)">
+            <summary>
+            Unlink
+            </summary>
+        </member>
+        <member name="M:TelegramBot.WebApi.Controllers.SettingController.GetCustBotMessengerAsync(TelegramBot.WebApi.Params.GetCustBotMessengerParam)">
             <summary>
             Unlink
             </summary>
