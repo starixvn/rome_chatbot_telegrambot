@@ -50,12 +50,23 @@ namespace TelegramBot.WebApi.Controllers
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
         public async Task<Result> StartAsync(StartParam param)
         {
-            var uniqueToken = param.Message.Split(' ')[1];
+            var words = param.Message.Split(' ');
+            if (words.Length != 2)
+            {
+                return Result.CreateErrorResult("Invalid start request");
+            }
+
+            var uniqueToken = words[1];
             var plainKey = _cryptography.Decrypt(uniqueToken);
-            var words = plainKey.Split(':');
+            words = plainKey.Split(':');
+            if (words.Length != 2)
+            {
+                return Result.CreateErrorResult("Invalid start unique token");
+            }
+
             var custId = int.Parse(words[0]);
             var subAccId = int.Parse(words[1]);
-            return await _settingService.StartAsync(param.MessengerBotId, param.ChatId, custId, subAccId, param.MessengerName, param.Language, param.IP);
+            return await _settingService.StartAsync(param.MessengerBotId, param.ChatId, custId, subAccId, param.MessengerName, param.Language, param.IP).ConfigureAwait(false);
         }
 
         /// <summary>

@@ -10,12 +10,52 @@ using System.Threading.Tasks;
 using TelegramBot.Client.Services;
 using TelegramBot.Common.Constants;
 using TelegramBot.Common.Models;
+using TelegramBot.Common.Services;
 
 namespace TelegramBot.ClientExample
 {
     static class Program
     {
+        private static IBotService botService;
+        private static ISettingService settingService;
+        private static ICommandService commandService;
+        private static ICacheService cacheService;
+        const int custId = 68287;
+        const int subAccId = 10911;
+        const long chatId = 1293288125;
+        const bool isTest = false;
+        const string system = "IBC";
+        const string messengerName = "test";
+
         static async Task Main()
+        {
+            Init();
+
+            await TestLogging();
+            //await TestSetting();
+
+            Console.Write("Press any key to exit");
+            Console.ReadKey();
+        }
+
+        private static async Task TestLogging()
+        {
+            try
+            {
+                const string plainKey = "a:2";
+                var cryptography = new Cryptography();
+                var encryptKey = cryptography.Encrypt(plainKey);
+                var message = $"start {encryptKey}";
+                var result = await settingService.StartAsync(1, 1, message, "test", LanguageCodes.English);
+                Write("Test logging", result);
+            }
+            catch (Exception ex)
+            {
+                Write("Test logging", ex);
+            }
+        }
+
+        private static void Init()
         {
             var configurationOptions = ConfigurationOptions.Parse(ConfigurationManager.AppSettings["Fanex.Caching.Redis"]);
             var redisCacheOptions = new RedisCacheOptions
@@ -24,22 +64,18 @@ namespace TelegramBot.ClientExample
                 ConnectionOptions = configurationOptions
             };
             CacheServiceManager.Use(() => new RedisCache(redisCacheOptions));
-            var cacheService = new CacheService();
-
+            cacheService = new CacheService();
             var httpClient = CreateHttpClient();
-            IBotService botService = new BotService(httpClient);
-            ISettingService settingService = new SettingService(httpClient);
-            ICommandService commandService = new CommandService(httpClient);
+            botService = new BotService(httpClient);
+            settingService = new SettingService(httpClient);
+            commandService = new CommandService(httpClient);
+        }
 
+        private static async Task TestSetting()
+        {
             var bots = await botService.GetAllAsync();
             Write("Get all bots", bots);
 
-            const int custId = 68287;
-            const int subAccId = 10911;
-            const long chatId = 1293288125;
-            const bool isTest = false;
-            const string system = "IBC";
-            const string messengerName = "test";
             Result result;
             var firstBot = bots.First();
 
@@ -71,9 +107,6 @@ namespace TelegramBot.ClientExample
 
             result = await settingService.UnlinkAsync(firstBot.BotId, custId, subAccId);
             Write("Unlink", result);
-
-            Console.Write("Press any key to exit");
-            Console.ReadKey();
         }
 
         private static void Write(string header, object value)
