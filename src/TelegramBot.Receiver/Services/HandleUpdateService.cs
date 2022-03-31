@@ -7,10 +7,10 @@ using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using TelegramBot.Client.Constants;
+using TelegramBot.Client.Models;
 using TelegramBot.Client.Services;
 using TelegramBot.Common.Configurations;
-using TelegramBot.Common.Constants;
-using TelegramBot.Common.Entities;
 
 namespace TelegramBot.Receiver.Services
 {

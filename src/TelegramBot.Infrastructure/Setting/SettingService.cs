@@ -2,9 +2,9 @@
 using Fanex.Data.Repository;
 using System;
 using System.Threading.Tasks;
+using TelegramBot.Client.Models;
 using TelegramBot.Common.Configurations;
 using TelegramBot.Common.Extensions;
-using TelegramBot.Common.Models;
 using TelegramBot.Common.Resources;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;

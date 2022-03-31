@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using TelegramBot.Client.Extensions;
-using TelegramBot.Common.Entities;
+using TelegramBot.Client.Models;
 
 namespace TelegramBot.Client.Services
 {

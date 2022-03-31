@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TelegramBot.Common.Entities;
+using TelegramBot.Client.Models;
 using TelegramBot.Infrastructure.Bot.Criteria;
 
 namespace TelegramBot.Infrastructure.Bot

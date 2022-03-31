@@ -1,5 +1,5 @@
 ﻿using Fanex.Data;
-using TelegramBot.Common.Constants;
+using TelegramBot.Client.Constants;
 
 namespace TelegramBot.Infrastructure.Shared
 {

@@ -6,6 +6,8 @@
     <CodeAnalysisRuleSet>..\..\.sonarlint\alpha-servicescsharp.ruleset</CodeAnalysisRuleSet>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.0.0-beta1</Version>
+    <Authors>@rome</Authors>
+    <Company>@starixvn</Company>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,15 +16,6 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.36.1.44192">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\TelegramBot.Common\TelegramBot.Common.csproj" />
   </ItemGroup>
 
 </Project>

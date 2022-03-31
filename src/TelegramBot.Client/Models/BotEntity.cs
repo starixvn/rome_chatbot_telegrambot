@@ -1,4 +1,4 @@
-﻿namespace TelegramBot.Common.Entities
+﻿namespace TelegramBot.Client.Models
 {
     public class BotEntity
     {

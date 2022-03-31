@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TelegramBot.Client\TelegramBot.Client.csproj" />
     <ProjectReference Include="..\TelegramBot.Common\TelegramBot.Common.csproj" />
     <ProjectReference Include="..\TelegramBot.Infrastructure\TelegramBot.Infrastructure.csproj" />
   </ItemGroup>
