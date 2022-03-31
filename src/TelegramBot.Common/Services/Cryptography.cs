@@ -28,12 +28,14 @@ namespace TelegramBot.Common.Services
             using var cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write);
             cs.Write(clearBytes, 0, clearBytes.Length);
             cs.Close();
-            return Convert.ToBase64String(ms.ToArray());
+            var base64String = Convert.ToBase64String(ms.ToArray());
+            base64String = base64String.Replace('+', '-').Replace('/', '_');
+            return base64String;
         }
 
         public string Decrypt(string cipherText)
         {
-            cipherText = cipherText.Replace(" ", "+");
+            cipherText = cipherText.Replace('-', '+').Replace('_', '/');
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             using Aes encryptor = Aes.Create();
             Rfc2898DeriveBytes pdb = new(EncryptionKey, new byte[] {
