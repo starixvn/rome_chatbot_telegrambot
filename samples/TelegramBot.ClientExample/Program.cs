@@ -23,8 +23,8 @@ namespace TelegramBot.ClientExample
         const int custId = 68287;
         const int subAccId = 10911;
         const long chatId = 1293288125;
-        const bool isTest = false;
-        const string system = "IBC";
+        const bool isTest = true;
+        const string system = "IBCBET";
         const string messengerName = "test";
 
         static async Task Main()

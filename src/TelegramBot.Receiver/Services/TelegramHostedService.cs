@@ -15,64 +15,65 @@ namespace TelegramBot.Receiver.Services
 {
     public class TelegramHostedService : IHostedService
     {
-        private readonly ILogger logger;
-        private readonly IHandleUpdateService handleUpdateSerice;
-        private readonly ReceiverConfiguration receiverConfiguration;
-        private readonly IBotService botService;
-        private readonly UpdateType[] allowedUpdates = new[]
+        private readonly ILogger _logger;
+        private readonly IHandleUpdateService _handleUpdateSerice;
+        private readonly ReceiverConfiguration _receiverConfiguration;
+        private readonly IBotService _botService;
+        private readonly UpdateType[] _allowedUpdates = new[]
         {
             UpdateType.Message,
             UpdateType.CallbackQuery
         };
 
-        public TelegramHostedService(ILogger logger, IHandleUpdateService handleUpdateSerice, ReceiverConfiguration botConfiguration, IBotService botService)
+        public TelegramHostedService(ILogger logger, IHandleUpdateService handleUpdateSerice, ReceiverConfiguration receiverConfiguration, IBotService botService)
         {
-            this.logger = logger;
-            this.handleUpdateSerice = handleUpdateSerice;
-            this.receiverConfiguration = botConfiguration;
-            this.botService = botService;
+            _logger = logger;
+            _handleUpdateSerice = handleUpdateSerice;
+            _receiverConfiguration = receiverConfiguration;
+            _botService = botService;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await logger.InfoAsync($"Worker {typeof(TelegramHostedService).Assembly.GetName().Name} running at: {DateTimeOffset.Now}");
-            handleUpdateSerice.BotEntities = (await botService.GetAllAsync().ConfigureAwait(false)).ToList();
+            await _logger.InfoAsync($"Worker {typeof(TelegramHostedService).Assembly.GetName().Name} running at: {DateTimeOffset.Now}");
+            var botEntities = await _botService.GetAllAsync().ConfigureAwait(false);
+            _handleUpdateSerice.BotEntities = botEntities.Where(botEntity => botEntity.IsTest == _receiverConfiguration.IsTest).ToList();
             var botClients = new List<ITelegramBotClient>();
-            var tasks = handleUpdateSerice.BotEntities.Select(botEntity =>
+            var tasks = _handleUpdateSerice.BotEntities.Select(botEntity =>
             {
                 var botClient = new TelegramBotClient(botEntity.AccessToken);
                 botClients.Add(botClient);
 
-                if (receiverConfiguration.IsUsingWebhook)
+                if (_receiverConfiguration.IsUsingWebhook)
                 {
                     return botClient.SetWebhookAsync(
-                        url: $"{receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
-                        allowedUpdates: allowedUpdates,
+                        url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
+                        allowedUpdates: _allowedUpdates,
                         cancellationToken: cancellationToken);
                 }
                 else
                 {
                     botClient.StartReceiving(
-                        handleUpdateSerice.HandleUpdateAsync,
-                        handleUpdateSerice.HandleErrorAsync,
-                        new ReceiverOptions { AllowedUpdates = allowedUpdates },
+                        _handleUpdateSerice.HandleUpdateAsync,
+                        _handleUpdateSerice.HandleErrorAsync,
+                        new ReceiverOptions { AllowedUpdates = _allowedUpdates },
                         cancellationToken);
                     return botClient.GetMeAsync(cancellationToken);
                 }
             });
-            handleUpdateSerice.BotClients = botClients;
+            _handleUpdateSerice.BotClients = botClients;
             await Task.WhenAll(tasks).ConfigureAwait(false);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            if (receiverConfiguration.IsUsingWebhook)
+            if (_receiverConfiguration.IsUsingWebhook)
             {
-                var tasks = handleUpdateSerice.BotClients.Select(botClient => botClient.DeleteWebhookAsync(cancellationToken: cancellationToken));
+                var tasks = _handleUpdateSerice.BotClients.Select(botClient => botClient.DeleteWebhookAsync(cancellationToken: cancellationToken));
                 await Task.WhenAll(tasks).ConfigureAwait(false);
             }
 
-            await logger.InfoAsync($"Worker {typeof(TelegramHostedService).Assembly.GetName().Name} stopping at: {DateTimeOffset.Now}");
+            await _logger.InfoAsync($"Worker {typeof(TelegramHostedService).Assembly.GetName().Name} stopping at: {DateTimeOffset.Now}");
         }
     }
 }
