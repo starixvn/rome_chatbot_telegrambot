@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Fanex.Logging.Extensions.AspNetCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using System.Net.Mime;
 using TelegramBot.Client.DependencyInjection;
 using TelegramBot.Common.Configurations;
 using TelegramBot.Common.Extensions;
@@ -39,21 +42,29 @@ namespace TelegramBot.Receiver
             services.AddHealthChecks();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment _)
         {
             if (receiverConfiguration.IsUsingWebhook)
             {
-                ConfigureWebhook(app, env);
+                ConfigureWebhook(app);
             }
         }
 
-        private void ConfigureWebhook(IApplicationBuilder app, IWebHostEnvironment env)
+        private static void ConfigureWebhook(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            app.UseExceptionHandler(exceptionHandlerApp =>
             {
-                app.UseDeveloperExceptionPage();
-            }
-
+                exceptionHandlerApp.Run(async context =>
+                {
+                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                    context.Response.ContentType = MediaTypeNames.Text.Plain;
+                    var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+                    await ExceptionHandler.HandleAsync(exceptionHandlerPathFeature.Error, context).ConfigureAwait(false);
+                    await context.Response.WriteAsync($"An exception was thrown: {exceptionHandlerPathFeature.Error.Message}");
+                    await context.Response.WriteAsync(exceptionHandlerPathFeature.Error.StackTrace);
+                });
+            });
+            
             app.UseHealthChecks("/");
             app.UseRouting();
             app.UseCors();

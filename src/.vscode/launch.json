@@ -2,10 +2,27 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Receiver Launch",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/TelegramBot.Receiver/bin/Debug/net5.0/TelegramBot.Receiver.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/TelegramBot.Receiver",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+            },
+            "env": {
+                "ASPNETCORE_URLS": "http://localhost:40926"
+            }
+        },
+        {
             // Use IntelliSense to find out which attributes exist for C# debugging
             // Use hover for the description of the existing attributes
             // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-            "name": ".NET Core Launch (Development)",
+            "name": "WebAPI Launch (Development)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -26,7 +43,7 @@
             }
         },
         {
-            "name": ".NET Core Launch (Production)",
+            "name": "WebAPI Launch (Production)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -48,6 +65,12 @@
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
+        },
+    ],
+    "compounds": [
+        {
+            "name": "WebAPI + Receiver Launch (Development)",
+            "configurations": ["WebAPI Launch (Development)", "Receiver Launch"]
         }
     ]
 }

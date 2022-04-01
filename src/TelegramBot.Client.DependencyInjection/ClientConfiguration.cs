@@ -2,6 +2,6 @@
 {
     public class ClientConfiguration
     {
-        public string Uri { get; set; }
+        public string WebApiUri { get; set; }
     }
 }

@@ -9,6 +9,7 @@
     <RootNamespace>TelegramBot.ClientExample</RootNamespace>
     <AssemblyName>TelegramBot.ClientExample</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <LangVersion>9.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -112,7 +113,7 @@
       <Name>TelegramBot.Client</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\TelegramBot.Common\TelegramBot.Common.csproj">
-      <Project>{8B2F2624-A912-40FA-BFC7-3FD6D6C565B4}</Project>
+      <Project>{8b2f2624-a912-40fa-bfc7-3fd6d6c565b4}</Project>
       <Name>TelegramBot.Common</Name>
     </ProjectReference>
   </ItemGroup>

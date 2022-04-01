@@ -82,6 +82,8 @@ namespace TelegramBot.WebApi.Controllers
 
         /// <summary>
         /// Link with OTP
+        /// -1: OTP is expired
+        /// -2: Invalid OTP
         /// </summary>
         [Route("link"), HttpPost]
         [Produces(MediaTypeNames.Application.Json)]

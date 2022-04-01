@@ -24,7 +24,7 @@ namespace TelegramBot.Client.DependencyInjection
 
         private static void ConfigureHttpClient(HttpClient httpClient, ClientConfiguration clientConfiguration)
         {
-            httpClient.BaseAddress = new Uri(clientConfiguration.Uri);
+            httpClient.BaseAddress = new Uri(clientConfiguration.WebApiUri);
             httpClient.Timeout = TimeSpan.FromMinutes(5);
         }
     }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TelegramBot.Client.Constants;
+using TelegramBot.Client.Extensions;
 using TelegramBot.Client.Models;
 using TelegramBot.Client.Services;
 using TelegramBot.Common.Services;
@@ -16,10 +17,12 @@ namespace TelegramBot.ClientExample
 {
     static class Program
     {
-        private static IBotService botService;
-        private static ISettingService settingService;
-        private static ICommandService commandService;
-        private static ICacheService cacheService;
+        private static IBotService _botService;
+        private static ISettingService _settingService;
+        private static ICommandService _commandService;
+        private static ICacheService _cacheService;
+        private static Result _result;
+        private static BotEntity _firstBot;
         const int custId = 68287;
         const int subAccId = 10911;
         const long chatId = 1293288125;
@@ -29,8 +32,7 @@ namespace TelegramBot.ClientExample
 
         static async Task Main()
         {
-            Init();
-
+            await Init();
             await TestLogging();
             await TestSetting();
 
@@ -46,16 +48,17 @@ namespace TelegramBot.ClientExample
                 var cryptography = new Cryptography();
                 var encryptKey = cryptography.Encrypt(plainKey);
                 var message = $"start {encryptKey}";
-                var result = await settingService.StartAsync(1, 1, message, "test", LanguageCodes.English);
-                Write("Test logging", result);
+                Write("Test logging Receiver with this telegram start link", $"https://t.me/{_firstBot.Name}?start={encryptKey}");
+                _result = await _settingService.StartAsync(1, 1, message, "test", LanguageCodes.English);
+                Write("Test logging WebAPI", _result);
             }
             catch (Exception ex)
             {
-                Write("Test logging", ex);
+                Write("Test logging WebAPI", ex);
             }
         }
 
-        private static void Init()
+        private static async Task Init()
         {
             var configurationOptions = ConfigurationOptions.Parse(ConfigurationManager.AppSettings["Fanex.Caching.Redis"]);
             var redisCacheOptions = new RedisCacheOptions
@@ -64,49 +67,48 @@ namespace TelegramBot.ClientExample
                 ConnectionOptions = configurationOptions
             };
             CacheServiceManager.Use(() => new RedisCache(redisCacheOptions));
-            cacheService = new CacheService();
+            _cacheService = new CacheService();
             var httpClient = CreateHttpClient();
-            botService = new BotService(httpClient);
-            settingService = new SettingService(httpClient);
-            commandService = new CommandService(httpClient);
+            _botService = new BotService(httpClient);
+            _settingService = new SettingService(httpClient);
+            _commandService = new CommandService(httpClient);
+
+            var bots = await _botService.GetAllAsync();
+            Write("Get all bots", bots);
+
+            _firstBot = bots.First();
         }
 
         private static async Task TestSetting()
         {
-            var bots = await botService.GetAllAsync();
-            Write("Get all bots", bots);
-
-            Result result;
-            var firstBot = bots.First();
-
-            var startUri = await settingService.GenerateStartUriAsync(custId, subAccId, system, isTest);
+            var startUri = await _settingService.GenerateStartUriAsync(custId, subAccId, system, isTest);
             Write("Generate start uri", startUri);
 
             var telegramCommand = $"/start {startUri.Substring(startUri.IndexOf("=", StringComparison.InvariantCulture) + 1)}";
-            result = await settingService.StartAsync(firstBot.MessengerBotId, chatId, telegramCommand, messengerName, LanguageCodes.English);
-            Write("Start and save chat", result);
+            _result = await _settingService.StartAsync(_firstBot.MessengerBotId, chatId, telegramCommand, messengerName, LanguageCodes.English);
+            Write("Start and save chat", _result);
 
             var cacheKey = $"{custId}_{subAccId}";
-            var otp = await cacheService.GetAsync<string>(cacheKey);
+            var otp = await _cacheService.GetAsync<string>(cacheKey);
             Write("Current OTP", otp);
 
-            result = await settingService.LinkAsync(firstBot.BotId, custId, subAccId, $"${otp}aa");
-            Write("Link with incorrect OTP", result);
+            _result = await _settingService.LinkAsync(_firstBot.BotId, custId, subAccId, $"${otp}aa");
+            Write("Link with incorrect OTP", _result);
 
-            result = await settingService.ResendOtpAsync(firstBot.BotId, custId, subAccId, isTest);
-            Write("Resend new OTP", result);
+            _result = await _settingService.ResendOtpAsync(_firstBot.BotId, custId, subAccId, isTest);
+            Write("Resend new OTP", _result);
 
-            otp = await cacheService.GetAsync<string>(cacheKey);
+            otp = await _cacheService.GetAsync<string>(cacheKey);
             Write("New OTP", otp);
 
-            result = await settingService.LinkAsync(firstBot.BotId, custId, subAccId, otp);
-            Write("Link with correct OTP", result);
+            _result = await _settingService.LinkAsync(_firstBot.BotId, custId, subAccId, otp);
+            Write("Link with correct OTP", _result);
 
-            var custBotMessenger = await settingService.GetCustBotMessengerAsync(custId, subAccId, isTest);
+            var custBotMessenger = await _settingService.GetCustBotMessengerAsync(custId, subAccId, isTest);
             Write("CustBotMessenger", custBotMessenger);
 
-            result = await settingService.UnlinkAsync(firstBot.BotId, custId, subAccId);
-            Write("Unlink", result);
+            _result = await _settingService.UnlinkAsync(_firstBot.BotId, custId, subAccId);
+            Write("Unlink", _result);
         }
 
         private static void Write(string header, object value)
@@ -118,10 +120,10 @@ namespace TelegramBot.ClientExample
 
         private static HttpClient CreateHttpClient()
         {
-            var telegramApiUri = ConfigurationManager.AppSettings["TelegramBotClientUri"];
+            var uri = ConfigurationManager.AppSettings["TelegramBotWebApiUri"];
             var client = new HttpClient
             {
-                BaseAddress = new Uri(telegramApiUri)
+                BaseAddress = new Uri(uri)
             };
             client.DefaultRequestHeaders.Add("Accept-Language", LanguageCodes.Taiwan);
             return client;
