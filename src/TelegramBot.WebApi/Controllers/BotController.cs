@@ -12,11 +12,11 @@ namespace TelegramBot.WebApi.Controllers
     [ApiController]
     public class BotController : ControllerBase
     {
-        private readonly IBotService botService;
+        private readonly IBotService _botService;
 
         public BotController(IBotService botService)
         {
-            this.botService = botService;
+            _botService = botService;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace TelegramBot.WebApi.Controllers
         [ProducesResponseType(typeof(IEnumerable<BotEntity>), StatusCodes.Status200OK)]
         public async Task<IEnumerable<BotEntity>> GetAllAsync()
         {
-            return await botService.GetAllAsync().ConfigureAwait(false);
+            return await _botService.GetAllAsync().ConfigureAwait(false);
         }
     }
 }
