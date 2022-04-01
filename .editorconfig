@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# S2148: Underscores should be used to make large numbers readable
+dotnet_diagnostic.S2148.severity = none
