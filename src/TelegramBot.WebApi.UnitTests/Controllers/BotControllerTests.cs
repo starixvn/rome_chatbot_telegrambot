@@ -1,10 +1,11 @@
-﻿using NSubstitute;
-using System;
+﻿using AutoFixture.Xunit2;
+using Newtonsoft.Json;
+using NSubstitute;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using TelegramBot.Client.Models;
 using TelegramBot.Infrastructure.Bot;
+using TelegramBot.WebApi.Controllers;
 using Xunit;
 
 namespace TelegramBot.WebApi.UnitTests.Controllers
@@ -19,10 +20,18 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             _botService = Substitute.For<IBotService>();
         }
 
-        [Fact]
-        public void GetAllAsync_Always_CallsBotServiceGetAllAsync()
+        [Theory, AutoData]
+        public async Task GetAllAsync_Always_CallsBotServiceGetAllAsync(List<BotEntity> botEntities)
         {
-            _botService.GetAllAsync();
+            // Arrange
+            var botController = new BotController(_botService);
+            _botService.GetAllAsync().Returns(Task.FromResult(botEntities));
+
+            // Act
+            var result = await botController.GetAllAsync().ConfigureAwait(false);
+
+            // Assert
+            Assert.Equal(JsonConvert.SerializeObject(botEntities), JsonConvert.SerializeObject(result));
         }
     }
 }

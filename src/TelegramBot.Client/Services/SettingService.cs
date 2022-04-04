@@ -10,7 +10,7 @@ namespace TelegramBot.Client.Services
         Task<string> GenerateStartUriAsync(int custId, int subAccId, string system, bool isTest);
         Task<Result> StartAsync(long messengerBotId, long chatId, string message, string messengerName, string language, string ip = "");
         Task<Result> ResendOtpAsync(int botId, int custId, int subAccId, bool isTest);
-        Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip = "");
+        Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip = "", bool reset = false);
         Task<Result> UnlinkAsync(int botId, int custId, int subAccId, string ip = "");
         Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId, bool isTest);
     }
@@ -65,7 +65,7 @@ namespace TelegramBot.Client.Services
                 });
         }
 
-        public async Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip = "")
+        public async Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip = "", bool reset = false)
         {
             return await httpClient.PostAsJsonAsync<Result>(
                 $"setting/link",
@@ -75,7 +75,8 @@ namespace TelegramBot.Client.Services
                     custId,
                     subAccId,
                     otp,
-                    ip
+                    ip,
+                    reset
                 });
         }
 

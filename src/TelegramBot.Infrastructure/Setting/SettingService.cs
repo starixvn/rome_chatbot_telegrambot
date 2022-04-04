@@ -21,7 +21,7 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<Result> ResendOtpAsync(int botId, int custId, int subAccId, bool isTest);
 
-        Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip);
+        Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip, bool reset = false);
 
         Task<Result> UnlinkAsync(int botId, int custId, int subAccId, string ip);
     }
@@ -75,10 +75,37 @@ namespace TelegramBot.Infrastructure.Setting
             return Result.CreateSuccessfulResult();
         }
 
-        public async Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip)
+        public async Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip, bool reset = false)
         {
-            var cacheKey = $"{custId}_{subAccId}";
-            var expectedOtp = await _cacheService.GetAsync<string>(cacheKey);
+            var countCacheKey = $"otp_count_{custId}_{subAccId}";
+            var failedCount = 0;
+            if (reset)
+            {
+                await _cacheService.RemoveAsync(countCacheKey);
+            }
+            else
+            {
+                failedCount = await _cacheService.GetAsync<int>(countCacheKey);
+            }
+
+            if (failedCount >= _webApiConfiguration.OtpMaxFailedTimes)
+            {
+                return new Result(ErrorCodes.OTP_FailedManyTimes, "OTP failed many times");
+            }
+
+            var valueCacheKey = $"otp_value_{custId}_{subAccId}";
+            var expectedOtp = await _cacheService.GetAsync<string>(valueCacheKey);
+            var isFailed = string.IsNullOrEmpty(expectedOtp) || otp != expectedOtp;
+            if (isFailed)
+            {
+                failedCount++;
+                await _cacheService.SetAsync(countCacheKey, failedCount);
+                if (failedCount >= _webApiConfiguration.OtpMaxFailedTimes)
+                {
+                    return new Result(ErrorCodes.OTP_FailedManyTimes, "OTP failed many times");
+                }
+            }
+
             if (string.IsNullOrEmpty(expectedOtp))
             {
                 return new Result(ErrorCodes.OTP_Expired, "OTP is expired");
@@ -86,7 +113,7 @@ namespace TelegramBot.Infrastructure.Setting
 
             if (otp != expectedOtp)
             {
-                return new Result(ErrorCodes.OTP_Invalid, "Invalid OTP");
+                return new Result(ErrorCodes.OTP_Invalid, "OTP is invalid");
             }
 
             var criteria = new CustBotAccountStatusUpdCriteria(botId, custId, subAccId, true, true, ip);

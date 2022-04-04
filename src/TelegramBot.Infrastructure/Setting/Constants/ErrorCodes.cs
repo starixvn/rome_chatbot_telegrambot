@@ -4,5 +4,7 @@
     {
         public const int OTP_Expired = -1;
         public const int OTP_Invalid = -2;
+        public const int OTP_FailedManyTimes = -3;
+        public const int OTP_NotValidated = -4;
     }
 }

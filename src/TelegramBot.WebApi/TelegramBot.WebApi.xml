@@ -33,6 +33,8 @@
         <member name="M:TelegramBot.WebApi.Controllers.SettingController.LinkAsync(TelegramBot.WebApi.Params.LinkParam)">
             <summary>
             Link with OTP
+            -1: OTP is expired
+            -2: Invalid OTP
             </summary>
         </member>
         <member name="M:TelegramBot.WebApi.Controllers.SettingController.UnlinkAsync(TelegramBot.WebApi.Params.UnlinkParam)">

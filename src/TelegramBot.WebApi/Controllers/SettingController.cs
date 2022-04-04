@@ -90,7 +90,7 @@ namespace TelegramBot.WebApi.Controllers
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
         public async Task<Result> LinkAsync(LinkParam param)
         {
-            return await _settingService.LinkAsync(param.BotId, param.CustId, param.SubAccId, param.Otp, param.IP);
+            return await _settingService.LinkAsync(param.BotId, param.CustId, param.SubAccId, param.Otp, param.IP, param.Reset);
         }
 
         /// <summary>
