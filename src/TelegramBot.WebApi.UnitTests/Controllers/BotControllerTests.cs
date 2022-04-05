@@ -14,21 +14,22 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
     public class BotControllerTests
     {
         private readonly IBotService _botService;
+        private readonly BotController _botController;
 
         public BotControllerTests()
         {
             _botService = Substitute.For<IBotService>();
+            _botController = new BotController(_botService);
         }
 
         [Theory, AutoData]
         public async Task GetAllAsync_Always_CallsBotServiceGetAllAsync(List<BotEntity> botEntities)
         {
             // Arrange
-            var botController = new BotController(_botService);
             _botService.GetAllAsync().Returns(Task.FromResult(botEntities));
 
             // Act
-            var result = await botController.GetAllAsync().ConfigureAwait(false);
+            var result = await _botController.GetAllAsync().ConfigureAwait(false);
 
             // Assert
             Assert.Equal(JsonConvert.SerializeObject(botEntities), JsonConvert.SerializeObject(result));

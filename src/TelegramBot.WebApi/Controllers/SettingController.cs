@@ -34,12 +34,12 @@ namespace TelegramBot.WebApi.Controllers
         [Route("start-uri"), HttpPost]
         [Produces(MediaTypeNames.Text.Plain)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        public async Task<string> GenerateStartUri([FromBody] GenerateStartUriParam param)
+        public async Task<string> GenerateStartUriAsync([FromBody] GenerateStartUriParam param)
         {
             var plainKey = $"{param.CustId}:{param.SubAccId}";
             var encryptKey = _cryptography.Encrypt(plainKey);
-            var bot = await _botService.GetAsync(param.System, param.IsTest).ConfigureAwait(false);
-            return $"https://t.me/{bot.Name}?start={encryptKey}";
+            var botEntity = await _botService.GetAsync(param.System, param.IsTest).ConfigureAwait(false);
+            return $"https://t.me/{botEntity.Name}?start={encryptKey}";
         }
 
         /// <summary>
