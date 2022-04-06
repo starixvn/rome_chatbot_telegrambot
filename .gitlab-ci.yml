@@ -1,0 +1,8 @@
+include:
+  - project: "ci/repos-ci/rome_telegrambot_receiver"
+    ref: master
+    file: "gitlab-ci.yml"
+
+  - project: "ci/repos-ci/rome_telegrambot_api"
+    ref: master
+    file: "gitlab-ci-mixing.yml"

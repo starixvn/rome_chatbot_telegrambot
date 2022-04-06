@@ -1,4 +1,5 @@
 using Fanex.Data.Repository;
+using Fanex.Logging;
 using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
 using Fanex.Logging.Extensions.Database;
@@ -11,6 +12,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using TelegramBot.Common.Configurations;
 using TelegramBot.Common.Extensions;
 using TelegramBot.Common.Services;
@@ -46,6 +48,7 @@ namespace TelegramBot
                 var xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly).ToList();
                 xmlFiles.ForEach(xmlFile => c.IncludeXmlComments(xmlFile));
             });
+            services.AddHealthChecks();
 
             ExceptionHandler
                 // To use custom config
@@ -66,6 +69,7 @@ namespace TelegramBot
                 app.UseExceptionHandler("/error");
             }
 
+            app.UseHealthChecks("/");
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TelegramBot v1"));
 
@@ -73,13 +77,12 @@ namespace TelegramBot
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
 
             app.UseUM(Configuration);
             app.UseFanexDataWithSqlServer(Configuration, env);
+
+            Logger.Log.Info($"{Assembly.GetExecutingAssembly().GetName().Name} has been started up.");
         }
     }
 }

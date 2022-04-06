@@ -1,21 +1,27 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
-WORKDIR /app
-EXPOSE 80
-
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM registry.nexdev.net:5050/docker/dotnet/core/sdk:5.0.102-ca-patch-buster-slim AS builder
 WORKDIR /src
-COPY ["TelegramBot.Receiver/TelegramBot.Receiver.csproj", "TelegramBot.Receiver/"]
-RUN dotnet restore "src/TelegramBot.Receiver/TelegramBot.Receiver.csproj"
-COPY . .
-WORKDIR "/src/TelegramBot.Receiver"
-RUN dotnet build "TelegramBot.Receiver.csproj" -c Release -o /app/build
 
-FROM build AS publish
-RUN dotnet publish "TelegramBot.Receiver.csproj" -c Release -o /app/publish
+COPY src/TelegramBot.Receiver/TelegramBot.Receiver.csproj ./TelegramBot.Receiver/TelegramBot.Receiver.csproj
+RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
+RUN dotnet restore TelegramBot.Receiver/TelegramBot.Receiver.csproj -v n
 
-FROM base AS final
+COPY src/TelegramBot.Client.DependencyInjection ./TelegramBot.Client.DependencyInjection
+COPY src/TelegramBot.Client ./TelegramBot.Client
+COPY src/TelegramBot.Common ./TelegramBot.Common
+COPY src/TelegramBot.Receiver ./TelegramBot.Receiver
+
+WORKDIR /src/TelegramBot.Receiver
+RUN dotnet publish -r linux-x64 --self-contained false -o /app
+
+FROM registry.nexdev.net:5050/docker/dotnet/core/aspnet:5.0-buster-slim AS base
+
+RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /etc/ssl/openssl.cnf
+RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /etc/ssl/openssl.cnf
+RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /usr/lib/ssl/openssl.cnf
+RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /usr/lib/ssl/openssl.cnf
+
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=builder /app .
+ENV TZ="America/La_Paz"
+
 ENTRYPOINT ["dotnet", "TelegramBot.Receiver.dll"]

@@ -35,6 +35,8 @@ namespace TelegramBot.Receiver
             {
                 services.AddControllers().AddNewtonsoftJson();
             }
+
+            services.AddHealthChecks();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -52,6 +54,7 @@ namespace TelegramBot.Receiver
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHealthChecks("/");
             app.UseRouting();
             app.UseCors();
             app.UseEndpoints(endpoints =>

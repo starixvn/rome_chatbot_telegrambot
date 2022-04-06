@@ -37,9 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="App_Data\SPNames\DBBOT.bodb_Chatbot.BODBDownlineNet.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Content Include="App_Data\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
