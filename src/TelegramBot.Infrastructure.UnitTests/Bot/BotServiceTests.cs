@@ -1,0 +1,71 @@
+﻿using Fanex.Data.Repository;
+using Newtonsoft.Json;
+using NSubstitute;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using TelegramBot.Client.Models;
+using TelegramBot.Infrastructure.Bot;
+using TelegramBot.Infrastructure.Bot.Criteria;
+using Xunit;
+
+namespace TelegramBot.Infrastructure.UnitTests.Bot
+{
+    public class BotServiceTests
+    {
+        private readonly IDynamicRepository _dynamicRepository;
+        private readonly IBotService _botService;
+
+        public BotServiceTests()
+        {
+            _dynamicRepository = Substitute.For<IDynamicRepository>();
+            _botService = new BotService(_dynamicRepository);
+        }
+
+        [Fact]
+        public async Task GetAllAsync_Always_Call()
+        {
+            // Arrange
+            IEnumerable<BotEntity> botEntities = new List<BotEntity>
+            {
+                new BotEntity
+                {
+                    BotId = 1,
+                    AccessToken = "123:AccessToken1",
+                    IsTest = false,
+                    Name = "Name1",
+                    Status = true,
+                    System = "System1"
+                },
+                new BotEntity
+                {
+                    BotId = 2,
+                    AccessToken = "456:AccessToken2",
+                    IsTest = true,
+                    Name = "Name2",
+                    Status = false,
+                    System = "System2"
+                }
+            };
+            _dynamicRepository.FetchAsync<BotEntity>(Arg.Any<GetAllCriteria>()).Returns(Task.FromResult(botEntities));
+
+            // Act
+            var result = await _botService.GetAllAsync().ConfigureAwait(false);
+
+            // Assert
+            var expectedResult = new List<BotEntity>
+            {
+                new BotEntity
+                {
+                    BotId = 1,
+                    AccessToken = "123:AccessToken1",
+                    IsTest = false,
+                    Name = "Name1",
+                    Status = true,
+                    System = "System1",
+                    MessengerBotId = 123
+                },
+            };
+            Assert.Equal(JsonConvert.SerializeObject(expectedResult), JsonConvert.SerializeObject(result));
+        }
+    }
+}
