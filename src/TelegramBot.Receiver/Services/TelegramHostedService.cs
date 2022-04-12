@@ -15,7 +15,7 @@ namespace TelegramBot.Receiver.Services
 {
     public class TelegramHostedService : IHostedService
     {
-        private readonly ILogger _logger;
+        private readonly Fanex.Logging.ILogger _logger;
         private readonly IHandleUpdateService _handleUpdateSerice;
         private readonly ReceiverConfiguration _receiverConfiguration;
         private readonly IBotService _botService;
@@ -25,7 +25,7 @@ namespace TelegramBot.Receiver.Services
             UpdateType.CallbackQuery
         };
 
-        public TelegramHostedService(ILogger logger, IHandleUpdateService handleUpdateSerice, ReceiverConfiguration receiverConfiguration, IBotService botService)
+        public TelegramHostedService(Fanex.Logging.ILogger logger, IHandleUpdateService handleUpdateSerice, ReceiverConfiguration receiverConfiguration, IBotService botService)
         {
             _logger = logger;
             _handleUpdateSerice = handleUpdateSerice;

@@ -24,7 +24,7 @@ namespace TelegramBot.WebApi.Extensions
                 .GetChildren()
                 .ToDictionary(connection => connection.Key,
                             connection => new ConnectionConfiguration(connection.Key, connection.Value));
-            var resourcePath = Path.Combine(env.ContentRootPath, "App_Data", "SPNames");
+            var resourcePath = Path.Combine(env.ContentRootPath, "App_Data", "SPNames.xml");
             DbSettingProviderManager
                 .StartNewSession()
                 .WithSqlServer(resourcePath)

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -23,8 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TelegramBot.Infrastructure\TelegramBot.Infrastructure.csproj" />
-    <ProjectReference Include="..\TelegramBot.WebApi\TelegramBot.WebApi.csproj" />
+    <ProjectReference Include="..\..\src\TelegramBot.Infrastructure\TelegramBot.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,8 +13,8 @@
   <ItemGroup>
     <PackageReference Include="Fanex.Logging.RabbitMQ" Version="1.0.1" />
     <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -24,7 +24,7 @@ namespace TelegramBot.Receiver.Services
 
     public class HandleUpdateService : IHandleUpdateService
     {
-        private readonly ILogger _logger;
+        private readonly Fanex.Logging.ILogger _logger;
         private readonly ReceiverConfiguration _botConfiguration;
         private readonly ICommandService _commandService;
         private readonly ISettingService _settingService;
@@ -32,7 +32,7 @@ namespace TelegramBot.Receiver.Services
         public List<BotEntity> BotEntities { get; set; }
         public List<ITelegramBotClient> BotClients { get; set; }
 
-        public HandleUpdateService(ILogger logger, ReceiverConfiguration botConfiguration, ICommandService commandService, ISettingService settingService)
+        public HandleUpdateService(Fanex.Logging.ILogger logger, ReceiverConfiguration botConfiguration, ICommandService commandService, ISettingService settingService)
         {
             _logger = logger;
             _botConfiguration = botConfiguration;
