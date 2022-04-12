@@ -1,15 +1,8 @@
-﻿using Fanex.Logging;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types.Enums;
 using TelegramBot.Client.Services;
-using TelegramBot.Common.Configurations;
+using TelegramBot.Receiver.Configurations;
 
 namespace TelegramBot.Receiver.Services
 {
