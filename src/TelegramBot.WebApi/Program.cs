@@ -1,17 +1,8 @@
-using System;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using Fanex.Data.Repository;
 using Fanex.Logging;
 using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
-using Fanex.Logging.Extensions.Database;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using TelegramBot.Common.Configurations;
@@ -45,16 +36,17 @@ builder.Services.AddSwaggerGen(options =>
 ExceptionHandler.UseConfig(new LoggingConfiguration().GetHttpHeaderInfo());
 
 var app = builder.Build();
-var isDevelopment = app.Environment.IsDevelopment();
 app.UseRouting();
 app.MapGet("/", () => "Telegram bot web api!!!");
-app.UseExceptionHandler(isDevelopment ? "/error-development" : "/error");
 app.UseUM(configuration);
 app.UseFanexDataWithSqlServer(configuration, app.Environment);
 app.MapControllers();
 
+var isDevelopment = app.Environment.IsDevelopment();
+app.UseExceptionHandler(isDevelopment ? "/error-development" : "/error");
 if (!isDevelopment)
 {
+    app.UseHsts();
     builder.WebHost.UseUrls("http://0.0.0.0:5000");
 }
 else

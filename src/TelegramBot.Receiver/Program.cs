@@ -1,21 +1,59 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+using System.Net.Mime;
+using Fanex.Logging.Extensions.AspNetCore;
+using Microsoft.AspNetCore.Diagnostics;
+using TelegramBot.Client.DependencyInjection;
+using TelegramBot.Common.Configurations;
+using TelegramBot.Common.Extensions;
+using TelegramBot.Receiver.Services;
 
-namespace TelegramBot.Receiver
+var builder = WebApplication.CreateBuilder(args);
+
+var receiverConfiguration = new ReceiverConfiguration();
+var configuration = builder.Configuration;
+
+configuration.GetSection(nameof(ReceiverConfiguration)).Bind(receiverConfiguration);
+builder.Services.AddSingleton(receiverConfiguration)
+    .AddClient(configuration)
+    .AddFanexLogging(configuration)
+    .AddHostedService<TelegramHostedService>()
+    .AddSingleton<IHandleUpdateService, HandleUpdateService>()
+    .AddControllers()
+    .AddNewtonsoftJson();
+
+var app = builder.Build();
+app.UseExceptionHandler(exceptionHandlerApp =>
 {
-    public static class Program
+    exceptionHandlerApp.Run(async context =>
     {
-        public static void Main(string[] args)
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = MediaTypeNames.Text.Plain;
+        var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+        if (exceptionHandlerPathFeature != null)
         {
-            CreateHostBuilder(args).Build().Run();
+            await ExceptionHandler.HandleAsync(exceptionHandlerPathFeature.Error, context).ConfigureAwait(false);
+            await context.Response.WriteAsync($"An exception was thrown: {exceptionHandlerPathFeature.Error.Message}");
+            await context.Response.WriteAsync(exceptionHandlerPathFeature.Error.StackTrace);
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseUrls("http://0.0.0.0:5000");
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+    });
+});
+
+app.UseRouting();
+app.UseCors();
+app.MapGet("/", () => "Telegram bot receiver!!!");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: $"tgwebhook",
+        pattern: "bot/{accessToken}",
+        new { controller = "Webhook", action = "Post" });
+    endpoints.MapControllers();
+});
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+    builder.WebHost.UseUrls("http://0.0.0.0:5000");
 }
+
+app.Run();
