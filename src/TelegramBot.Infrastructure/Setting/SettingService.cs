@@ -3,13 +3,13 @@ using Fanex.Data.Repository;
 using System;
 using System.Threading.Tasks;
 using TelegramBot.Client.Models;
-using TelegramBot.Common.Configurations;
 using TelegramBot.Common.Extensions;
 using TelegramBot.Common.Resources;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Constants;
 using TelegramBot.Infrastructure.Setting.Criteria;
+using TelegramBot.Infrastructure.Shared.Configurations;
 
 namespace TelegramBot.Infrastructure.Setting
 {
@@ -28,15 +28,15 @@ namespace TelegramBot.Infrastructure.Setting
 
     public class SettingService : ISettingService
     {
-        private readonly WebApiConfiguration _webApiConfiguration;
+        private readonly WebAPIConfiguration _webAPIConfiguration;
         private readonly IDynamicRepository _dynamicRepository;
         private readonly IBotService _botService;
         private readonly ICacheService _cacheService;
         private readonly ISenderService _senderService;
 
-        public SettingService(WebApiConfiguration webApiConfiguration, IDynamicRepository dynamicRepository, IBotService botService, ICacheService cacheService, ISenderService senderService)
+        public SettingService(WebAPIConfiguration webAPIConfiguration, IDynamicRepository dynamicRepository, IBotService botService, ICacheService cacheService, ISenderService senderService)
         {
-            _webApiConfiguration = webApiConfiguration;
+            _webAPIConfiguration = webAPIConfiguration;
             _dynamicRepository = dynamicRepository;
             _botService = botService;
             _cacheService = cacheService;
@@ -55,7 +55,7 @@ namespace TelegramBot.Infrastructure.Setting
 
             var otp = GenerateOtp();
             var cacheKey = $"{custId}_{subAccId}";
-            var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webApiConfiguration.OtpExpirationInMinutes));
+            var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var message = string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help)), otp);
             await _senderService.SendMessage(messengerBotId, chatId, message);
@@ -67,7 +67,7 @@ namespace TelegramBot.Infrastructure.Setting
             var bot = await _botService.GetAsync(botId);
             var otp = GenerateOtp();
             var cacheKey = $"{custId}_{subAccId}";
-            var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webApiConfiguration.OtpExpirationInMinutes));
+            var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var message = string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help)), otp);
             var custBotMessenger = await GetCustBotMessengerAsync(custId, subAccId, isTest);
@@ -88,7 +88,7 @@ namespace TelegramBot.Infrastructure.Setting
                 failedCount = await _cacheService.GetAsync<int>(countCacheKey);
             }
 
-            if (failedCount >= _webApiConfiguration.OtpMaxFailedTimes)
+            if (failedCount >= _webAPIConfiguration.OtpMaxFailedTimes)
             {
                 return new Result(ErrorCodes.OTP_FailedManyTimes, "OTP failed many times");
             }
@@ -100,7 +100,7 @@ namespace TelegramBot.Infrastructure.Setting
             {
                 failedCount++;
                 await _cacheService.SetAsync(countCacheKey, failedCount);
-                if (failedCount >= _webApiConfiguration.OtpMaxFailedTimes)
+                if (failedCount >= _webAPIConfiguration.OtpMaxFailedTimes)
                 {
                     return new Result(ErrorCodes.OTP_FailedManyTimes, "OTP failed many times");
                 }

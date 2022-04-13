@@ -1,17 +1,10 @@
 ﻿using Fanex.Data;
 using Fanex.Data.SqlServer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using ONEbook.UM;
 using ONEbook.UM.AspNetCore;
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Helpers;
 using ONEbook.UM.Transport;
-using System.IO;
-using System.Linq;
 
 namespace TelegramBot.WebApi.Extensions
 {

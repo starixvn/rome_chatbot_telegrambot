@@ -1,6 +1,6 @@
-﻿namespace TelegramBot.Common.Configurations
+namespace TelegramBot.Infrastructure.Shared.Configurations
 {
-    public class WebApiConfiguration
+    public class WebAPIConfiguration
     {
         public int OtpExpirationInMinutes { get; set; }
 

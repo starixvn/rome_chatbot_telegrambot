@@ -5,20 +5,20 @@ using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using TelegramBot.Common.Configurations;
 using TelegramBot.Common.Extensions;
 using TelegramBot.Common.Services;
 using TelegramBot.WebApi.Extensions;
+using TelegramBot.Infrastructure.Shared.Configurations;
 
 [assembly: ApiController]
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 var configuration = builder.Configuration;
-var webApiConfiguration = new WebApiConfiguration();
-configuration.GetSection(nameof(WebApiConfiguration)).Bind(webApiConfiguration);
+var webAPIConfiguration = new WebAPIConfiguration();
+configuration.GetSection(nameof(WebAPIConfiguration)).Bind(webAPIConfiguration);
 builder.Services
-    .AddSingleton(webApiConfiguration).AddSingleton<IDynamicRepository, DynamicRepository>()
+    .AddSingleton(webAPIConfiguration).AddSingleton<IDynamicRepository, DynamicRepository>()
     .AddSingleton<ICryptography, Cryptography>()
     .AddFanexLogging(configuration)
     .AddFanexCaching(configuration)

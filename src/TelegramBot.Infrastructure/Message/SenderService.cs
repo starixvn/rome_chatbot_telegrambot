@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
-using TelegramBot.Common.Configurations;
+using TelegramBot.Infrastructure.Shared.Configurations;
 
 namespace TelegramBot.Infrastructure.Message
 {
@@ -13,13 +13,13 @@ namespace TelegramBot.Infrastructure.Message
 
     public class SenderService : ISenderService
     {
-        private readonly WebApiConfiguration webApiConfiguration;
+        private readonly WebAPIConfiguration webAPIConfiguration;
         private readonly ILogger logger;
         private readonly IBotClientFactory botClientFactory;
 
-        public SenderService(WebApiConfiguration webApiConfiguration, ILogger logger, IBotClientFactory botClientFactory)
+        public SenderService(WebAPIConfiguration webAPIConfiguration, ILogger logger, IBotClientFactory botClientFactory)
         {
-            this.webApiConfiguration = webApiConfiguration;
+            this.webAPIConfiguration = webAPIConfiguration;
             this.logger = logger;
             this.botClientFactory = botClientFactory;
         }

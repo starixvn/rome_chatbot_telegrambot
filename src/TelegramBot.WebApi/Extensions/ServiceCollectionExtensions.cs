@@ -1,6 +1,4 @@
 ﻿using Fanex.Caching.Redis;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command;
 using TelegramBot.Infrastructure.Message;
