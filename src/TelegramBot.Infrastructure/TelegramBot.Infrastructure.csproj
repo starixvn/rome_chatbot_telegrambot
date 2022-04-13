@@ -22,4 +22,19 @@
     <ProjectReference Include="..\TelegramBot.Common\TelegramBot.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Shared\Resources\Languages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Languages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Shared\Resources\Languages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Languages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

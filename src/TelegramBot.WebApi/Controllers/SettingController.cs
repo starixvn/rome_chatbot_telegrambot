@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
-using System.Threading.Tasks;
 using TelegramBot.Client.Models;
+using TelegramBot.Common.Resources;
 using TelegramBot.Common.Services;
 using TelegramBot.Infrastructure.Bot;
+using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.WebApi.Params;
 
@@ -17,6 +17,8 @@ namespace TelegramBot.WebApi.Controllers
         private readonly ICryptography _cryptography;
         private readonly ISettingService _settingService;
         private readonly IBotService _botService;
+
+        private readonly ISenderService _senderService;
 
         public SettingController(ICryptography cryptography, ISettingService settingService, IBotService botService)
         {
@@ -53,6 +55,7 @@ namespace TelegramBot.WebApi.Controllers
             var words = param.Message.Split(' ');
             if (words.Length != 2)
             {
+                await _senderService.SendMessage(param.MessengerBotId, param.ChatId, ResourceHelper.Get("IntroductionMessage"));
                 return Result.CreateErrorResult("Invalid start request");
             }
 
@@ -61,6 +64,7 @@ namespace TelegramBot.WebApi.Controllers
             words = plainKey.Split(':');
             if (words.Length != 2)
             {
+                await _senderService.SendMessage(param.MessengerBotId, param.ChatId, ResourceHelper.Get("IntroductionMessage"));
                 return Result.CreateErrorResult("Invalid start unique token");
             }
 
