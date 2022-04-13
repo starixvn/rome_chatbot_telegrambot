@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Newtonsoft.Json;
+using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -72,6 +73,8 @@ namespace TelegramBot.Receiver.Services
 
         private async Task BotOnMessageReceived(ITelegramBotClient botClient, Message message)
         {
+            _logger.Info(JsonConvert.SerializeObject(message));
+
             if (message.Type != MessageType.Text)
             {
                 return;
@@ -79,6 +82,7 @@ namespace TelegramBot.Receiver.Services
 
             if (message.Text!.StartsWith("/start"))
             {
+                _logger.Info(JsonConvert.SerializeObject(message));
                 await _settingService.StartAsync(botClient.BotId.Value, message.Chat.Id, message.Text, message.From.Username, LanguageCodes.English);
             }
             else

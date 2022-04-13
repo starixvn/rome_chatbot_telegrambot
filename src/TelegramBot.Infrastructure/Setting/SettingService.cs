@@ -1,7 +1,10 @@
 ﻿using Fanex.Caching;
 using Fanex.Data.Repository;
+using Fanex.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
+using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Client.Models;
 using TelegramBot.Common.Extensions;
 using TelegramBot.Common.Resources;
@@ -19,7 +22,7 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<Result> StartAsync(long messengerBotId, long chatId, int custId, int subAccId, string messengerName, string language, string ip);
 
-        Task<Result> ResendOtpAsync(int botId, int custId, int subAccId, bool isTest);
+        Task<Result> ResendOtpAsync(int botId, int custId, int subAccId);
 
         Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip, bool reset = false);
 
@@ -34,13 +37,22 @@ namespace TelegramBot.Infrastructure.Setting
         private readonly ICacheService _cacheService;
         private readonly ISenderService _senderService;
 
-        public SettingService(WebAPIConfiguration webAPIConfiguration, IDynamicRepository dynamicRepository, IBotService botService, ICacheService cacheService, ISenderService senderService)
+        private readonly ILogger _logger;
+
+        public SettingService(
+            WebAPIConfiguration webAPIConfiguration,
+            IDynamicRepository dynamicRepository,
+            IBotService botService,
+            ICacheService cacheService,
+            ISenderService senderService,
+            ILogger logger)
         {
             _webAPIConfiguration = webAPIConfiguration;
             _dynamicRepository = dynamicRepository;
             _botService = botService;
             _cacheService = cacheService;
             _senderService = senderService;
+            _logger = logger;
         }
 
         public async Task<Result> StartAsync(long messengerBotId, long chatId, int custId, int subAccId, string messengerName, string language, string ip)
@@ -48,6 +60,7 @@ namespace TelegramBot.Infrastructure.Setting
             var bot = await _botService.GetAsync(messengerBotId);
             var criteria = new CustBotAccountInsCriteria(bot.BotId, chatId, custId, subAccId, messengerName, language, ip);
             await _dynamicRepository.ExecuteAsync(criteria);
+            _logger.Info(JsonConvert.SerializeObject(criteria));
             if (!criteria.IsSuccess)
             {
                 return new Result(criteria.ErrCode, criteria.ErrMsg);
@@ -58,11 +71,12 @@ namespace TelegramBot.Infrastructure.Setting
             var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var message = string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help)), otp);
+            _logger.Info($"{messengerBotId}:{chatId}:{otp}");
             await _senderService.SendMessage(messengerBotId, chatId, message);
             return Result.CreateSuccessfulResult();
         }
 
-        public async Task<Result> ResendOtpAsync(int botId, int custId, int subAccId, bool isTest)
+        public async Task<Result> ResendOtpAsync(int botId, int custId, int subAccId)
         {
             var bot = await _botService.GetAsync(botId);
             var otp = GenerateOtp();
@@ -70,7 +84,7 @@ namespace TelegramBot.Infrastructure.Setting
             var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var message = string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help)), otp);
-            var custBotMessenger = await GetCustBotMessengerAsync(custId, subAccId, isTest);
+            var custBotMessenger = await GetCustBotMessengerAsync(custId, subAccId, bot.IsTest);
             await _senderService.SendMessage(bot.MessengerBotId, custBotMessenger.ChatId, message);
             return Result.CreateSuccessfulResult();
         }
@@ -118,6 +132,37 @@ namespace TelegramBot.Infrastructure.Setting
 
             var criteria = new CustBotAccountStatusUpdCriteria(botId, custId, subAccId, true, true, ip);
             await _dynamicRepository.ExecuteAsync(criteria);
+            if (criteria.IsSuccess)
+            {
+                var bot = await _botService.GetAsync(botId);
+                var custBotMessenger = await GetCustBotMessengerAsync(custId, subAccId, bot.IsTest);
+                InlineKeyboardMarkup inlineKeyboard = new(
+                new[]
+                {
+                    // first row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Outstanding", "Outstanding"),
+                        InlineKeyboardButton.WithCallbackData("Balance Info", "BalanceInfo"),
+                    },
+                    // second row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Today Win Loss", "TodayWinLoss"),
+                        InlineKeyboardButton.WithCallbackData("Yesterday Win Loss", "YesterdayWinLoss"),
+                    },
+                     new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Settings", "Settings"),
+                    },
+                });
+
+                await _senderService.SendMessage(
+                    bot.MessengerBotId,
+                    custBotMessenger.ChatId,
+                    string.Format(ResourceHelper.Get(nameof(SharedResource.WelcomeMessage)), custBotMessenger.MessengerName),
+                    replyMarkup: inlineKeyboard);
+            }
             return new Result(criteria.ErrCode, criteria.ErrMsg);
         }
 

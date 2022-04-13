@@ -6,8 +6,6 @@
 
         public int CustId { get; set; }
 
-        public bool IsTest { get; set; }
-
         public int SubAccId { get; set; }
     }
 }

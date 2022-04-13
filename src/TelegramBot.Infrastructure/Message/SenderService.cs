@@ -2,13 +2,14 @@
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Infrastructure.Shared.Configurations;
 
 namespace TelegramBot.Infrastructure.Message
 {
     public interface ISenderService
     {
-        Task SendMessage(long messengerBotId, long chatId, string message, bool logToDatabase = true);
+        Task SendMessage(long messengerBotId, long chatId, string message, IReplyMarkup replyMarkup = null, bool logToDatabase = true);
     }
 
     public class SenderService : ISenderService
@@ -24,13 +25,14 @@ namespace TelegramBot.Infrastructure.Message
             this.botClientFactory = botClientFactory;
         }
 
-        public async Task SendMessage(long messengerBotId, long chatId, string message, bool logToDatabase = true)
+        public async Task SendMessage(long messengerBotId, long chatId, string message, IReplyMarkup replyMarkup = null, bool logToDatabase = true)
         {
             var botClient = botClientFactory.GetOrCreate(messengerBotId);
             await botClient.SendTextMessageAsync(
                 parseMode: ParseMode.Html,
                 chatId: chatId,
-                text: message);
+                text: message,
+                replyMarkup: replyMarkup);
         }
     }
 }

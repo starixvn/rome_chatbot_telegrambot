@@ -126,7 +126,11 @@
     <comment/>
   </data>
   <data name="IntroductionMessage" xml:space="preserve">
-    <value>Please log in to &lt;b&gt;the associated site&lt;/b&gt;, access Chatbot function and follow instruction to setup Telegram Chatbot </value>
+    <value>Please log in to &lt;b&gt;the associated site&lt;/b&gt;, access Chatbot function and follow instruction to setup Telegram Chatbot</value>
+    <comment/>
+  </data>
+  <data name="WelcomeMessage" xml:space="preserve">
+    <value>Welcome {0}. Your Telegram Chatbot setup is completed. Yesterday Win Loss will be sent to you daily at 3:00PM (GMT-4). Please select an action: </value>
     <comment/>
   </data>
 </root>

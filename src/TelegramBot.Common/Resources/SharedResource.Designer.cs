@@ -8,10 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TelegramBot.Common.Resources {
+namespace TelegramBot.Common.Resources
+{
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,60 +23,88 @@ namespace TelegramBot.Common.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class SharedResource {
-        
+    public class SharedResource
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SharedResource() {
+        internal SharedResource()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+        public static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TelegramBot.Common.Resources.SharedResource", typeof(SharedResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
-            get {
+        public static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Please enter this private OTP to &lt;b&gt;the associated site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot.
         ///&lt;b&gt;OTP:&lt;/b&gt; &lt;code&gt;{0}&lt;/code&gt;.
         /// </summary>
-        public static string Setting_OTP_Help {
-            get {
+        public static string Setting_OTP_Help
+        {
+            get
+            {
                 return ResourceManager.GetString("Setting_OTP_Help", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sorry, the system is under maintenance from {0} to {1} GMT+8. Please come back later..
         /// </summary>
-        public static string UnderMaintenance {
-            get {
+        public static string UnderMaintenance
+        {
+            get
+            {
                 return ResourceManager.GetString("UnderMaintenance", resourceCulture);
+            }
+        }
+
+        public static string IntroductionMessage
+        {
+            get
+            {
+                return ResourceManager.GetString("IntroductionMessage", resourceCulture);
+            }
+        }
+
+        public static string WelcomeMessage
+        {
+            get
+            {
+                return ResourceManager.GetString("WelcomeMessage", resourceCulture);
             }
         }
     }
