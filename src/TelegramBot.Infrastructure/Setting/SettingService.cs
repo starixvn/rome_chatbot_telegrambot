@@ -54,7 +54,7 @@ namespace TelegramBot.Infrastructure.Setting
             }
 
             var otp = GenerateOtp();
-            var cacheKey = $"{custId}_{subAccId}";
+            var cacheKey = $"otp_value_{custId}_{subAccId}";
             var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var message = string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help)), otp);
@@ -66,7 +66,7 @@ namespace TelegramBot.Infrastructure.Setting
         {
             var bot = await _botService.GetAsync(botId);
             var otp = GenerateOtp();
-            var cacheKey = $"{custId}_{subAccId}";
+            var cacheKey = $"otp_value_{custId}_{subAccId}";
             var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var message = string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help)), otp);
