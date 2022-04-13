@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
-using System.Threading.Tasks;
 using TelegramBot.Client.Models;
 using TelegramBot.Infrastructure.Bot;
 
