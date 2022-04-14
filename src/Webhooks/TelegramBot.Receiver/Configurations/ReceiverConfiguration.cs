@@ -8,8 +8,6 @@ namespace TelegramBot.Receiver.Configurations
 
         public string HostAddress { get; set; }
 
-        public bool IsTest { get; set; }
-
         public bool IsUsingWebhook => !string.IsNullOrWhiteSpace(HostAddress);
     }
 }

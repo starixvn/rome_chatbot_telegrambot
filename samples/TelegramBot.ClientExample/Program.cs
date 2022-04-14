@@ -26,7 +26,7 @@ namespace TelegramBot.ClientExample
         const int custId = 68287;
         const int subAccId = 10911;
         const long chatId = 1293288125;
-        const bool isTest = true;
+
         const string system = "IBCBET";
         const string messengerName = "test";
 
@@ -81,7 +81,7 @@ namespace TelegramBot.ClientExample
 
         private static async Task TestSetting()
         {
-            var startUri = await _settingService.GenerateStartUriAsync(custId, subAccId, system, isTest);
+            var startUri = await _settingService.GenerateStartUriAsync(custId, subAccId, system);
             Write("Generate start uri", startUri);
 
             var telegramCommand = $"/start {startUri.Substring(startUri.IndexOf("=", StringComparison.InvariantCulture) + 1)}";
@@ -95,7 +95,7 @@ namespace TelegramBot.ClientExample
             _result = await _settingService.LinkAsync(_firstBot.BotId, custId, subAccId, $"${otp}aa");
             Write("Link with incorrect OTP", _result);
 
-            _result = await _settingService.ResendOtpAsync(_firstBot.BotId, custId, subAccId, isTest);
+            _result = await _settingService.ResendOtpAsync(_firstBot.BotId, custId, subAccId);
             Write("Resend new OTP", _result);
 
             otp = await _cacheService.GetAsync<string>(cacheKey);
@@ -104,7 +104,7 @@ namespace TelegramBot.ClientExample
             _result = await _settingService.LinkAsync(_firstBot.BotId, custId, subAccId, otp);
             Write("Link with correct OTP", _result);
 
-            var custBotMessenger = await _settingService.GetCustBotMessengerAsync(custId, subAccId, isTest);
+            var custBotMessenger = await _settingService.GetCustBotMessengerAsync(custId, subAccId);
             Write("CustBotMessenger", custBotMessenger);
 
             _result = await _settingService.UnlinkAsync(_firstBot.BotId, custId, subAccId);

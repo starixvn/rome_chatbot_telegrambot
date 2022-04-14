@@ -16,7 +16,7 @@ namespace TelegramBot.Infrastructure.Setting
 {
     public interface ISettingService
     {
-        Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId, bool isTest);
+        Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId);
 
         Task<Result> StartAsync(long messengerBotId, long chatId, int custId, int subAccId, string messengerName, string language, string ip);
 
@@ -76,7 +76,7 @@ namespace TelegramBot.Infrastructure.Setting
             var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var message = string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help)), otp);
-            var custBotMessenger = await GetCustBotMessengerAsync(custId, subAccId, bot.IsTest);
+            var custBotMessenger = await GetCustBotMessengerAsync(custId, subAccId);
             await _senderService.SendMessage(bot.MessengerBotId, custBotMessenger.ChatId, message);
             return Result.CreateSuccessfulResult();
         }
@@ -127,7 +127,7 @@ namespace TelegramBot.Infrastructure.Setting
             if (criteria.IsSuccess)
             {
                 var bot = await _botService.GetAsync(botId);
-                var custBotMessenger = await GetCustBotMessengerAsync(custId, subAccId, bot.IsTest);
+                var custBotMessenger = await GetCustBotMessengerAsync(custId, subAccId);
                 InlineKeyboardMarkup inlineKeyboard = new(
                 new[]
                 {
@@ -165,9 +165,9 @@ namespace TelegramBot.Infrastructure.Setting
             return new Result(criteria.ErrCode, criteria.ErrMsg);
         }
 
-        public async Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId, bool isTest)
+        public async Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId)
         {
-            var criteria = new CustBotMessengerSelCriteria(custId, subAccId, isTest);
+            var criteria = new CustBotMessengerSelCriteria(custId, subAccId, !_webAPIConfiguration.IsProduction);
             return await _dynamicRepository.GetAsync<CustBotMessenger>(criteria);
         }
 

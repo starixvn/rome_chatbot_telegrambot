@@ -11,8 +11,5 @@ namespace TelegramBot.WebApi.Params
 
         [Required]
         public string System { get; set; }
-
-        [Required]
-        public bool IsTest { get; set; }
     }
 }

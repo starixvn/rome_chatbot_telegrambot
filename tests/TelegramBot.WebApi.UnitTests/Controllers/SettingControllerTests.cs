@@ -38,14 +38,14 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             var plainKey = $"{param.CustId}:{param.SubAccId}";
             var encryptKey = "encryptKey";
             _cryptography.Encrypt(plainKey).Returns(encryptKey);
-            _botService.GetAsync(param.System, param.IsTest).Returns(Task.FromResult(botEntity));
+            _botService.GetAsync(param.System).Returns(Task.FromResult(botEntity));
 
             // Act
             var result = await _settingController.GenerateStartUriAsync(param).ConfigureAwait(false);
 
             // Assert
             _cryptography.Received().Encrypt(plainKey);
-            await _botService.Received().GetAsync(param.System, param.IsTest);
+            await _botService.Received().GetAsync(param.System);
             var expectedResult = $"https://t.me/{botEntity.Name}?start={encryptKey}";
             Assert.Equal(expectedResult, result);
         }
@@ -82,7 +82,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
         public async Task GetCustBotMessengerAsync_Always_Calls(GetCustBotMessengerParam param, CustBotMessenger custBotMessenger)
         {
             // Arrange
-            _settingService.GetCustBotMessengerAsync(param.CustId, param.SubAccId, param.IsTest)
+            _settingService.GetCustBotMessengerAsync(param.CustId, param.SubAccId)
                 .Returns(Task.FromResult(custBotMessenger));
 
             // Act

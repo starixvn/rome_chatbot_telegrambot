@@ -54,7 +54,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
             _dynamicRepository.GetAsync<CustBotMessenger>(criteria).Returns(Task.FromResult(custBotMessenger));
 
             // Act
-            await _settingService.GetCustBotMessengerAsync(custId, subAccId, isTest).ConfigureAwait(false);
+            await _settingService.GetCustBotMessengerAsync(custId, subAccId).ConfigureAwait(false);
 
             // Assert
             await _dynamicRepository.Received().GetAsync<CustBotMessenger>(Arg.Any<CustBotMessengerSelCriteria>());

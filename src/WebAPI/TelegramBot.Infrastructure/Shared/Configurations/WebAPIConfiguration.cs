@@ -5,5 +5,7 @@ namespace TelegramBot.Infrastructure.Shared.Configurations
         public int OtpExpirationInMinutes { get; set; }
 
         public int OtpMaxFailedTimes { get; set; }
+
+        public bool IsProduction { get; set; }
     }
 }

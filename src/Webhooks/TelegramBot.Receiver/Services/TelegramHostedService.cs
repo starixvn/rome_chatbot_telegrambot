@@ -30,7 +30,7 @@ namespace TelegramBot.Receiver.Services
         {
             await _logger.InfoAsync($"Worker {typeof(TelegramHostedService).Assembly.GetName().Name} running at: {DateTimeOffset.Now}");
             var botEntities = await _botService.GetAllAsync().ConfigureAwait(false);
-            _handleUpdateSerice.BotEntities = botEntities.Where(botEntity => botEntity.IsTest == _receiverConfiguration.IsTest).ToList();
+            _handleUpdateSerice.BotEntities = botEntities.ToList();
             var botClients = new List<ITelegramBotClient>();
             var tasks = _handleUpdateSerice.BotEntities.Select(botEntity =>
             {

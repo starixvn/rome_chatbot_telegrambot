@@ -4,13 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using TelegramBot.Client.Models;
 using TelegramBot.Infrastructure.Bot.Criteria;
+using TelegramBot.Infrastructure.Shared.Configurations;
 
 namespace TelegramBot.Infrastructure.Bot
 {
     public interface IBotService
     {
         Task<List<BotEntity>> GetAllAsync();
-        Task<BotEntity> GetAsync(string system, bool isTest);
+        Task<BotEntity> GetAsync(string system);
         Task<BotEntity> GetAsync(long messengerBotId);
         Task<BotEntity> GetAsync(int botId);
     }
@@ -18,20 +19,20 @@ namespace TelegramBot.Infrastructure.Bot
     public class BotService : IBotService
     {
         private readonly IDynamicRepository _dynamicRepository;
+        private readonly WebAPIConfiguration _webAPIConfiguration;
         private List<BotEntity> _botEntities;
 
-        public BotService(IDynamicRepository dynamicRepository)
+        public BotService(IDynamicRepository dynamicRepository, WebAPIConfiguration webAPIConfiguration)
         {
             _dynamicRepository = dynamicRepository;
+            _webAPIConfiguration = webAPIConfiguration;
         }
 
         public async Task<List<BotEntity>> GetAllAsync()
         {
             if (_botEntities == null)
             {
-                _botEntities = (await _dynamicRepository.FetchAsync<BotEntity>(new GetAllCriteria()).ConfigureAwait(false))
-                    .Where(bot => bot.Status)
-                    .ToList();
+                _botEntities = (await _dynamicRepository.FetchAsync<BotEntity>(new GetAllCriteria(!_webAPIConfiguration.IsProduction)).ConfigureAwait(false)).ToList();
                 _botEntities.ForEach(botEntity =>
                 {
                     botEntity.MessengerBotId = long.Parse(botEntity.AccessToken.Split(":").First());
@@ -41,10 +42,10 @@ namespace TelegramBot.Infrastructure.Bot
             return _botEntities;
         }
 
-        public async Task<BotEntity> GetAsync(string system, bool isTest)
+        public async Task<BotEntity> GetAsync(string system)
         {
             var botEntities = await GetAllAsync().ConfigureAwait(false);
-            return botEntities.FirstOrDefault(x => x.System == system && x.IsTest == isTest);
+            return botEntities.FirstOrDefault(x => x.System == system);
         }
 
         public async Task<BotEntity> GetAsync(long messengerBotId)

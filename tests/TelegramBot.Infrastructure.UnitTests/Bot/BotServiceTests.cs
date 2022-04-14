@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TelegramBot.Client.Models;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Bot.Criteria;
+using TelegramBot.Infrastructure.Shared.Configurations;
 using Xunit;
 
 namespace TelegramBot.Infrastructure.UnitTests.Bot
@@ -14,11 +15,14 @@ namespace TelegramBot.Infrastructure.UnitTests.Bot
     {
         private readonly IDynamicRepository _dynamicRepository;
         private readonly IBotService _botService;
+        private readonly WebAPIConfiguration _webAPIConfiguration;
+
 
         public BotServiceTests()
         {
             _dynamicRepository = Substitute.For<IDynamicRepository>();
-            _botService = new BotService(_dynamicRepository);
+            _webAPIConfiguration = Substitute.For<WebAPIConfiguration>();
+            _botService = new BotService(_dynamicRepository, _webAPIConfiguration);
         }
 
         [Fact]
