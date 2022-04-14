@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TelegramBot.Client.Models;
 using TelegramBot.Common.Services;
 using TelegramBot.Infrastructure.Bot;
+using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.WebApi.Controllers;
 using TelegramBot.WebApi.Params;
@@ -19,13 +20,15 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
         private readonly ISettingService _settingService;
         private readonly IBotService _botService;
         private readonly SettingController _settingController;
+        private readonly ISenderService _senderService;
 
         public SettingControllerTests()
         {
             _cryptography = Substitute.For<ICryptography>();
             _settingService = Substitute.For<ISettingService>();
             _botService = Substitute.For<IBotService>();
-            _settingController = new SettingController(_cryptography, _settingService, _botService);
+            _senderService = Substitute.For<ISenderService>();
+            _settingController = new SettingController(_cryptography, _settingService, _botService, _senderService);
         }
 
         [Theory, AutoData]

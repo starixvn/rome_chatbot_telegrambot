@@ -2,13 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\..\.sonarlint\alpha-services\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Fanex.Logging" Version="2.0.1" />
@@ -20,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TelegramBot.Client.DependencyInjection\TelegramBot.Client.DependencyInjection.csproj" />
-    <ProjectReference Include="..\TelegramBot.Client\TelegramBot.Client.csproj" />
-    <ProjectReference Include="..\TelegramBot.Common\TelegramBot.Common.csproj" />
+    <ProjectReference Include="..\..\Client\TelegramBot.Client\TelegramBot.Client.csproj" />
+    <ProjectReference Include="..\..\Client\TelegramBot.Client.DependencyInjection\TelegramBot.Client.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\WebAPI\TelegramBot.Common\TelegramBot.Common.csproj" />
   </ItemGroup>
 </Project>

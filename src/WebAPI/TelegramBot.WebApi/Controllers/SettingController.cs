@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Net.Mime;
 using TelegramBot.Client.Models;
 using TelegramBot.Common.Resources;
@@ -19,15 +18,13 @@ namespace TelegramBot.WebApi.Controllers
         private readonly ISettingService _settingService;
         private readonly IBotService _botService;
         private readonly ISenderService _senderService;
-        private readonly Fanex.Logging.ILogger _logger;
 
-        public SettingController(ICryptography cryptography, ISettingService settingService, IBotService botService, ISenderService senderService, Fanex.Logging.ILogger logger)
+        public SettingController(ICryptography cryptography, ISettingService settingService, IBotService botService, ISenderService senderService)
         {
             _cryptography = cryptography;
             _settingService = settingService;
             _botService = botService;
             _senderService = senderService;
-            _logger = logger;
         }
 
         /// <summary>
@@ -55,11 +52,10 @@ namespace TelegramBot.WebApi.Controllers
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
         public async Task<Result> StartAsync(StartParam param)
         {
-            _logger.Info(JsonConvert.SerializeObject(param));
             var words = param.Message.Split(' ');
             if (words.Length != 2)
             {
-                await _senderService.SendMessage(param.MessengerBotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage)));
+                await _senderService.SendMessage(param.MessengerBotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
                 return Result.CreateErrorResult("Invalid start request");
             }
 
@@ -68,7 +64,7 @@ namespace TelegramBot.WebApi.Controllers
             words = plainKey.Split(':');
             if (words.Length != 2)
             {
-                await _senderService.SendMessage(param.MessengerBotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage)));
+                await _senderService.SendMessage(param.MessengerBotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
                 return Result.CreateErrorResult("Invalid start unique token");
             }
 

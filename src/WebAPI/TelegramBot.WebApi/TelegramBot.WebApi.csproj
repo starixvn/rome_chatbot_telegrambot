@@ -12,10 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\..\.sonarlint\alpha-services\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Fanex.Caching.Redis" Version="2.2.2.1" />
     <PackageReference Include="Fanex.Caching.Redis.AspNetCore" Version="2.2.2.1" />
     <PackageReference Include="Fanex.Data" Version="4.2.2" />
@@ -31,15 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TelegramBot.Client\TelegramBot.Client.csproj" />
-    <ProjectReference Include="..\TelegramBot.Common\TelegramBot.Common.csproj" />
-    <ProjectReference Include="..\TelegramBot.Infrastructure\TelegramBot.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="App_Data\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TelegramBot.Infrastructure\TelegramBot.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

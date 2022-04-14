@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\TelegramBot.Infrastructure\TelegramBot.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\WebAPI\TelegramBot.Infrastructure\TelegramBot.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
