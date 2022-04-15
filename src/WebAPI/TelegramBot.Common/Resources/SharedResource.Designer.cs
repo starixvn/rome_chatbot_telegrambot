@@ -8,11 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TelegramBot.Common.Resources
-{
+namespace TelegramBot.Common.Resources {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -20,90 +19,136 @@ namespace TelegramBot.Common.Resources
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class SharedResource
-    {
-
+    public class SharedResource {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SharedResource()
-        {
+        internal SharedResource() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if (object.ReferenceEquals(resourceMan, null))
-                {
+        public static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TelegramBot.Common.Resources.SharedResource", typeof(SharedResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        public static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If this wasn&apos;t you, please change password or contact us for support.
+        /// </summary>
+        public static string AlertMessage {
+            get {
+                return ResourceManager.GetString("AlertMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Password Alert.
+        /// </summary>
+        public static string ChangePasswordAlert {
+            get {
+                return ResourceManager.GetString("ChangePasswordAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Alpha Site account&apos;s Password has been requested to changed.
+        /// </summary>
+        public static string ChangePasswordAlertContent {
+            get {
+                return ResourceManager.GetString("ChangePasswordAlertContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Security Code Alert.
+        /// </summary>
+        public static string ChangeSecurityCodeAlert {
+            get {
+                return ResourceManager.GetString("ChangeSecurityCodeAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Security Code has been requested to changed.
+        /// </summary>
+        public static string ChangeSecurityCodeAlertContent {
+            get {
+                return ResourceManager.GetString("ChangeSecurityCodeAlertContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please log in to &lt;b&gt;the associated site&lt;/b&gt;, access Chatbot function and follow instruction to setup Telegram Chatbot.
+        /// </summary>
+        public static string IntroductionMessage {
+            get {
+                return ResourceManager.GetString("IntroductionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested IP.
+        /// </summary>
+        public static string RequestedIP {
+            get {
+                return ResourceManager.GetString("RequestedIP", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Please enter this private OTP to &lt;b&gt;the associated site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot.
         ///&lt;b&gt;OTP:&lt;/b&gt; &lt;code&gt;{0}&lt;/code&gt;.
         /// </summary>
-        public static string Setting_OTP_Help
-        {
-            get
-            {
+        public static string Setting_OTP_Help {
+            get {
                 return ResourceManager.GetString("Setting_OTP_Help", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Sorry, the system is under maintenance from {0} to {1} GMT+8. Please come back later..
         /// </summary>
-        public static string UnderMaintenance
-        {
-            get
-            {
+        public static string UnderMaintenance {
+            get {
                 return ResourceManager.GetString("UnderMaintenance", resourceCulture);
             }
         }
-
-        public static string IntroductionMessage
-        {
-            get
-            {
-                return ResourceManager.GetString("IntroductionMessage", resourceCulture);
-            }
-        }
-
-        public static string WelcomeMessage
-        {
-            get
-            {
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome {0}. Your Telegram Chatbot setup is completed.
+        ///Yesterday Win Loss will be sent to you daily at 3:00PM (GMT-4).
+        ///Please select an action:.
+        /// </summary>
+        public static string WelcomeMessage {
+            get {
                 return ResourceManager.GetString("WelcomeMessage", resourceCulture);
             }
         }

@@ -1,16 +1,16 @@
 FROM registry.nexdev.net:5050/docker/dotnet/core/sdk:6.0 as builder
 WORKDIR /src
 
-COPY src/TelegramBot.Receiver/TelegramBot.Receiver.csproj ./TelegramBot.Receiver/TelegramBot.Receiver.csproj
+COPY src/Webhooks/TelegramBot.Receiver/TelegramBot.Receiver.csproj ./Webhooks/TelegramBot.Receiver/TelegramBot.Receiver.csproj
 RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
-RUN dotnet restore TelegramBot.Receiver/TelegramBot.Receiver.csproj -v n
+RUN dotnet restore Webhooks/TelegramBot.Receiver/TelegramBot.Receiver.csproj -v n
 
-COPY src/TelegramBot.Client.DependencyInjection ./TelegramBot.Client.DependencyInjection
-COPY src/TelegramBot.Client ./TelegramBot.Client
-COPY src/TelegramBot.Common ./TelegramBot.Common
-COPY src/TelegramBot.Receiver ./TelegramBot.Receiver
+COPY src/Client/TelegramBot.Client.DependencyInjection ./Client/TelegramBot.Client.DependencyInjection
+COPY src/Client/TelegramBot.Client ./Client/TelegramBot.Client
+COPY src/WebAPI/TelegramBot.Common ./WebAPI/TelegramBot.Common
+COPY src/Webhooks/TelegramBot.Receiver ./Webhooks/TelegramBot.Receiver
 
-WORKDIR /src/TelegramBot.Receiver
+WORKDIR /src/Webhooks/TelegramBot.Receiver
 RUN dotnet publish -r linux-x64 --self-contained false -o /app
 
 FROM registry.nexdev.net:5050/docker/dotnet/core/aspnet:6.0 as base

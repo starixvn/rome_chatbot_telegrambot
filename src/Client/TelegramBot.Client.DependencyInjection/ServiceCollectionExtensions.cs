@@ -19,6 +19,7 @@ namespace TelegramBot.Client.DependencyInjection
             services.AddHttpClient<IBotService, BotService>(httpClient => ConfigureHttpClient(httpClient, clientConfiguration));
             services.AddHttpClient<ISettingService, SettingService>(httpClient => ConfigureHttpClient(httpClient, clientConfiguration));
             services.AddHttpClient<ICommandService, CommandService>(httpClient => ConfigureHttpClient(httpClient, clientConfiguration));
+            services.AddHttpClient<INotificationService, NotificationService>(httpClient => ConfigureHttpClient(httpClient, clientConfiguration));
             return services;
         }
 

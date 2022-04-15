@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
+using Telegram.Bot.Types.Enums;
 using TelegramBot.Client.Models;
 using TelegramBot.Common.Resources;
 using TelegramBot.Common.Services;
@@ -64,13 +65,13 @@ namespace TelegramBot.WebApi.Controllers
             words = plainKey.Split(':');
             if (words.Length != 2)
             {
-                await _senderService.SendMessage(param.MessengerBotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
+                await _senderService.SendMessage(param.MessengerBotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language), ParseMode.Html);
                 return Result.CreateErrorResult("Invalid start unique token");
             }
 
             var custId = int.Parse(words[0]);
             var subAccId = int.Parse(words[1]);
-            return await _settingService.StartAsync(param.MessengerBotId, param.ChatId, custId, subAccId, param.MessengerName, param.Language, param.IP).ConfigureAwait(false);
+            return await _settingService.StartAsync(param.MessengerBotId, param.ChatId, custId, subAccId, param.Language, param.IP).ConfigureAwait(false);
         }
 
         /// <summary>

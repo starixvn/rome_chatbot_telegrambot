@@ -2,6 +2,7 @@
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command;
 using TelegramBot.Infrastructure.Message;
+using TelegramBot.Infrastructure.Notification;
 using TelegramBot.Infrastructure.Setting;
 
 namespace TelegramBot.WebApi.Extensions
@@ -15,6 +16,7 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<ICommandService, CommandService>();
             services.AddSingleton<ISenderService, SenderService>();
             services.AddSingleton<IBotClientFactory, BotClientFactory>();
+            services.AddSingleton<INotificationService, NotificationService>();
             return services;
         }
 

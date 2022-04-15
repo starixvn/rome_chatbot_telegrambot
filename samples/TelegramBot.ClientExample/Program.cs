@@ -8,14 +8,12 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TelegramBot.Client.Constants;
-using TelegramBot.Client.Extensions;
 using TelegramBot.Client.Models;
 using TelegramBot.Client.Services;
-using TelegramBot.Common.Services;
 
 namespace TelegramBot.ClientExample
 {
-    static class Program
+    internal static class Program
     {
         private static IBotService _botService;
         private static ISettingService _settingService;
@@ -23,39 +21,19 @@ namespace TelegramBot.ClientExample
         private static ICacheService _cacheService;
         private static Result _result;
         private static BotEntity _firstBot;
-        const int custId = 68287;
-        const int subAccId = 10911;
-        const long chatId = 1293288125;
+        private const int custId = 68287;
+        private const int subAccId = 10911;
+        private const long chatId = 1293288125;
 
-        const string system = "IBCBET";
-        const string messengerName = "test";
+        private const string system = "IBCBET";
 
-        static async Task Main()
+        private static async Task Main()
         {
             await Init();
-            await TestLogging();
             await TestSetting();
 
             Console.Write("Press any key to exit");
             Console.ReadKey();
-        }
-
-        private static async Task TestLogging()
-        {
-            try
-            {
-                const string plainKey = "a:2";
-                var cryptography = new Cryptography();
-                var encryptKey = cryptography.Encrypt(plainKey);
-                var message = $"start {encryptKey}";
-                Write("Test logging Receiver with this telegram start link", $"https://t.me/{_firstBot.Name}?start={encryptKey}");
-                _result = await _settingService.StartAsync(1, 1, message, "test", LanguageCodes.English);
-                Write("Test logging WebAPI", _result);
-            }
-            catch (Exception ex)
-            {
-                Write("Test logging WebAPI", ex);
-            }
         }
 
         private static async Task Init()
@@ -85,7 +63,7 @@ namespace TelegramBot.ClientExample
             Write("Generate start uri", startUri);
 
             var telegramCommand = $"/start {startUri.Substring(startUri.IndexOf("=", StringComparison.InvariantCulture) + 1)}";
-            _result = await _settingService.StartAsync(_firstBot.MessengerBotId, chatId, telegramCommand, messengerName, LanguageCodes.English);
+            _result = await _settingService.StartAsync(_firstBot.MessengerBotId, chatId, telegramCommand, LanguageCodes.English);
             Write("Start and save chat", _result);
 
             var cacheKey = $"{custId}_{subAccId}";

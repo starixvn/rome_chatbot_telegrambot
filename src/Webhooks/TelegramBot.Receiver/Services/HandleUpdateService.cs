@@ -13,7 +13,9 @@ namespace TelegramBot.Receiver.Services
     {
         List<BotEntity> BotEntities { get; set; }
         List<ITelegramBotClient> BotClients { get; set; }
+
         Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken = default);
+
         Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken);
     }
 
@@ -79,7 +81,7 @@ namespace TelegramBot.Receiver.Services
 
             if (message.Text!.Split(' ')[0].Equals("/start"))
             {
-                await _settingService.StartAsync(botClient.BotId.Value, message.Chat.Id, message.Text, message.From.Username, LanguageCodes.English);
+                await _settingService.StartAsync(botClient.BotId.Value, message.Chat.Id, message.Text, LanguageCodes.English);
             }
             else
             {

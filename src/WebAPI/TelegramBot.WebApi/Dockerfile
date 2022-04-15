@@ -1,16 +1,16 @@
 FROM registry.nexdev.net:5050/docker/dotnet/core/sdk:6.0 as builder
 WORKDIR /src
 
-COPY src/TelegramBot.WebApi/TelegramBot.WebApi.csproj ./TelegramBot.WebApi/TelegramBot.WebApi.csproj
+COPY src/WebAPI/TelegramBot.WebApi/TelegramBot.WebApi.csproj ./WebAPI/TelegramBot.WebApi/TelegramBot.WebApi.csproj
 RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
-RUN dotnet restore TelegramBot.WebApi/TelegramBot.WebApi.csproj -v n
+RUN dotnet restore WebAPI/TelegramBot.WebApi/TelegramBot.WebApi.csproj -v n
 
-COPY src/TelegramBot.Client ./TelegramBot.Client
-COPY src/TelegramBot.Common ./TelegramBot.Common
-COPY src/TelegramBot.Infrastructure ./TelegramBot.Infrastructure
-COPY src/TelegramBot.WebApi ./TelegramBot.WebApi
+COPY src/Client/TelegramBot.Client ./Client/TelegramBot.Client
+COPY src/WebAPI/TelegramBot.Common ./WebAPI/TelegramBot.Common
+COPY src/WebAPI/TelegramBot.Infrastructure ./WebAPI/TelegramBot.Infrastructure
+COPY src/WebAPI/TelegramBot.WebApi ./WebAPI/TelegramBot.WebApi
 
-WORKDIR /src/TelegramBot.WebApi
+WORKDIR /src/WebAPI/TelegramBot.WebApi
 RUN dotnet publish -r linux-x64 --self-contained false -o /app
 
 FROM registry.nexdev.net:5050/docker/dotnet/core/aspnet:6.0 as base

@@ -8,8 +8,6 @@
 
         public string Message { get; set; }
 
-        public string MessengerName { get; set; }
-
         public string Language { get; set; }
 
         public string IP { get; set; }

@@ -5,13 +5,12 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
 {
     public class CustBotAccountInsCriteria : ResultCriteriaBase, INonQueryCommand
     {
-        public CustBotAccountInsCriteria(int botId, long chatId, int custId, int subAccId, string messengerName, string language, string ip)
+        public CustBotAccountInsCriteria(int botId, long chatId, int custId, int subAccId, string language, string ip)
         {
             BotId = botId;
             ChatId = chatId;
             CustId = custId;
             SubAccId = subAccId;
-            MessengerName = messengerName;
             Language = language;
             IP = ip;
         }
@@ -23,8 +22,6 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
         public int CustId { get; }
 
         public int SubAccId { get; }
-
-        public string MessengerName { get; }
 
         public string Language { get; }
 

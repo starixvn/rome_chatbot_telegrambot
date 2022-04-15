@@ -2,6 +2,7 @@
 using Fanex.Data.Repository;
 using System;
 using System.Threading.Tasks;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Client.Models;
 using TelegramBot.Common.Extensions;
@@ -18,13 +19,15 @@ namespace TelegramBot.Infrastructure.Setting
     {
         Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId);
 
-        Task<Result> StartAsync(long messengerBotId, long chatId, int custId, int subAccId, string messengerName, string language, string ip);
+        Task<Result> StartAsync(long messengerBotId, long chatId, int custId, int subAccId, string language, string ip);
 
         Task<Result> ResendOtpAsync(int botId, int custId, int subAccId);
 
         Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip, bool reset = false);
 
         Task<Result> UnlinkAsync(int botId, int custId, int subAccId, string ip);
+
+        Task<Result> UpdateFunctionsAsync(int custId, int subAccId, string setting, int creator, string ip);
     }
 
     public class SettingService : ISettingService
@@ -49,10 +52,10 @@ namespace TelegramBot.Infrastructure.Setting
             _senderService = senderService;
         }
 
-        public async Task<Result> StartAsync(long messengerBotId, long chatId, int custId, int subAccId, string messengerName, string language, string ip)
+        public async Task<Result> StartAsync(long messengerBotId, long chatId, int custId, int subAccId, string language, string ip)
         {
             var bot = await _botService.GetAsync(messengerBotId);
-            var criteria = new CustBotAccountInsCriteria(bot.BotId, chatId, custId, subAccId, messengerName, language, ip);
+            var criteria = new CustBotAccountInsCriteria(bot.BotId, chatId, custId, subAccId, language, ip);
             await _dynamicRepository.ExecuteAsync(criteria);
             if (!criteria.IsSuccess)
             {
@@ -64,7 +67,7 @@ namespace TelegramBot.Infrastructure.Setting
             var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var message = string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help)), otp);
-            await _senderService.SendMessage(messengerBotId, chatId, message);
+            await _senderService.SendMessage(messengerBotId, chatId, message, ParseMode.Html);
             return Result.CreateSuccessfulResult();
         }
 
@@ -77,7 +80,7 @@ namespace TelegramBot.Infrastructure.Setting
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var message = string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help)), otp);
             var custBotMessenger = await GetCustBotMessengerAsync(custId, subAccId);
-            await _senderService.SendMessage(bot.MessengerBotId, custBotMessenger.ChatId, message);
+            await _senderService.SendMessage(bot.MessengerBotId, custBotMessenger.ChatId, message, ParseMode.Html);
             return Result.CreateSuccessfulResult();
         }
 
@@ -152,9 +155,10 @@ namespace TelegramBot.Infrastructure.Setting
                 await _senderService.SendMessage(
                     bot.MessengerBotId,
                     custBotMessenger.ChatId,
-                    string.Format(ResourceHelper.Get(nameof(SharedResource.WelcomeMessage)), custBotMessenger.MessengerName),
+                    string.Format(ResourceHelper.Get(nameof(SharedResource.WelcomeMessage)), custBotMessenger.ChatId),
                     replyMarkup: inlineKeyboard);
             }
+
             return new Result(criteria.ErrCode, criteria.ErrMsg);
         }
 
@@ -169,6 +173,13 @@ namespace TelegramBot.Infrastructure.Setting
         {
             var criteria = new CustBotMessengerSelCriteria(custId, subAccId, !_webAPIConfiguration.IsProduction);
             return await _dynamicRepository.GetAsync<CustBotMessenger>(criteria);
+        }
+
+        public async Task<Result> UpdateFunctionsAsync(int custId, int subAccId, string setting, int creator, string ip)
+        {
+            var criteria = new CustBotFunctionUpdCriteria(custId, subAccId, setting, creator, ip);
+            await _dynamicRepository.ExecuteAsync(criteria);
+            return new Result(criteria.ErrCode, criteria.ErrMsg);
         }
 
         private static string GenerateOtp()

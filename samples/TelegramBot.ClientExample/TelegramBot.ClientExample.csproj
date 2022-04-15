@@ -112,10 +112,6 @@
       <Project>{cf85281d-cc79-44c4-a89b-40b7a51fc48d}</Project>
       <Name>TelegramBot.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\WebAPI\TelegramBot.Common\TelegramBot.Common.csproj">
-      <Project>{8b2f2624-a912-40fa-bfc7-3fd6d6c565b4}</Project>
-      <Name>TelegramBot.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\.sonarlint\alpha-services\CSharp\SonarLint.xml">
