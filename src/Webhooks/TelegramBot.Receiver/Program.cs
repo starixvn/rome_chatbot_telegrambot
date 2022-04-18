@@ -1,7 +1,6 @@
 using Fanex.Logging.Extensions.AspNetCore;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net.Mime;
-using TelegramBot.Common.Extensions;
 using TelegramBot.Receiver.Configurations;
 using TelegramBot.Receiver.DependencyInjection;
 using TelegramBot.Receiver.Services;

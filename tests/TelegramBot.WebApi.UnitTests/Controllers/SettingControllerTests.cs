@@ -2,11 +2,13 @@
 using Newtonsoft.Json;
 using NSubstitute;
 using System.Threading.Tasks;
-using TelegramBot.Common.Models;
-using TelegramBot.Common.Services;
 using TelegramBot.Infrastructure.Bot;
+using TelegramBot.Infrastructure.Bot.Models;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
+using TelegramBot.Infrastructure.Setting.Models;
+using TelegramBot.Infrastructure.Shared;
+using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.WebApi.Controllers;
 using TelegramBot.WebApi.Params;
 using Xunit;

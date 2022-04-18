@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using Telegram.Bot.Types.Enums;
-using TelegramBot.Common.Models;
-using TelegramBot.Common.Resources;
-using TelegramBot.Common.Services;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
+using TelegramBot.Infrastructure.Setting.Models;
+using TelegramBot.Infrastructure.Shared;
+using TelegramBot.Infrastructure.Shared.Models;
+using TelegramBot.Infrastructure.Shared.Resources;
 using TelegramBot.WebApi.Params;
 
 namespace TelegramBot.WebApi.Controllers

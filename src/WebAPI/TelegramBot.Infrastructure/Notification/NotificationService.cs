@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using TelegramBot.Common.Models;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
+using TelegramBot.Infrastructure.Shared.Models;
 
 namespace TelegramBot.Infrastructure.Notification
 {

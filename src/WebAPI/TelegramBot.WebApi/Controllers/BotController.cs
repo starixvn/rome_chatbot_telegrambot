@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
-using TelegramBot.Common.Models;
 using TelegramBot.Infrastructure.Bot;
+using TelegramBot.Infrastructure.Bot.Models;
 
 namespace TelegramBot.WebApi.Controllers
 {

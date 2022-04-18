@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Common.Extensions;
-using TelegramBot.Common.Models;
-using TelegramBot.Common.Resources;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Constants;
 using TelegramBot.Infrastructure.Setting.Criteria;
+using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
+using TelegramBot.Infrastructure.Shared.Models;
+using TelegramBot.Infrastructure.Shared.Resources;
 
 namespace TelegramBot.Infrastructure.Setting
 {

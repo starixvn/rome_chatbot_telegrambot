@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace TelegramBot.Common.Resources
+namespace TelegramBot.Infrastructure.Shared.Resources
 {
     public static class ResourceHelper
     {

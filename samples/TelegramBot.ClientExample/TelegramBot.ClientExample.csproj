@@ -119,10 +119,6 @@
       <Project>{173d137b-1a54-47cb-a597-9ea1933e41ef}</Project>
       <Name>TelegramBot.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\WebAPI\TelegramBot.Common\TelegramBot.Common.csproj">
-      <Project>{8b6a65d8-e0e5-4610-ac1e-b34f83944e6c}</Project>
-      <Name>TelegramBot.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

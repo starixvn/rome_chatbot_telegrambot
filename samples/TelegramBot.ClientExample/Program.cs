@@ -7,9 +7,8 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TelegramBot.Client.Models;
 using TelegramBot.Client.Services;
-using TelegramBot.Common.Constants;
-using TelegramBot.Common.Models;
 
 namespace TelegramBot.ClientExample
 {
@@ -63,7 +62,7 @@ namespace TelegramBot.ClientExample
             Write("Generate start uri", startUri);
 
             var telegramCommand = $"/start {startUri.Substring(startUri.IndexOf("=", StringComparison.InvariantCulture) + 1)}";
-            _result = await _settingService.StartAsync(_firstBot.MessengerBotId, chatId, telegramCommand, LanguageCodes.English);
+            _result = await _settingService.StartAsync(_firstBot.MessengerBotId, chatId, telegramCommand, "en-US");
             Write("Start and save chat", _result);
 
             var cacheKey = $"{custId}_{subAccId}";
@@ -103,7 +102,7 @@ namespace TelegramBot.ClientExample
             {
                 BaseAddress = new Uri(uri)
             };
-            client.DefaultRequestHeaders.Add("Accept-Language", LanguageCodes.Taiwan);
+            client.DefaultRequestHeaders.Add("Accept-Language", "zh-TW");
             return client;
         }
     }

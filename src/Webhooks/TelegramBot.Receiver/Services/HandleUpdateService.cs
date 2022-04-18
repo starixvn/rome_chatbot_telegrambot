@@ -2,9 +2,8 @@
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using TelegramBot.Client.Models;
 using TelegramBot.Client.Services;
-using TelegramBot.Common.Constants;
-using TelegramBot.Common.Models;
 using TelegramBot.Receiver.Configurations;
 
 namespace TelegramBot.Receiver.Services
@@ -81,7 +80,7 @@ namespace TelegramBot.Receiver.Services
 
             if (message.Text!.Split(' ')[0].Equals("/start"))
             {
-                await _settingService.StartAsync(botClient.BotId.Value, message.Chat.Id, message.Text, LanguageCodes.English);
+                await _settingService.StartAsync(botClient.BotId.Value, message.Chat.Id, message.Text, "en-US");
             }
             else
             {

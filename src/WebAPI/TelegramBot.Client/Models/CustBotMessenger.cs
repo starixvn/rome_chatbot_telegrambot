@@ -1,4 +1,4 @@
-﻿namespace TelegramBot.Common.Models
+﻿namespace TelegramBot.Client.Models
 {
     public class CustBotMessenger
     {

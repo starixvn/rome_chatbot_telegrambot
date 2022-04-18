@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TelegramBot.Common.Models;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Bot.Criteria;
+using TelegramBot.Infrastructure.Bot.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
 using Xunit;
 
@@ -30,24 +30,8 @@ namespace TelegramBot.Infrastructure.UnitTests.Bot
             // Arrange
             IEnumerable<BotEntity> botEntities = new List<BotEntity>
             {
-                new BotEntity
-                {
-                    BotId = 1,
-                    AccessToken = "123:AccessToken1",
-                    IsTest = false,
-                    Name = "Name1",
-                    Status = true,
-                    System = "System1"
-                },
-                new BotEntity
-                {
-                    BotId = 2,
-                    AccessToken = "456:AccessToken2",
-                    IsTest = true,
-                    Name = "Name2",
-                    Status = false,
-                    System = "System2"
-                }
+                new BotEntity(1,"Name1","System1","123:AccessToken1",true,false),
+                new BotEntity(2,"Name2","System2","456:AccessToken2",false,true)
             };
             _dynamicRepository.FetchAsync<BotEntity>(Arg.Any<GetAllCriteria>()).Returns(Task.FromResult(botEntities));
 
@@ -57,16 +41,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Bot
             // Assert
             var expectedResult = new List<BotEntity>
             {
-                new BotEntity
-                {
-                    BotId = 1,
-                    AccessToken = "123:AccessToken1",
-                    IsTest = false,
-                    Name = "Name1",
-                    Status = true,
-                    System = "System1",
-                    MessengerBotId = 123
-                },
+                new BotEntity(1,"Name1","System1","123:AccessToken1",true,false)
             };
             Assert.Equal(JsonConvert.SerializeObject(expectedResult), JsonConvert.SerializeObject(result));
         }

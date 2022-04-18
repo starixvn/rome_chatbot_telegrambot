@@ -3,8 +3,8 @@ using Newtonsoft.Json;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TelegramBot.Common.Models;
 using TelegramBot.Infrastructure.Bot;
+using TelegramBot.Infrastructure.Bot.Models;
 using TelegramBot.WebApi.Controllers;
 using Xunit;
 
@@ -29,7 +29,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             _botService.GetAllAsync().Returns(Task.FromResult(botEntities));
 
             // Act
-            var result = await _botController.GetAllAsync().ConfigureAwait(false);
+            var result = await _botController.GetAllBots().ConfigureAwait(false);
 
             // Assert
             Assert.Equal(JsonConvert.SerializeObject(botEntities), JsonConvert.SerializeObject(result));

@@ -1,5 +1,4 @@
 ﻿using Fanex.Data;
-using TelegramBot.Common.Constants;
 
 namespace TelegramBot.Infrastructure.Shared
 {
@@ -10,6 +9,6 @@ namespace TelegramBot.Infrastructure.Shared
         public string ErrMsg { get; set; }
 
         [SpParam(Ignored = true)]
-        public bool IsSuccess => ErrCode == ErrorCodes.Success;
+        public bool IsSuccess => ErrCode == 0;
     }
 }

@@ -18,6 +18,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Languages.resx</DependentUpon>
     </Compile>
+    <Compile Update="Shared\Resources\SharedResource.Designer.cs">
+      <DependentUpon>SharedResource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +30,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Languages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\TelegramBot.Common\TelegramBot.Common.csproj" />
+    <EmbeddedResource Update="Shared\Resources\SharedResource.resx">
+      <LastGenOutput>SharedResource.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

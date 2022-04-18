@@ -1,4 +1,4 @@
-﻿namespace TelegramBot.Common.Constants
+﻿namespace TelegramBot.Infrastructure.Shared.Constants
 {
     public static class LanguageCodes
     {

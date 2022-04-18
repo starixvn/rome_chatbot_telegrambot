@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TelegramBot.Common.Resources {
+namespace TelegramBot.Infrastructure.Shared.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TelegramBot.Common.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TelegramBot.Common.Resources.SharedResource", typeof(SharedResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TelegramBot.Infrastructure.Shared.Resources.SharedResource", typeof(SharedResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

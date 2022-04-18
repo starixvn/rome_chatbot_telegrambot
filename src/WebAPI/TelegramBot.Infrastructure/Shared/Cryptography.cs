@@ -3,11 +3,12 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace TelegramBot.Common.Services
+namespace TelegramBot.Infrastructure.Shared
 {
     public interface ICryptography
     {
         string Encrypt(string clearText);
+
         string Decrypt(string cipherText);
     }
 
