@@ -5,7 +5,6 @@ COPY src/WebAPI/TelegramBot.WebApi/TelegramBot.WebApi.csproj ./WebAPI/TelegramBo
 RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
 RUN dotnet restore WebAPI/TelegramBot.WebApi/TelegramBot.WebApi.csproj -v n
 
-COPY src/WebAPI/TelegramBot.Common ./WebAPI/TelegramBot.Common
 COPY src/WebAPI/TelegramBot.Infrastructure ./WebAPI/TelegramBot.Infrastructure
 COPY src/WebAPI/TelegramBot.WebApi ./WebAPI/TelegramBot.WebApi
 

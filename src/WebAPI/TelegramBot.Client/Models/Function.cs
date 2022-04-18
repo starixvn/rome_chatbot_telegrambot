@@ -6,7 +6,7 @@ namespace TelegramBot.Client.Models
 {
     public class Function
     {
-        public int FunctionId { get; set; }
+        public short FunctionId { get; set; }
 
         public string FunctionName { get; set; }
 

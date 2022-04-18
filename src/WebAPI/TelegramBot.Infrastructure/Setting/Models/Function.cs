@@ -1,16 +1,13 @@
-﻿namespace TelegramBot.Infrastructure.Setting.Models
+﻿
+namespace TelegramBot.Infrastructure.Setting.Models
 {
     public class Function
     {
-        public Function(int functionId, string functionName, byte type, bool status)
+        public Function(short functionId, string functionName, byte type, bool status)
         {
-            FunctionId = functionId;
-            FunctionName = functionName;
-            Type = type;
-            Status = status;
-        }
 
-        public int FunctionId { get; }
+        }
+        public short FunctionId { get; }
 
         public string FunctionName { get; }
 

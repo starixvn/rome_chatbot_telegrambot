@@ -1,3 +1,4 @@
+using Alpha.API.Client.Extensions;
 using Fanex.Data.Repository;
 using Fanex.Logging;
 using Fanex.Logging.Extensions;
@@ -5,7 +6,6 @@ using Fanex.Logging.Extensions.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
-using TelegramBot.Common.Extensions;
 using TelegramBot.Infrastructure.Shared;
 using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.WebApi.Extensions;
@@ -22,6 +22,7 @@ builder.Services
     .AddSingleton<ICryptography, Cryptography>()
     .AddFanexLogging(configuration)
     .AddFanexCaching(configuration)
+    .AddAlphaServicesClient(configuration)
     .AddInfrastructure();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -44,15 +45,13 @@ app.MapControllers();
 
 var isDevelopment = app.Environment.IsDevelopment();
 app.UseExceptionHandler(isDevelopment ? "/error-development" : "/error");
+app.UseSwagger();
+app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "TelegramBot v1"));
+
 if (!isDevelopment)
 {
     app.UseHsts();
     builder.WebHost.UseUrls("http://0.0.0.0:5000");
-}
-else
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "TelegramBot v1"));
 }
 
 Logger.Log.Info($"{Assembly.GetExecutingAssembly().GetName().Name} has been started up.");
