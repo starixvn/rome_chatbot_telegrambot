@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using TelegramBot.Common.Models;
+using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 
@@ -14,15 +15,18 @@ namespace TelegramBot.Infrastructure.Notification
 
     public class NotificationService : INotificationService
     {
+        private readonly IBotService botService;
         private readonly ISettingService settingService;
         private readonly IBuilderService builderService;
         private readonly ISenderService senderService;
 
         public NotificationService(
+            IBotService botService,
             ISettingService settingService,
             IBuilderService builderService,
             ISenderService senderService)
         {
+            this.botService = botService;
             this.settingService = settingService;
             this.builderService = builderService;
             this.senderService = senderService;
@@ -37,8 +41,14 @@ namespace TelegramBot.Infrastructure.Notification
                 return Result.CreateErrorResult();
             }
 
+            var bot = await botService.GetAsync(messenger.BotId);
+            if (bot == null)
+            {
+                return Result.CreateErrorResult();
+            }
+
             var message = builderService.BuildChangePasswordAlertMessage(messenger.Language, ip);
-            await senderService.SendMessage(messenger.BotId, messenger.ChatId, message);
+            await senderService.SendMessage(bot.MessengerBotId, messenger.ChatId, message);
 
             return Result.CreateSuccessfulResult();
         }
@@ -52,8 +62,14 @@ namespace TelegramBot.Infrastructure.Notification
                 return Result.CreateErrorResult();
             }
 
+            var bot = await botService.GetAsync(messenger.BotId);
+            if (bot == null)
+            {
+                return Result.CreateErrorResult();
+            }
+
             var message = builderService.BuildChangeSecurityCodeAlertMessage(messenger.Language, ip);
-            await senderService.SendMessage(messenger.BotId, messenger.ChatId, message);
+            await senderService.SendMessage(bot.MessengerBotId, messenger.ChatId, message);
 
             return Result.CreateSuccessfulResult();
         }

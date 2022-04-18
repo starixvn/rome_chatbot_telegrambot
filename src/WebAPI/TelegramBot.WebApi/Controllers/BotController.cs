@@ -22,12 +22,20 @@ namespace TelegramBot.WebApi.Controllers
         /// <response code="200">
         /// [{"BotId":1,"Name":"LeoVnBot","System":"IBC","AccessToken":"5237914512:AAFlfL-a8mJZMLpEuyDE7QDB3d8Hn8aV7lY"}]
         /// </response>
-        [Route("all"), HttpPost]
+        [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<BotEntity>), StatusCodes.Status200OK)]
-        public async Task<IEnumerable<BotEntity>> GetAllAsync()
+        public async Task<IEnumerable<BotEntity>> GetAllBots()
         {
             return await _botService.GetAllAsync().ConfigureAwait(false);
+        }
+
+        [HttpGet("{system}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(BotEntity), StatusCodes.Status200OK)]
+        public async Task<BotEntity> GetBotBySystem(string system)
+        {
+            return await _botService.GetAsync(system).ConfigureAwait(false);
         }
     }
 }

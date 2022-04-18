@@ -25,5 +25,13 @@ namespace TelegramBot.Client.Extensions
             var content = await PostAsStringAsync(client, requestUri, value);
             return JsonConvert.DeserializeObject<T>(content);
         }
+
+        public static async Task<T> GetAsJsonAsync<T>(this HttpClient client, string requestUri)
+        {
+            using var response = await client.GetAsync(requestUri);
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(content);
+        }
     }
 }
