@@ -13,6 +13,10 @@ namespace TelegramBot.Infrastructure.Message
         string BuildChangePasswordAlertMessage(string language, string ip);
 
         string BuildChangeSecurityCodeAlertMessage(string language, string ip);
+
+        string BuildAccountAlreadyLinkedMessage(string language);
+
+        string BuildTelegramAccountAlreadyLinkedMessage(string language);
     }
 
     public class BuilderService : IBuilderService
@@ -34,6 +38,9 @@ namespace TelegramBot.Infrastructure.Message
             LanguageCodes.Taiwan
         };
 
+        public string BuildAccountAlreadyLinkedMessage(string language)
+            => ResourceHelper.Get(nameof(SharedResource.AccountAlreadyLinked), language);
+
         public string BuildChangePasswordAlertMessage(string language, string ip)
             => string.Join(
                 newLineCharacter,
@@ -49,6 +56,9 @@ namespace TelegramBot.Infrastructure.Message
                 ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlertContent), language),
                 $"{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}: {ip}",
                 ResourceHelper.Get(nameof(SharedResource.AlertMessage), language));
+
+        public string BuildTelegramAccountAlreadyLinkedMessage(string language)
+        => ResourceHelper.Get(nameof(SharedResource.TelegramAccountAlreadyLinked), language);
 
         public string BuildUnderMaintenanceMessage(string from, string to)
         {

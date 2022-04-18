@@ -150,4 +150,11 @@ Please select an action:</value>
   <data name="RequestedIP" xml:space="preserve">
     <value>Requested IP</value>
   </data>
+  <data name="AccountAlreadyLinked" xml:space="preserve">
+    <value>Your Telegram's already linked with another Account.
+Please unlink that Account first then try again.</value>
+  </data>
+  <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
+    <value>Your Telegram's already linked to this chatbot using other Account. If this isn't your Account, please contact us for support.</value>
+  </data>
 </root>

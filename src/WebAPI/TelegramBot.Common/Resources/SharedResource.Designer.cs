@@ -61,6 +61,16 @@ namespace TelegramBot.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your Telegram&apos;s already linked with another Account.
+        ///Please unlink that Account first then try again..
+        /// </summary>
+        public static string AccountAlreadyLinked {
+            get {
+                return ResourceManager.GetString("AccountAlreadyLinked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If this wasn&apos;t you, please change password or contact us for support.
         /// </summary>
         public static string AlertMessage {
@@ -130,6 +140,15 @@ namespace TelegramBot.Common.Resources {
         public static string Setting_OTP_Help {
             get {
                 return ResourceManager.GetString("Setting_OTP_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Telegram&apos;s already linked to this chatbot using other Account. If this isn&apos;t your Account, please contact us for support..
+        /// </summary>
+        public static string TelegramAccountAlreadyLinked {
+            get {
+                return ResourceManager.GetString("TelegramAccountAlreadyLinked", resourceCulture);
             }
         }
         

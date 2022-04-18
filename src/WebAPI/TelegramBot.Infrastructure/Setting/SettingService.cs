@@ -37,19 +37,22 @@ namespace TelegramBot.Infrastructure.Setting
         private readonly IBotService _botService;
         private readonly ICacheService _cacheService;
         private readonly ISenderService _senderService;
+        private readonly IBuilderService _builderService;
 
         public SettingService(
             WebAPIConfiguration webAPIConfiguration,
             IDynamicRepository dynamicRepository,
             IBotService botService,
             ICacheService cacheService,
-            ISenderService senderService)
+            ISenderService senderService,
+            IBuilderService builderService)
         {
             _webAPIConfiguration = webAPIConfiguration;
             _dynamicRepository = dynamicRepository;
             _botService = botService;
             _cacheService = cacheService;
             _senderService = senderService;
+            _builderService = builderService;
         }
 
         public async Task<Result> StartAsync(long messengerBotId, long chatId, int custId, int subAccId, string language, string ip)
@@ -59,6 +62,18 @@ namespace TelegramBot.Infrastructure.Setting
             await _dynamicRepository.ExecuteAsync(criteria);
             if (!criteria.IsSuccess)
             {
+                if (criteria.ErrCode == ErrorCodes.AccountAlreadyLinked)
+                {
+                    var errorMsg = _builderService.BuildAccountAlreadyLinkedMessage(language);
+                    await _senderService.SendMessage(messengerBotId, chatId, errorMsg, ParseMode.Html);
+                }
+
+                if (criteria.ErrCode == ErrorCodes.TelegramAccountAlreadyLinked)
+                {
+                    var errorMsg = _builderService.BuildTelegramAccountAlreadyLinkedMessage(language);
+                    await _senderService.SendMessage(messengerBotId, chatId, errorMsg, ParseMode.Html);
+                }
+
                 return new Result(criteria.ErrCode, criteria.ErrMsg);
             }
 
