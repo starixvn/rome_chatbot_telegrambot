@@ -1,9 +1,9 @@
-using System.Net.Mime;
 using Fanex.Logging.Extensions.AspNetCore;
 using Microsoft.AspNetCore.Diagnostics;
-using TelegramBot.Client.DependencyInjection;
+using System.Net.Mime;
 using TelegramBot.Common.Extensions;
 using TelegramBot.Receiver.Configurations;
+using TelegramBot.Receiver.DependencyInjection;
 using TelegramBot.Receiver.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +34,6 @@ app.UseExceptionHandler(exceptionHandlerApp =>
             await context.Response.WriteAsync($"An exception was thrown: {exceptionHandlerPathFeature.Error.Message}");
             await context.Response.WriteAsync(exceptionHandlerPathFeature.Error.StackTrace);
         }
-
     });
 });
 

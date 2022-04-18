@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using Telegram.Bot.Types.Enums;
-using TelegramBot.Client.Models;
+using TelegramBot.Common.Models;
 using TelegramBot.Common.Resources;
 using TelegramBot.Common.Services;
 using TelegramBot.Infrastructure.Bot;

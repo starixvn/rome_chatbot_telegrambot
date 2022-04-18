@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TelegramBot.Client.Models;
+using TelegramBot.Common.Models;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Bot.Criteria;
 using TelegramBot.Infrastructure.Shared.Configurations;
@@ -16,7 +16,6 @@ namespace TelegramBot.Infrastructure.UnitTests.Bot
         private readonly IDynamicRepository _dynamicRepository;
         private readonly IBotService _botService;
         private readonly WebAPIConfiguration _webAPIConfiguration;
-
 
         public BotServiceTests()
         {

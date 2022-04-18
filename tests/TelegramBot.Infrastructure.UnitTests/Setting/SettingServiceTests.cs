@@ -3,7 +3,7 @@ using Fanex.Caching;
 using Fanex.Data.Repository;
 using NSubstitute;
 using System.Threading.Tasks;
-using TelegramBot.Client.Models;
+using TelegramBot.Common.Models;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;

@@ -16,8 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Client\TelegramBot.Client\TelegramBot.Client.csproj" />
-    <ProjectReference Include="..\..\Client\TelegramBot.Client.DependencyInjection\TelegramBot.Client.DependencyInjection.csproj" />
-    <ProjectReference Include="..\..\WebAPI\TelegramBot.Common\TelegramBot.Common.csproj" />
+    <ProjectReference Include="..\..\WebAPI\TelegramBot.Client\TelegramBot.Client.csproj" />
   </ItemGroup>
 </Project>

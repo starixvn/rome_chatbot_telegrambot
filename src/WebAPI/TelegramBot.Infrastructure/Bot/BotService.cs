@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TelegramBot.Client.Models;
+using TelegramBot.Common.Models;
 using TelegramBot.Infrastructure.Bot.Criteria;
 using TelegramBot.Infrastructure.Shared.Configurations;
 
@@ -11,8 +11,11 @@ namespace TelegramBot.Infrastructure.Bot
     public interface IBotService
     {
         Task<List<BotEntity>> GetAllAsync();
+
         Task<BotEntity> GetAsync(string system);
+
         Task<BotEntity> GetAsync(long messengerBotId);
+
         Task<BotEntity> GetAsync(int botId);
     }
 

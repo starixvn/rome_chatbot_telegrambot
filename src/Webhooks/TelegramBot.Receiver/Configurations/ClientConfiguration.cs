@@ -1,4 +1,4 @@
-﻿namespace TelegramBot.Client.DependencyInjection
+﻿namespace TelegramBot.Receiver.Configurations
 {
     public class ClientConfiguration
     {

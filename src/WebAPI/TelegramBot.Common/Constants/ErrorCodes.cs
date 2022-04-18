@@ -1,4 +1,4 @@
-﻿namespace TelegramBot.Client.Constants
+﻿namespace TelegramBot.Common.Constants
 {
     public static class ErrorCodes
     {

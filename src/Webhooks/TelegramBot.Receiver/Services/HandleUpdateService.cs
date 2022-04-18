@@ -2,9 +2,9 @@
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using TelegramBot.Client.Constants;
-using TelegramBot.Client.Models;
 using TelegramBot.Client.Services;
+using TelegramBot.Common.Constants;
+using TelegramBot.Common.Models;
 using TelegramBot.Receiver.Configurations;
 
 namespace TelegramBot.Receiver.Services

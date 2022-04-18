@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TelegramBot.Client.Models;
+using TelegramBot.Common.Models;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.WebApi.Controllers;
 using Xunit;

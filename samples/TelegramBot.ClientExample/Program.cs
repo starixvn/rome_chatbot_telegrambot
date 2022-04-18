@@ -7,9 +7,9 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using TelegramBot.Client.Constants;
-using TelegramBot.Client.Models;
 using TelegramBot.Client.Services;
+using TelegramBot.Common.Constants;
+using TelegramBot.Common.Models;
 
 namespace TelegramBot.ClientExample
 {

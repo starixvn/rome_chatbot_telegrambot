@@ -1,6 +1,6 @@
-﻿using TelegramBot.Client.Constants;
+﻿using TelegramBot.Common.Constants;
 
-namespace TelegramBot.Client.Models
+namespace TelegramBot.Common.Models
 {
     public class Result
     {

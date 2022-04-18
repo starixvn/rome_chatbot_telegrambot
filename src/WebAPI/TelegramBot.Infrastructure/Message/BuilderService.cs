@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TelegramBot.Client.Constants;
+using TelegramBot.Common.Constants;
 using TelegramBot.Common.Resources;
 
 namespace TelegramBot.Infrastructure.Message

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using TelegramBot.Client.Models;
+using TelegramBot.Common.Models;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 

@@ -1,10 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Net.Http;
-using TelegramBot.Client.Services;
+﻿using TelegramBot.Client.Services;
+using TelegramBot.Receiver.Configurations;
 
-namespace TelegramBot.Client.DependencyInjection
+namespace TelegramBot.Receiver.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {

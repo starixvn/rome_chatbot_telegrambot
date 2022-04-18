@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using NSubstitute;
 using System.Threading.Tasks;
-using TelegramBot.Client.Models;
+using TelegramBot.Common.Models;
 using TelegramBot.Common.Services;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
