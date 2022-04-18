@@ -1,4 +1,6 @@
-﻿namespace TelegramBot.Client.Models
+﻿using System.Collections.Generic;
+
+namespace TelegramBot.Client.Models
 {
     public class CustBotMessenger
     {
@@ -15,5 +17,7 @@
         public bool IsVerifyOTP { get; set; }
 
         public string Language { get; set; }
+
+        public IEnumerable<Function> Functions { get; set; }
     }
 }

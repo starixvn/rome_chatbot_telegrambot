@@ -120,5 +120,13 @@ namespace TelegramBot.WebApi.Controllers
         {
             return await _settingService.GetCustBotMessengerAsync(param.CustId, param.SubAccId);
         }
+
+        [HttpPost("{userId}/function")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(CustBotMessenger), StatusCodes.Status200OK)]
+        public async Task<Result> UpdateFunctions(int userId, [FromBody] UpdateFunctionParam param)
+        {
+            return await _settingService.UpdateFunctionAsync(userId, param.Function, param.Creator, param.IP);
+        }
     }
 }

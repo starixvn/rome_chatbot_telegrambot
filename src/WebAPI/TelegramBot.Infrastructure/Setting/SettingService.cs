@@ -1,6 +1,7 @@
 ﻿using Fanex.Caching;
 using Fanex.Data.Repository;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -28,7 +29,7 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<Result> UnlinkAsync(int botId, int custId, int subAccId, string ip);
 
-        Task<Result> UpdateFunctionsAsync(int custId, int subAccId, string setting, int creator, string ip);
+        Task<Result> UpdateFunctionAsync(int userid, Function function, int creator, string ip);
     }
 
     public class SettingService : ISettingService
@@ -188,12 +189,17 @@ namespace TelegramBot.Infrastructure.Setting
         public async Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId)
         {
             var criteria = new CustBotMessengerSelCriteria(custId, subAccId, !_webAPIConfiguration.IsProduction);
-            return await _dynamicRepository.GetAsync<CustBotMessenger>(criteria);
+            var resultSet = await _dynamicRepository.FetchMultipleAsync<CustBotMessenger, Function>(criteria);
+
+            var custBotMessenger = resultSet.firstResultSet.FirstOrDefault();
+            custBotMessenger.Functions = resultSet.secondResultSet;
+
+            return custBotMessenger;
         }
 
-        public async Task<Result> UpdateFunctionsAsync(int custId, int subAccId, string setting, int creator, string ip)
+        public async Task<Result> UpdateFunctionAsync(int userid, Function function, int creator, string ip)
         {
-            var criteria = new CustBotFunctionUpdCriteria(custId, subAccId, setting, creator, ip);
+            var criteria = new CustBotFunctionUpdCriteria(userid, function, creator, ip);
             await _dynamicRepository.ExecuteAsync(criteria);
             return new Result(criteria.ErrCode, criteria.ErrMsg);
         }

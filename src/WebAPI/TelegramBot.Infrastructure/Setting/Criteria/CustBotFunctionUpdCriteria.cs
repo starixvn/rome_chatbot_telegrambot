@@ -1,22 +1,20 @@
 ﻿using Fanex.Data.Repository;
+using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared;
 
 namespace TelegramBot.Infrastructure.Setting.Criteria
 {
     public class CustBotFunctionUpdCriteria : ResultCriteriaBase, INonQueryCommand
     {
-        public CustBotFunctionUpdCriteria(int custId, int subAccId, string setting, int creator, string ip)
+        public CustBotFunctionUpdCriteria(int userId, Function function, int creator, string ip)
         {
-            CustId = custId;
-            SubAccId = subAccId;
-            Setting = setting;
+            UserId = userId;
+            Setting = $"<Root><r id='{function.FunctionId}' stt='{function.Status}' /></Root>";
             Creator = creator;
             IP = ip;
         }
 
-        public int CustId { get; }
-
-        public int SubAccId { get; } = 0;
+        public int UserId { get; }
 
         public string Setting { get; }
 
@@ -26,6 +24,6 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
 
         public string GetSettingKey() => "CustBotFunctionUpd";
 
-        public bool IsValid() => CustId > 0 && !string.IsNullOrEmpty(Setting);
+        public bool IsValid() => UserId > 0 && !string.IsNullOrEmpty(Setting);
     }
 }

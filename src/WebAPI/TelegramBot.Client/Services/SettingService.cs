@@ -18,6 +18,8 @@ namespace TelegramBot.Client.Services
         Task<Result> UnlinkAsync(int botId, int custId, int subAccId, string ip = "");
 
         Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId);
+
+        Task<Result> UpdateUserFunction(int userId, Function function, int creator, string ip = "");
     }
 
     public class SettingService : ISettingService
@@ -105,5 +107,15 @@ namespace TelegramBot.Client.Services
                     subAccId
                 });
         }
+
+        public async Task<Result> UpdateUserFunction(int userId, Function function, int creator, string ip = "")
+            => await httpClient.PostAsJsonAsync<Result>(
+                $"setting/{userId}/function",
+                new
+                {
+                    function,
+                    creator,
+                    ip
+                });
     }
 }
