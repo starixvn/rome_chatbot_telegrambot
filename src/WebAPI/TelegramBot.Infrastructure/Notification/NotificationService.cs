@@ -34,7 +34,7 @@ namespace TelegramBot.Infrastructure.Notification
 
         public async Task<Result> NotifyChangePassword(int custId, int subAccId, string ip)
         {
-            var messenger = await settingService.GetCustBotMessengerAsync(custId, subAccId);
+            var messenger = await settingService.GetCustBotMessenger(custId, subAccId);
 
             if (messenger == null)
             {
@@ -55,7 +55,7 @@ namespace TelegramBot.Infrastructure.Notification
 
         public async Task<Result> NotifyChangeSecurityCode(int custId, int subAccId, string ip)
         {
-            var messenger = await settingService.GetCustBotMessengerAsync(custId, subAccId);
+            var messenger = await settingService.GetCustBotMessenger(custId, subAccId);
 
             if (messenger == null)
             {

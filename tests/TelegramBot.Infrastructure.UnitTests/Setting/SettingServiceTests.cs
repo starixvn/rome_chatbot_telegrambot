@@ -42,7 +42,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
             _dynamicRepository.ExecuteAsync(criteria).Returns(Task.FromResult(0));
 
             // Act
-            await _settingService.UnlinkAsync(botId, custId, subAccId, ip).ConfigureAwait(false);
+            await _settingService.Unlink(botId, custId, subAccId, ip).ConfigureAwait(false);
 
             // Assert
             await _dynamicRepository.Received().ExecuteAsync(Arg.Any<CustBotAccountStatusUpdCriteria>());
@@ -56,7 +56,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
             _dynamicRepository.GetAsync<CustBotMessenger>(criteria).Returns(Task.FromResult(custBotMessenger));
 
             // Act
-            await _settingService.GetCustBotMessengerAsync(custId, subAccId).ConfigureAwait(false);
+            await _settingService.GetCustBotMessenger(custId, subAccId).ConfigureAwait(false);
 
             // Assert
             await _dynamicRepository.Received().GetAsync<CustBotMessenger>(Arg.Any<CustBotMessengerSelCriteria>());

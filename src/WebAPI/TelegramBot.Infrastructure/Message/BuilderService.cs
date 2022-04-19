@@ -17,6 +17,8 @@ namespace TelegramBot.Infrastructure.Message
         string BuildAccountAlreadyLinkedMessage(string language);
 
         string BuildTelegramAccountAlreadyLinkedMessage(string language);
+
+        string BuildOTPMessage(string language, string otp);
     }
 
     public class BuilderService : IBuilderService
@@ -57,8 +59,11 @@ namespace TelegramBot.Infrastructure.Message
                 $"{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}: {ip}",
                 ResourceHelper.Get(nameof(SharedResource.AlertMessage), language));
 
+        public string BuildOTPMessage(string language, string otp)
+            => string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help)), otp);
+
         public string BuildTelegramAccountAlreadyLinkedMessage(string language)
-        => ResourceHelper.Get(nameof(SharedResource.TelegramAccountAlreadyLinked), language);
+            => ResourceHelper.Get(nameof(SharedResource.TelegramAccountAlreadyLinked), language);
 
         public string BuildUnderMaintenanceMessage(string from, string to)
         {

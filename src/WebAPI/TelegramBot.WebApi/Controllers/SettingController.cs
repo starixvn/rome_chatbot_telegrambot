@@ -38,11 +38,11 @@ namespace TelegramBot.WebApi.Controllers
         [Route("start-uri"), HttpPost]
         [Produces(MediaTypeNames.Text.Plain)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        public async Task<string> GenerateStartUriAsync([FromBody] GenerateStartUriParam param)
+        public async Task<string> GenerateStartUri([FromBody] GenerateStartUriParam param)
         {
             var plainKey = $"{param.CustId}:{param.SubAccId}";
             var encryptKey = _cryptography.Encrypt(plainKey);
-            var botEntity = await _botService.GetAsync(param.System).ConfigureAwait(false);
+            var botEntity = await _botService.GetAsync(param.System);
             return $"https://t.me/{botEntity.Name}?start={encryptKey}";
         }
 
@@ -52,7 +52,7 @@ namespace TelegramBot.WebApi.Controllers
         [Route("start"), HttpPost]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
-        public async Task<Result> StartAsync(StartParam param)
+        public async Task<Result> Start(StartParam param)
         {
             var words = param.Message.Split(' ');
             if (words.Length != 2)
@@ -72,7 +72,7 @@ namespace TelegramBot.WebApi.Controllers
 
             var custId = int.Parse(words[0]);
             var subAccId = int.Parse(words[1]);
-            return await _settingService.StartAsync(param.MessengerBotId, param.ChatId, custId, subAccId, param.Language, param.IP).ConfigureAwait(false);
+            return await _settingService.Start(param.MessengerBotId, param.ChatId, custId, subAccId, param.Language, param.IP);
         }
 
         /// <summary>
@@ -81,9 +81,9 @@ namespace TelegramBot.WebApi.Controllers
         [Route("resend-otp"), HttpPost]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
-        public async Task<Result> ResendOtpAsync(ResendOtpParam param)
+        public async Task<Result> ResendOtp(ResendOtpParam param)
         {
-            return await _settingService.ResendOtpAsync(param.BotId, param.CustId, param.SubAccId);
+            return await _settingService.ResendOtp(param.BotId, param.CustId, param.SubAccId);
         }
 
         /// <summary>
@@ -94,9 +94,9 @@ namespace TelegramBot.WebApi.Controllers
         [Route("link"), HttpPost]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
-        public async Task<Result> LinkAsync(LinkParam param)
+        public async Task<Result> Link(LinkParam param)
         {
-            return await _settingService.LinkAsync(param.BotId, param.CustId, param.SubAccId, param.Otp, param.IP, param.Reset);
+            return await _settingService.Link(param.BotId, param.CustId, param.SubAccId, param.Otp, param.IP, param.Reset);
         }
 
         /// <summary>
@@ -105,9 +105,9 @@ namespace TelegramBot.WebApi.Controllers
         [Route("unlink"), HttpPost]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
-        public async Task<Result> UnlinkAsync(UnlinkParam param)
+        public async Task<Result> Unlink(UnlinkParam param)
         {
-            return await _settingService.UnlinkAsync(param.BotId, param.CustId, param.SubAccId, param.IP);
+            return await _settingService.Unlink(param.BotId, param.CustId, param.SubAccId, param.IP);
         }
 
         /// <summary>
@@ -118,15 +118,23 @@ namespace TelegramBot.WebApi.Controllers
         [ProducesResponseType(typeof(CustBotMessenger), StatusCodes.Status200OK)]
         public async Task<CustBotMessenger> GetCustBotMessengerAsync(GetCustBotMessengerParam param)
         {
-            return await _settingService.GetCustBotMessengerAsync(param.CustId, param.SubAccId);
+            return await _settingService.GetCustBotMessenger(param.CustId, param.SubAccId);
         }
 
         [HttpPost("{userId}/function")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(CustBotMessenger), StatusCodes.Status200OK)]
-        public async Task<Result> UpdateFunctions(int userId, [FromBody] UpdateFunctionParam param)
+        [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
+        public async Task<Result> UpdateFunction(int userId, [FromBody] UpdateFunctionParam param)
         {
-            return await _settingService.UpdateFunctionAsync(userId, param.Function, param.Creator, param.IP);
+            return await _settingService.UpdateFunction(userId, param.Function, param.Creator, param.IP);
+        }
+
+        [HttpPost("language")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
+        public async Task<Result> UpdateLanguage([FromBody] UpdateLanguageParam param)
+        {
+            return await _settingService.UpdateLanguage(param.CustId, param.SubAccId, param.Language, param.IP);
         }
     }
 }

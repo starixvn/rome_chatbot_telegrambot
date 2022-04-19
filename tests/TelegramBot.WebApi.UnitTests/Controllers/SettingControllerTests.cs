@@ -56,7 +56,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
         public async Task LinkAsync_Always_Calls(LinkParam param, Result expectedResult)
         {
             // Arrange
-            _settingService.LinkAsync(param.BotId, param.CustId, param.SubAccId, param.Otp, param.IP, param.Reset)
+            _settingService.Link(param.BotId, param.CustId, param.SubAccId, param.Otp, param.IP, param.Reset)
                 .Returns(Task.FromResult(expectedResult));
 
             // Act
@@ -70,7 +70,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
         public async Task UnlinkAsync_Always_Calls(UnlinkParam param, Result expectedResult)
         {
             // Arrange
-            _settingService.UnlinkAsync(param.BotId, param.CustId, param.SubAccId, param.IP)
+            _settingService.Unlink(param.BotId, param.CustId, param.SubAccId, param.IP)
                 .Returns(Task.FromResult(expectedResult));
 
             // Act
@@ -84,7 +84,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
         public async Task GetCustBotMessengerAsync_Always_Calls(GetCustBotMessengerParam param, CustBotMessenger custBotMessenger)
         {
             // Arrange
-            _settingService.GetCustBotMessengerAsync(param.CustId, param.SubAccId)
+            _settingService.GetCustBotMessenger(param.CustId, param.SubAccId)
                 .Returns(Task.FromResult(custBotMessenger));
 
             // Act
