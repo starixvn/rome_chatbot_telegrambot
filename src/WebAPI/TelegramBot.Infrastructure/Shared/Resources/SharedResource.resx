@@ -157,4 +157,70 @@ Please unlink that Account first then try again.</value>
   <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
     <value>Your Telegram's already linked to this chatbot using other Account. If this isn't your Account, please contact us for support.</value>
   </data>
+  <data name="HelpCommandIntro" xml:space="preserve">
+    <value>You can operate {0} using following commands:</value>
+  </data>
+  <data name="OpenMainMenu" xml:space="preserve">
+    <value>Open Main Menu of {0}</value>
+  </data>
+  <data name="ListAllCommands" xml:space="preserve">
+    <value>List all commands</value>
+  </data>
+  <data name="BalanceInfoReports" xml:space="preserve">
+    <value>Balance Info Reports</value>
+  </data>
+  <data name="GetBalanceInfoOfSpecificMember" xml:space="preserve">
+    <value>Get Balance Info of specific member</value>
+  </data>
+  <data name="GetBalanceInfoOfTopMembers" xml:space="preserve">
+    <value>Get Balance Info of top # members</value>
+  </data>
+  <data name="GetOutstandingReportOfSpecificMember" xml:space="preserve">
+    <value>Get Outstanding Report of specific member</value>
+  </data>
+  <data name="GetOutstandingReportOfTopMembers" xml:space="preserve">
+    <value>Get Outstanding Report of top # members</value>
+  </data>
+  <data name="GetTodayWinLossReportOfSpecficMember" xml:space="preserve">
+    <value>Get Today Win Loss Report of specfic member</value>
+  </data>
+  <data name="GetYesterdayWinLossReportOfSpecificMember" xml:space="preserve">
+    <value>Get Yesterday Win Loss Report of specific member</value>
+  </data>
+  <data name="GetYourBalanceInfoReport" xml:space="preserve">
+    <value>Get your Balance Info Report</value>
+  </data>
+  <data name="GetyourOutstandingReport" xml:space="preserve">
+    <value>Get your Outstanding Report</value>
+  </data>
+  <data name="GetYourTodayWinLossReport" xml:space="preserve">
+    <value>Get your Today Win Loss Report</value>
+  </data>
+  <data name="GetYourYesterdayWinLossReport" xml:space="preserve">
+    <value>Get your Yesterday Win Loss Report</value>
+  </data>
+  <data name="OpenBalanceInfoMenu" xml:space="preserve">
+    <value>Open Balance Info Menu</value>
+  </data>
+  <data name="OpenOutstandingMenu" xml:space="preserve">
+    <value>Open Outstanding Menu</value>
+  </data>
+  <data name="OpenSettingsMenu" xml:space="preserve">
+    <value>Open Settings Menu</value>
+  </data>
+  <data name="OpenTodayWinLossReportMenu" xml:space="preserve">
+    <value>Open Today Win Loss Report Menu</value>
+  </data>
+  <data name="OpenYesterdayWinLossReportMenu" xml:space="preserve">
+    <value>Open Yesterday Win Loss Report Menu</value>
+  </data>
+  <data name="OutstandingReports" xml:space="preserve">
+    <value>Outstanding Reports</value>
+  </data>
+  <data name="Unlink" xml:space="preserve">
+    <value>Unlink</value>
+  </data>
+  <data name="WinLossReports" xml:space="preserve">
+    <value>Win Loss Reports</value>
+  </data>
 </root>

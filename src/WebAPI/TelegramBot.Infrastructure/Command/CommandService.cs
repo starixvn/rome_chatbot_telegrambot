@@ -2,6 +2,7 @@
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
+using TelegramBot.Infrastructure.Shared.Constants;
 
 namespace TelegramBot.Infrastructure.Command
 {
@@ -34,15 +35,16 @@ namespace TelegramBot.Infrastructure.Command
 
             if (message.Trim().Equals("/help"))
             {
+                await HandleHelpCommand(messengerBotId, chatId);
                 return;
             }
-
-            var custBotMessenger = await settingService.GetCustBotMessenger(0, 0);
-            await senderService.SendMessage(messengerBotId, chatId, message);
         }
 
         private async Task HandleHelpCommand(long messengerBotId, long chatId)
         {
+            var bot = await botService.GetAsync(messengerBotId);
+            var message = builderService.BuildHelpMessage(LanguageCodes.English, bot.Name, true);
+            await senderService.SendMessage(messengerBotId, chatId, message);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Fanex.Logging;
 using Fanex.Logging.RabbitMQ;
 using Fanex.Logging.Sentry;
+using ONEbook.UM.Services;
 using Sentry;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command;
@@ -22,6 +23,7 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<ISenderService, SenderService>();
             services.AddSingleton<IBotClientFactory, BotClientFactory>();
             services.AddSingleton<INotificationService, NotificationService>();
+            services.AddSingleton<IMaintenanceService, MaintenanceService>();
 
             return services;
         }

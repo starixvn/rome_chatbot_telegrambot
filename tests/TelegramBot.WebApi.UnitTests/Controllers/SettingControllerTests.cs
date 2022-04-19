@@ -43,7 +43,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             _botService.GetAsync(param.System).Returns(Task.FromResult(botEntity));
 
             // Act
-            var result = await _settingController.GenerateStartUriAsync(param).ConfigureAwait(false);
+            var result = await _settingController.GenerateStartUri(param).ConfigureAwait(false);
 
             // Assert
             _cryptography.Received().Encrypt(plainKey);
@@ -60,7 +60,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
                 .Returns(Task.FromResult(expectedResult));
 
             // Act
-            var result = await _settingController.LinkAsync(param).ConfigureAwait(false);
+            var result = await _settingController.Link(param).ConfigureAwait(false);
 
             // Assert
             Assert.Equal(JsonConvert.SerializeObject(expectedResult), JsonConvert.SerializeObject(result));
@@ -74,7 +74,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
                 .Returns(Task.FromResult(expectedResult));
 
             // Act
-            var result = await _settingController.UnlinkAsync(param).ConfigureAwait(false);
+            var result = await _settingController.Unlink(param).ConfigureAwait(false);
 
             // Assert
             Assert.Equal(JsonConvert.SerializeObject(expectedResult), JsonConvert.SerializeObject(result));

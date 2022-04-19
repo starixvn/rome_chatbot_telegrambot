@@ -10,14 +10,14 @@ namespace TelegramBot.WebApi.Controllers
     [ApiController]
     public class CommandController : ControllerBase
     {
-        private readonly CommandService commandService;
+        private readonly ICommandService commandService;
 
-        public CommandController(CommandService commandService)
+        public CommandController(ICommandService commandService)
         {
             this.commandService = commandService;
         }
 
-        [ServiceFilter(typeof(AutoReplyUMFilterAttribute))]
+        //[ServiceFilter(typeof(AutoReplyUMFilterAttribute))]
         [Route("execute"), HttpPost]
         public async Task ExecuteAsync(CommandParam param)
         {
