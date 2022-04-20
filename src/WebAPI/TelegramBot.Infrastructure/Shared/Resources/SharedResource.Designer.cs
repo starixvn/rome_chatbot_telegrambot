@@ -305,6 +305,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select an action.
+        /// </summary>
+        public static string PleaseSelectAnAction {
+            get {
+                return ResourceManager.GetString("PleaseSelectAnAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Requested IP.
         /// </summary>
         public static string RequestedIP {

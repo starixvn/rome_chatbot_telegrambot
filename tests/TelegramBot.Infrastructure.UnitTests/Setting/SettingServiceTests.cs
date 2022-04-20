@@ -3,6 +3,7 @@ using Fanex.Caching;
 using Fanex.Data.Repository;
 using NSubstitute;
 using System.Threading.Tasks;
+using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
@@ -22,6 +23,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
         private readonly ISenderService _senderService;
         private readonly ISettingService _settingService;
         private readonly IBuilderService _builderService;
+        private readonly IActionService _actionService;
 
         public SettingServiceTests()
         {
@@ -31,7 +33,8 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
             _cacheService = Substitute.For<ICacheService>();
             _senderService = Substitute.For<ISenderService>();
             _builderService = Substitute.For<IBuilderService>();
-            _settingService = new SettingService(_webAPIConfiguration, _dynamicRepository, _botService, _cacheService, _senderService, _builderService);
+            _actionService = Substitute.For<IActionService>();
+            _settingService = new SettingService(_webAPIConfiguration, _dynamicRepository, _botService, _cacheService, _senderService, _builderService, _actionService);
         }
 
         [Theory, AutoData]

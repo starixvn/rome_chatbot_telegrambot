@@ -4,8 +4,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Common.Extensions;
+using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Constants;
@@ -13,7 +13,6 @@ using TelegramBot.Infrastructure.Setting.Criteria;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.Infrastructure.Shared.Models;
-using TelegramBot.Infrastructure.Shared.Resources;
 
 namespace TelegramBot.Infrastructure.Setting
 {
@@ -44,6 +43,7 @@ namespace TelegramBot.Infrastructure.Setting
         private readonly ICacheService _cacheService;
         private readonly ISenderService _senderService;
         private readonly IBuilderService _builderService;
+        private readonly IActionService _actionService;
 
         public SettingService(
             WebAPIConfiguration webAPIConfiguration,
@@ -51,7 +51,8 @@ namespace TelegramBot.Infrastructure.Setting
             IBotService botService,
             ICacheService cacheService,
             ISenderService senderService,
-            IBuilderService builderService)
+            IBuilderService builderService,
+            IActionService actionService)
         {
             _webAPIConfiguration = webAPIConfiguration;
             _dynamicRepository = dynamicRepository;
@@ -59,6 +60,7 @@ namespace TelegramBot.Infrastructure.Setting
             _cacheService = cacheService;
             _senderService = senderService;
             _builderService = builderService;
+            _actionService = actionService;
         }
 
         public async Task<Result> Start(long messengerBotId, long chatId, int custId, int subAccId, string language, string ip)
@@ -152,32 +154,13 @@ namespace TelegramBot.Infrastructure.Setting
             {
                 var bot = await _botService.GetAsync(botId);
                 var custBotMessenger = await GetCustBotMessenger(custId, subAccId);
-                InlineKeyboardMarkup inlineKeyboard = new(
-                new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("Outstanding", "Outstanding"),
-                        InlineKeyboardButton.WithCallbackData("Balance Info", "BalanceInfo"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("Today Win Loss", "TodayWinLoss"),
-                        InlineKeyboardButton.WithCallbackData("Yesterday Win Loss", "YesterdayWinLoss"),
-                    },
-                     new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("Settings", "Settings"),
-                    },
-                });
+
 
                 await _senderService.SendMessage(
                     bot.MessengerBotId,
                     custBotMessenger.ChatId,
-                    string.Format(ResourceHelper.Get(nameof(SharedResource.WelcomeMessage)), custBotMessenger.ChatId),
-                    replyMarkup: inlineKeyboard);
+                    _builderService.BuildWelcomeMessage(custBotMessenger.Language, custBotMessenger.ChatId),
+                    replyMarkup: _actionService.GetRootActions());
             }
 
             return new Result(criteria.ErrCode, criteria.ErrMsg);

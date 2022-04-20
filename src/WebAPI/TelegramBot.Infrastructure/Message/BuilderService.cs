@@ -22,6 +22,10 @@ namespace TelegramBot.Infrastructure.Message
         string BuildOTPMessage(string language, string otp);
 
         string BuildHelpMessage(string language, string botName, bool hasReportPermission);
+
+        string BuildMenuMessage(string language);
+
+        string BuildWelcomeMessage(string language, long chatId);
     }
 
     public class BuilderService : IBuilderService
@@ -122,5 +126,11 @@ namespace TelegramBot.Infrastructure.Message
 
             return stringBuilder.ToString();
         }
+
+        public string BuildMenuMessage(string language)
+            => $"{ResourceHelper.Get(nameof(SharedResource.PleaseSelectAnAction), language)}:";
+
+        public string BuildWelcomeMessage(string language, long chatId)
+            => string.Format(ResourceHelper.Get(nameof(SharedResource.WelcomeMessage), language), chatId);
     }
 }

@@ -223,4 +223,7 @@ Please unlink that Account first then try again.</value>
   <data name="WinLossReports" xml:space="preserve">
     <value>Win Loss Reports</value>
   </data>
+  <data name="PleaseSelectAnAction" xml:space="preserve">
+    <value>Please select an action</value>
+  </data>
 </root>
