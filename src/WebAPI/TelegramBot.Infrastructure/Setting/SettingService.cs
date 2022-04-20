@@ -31,7 +31,7 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<Result> UpdateFunction(int userid, Function function, int creator, string ip);
 
-        Task<Result> UpdateLanguage(int custId, int subAccId, string language, string ip);
+        Task<Result> UpdateLanguage(int userId, string language, string ip);
     }
 
     public class SettingService : ISettingService
@@ -216,9 +216,9 @@ namespace TelegramBot.Infrastructure.Setting
             return ThreadSafeRandom.Next(0, maxValue).ToString("D6");
         }
 
-        public async Task<Result> UpdateLanguage(int custId, int subAccId, string language, string ip)
+        public async Task<Result> UpdateLanguage(int userId, string language, string ip)
         {
-            var command = new CustBotAccountLanguageUpdCriteria(custId, subAccId, language, ip);
+            var command = new CustBotAccountLanguageUpdCriteria(userId, language, ip);
             await _dynamicRepository.ExecuteAsync(command).ConfigureAwait(false);
             return new Result(command.ErrCode, command.ErrMsg);
         }

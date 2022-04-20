@@ -21,7 +21,7 @@ namespace TelegramBot.Client.Services
 
         Task<Result> UpdateUserFunction(int userId, Function function, int creator, string ip = "");
 
-        Task<Result> UpdateLanguage(int custId, int subAccId, string language, string ip = "");
+        Task<Result> UpdateLanguage(int userId, string language, string ip = "");
     }
 
     public class SettingService : ISettingService
@@ -120,13 +120,11 @@ namespace TelegramBot.Client.Services
                     ip
                 });
 
-        public async Task<Result> UpdateLanguage(int custId, int subAccId, string language, string ip = "")
+        public async Task<Result> UpdateLanguage(int userId, string language, string ip = "")
             => await httpClient.PostAsJsonAsync<Result>(
-                $"setting/language",
+                $"setting/{userId}/language",
                 new
                 {
-                    custId,
-                    subAccId,
                     language,
                     ip
                 });
