@@ -25,7 +25,7 @@ namespace TelegramBot.Infrastructure.Action
 
             for (var i = 0; i < numberOfRows; i++)
             {
-                var actionIndex = i * numberOfRows;
+                var actionIndex = i * NumberButtonInRow;
                 if (actionIndex == rootActions.Count - 1)
                 {
                     buttonRows[i] = new InlineKeyboardButton[]
