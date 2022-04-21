@@ -58,7 +58,7 @@ namespace TelegramBot.Infrastructure.Command
             }
         }
 
-        private async Task HandleHelpCommand(long messengerBotId, long chatId)
+        public async Task HandleHelpCommand(long messengerBotId, long chatId)
         {
             var bot = await botService.GetAsync(messengerBotId);
             var custBotAccount = await settingService.GetCustBotAccount(chatId, bot.BotId);
@@ -69,13 +69,12 @@ namespace TelegramBot.Infrastructure.Command
             await senderService.SendMessage(messengerBotId, chatId, message);
         }
 
-        private async Task HandleMenuCommand(long messengerBotId, long chatId)
+        public async Task HandleMenuCommand(long messengerBotId, long chatId)
         {
-
             var bot = await botService.GetAsync(messengerBotId);
             var custBotAccount = await settingService.GetCustBotAccount(chatId, bot.BotId);
             var custBotMessenger = await settingService.GetCustBotMessenger(custBotAccount.CustId, custBotAccount.SubAccId);
-            await senderService.SendMessage(messengerBotId, chatId, builderService.BuildMenuMessage(custBotMessenger.Language),replyMarkup:actionService.GetRootActions());
+            await senderService.SendMessage(messengerBotId, chatId, builderService.BuildMenuMessage(custBotMessenger.Language), replyMarkup: actionService.GetRootActions());
         }
     }
 }
