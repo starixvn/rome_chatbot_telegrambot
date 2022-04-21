@@ -7,7 +7,7 @@ namespace TelegramBot.Infrastructure.Message
 {
     public interface IBotClientFactory
     {
-        ITelegramBotClient GetOrCreate(long messengerBotId);
+        ITelegramBotClient GetOrCreate(int botId);
     }
 
     public class BotClientFactory : IBotClientFactory
@@ -20,25 +20,24 @@ namespace TelegramBot.Infrastructure.Message
             this.botService = botService;
         }
 
-        public ITelegramBotClient GetOrCreate(long messengerBotId)
+        public ITelegramBotClient GetOrCreate(int botId)
         {
-            if (botClients.ContainsKey(messengerBotId))
+            if (botClients.ContainsKey(botId))
             {
-                return botClients[messengerBotId];
+                return botClients[botId];
             }
 
             
             lock (botClients)
             {
-                if (botClients.ContainsKey(messengerBotId))
+                if (botClients.ContainsKey(botId))
                 {
-                    return botClients[messengerBotId];
+                    return botClients[botId];
                 }
 
-                var bots = botService.GetAllAsync().GetAwaiter().GetResult();
-                var bot = bots.First(x => x.MessengerBotId == messengerBotId);
+                var bot = botService.GetAsync(botId).GetAwaiter().GetResult();
                 var botClient = new TelegramBotClient(bot.AccessToken);
-                botClients.Add(messengerBotId, botClient);
+                botClients.Add(botId, botClient);
                 return botClient;
             }
         }

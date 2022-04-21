@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using ONEbook.UM.Services;
 using System.Net;
+using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.WebApi.Params;
 
@@ -13,15 +14,18 @@ namespace TelegramBot.WebApi.Filters
         private readonly IMaintenanceService maintenanceService;
         private readonly ISenderService senderService;
         private readonly IBuilderService builderService;
+        private readonly IBotService botService;
 
         public AutoReplyUMFilterAttribute(
             IMaintenanceService maintenanceService,
             ISenderService senderService,
-            IBuilderService builderService)
+            IBuilderService builderService,
+            IBotService botService)
         {
             this.maintenanceService = maintenanceService;
             this.senderService = senderService;
             this.builderService = builderService;
+            this.botService = botService;
         }
 
         public override async Task OnActionExecutionAsync(
@@ -35,13 +39,9 @@ namespace TelegramBot.WebApi.Filters
                     var umInfo = await maintenanceService.GetUnderMaintenanceTimeAsync();
                     if (umInfo.IsUnderMaintenanceTime)
                     {
+                        var bot = await botService.GetAsync(command.MessengerBotId);
                         var message = builderService.BuildUnderMaintenanceMessage(umInfo.From, umInfo.To);
-                        await senderService.SendMessage(
-                            command.MessengerBotId,
-                            command.ChatId,
-                            message,
-                            logToDatabase: false);
-
+                        await senderService.SendMessage(bot.BotId, command.ChatId, message);
                         await HandleUnderMaintenance(context.HttpContext, message);
 
                         return;

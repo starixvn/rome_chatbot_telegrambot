@@ -8,5 +8,6 @@
 		<Setting Key="CustBotMessengerSel" SpName="Age_Chatbot_CustBotMessengerSel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 		<Setting Key="CustBotFunctionUpd" SpName="Age_Chatbot_CustBotFunctionUpd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 		<Setting Key="CustBotUserSel" SpName="Age_Chatbot_CustBotUserSel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+		<Setting Key="CustBotMessageIns" SpName="Age_Chatbot_CustBotMessageIns" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 	</Function>
 </Functions>

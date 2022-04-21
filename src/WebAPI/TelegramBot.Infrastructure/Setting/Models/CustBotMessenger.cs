@@ -1,10 +1,22 @@
 ﻿using System.Collections.Generic;
+using TelegramBot.Infrastructure.Shared.Constants;
 
 namespace TelegramBot.Infrastructure.Setting.Models
 {
     public class CustBotMessenger
     {
-        public CustBotMessenger(int userId, int botId, string botName, long chatId, bool status, bool isVerifyOTP, string language)
+        public CustBotMessenger()
+        {
+        }
+
+        public CustBotMessenger(
+            int userId, 
+            int botId,
+            long chatId,
+            string botName = "", 
+            bool status = false,
+            bool isVerifyOTP = false,
+            string language = LanguageCodes.English)
         {
             UserId = userId;
             BotId = botId;

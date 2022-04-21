@@ -54,10 +54,11 @@ namespace TelegramBot.WebApi.Controllers
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
         public async Task<Result> Start(StartParam param)
         {
+            var bot = await _botService.GetAsync(param.MessengerBotId);
             var words = param.Message.Split(' ');
             if (words.Length != 2)
             {
-                await _senderService.SendMessage(param.MessengerBotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
+                await _senderService.SendMessage(bot.BotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
                 return Result.CreateErrorResult("Invalid start request");
             }
 
@@ -66,13 +67,13 @@ namespace TelegramBot.WebApi.Controllers
             words = plainKey.Split(':');
             if (words.Length != 2)
             {
-                await _senderService.SendMessage(param.MessengerBotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language), ParseMode.Html);
+                await _senderService.SendMessage(bot.BotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language), ParseMode.Html);
                 return Result.CreateErrorResult("Invalid start unique token");
             }
 
             var custId = int.Parse(words[0]);
             var subAccId = int.Parse(words[1]);
-            return await _settingService.Start(param.MessengerBotId, param.ChatId, custId, subAccId, param.Language, param.IP);
+            return await _settingService.Start(bot.BotId, param.ChatId, custId, subAccId, param.Language, param.IP);
         }
 
         /// <summary>

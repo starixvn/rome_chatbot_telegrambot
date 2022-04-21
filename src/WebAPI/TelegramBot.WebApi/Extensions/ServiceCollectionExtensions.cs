@@ -21,6 +21,7 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<ICommandService, CommandService>();
             services.AddSingleton<IBuilderService, BuilderService>();
             services.AddSingleton<ISenderService, SenderService>();
+            services.AddSingleton<ILoggerService, LoggerService>();
             services.AddSingleton<IBotClientFactory, BotClientFactory>();
             services.AddSingleton<INotificationService, NotificationService>();
             services.AddSingleton<IActionService, ActionService>();

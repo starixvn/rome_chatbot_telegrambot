@@ -41,14 +41,8 @@ namespace TelegramBot.Infrastructure.Notification
                 return Result.CreateErrorResult();
             }
 
-            var bot = await botService.GetAsync(messenger.BotId);
-            if (bot == null)
-            {
-                return Result.CreateErrorResult();
-            }
-
             var message = builderService.BuildChangePasswordAlertMessage(messenger.Language, ip);
-            await senderService.SendMessage(bot.MessengerBotId, messenger.ChatId, message);
+            await senderService.SendMessage(messenger, message);
 
             return Result.CreateSuccessfulResult();
         }
@@ -62,14 +56,8 @@ namespace TelegramBot.Infrastructure.Notification
                 return Result.CreateErrorResult();
             }
 
-            var bot = await botService.GetAsync(messenger.BotId);
-            if (bot == null)
-            {
-                return Result.CreateErrorResult();
-            }
-
             var message = builderService.BuildChangeSecurityCodeAlertMessage(messenger.Language, ip);
-            await senderService.SendMessage(bot.MessengerBotId, messenger.ChatId, message);
+            await senderService.SendMessage(messenger, message);
 
             return Result.CreateSuccessfulResult();
         }

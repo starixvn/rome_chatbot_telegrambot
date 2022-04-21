@@ -19,7 +19,6 @@ namespace TelegramBot.Infrastructure.Action
         public InlineKeyboardMarkup GetRootActions()
         {
             var rootActions = GetAllActions().ToList();
-
             var numberOfRows = rootActions.Count % NumberButtonInRow > 0 ? (rootActions.Count / NumberButtonInRow) + 1 : (rootActions.Count / NumberButtonInRow);
             var buttonRows = new InlineKeyboardButton[numberOfRows][];
 

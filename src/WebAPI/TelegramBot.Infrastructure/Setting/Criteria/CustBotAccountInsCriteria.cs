@@ -27,6 +27,8 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
 
         public string IP { get; }
 
+        public int UserId { get; set; }
+
         public string GetSettingKey() => "CustBotAccountIns";
 
         public bool IsValid() => BotId > 0 && ChatId != 0 && CustId > 0;

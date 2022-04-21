@@ -62,19 +62,20 @@ namespace TelegramBot.Infrastructure.Command
         {
             var bot = await botService.GetAsync(messengerBotId);
             var custBotAccount = await settingService.GetCustBotAccount(chatId, bot.BotId);
+            var messenger= await settingService.GetCustBotMessenger(custBotAccount.CustId, custBotAccount.SubAccId); 
             var message = builderService.BuildHelpMessage(
-                LanguageCodes.English,
+                messenger.Language,
                 bot.Name,
                 !custBotAccount.IsSubAccount || (await customerService.IsSubAccHasReportPermissionAsync(custBotAccount.CustId, custBotAccount.SubAccId)));
-            await senderService.SendMessage(messengerBotId, chatId, message);
+            await senderService.SendMessage(messenger, message);
         }
 
         public async Task HandleMenuCommand(long messengerBotId, long chatId)
         {
             var bot = await botService.GetAsync(messengerBotId);
             var custBotAccount = await settingService.GetCustBotAccount(chatId, bot.BotId);
-            var custBotMessenger = await settingService.GetCustBotMessenger(custBotAccount.CustId, custBotAccount.SubAccId);
-            await senderService.SendMessage(messengerBotId, chatId, builderService.BuildMenuMessage(custBotMessenger.Language), replyMarkup: actionService.GetRootActions());
+            var messenger = await settingService.GetCustBotMessenger(custBotAccount.CustId, custBotAccount.SubAccId);
+            await senderService.SendMessage(messenger, builderService.BuildMenuMessage(messenger.Language), replyMarkup: actionService.GetRootActions());
         }
     }
 }
