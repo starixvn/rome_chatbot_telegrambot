@@ -9,6 +9,7 @@
     <RootNamespace>TelegramBot.ClientExample</RootNamespace>
     <AssemblyName>TelegramBot.ClientExample</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <LangVersion>9.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -38,9 +39,11 @@
   <ItemGroup>
     <Reference Include="Fanex.Caching, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Fanex.Caching.2.2.2\lib\net461\Fanex.Caching.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Fanex.Caching.Redis, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Fanex.Caching.Redis.2.2.2.1\lib\net461\Fanex.Caching.Redis.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MessagePack, Version=1.7.3.7, Culture=neutral, PublicKeyToken=b4a0369545f0a1be, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MessagePack.1.7.3.7\lib\net45\MessagePack.dll</HintPath>
@@ -107,19 +110,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\TelegramBot.Client\TelegramBot.Client.csproj">
-      <Project>{cf85281d-cc79-44c4-a89b-40b7a51fc48d}</Project>
-      <Name>TelegramBot.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\TelegramBot.Common\TelegramBot.Common.csproj">
-      <Project>{8B2F2624-A912-40FA-BFC7-3FD6D6C565B4}</Project>
-      <Name>TelegramBot.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <AdditionalFiles Include="..\..\.sonarlint\alpha-services\CSharp\SonarLint.xml">
       <Link>SonarLint.xml</Link>
     </AdditionalFiles>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\WebAPI\TelegramBot.Client\TelegramBot.Client.csproj">
+      <Project>{173d137b-1a54-47cb-a597-9ea1933e41ef}</Project>
+      <Name>TelegramBot.Client</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

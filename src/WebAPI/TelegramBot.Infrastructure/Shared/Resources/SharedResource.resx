@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Setting_OTP_Help" xml:space="preserve">
+    <value>Please enter this private OTP to &lt;b&gt;the associated site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot.
+&lt;b&gt;OTP:&lt;/b&gt; &lt;code&gt;{0}&lt;/code&gt;</value>
+  </data>
+  <data name="UnderMaintenance" xml:space="preserve">
+    <value>Sorry, the system is under maintenance from {0} to {1} GMT+8. Please come back later.</value>
+  </data>
+  <data name="IntroductionMessage" xml:space="preserve">
+    <value>Please log in to &lt;b&gt;the associated site&lt;/b&gt;, access Chatbot function and follow instruction to setup Telegram Chatbot</value>
+  </data>
+  <data name="WelcomeMessage" xml:space="preserve">
+    <value>Welcome {0}. Your Telegram Chatbot setup is completed.
+Yesterday Win Loss will be sent to you daily at 3:00PM (GMT-4).
+Please select an action:</value>
+  </data>
+  <data name="ChangePasswordAlert" xml:space="preserve">
+    <value>Change Password Alert</value>
+  </data>
+  <data name="ChangeSecurityCodeAlert" xml:space="preserve">
+    <value>Change Security Code Alert</value>
+  </data>
+  <data name="AlertMessage" xml:space="preserve">
+    <value>If this wasn't you, please change password or contact us for support</value>
+  </data>
+  <data name="ChangePasswordAlertContent" xml:space="preserve">
+    <value>Your Alpha Site account's Password has been requested to changed</value>
+  </data>
+  <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
+    <value>Your Security Code has been requested to changed</value>
+  </data>
+  <data name="RequestedIP" xml:space="preserve">
+    <value>Requested IP</value>
+  </data>
+  <data name="AccountAlreadyLinked" xml:space="preserve">
+    <value>Your Telegram's already linked with another Account.
+Please unlink that Account first then try again.</value>
+  </data>
+  <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
+    <value>Your Telegram's already linked to this chatbot using other Account. If this isn't your Account, please contact us for support.</value>
+  </data>
+  <data name="HelpCommandIntro" xml:space="preserve">
+    <value>You can operate {0} using following commands:</value>
+  </data>
+  <data name="OpenMainMenu" xml:space="preserve">
+    <value>Open Main Menu of {0}</value>
+  </data>
+  <data name="ListAllCommands" xml:space="preserve">
+    <value>List all commands</value>
+  </data>
+  <data name="BalanceInfoReports" xml:space="preserve">
+    <value>Balance Info Reports</value>
+  </data>
+  <data name="GetBalanceInfoOfSpecificMember" xml:space="preserve">
+    <value>Get Balance Info of specific member</value>
+  </data>
+  <data name="GetBalanceInfoOfTopMembers" xml:space="preserve">
+    <value>Get Balance Info of top # members</value>
+  </data>
+  <data name="GetOutstandingReportOfSpecificMember" xml:space="preserve">
+    <value>Get Outstanding Report of specific member</value>
+  </data>
+  <data name="GetOutstandingReportOfTopMembers" xml:space="preserve">
+    <value>Get Outstanding Report of top # members</value>
+  </data>
+  <data name="GetTodayWinLossReportOfSpecficMember" xml:space="preserve">
+    <value>Get Today Win Loss Report of specfic member</value>
+  </data>
+  <data name="GetYesterdayWinLossReportOfSpecificMember" xml:space="preserve">
+    <value>Get Yesterday Win Loss Report of specific member</value>
+  </data>
+  <data name="GetYourBalanceInfoReport" xml:space="preserve">
+    <value>Get your Balance Info Report</value>
+  </data>
+  <data name="GetyourOutstandingReport" xml:space="preserve">
+    <value>Get your Outstanding Report</value>
+  </data>
+  <data name="GetYourTodayWinLossReport" xml:space="preserve">
+    <value>Get your Today Win Loss Report</value>
+  </data>
+  <data name="GetYourYesterdayWinLossReport" xml:space="preserve">
+    <value>Get your Yesterday Win Loss Report</value>
+  </data>
+  <data name="OpenBalanceInfoMenu" xml:space="preserve">
+    <value>Open Balance Info Menu</value>
+  </data>
+  <data name="OpenOutstandingMenu" xml:space="preserve">
+    <value>Open Outstanding Menu</value>
+  </data>
+  <data name="OpenSettingsMenu" xml:space="preserve">
+    <value>Open Settings Menu</value>
+  </data>
+  <data name="OpenTodayWinLossReportMenu" xml:space="preserve">
+    <value>Open Today Win Loss Report Menu</value>
+  </data>
+  <data name="OpenYesterdayWinLossReportMenu" xml:space="preserve">
+    <value>Open Yesterday Win Loss Report Menu</value>
+  </data>
+  <data name="OutstandingReports" xml:space="preserve">
+    <value>Outstanding Reports</value>
+  </data>
+  <data name="Unlink" xml:space="preserve">
+    <value>Unlink</value>
+  </data>
+  <data name="WinLossReports" xml:space="preserve">
+    <value>Win Loss Reports</value>
+  </data>
+  <data name="PleaseSelectAnAction" xml:space="preserve">
+    <value>Please select an action</value>
+  </data>
+</root>
