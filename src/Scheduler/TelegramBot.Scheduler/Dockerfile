@@ -1,13 +1,12 @@
 FROM registry.nexdev.net:5050/docker/dotnet/core/sdk:6.0 as builder
 WORKDIR /src
 
-COPY src/Scheduler/TelegramBot.Scheduler/TelegramBot.Scheduler.csproj ./TelegramBot.Scheduler/TelegramBot.Scheduler.csproj
+COPY src/Scheduler/TelegramBot.Scheduler/TelegramBot.Scheduler.csproj .
 RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
-RUN dotnet restore TelegramBot.Scheduler/TelegramBot.Scheduler.csproj -v n
+RUN dotnet restore TelegramBot.Scheduler.csproj -v n
 
-COPY src/Scheduler/TelegramBot.Scheduler ./TelegramBot.Scheduler
+COPY src/Scheduler/TelegramBot.Scheduler .
 
-WORKDIR /src/TelegramBot.Scheduler
 RUN dotnet publish -r linux-x64 --self-contained false -o /app
 
 FROM registry.nexdev.net:5050/docker/dotnet/core/aspnet:6.0 as base

@@ -20,8 +20,9 @@ public sealed class NotificationJob : IJob
             var dataMap = context.JobDetail.JobDataMap;
             var functionId = dataMap.GetIntValue(JobDataKey.FunctionId);
             var functionnName = dataMap.GetString(JobDataKey.FunctionName);
+            var traceId = Guid.NewGuid();
 
-            await logger.InfoAsync($"Job with ID and Name: {functionId}, {functionnName} start to run.");
+            await logger.InfoAsync($"{traceId}: Job with ID and Name: {functionId}, {functionnName} start to run.");
 
             //var functionMessages = await messageService.GetFunctionMessages(functionId);
 
@@ -34,7 +35,7 @@ public sealed class NotificationJob : IJob
             //         functionMessage.SelfdestructionPeriod);
             // });
 
-            await logger.InfoAsync($"Job with ID and Name: {functionId}, {functionnName} run completed.");
+            await logger.InfoAsync($"{traceId}: Job with ID and Name: {functionId}, {functionnName} run completed.");
         }
         catch (Exception ex)
         {

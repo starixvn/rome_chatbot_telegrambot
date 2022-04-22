@@ -2,22 +2,19 @@ using Quartz;
 using TelegramBot.Scheduler.Configuration;
 using TelegramBot.Scheduler.Extensions;
 
-IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((hostContext, services) =>
+var builder = WebApplication.CreateBuilder(args);
+builder.Services
+    .AddFanexLogging(builder.Configuration)
+    .AddQuartz(quartz =>
     {
-        var configuration = hostContext.Configuration;
-
-        services
-            .AddFanexLogging(configuration)
-            .AddQuartz(quartz =>
-            {
-                quartz.UseMicrosoftDependencyInjectionJobFactory();
-                quartz.AddNotificationJobs(
-                    configuration.GetSection("ScheduleFunctions").Get<ScheduleFunction[]>(),
-                    Fanex.Logging.Logger.Log);
-            })
-            .AddQuartzHostedService(quartz => quartz.WaitForJobsToComplete = true);
+        quartz.UseMicrosoftDependencyInjectionJobFactory();
+        quartz.AddNotificationJobs(
+            builder.Configuration.GetSection("ScheduleFunctions").Get<ScheduleFunction[]>(),
+            Fanex.Logging.Logger.Log);
     })
-    .Build();
+    .AddQuartzServer(options => options.WaitForJobsToComplete = true);
 
-await host.RunAsync();
+var app = builder.Build();
+app.MapGet("/", () => "Telegram bot scheduler!!!");
+
+await app.RunAsync("http://0.0.0.0:5000");
