@@ -23,7 +23,10 @@ builder.Services
     .AddFanexLogging(configuration)
     .AddFanexCaching(configuration)
     .AddAlphaServicesClient(configuration)
-    .AddInfrastructure();
+    .AddOneBookUm(configuration)
+    .AddInfrastructure()
+    
+    .AddFilters();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

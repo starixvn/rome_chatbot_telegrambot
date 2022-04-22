@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Command;
 using TelegramBot.WebApi.Filters;
 using TelegramBot.WebApi.Params;
@@ -17,7 +16,7 @@ namespace TelegramBot.WebApi.Controllers
             this.commandService = commandService;
         }
 
-        //[ServiceFilter(typeof(AutoReplyUMFilterAttribute))]
+        [ServiceFilter(typeof(AutoReplyUMFilterAttribute))]
         [Route("execute"), HttpPost]
         public async Task ExecuteAsync(CommandParam param)
         {

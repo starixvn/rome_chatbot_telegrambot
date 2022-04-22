@@ -2,6 +2,10 @@
 using Fanex.Logging;
 using Fanex.Logging.RabbitMQ;
 using Fanex.Logging.Sentry;
+using ONEbook.UM.Configurations;
+using ONEbook.UM.Helpers;
+using ONEbook.UM.Services;
+using ONEbook.UM.Transport;
 using Sentry;
 using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Bot;
@@ -9,6 +13,7 @@ using TelegramBot.Infrastructure.Command;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Notification;
 using TelegramBot.Infrastructure.Setting;
+using TelegramBot.WebApi.Filters;
 
 namespace TelegramBot.WebApi.Extensions
 {
@@ -25,6 +30,7 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<IBotClientFactory, BotClientFactory>();
             services.AddSingleton<INotificationService, NotificationService>();
             services.AddSingleton<IActionService, ActionService>();
+            services.AddSingleton<IMaintenanceService, MaintenanceService>();
 
             return services;
         }
@@ -56,6 +62,25 @@ namespace TelegramBot.WebApi.Extensions
                     .Use(logEngines);
 
             services.AddSingleton(Logger.Log);
+            return services;
+        }
+
+        public static IServiceCollection AddFilters(this IServiceCollection services)
+        {
+            services.AddScoped<AutoReplyUMFilterAttribute>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddOneBookUm(this IServiceCollection services, IConfiguration configuration)
+        {
+            var umConfig = configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>();
+            services.AddSingleton(umConfig);
+            services.AddSingleton<IPHelper, IPHelperImpl>();
+            services.AddSingleton<IMaintenanceService, MaintenanceService>();
+            services.AddSingleton<IUMCacheService, UMCacheService>();
+            services.AddSingleton<IUMRestClient, UMRestClient>();
+
             return services;
         }
     }
