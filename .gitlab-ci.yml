@@ -6,3 +6,7 @@ include:
   - project: "ci/repos-ci/rome_telegrambot_api"
     ref: master
     file: "gitlab-ci-mixing.yml"
+
+  - project: "ci/repos-ci/rome_telegrambot_scheduler"
+    ref: master
+    file: "gitlab-ci-mixing.yml"
