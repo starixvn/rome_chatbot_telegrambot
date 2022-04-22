@@ -9,6 +9,7 @@
             string command,
             short functionId,
             short parentId,
+            bool isEndAction,
             byte status)
         {
             ActionId = actionId;
@@ -17,6 +18,7 @@
             Command = command;
             FunctionId = functionId;
             ParentId = parentId;
+            IsEndAction = isEndAction;
             Status = status;
         }
 
@@ -31,6 +33,8 @@
         public short FunctionId { get; }
 
         public short ParentId { get; }
+
+        public bool IsEndAction { get; }
 
         public byte Status { get; }
     }

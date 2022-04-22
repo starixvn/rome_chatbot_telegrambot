@@ -1,10 +1,15 @@
 ﻿using Alpha.API.Client.Services;
+using Newtonsoft.Json;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Action;
+using TelegramBot.Infrastructure.Action.Models;
 using TelegramBot.Infrastructure.Bot;
+using TelegramBot.Infrastructure.Command.Models;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
-using TelegramBot.Infrastructure.Shared.Constants;
+using TelegramBot.Infrastructure.Setting.Models;
 
 namespace TelegramBot.Infrastructure.Command
 {
@@ -45,37 +50,69 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
-            if (message.Trim().Equals("/help"))
-            {
-                await HandleHelpCommand(messengerBotId, chatId);
-                return;
-            }
-
-            if (message.Trim().Equals("/menu"))
-            {
-                await HandleMenuCommand(messengerBotId, chatId);
-                return;
-            }
-        }
-
-        public async Task HandleHelpCommand(long messengerBotId, long chatId)
-        {
-            var bot = await botService.GetAsync(messengerBotId);
-            var custBotAccount = await settingService.GetCustBotAccount(chatId, bot.BotId);
-            var messenger= await settingService.GetCustBotMessenger(custBotAccount.CustId, custBotAccount.SubAccId); 
-            var message = builderService.BuildHelpMessage(
-                messenger.Language,
-                bot.Name,
-                !custBotAccount.IsSubAccount || (await customerService.IsSubAccHasReportPermissionAsync(custBotAccount.CustId, custBotAccount.SubAccId)));
-            await senderService.SendMessage(messenger, message);
-        }
-
-        public async Task HandleMenuCommand(long messengerBotId, long chatId)
-        {
             var bot = await botService.GetAsync(messengerBotId);
             var custBotAccount = await settingService.GetCustBotAccount(chatId, bot.BotId);
             var messenger = await settingService.GetCustBotMessenger(custBotAccount.CustId, custBotAccount.SubAccId);
-            await senderService.SendMessage(messenger, builderService.BuildMenuMessage(messenger.Language), replyMarkup: actionService.GetRootActions());
+
+            var action = message.Split(' ')[0] switch
+            {
+                "/help" => HandleHelpCommand(messenger, !custBotAccount.IsSubAccount || (await customerService.IsSubAccHasReportPermissionAsync(custBotAccount.CustId, custBotAccount.SubAccId))),
+                "/menu" => HandleMenuCommand(messenger),
+                _ => HandleCommand(messenger, message, isCallback),
+            };
+
+            await action;
         }
+
+        private async Task HandleHelpCommand(CustBotMessenger messenger, bool hasReportPermission)
+        {
+
+            var message = builderService.BuildHelpMessage(
+                messenger.Language,
+                messenger.BotName,
+                hasReportPermission);
+            await senderService.SendMessage(messenger, message);
+        }
+
+        private async Task HandleMenuCommand(CustBotMessenger messenger)
+        {
+            await senderService.SendMessage(
+                messenger,
+                builderService.BuildMenuMessage(messenger.Language),
+                replyMarkup: builderService.BuildActionButtions(actionService.GetRootActions()));
+        }
+
+        private async Task HandleCommand(CustBotMessenger messenger, string message, bool isCallback)
+        {
+            if (isCallback)
+            {
+                await HandleUserReplyByButton(messenger, message);
+            }
+        }
+
+        private async Task HandleUserReplyByButton(CustBotMessenger messenger, string message)
+        {
+            var callBackData = JsonConvert.DeserializeObject<CallBackData>(message);
+
+            if (callBackData == null)
+            {
+                throw new InvalidOperationException($"Wrong call back data format {message}");
+            }
+
+            var currentAction = actionService.GetActionById(callBackData.ActionId);
+            if (currentAction == null || !IsValidAction(messenger, currentAction))
+            {
+                await SendNotRecognizedCommandMessage(messenger);
+            }
+        }
+
+        private static bool IsValidAction(CustBotMessenger messenger, BotAction action)
+            => messenger.Functions.Any(f => f.FunctionId == action.FunctionId && f.Enabled);
+
+        private async Task SendNotRecognizedCommandMessage(CustBotMessenger messenger)
+            => await senderService.SendMessage(
+                messenger,
+                builderService.BuildNotRecognizedCommandMessage(messenger.Language),
+                replyMarkup: builderService.BuildActionButtions(actionService.GetRootActions()));
     }
 }

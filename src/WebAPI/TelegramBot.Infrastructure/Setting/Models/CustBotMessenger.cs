@@ -10,11 +10,11 @@ namespace TelegramBot.Infrastructure.Setting.Models
         }
 
         public CustBotMessenger(
-            int userId, 
+            int userId,
             int botId,
             long chatId,
-            string botName = "", 
-            bool status = false,
+            string botName = "",
+            bool enabled = false,
             bool isVerifyOTP = false,
             string language = LanguageCodes.English)
         {
@@ -22,7 +22,7 @@ namespace TelegramBot.Infrastructure.Setting.Models
             BotId = botId;
             BotName = botName;
             ChatId = chatId;
-            Status = status;
+            Enabled = enabled;
             IsVerifyOTP = isVerifyOTP;
             Language = language;
         }
@@ -35,7 +35,7 @@ namespace TelegramBot.Infrastructure.Setting.Models
 
         public long ChatId { get; }
 
-        public bool Status { get; }
+        public bool Enabled { get; }
 
         public bool IsVerifyOTP { get; }
 

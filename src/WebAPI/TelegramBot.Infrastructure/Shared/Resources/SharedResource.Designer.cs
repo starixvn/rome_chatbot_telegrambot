@@ -61,8 +61,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Telegram&apos;s already linked with another Account.
-        ///Please unlink that Account first then try again..
+        ///   Looks up a localized string similar to Your Telegram&apos;s already linked with another Account.Please unlink that Account first then try again..
         /// </summary>
         public static string AccountAlreadyLinked {
             get {
@@ -242,6 +241,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, we couldn&apos;t recognize your request. Which action would you like to take?.
+        /// </summary>
+        public static string NotRecognizeCommandMessage {
+            get {
+                return ResourceManager.GetString("NotRecognizeCommandMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open Balance Info Menu.
         /// </summary>
         public static string OpenBalanceInfoMenu {
@@ -323,8 +331,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please enter this private OTP to &lt;b&gt;the associated site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot.
-        ///&lt;b&gt;OTP:&lt;/b&gt; &lt;code&gt;{0}&lt;/code&gt;.
+        ///   Looks up a localized string similar to Please enter this private OTP to &lt;b&gt;the associated site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot.&lt;b&gt;OTP:&lt;/b&gt; &lt;code&gt;{0}&lt;/code&gt;.
         /// </summary>
         public static string Setting_OTP_Help {
             get {
@@ -360,9 +367,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Welcome {0}. Your Telegram Chatbot setup is completed.
-        ///Yesterday Win Loss will be sent to you daily at 3:00PM (GMT-4).
-        ///Please select an action:.
+        ///   Looks up a localized string similar to Welcome {0}. Your Telegram Chatbot setup is completed.Yesterday Win Loss will be sent to you daily at 3:00PM (GMT-4).Please select an action:.
         /// </summary>
         public static string WelcomeMessage {
             get {

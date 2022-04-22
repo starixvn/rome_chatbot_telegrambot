@@ -36,7 +36,6 @@ namespace TelegramBot.Infrastructure.Message
                 {
                     await loggerService.LogMessage(CommonId.BotUserId, messenger.UserId, messenger.ChatId, messenger.BotId, message, MessageSendStatus.Success, functionId);
                 }
-
             }
             catch
             {

@@ -9,7 +9,7 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
         public CustBotFunctionUpdCriteria(int userId, Function function, int creator, string ip)
         {
             UserId = userId;
-            Setting = $"<Root><r id='{function.FunctionId}' stt='{function.Status}' /></Root>";
+            Setting = $"<Root><r id='{function.FunctionId}' stt='{function.Enabled}' /></Root>";
             Creator = creator;
             IP = ip;
         }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
+using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBot.Infrastructure.Action.Models;
 using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Resources;
 
@@ -26,11 +29,16 @@ namespace TelegramBot.Infrastructure.Message
         string BuildMenuMessage(string language);
 
         string BuildWelcomeMessage(string language, long chatId);
+
+        string BuildNotRecognizedCommandMessage(string language);
+
+        InlineKeyboardMarkup BuildActionButtions(IList<BotAction> actions);
     }
 
     public class BuilderService : IBuilderService
     {
         private static readonly string newLineCharacter = "\n";
+        private static readonly int NumberButtonInRow = 2;
 
         private static readonly List<string> underMaintenanceLanguageCodes = new()
         {
@@ -132,5 +140,36 @@ namespace TelegramBot.Infrastructure.Message
 
         public string BuildWelcomeMessage(string language, long chatId)
             => string.Format(ResourceHelper.Get(nameof(SharedResource.WelcomeMessage), language), chatId);
+
+        public string BuildNotRecognizedCommandMessage(string language)
+        => ResourceHelper.Get(nameof(SharedResource.NotRecognizeCommandMessage), language);
+
+        public InlineKeyboardMarkup BuildActionButtions(IList<BotAction> actions)
+        {
+            var numberOfRows = actions.Count % NumberButtonInRow > 0 ? (actions.Count / NumberButtonInRow) + 1 : (actions.Count / NumberButtonInRow);
+            var buttonRows = new InlineKeyboardButton[numberOfRows][];
+
+            for (var i = 0; i < numberOfRows; i++)
+            {
+                var actionIndex = i * NumberButtonInRow;
+                if (actionIndex == actions.Count - 1)
+                {
+                    buttonRows[i] = new InlineKeyboardButton[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(actions[actionIndex].ActionName, JsonConvert.SerializeObject(new { ActionId= actions[actionIndex].ActionId}))
+                    };
+                }
+                else
+                {
+                    buttonRows[i] = new InlineKeyboardButton[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(actions[actionIndex].ActionName, JsonConvert.SerializeObject(new { ActionId= actions[actionIndex].ActionId})),
+                        InlineKeyboardButton.WithCallbackData(actions[actionIndex + 1].ActionName, JsonConvert.SerializeObject(new { ActionId= actions[actionIndex + 1].ActionId}))
+                    };
+                }
+            }
+
+            return buttonRows;
+        }
     }
 }

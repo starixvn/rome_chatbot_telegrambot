@@ -1,62 +1,44 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Infrastructure.Action.Models;
 
 namespace TelegramBot.Infrastructure.Action
 {
     public interface IActionService
     {
-        InlineKeyboardMarkup GetRootActions();
+        IList<BotAction> GetRootActions();
+
+        BotAction GetActionById(int id);
+
+        IList<BotAction> GetChildActions(int parentId);
     }
 
     public class ActionService : IActionService
     {
         private const int NumberButtonInRow = 2;
 
+        public BotAction GetActionById(int id)
+            => GetAllActions().FirstOrDefault(action => action.ActionId == id);
 
-        public InlineKeyboardMarkup GetRootActions()
-        {
-            var rootActions = GetAllActions().ToList();
-            var numberOfRows = rootActions.Count % NumberButtonInRow > 0 ? (rootActions.Count / NumberButtonInRow) + 1 : (rootActions.Count / NumberButtonInRow);
-            var buttonRows = new InlineKeyboardButton[numberOfRows][];
+        public IList<BotAction> GetChildActions(int parentId)
+            => GetAllActions().Where(action => action.ParentId == parentId).ToList();
 
-            for (var i = 0; i < numberOfRows; i++)
-            {
-                var actionIndex = i * NumberButtonInRow;
-                if (actionIndex == rootActions.Count - 1)
-                {
-                    buttonRows[i] = new InlineKeyboardButton[]
-                    {
-                        InlineKeyboardButton.WithCallbackData(rootActions[actionIndex].ActionName, JsonConvert.SerializeObject(new { ActionId= rootActions[actionIndex].ActionId}))
-                    };
-                }
-                else
-                {
-                    buttonRows[i] = new InlineKeyboardButton[]
-                    {
-                        InlineKeyboardButton.WithCallbackData(rootActions[actionIndex].ActionName, JsonConvert.SerializeObject(new { ActionId= rootActions[actionIndex].ActionId})),
-                        InlineKeyboardButton.WithCallbackData(rootActions[actionIndex + 1].ActionName, JsonConvert.SerializeObject(new { ActionId= rootActions[actionIndex + 1].ActionId}))
-                    };
-                }
-
-            }
-
-            return buttonRows;
-        }
-
+        public IList<BotAction> GetRootActions()
+            => GetAllActions().Where(action => action.ParentId == 0).ToList();
 
         private IEnumerable<BotAction> GetAllActions()
         {
             return new List<BotAction>()
-                    {
-                        new BotAction(1, "Outstanding",1,"/os",1,0,1),
-                        new BotAction(2,"Balance Info",2,"/bl",1,0,1),
-                        new BotAction(3,"Today Win Loss",3,"/wl",1,0,1),
-                        new BotAction(4,"Yesterday Win Loss",4,"/ywl",1,0,1),
-                        new BotAction(5,"Settings",5,"/ywl",1,0,1),
-                    };
+            {
+                new BotAction(1, "Outstanding",1,"/os",1,0,false,1),
+                new BotAction(2, "Balance Info",2,"/bl",1,0,false,1),
+                new BotAction(3,"Today Win Loss",3,"/wl",1,0,false,1),
+                new BotAction(4,"Yesterday Win Loss",4,"/ywl",1,0,false,1),
+                new BotAction(5,"Settings",5,"/ywl",1,0,false,1),
+                new BotAction(6, "My Outstanding",1,"me",1,1,true,1),
+                new BotAction(6, "Enter downline username",1,"",1,1,false,1),
+                new BotAction(6, "Top Outstanding",1,"50",1,1,true,1),
+            };
         }
     }
 }

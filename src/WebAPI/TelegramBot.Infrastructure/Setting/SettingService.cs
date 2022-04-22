@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Telegram.Bot.Types.Enums;
 using TelegramBot.Common.Extensions;
 using TelegramBot.Infrastructure.Action;
-using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Constants;
 using TelegramBot.Infrastructure.Setting.Criteria;
@@ -24,7 +23,7 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<Result> ResendOtp(int botId, int custId, int subAccId);
 
-        Task<Result> Link(int botId, int custId, int subAccId, string otp, string ip, bool reset = false);
+        Task<Result> Link(int botId, int custId, int subAccId, string otp, string ip);
 
         Task<Result> Unlink(int botId, int custId, int subAccId, string ip);
 
@@ -103,18 +102,10 @@ namespace TelegramBot.Infrastructure.Setting
             return Result.CreateSuccessfulResult();
         }
 
-        public async Task<Result> Link(int botId, int custId, int subAccId, string otp, string ip, bool reset = false)
+        public async Task<Result> Link(int botId, int custId, int subAccId, string otp, string ip)
         {
             var countCacheKey = $"otp_count_{custId}_{subAccId}";
-            var failedCount = 0;
-            if (reset)
-            {
-                await _cacheService.RemoveAsync(countCacheKey);
-            }
-            else
-            {
-                failedCount = await _cacheService.GetAsync<int>(countCacheKey);
-            }
+            var failedCount = await _cacheService.GetAsync<int>(countCacheKey);
 
             if (failedCount >= _webAPIConfiguration.OtpMaxFailedTimes)
             {
@@ -148,12 +139,13 @@ namespace TelegramBot.Infrastructure.Setting
             await _dynamicRepository.ExecuteAsync(criteria).ConfigureAwait(false);
             if (criteria.IsSuccess)
             {
+                await _cacheService.RemoveAsync(countCacheKey);
                 var custBotMessenger = await GetCustBotMessenger(custId, subAccId);
 
                 await _senderService.SendMessage(
                     custBotMessenger,
                     _builderService.BuildWelcomeMessage(custBotMessenger.Language, custBotMessenger.ChatId),
-                    replyMarkup: _actionService.GetRootActions());
+                    replyMarkup: _builderService.BuildActionButtions(_actionService.GetRootActions()));
             }
 
             return new Result(criteria.ErrCode, criteria.ErrMsg);

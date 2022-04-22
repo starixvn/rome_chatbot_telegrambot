@@ -11,7 +11,5 @@
         public string Otp { get; set; }
 
         public string IP { get; set; }
-
-        public bool Reset { get; set; }
     }
 }
