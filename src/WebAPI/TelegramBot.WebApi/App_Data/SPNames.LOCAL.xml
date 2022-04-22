@@ -5,13 +5,13 @@
 		<Setting Key="CustBotAccountIns" SpName="Age_Chatbot_CustBotAccountIns" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 		<Setting Key="CustBotAccountStatusUpd" SpName="Age_Chatbot_CustBotAccountStatusUpd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 		<Setting Key="CustBotAccountLanguageUpd" SpName="Age_Chatbot_CustBotAccountLanguageUpd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-		<Setting Key="CustBotMessengerSel" SpName="Age_Chatbot_CustBotMessengerSel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-		<Setting Key="CustBotFunctionUpd" SpName="Age_Chatbot_CustBotFunctionUpd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-		<Setting Key="CustBotUserSel" SpName="Age_Chatbot_CustBotUserSel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet">
+		<Setting Key="CustBotMessengerSel" SpName="Age_Chatbot_CustBotMessengerSel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet">
 			<Mappings>
 				<Mapping DataField="Status" ObjectProperty="Enabled" />
 			</Mappings>
 		</Setting>
+		<Setting Key="CustBotFunctionUpd" SpName="Age_Chatbot_CustBotFunctionUpd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+		<Setting Key="CustBotUserSel" SpName="Age_Chatbot_CustBotUserSel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 		<Setting Key="CustBotMessageIns" SpName="Age_Chatbot_CustBotMessageIns" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 	</Function>
 </Functions>
