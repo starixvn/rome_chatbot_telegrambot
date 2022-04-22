@@ -155,7 +155,6 @@ namespace TelegramBot.Infrastructure.Setting
         {
             var criteria = new CustBotAccountStatusUpdCriteria(botId, custId, subAccId, false, false, ip);
             await _dynamicRepository.ExecuteAsync(criteria).ConfigureAwait(false);
-            var messenger = await GetCustBotMessenger(custId, subAccId);
             return new Result(criteria.ErrCode, criteria.ErrMsg);
         }
 

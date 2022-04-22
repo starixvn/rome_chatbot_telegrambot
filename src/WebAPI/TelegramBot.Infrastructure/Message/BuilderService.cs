@@ -87,11 +87,13 @@ namespace TelegramBot.Infrastructure.Message
                 $"/menu - {string.Format(ResourceHelper.Get(nameof(SharedResource.OpenMainMenu), language), botName)}",
                 $"/help - {ResourceHelper.Get(nameof(SharedResource.ListAllCommands), language)}",
                 $"/settings - {ResourceHelper.Get(nameof(SharedResource.OpenSettingsMenu), language)}",
-                $"/stop - Unlink {botName}");
+                $"/stop - Unlink {botName}",
+                newLineCharacter);
 
             var stringBuilder = new StringBuilder();
             stringBuilder
-                .Append(string.Format(ResourceHelper.Get(nameof(SharedResource.HelpCommandIntro), language), botName))
+                .Append($"{string.Format(ResourceHelper.Get(nameof(SharedResource.HelpCommandIntro), language), botName)}")
+                .Append(newLineCharacter)
                 .Append(newLineCharacter)
                 .Append(generalCommands);
 
@@ -103,7 +105,8 @@ namespace TelegramBot.Infrastructure.Message
                     $"/os - ${ResourceHelper.Get(nameof(SharedResource.OpenOutstandingMenu), language)}",
                     $"/mos - ${ResourceHelper.Get(nameof(SharedResource.GetyourOutstandingReport), language)}",
                     $"/os <Username> - ${ResourceHelper.Get(nameof(SharedResource.GetOutstandingReportOfSpecificMember), language)}",
-                    $"/os <#> - ${ResourceHelper.Get(nameof(SharedResource.GetOutstandingReportOfTopMembers), language)}");
+                    $"/os <#> - ${ResourceHelper.Get(nameof(SharedResource.GetOutstandingReportOfTopMembers), language)}",
+                    newLineCharacter);
 
                 var balanceInfoCommands = string.Join(
                     newLineCharacter,
@@ -111,7 +114,8 @@ namespace TelegramBot.Infrastructure.Message
                     $"/bal - {ResourceHelper.Get(nameof(SharedResource.OpenBalanceInfoMenu), language)}",
                     $"/mbal - {ResourceHelper.Get(nameof(SharedResource.GetYourBalanceInfoReport), language)}",
                     $"/bal <Username> - {ResourceHelper.Get(nameof(SharedResource.GetBalanceInfoOfSpecificMember), language)}",
-                    $"/bal <#> - {ResourceHelper.Get(nameof(SharedResource.GetBalanceInfoOfTopMembers), language)}");
+                    $"/bal <#> - {ResourceHelper.Get(nameof(SharedResource.GetBalanceInfoOfTopMembers), language)}",
+                    newLineCharacter);
 
                 var winlossCommands = string.Join(
                      newLineCharacter,
@@ -121,14 +125,12 @@ namespace TelegramBot.Infrastructure.Message
                      $"/wl <Username> - {ResourceHelper.Get(nameof(SharedResource.GetTodayWinLossReportOfSpecficMember), language)}",
                      $"/ywl - {ResourceHelper.Get(nameof(SharedResource.OpenYesterdayWinLossReportMenu), language)}",
                      $"/mywl - {ResourceHelper.Get(nameof(SharedResource.GetYourYesterdayWinLossReport), language)}",
-                     $"/ywl <Username> - {ResourceHelper.Get(nameof(SharedResource.GetYesterdayWinLossReportOfSpecificMember), language)}");
+                     $"/ywl <Username> - {ResourceHelper.Get(nameof(SharedResource.GetYesterdayWinLossReportOfSpecificMember), language)}",
+                     newLineCharacter);
 
                 stringBuilder
-                    .Append(newLineCharacter)
                     .Append(outstandingCommands)
-                    .Append(newLineCharacter)
                     .Append(balanceInfoCommands)
-                    .Append(newLineCharacter)
                     .Append(winlossCommands);
             }
 
