@@ -12,7 +12,7 @@ namespace TelegramBot.Client.Models
 
         public long ChatId { get; set; }
 
-        public bool Status { get; set; }
+        public bool Enabled { get; set; }
 
         public bool IsVerifyOTP { get; set; }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TelegramBot.Client.Models
+﻿namespace TelegramBot.Client.Models
 {
     public class Function
     {
@@ -12,6 +8,6 @@ namespace TelegramBot.Client.Models
 
         public byte Type { get; set; }
 
-        public bool Status { get; set; }
+        public bool Enabled { get; set; }
     }
 }

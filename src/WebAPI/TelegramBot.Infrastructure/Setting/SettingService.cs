@@ -106,12 +106,6 @@ namespace TelegramBot.Infrastructure.Setting
         {
             var countCacheKey = $"otp_count_{custId}_{subAccId}";
             var failedCount = await _cacheService.GetAsync<int>(countCacheKey);
-
-            if (failedCount >= _webAPIConfiguration.OtpMaxFailedTimes)
-            {
-                return new Result(ErrorCodes.OTP_FailedManyTimes, "OTP failed many times");
-            }
-
             var valueCacheKey = $"otp_value_{custId}_{subAccId}";
             var expectedOtp = await _cacheService.GetAsync<string>(valueCacheKey);
             var isFailed = string.IsNullOrEmpty(expectedOtp) || otp != expectedOtp;
