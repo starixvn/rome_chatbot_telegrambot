@@ -1,5 +1,5 @@
 ﻿using Alpha.API.Client.Services;
-using Fanex.Logging;
+using Fanex.Caching;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -27,6 +27,7 @@ namespace TelegramBot.Infrastructure.Command
         private readonly IBotService botService;
         private readonly ICustomerService customerService;
         private readonly IActionService actionService;
+        private readonly ICacheService cacheService;
 
         public CommandService(
             IBuilderService builderService,
@@ -34,7 +35,8 @@ namespace TelegramBot.Infrastructure.Command
             ISettingService settingService,
             IBotService botService,
             ICustomerService customerService,
-            IActionService actionService)
+            IActionService actionService,
+            ICacheService cacheService)
         {
             this.builderService = builderService;
             this.senderService = senderService;
@@ -42,6 +44,7 @@ namespace TelegramBot.Infrastructure.Command
             this.botService = botService;
             this.customerService = customerService;
             this.actionService = actionService;
+            this.cacheService = cacheService;
         }
 
         public async Task ExecuteAsync(long messengerBotId, long chatId, string message, bool isCallback)
@@ -105,16 +108,32 @@ namespace TelegramBot.Infrastructure.Command
             if (currentAction == null || !IsValidAction(messenger, currentAction))
             {
                 await SendNotRecognizedCommandMessage(messenger);
+                return;
+            }
+
+            var compiledCommand = this.cacheService.Get<string>($"{messenger.UserId}.command");
+            this.cacheService.Set($"{messenger.UserId}.command", string.IsNullOrEmpty(compiledCommand) ? $"{compiledCommand} {currentAction.Command}" : currentAction.Command);
+
+            if (!currentAction.IsEndAction)
+            {
+                await SendNextActionsMessage(messenger, currentAction);
+                return;
             }
         }
 
         private static bool IsValidAction(CustBotMessenger messenger, BotAction action)
-            => messenger.Functions.Any(f => f.FunctionId == action.FunctionId && f.Enabled);
+            => messenger.Functions.Any(f => f.FunctionId == action.FunctionId);
 
         private async Task SendNotRecognizedCommandMessage(CustBotMessenger messenger)
             => await senderService.SendMessage(
                 messenger,
                 builderService.BuildNotRecognizedCommandMessage(messenger.Language),
                 replyMarkup: builderService.BuildActionButtions(actionService.GetRootActions()));
+
+        private async Task SendNextActionsMessage(CustBotMessenger messenger, BotAction currentAction)
+            => await senderService.SendMessage(
+                messenger,
+                builderService.BuildActionSelectedMessage(messenger.Language, currentAction.ActionName),
+                replyMarkup: builderService.BuildActionButtions(actionService.GetChildActions(currentAction.ActionId)));
     }
 }

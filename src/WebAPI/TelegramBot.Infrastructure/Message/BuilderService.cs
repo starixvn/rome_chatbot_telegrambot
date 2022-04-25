@@ -33,6 +33,8 @@ namespace TelegramBot.Infrastructure.Message
         string BuildNotRecognizedCommandMessage(string language);
 
         InlineKeyboardMarkup BuildActionButtions(IList<BotAction> actions);
+
+        string BuildActionSelectedMessage(string language, string actionName);
     }
 
     public class BuilderService : IBuilderService
@@ -173,5 +175,8 @@ namespace TelegramBot.Infrastructure.Message
 
             return buttonRows;
         }
+
+        public string BuildActionSelectedMessage(string language, string actionName)
+            => $"{ResourceHelper.Get(nameof(SharedResource.ActionSelected), language)}: {actionName}";
     }
 }

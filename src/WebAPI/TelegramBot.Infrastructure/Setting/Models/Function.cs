@@ -2,6 +2,10 @@ namespace TelegramBot.Infrastructure.Setting.Models
 {
     public class Function
     {
+        public Function()
+        {
+        }
+
         public short FunctionId { get; set; }
 
         public string FunctionName { get; set; }
@@ -10,7 +14,7 @@ namespace TelegramBot.Infrastructure.Setting.Models
 
         public string Command { get; set; }
 
-        public bool Enabled { get; set; } = true;
+        public bool Enabled { get; set; }
 
         public byte Status { get; set; }
     }
