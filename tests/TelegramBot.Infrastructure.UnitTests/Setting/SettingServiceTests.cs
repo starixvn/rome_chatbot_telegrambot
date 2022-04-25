@@ -1,4 +1,5 @@
-﻿using AutoFixture.Xunit2;
+﻿using Alpha.API.Client.Services;
+using AutoFixture.Xunit2;
 using Fanex.Caching;
 using Fanex.Data.Repository;
 using NSubstitute;
@@ -22,6 +23,8 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
         private readonly ISettingService _settingService;
         private readonly IBuilderService _builderService;
         private readonly IActionService _actionService;
+        private readonly ICustomerService _customerService;
+        private readonly IFunctionService _functionService;
 
         public SettingServiceTests()
         {
@@ -31,7 +34,17 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
             _senderService = Substitute.For<ISenderService>();
             _builderService = Substitute.For<IBuilderService>();
             _actionService = Substitute.For<IActionService>();
-            _settingService = new SettingService(_webAPIConfiguration, _dynamicRepository, _cacheService, _senderService, _builderService, _actionService);
+            _customerService = Substitute.For<ICustomerService>();
+            _functionService = Substitute.For<IFunctionService>();
+            _settingService = new SettingService(
+                _webAPIConfiguration,
+                _dynamicRepository,
+                _cacheService,
+                _senderService,
+                _builderService,
+                _actionService,
+                _customerService,
+                _functionService);
         }
 
         [Theory, AutoData]

@@ -1,4 +1,5 @@
-﻿using Fanex.Caching;
+﻿using Alpha.API.Client.Services;
+using Fanex.Caching;
 using Fanex.Data.Repository;
 using System;
 using System.Linq;
@@ -27,9 +28,9 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<Result> Unlink(int botId, int custId, int subAccId, string ip);
 
-        Task<Result> UpdateFunction(int userid, Function function, int creator, string ip);
+        Task<Result> UpdateUserFunction(int userid, Function function, int creator, string ip);
 
-        Task<Result> UpdateLanguage(int userId, string language, string ip);
+        Task<Result> UpdateUserLanguage(int userId, string language, string ip);
 
         Task<CustBotAccount> GetCustBotAccount(long chatId, int botId);
     }
@@ -42,6 +43,8 @@ namespace TelegramBot.Infrastructure.Setting
         private readonly ISenderService _senderService;
         private readonly IBuilderService _builderService;
         private readonly IActionService _actionService;
+        private readonly ICustomerService _customerService;
+        private readonly IFunctionService _functionService;
 
         public SettingService(
             WebAPIConfiguration webAPIConfiguration,
@@ -49,7 +52,9 @@ namespace TelegramBot.Infrastructure.Setting
             ICacheService cacheService,
             ISenderService senderService,
             IBuilderService builderService,
-            IActionService actionService)
+            IActionService actionService,
+            ICustomerService customerService,
+            IFunctionService functionService)
         {
             _webAPIConfiguration = webAPIConfiguration;
             _dynamicRepository = dynamicRepository;
@@ -57,6 +62,8 @@ namespace TelegramBot.Infrastructure.Setting
             _senderService = senderService;
             _builderService = builderService;
             _actionService = actionService;
+            _customerService = customerService;
+            _functionService = functionService;
         }
 
         public async Task<Result> Start(int botId, long chatId, int custId, int subAccId, string language, string ip)
@@ -163,11 +170,14 @@ namespace TelegramBot.Infrastructure.Setting
                 return null;
             }
 
-            custBotMessenger.Functions = resultSet.secondResultSet;
+            custBotMessenger.Functions = (subAccId <= 0 || await _customerService.IsSubAccHasReportPermissionAsync(custId, subAccId))
+                ? resultSet.secondResultSet.Concat(await _functionService.GetReportFunctions())
+                : resultSet.secondResultSet;
+
             return custBotMessenger;
         }
 
-        public async Task<Result> UpdateFunction(int userid, Function function, int creator, string ip)
+        public async Task<Result> UpdateUserFunction(int userid, Function function, int creator, string ip)
         {
             var criteria = new CustBotFunctionUpdCriteria(userid, function, creator, ip);
             await _dynamicRepository.ExecuteAsync(criteria).ConfigureAwait(false);
@@ -180,7 +190,7 @@ namespace TelegramBot.Infrastructure.Setting
             return ThreadSafeRandom.Next(0, maxValue).ToString("D6");
         }
 
-        public async Task<Result> UpdateLanguage(int userId, string language, string ip)
+        public async Task<Result> UpdateUserLanguage(int userId, string language, string ip)
         {
             var command = new CustBotAccountLanguageUpdCriteria(userId, language, ip);
             await _dynamicRepository.ExecuteAsync(command).ConfigureAwait(false);
