@@ -25,7 +25,6 @@ builder.Services
     .AddAlphaServicesClient(configuration)
     .AddOneBookUm(configuration)
     .AddInfrastructure()
-    
     .AddFilters();
 
 builder.Services.AddEndpointsApiExplorer();

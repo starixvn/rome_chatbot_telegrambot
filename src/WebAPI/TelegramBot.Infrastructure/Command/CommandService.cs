@@ -1,4 +1,5 @@
 ﻿using Alpha.API.Client.Services;
+using Fanex.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -92,6 +93,7 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task HandleUserReplyByButton(CustBotMessenger messenger, string message)
         {
+            Logger.Log.Info(message);
             var callBackData = JsonConvert.DeserializeObject<CallBackData>(message);
 
             if (callBackData == null)
@@ -100,6 +102,8 @@ namespace TelegramBot.Infrastructure.Command
             }
 
             var currentAction = actionService.GetActionById(callBackData.ActionId);
+            Logger.Log.Info(JsonConvert.SerializeObject(messenger));
+            Logger.Log.Info(JsonConvert.SerializeObject(currentAction));
             if (currentAction == null || !IsValidAction(messenger, currentAction))
             {
                 await SendNotRecognizedCommandMessage(messenger);
