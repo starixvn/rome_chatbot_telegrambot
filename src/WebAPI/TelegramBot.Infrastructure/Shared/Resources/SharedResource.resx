@@ -228,4 +228,10 @@
   <data name="ActionSelected" xml:space="preserve">
     <value>Action Selected</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="BackToMainMenu" xml:space="preserve">
+    <value>Back to Main Menu</value>
+  </data>
 </root>

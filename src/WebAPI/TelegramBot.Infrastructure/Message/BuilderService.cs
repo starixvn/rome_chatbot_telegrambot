@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Fanex.Logging;
 using Newtonsoft.Json;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Infrastructure.Action.Models;
@@ -32,9 +33,11 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildNotRecognizedCommandMessage(string language);
 
-        InlineKeyboardMarkup BuildActionButtions(IList<BotAction> actions);
+        InlineKeyboardMarkup BuildActionButtions(string language, IList<BotAction> actions, bool withBackToMainMenuButton = false);
 
         string BuildActionSelectedMessage(string language, string actionName);
+
+        InlineKeyboardMarkup BuildCancelButtion(string language, short parentActionId);
     }
 
     public class BuilderService : IBuilderService
@@ -61,7 +64,7 @@ namespace TelegramBot.Infrastructure.Message
                 ResourceHelper.Get(nameof(SharedResource.AlertMessage), language));
 
         public string BuildChangeSecurityCodeAlertMessage(string language, string ip)
-        => string.Join(
+            => string.Join(
                 newLineCharacter,
                 $"[{ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlert), language)} - {DateTime.Now:yyyyMMdd}]",
                 ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlertContent), language),
@@ -148,13 +151,25 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildNotRecognizedCommandMessage(string language)
         => ResourceHelper.Get(nameof(SharedResource.NotRecognizeCommandMessage), language);
 
-        public InlineKeyboardMarkup BuildActionButtions(IList<BotAction> actions)
+        public InlineKeyboardMarkup BuildActionButtions(string language, IList<BotAction> actions, bool withBackToMainMenuButton = false)
         {
             var numberOfRows = actions.Count % NumberButtonInRow > 0 ? (actions.Count / NumberButtonInRow) + 1 : (actions.Count / NumberButtonInRow);
+            numberOfRows = withBackToMainMenuButton ? numberOfRows + 1 : numberOfRows;
             var buttonRows = new InlineKeyboardButton[numberOfRows][];
 
             for (var i = 0; i < numberOfRows; i++)
             {
+                if (withBackToMainMenuButton && i == numberOfRows - 1)
+                {
+                    buttonRows[i] = new InlineKeyboardButton[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(
+                            ResourceHelper.Get(nameof(SharedResource.BackToMainMenu),language),
+                            JsonConvert.SerializeObject(new {IsBackToMainMenu=true}))
+                    };
+                    break;
+                }
+
                 var actionIndex = i * NumberButtonInRow;
                 if (actionIndex == actions.Count - 1)
                 {
@@ -178,5 +193,8 @@ namespace TelegramBot.Infrastructure.Message
 
         public string BuildActionSelectedMessage(string language, string actionName)
             => $"{ResourceHelper.Get(nameof(SharedResource.ActionSelected), language)}: {actionName}";
+
+        public InlineKeyboardMarkup BuildCancelButtion(string language, short parentActionId)
+            => new(new[] { new[] { InlineKeyboardButton.WithCallbackData(ResourceHelper.Get(nameof(SharedResource.Cancel)), JsonConvert.SerializeObject(new { IsCancel = true, ActionId = parentActionId })) } });
     }
 }

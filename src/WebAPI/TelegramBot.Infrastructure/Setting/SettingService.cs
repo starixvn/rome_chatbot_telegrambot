@@ -146,7 +146,7 @@ namespace TelegramBot.Infrastructure.Setting
                 await _senderService.SendMessage(
                     custBotMessenger,
                     _builderService.BuildWelcomeMessage(custBotMessenger.Language, custBotMessenger.ChatId),
-                    replyMarkup: _builderService.BuildActionButtions(_actionService.GetRootActions()));
+                    replyMarkup: _builderService.BuildActionButtions(custBotMessenger.Language, _actionService.GetRootActions()));
             }
 
             return new Result(criteria.ErrCode, criteria.ErrMsg);

@@ -88,7 +88,6 @@ namespace TelegramBot.Receiver.Services
             }
         }
 
-
         private async Task BotOnCallbackQueryReceived(ITelegramBotClient botClient, CallbackQuery callbackQuery)
         {
             await _commandService.ExecuteAsync(botClient.BotId.Value, callbackQuery.Message.Chat.Id, callbackQuery.Data, true);
