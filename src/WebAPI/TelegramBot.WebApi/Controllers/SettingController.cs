@@ -62,7 +62,7 @@ namespace TelegramBot.WebApi.Controllers
             words = plainKey.Split(':');
             if (words.Length != 2)
             {
-                await _senderService.SendMessage(bot.BotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language), ParseMode.Html);
+                await _senderService.SendMessage(bot.BotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
                 return Result.CreateErrorResult("Invalid start unique token");
             }
 

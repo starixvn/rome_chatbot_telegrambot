@@ -10,9 +10,9 @@ namespace TelegramBot.Infrastructure.Message
 {
     public interface ISenderService
     {
-        Task SendMessage(int botId, long chatId, string message, ParseMode? parseMode = ParseMode.Html, IReplyMarkup replyMarkup = null);
+        Task SendMessage(int botId, long chatId, string message, IReplyMarkup replyMarkup = null);
 
-        Task SendMessage(CustBotMessenger messenger, string message, ParseMode? parseMode = ParseMode.Html, IReplyMarkup replyMarkup = null, short functionId = 0, bool logToDatabase = true);
+        Task SendMessage(CustBotMessenger messenger, string message, IReplyMarkup replyMarkup = null, short functionId = 0, bool logToDatabase = true);
     }
 
     public class SenderService : ISenderService
@@ -26,11 +26,11 @@ namespace TelegramBot.Infrastructure.Message
             this.loggerService = loggerService;
         }
 
-        public async Task SendMessage(CustBotMessenger messenger, string message, ParseMode? parseMode = ParseMode.Html, IReplyMarkup replyMarkup = null, short functionId = 0, bool logToDatabase = true)
+        public async Task SendMessage(CustBotMessenger messenger, string message, IReplyMarkup replyMarkup = null, short functionId = 0, bool logToDatabase = true)
         {
             try
             {
-                await SendMessage(messenger.BotId, messenger.ChatId, message, parseMode, replyMarkup);
+                await SendMessage(messenger.BotId, messenger.ChatId, message, replyMarkup);
 
                 if (logToDatabase)
                 {
@@ -48,12 +48,12 @@ namespace TelegramBot.Infrastructure.Message
             }
         }
 
-        public async Task SendMessage(int botId, long chatId, string message, ParseMode? parseMode = ParseMode.Html, IReplyMarkup replyMarkup = null)
+        public async Task SendMessage(int botId, long chatId, string message, IReplyMarkup replyMarkup = null)
         {
             var botClient = botClientFactory.GetOrCreate(botId);
 
             await botClient.SendTextMessageAsync(
-                parseMode: parseMode,
+                parseMode: ParseMode.Html,
                 chatId: chatId,
                 text: message,
                 replyMarkup: replyMarkup);

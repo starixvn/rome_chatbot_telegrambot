@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Fanex.Logging;
 using Newtonsoft.Json;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Infrastructure.Action.Models;
@@ -42,7 +41,6 @@ namespace TelegramBot.Infrastructure.Message
 
     public class BuilderService : IBuilderService
     {
-        private static readonly string newLineCharacter = Environment.NewLine;
         private static readonly int NumberButtonInRow = 2;
 
         private static readonly List<string> underMaintenanceLanguageCodes = new()
@@ -57,18 +55,18 @@ namespace TelegramBot.Infrastructure.Message
 
         public string BuildChangePasswordAlertMessage(string language, string ip)
             => string.Join(
-                newLineCharacter,
+                Environment.NewLine,
                 $"[{ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlert), language)} - {DateTime.Now:yyyyMMdd}]",
                 ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlertContent), language),
-                $"{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}: {ip}",
+                $"<b>{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}</b>: {ip}",
                 ResourceHelper.Get(nameof(SharedResource.AlertMessage), language));
 
         public string BuildChangeSecurityCodeAlertMessage(string language, string ip)
             => string.Join(
-                newLineCharacter,
+                Environment.NewLine,
                 $"[{ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlert), language)} - {DateTime.Now:yyyyMMdd}]",
                 ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlertContent), language),
-                $"{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}: {ip}",
+                $"<b>{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}</b>: {ip}",
                 ResourceHelper.Get(nameof(SharedResource.AlertMessage), language));
 
         public string BuildOTPMessage(string language, string otp)
@@ -80,7 +78,7 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildUnderMaintenanceMessage(string from, string to)
         {
             return string.Join(
-                newLineCharacter,
+                Environment.NewLine,
                 underMaintenanceLanguageCodes.Select(langCode =>
                     string.Format(ResourceHelper.Get(nameof(SharedResource.UnderMaintenance), langCode), from, to)));
         }
@@ -88,56 +86,17 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildHelpMessage(string language, string botName, bool hasReportPermission)
         {
             var generalCommands = string.Join(
-                newLineCharacter,
+                Environment.NewLine,
                 $"/menu - {string.Format(ResourceHelper.Get(nameof(SharedResource.OpenMainMenu), language), botName)}",
                 $"/help - {ResourceHelper.Get(nameof(SharedResource.ListAllCommands), language)}",
                 $"/settings - {ResourceHelper.Get(nameof(SharedResource.OpenSettingsMenu), language)}",
-                $"/stop - Unlink {botName}",
-                newLineCharacter);
+                $"/stop - Unlink {botName}");
 
-            var stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder($"{string.Format(ResourceHelper.Get(nameof(SharedResource.HelpCommandIntro), language), botName)}");
             stringBuilder
-                .Append($"{string.Format(ResourceHelper.Get(nameof(SharedResource.HelpCommandIntro), language), botName)}")
-                .Append(newLineCharacter)
-                .Append(newLineCharacter)
-                .Append(generalCommands);
+                .AppendLine()
+                .AppendLine(generalCommands);
 
-            if (hasReportPermission)
-            {
-                var outstandingCommands = string.Join(
-                    newLineCharacter,
-                    $"{ResourceHelper.Get(nameof(SharedResource.OutstandingReports), language)}:",
-                    $"/os - ${ResourceHelper.Get(nameof(SharedResource.OpenOutstandingMenu), language)}",
-                    $"/mos - ${ResourceHelper.Get(nameof(SharedResource.GetyourOutstandingReport), language)}",
-                    $"/os <Username> - ${ResourceHelper.Get(nameof(SharedResource.GetOutstandingReportOfSpecificMember), language)}",
-                    $"/os <#> - ${ResourceHelper.Get(nameof(SharedResource.GetOutstandingReportOfTopMembers), language)}",
-                    newLineCharacter);
-
-                var balanceInfoCommands = string.Join(
-                    newLineCharacter,
-                    $"{ResourceHelper.Get(nameof(SharedResource.BalanceInfoReports), language)}:",
-                    $"/bal - {ResourceHelper.Get(nameof(SharedResource.OpenBalanceInfoMenu), language)}",
-                    $"/mbal - {ResourceHelper.Get(nameof(SharedResource.GetYourBalanceInfoReport), language)}",
-                    $"/bal <Username> - {ResourceHelper.Get(nameof(SharedResource.GetBalanceInfoOfSpecificMember), language)}",
-                    $"/bal <#> - {ResourceHelper.Get(nameof(SharedResource.GetBalanceInfoOfTopMembers), language)}",
-                    newLineCharacter);
-
-                var winlossCommands = string.Join(
-                     newLineCharacter,
-                     $"{ResourceHelper.Get(nameof(SharedResource.WinLossReports), language)}:",
-                     $"/wl - {ResourceHelper.Get(nameof(SharedResource.OpenTodayWinLossReportMenu), language)}",
-                     $"/mwl - {ResourceHelper.Get(nameof(SharedResource.GetYourTodayWinLossReport), language)}",
-                     $"/wl <Username> - {ResourceHelper.Get(nameof(SharedResource.GetTodayWinLossReportOfSpecficMember), language)}",
-                     $"/ywl - {ResourceHelper.Get(nameof(SharedResource.OpenYesterdayWinLossReportMenu), language)}",
-                     $"/mywl - {ResourceHelper.Get(nameof(SharedResource.GetYourYesterdayWinLossReport), language)}",
-                     $"/ywl <Username> - {ResourceHelper.Get(nameof(SharedResource.GetYesterdayWinLossReportOfSpecificMember), language)}",
-                     newLineCharacter);
-
-                stringBuilder
-                    .Append(outstandingCommands)
-                    .Append(balanceInfoCommands)
-                    .Append(winlossCommands);
-            }
 
             return stringBuilder.ToString();
         }

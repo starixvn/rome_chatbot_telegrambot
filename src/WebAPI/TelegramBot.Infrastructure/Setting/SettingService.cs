@@ -76,13 +76,13 @@ namespace TelegramBot.Infrastructure.Setting
                 if (criteria.ErrCode == ErrorCodes.AccountAlreadyLinked)
                 {
                     var errorMsg = _builderService.BuildAccountAlreadyLinkedMessage(language);
-                    await _senderService.SendMessage(messenger, errorMsg, ParseMode.Html);
+                    await _senderService.SendMessage(messenger, errorMsg);
                 }
 
                 if (criteria.ErrCode == ErrorCodes.TelegramAccountAlreadyLinked)
                 {
                     var errorMsg = _builderService.BuildTelegramAccountAlreadyLinkedMessage(language);
-                    await _senderService.SendMessage(messenger, errorMsg, ParseMode.Html);
+                    await _senderService.SendMessage(messenger, errorMsg);
                 }
 
                 return new Result(criteria.ErrCode, criteria.ErrMsg);
@@ -93,7 +93,7 @@ namespace TelegramBot.Infrastructure.Setting
             var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var message = _builderService.BuildOTPMessage(language, otp);
-            await _senderService.SendMessage(messenger, message, ParseMode.Html);
+            await _senderService.SendMessage(messenger, message);
             return Result.CreateSuccessfulResult();
         }
 
@@ -105,7 +105,7 @@ namespace TelegramBot.Infrastructure.Setting
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var custBotMessenger = await GetCustBotMessenger(custId, subAccId);
             var message = _builderService.BuildOTPMessage(custBotMessenger.Language, otp);
-            await _senderService.SendMessage(custBotMessenger, message, ParseMode.Html);
+            await _senderService.SendMessage(custBotMessenger, message);
             return Result.CreateSuccessfulResult();
         }
 
