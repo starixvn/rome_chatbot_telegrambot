@@ -42,7 +42,7 @@ namespace TelegramBot.Infrastructure.Message
 
     public class BuilderService : IBuilderService
     {
-        private static readonly string newLineCharacter = "\n";
+        private static readonly string newLineCharacter = Environment.NewLine;
         private static readonly int NumberButtonInRow = 2;
 
         private static readonly List<string> underMaintenanceLanguageCodes = new()

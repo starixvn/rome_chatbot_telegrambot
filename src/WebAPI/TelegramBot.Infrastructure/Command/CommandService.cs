@@ -126,14 +126,13 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
-
             var compiledCommand = await cacheService.GetAsync<string>($"{messenger.UserId}.command");
             await cacheService.SetAsync($"{messenger.UserId}.command", string.IsNullOrEmpty(compiledCommand) ? $"{compiledCommand} {currentAction.Command}" : currentAction.Command);
             await cacheService.SetAsync($"{messenger.UserId}.ActionId", currentAction.ActionId);
 
             if (currentAction.IsEndAction)
             {
-                await HandleCommand(messenger, compiledCommand);
+                await HandleCommand(messenger, compiledCommand, currentAction.FunctionId);
             }
             else
             {
@@ -141,7 +140,7 @@ namespace TelegramBot.Infrastructure.Command
             }
         }
 
-        private async Task HandleCommand(CustBotMessenger messenger, string command)
+        private async Task HandleCommand(CustBotMessenger messenger, string command, short functionId)
         {
 
         }
