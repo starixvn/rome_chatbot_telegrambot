@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanex.Data.Repository;
-using Newtonsoft.Json;
+using TelegramBot.Infrastructure.Function.Models;
 using TelegramBot.Infrastructure.Setting.Constants;
 using TelegramBot.Infrastructure.Setting.Criteria;
-using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
 
 namespace TelegramBot.Infrastructure.Setting
 {
     public interface IFunctionService
     {
-        Task<IEnumerable<Function>> GetAll();
+        Task<IEnumerable<BotFunction>> GetAll();
 
-        Task<IEnumerable<Function>> GetReportFunctions();
+        Task<IEnumerable<BotFunction>> GetReportFunctions();
+
+        Task<BotFunction> GetFunctionByCommand(string command);
     }
 
     public class FunctionService : IFunctionService
     {
-        private IEnumerable<Function> _functions;
+        private IEnumerable<BotFunction> _functions;
 
         private readonly IDynamicRepository dynamicRepository;
         private readonly WebAPIConfiguration webAPIConfiguration;
@@ -31,17 +32,21 @@ namespace TelegramBot.Infrastructure.Setting
             this.webAPIConfiguration = webAPIConfiguration;
         }
 
-        public async Task<IEnumerable<Function>> GetAll()
+        public async Task<IEnumerable<BotFunction>> GetAll()
         {
             if (_functions == null)
             {
-                _functions = await dynamicRepository.FetchAsync<Function>(new BotFunctionSelAllCriteria(!webAPIConfiguration.IsProduction));
+                _functions = await dynamicRepository.FetchAsync<BotFunction>(new BotFunctionSelAllCriteria(!webAPIConfiguration.IsProduction));
             }
 
             return _functions;
         }
 
-        public async Task<IEnumerable<Function>> GetReportFunctions()
+        public async Task<IEnumerable<BotFunction>> GetReportFunctions()
             => (await GetAll()).Where(f => f.Type == FunctionTypes.Report);
+
+        public async Task<BotFunction> GetFunctionByCommand(string command)
+            => (await GetAll()).FirstOrDefault(f => !string.IsNullOrEmpty(f.Command) && command.IndexOf(f.Command, StringComparison.OrdinalIgnoreCase) == 0);
+
     }
 }

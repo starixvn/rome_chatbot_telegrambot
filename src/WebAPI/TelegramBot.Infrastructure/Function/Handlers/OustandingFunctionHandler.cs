@@ -1,0 +1,144 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Alpha.API.Client.Models.Outstanding;
+using Alpha.API.Client.Services;
+using TelegramBot.Infrastructure.Message;
+using TelegramBot.Infrastructure.Setting.Models;
+using TelegramBot.Infrastructure.Shared.Configurations;
+using TelegramBot.Infrastructure.Shared.Extensions;
+using TelegramBot.Infrastructure.Shared.Resources;
+
+namespace TelegramBot.Infrastructure.Function.Handlers
+{
+    public class OustandingFunctionHandler : BaseFunctionHandler, IFunctionHandler
+    {
+        private const string point = "\u2022";
+        private const string tab = "\t";
+
+        private readonly IOutstandingService outstandingService;
+        private readonly ICustomerService customerService;
+        private readonly WebAPIConfiguration webAPIConfiguration;
+
+        public OustandingFunctionHandler(
+            IBuilderService builderService,
+            ISenderService senderService,
+            IOutstandingService outstandingService,
+            ICustomerService customerService,
+            WebAPIConfiguration webAPIConfiguration)
+            : base(builderService, senderService)
+        {
+            this.outstandingService = outstandingService;
+            this.customerService = customerService;
+            this.webAPIConfiguration = webAPIConfiguration;
+        }
+
+        public async Task Handle(CustBotAccount account, CustBotMessenger messenger, string[] parameters)
+        {
+            var parameter = parameters[0];
+            if (!string.IsNullOrWhiteSpace(parameter))
+            {
+                if (int.TryParse(parameter, out int topQuery))
+                {
+                    if (topQuery <= 0 && topQuery > webAPIConfiguration.OutstandingMaxTopQuery)
+                    {
+                        await BuildAndSendInvalidNumerOfDownlineRangeMessage(messenger, topQuery);
+                        return;
+                    }
+
+                    var data = await outstandingService.GetTopOutstanding(account.CustId, account.SubAccId, account.CustomerLevel, topQuery);
+                    if (data == null)
+                    {
+                        await BuildAndSendNoDataMessage(messenger);
+                        return;
+                    }
+
+                    var message = BuildTopOutstandingMessage(messenger.Language, data, account.CustomerLevel);
+                    await senderService.SendMessage(messenger, message);
+                }
+                else
+                {
+                    var downlineInfo = await customerService.GetDownlineInfo(account.CustId, parameter);
+                    if (!IsValidDirectDownline(account.CustomerLevel, downlineInfo))
+                    {
+                        await BuildAndSendInvalidCustNameMessage(messenger, parameter);
+                        return;
+                    }
+
+                    var data = await outstandingService.GetDownlineOutstanding(account.CustId, account.SubAccId, account.CustomerLevel, downlineInfo.CustId, messenger.Language);
+                    if (data == null)
+                    {
+                        await BuildAndSendNoDataMessage(messenger);
+                        return;
+                    }
+
+                    var message = BuildTopOutstandingMessage(messenger.Language, data, account.CustomerLevel);
+                    await senderService.SendMessage(messenger, message);
+                }
+            }
+
+        }
+
+        private string BuildTopOutstandingMessage(string language, OutstandingReport data, byte custLevel)
+        {
+            var headerRow = string.Format(
+                "{0} / {1} {2} {3}",
+                ResourceHelper.Get($"CustLevel_{custLevel - 1}", language),
+                ResourceHelper.Get(nameof(SharedResource.Member), language),
+                point,
+                ResourceHelper.Get($"CustLevel_{custLevel}", language));
+
+            var textContainer = new List<string>();
+            AddTitleRow(textContainer, language);
+            textContainer.Add($"{headerRow}{Environment.NewLine}");
+            AddTotalRow(textContainer, data.Total, language);
+            AddBodyMessage(textContainer, data.Outstandings);
+
+            if (data.HiddenDownlinesCount > 0)
+            {
+                textContainer.Add(builderService.BuildHiddenDownlinesMessage(language, data.HiddenDownlinesCount, custLevel));
+            }
+
+            return string.Join(Environment.NewLine, textContainer);
+        }
+
+        private string BuildDownlineOutstandingMessage(string language, OutstandingReport data, byte custLevel, string downlineUsername)
+        {
+            var headerRow = string.Format(
+                "{0} / {1} {2} {3}",
+                ResourceHelper.Get(nameof(SharedResource.Products), language),
+                ResourceHelper.Get(nameof(SharedResource.Member), language),
+                point,
+                ResourceHelper.Get($"CustLevel_{custLevel}", language));
+
+            var textContainer = new List<string>();
+            AddTitleRow(textContainer, language);
+            textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.For), language)} {downlineUsername}");
+            textContainer.Add($"{headerRow}{Environment.NewLine}");
+            AddTotalRow(textContainer, data.Total, language);
+            AddBodyMessage(textContainer, data.Outstandings);
+
+            return string.Join(Environment.NewLine, textContainer);
+        }
+
+        private void AddTitleRow(List<string> textContainer, string language)
+            => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.Outstanding), language)} - {DateTime.Now:yyyyMMdd}]");
+
+        private void AddTotalRow(List<string> textContainer, OutstandingEntity total, string language)
+        {
+            textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant());
+            textContainer.Add($"{tab}{total.MemberOutstanding.ToFormattedNumber()} {point} {total.Outstanding.ToFormattedNumber()}");
+        }
+
+        private void AddBodyMessage(List<string> textContainer, IEnumerable<OutstandingEntity> outstandings)
+        {
+            var index = 1;
+            foreach (var outstanding in outstandings)
+            {
+                textContainer.Add($"{index}. {outstanding.Name}:");
+                textContainer.Add($"{tab}{outstanding.MemberOutstanding.ToFormattedNumber()} {point} {outstanding.Outstanding.ToFormattedNumber()}");
+                index++;
+            }
+        }
+    }
+}

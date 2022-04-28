@@ -10,6 +10,7 @@ using Sentry;
 using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command;
+using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Notification;
 using TelegramBot.Infrastructure.Setting;
@@ -32,6 +33,7 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<IActionService, ActionService>();
             services.AddSingleton<IMaintenanceService, MaintenanceService>();
             services.AddSingleton<IFunctionService, FunctionService>();
+            services.AddFunctionHandlers();
 
             return services;
         }
@@ -82,6 +84,14 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<IUMCacheService, UMCacheService>();
             services.AddSingleton<IUMRestClient, UMRestClient>();
 
+            return services;
+        }
+
+        public static IServiceCollection AddFunctionHandlers(this IServiceCollection services)
+        {
+            services.AddSingleton<IFunctionHandlerFactory, FunctionHandlerFactory>();
+            services.AddSingleton<OustandingFunctionHandler>()
+                .AddSingleton<IFunctionHandler, OustandingFunctionHandler>(s => s.GetService<OustandingFunctionHandler>());
             return services;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TelegramBot.Infrastructure.Function.Models;
 using TelegramBot.Infrastructure.Shared.Constants;
 
 namespace TelegramBot.Infrastructure.Setting.Models
@@ -41,6 +42,6 @@ namespace TelegramBot.Infrastructure.Setting.Models
 
         public string Language { get; }
 
-        public IEnumerable<Function> Functions { get; set; }
+        public IEnumerable<BotFunction> Functions { get; set; }
     }
 }

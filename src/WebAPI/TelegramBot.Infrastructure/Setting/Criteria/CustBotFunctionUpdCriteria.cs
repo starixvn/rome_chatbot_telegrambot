@@ -1,12 +1,12 @@
 ﻿using Fanex.Data.Repository;
-using TelegramBot.Infrastructure.Setting.Models;
+using TelegramBot.Infrastructure.Function.Models;
 using TelegramBot.Infrastructure.Shared;
 
 namespace TelegramBot.Infrastructure.Setting.Criteria
 {
     public class CustBotFunctionUpdCriteria : ResultCriteriaBase, INonQueryCommand
     {
-        public CustBotFunctionUpdCriteria(int userId, Function function, int creator, string ip)
+        public CustBotFunctionUpdCriteria(int userId, BotFunction function, int creator, string ip)
         {
             UserId = userId;
             Setting = $"<Root><r id='{function.FunctionId}' stt='{function.Enabled}' /></Root>";

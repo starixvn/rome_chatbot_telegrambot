@@ -1,11 +1,7 @@
-namespace TelegramBot.Infrastructure.Setting.Models
+namespace TelegramBot.Infrastructure.Function.Models
 {
-    public class Function
+    public class BotFunction
     {
-        public Function()
-        {
-        }
-
         public short FunctionId { get; set; }
 
         public string FunctionName { get; set; }

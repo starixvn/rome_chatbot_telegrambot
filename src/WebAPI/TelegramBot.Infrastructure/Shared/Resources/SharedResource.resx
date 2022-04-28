@@ -234,4 +234,43 @@
   <data name="BackToMainMenu" xml:space="preserve">
     <value>Back to Main Menu</value>
   </data>
+  <data name="HiddenDownlinesCount" xml:space="preserve">
+    <value>{0} more {1} are not shown</value>
+  </data>
+  <data name="InvalidNumerOfDownlinesRange" xml:space="preserve">
+    <value>"{0}" is invalid, please enter valid number (max 100)</value>
+  </data>
+  <data name="Member" xml:space="preserve">
+    <value>Member</value>
+  </data>
+  <data name="Outstanding" xml:space="preserve">
+    <value>Outstanding</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>No information is available</value>
+  </data>
+  <data name="InvalidCustName" xml:space="preserve">
+    <value>"{0}" is invalid, please enter valid username</value>
+  </data>
+  <data name="For" xml:space="preserve">
+    <value>For</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="CustLevcel_1" xml:space="preserve">
+    <value>Member</value>
+  </data>
+  <data name="CustLevel_2" xml:space="preserve">
+    <value>Agent</value>
+  </data>
+  <data name="CustLevel_3" xml:space="preserve">
+    <value>Master</value>
+  </data>
+  <data name="CustLevel_4" xml:space="preserve">
+    <value>Super</value>
+  </data>
 </root>

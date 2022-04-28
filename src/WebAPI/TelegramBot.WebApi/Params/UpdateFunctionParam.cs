@@ -1,4 +1,4 @@
-﻿using TelegramBot.Infrastructure.Setting.Models;
+﻿using TelegramBot.Infrastructure.Function.Models;
 
 namespace TelegramBot.WebApi.Params
 {
@@ -6,7 +6,7 @@ namespace TelegramBot.WebApi.Params
     {
         public int Creator { get; set; }
 
-        public Function Function { get; set; }
+        public BotFunction Function { get; set; }
 
         public string IP { get; set; }
     }

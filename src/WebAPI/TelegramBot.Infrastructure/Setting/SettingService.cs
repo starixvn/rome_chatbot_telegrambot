@@ -4,9 +4,9 @@ using Fanex.Data.Repository;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Telegram.Bot.Types.Enums;
 using TelegramBot.Common.Extensions;
 using TelegramBot.Infrastructure.Action;
+using TelegramBot.Infrastructure.Function.Models;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Constants;
 using TelegramBot.Infrastructure.Setting.Criteria;
@@ -28,7 +28,7 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<Result> Unlink(int botId, int custId, int subAccId, string ip);
 
-        Task<Result> UpdateUserFunction(int userid, Function function, int creator, string ip);
+        Task<Result> UpdateUserFunction(int userid, BotFunction function, int creator, string ip);
 
         Task<Result> UpdateUserLanguage(int userId, string language, string ip);
 
@@ -162,7 +162,7 @@ namespace TelegramBot.Infrastructure.Setting
         public async Task<CustBotMessenger> GetCustBotMessenger(int custId, int subAccId)
         {
             var criteria = new CustBotMessengerSelCriteria(custId, subAccId, !_webAPIConfiguration.IsProduction);
-            var resultSet = await _dynamicRepository.FetchMultipleAsync<CustBotMessenger, Function>(criteria).ConfigureAwait(false);
+            var resultSet = await _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(criteria).ConfigureAwait(false);
 
             var custBotMessenger = resultSet.firstResultSet.FirstOrDefault();
             if (custBotMessenger == null)
@@ -170,14 +170,14 @@ namespace TelegramBot.Infrastructure.Setting
                 return null;
             }
 
-            custBotMessenger.Functions = (subAccId <= 0 || await _customerService.IsSubAccHasReportPermissionAsync(custId, subAccId))
+            custBotMessenger.Functions = (subAccId <= 0 || (await _customerService.GetCustomerStatus(custId, subAccId)).HasReportPermission)
                 ? resultSet.secondResultSet.Concat(await _functionService.GetReportFunctions())
                 : resultSet.secondResultSet;
 
             return custBotMessenger;
         }
 
-        public async Task<Result> UpdateUserFunction(int userid, Function function, int creator, string ip)
+        public async Task<Result> UpdateUserFunction(int userid, BotFunction function, int creator, string ip)
         {
             var criteria = new CustBotFunctionUpdCriteria(userid, function, creator, ip);
             await _dynamicRepository.ExecuteAsync(criteria).ConfigureAwait(false);

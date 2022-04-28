@@ -151,6 +151,51 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Member.
+        /// </summary>
+        public static string CustLevcel_1 {
+            get {
+                return ResourceManager.GetString("CustLevcel_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Agent.
+        /// </summary>
+        public static string CustLevel_2 {
+            get {
+                return ResourceManager.GetString("CustLevel_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Master.
+        /// </summary>
+        public static string CustLevel_3 {
+            get {
+                return ResourceManager.GetString("CustLevel_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Super.
+        /// </summary>
+        public static string CustLevel_4 {
+            get {
+                return ResourceManager.GetString("CustLevel_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For.
+        /// </summary>
+        public static string For {
+            get {
+                return ResourceManager.GetString("For", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Get Balance Info of specific member.
         /// </summary>
         public static string GetBalanceInfoOfSpecificMember {
@@ -250,6 +295,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} more {1} are not shown.
+        /// </summary>
+        public static string HiddenDownlinesCount {
+            get {
+                return ResourceManager.GetString("HiddenDownlinesCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please log in to &lt;b&gt;the associated site&lt;/b&gt;, access Chatbot function and follow instruction to setup Telegram Chatbot.
         /// </summary>
         public static string IntroductionMessage {
@@ -259,11 +313,47 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;{0}&quot; is invalid, please enter valid username.
+        /// </summary>
+        public static string InvalidCustName {
+            get {
+                return ResourceManager.GetString("InvalidCustName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;{0}&quot; is invalid, please enter valid number (max 100).
+        /// </summary>
+        public static string InvalidNumerOfDownlinesRange {
+            get {
+                return ResourceManager.GetString("InvalidNumerOfDownlinesRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to List all commands.
         /// </summary>
         public static string ListAllCommands {
             get {
                 return ResourceManager.GetString("ListAllCommands", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Member.
+        /// </summary>
+        public static string Member {
+            get {
+                return ResourceManager.GetString("Member", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No information is available.
+        /// </summary>
+        public static string NoData {
+            get {
+                return ResourceManager.GetString("NoData", resourceCulture);
             }
         }
         
@@ -331,6 +421,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Outstanding.
+        /// </summary>
+        public static string Outstanding {
+            get {
+                return ResourceManager.GetString("Outstanding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Outstanding Reports.
         /// </summary>
         public static string OutstandingReports {
@@ -345,6 +444,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string PleaseSelectAnAction {
             get {
                 return ResourceManager.GetString("PleaseSelectAnAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Products.
+        /// </summary>
+        public static string Products {
+            get {
+                return ResourceManager.GetString("Products", resourceCulture);
             }
         }
         
@@ -372,6 +480,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string TelegramAccountAlreadyLinked {
             get {
                 return ResourceManager.GetString("TelegramAccountAlreadyLinked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        public static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
             }
         }
         

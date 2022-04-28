@@ -37,6 +37,13 @@ namespace TelegramBot.Infrastructure.Message
         string BuildActionSelectedMessage(string language, string actionName);
 
         InlineKeyboardMarkup BuildCancelButtion(string language, short parentActionId);
+
+        string BuildInvalidNumerOfDownlineRange(string language, int maxTopQuery);
+
+
+        string BuildHiddenDownlinesMessage(string language, int count, byte custLevel);
+
+        string BuildInvalidCustNameMessage(string language, string invalidCustName);
     }
 
     public class BuilderService : IBuilderService
@@ -155,5 +162,19 @@ namespace TelegramBot.Infrastructure.Message
 
         public InlineKeyboardMarkup BuildCancelButtion(string language, short parentActionId)
             => new(new[] { new[] { InlineKeyboardButton.WithCallbackData(ResourceHelper.Get(nameof(SharedResource.Cancel)), JsonConvert.SerializeObject(new { IsCancel = true, ActionId = parentActionId })) } });
+
+        public string BuildInvalidNumerOfDownlineRange(string language, int maxTopQuery)
+            => string.Format(ResourceHelper.Get(nameof(SharedResource.InvalidNumerOfDownlinesRange), language), maxTopQuery);
+
+        public string BuildHiddenDownlinesMessage(string language, int count, byte custLevel)
+            => string.Format(
+                ResourceHelper.Get(nameof(SharedResource.HiddenDownlinesCount), language),
+                count,
+                ResourceHelper.Get($"CustLevel_{custLevel}", language));
+
+        public string BuildInvalidCustNameMessage(string language, string invalidCustName)
+            => string.Format(
+                ResourceHelper.Get(nameof(SharedResource.InvalidCustName), language),
+                invalidCustName);
     }
 }

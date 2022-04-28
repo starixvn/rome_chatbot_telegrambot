@@ -4,12 +4,14 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Action.Models;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command.Models;
+using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Models;
@@ -30,6 +32,8 @@ namespace TelegramBot.Infrastructure.Command
         private readonly ICustomerService customerService;
         private readonly IActionService actionService;
         private readonly ICacheService cacheService;
+        private readonly IFunctionService functionService;
+        private readonly IFunctionHandlerFactory functionHandlerFactory;
 
         public CommandService(
             IBuilderService builderService,
@@ -38,7 +42,9 @@ namespace TelegramBot.Infrastructure.Command
             IBotService botService,
             ICustomerService customerService,
             IActionService actionService,
-            ICacheService cacheService)
+            ICacheService cacheService,
+            IFunctionService functionService,
+            IFunctionHandlerFactory functionHandlerFactory)
         {
             this.builderService = builderService;
             this.senderService = senderService;
@@ -47,6 +53,8 @@ namespace TelegramBot.Infrastructure.Command
             this.customerService = customerService;
             this.actionService = actionService;
             this.cacheService = cacheService;
+            this.functionService = functionService;
+            this.functionHandlerFactory = functionHandlerFactory;
         }
 
         public async Task ExecuteAsync(long messengerBotId, long chatId, string message, bool isCallback)
@@ -57,14 +65,14 @@ namespace TelegramBot.Infrastructure.Command
             }
 
             var bot = await botService.GetAsync(messengerBotId);
-            var custBotAccount = await settingService.GetCustBotAccount(chatId, bot.BotId);
-            var messenger = await settingService.GetCustBotMessenger(custBotAccount.CustId, custBotAccount.SubAccId);
+            var account = await settingService.GetCustBotAccount(chatId, bot.BotId);
+            var messenger = await settingService.GetCustBotMessenger(account.CustId, account.SubAccId);
 
             var action = message.Split(' ')[0] switch
             {
-                "/help" => HandleHelpCommand(messenger, !custBotAccount.IsSubAccount || (await customerService.IsSubAccHasReportPermissionAsync(custBotAccount.CustId, custBotAccount.SubAccId))),
+                "/help" => HandleHelpCommand(messenger, !account.IsSubAccount || (await customerService.GetCustomerStatus(account.CustId, account.SubAccId)).HasReportPermission),
                 "/menu" => SendMainMenuMessage(messenger),
-                _ => HandleUserReply(messenger, message, isCallback),
+                _ => HandleUserReply(account, messenger, message, isCallback),
             };
 
             await action;
@@ -80,29 +88,47 @@ namespace TelegramBot.Infrastructure.Command
             await senderService.SendMessage(messenger, message);
         }
 
-        private async Task HandleUserReply(CustBotMessenger messenger, string message, bool isCallback)
+        private async Task HandleUserReply(CustBotAccount account, CustBotMessenger messenger, string message, bool isCallback)
         {
+            var encodedMessage = WebUtility.HtmlEncode(
+                string.Join(
+                    " ",
+                    message.Split(
+                        default(string[]),
+                        StringSplitOptions.RemoveEmptyEntries)));
+
             if (isCallback)
             {
-                await HandleUserReplyByButton(messenger, message);
+                await HandleUserReplyByButton(account, messenger, encodedMessage);
             }
             else
             {
-                await HandleUserReplyByText(messenger, message);
+                await HandleUserReplyByText(account, messenger, encodedMessage);
             }
         }
 
-
-        private async Task HandleUserReplyByText(CustBotMessenger messenger, string message)
+        private async Task HandleUserReplyByText(CustBotAccount account, CustBotMessenger messenger, string message)
         {
 
+
+            var lastAction = actionService.GetActionById(await cacheService.GetAsync<int>($"{messenger.UserId}.ActionID"));
+            if (lastAction == null || !IsValidAction(messenger, lastAction))
+            {
+
+                var function = await functionService.GetFunctionByCommand(message);
+                if (function == null)
+                {
+                    await SendNotRecognizedCommandMessage(messenger);
+                    return;
+                }
+
+                await HandleCommand(account, messenger, message, function.FunctionId);
+            }
         }
 
-        private async Task HandleUserReplyByButton(CustBotMessenger messenger, string message)
+        private async Task HandleUserReplyByButton(CustBotAccount account, CustBotMessenger messenger, string message)
         {
-
             var callBackData = JsonConvert.DeserializeObject<CallBackData>(message);
-
             if (callBackData == null)
             {
                 throw new InvalidOperationException($"Wrong call back data format {message}");
@@ -132,7 +158,7 @@ namespace TelegramBot.Infrastructure.Command
 
             if (currentAction.IsEndAction)
             {
-                await HandleCommand(messenger, compiledCommand, currentAction.FunctionId);
+                await HandleCommand(account, messenger, compiledCommand, currentAction.FunctionId);
             }
             else
             {
@@ -140,9 +166,25 @@ namespace TelegramBot.Infrastructure.Command
             }
         }
 
-        private async Task HandleCommand(CustBotMessenger messenger, string command, short functionId)
+        private static (string, string[]) SplitCommand(string command)
         {
+            var firstSpaceIndex = command.IndexOf(" ", StringComparison.OrdinalIgnoreCase);
 
+            if (firstSpaceIndex == -1)
+            {
+                return (command, new string[0]);
+            }
+
+            var commandName = command.Substring(0, firstSpaceIndex);
+            var commandParam = command.Substring(firstSpaceIndex + 1).Split(" ");
+
+            return (commandName, commandParam);
+        }
+
+        private async Task HandleCommand(CustBotAccount account, CustBotMessenger messenger, string command, short functionId)
+        {
+            var splittedCommand = SplitCommand(command);
+            await functionHandlerFactory.GetHandler(functionId).Handle(account, messenger, splittedCommand.Item2);
         }
 
         private static bool IsValidAction(CustBotMessenger messenger, BotAction action)

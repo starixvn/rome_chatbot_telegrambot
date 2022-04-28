@@ -7,5 +7,7 @@ namespace TelegramBot.Infrastructure.Shared.Configurations
         public int OtpMaxFailedTimes { get; set; }
 
         public bool IsProduction { get; set; }
+
+        public int OutstandingMaxTopQuery { get; set; }
     }
 }
