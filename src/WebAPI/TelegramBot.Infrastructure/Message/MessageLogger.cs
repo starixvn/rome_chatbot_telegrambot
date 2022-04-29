@@ -4,16 +4,16 @@ using TelegramBot.Infrastructure.Message.criteria;
 
 namespace TelegramBot.Infrastructure.Message
 {
-    public interface ILoggerService
+    public interface IMessageLogger
     {
         Task LogMessage(int sender, int receiver, long chatId, int botId, string message, byte status = 0, short functionId = 0);
     }
 
-    public class LoggerService : ILoggerService
+    public class MessageLogger : IMessageLogger
     {
         private readonly IDynamicRepository dynamicRepository;
 
-        public LoggerService(IDynamicRepository dynamicRepository)
+        public MessageLogger(IDynamicRepository dynamicRepository)
         {
             this.dynamicRepository = dynamicRepository;
         }

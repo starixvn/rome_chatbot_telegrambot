@@ -40,8 +40,8 @@ namespace TelegramBot.Infrastructure.Setting
         private readonly WebAPIConfiguration _webAPIConfiguration;
         private readonly IDynamicRepository _dynamicRepository;
         private readonly ICacheService _cacheService;
-        private readonly ISenderService _senderService;
-        private readonly IBuilderService _builderService;
+        private readonly IMessageSender _messageSender;
+        private readonly IMessageBuilder _messageBuilder;
         private readonly IActionService _actionService;
         private readonly ICustomerService _customerService;
         private readonly IFunctionService _functionService;
@@ -50,8 +50,8 @@ namespace TelegramBot.Infrastructure.Setting
             WebAPIConfiguration webAPIConfiguration,
             IDynamicRepository dynamicRepository,
             ICacheService cacheService,
-            ISenderService senderService,
-            IBuilderService builderService,
+            IMessageSender messageSender,
+            IMessageBuilder messageBuilder,
             IActionService actionService,
             ICustomerService customerService,
             IFunctionService functionService)
@@ -59,8 +59,8 @@ namespace TelegramBot.Infrastructure.Setting
             _webAPIConfiguration = webAPIConfiguration;
             _dynamicRepository = dynamicRepository;
             _cacheService = cacheService;
-            _senderService = senderService;
-            _builderService = builderService;
+            _messageSender = messageSender;
+            _messageBuilder = messageBuilder;
             _actionService = actionService;
             _customerService = customerService;
             _functionService = functionService;
@@ -75,14 +75,14 @@ namespace TelegramBot.Infrastructure.Setting
             {
                 if (criteria.ErrCode == ErrorCodes.AccountAlreadyLinked)
                 {
-                    var errorMsg = _builderService.BuildAccountAlreadyLinkedMessage(language);
-                    await _senderService.SendMessage(messenger, errorMsg);
+                    var errorMsg = _messageBuilder.BuildAccountAlreadyLinkedMessage(language);
+                    await _messageSender.SendMessage(messenger, errorMsg);
                 }
 
                 if (criteria.ErrCode == ErrorCodes.TelegramAccountAlreadyLinked)
                 {
-                    var errorMsg = _builderService.BuildTelegramAccountAlreadyLinkedMessage(language);
-                    await _senderService.SendMessage(messenger, errorMsg);
+                    var errorMsg = _messageBuilder.BuildTelegramAccountAlreadyLinkedMessage(language);
+                    await _messageSender.SendMessage(messenger, errorMsg);
                 }
 
                 return new Result(criteria.ErrCode, criteria.ErrMsg);
@@ -92,8 +92,8 @@ namespace TelegramBot.Infrastructure.Setting
             var cacheKey = $"otp_value_{custId}_{subAccId}";
             var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
-            var message = _builderService.BuildOTPMessage(language, otp);
-            await _senderService.SendMessage(messenger, message);
+            var message = _messageBuilder.BuildOTPMessage(language, otp);
+            await _messageSender.SendMessage(messenger, message);
             return Result.CreateSuccessfulResult();
         }
 
@@ -104,8 +104,8 @@ namespace TelegramBot.Infrastructure.Setting
             var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var custBotMessenger = await GetCustBotMessenger(custId, subAccId);
-            var message = _builderService.BuildOTPMessage(custBotMessenger.Language, otp);
-            await _senderService.SendMessage(custBotMessenger, message);
+            var message = _messageBuilder.BuildOTPMessage(custBotMessenger.Language, otp);
+            await _messageSender.SendMessage(custBotMessenger, message);
             return Result.CreateSuccessfulResult();
         }
 
@@ -143,10 +143,10 @@ namespace TelegramBot.Infrastructure.Setting
                 await _cacheService.RemoveAsync(countCacheKey);
                 var custBotMessenger = await GetCustBotMessenger(custId, subAccId);
 
-                await _senderService.SendMessage(
+                await _messageSender.SendMessage(
                     custBotMessenger,
-                    _builderService.BuildWelcomeMessage(custBotMessenger.Language, custBotMessenger.ChatId),
-                    replyMarkup: _builderService.BuildActionButtions(custBotMessenger.Language, _actionService.GetRootActions()));
+                    _messageBuilder.BuildWelcomeMessage(custBotMessenger.Language, custBotMessenger.ChatId),
+                    replyMarkup: _messageBuilder.BuildActionButtions(custBotMessenger.Language, _actionService.GetRootActions()));
             }
 
             return new Result(criteria.ErrCode, criteria.ErrMsg);

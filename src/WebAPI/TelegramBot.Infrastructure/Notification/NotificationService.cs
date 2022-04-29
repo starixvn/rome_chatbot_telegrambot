@@ -17,19 +17,19 @@ namespace TelegramBot.Infrastructure.Notification
     {
         private readonly IBotService botService;
         private readonly ISettingService settingService;
-        private readonly IBuilderService builderService;
-        private readonly ISenderService senderService;
+        private readonly IMessageBuilder messageBuilder;
+        private readonly IMessageSender messageSender;
 
         public NotificationService(
             IBotService botService,
             ISettingService settingService,
-            IBuilderService builderService,
-            ISenderService senderService)
+            IMessageBuilder messageBuilder,
+            IMessageSender messageSender)
         {
             this.botService = botService;
             this.settingService = settingService;
-            this.builderService = builderService;
-            this.senderService = senderService;
+            this.messageBuilder = messageBuilder;
+            this.messageSender = messageSender;
         }
 
         public async Task<Result> NotifyChangePassword(int custId, int subAccId, string ip)
@@ -41,8 +41,8 @@ namespace TelegramBot.Infrastructure.Notification
                 return Result.CreateErrorResult();
             }
 
-            var message = builderService.BuildChangePasswordAlertMessage(messenger.Language, ip);
-            await senderService.SendMessage(messenger, message);
+            var message = messageBuilder.BuildChangePasswordAlertMessage(messenger.Language, ip);
+            await messageSender.SendMessage(messenger, message);
 
             return Result.CreateSuccessfulResult();
         }
@@ -56,8 +56,8 @@ namespace TelegramBot.Infrastructure.Notification
                 return Result.CreateErrorResult();
             }
 
-            var message = builderService.BuildChangeSecurityCodeAlertMessage(messenger.Language, ip);
-            await senderService.SendMessage(messenger, message);
+            var message = messageBuilder.BuildChangeSecurityCodeAlertMessage(messenger.Language, ip);
+            await messageSender.SendMessage(messenger, message);
 
             return Result.CreateSuccessfulResult();
         }

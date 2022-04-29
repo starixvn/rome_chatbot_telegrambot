@@ -25,8 +25,8 @@ namespace TelegramBot.Infrastructure.Command
 
     public class CommandService : ICommandService
     {
-        private readonly IBuilderService builderService;
-        private readonly ISenderService senderService;
+        private readonly IMessageBuilder messageBuilder;
+        private readonly IMessageSender messageSender;
         private readonly ISettingService settingService;
         private readonly IBotService botService;
         private readonly ICustomerService customerService;
@@ -36,8 +36,8 @@ namespace TelegramBot.Infrastructure.Command
         private readonly IFunctionHandlerFactory functionHandlerFactory;
 
         public CommandService(
-            IBuilderService builderService,
-            ISenderService senderService,
+            IMessageBuilder messageBuilder,
+            IMessageSender messageSender,
             ISettingService settingService,
             IBotService botService,
             ICustomerService customerService,
@@ -46,8 +46,8 @@ namespace TelegramBot.Infrastructure.Command
             IFunctionService functionService,
             IFunctionHandlerFactory functionHandlerFactory)
         {
-            this.builderService = builderService;
-            this.senderService = senderService;
+            this.messageBuilder = messageBuilder;
+            this.messageSender = messageSender;
             this.settingService = settingService;
             this.botService = botService;
             this.customerService = customerService;
@@ -81,11 +81,11 @@ namespace TelegramBot.Infrastructure.Command
         private async Task HandleHelpCommand(CustBotMessenger messenger, bool hasReportPermission)
         {
 
-            var message = builderService.BuildHelpMessage(
+            var message = messageBuilder.BuildHelpMessage(
                 messenger.Language,
                 messenger.BotName,
                 hasReportPermission);
-            await senderService.SendMessage(messenger, message);
+            await messageSender.SendMessage(messenger, message);
         }
 
         private async Task HandleUserReply(CustBotAccount account, CustBotMessenger messenger, string message, bool isCallback)
@@ -195,34 +195,34 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task SendMainMenuMessage(CustBotMessenger messenger)
         {
-            await senderService.SendMessage(
+            await messageSender.SendMessage(
                messenger,
-               builderService.BuildMenuMessage(messenger.Language),
-               replyMarkup: builderService.BuildActionButtions(messenger.Language, actionService.GetRootActions()));
+               messageBuilder.BuildMenuMessage(messenger.Language),
+               replyMarkup: messageBuilder.BuildActionButtions(messenger.Language, actionService.GetRootActions()));
         }
 
         private async Task SendNotRecognizedCommandMessage(CustBotMessenger messenger)
-            => await senderService.SendMessage(
+            => await messageSender.SendMessage(
                 messenger,
-                builderService.BuildNotRecognizedCommandMessage(messenger.Language),
-                replyMarkup: builderService.BuildActionButtions(messenger.Language, actionService.GetRootActions()));
+                messageBuilder.BuildNotRecognizedCommandMessage(messenger.Language),
+                replyMarkup: messageBuilder.BuildActionButtions(messenger.Language, actionService.GetRootActions()));
 
         private async Task SendNextActionsMessage(CustBotMessenger messenger, BotAction currentAction)
         {
             var nextActions = actionService.GetChildActions(currentAction.ActionId);
             if (IsMessageAction(nextActions))
             {
-                await senderService.SendMessage(
+                await messageSender.SendMessage(
                     messenger,
                     currentAction.ActionName,
-                    replyMarkup: builderService.BuildCancelButtion(messenger.Language, currentAction.ParentId));
+                    replyMarkup: messageBuilder.BuildCancelButtion(messenger.Language, currentAction.ParentId));
             }
             else
             {
-                await senderService.SendMessage(
+                await messageSender.SendMessage(
                     messenger,
-                    builderService.BuildActionSelectedMessage(messenger.Language, currentAction.ActionName),
-                    replyMarkup: builderService.BuildActionButtions(messenger.Language, actionService.GetChildActions(currentAction.ActionId), true));
+                    messageBuilder.BuildActionSelectedMessage(messenger.Language, currentAction.ActionName),
+                    replyMarkup: messageBuilder.BuildActionButtions(messenger.Language, actionService.GetChildActions(currentAction.ActionId), true));
             }
         }
     }

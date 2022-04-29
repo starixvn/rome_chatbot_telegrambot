@@ -19,9 +19,9 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
         private readonly WebAPIConfiguration _webAPIConfiguration;
         private readonly IDynamicRepository _dynamicRepository;
         private readonly ICacheService _cacheService;
-        private readonly ISenderService _senderService;
+        private readonly IMessageSender _messageSender;
         private readonly ISettingService _settingService;
-        private readonly IBuilderService _builderService;
+        private readonly IMessageBuilder _messageBuilder;
         private readonly IActionService _actionService;
         private readonly ICustomerService _customerService;
         private readonly IFunctionService _functionService;
@@ -31,8 +31,8 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
             _webAPIConfiguration = Substitute.For<WebAPIConfiguration>();
             _dynamicRepository = Substitute.For<IDynamicRepository>();
             _cacheService = Substitute.For<ICacheService>();
-            _senderService = Substitute.For<ISenderService>();
-            _builderService = Substitute.For<IBuilderService>();
+            _messageSender = Substitute.For<IMessageSender>();
+            _messageBuilder = Substitute.For<IMessageBuilder>();
             _actionService = Substitute.For<IActionService>();
             _customerService = Substitute.For<ICustomerService>();
             _functionService = Substitute.For<IFunctionService>();
@@ -40,8 +40,8 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
                 _webAPIConfiguration,
                 _dynamicRepository,
                 _cacheService,
-                _senderService,
-                _builderService,
+                _messageSender,
+                _messageBuilder,
                 _actionService,
                 _customerService,
                 _functionService);

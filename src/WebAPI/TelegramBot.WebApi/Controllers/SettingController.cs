@@ -17,14 +17,14 @@ namespace TelegramBot.WebApi.Controllers
         private readonly ICryptography _cryptography;
         private readonly ISettingService _settingService;
         private readonly IBotService _botService;
-        private readonly ISenderService _senderService;
+        private readonly IMessageSender _messageSender;
 
-        public SettingController(ICryptography cryptography, ISettingService settingService, IBotService botService, ISenderService senderService)
+        public SettingController(ICryptography cryptography, ISettingService settingService, IBotService botService, IMessageSender messageSender)
         {
             _cryptography = cryptography;
             _settingService = settingService;
             _botService = botService;
-            _senderService = senderService;
+            _messageSender = messageSender;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace TelegramBot.WebApi.Controllers
             var words = param.Message.Split(' ');
             if (words.Length != 2)
             {
-                await _senderService.SendMessage(bot.BotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
+                await _messageSender.SendMessage(bot.BotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
                 return Result.CreateErrorResult("Invalid start request");
             }
 
@@ -61,7 +61,7 @@ namespace TelegramBot.WebApi.Controllers
             words = plainKey.Split(':');
             if (words.Length != 2)
             {
-                await _senderService.SendMessage(bot.BotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
+                await _messageSender.SendMessage(bot.BotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
                 return Result.CreateErrorResult("Invalid start unique token");
             }
 

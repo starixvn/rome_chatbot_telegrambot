@@ -22,15 +22,15 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
         private readonly ISettingService _settingService;
         private readonly IBotService _botService;
         private readonly SettingController _settingController;
-        private readonly ISenderService _senderService;
+        private readonly IMessageSender _messageSender;
 
         public SettingControllerTests()
         {
             _cryptography = Substitute.For<ICryptography>();
             _settingService = Substitute.For<ISettingService>();
             _botService = Substitute.For<IBotService>();
-            _senderService = Substitute.For<ISenderService>();
-            _settingController = new SettingController(_cryptography, _settingService, _botService, _senderService);
+            _messageSender = Substitute.For<IMessageSender>();
+            _settingController = new SettingController(_cryptography, _settingService, _botService, _messageSender);
         }
 
         [Theory, AutoData]

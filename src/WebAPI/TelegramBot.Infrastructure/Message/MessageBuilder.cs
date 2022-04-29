@@ -10,7 +10,7 @@ using TelegramBot.Infrastructure.Shared.Resources;
 
 namespace TelegramBot.Infrastructure.Message
 {
-    public interface IBuilderService
+    public interface IMessageBuilder
     {
         string BuildUnderMaintenanceMessage(string from, string to);
 
@@ -46,7 +46,7 @@ namespace TelegramBot.Infrastructure.Message
         string BuildInvalidCustNameMessage(string language, string invalidCustName);
     }
 
-    public class BuilderService : IBuilderService
+    public class MessageBuilder : IMessageBuilder
     {
         private static readonly int NumberButtonInRow = 2;
 
@@ -57,12 +57,19 @@ namespace TelegramBot.Infrastructure.Message
             LanguageCodes.Taiwan
         };
 
+        private readonly IMessageFormatter messageFormatter;
+
+        public MessageBuilder(IMessageFormatter messageFormatter)
+        {
+            this.messageFormatter = messageFormatter;
+        }
+
         public string BuildAccountAlreadyLinkedMessage(string language)
             => ResourceHelper.Get(nameof(SharedResource.AccountAlreadyLinked), language);
 
         public string BuildChangePasswordAlertMessage(string language, string ip)
             => string.Join(
-                Environment.NewLine,
+                messageFormatter.NewLine(),
                 $"[{ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlert), language)} - {DateTime.Now:yyyyMMdd}]",
                 ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlertContent), language),
                 $"<b>{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}</b>: {ip}",
@@ -70,7 +77,7 @@ namespace TelegramBot.Infrastructure.Message
 
         public string BuildChangeSecurityCodeAlertMessage(string language, string ip)
             => string.Join(
-                Environment.NewLine,
+                messageFormatter.NewLine(),
                 $"[{ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlert), language)} - {DateTime.Now:yyyyMMdd}]",
                 ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlertContent), language),
                 $"<b>{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}</b>: {ip}",
@@ -85,7 +92,7 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildUnderMaintenanceMessage(string from, string to)
         {
             return string.Join(
-                Environment.NewLine,
+                messageFormatter.NewLine(),
                 underMaintenanceLanguageCodes.Select(langCode =>
                     string.Format(ResourceHelper.Get(nameof(SharedResource.UnderMaintenance), langCode), from, to)));
         }
@@ -93,7 +100,7 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildHelpMessage(string language, string botName, bool hasReportPermission)
         {
             var generalCommands = string.Join(
-                Environment.NewLine,
+                messageFormatter.NewLine(),
                 $"/menu - {string.Format(ResourceHelper.Get(nameof(SharedResource.OpenMainMenu), language), botName)}",
                 $"/help - {ResourceHelper.Get(nameof(SharedResource.ListAllCommands), language)}",
                 $"/settings - {ResourceHelper.Get(nameof(SharedResource.OpenSettingsMenu), language)}",

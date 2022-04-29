@@ -8,29 +8,31 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 {
     public class BaseFunctionHandler
     {
-        protected readonly IBuilderService builderService;
-        protected readonly ISenderService senderService;
+        protected readonly IMessageBuilder messageBuilder;
+        protected readonly IMessageSender messageSender;
+        protected readonly IMessageFormatter messageFormatter;
 
-        public BaseFunctionHandler(IBuilderService builderService, ISenderService senderService)
+        public BaseFunctionHandler(IMessageBuilder messageBuilder, IMessageSender messageSender, IMessageFormatter messageFormatter)
         {
-            this.builderService = builderService;
-            this.senderService = senderService;
+            this.messageBuilder = messageBuilder;
+            this.messageSender = messageSender;
+            this.messageFormatter = messageFormatter;
         }
 
         protected async Task BuildAndSendInvalidCustNameMessage(CustBotMessenger messenger, string invalidCustName)
         {
-            var message = builderService.BuildInvalidCustNameMessage(messenger.Language, invalidCustName);
+            var message = messageBuilder.BuildInvalidCustNameMessage(messenger.Language, invalidCustName);
 
-            await senderService.SendMessage(messenger, message);
+            await messageSender.SendMessage(messenger, message);
         }
 
         protected async Task BuildAndSendInvalidNumerOfDownlineRangeMessage(CustBotMessenger messenger, int maxTopQuery)
-            => await senderService.SendMessage(
+            => await messageSender.SendMessage(
                 messenger,
-                builderService.BuildInvalidNumerOfDownlineRange(messenger.Language, maxTopQuery));
+                messageBuilder.BuildInvalidNumerOfDownlineRange(messenger.Language, maxTopQuery));
 
         protected async Task BuildAndSendNoDataMessage(CustBotMessenger messenger)
-            => await senderService.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.NoData), messenger.Language));
+            => await messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.NoData), messenger.Language));
 
 
 

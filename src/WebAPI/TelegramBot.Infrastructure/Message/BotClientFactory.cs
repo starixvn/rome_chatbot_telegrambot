@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Telegram.Bot;
 using TelegramBot.Infrastructure.Bot;
 
@@ -27,7 +26,7 @@ namespace TelegramBot.Infrastructure.Message
                 return botClients[botId];
             }
 
-            
+
             lock (botClients)
             {
                 if (botClients.ContainsKey(botId))

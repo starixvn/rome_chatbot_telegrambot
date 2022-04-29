@@ -13,20 +13,18 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 {
     public class OustandingFunctionHandler : BaseFunctionHandler, IFunctionHandler
     {
-        private const string point = "\u2022";
-        private const string tab = "\t";
-
         private readonly IOutstandingService outstandingService;
         private readonly ICustomerService customerService;
         private readonly WebAPIConfiguration webAPIConfiguration;
 
         public OustandingFunctionHandler(
-            IBuilderService builderService,
-            ISenderService senderService,
+            IMessageBuilder messageBuilder,
+            IMessageSender messageSender,
+            IMessageFormatter messageFormatter,
             IOutstandingService outstandingService,
             ICustomerService customerService,
             WebAPIConfiguration webAPIConfiguration)
-            : base(builderService, senderService)
+            : base(messageBuilder, messageSender, messageFormatter)
         {
             this.outstandingService = outstandingService;
             this.customerService = customerService;
@@ -54,7 +52,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                     }
 
                     var message = BuildTopOutstandingMessage(messenger.Language, data, account.CustomerLevel);
-                    await senderService.SendMessage(messenger, message);
+                    await messageSender.SendMessage(messenger, message);
                 }
                 else
                 {
@@ -73,7 +71,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                     }
 
                     var message = BuildTopOutstandingMessage(messenger.Language, data, account.CustomerLevel);
-                    await senderService.SendMessage(messenger, message);
+                    await messageSender.SendMessage(messenger, message);
                 }
             }
 
@@ -85,21 +83,21 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 "{0} / {1} {2} {3}",
                 ResourceHelper.Get($"CustLevel_{custLevel - 1}", language),
                 ResourceHelper.Get(nameof(SharedResource.Member), language),
-                point,
+                messageFormatter.Point(),
                 ResourceHelper.Get($"CustLevel_{custLevel}", language));
 
             var textContainer = new List<string>();
             AddTitleRow(textContainer, language);
-            textContainer.Add($"{headerRow}{Environment.NewLine}");
+            textContainer.Add($"{headerRow}{messageFormatter.NewLine()}");
             AddTotalRow(textContainer, data.Total, language);
             AddBodyMessage(textContainer, data.Outstandings);
 
             if (data.HiddenDownlinesCount > 0)
             {
-                textContainer.Add(builderService.BuildHiddenDownlinesMessage(language, data.HiddenDownlinesCount, custLevel));
+                textContainer.Add(messageBuilder.BuildHiddenDownlinesMessage(language, data.HiddenDownlinesCount, custLevel));
             }
 
-            return string.Join(Environment.NewLine, textContainer);
+            return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
         private string BuildDownlineOutstandingMessage(string language, OutstandingReport data, byte custLevel, string downlineUsername)
@@ -108,17 +106,17 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 "{0} / {1} {2} {3}",
                 ResourceHelper.Get(nameof(SharedResource.Products), language),
                 ResourceHelper.Get(nameof(SharedResource.Member), language),
-                point,
+                messageFormatter.Point(),
                 ResourceHelper.Get($"CustLevel_{custLevel}", language));
 
             var textContainer = new List<string>();
             AddTitleRow(textContainer, language);
             textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.For), language)} {downlineUsername}");
-            textContainer.Add($"{headerRow}{Environment.NewLine}");
+            textContainer.Add($"{headerRow}{messageFormatter.NewLine()}");
             AddTotalRow(textContainer, data.Total, language);
             AddBodyMessage(textContainer, data.Outstandings);
 
-            return string.Join(Environment.NewLine, textContainer);
+            return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
         private void AddTitleRow(List<string> textContainer, string language)
@@ -127,7 +125,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         private void AddTotalRow(List<string> textContainer, OutstandingEntity total, string language)
         {
             textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant());
-            textContainer.Add($"{tab}{total.MemberOutstanding.ToFormattedNumber()} {point} {total.Outstanding.ToFormattedNumber()}");
+            textContainer.Add($"    {total.MemberOutstanding.ToFormattedNumber()} {messageFormatter.Point()} {total.Outstanding.ToFormattedNumber()}");
         }
 
         private void AddBodyMessage(List<string> textContainer, IEnumerable<OutstandingEntity> outstandings)
@@ -136,7 +134,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             foreach (var outstanding in outstandings)
             {
                 textContainer.Add($"{index}. {outstanding.Name}:");
-                textContainer.Add($"{tab}{outstanding.MemberOutstanding.ToFormattedNumber()} {point} {outstanding.Outstanding.ToFormattedNumber()}");
+                textContainer.Add($"    {outstanding.MemberOutstanding.ToFormattedNumber()} {messageFormatter.Point()} {outstanding.Outstanding.ToFormattedNumber()}");
                 index++;
             }
         }

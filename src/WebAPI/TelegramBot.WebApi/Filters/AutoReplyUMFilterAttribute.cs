@@ -12,19 +12,19 @@ namespace TelegramBot.WebApi.Filters
     {
         private const string ParamName = "param";
         private readonly IMaintenanceService maintenanceService;
-        private readonly ISenderService senderService;
-        private readonly IBuilderService builderService;
+        private readonly IMessageSender messageSender;
+        private readonly IMessageBuilder messageBuilder;
         private readonly IBotService botService;
 
         public AutoReplyUMFilterAttribute(
             IMaintenanceService maintenanceService,
-            ISenderService senderService,
-            IBuilderService builderService,
+            IMessageSender messageSender,
+            IMessageBuilder messageBuilder,
             IBotService botService)
         {
             this.maintenanceService = maintenanceService;
-            this.senderService = senderService;
-            this.builderService = builderService;
+            this.messageSender = messageSender;
+            this.messageBuilder = messageBuilder;
             this.botService = botService;
         }
 
@@ -40,8 +40,8 @@ namespace TelegramBot.WebApi.Filters
                     if (umInfo.IsUnderMaintenanceTime)
                     {
                         var bot = await botService.GetAsync(command.MessengerBotId);
-                        var message = builderService.BuildUnderMaintenanceMessage(umInfo.From, umInfo.To);
-                        await senderService.SendMessage(bot.BotId, command.ChatId, message);
+                        var message = messageBuilder.BuildUnderMaintenanceMessage(umInfo.From, umInfo.To);
+                        await messageSender.SendMessage(bot.BotId, command.ChatId, message);
                         await HandleUnderMaintenance(context.HttpContext, message);
 
                         return;

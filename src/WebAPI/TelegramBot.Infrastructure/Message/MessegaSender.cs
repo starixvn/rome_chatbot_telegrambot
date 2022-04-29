@@ -8,22 +8,22 @@ using TelegramBot.Infrastructure.Shared.Constants;
 
 namespace TelegramBot.Infrastructure.Message
 {
-    public interface ISenderService
+    public interface IMessageSender
     {
         Task SendMessage(int botId, long chatId, string message, IReplyMarkup replyMarkup = null);
 
         Task SendMessage(CustBotMessenger messenger, string message, IReplyMarkup replyMarkup = null, short functionId = 0, bool logToDatabase = true);
     }
 
-    public class SenderService : ISenderService
+    public class MessageSender : IMessageSender
     {
         private readonly IBotClientFactory botClientFactory;
-        private readonly ILoggerService loggerService;
+        private readonly IMessageLogger messageLogger;
 
-        public SenderService(IBotClientFactory botClientFactory, ILoggerService loggerService)
+        public MessageSender(IBotClientFactory botClientFactory, IMessageLogger messageLogger)
         {
             this.botClientFactory = botClientFactory;
-            this.loggerService = loggerService;
+            this.messageLogger = messageLogger;
         }
 
         public async Task SendMessage(CustBotMessenger messenger, string message, IReplyMarkup replyMarkup = null, short functionId = 0, bool logToDatabase = true)
@@ -34,14 +34,14 @@ namespace TelegramBot.Infrastructure.Message
 
                 if (logToDatabase)
                 {
-                    await loggerService.LogMessage(CommonId.BotUserId, messenger.UserId, messenger.ChatId, messenger.BotId, message, MessageSendStatus.Success, functionId);
+                    await messageLogger.LogMessage(CommonId.BotUserId, messenger.UserId, messenger.ChatId, messenger.BotId, message, MessageSendStatus.Success, functionId);
                 }
             }
             catch
             {
                 if (logToDatabase)
                 {
-                    await loggerService.LogMessage(CommonId.BotUserId, messenger.UserId, messenger.ChatId, messenger.BotId, message, MessageSendStatus.Failure, functionId);
+                    await messageLogger.LogMessage(CommonId.BotUserId, messenger.UserId, messenger.ChatId, messenger.BotId, message, MessageSendStatus.Failure, functionId);
                 }
 
                 throw;
