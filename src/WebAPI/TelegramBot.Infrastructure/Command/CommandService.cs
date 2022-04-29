@@ -90,19 +90,18 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task HandleUserReply(CustBotAccount account, CustBotMessenger messenger, string message, bool isCallback)
         {
-            var encodedMessage = WebUtility.HtmlEncode(
+            if (isCallback)
+            {
+                await HandleUserReplyByButton(account, messenger, message);
+            }
+            else
+            {
+                var encodedMessage = WebUtility.HtmlEncode(
                 string.Join(
                     " ",
                     message.Split(
                         default(string[]),
                         StringSplitOptions.RemoveEmptyEntries)));
-
-            if (isCallback)
-            {
-                await HandleUserReplyByButton(account, messenger, encodedMessage);
-            }
-            else
-            {
                 await HandleUserReplyByText(account, messenger, encodedMessage);
             }
         }
@@ -111,7 +110,7 @@ namespace TelegramBot.Infrastructure.Command
         {
 
 
-            var lastAction = actionService.GetActionById(await cacheService.GetAsync<int>($"{messenger.UserId}.ActionID"));
+            var lastAction = await actionService.GetActionById(await cacheService.GetAsync<int>($"{messenger.UserId}.ActionID"));
             if (lastAction == null || !IsValidAction(messenger, lastAction))
             {
 
@@ -145,7 +144,7 @@ namespace TelegramBot.Infrastructure.Command
                 await cacheService.RemoveAsync($"{messenger.UserId}");
             }
 
-            var currentAction = actionService.GetActionById(callBackData.ActionId);
+            var currentAction = await actionService.GetActionById(callBackData.ActionId);
             if (currentAction == null || !IsValidAction(messenger, currentAction))
             {
                 await SendNotRecognizedCommandMessage(messenger);
@@ -162,7 +161,7 @@ namespace TelegramBot.Infrastructure.Command
             }
             else
             {
-                await SendNextActionsMessage(messenger, currentAction);
+                await actionService.SendNextActionsMessage(messenger, currentAction);
             }
         }
 
@@ -195,35 +194,14 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task SendMainMenuMessage(CustBotMessenger messenger)
         {
-            await messageSender.SendMessage(
-               messenger,
-               messageBuilder.BuildMenuMessage(messenger.Language),
-               replyMarkup: messageBuilder.BuildActionButtions(messenger.Language, actionService.GetRootActions()));
+            var message = messageBuilder.BuildMenuMessage(messenger.Language);
+            await actionService.SendRootActionsMessage(messenger, message);
         }
 
         private async Task SendNotRecognizedCommandMessage(CustBotMessenger messenger)
-            => await messageSender.SendMessage(
-                messenger,
-                messageBuilder.BuildNotRecognizedCommandMessage(messenger.Language),
-                replyMarkup: messageBuilder.BuildActionButtions(messenger.Language, actionService.GetRootActions()));
-
-        private async Task SendNextActionsMessage(CustBotMessenger messenger, BotAction currentAction)
         {
-            var nextActions = actionService.GetChildActions(currentAction.ActionId);
-            if (IsMessageAction(nextActions))
-            {
-                await messageSender.SendMessage(
-                    messenger,
-                    currentAction.ActionName,
-                    replyMarkup: messageBuilder.BuildCancelButtion(messenger.Language, currentAction.ParentId));
-            }
-            else
-            {
-                await messageSender.SendMessage(
-                    messenger,
-                    messageBuilder.BuildActionSelectedMessage(messenger.Language, currentAction.ActionName),
-                    replyMarkup: messageBuilder.BuildActionButtions(messenger.Language, actionService.GetChildActions(currentAction.ActionId), true));
-            }
+            var message = messageBuilder.BuildNotRecognizedCommandMessage(messenger.Language);
+            await actionService.SendRootActionsMessage(messenger, message);
         }
     }
 }

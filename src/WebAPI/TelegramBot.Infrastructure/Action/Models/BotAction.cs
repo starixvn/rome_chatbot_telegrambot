@@ -9,8 +9,8 @@
             string command,
             short functionId,
             short parentId,
-            bool isEndAction,
-            byte status)
+            byte status,
+            bool isEndAction)
         {
             ActionId = actionId;
             ActionName = actionName;

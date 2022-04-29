@@ -141,12 +141,7 @@ namespace TelegramBot.Infrastructure.Setting
             if (criteria.IsSuccess)
             {
                 await _cacheService.RemoveAsync(countCacheKey);
-                var custBotMessenger = await GetCustBotMessenger(custId, subAccId);
-
-                await _messageSender.SendMessage(
-                    custBotMessenger,
-                    _messageBuilder.BuildWelcomeMessage(custBotMessenger.Language, custBotMessenger.ChatId),
-                    replyMarkup: _messageBuilder.BuildActionButtions(custBotMessenger.Language, _actionService.GetRootActions()));
+                await SendWelcomeMessage(custId, subAccId);
             }
 
             return new Result(criteria.ErrCode, criteria.ErrMsg);
@@ -184,12 +179,6 @@ namespace TelegramBot.Infrastructure.Setting
             return new Result(criteria.ErrCode, criteria.ErrMsg);
         }
 
-        private static string GenerateOtp()
-        {
-            const int maxValue = 999999;
-            return ThreadSafeRandom.Next(0, maxValue).ToString("D6");
-        }
-
         public async Task<Result> UpdateUserLanguage(int userId, string language, string ip)
         {
             var command = new CustBotAccountLanguageUpdCriteria(userId, language, ip);
@@ -201,6 +190,19 @@ namespace TelegramBot.Infrastructure.Setting
         {
             var criteria = new CustBotUserSelCriteria(chatId, botId);
             return await _dynamicRepository.GetAsync<CustBotAccount>(criteria);
+        }
+
+        private static string GenerateOtp()
+        {
+            const int maxValue = 999999;
+            return ThreadSafeRandom.Next(0, maxValue).ToString("D6");
+        }
+
+        private async Task SendWelcomeMessage(int custId, int subAccId)
+        {
+            var messenger = await GetCustBotMessenger(custId, subAccId);
+            var message = _messageBuilder.BuildWelcomeMessage(messenger.Language, messenger.ChatId);
+            await _actionService.SendRootActionsMessage(messenger, message);
         }
     }
 }

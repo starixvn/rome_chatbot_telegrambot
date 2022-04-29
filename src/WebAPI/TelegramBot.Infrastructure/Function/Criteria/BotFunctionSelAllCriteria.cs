@@ -1,6 +1,6 @@
 using Fanex.Data.Repository;
 
-namespace TelegramBot.Infrastructure.Setting.Criteria
+namespace TelegramBot.Infrastructure.Function.Criteria
 {
     public class BotFunctionSelAllCriteria : CriteriaBase
     {

@@ -1,4 +1,4 @@
-namespace TelegramBot.Infrastructure.Setting.Constants
+namespace TelegramBot.Infrastructure.Function.Constants
 {
     public static class FunctionTypes
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanex.Data.Repository;
+using TelegramBot.Infrastructure.Function.Constants;
+using TelegramBot.Infrastructure.Function.Criteria;
 using TelegramBot.Infrastructure.Function.Models;
-using TelegramBot.Infrastructure.Setting.Constants;
-using TelegramBot.Infrastructure.Setting.Criteria;
 using TelegramBot.Infrastructure.Shared.Configurations;
 
 namespace TelegramBot.Infrastructure.Setting
