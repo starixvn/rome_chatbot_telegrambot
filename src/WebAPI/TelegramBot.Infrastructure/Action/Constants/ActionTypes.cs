@@ -4,5 +4,6 @@
     {
         public const byte Button = 1;
         public const byte Message = 2;
+        public const byte Downline = 3;
     }
 }

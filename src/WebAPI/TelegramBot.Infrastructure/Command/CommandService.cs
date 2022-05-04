@@ -107,8 +107,6 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task HandleUserReplyByText(CustBotAccount account, CustBotMessenger messenger, string message)
         {
-
-
             var lastAction = await actionService.GetActionById(await cacheService.GetAsync<int>($"{messenger.UserId}.ActionID"));
             if (lastAction == null || !IsValidAction(messenger, lastAction))
             {
@@ -138,11 +136,6 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
-            if (callBackData.IsCancel)
-            {
-                await cacheService.RemoveAsync($"{messenger.UserId}");
-            }
-
             var currentAction = await actionService.GetActionById(callBackData.ActionId);
             if (currentAction == null || !IsValidAction(messenger, currentAction))
             {
@@ -156,7 +149,7 @@ namespace TelegramBot.Infrastructure.Command
             }
             else
             {
-                await actionService.SendNextActionsMessage(messenger, currentAction);
+                await actionService.SendNextActionsMessage(account, messenger, currentAction);
             }
         }
 

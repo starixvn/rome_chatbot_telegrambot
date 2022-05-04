@@ -138,5 +138,10 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 index++;
             }
         }
+
+        public async Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)
+        {
+            return await outstandingService.GetTopOutstandingUsername(account.CustId, account.SubAccId, account.CustomerLevel, top);
+        }
     }
 }
