@@ -9,6 +9,7 @@ using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Criteria;
 using TelegramBot.Infrastructure.Setting.Models;
+using TelegramBot.Infrastructure.Shared.Caching;
 using TelegramBot.Infrastructure.Shared.Configurations;
 using Xunit;
 
@@ -18,7 +19,6 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
     {
         private readonly WebAPIConfiguration _webAPIConfiguration;
         private readonly IDynamicRepository _dynamicRepository;
-        private readonly ICacheService _cacheService;
         private readonly IMessageSender _messageSender;
         private readonly ISettingService _settingService;
         private readonly IMessageBuilder _messageBuilder;
@@ -30,7 +30,6 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
         {
             _webAPIConfiguration = Substitute.For<WebAPIConfiguration>();
             _dynamicRepository = Substitute.For<IDynamicRepository>();
-            _cacheService = Substitute.For<ICacheService>();
             _messageSender = Substitute.For<IMessageSender>();
             _messageBuilder = Substitute.For<IMessageBuilder>();
             _actionService = Substitute.For<IActionService>();
@@ -39,7 +38,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
             _settingService = new SettingService(
                 _webAPIConfiguration,
                 _dynamicRepository,
-                _cacheService,
+                Substitute.For<ICacheServiceFactory>(),
                 _messageSender,
                 _messageBuilder,
                 _actionService,

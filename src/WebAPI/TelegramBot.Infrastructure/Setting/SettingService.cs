@@ -11,6 +11,7 @@ using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Constants;
 using TelegramBot.Infrastructure.Setting.Criteria;
 using TelegramBot.Infrastructure.Setting.Models;
+using TelegramBot.Infrastructure.Shared.Caching;
 using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.Infrastructure.Shared.Models;
 
@@ -49,7 +50,7 @@ namespace TelegramBot.Infrastructure.Setting
         public SettingService(
             WebAPIConfiguration webAPIConfiguration,
             IDynamicRepository dynamicRepository,
-            ICacheService cacheService,
+            ICacheServiceFactory cacheServiceFactory,
             IMessageSender messageSender,
             IMessageBuilder messageBuilder,
             IActionService actionService,
@@ -58,7 +59,7 @@ namespace TelegramBot.Infrastructure.Setting
         {
             _webAPIConfiguration = webAPIConfiguration;
             _dynamicRepository = dynamicRepository;
-            _cacheService = cacheService;
+            _cacheService = cacheServiceFactory.Get(CacheProvider.Redis);
             _messageSender = messageSender;
             _messageBuilder = messageBuilder;
             _actionService = actionService;

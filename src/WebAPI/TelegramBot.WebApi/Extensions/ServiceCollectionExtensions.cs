@@ -1,4 +1,6 @@
-﻿using Fanex.Caching.Redis;
+﻿using Fanex.Caching;
+using Fanex.Caching.Memory;
+using Fanex.Caching.Redis;
 using Fanex.Logging;
 using Fanex.Logging.RabbitMQ;
 using Fanex.Logging.Sentry;
@@ -7,13 +9,16 @@ using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
 using Sentry;
+using StackExchange.Redis;
 using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command;
 using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Notification;
+using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Setting;
+using TelegramBot.Infrastructure.Shared.Caching;
 using TelegramBot.WebApi.Filters;
 
 namespace TelegramBot.WebApi.Extensions
@@ -34,6 +39,7 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<IMaintenanceService, MaintenanceService>();
             services.AddSingleton<IFunctionService, FunctionService>();
             services.AddSingleton<IMessageFormatter, TelegramFormatter>();
+            services.AddSingleton<IResourceService, ResourceService>();
             services.AddFunctionHandlers();
 
             return services;
@@ -41,7 +47,20 @@ namespace TelegramBot.WebApi.Extensions
 
         public static IServiceCollection AddFanexCaching(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddRedisCache(configuration.GetSection("Fanex.Caching.Redis"));
+            services.AddSingleton<ICacheServiceFactory, CacheServiceFactory>();
+
+            services.AddSingleton(new MemoryCacheOptions());
+            services.AddSingleton<MemoryCache>()
+                    .AddSingleton<ICache, MemoryCache>(s => s.GetService<MemoryCache>());
+
+            var options = new RedisCacheOptions();
+            var redisConfiguration = configuration.GetSection("Fanex.Caching.Redis");
+            redisConfiguration.Bind(options);
+            ReadEndPoints(redisConfiguration, options);
+            services.AddSingleton(options);
+            services.AddSingleton<RedisCache>()
+                    .AddSingleton<ICache, RedisCache>(s => s.GetService<RedisCache>());
+
             return services;
         }
 
@@ -94,6 +113,21 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<OustandingFunctionHandler>()
                 .AddSingleton<IFunctionHandler, OustandingFunctionHandler>(s => s.GetService<OustandingFunctionHandler>());
             return services;
+        }
+
+        private static void ReadEndPoints(IConfigurationSection configuration, RedisCacheOptions options)
+        {
+            var endPoints = configuration.GetSection("ConnectionOptions:EndPoints").Get<string[]>();
+
+            if (endPoints != null && endPoints.Length > 0)
+            {
+                options.ConnectionOptions = options.ConnectionOptions ?? new ConfigurationOptions();
+
+                foreach (var endPoint in endPoints)
+                {
+                    options.ConnectionOptions.EndPoints.Add(endPoint);
+                }
+            }
         }
     }
 }

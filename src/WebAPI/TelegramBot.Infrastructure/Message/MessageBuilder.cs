@@ -41,8 +41,6 @@ namespace TelegramBot.Infrastructure.Message
 
     public class MessageBuilder : IMessageBuilder
     {
-        private static readonly int NumberButtonInRow = 2;
-
         private static readonly List<string> underMaintenanceLanguageCodes = new()
         {
             LanguageCodes.English,

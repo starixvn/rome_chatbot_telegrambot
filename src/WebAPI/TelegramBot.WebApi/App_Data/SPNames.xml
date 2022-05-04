@@ -15,5 +15,11 @@
 		<Setting Key="CustBotMessageIns" SpName="Age_Chatbot_CustBotMessageIns" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 		<Setting Key="BotFunctionSelAll" SpName="Age_Chatbot_BotFunctionSelAll" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 		<Setting Key="BotActionSel" SpName="Age_Chatbot_BotActionSel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+		<Setting Key="BotResourceSel" SpName="Age_Chatbot_BotResourceSel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet">
+			<Mappings>
+				<Mapping DataField="ResourceName" ObjectProperty="Type" />
+				<Mapping DataField="ResourceKey" ObjectProperty="Key" />
+			</Mappings>
+		</Setting>
 	</Function>
 </Functions>
