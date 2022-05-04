@@ -1,6 +1,6 @@
 ﻿using Fanex.Data.Repository;
 
-namespace TelegramBot.Infrastructure.Message.criteria
+namespace TelegramBot.Infrastructure.Message.Criteria
 {
     public class CustBotMessageInsCriteria : INonQueryCommand
     {

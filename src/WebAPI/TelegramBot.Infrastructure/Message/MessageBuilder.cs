@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using TelegramBot.Infrastructure.Resource;
+using TelegramBot.Infrastructure.Resource.constants;
 using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Resources;
 
@@ -37,6 +40,8 @@ namespace TelegramBot.Infrastructure.Message
         string BuildHiddenDownlinesMessage(string language, int count, byte custLevel);
 
         string BuildInvalidCustNameMessage(string language, string invalidCustName);
+
+        Task<string> BuildActionName(string language, short actionId);
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -49,10 +54,12 @@ namespace TelegramBot.Infrastructure.Message
         };
 
         private readonly IMessageFormatter messageFormatter;
+        private readonly IResourceService resourceService;
 
-        public MessageBuilder(IMessageFormatter messageFormatter)
+        public MessageBuilder(IMessageFormatter messageFormatter, IResourceService resourceService)
         {
             this.messageFormatter = messageFormatter;
+            this.resourceService = resourceService;
         }
 
         public string BuildAccountAlreadyLinkedMessage(string language)
@@ -131,5 +138,10 @@ namespace TelegramBot.Infrastructure.Message
             => string.Format(
                 ResourceHelper.Get(nameof(SharedResource.InvalidCustName), language),
                 invalidCustName);
+
+        public async Task<string> BuildActionName(string language, short actionId)
+        {
+            return (await resourceService.GetResource(actionId.ToString(), ResourceType.ActionName, language)).Value;
+        }
     }
 }

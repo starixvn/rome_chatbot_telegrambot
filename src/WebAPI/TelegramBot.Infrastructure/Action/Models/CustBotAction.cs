@@ -4,25 +4,24 @@ namespace TelegramBot.Infrastructure.Action.Models
 {
     public class CustBotAction
     {
+
         public CustBotAction(
-            long logActionId,
+            long id,
             int userId,
             int actionId,
             string userResponse,
             string compiledCommand,
-            DateTime createdDate,
-            byte status)
+            DateTime createdDate)
         {
-            LogActionId = logActionId;
+            Id = id;
             UserId = userId;
             ActionId = actionId;
             UserResponse = userResponse;
             CompiledCommand = compiledCommand;
             CreatedDate = createdDate;
-            Status = status;
         }
 
-        public long LogActionId { get; }
+        public long Id { get; }
 
         public int UserId { get; }
 
@@ -33,7 +32,5 @@ namespace TelegramBot.Infrastructure.Action.Models
         public string CompiledCommand { get; }
 
         public DateTime CreatedDate { get; }
-
-        public byte Status { get; }
     }
 }

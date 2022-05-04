@@ -11,7 +11,7 @@ namespace TelegramBot.Client.Services
 
         Task<Result> StartAsync(long messengerBotId, long chatId, string message, string language, string ip = "");
 
-        Task<Result> ResendOtpAsync(int botId, int custId, int subAccId);
+        Task<Result> ResendOtpAsync(int custId, int subAccId);
 
         Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip = "");
 
@@ -59,13 +59,12 @@ namespace TelegramBot.Client.Services
                 });
         }
 
-        public async Task<Result> ResendOtpAsync(int botId, int custId, int subAccId)
+        public async Task<Result> ResendOtpAsync(int custId, int subAccId)
         {
             return await httpClient.PostAsJsonAsync<Result>(
                 $"setting/resend-otp",
                 new
                 {
-                    botId,
                     custId,
                     subAccId
                 });

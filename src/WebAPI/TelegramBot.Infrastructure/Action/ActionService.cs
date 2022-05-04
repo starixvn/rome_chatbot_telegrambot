@@ -8,6 +8,8 @@ using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Action.Criteria;
 using TelegramBot.Infrastructure.Action.Models;
 using TelegramBot.Infrastructure.Message;
+using TelegramBot.Infrastructure.Message.Models;
+using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.Infrastructure.Shared.Resources;
@@ -50,21 +52,26 @@ namespace TelegramBot.Infrastructure.Action
             var nextActions = await GetChildActions(currentAction.ActionId);
             if (nextActions.Count() == 1 && IsMessageAction(nextActions.FirstOrDefault()))
             {
-                await SendMessageActionMessage(messenger, nextActions.FirstOrDefault().ActionName, currentAction.ParentId);
+                var messageAction = nextActions.FirstOrDefault();
+                await InsertUserAction(messenger.UserId, messageAction.ActionId, string.Empty);
+                await messageSender.SendMessageWithCancelButtion(
+                    messenger,
+                    await messageBuilder.BuildActionName(messenger.Language, messageAction.ActionId),
+                    currentAction.ParentId);
             }
             else
             {
-                await SendActionsMessage(
+                await messageSender.SendMessageWithBackToMainMenuButton(
                     messenger,
                     messageBuilder.BuildActionSelectedMessage(messenger.Language, currentAction.ActionName),
-                    nextActions);
+                    await BuildButtons(messenger.Language, nextActions));
             }
         }
 
         public async Task SendRootActionsMessage(CustBotMessenger messenger, string message)
         {
             var rootActions = await GetRootActions();
-            await SendActionsMessage(messenger, message, rootActions);
+            await messageSender.SendMessage(messenger, message, await BuildButtons(messenger.Language, rootActions));
         }
 
         public async Task<BotAction> GetActionById(int id)
@@ -79,72 +86,32 @@ namespace TelegramBot.Infrastructure.Action
         private async Task<IEnumerable<BotAction>> GetAllActions()
             => await dynamicRepository.FetchAsync<BotAction>(new BotActionSelCriteria(!webAPIConfiguration.IsProduction)).ConfigureAwait(false);
 
-        private InlineKeyboardMarkup BuildActionButtions(string language, IList<BotAction> actions, bool withBackToMainMenuButton = false)
+        private async Task<IList<MessageButton>> BuildButtons(string language, IEnumerable<BotAction> actions)
         {
-            var numberOfRows = actions.Count % NumberButtonInRow > 0 ? (actions.Count / NumberButtonInRow) + 1 : (actions.Count / NumberButtonInRow);
-            numberOfRows = withBackToMainMenuButton ? numberOfRows + 1 : numberOfRows;
-            var buttonRows = new InlineKeyboardButton[numberOfRows][];
+            var buttons = new List<MessageButton>();
 
-            for (var i = 0; i < numberOfRows; i++)
+            foreach (var action in actions)
             {
-                if (withBackToMainMenuButton && i == numberOfRows - 1)
-                {
-                    buttonRows[i] = new InlineKeyboardButton[]
-                    {
-                        InlineKeyboardButton.WithCallbackData(
-                            ResourceHelper.Get(nameof(SharedResource.BackToMainMenu),language),
-                            JsonConvert.SerializeObject(new {IsBackToMainMenu=true}))
-                    };
-                    break;
-                }
-
-                var actionIndex = i * NumberButtonInRow;
-                if (actionIndex == actions.Count - 1)
-                {
-                    buttonRows[i] = new InlineKeyboardButton[]
-                    {
-                        InlineKeyboardButton.WithCallbackData(actions[actionIndex].ActionName, JsonConvert.SerializeObject(new { ActionId= actions[actionIndex].ActionId}))
-                    };
-                }
-                else
-                {
-                    buttonRows[i] = new InlineKeyboardButton[]
-                    {
-                        InlineKeyboardButton.WithCallbackData(actions[actionIndex].ActionName, JsonConvert.SerializeObject(new { ActionId= actions[actionIndex].ActionId})),
-                        InlineKeyboardButton.WithCallbackData(actions[actionIndex + 1].ActionName, JsonConvert.SerializeObject(new { ActionId= actions[actionIndex + 1].ActionId}))
-                    };
-                }
+                buttons.Add(new MessageButton(await messageBuilder.BuildActionName(language, action.ActionId), JsonConvert.SerializeObject(new { ActionId = action.ActionId })));
             }
 
-            return buttonRows;
+            return buttons;
         }
 
-        private async Task SendActionsMessage(CustBotMessenger messenger, string message, IEnumerable<BotAction> actions, bool withBackToMainMenuButton = false)
-        {
-            var actionButtons = BuildActionButtions(messenger.Language, actions.ToList(), withBackToMainMenuButton);
-            await messageSender.SendMessage(messenger, message, replyMarkup: actionButtons);
-        }
-
-        private async Task SendMessageActionMessage(CustBotMessenger messenger, string actionName, short parentActionId)
-        {
-            await messageSender.SendMessage(
-                messenger,
-                actionName,
-                replyMarkup: BuildCancelButtion(messenger.Language, parentActionId));
-        }
 
         private static bool IsMessageAction(BotAction action)
             => action.Type == ActionTypes.Message;
 
-        private InlineKeyboardMarkup BuildCancelButtion(string language, short parentActionId)
+        private async Task<IList<CustBotAction>> GetUserActions(int userId)
         {
-            return new(new[] {
-                new[] {
-                    InlineKeyboardButton.WithCallbackData(
-                        ResourceHelper.Get(nameof(SharedResource.Cancel)),
-                        JsonConvert.SerializeObject(new { IsCancel = true, ActionId = parentActionId }))
-                    }
-                });
+            return (await dynamicRepository.FetchAsync<CustBotAction>(new CustBotActionInChainSelCriteria(userId)).ConfigureAwait(false))
+                .DistinctBy(userAction => userAction.ActionId)
+                .ToList();
+        }
+
+        private async Task InsertUserAction(int userId, short actionId, string userResponse, string compiledCommand = "")
+        {
+            await dynamicRepository.ExecuteAsync(new CustBotActionInsCriteria(userId, actionId, userResponse, compiledCommand)).ConfigureAwait(false);
         }
     }
 }

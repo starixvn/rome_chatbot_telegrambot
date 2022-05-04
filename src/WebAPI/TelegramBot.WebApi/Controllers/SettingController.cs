@@ -76,7 +76,7 @@ namespace TelegramBot.WebApi.Controllers
         [Route("resend-otp"), HttpPost]
         public async Task<Result> ResendOtp(ResendOtpParam param)
         {
-            return await _settingService.ResendOtp(param.BotId, param.CustId, param.SubAccId);
+            return await _settingService.ResendOtp(param.CustId, param.SubAccId);
         }
 
         /// <summary>

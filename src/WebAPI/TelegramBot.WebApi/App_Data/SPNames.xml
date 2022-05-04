@@ -21,5 +21,11 @@
 				<Mapping DataField="ResourceKey" ObjectProperty="Key" />
 			</Mappings>
 		</Setting>
+		<Setting Key="CustBotActionInChainSel" SpName="Age_Chatbot_CustBotActionInChainSel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet">
+			<Mappings>
+				<Mapping DataField="LogActionId" ObjectProperty="Id" />
+			</Mappings>
+		</Setting>
+		<Setting Key="CustBotActionIns" SpName="Age_Chatbot_CustBotActionIns" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 	</Function>
 </Functions>

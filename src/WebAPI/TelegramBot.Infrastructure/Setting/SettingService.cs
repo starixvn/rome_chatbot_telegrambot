@@ -23,7 +23,7 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<Result> Start(int botId, long chatId, int custId, int subAccId, string language, string ip);
 
-        Task<Result> ResendOtp(int botId, int custId, int subAccId);
+        Task<Result> ResendOtp(int custId, int subAccId);
 
         Task<Result> Link(int botId, int custId, int subAccId, string otp, string ip);
 
@@ -98,13 +98,13 @@ namespace TelegramBot.Infrastructure.Setting
             return Result.CreateSuccessfulResult();
         }
 
-        public async Task<Result> ResendOtp(int botId, int custId, int subAccId)
+        public async Task<Result> ResendOtp(int custId, int subAccId)
         {
             var otp = GenerateOtp();
             var cacheKey = $"otp_value_{custId}_{subAccId}";
             var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
-            var custBotMessenger = await GetCustBotMessenger(custId, subAccId);
+            var custBotMessenger = await GetVerifyingMessenger(custId, subAccId);
             var message = _messageBuilder.BuildOTPMessage(custBotMessenger.Language, otp);
             await _messageSender.SendMessage(custBotMessenger, message);
             return Result.CreateSuccessfulResult();
@@ -171,6 +171,13 @@ namespace TelegramBot.Infrastructure.Setting
                 : resultSet.secondResultSet;
 
             return custBotMessenger;
+        }
+
+        private async Task<CustBotMessenger> GetVerifyingMessenger(int custId, int subAccId)
+        {
+            var criteria = new CustBotMessengerSelCriteria(custId, subAccId, !_webAPIConfiguration.IsProduction, true, false);
+            var resultSet = await _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(criteria).ConfigureAwait(false);
+            return resultSet.firstResultSet.FirstOrDefault();
         }
 
         public async Task<Result> UpdateUserFunction(int userid, BotFunction function, int creator, string ip)

@@ -72,7 +72,7 @@ namespace TelegramBot.ClientExample
             _result = await _settingService.LinkAsync(_firstBot.BotId, custId, subAccId, $"${otp}aa");
             Write("Link with incorrect OTP", _result);
 
-            _result = await _settingService.ResendOtpAsync(_firstBot.BotId, custId, subAccId);
+            _result = await _settingService.ResendOtpAsync(custId, subAccId);
             Write("Resend new OTP", _result);
 
             otp = await _cacheService.GetAsync<string>(cacheKey);

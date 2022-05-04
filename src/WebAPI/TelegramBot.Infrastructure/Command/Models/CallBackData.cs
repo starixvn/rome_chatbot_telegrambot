@@ -9,5 +9,7 @@ namespace TelegramBot.Infrastructure.Command.Models
         public bool IsConfirmButton { get; set; }
 
         public bool IsBackToMainMenu { get; set; }
+
+        public string CompiledCommand { get; set; }
     }
 }
