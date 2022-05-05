@@ -44,6 +44,7 @@ namespace TelegramBot.Infrastructure.Action
         private readonly WebAPIConfiguration webAPIConfiguration;
         private readonly IMessageSender messageSender;
         private readonly IMessageBuilder messageBuilder;
+        private readonly IMessageFormatter messageFormatter;
         private readonly IFunctionHandlerFactory functionHandlerFactory;
 
         public ActionService(
@@ -51,12 +52,14 @@ namespace TelegramBot.Infrastructure.Action
             WebAPIConfiguration webAPIConfiguration,
             IMessageSender messageSender,
             IMessageBuilder messageBuilder,
+            IMessageFormatter messageFormatter,
             IFunctionHandlerFactory functionHandlerFactory)
         {
             this.dynamicRepository = dynamicRepository;
             this.webAPIConfiguration = webAPIConfiguration;
             this.messageSender = messageSender;
             this.messageBuilder = messageBuilder;
+            this.messageFormatter = messageFormatter;
             this.functionHandlerFactory = functionHandlerFactory;
         }
 
@@ -73,9 +76,12 @@ namespace TelegramBot.Infrastructure.Action
             {
                 var messageAction = nextActions.FirstOrDefault();
                 await InsertUserAction(messenger.UserId, messageAction.ActionId, string.Empty);
+                var message = string.Join(messageFormatter.NewLine(),
+                    messageBuilder.BuildActionSelectedMessage(messenger.Language, await messageBuilder.BuildActionName(messenger.Language, currentAction.ActionId)),
+                    await messageBuilder.BuildActionName(messenger.Language, messageAction.ActionId));
                 await messageSender.SendMessageWithCancelButtion(
                     messenger,
-                    await messageBuilder.BuildActionName(messenger.Language, messageAction.ActionId),
+                    message,
                     currentAction.ParentId);
             }
             else
@@ -99,16 +105,16 @@ namespace TelegramBot.Infrastructure.Action
                     {
                         buttons.Add(new MessageButton(
                             username,
-                            JsonConvert.SerializeObject(new CallBackData { ActionId = action.ActionId, CompiledCommand = await CompileCommand(userActions, username) })
+                            JsonConvert.SerializeObject(new { ActionId = action.ActionId, CompiledCommand = await CompileCommand(userActions, username) })
                             ));
                     }
 
-                    return;
+                    continue;
                 }
 
                 buttons.Add(new MessageButton(
                     await messageBuilder.BuildActionName(messenger.Language, action.ActionId),
-                    JsonConvert.SerializeObject(new CallBackData { ActionId = action.ActionId, CompiledCommand = action.IsEndAction ? await CompileCommand(userActions, action.Command) : string.Empty })
+                    JsonConvert.SerializeObject(new { ActionId = action.ActionId, CompiledCommand = action.IsEndAction ? await CompileCommand(userActions, action.Command) : string.Empty })
                     ));
             }
 
@@ -153,7 +159,7 @@ namespace TelegramBot.Infrastructure.Action
             {
                 buttons.Add(new MessageButton(
                     await messageBuilder.BuildActionName(messenger.Language, action.ActionId),
-                    JsonConvert.SerializeObject(new CallBackData { ActionId = action.ActionId, CompiledCommand = action.IsEndAction ? action.Command : string.Empty })
+                    JsonConvert.SerializeObject(new { ActionId = action.ActionId, CompiledCommand = action.IsEndAction ? action.Command : string.Empty })
                     ));
             }
 

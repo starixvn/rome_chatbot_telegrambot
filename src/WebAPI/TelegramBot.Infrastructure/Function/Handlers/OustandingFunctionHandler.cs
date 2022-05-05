@@ -70,7 +70,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                         return;
                     }
 
-                    var message = BuildTopOutstandingMessage(messenger.Language, data, account.CustomerLevel);
+                    var message = BuildDownlineOutstandingMessage(messenger.Language, data, account.CustomerLevel, parameter);
                     await messageSender.SendMessage(messenger, message);
                 }
             }
@@ -111,7 +111,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             var textContainer = new List<string>();
             AddTitleRow(textContainer, language);
-            textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.For), language)} {downlineUsername}");
+            textContainer.Add($"{ResourceHelper.Get(nameof(SharedResource.For), language)} {downlineUsername}");
             textContainer.Add($"{headerRow}{messageFormatter.NewLine()}");
             AddTotalRow(textContainer, data.Total, language);
             AddBodyMessage(textContainer, data.Outstandings);
