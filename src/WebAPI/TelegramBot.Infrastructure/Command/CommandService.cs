@@ -132,7 +132,6 @@ namespace TelegramBot.Infrastructure.Command
             if (currentAction.Type == ActionTypes.Message)
             {
                 await actionService.UpdateUserAction(lastUserAction.Id, userResponse);
-
             }
 
             if (currentAction.IsEndAction)
@@ -202,7 +201,7 @@ namespace TelegramBot.Infrastructure.Command
         {
             await actionService.ResetUserActions(account.UserId);
             var splittedCommand = SplitCommand(command);
-            await functionHandlerFactory.GetHandler(functionId).Handle(account, messenger, splittedCommand.Item2);
+            await functionHandlerFactory.GetHandler(functionId).Handle(account, messenger, splittedCommand.Item1, splittedCommand.Item2);
         }
 
         private static bool IsValidAction(CustBotMessenger messenger, BotAction action)

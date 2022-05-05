@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Action.Criteria;
 using TelegramBot.Infrastructure.Action.Models;
-using TelegramBot.Infrastructure.Command.Models;
 using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Message.Models;
@@ -21,11 +20,11 @@ namespace TelegramBot.Infrastructure.Action
     {
         Task<BotAction> GetActionById(int id);
 
+        Task<BotAction> GetActionByCommand(string command);
+
         Task<IList<CustBotAction>> GetUserActions(int userId);
 
         Task SendRootActionsMessage(CustBotMessenger messenger, string message);
-
-        Task HandleButtonAction(CustBotAccount account, CustBotMessenger messenger, BotAction currentAction);
 
         Task UpdateUserAction(long id, string userResponse, string compiledCommand = "");
 
@@ -36,6 +35,8 @@ namespace TelegramBot.Infrastructure.Action
         Task<string> CompileCommand(IEnumerable<CustBotAction> userActions, string userResponse);
 
         Task ResetUserActions(int userId);
+
+        Task<IList<MessageButton>> BuildNextActionButtons(CustBotAccount account, BotAction currentAction);
     }
 
     public class ActionService : IActionService
@@ -63,11 +64,11 @@ namespace TelegramBot.Infrastructure.Action
             this.functionHandlerFactory = functionHandlerFactory;
         }
 
-        public async Task HandleButtonAction(CustBotAccount account, CustBotMessenger messenger, BotAction currentAction)
+        public async Task<BotAction> GetActionByCommand(string command)
         {
-            await InsertUserAction(account.UserId, currentAction.ActionId, string.Empty);
-            await SendNextActionsMessage(account, messenger, currentAction);
+            return (await GetRootActions()).FirstOrDefault(a => a.Command == command);
         }
+
 
         public async Task SendNextActionsMessage(CustBotAccount account, CustBotMessenger messenger, BotAction currentAction)
         {
@@ -95,7 +96,23 @@ namespace TelegramBot.Infrastructure.Action
             var actionName = await messageBuilder.BuildActionName(messenger.Language, currentAction.ActionId);
             var message = messageBuilder.BuildActionSelectedMessage(messenger.Language, actionName);
             var userActions = await GetUserActions(messenger.UserId);
+            var buttons = await BuildNextActionButtons(account, currentAction, nextActions);
+            await messageSender.SendMessageWithBackToMainMenuButton(
+                    messenger,
+                    messageBuilder.BuildActionSelectedMessage(messenger.Language, currentAction.ActionName),
+                    buttons);
+        }
+
+        public async Task<IList<MessageButton>> BuildNextActionButtons(CustBotAccount account, BotAction currentAction)
+        {
+            var nextActions = await GetChildActions(currentAction.ActionId);
+            return await BuildNextActionButtons(account, currentAction, nextActions);
+        }
+
+        private async Task<IList<MessageButton>> BuildNextActionButtons(CustBotAccount account, BotAction currentAction, IEnumerable<BotAction> nextActions)
+        {
             var buttons = new List<MessageButton>();
+            var userActions = await GetUserActions(account.UserId);
             foreach (var action in nextActions)
             {
                 if (action.Type == ActionTypes.Downline)
@@ -113,15 +130,12 @@ namespace TelegramBot.Infrastructure.Action
                 }
 
                 buttons.Add(new MessageButton(
-                    await messageBuilder.BuildActionName(messenger.Language, action.ActionId),
+                    await messageBuilder.BuildActionName(account.Language, action.ActionId),
                     JsonConvert.SerializeObject(new { ActionId = action.ActionId, CompiledCommand = action.IsEndAction ? await CompileCommand(userActions, action.Command) : string.Empty })
                     ));
             }
 
-            await messageSender.SendMessageWithBackToMainMenuButton(
-                    messenger,
-                    messageBuilder.BuildActionSelectedMessage(messenger.Language, currentAction.ActionName),
-                    buttons);
+            return buttons;
         }
 
         public async Task<string> CompileCommand(IEnumerable<CustBotAction> userActions, string userResponse)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Alpha.API.Client.Models.Outstanding;
 using Alpha.API.Client.Services;
+using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
@@ -16,6 +17,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         private readonly IOutstandingService outstandingService;
         private readonly ICustomerService customerService;
         private readonly WebAPIConfiguration webAPIConfiguration;
+        private readonly IActionService actionService;
 
         public OustandingFunctionHandler(
             IMessageBuilder messageBuilder,
@@ -23,36 +25,33 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             IMessageFormatter messageFormatter,
             IOutstandingService outstandingService,
             ICustomerService customerService,
-            WebAPIConfiguration webAPIConfiguration)
+            WebAPIConfiguration webAPIConfiguration,
+            IActionService actionService)
             : base(messageBuilder, messageSender, messageFormatter)
         {
             this.outstandingService = outstandingService;
             this.customerService = customerService;
             this.webAPIConfiguration = webAPIConfiguration;
+            this.actionService = actionService;
         }
 
-        public async Task Handle(CustBotAccount account, CustBotMessenger messenger, string[] parameters)
+        public async Task Handle(CustBotAccount account, CustBotMessenger messenger, string command, string[] parameters)
         {
             var parameter = parameters[0];
             if (!string.IsNullOrWhiteSpace(parameter))
             {
+                OutstandingReport data = null;
+                var viewTopOutstanding = false;
                 if (int.TryParse(parameter, out int topQuery))
                 {
+                    viewTopOutstanding = true;
                     if (topQuery <= 0 && topQuery > webAPIConfiguration.OutstandingMaxTopQuery)
                     {
                         await BuildAndSendInvalidNumerOfDownlineRangeMessage(messenger, topQuery);
                         return;
                     }
 
-                    var data = await outstandingService.GetTopOutstanding(account.CustId, account.SubAccId, account.CustomerLevel, topQuery);
-                    if (data == null)
-                    {
-                        await BuildAndSendNoDataMessage(messenger);
-                        return;
-                    }
-
-                    var message = BuildTopOutstandingMessage(messenger.Language, data, account.CustomerLevel);
-                    await messageSender.SendMessage(messenger, message);
+                    data = await outstandingService.GetTopOutstanding(account.CustId, account.SubAccId, account.CustomerLevel, topQuery);
                 }
                 else
                 {
@@ -63,18 +62,24 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                         return;
                     }
 
-                    var data = await outstandingService.GetDownlineOutstanding(account.CustId, account.SubAccId, account.CustomerLevel, downlineInfo.CustId, messenger.Language);
-                    if (data == null)
-                    {
-                        await BuildAndSendNoDataMessage(messenger);
-                        return;
-                    }
-
-                    var message = BuildDownlineOutstandingMessage(messenger.Language, data, account.CustomerLevel, parameter);
-                    await messageSender.SendMessage(messenger, message);
+                    data = await outstandingService.GetDownlineOutstanding(account.CustId, account.SubAccId, account.CustomerLevel, downlineInfo.CustId, messenger.Language);
                 }
-            }
 
+                if (data == null)
+                {
+                    await BuildAndSendNoDataMessage(messenger);
+                    return;
+                }
+
+                var message = viewTopOutstanding
+                    ? BuildTopOutstandingMessage(messenger.Language, data, account.CustomerLevel)
+                    : BuildDownlineOutstandingMessage(messenger.Language, data, account.CustomerLevel, parameter);
+
+                var action = await actionService.GetActionByCommand(command);
+                await actionService.InsertUserAction(account.UserId, action.ActionId, string.Empty);
+                var buttons = await actionService.BuildNextActionButtons(account, action);
+                await messageSender.SendMessage(messenger, message, buttons);
+            }
         }
 
         private string BuildTopOutstandingMessage(string language, OutstandingReport data, byte custLevel)

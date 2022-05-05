@@ -6,7 +6,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 {
     public interface IFunctionHandler
     {
-        Task Handle(CustBotAccount account, CustBotMessenger messenger, string[] parameters);
+        Task Handle(CustBotAccount account, CustBotMessenger messenger, string command, string[] parameters);
 
         Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5);
     }
