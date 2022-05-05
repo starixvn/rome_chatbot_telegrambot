@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Action;
+using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Action.Models;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command.Models;
@@ -79,7 +80,6 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task HandleHelpCommand(CustBotMessenger messenger, bool hasReportPermission)
         {
-
             var message = messageBuilder.BuildHelpMessage(
                 messenger.Language,
                 messenger.BotName,
@@ -105,20 +105,38 @@ namespace TelegramBot.Infrastructure.Command
             }
         }
 
-        private async Task HandleUserReplyByText(CustBotAccount account, CustBotMessenger messenger, string message)
+        private async Task HandleUserReplyByText(CustBotAccount account, CustBotMessenger messenger, string userResponse)
         {
-            var lastAction = await actionService.GetActionById(await cacheService.GetAsync<int>($"{messenger.UserId}.ActionID"));
-            if (lastAction == null || !IsValidAction(messenger, lastAction))
+            var userActions = await actionService.GetUserActions(account.UserId);
+            var lastUserAction = userActions.LastOrDefault();
+            var currentAction = await actionService.GetActionById(lastUserAction.ActionId);
+            if (currentAction == null || !IsValidAction(messenger, currentAction))
             {
-
-                var function = await functionService.GetFunctionByCommand(message);
+                var function = await functionService.GetFunctionByCommand(userResponse);
                 if (function == null)
                 {
                     await SendNotRecognizedCommandMessage(messenger);
                     return;
                 }
 
-                await HandleCommand(account, messenger, message, function.FunctionId);
+                await HandleCommand(account, messenger, userResponse, function.FunctionId);
+                return;
+            }
+
+            if (currentAction.Type == ActionTypes.Message)
+            {
+                await actionService.UpdateUserAction(lastUserAction.Id, userResponse);
+
+            }
+
+            if (currentAction.IsEndAction)
+            {
+                var compiledCommand = await actionService.CompileCommand(userActions, userResponse);
+                await HandleCommand(account, messenger, compiledCommand, currentAction.FunctionId);
+            }
+            else
+            {
+                await actionService.SendNextActionsMessage(account, messenger, currentAction);
             }
         }
 
@@ -136,6 +154,11 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
+            if (callBackData.IsCancel)
+            {
+                await actionService.ResetUserActions(account.UserId);
+            }
+
             var currentAction = await actionService.GetActionById(callBackData.ActionId);
             if (currentAction == null || !IsValidAction(messenger, currentAction))
             {
@@ -149,6 +172,7 @@ namespace TelegramBot.Infrastructure.Command
             }
             else
             {
+                await actionService.InsertUserAction(account.UserId, currentAction.ActionId, string.Empty);
                 await actionService.SendNextActionsMessage(account, messenger, currentAction);
             }
         }
@@ -170,6 +194,7 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task HandleCommand(CustBotAccount account, CustBotMessenger messenger, string command, short functionId)
         {
+            await actionService.ResetUserActions(account.UserId);
             var splittedCommand = SplitCommand(command);
             await functionHandlerFactory.GetHandler(functionId).Handle(account, messenger, splittedCommand.Item2);
         }

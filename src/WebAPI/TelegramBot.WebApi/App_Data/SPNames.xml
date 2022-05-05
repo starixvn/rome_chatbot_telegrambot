@@ -27,5 +27,7 @@
 			</Mappings>
 		</Setting>
 		<Setting Key="CustBotActionIns" SpName="Age_Chatbot_CustBotActionIns" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+		<Setting Key="CustBotActionStatusUpd" SpName="Age_Chatbot_CustBotActionStatusUpd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+		<Setting Key="CustBotActionCommandUpd" SpName="Age_Chatbot_CustBotActionCommandUpd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 	</Function>
 </Functions>

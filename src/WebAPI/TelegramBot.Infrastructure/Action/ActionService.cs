@@ -21,11 +21,21 @@ namespace TelegramBot.Infrastructure.Action
     {
         Task<BotAction> GetActionById(int id);
 
-        Task<IEnumerable<BotAction>> GetChildActions(int parentId);
+        Task<IList<CustBotAction>> GetUserActions(int userId);
 
         Task SendRootActionsMessage(CustBotMessenger messenger, string message);
 
+        Task HandleButtonAction(CustBotAccount account, CustBotMessenger messenger, BotAction currentAction);
+
+        Task UpdateUserAction(long id, string userResponse, string compiledCommand = "");
+
+        Task InsertUserAction(int userId, short actionId, string userResponse, string compiledCommand = "");
+
         Task SendNextActionsMessage(CustBotAccount account, CustBotMessenger messenger, BotAction currentAction);
+
+        Task<string> CompileCommand(IEnumerable<CustBotAction> userActions, string userResponse);
+
+        Task ResetUserActions(int userId);
     }
 
     public class ActionService : IActionService
@@ -48,6 +58,12 @@ namespace TelegramBot.Infrastructure.Action
             this.messageSender = messageSender;
             this.messageBuilder = messageBuilder;
             this.functionHandlerFactory = functionHandlerFactory;
+        }
+
+        public async Task HandleButtonAction(CustBotAccount account, CustBotMessenger messenger, BotAction currentAction)
+        {
+            await InsertUserAction(account.UserId, currentAction.ActionId, string.Empty);
+            await SendNextActionsMessage(account, messenger, currentAction);
         }
 
         public async Task SendNextActionsMessage(CustBotAccount account, CustBotMessenger messenger, BotAction currentAction)
@@ -102,7 +118,7 @@ namespace TelegramBot.Infrastructure.Action
                     buttons);
         }
 
-        private async Task<string> CompileCommand(IEnumerable<CustBotAction> userActions, string userResponse)
+        public async Task<string> CompileCommand(IEnumerable<CustBotAction> userActions, string userResponse)
         {
             var lastAction = userActions.LastOrDefault();
             var actionChain = await GetActionChain(lastAction.ActionId);
@@ -129,6 +145,7 @@ namespace TelegramBot.Infrastructure.Action
 
         public async Task SendRootActionsMessage(CustBotMessenger messenger, string message)
         {
+            await ResetUserActions(messenger.UserId);
             var rootActions = await GetRootActions();
             var buttons = new List<MessageButton>();
 
@@ -168,7 +185,7 @@ namespace TelegramBot.Infrastructure.Action
         public async Task<BotAction> GetActionById(int id)
             => (await GetAllActions()).FirstOrDefault(action => action.ActionId == id);
 
-        public async Task<IEnumerable<BotAction>> GetChildActions(int parentId)
+        private async Task<IEnumerable<BotAction>> GetChildActions(int parentId)
             => (await GetAllActions()).Where(action => action.ParentId == parentId);
 
         private async Task<IEnumerable<BotAction>> GetRootActions()
@@ -181,16 +198,26 @@ namespace TelegramBot.Infrastructure.Action
         private static bool IsMessageAction(BotAction action)
             => action.Type == ActionTypes.Message;
 
-        private async Task<IList<CustBotAction>> GetUserActions(int userId)
+        public async Task<IList<CustBotAction>> GetUserActions(int userId)
         {
             return (await dynamicRepository.FetchAsync<CustBotAction>(new CustBotActionInChainSelCriteria(userId)).ConfigureAwait(false))
                 .DistinctBy(userAction => userAction.ActionId)
                 .ToList();
         }
 
-        private async Task InsertUserAction(int userId, short actionId, string userResponse, string compiledCommand = "")
+        public async Task InsertUserAction(int userId, short actionId, string userResponse, string compiledCommand = "")
         {
             await dynamicRepository.ExecuteAsync(new CustBotActionInsCriteria(userId, actionId, userResponse, compiledCommand)).ConfigureAwait(false);
+        }
+
+        public async Task UpdateUserAction(long id, string userResponse, string compiledCommand = "")
+        {
+            await dynamicRepository.ExecuteAsync(new CustBotActionCommandUpdCriteria(id, userResponse, compiledCommand)).ConfigureAwait(false);
+        }
+
+        public async Task ResetUserActions(int userId)
+        {
+            await dynamicRepository.ExecuteAsync(new CustBotActionStatusUpdCriteria(userId)).ConfigureAwait(false);
         }
     }
 }
