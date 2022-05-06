@@ -83,7 +83,7 @@ namespace TelegramBot.Infrastructure.Action
                 await messageSender.SendMessageWithCancelButtion(
                     messenger,
                     message,
-                    currentAction.ParentId);
+                    messageAction.BackToActionId);
             }
             else
             {

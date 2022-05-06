@@ -78,7 +78,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 var action = await actionService.GetActionByCommand(command);
                 await actionService.InsertUserAction(account.UserId, action.ActionId, string.Empty);
                 var buttons = await actionService.BuildNextActionButtons(account, action);
-                await messageSender.SendMessage(messenger, message, buttons);
+                await messageSender.SendMessageWithBackToMainMenuButton(messenger, message, buttons, action.FunctionId);
             }
         }
 

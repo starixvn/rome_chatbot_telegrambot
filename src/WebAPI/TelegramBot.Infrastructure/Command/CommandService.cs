@@ -1,5 +1,4 @@
 ﻿using Alpha.API.Client.Services;
-using Fanex.Caching;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -14,7 +13,6 @@ using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Models;
-using TelegramBot.Infrastructure.Shared.Caching;
 
 namespace TelegramBot.Infrastructure.Command
 {
@@ -33,7 +31,6 @@ namespace TelegramBot.Infrastructure.Command
         private readonly IActionService actionService;
         private readonly IFunctionService functionService;
         private readonly IFunctionHandlerFactory functionHandlerFactory;
-        private readonly ICacheService cacheService;
 
         public CommandService(
             IMessageBuilder messageBuilder,
@@ -42,7 +39,6 @@ namespace TelegramBot.Infrastructure.Command
             IBotService botService,
             ICustomerService customerService,
             IActionService actionService,
-            ICacheServiceFactory cacheServiceFactory,
             IFunctionService functionService,
             IFunctionHandlerFactory functionHandlerFactory)
         {
@@ -54,7 +50,6 @@ namespace TelegramBot.Infrastructure.Command
             this.actionService = actionService;
             this.functionService = functionService;
             this.functionHandlerFactory = functionHandlerFactory;
-            this.cacheService = cacheServiceFactory.Get(CacheProvider.Redis);
         }
 
         public async Task ExecuteAsync(long messengerBotId, long chatId, string message, bool isCallback)
