@@ -109,14 +109,8 @@ namespace TelegramBot.Infrastructure.Command
                         StringSplitOptions.RemoveEmptyEntries)));
             var userActions = await actionService.GetUserActions(account.UserId);
             var lastUserAction = userActions.LastOrDefault();
-            if (lastUserAction == null)
-            {
-                await SendMainMenuMessage(messenger);
-                return;
-            }
-
-            var currentAction = await actionService.GetActionById(lastUserAction.ActionId);
-            if (currentAction == null || !IsValidAction(messenger, currentAction))
+            var currentAction = lastUserAction != null ? await actionService.GetActionById(lastUserAction.ActionId) : null;
+            if (currentAction == null || currentAction.Type != ActionTypes.Message)
             {
                 var function = await functionService.GetFunctionByCommand(userResponse);
                 if (function == null)
