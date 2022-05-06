@@ -95,18 +95,18 @@ namespace TelegramBot.Infrastructure.Command
             }
             else
             {
-                var encodedMessage = WebUtility.HtmlEncode(
+                await HandleUserReplyByText(account, messenger, message);
+            }
+        }
+
+        private async Task HandleUserReplyByText(CustBotAccount account, CustBotMessenger messenger, string message)
+        {
+            var userResponse = WebUtility.HtmlEncode(
                 string.Join(
                     " ",
                     message.Split(
                         default(string[]),
                         StringSplitOptions.RemoveEmptyEntries)));
-                await HandleUserReplyByText(account, messenger, encodedMessage);
-            }
-        }
-
-        private async Task HandleUserReplyByText(CustBotAccount account, CustBotMessenger messenger, string userResponse)
-        {
             var userActions = await actionService.GetUserActions(account.UserId);
             var lastUserAction = userActions.LastOrDefault();
             if (lastUserAction == null)
@@ -171,13 +171,14 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
+            await actionService.InsertUserAction(account.UserId, currentAction.ActionId, string.Empty, callBackData.CompiledCommand ?? string.Empty);
+
             if (!string.IsNullOrEmpty(callBackData.CompiledCommand))
             {
                 await HandleCommand(account, messenger, callBackData.CompiledCommand, currentAction.FunctionId);
             }
             else
             {
-                await actionService.InsertUserAction(account.UserId, currentAction.ActionId, string.Empty);
                 await actionService.SendNextActionsMessage(account, messenger, currentAction);
             }
         }

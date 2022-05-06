@@ -51,7 +51,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                         return;
                     }
 
-                    data = await outstandingService.GetTopOutstanding(account.CustId, account.SubAccId, account.CustomerLevel, topQuery);
+                    data = await outstandingService.GetTopOutstanding(account.CustId, account.CustomerLevel, topQuery);
                 }
                 else
                 {
@@ -62,7 +62,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                         return;
                     }
 
-                    data = await outstandingService.GetDownlineOutstanding(account.CustId, account.SubAccId, account.CustomerLevel, downlineInfo.CustId, messenger.Language);
+                    data = await outstandingService.GetDownlineOutstanding(account.CustId, account.CustomerLevel, downlineInfo.CustId, messenger.Language);
                 }
 
                 if (data == null)
@@ -145,8 +145,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         }
 
         public async Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)
-        {
-            return await outstandingService.GetTopOutstandingUsername(account.CustId, account.SubAccId, account.CustomerLevel, top);
-        }
+            => await outstandingService.GetTopUsername(account.CustId, account.CustomerLevel, top);
+
     }
 }
