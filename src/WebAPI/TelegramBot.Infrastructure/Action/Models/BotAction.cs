@@ -10,7 +10,8 @@
             short functionId,
             short parentId,
             byte status,
-            bool isEndAction)
+            bool isEndAction,
+            short backToActionId)
         {
             ActionId = actionId;
             ActionName = actionName;
@@ -20,6 +21,7 @@
             ParentId = parentId;
             IsEndAction = isEndAction;
             Status = status;
+            BackToActionId = backToActionId;
         }
 
         public short ActionId { get; }
@@ -37,5 +39,7 @@
         public bool IsEndAction { get; }
 
         public byte Status { get; }
+
+        public short BackToActionId { get; }
     }
 }
