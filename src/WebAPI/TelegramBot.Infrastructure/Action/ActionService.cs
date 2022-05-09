@@ -82,28 +82,33 @@ namespace TelegramBot.Infrastructure.Action
             {
                 if (action.Type == ActionTypes.Downline)
                 {
+
                     var usernames = await functionHandlerFactory.GetHandler(action.FunctionId).GetTopDownlineUsername(account);
                     foreach (var username in usernames)
                     {
+                        var nextUserAction = new CustBotAction(int.MaxValue, 0, action.ActionId, username, string.Empty, DateTime.Now);
+                        var nextUserActions = userActions.Concat(new List<CustBotAction> { nextUserAction }).ToList();
                         buttons.Add(new MessageButton(
                             username,
                             JsonConvert.SerializeObject(new
                             {
                                 ActionId = action.ActionId,
-                                CompiledCommand = await CompileCommand(userActions, username)
+                                CompiledCommand = await CompileCommand(nextUserActions, string.Empty)
                             })));
                     }
-
-                    continue;
                 }
-
-                buttons.Add(new MessageButton(
-                    await messageBuilder.BuildActionName(account.Language, action.ActionId),
-                    JsonConvert.SerializeObject(new
-                    {
-                        ActionId = action.ActionId,
-                        CompiledCommand = action.IsEndAction ? await CompileCommand(userActions, action.Command) : string.Empty
-                    })));
+                else
+                {
+                    var nextUserAction = new CustBotAction(int.MaxValue, 0, action.ActionId, action.Command, string.Empty, DateTime.Now);
+                    var nextUserActions = userActions.Concat(new List<CustBotAction> { nextUserAction }).ToList();
+                    buttons.Add(new MessageButton(
+                        await messageBuilder.BuildActionName(account.Language, action.ActionId),
+                        JsonConvert.SerializeObject(new
+                        {
+                            ActionId = action.ActionId,
+                            CompiledCommand = action.IsEndAction ? await CompileCommand(nextUserActions, string.Empty) : string.Empty
+                        })));
+                }
             }
 
             return buttons;
@@ -112,26 +117,30 @@ namespace TelegramBot.Infrastructure.Action
         public async Task<string> CompileCommand(IEnumerable<CustBotAction> userActions, string userResponse)
         {
             var lastAction = userActions.LastOrDefault();
-            var actionChain = await GetActionChain(lastAction.ActionId);
-
-            var commandBuilder = new StringBuilder();
-            foreach (var userAction in userActions.Where(userAction => actionChain.Any(action => action.ActionId == userAction.ActionId)))
+            if (lastAction != null)
             {
-                var action = actionChain.FirstOrDefault(act => act.ActionId == userAction.ActionId)
-                            ?? throw new InvalidOperationException($"Cannot found action {userAction.ActionId} of user {userAction.UserId}");
-                var actionCommand = action.Type == ActionTypes.Button
-                    ? action.Command
-                    : userAction.UserResponse;
+                lastAction.UserResponse = userResponse;
+                var actionChain = await GetActionChain(lastAction.ActionId);
 
-                if (!string.IsNullOrEmpty(actionCommand))
+                var commandBuilder = new StringBuilder();
+                foreach (var userAction in userActions.Where(userAction => actionChain.Any(action => action.ActionId == userAction.ActionId)))
                 {
-                    commandBuilder.Append(actionCommand).Append(" ");
+                    var action = actionChain.FirstOrDefault(act => act.ActionId == userAction.ActionId)
+                                ?? throw new InvalidOperationException($"Cannot found action {userAction.ActionId} of user {userAction.UserId}");
+                    var actionCommand = action.Type == ActionTypes.Button
+                        ? action.Command
+                        : userAction.UserResponse;
+
+                    if (!string.IsNullOrEmpty(actionCommand))
+                    {
+                        commandBuilder.Append(actionCommand).Append(" ");
+                    }
                 }
+
+                return commandBuilder.ToString().TrimEnd();
             }
 
-            commandBuilder.Append(userResponse);
-
-            return commandBuilder.ToString().TrimEnd();
+            return string.Empty;
         }
 
         public async Task<IList<MessageButton>> BuildRootActionButtons(string language)

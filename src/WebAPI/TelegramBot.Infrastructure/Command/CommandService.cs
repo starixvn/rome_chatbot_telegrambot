@@ -219,13 +219,22 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task HandleCommand(CustBotAccount account, CustBotMessenger messenger, string command, short functionId)
         {
-            await actionService.ResetUserActions(account.UserId);
+
             var splittedCommand = SplitCommand(command);
-            var report = await functionHandlerFactory.GetHandler(functionId).GetReport(account, splittedCommand.Item2);
+            var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2);
             var rootAction = await actionService.GetRootActionByFunctionId(functionId);
-            await actionService.InsertUserAction(account.UserId, rootAction.ActionId, string.Empty);
-            var buttons = await actionService.BuildNextActionButtons(account, rootAction.ActionId);
-            await messageSender.SendMessageWithBackToMainMenuButton(messenger, new Message.Models.Message(report, buttons), functionId);
+            if (result.IsOk)
+            {
+                await actionService.ResetUserActions(account.UserId);
+                await actionService.InsertUserAction(account.UserId, rootAction.ActionId, string.Empty);
+                var buttons = await actionService.BuildNextActionButtons(account, rootAction.ActionId);
+                await messageSender.SendMessageWithBackToMainMenuButton(messenger, new Message.Models.Message(result.Message, buttons), functionId);
+            }
+            else
+            {
+                var message = new Message.Models.Message(result.Message, new List<MessageButton> { messageBuilder.BuildCancelButton(account.Language, rootAction.ActionId) });
+                await messageSender.SendMessage(messenger, message, functionId);
+            }
         }
 
         private static bool IsValidAction(CustBotMessenger messenger, BotAction action)

@@ -27,7 +27,7 @@ namespace TelegramBot.Infrastructure.Action.Models
 
         public int ActionId { get; }
 
-        public string UserResponse { get; }
+        public string UserResponse { get; set; }
 
         public string CompiledCommand { get; }
 

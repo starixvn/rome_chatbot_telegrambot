@@ -8,6 +8,7 @@ using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.Infrastructure.Shared.Extensions;
+using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Resources;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
@@ -32,7 +33,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             this.webAPIConfiguration = webAPIConfiguration;
         }
 
-        public async Task<string> GetReport(CustBotAccount account, string[] parameters)
+        public async Task<Result> Handle(CustBotAccount account, string[] parameters)
         {
             var parameter = parameters[0];
             if (!string.IsNullOrWhiteSpace(parameter))
@@ -44,7 +45,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                     viewTopOutstanding = true;
                     if (topQuery <= 0 && topQuery > webAPIConfiguration.OutstandingMaxTopQuery)
                     {
-                        return messageBuilder.BuildInvalidNumerOfDownlineRange(account.Language, webAPIConfiguration.OutstandingMaxTopQuery);
+                        return Result.CreateErrorResult(messageBuilder.BuildInvalidNumerOfDownlineRange(account.Language, webAPIConfiguration.OutstandingMaxTopQuery));
                     }
 
                     data = await outstandingService.GetTopOutstanding(account.CustId, account.CustomerLevel, topQuery);
@@ -54,7 +55,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                     var downlineInfo = await customerService.GetDownlineInfo(account.CustId, parameter);
                     if (!IsValidDirectDownline(account.CustomerLevel, downlineInfo))
                     {
-                        return messageBuilder.BuildInvalidCustNameMessage(account.Language, parameter);
+                        return Result.CreateErrorResult(messageBuilder.BuildInvalidCustNameMessage(account.Language, parameter));
                     }
 
                     data = await outstandingService.GetDownlineOutstanding(account.CustId, account.CustomerLevel, downlineInfo.CustId, account.Language);
@@ -62,15 +63,16 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
                 if (data == null)
                 {
-                    return messageBuilder.BuildNoDataMessage(account.Language);
+                    return Result.CreateSuccessfulResult(messageBuilder.BuildNoDataMessage(account.Language));
                 }
 
-                return viewTopOutstanding
+                return Result.CreateSuccessfulResult(
+                    viewTopOutstanding
                     ? BuildTopOutstandingMessage(account.Language, data, account.CustomerLevel)
-                    : BuildDownlineOutstandingMessage(account.Language, data, account.CustomerLevel, parameter);
+                    : BuildDownlineOutstandingMessage(account.Language, data, account.CustomerLevel, parameter));
             }
 
-            return string.Empty;
+            return Result.CreateErrorResult();
         }
 
         private string BuildTopOutstandingMessage(string language, OutstandingReport data, byte custLevel)
