@@ -18,32 +18,35 @@ namespace TelegramBot.Infrastructure.Action
 {
     public interface IActionService
     {
+        Task<IList<MessageButton>> BuildRootActionButtons(string language);
+
+        Task<IList<MessageButton>> BuildNextActionButtons(CustBotAccount account, short currentActionId);
+
         Task<BotAction> GetActionById(int id);
 
-        Task<BotAction> GetActionByCommand(string command);
+        Task<BotAction> GetRootActionByFunctionId(short functionId);
+
+        Task<IEnumerable<BotAction>> GetChildActions(int parentId);
 
         Task<IList<CustBotAction>> GetUserActions(int userId);
 
-        Task SendRootActionsMessage(CustBotMessenger messenger, string message);
+        bool IsMessageAction(BotAction action);
 
         Task UpdateUserAction(long id, string userResponse, string compiledCommand = "");
 
         Task InsertUserAction(int userId, short actionId, string userResponse, string compiledCommand = "");
 
-        Task SendNextActionsMessage(CustBotAccount account, CustBotMessenger messenger, BotAction currentAction);
-
         Task<string> CompileCommand(IEnumerable<CustBotAction> userActions, string userResponse);
 
         Task ResetUserActions(int userId);
 
-        Task<IList<MessageButton>> BuildNextActionButtons(CustBotAccount account, BotAction currentAction);
+        Task<IList<MessageButton>> BuildActionButtons(CustBotAccount account, IEnumerable<BotAction> actions);
     }
 
     public class ActionService : IActionService
     {
         private readonly IDynamicRepository dynamicRepository;
         private readonly WebAPIConfiguration webAPIConfiguration;
-        private readonly IMessageSender messageSender;
         private readonly IMessageBuilder messageBuilder;
         private readonly IMessageFormatter messageFormatter;
         private readonly IFunctionHandlerFactory functionHandlerFactory;
@@ -51,79 +54,44 @@ namespace TelegramBot.Infrastructure.Action
         public ActionService(
             IDynamicRepository dynamicRepository,
             WebAPIConfiguration webAPIConfiguration,
-            IMessageSender messageSender,
             IMessageBuilder messageBuilder,
             IMessageFormatter messageFormatter,
             IFunctionHandlerFactory functionHandlerFactory)
         {
             this.dynamicRepository = dynamicRepository;
             this.webAPIConfiguration = webAPIConfiguration;
-            this.messageSender = messageSender;
             this.messageBuilder = messageBuilder;
             this.messageFormatter = messageFormatter;
             this.functionHandlerFactory = functionHandlerFactory;
         }
 
-        public async Task<BotAction> GetActionByCommand(string command)
+        public async Task<BotAction> GetRootActionByFunctionId(short functionId)
+            => (await GetRootActions()).FirstOrDefault(a => a.FunctionId == functionId);
+
+        public async Task<IList<MessageButton>> BuildNextActionButtons(CustBotAccount account, short currentActionId)
         {
-            return (await GetRootActions()).FirstOrDefault(a => a.Command == command);
+            var actions = await GetChildActions(currentActionId);
+            return await BuildActionButtons(account, actions);
         }
 
-
-        public async Task SendNextActionsMessage(CustBotAccount account, CustBotMessenger messenger, BotAction currentAction)
-        {
-            var nextActions = await GetChildActions(currentAction.ActionId);
-            if (nextActions.Count() == 1 && IsMessageAction(nextActions.FirstOrDefault()))
-            {
-                var messageAction = nextActions.FirstOrDefault();
-                await InsertUserAction(messenger.UserId, messageAction.ActionId, string.Empty);
-                var message = string.Join(messageFormatter.NewLine(),
-                    messageBuilder.BuildActionSelectedMessage(messenger.Language, await messageBuilder.BuildActionName(messenger.Language, currentAction.ActionId)),
-                    await messageBuilder.BuildActionName(messenger.Language, messageAction.ActionId));
-                await messageSender.SendMessageWithCancelButtion(
-                    messenger,
-                    message,
-                    messageAction.BackToActionId);
-            }
-            else
-            {
-                await SendMessageWithButtons(account, messenger, currentAction, nextActions);
-            }
-        }
-
-        private async Task SendMessageWithButtons(CustBotAccount account, CustBotMessenger messenger, BotAction currentAction, IEnumerable<BotAction> nextActions)
-        {
-            var actionName = await messageBuilder.BuildActionName(messenger.Language, currentAction.ActionId);
-            var message = messageBuilder.BuildActionSelectedMessage(messenger.Language, actionName);
-            var userActions = await GetUserActions(messenger.UserId);
-            var buttons = await BuildNextActionButtons(account, currentAction, nextActions);
-            await messageSender.SendMessageWithBackToMainMenuButton(
-                    messenger,
-                    messageBuilder.BuildActionSelectedMessage(messenger.Language, currentAction.ActionName),
-                    buttons);
-        }
-
-        public async Task<IList<MessageButton>> BuildNextActionButtons(CustBotAccount account, BotAction currentAction)
-        {
-            var nextActions = await GetChildActions(currentAction.ActionId);
-            return await BuildNextActionButtons(account, currentAction, nextActions);
-        }
-
-        private async Task<IList<MessageButton>> BuildNextActionButtons(CustBotAccount account, BotAction currentAction, IEnumerable<BotAction> nextActions)
+        public async Task<IList<MessageButton>> BuildActionButtons(CustBotAccount account, IEnumerable<BotAction> actions)
         {
             var buttons = new List<MessageButton>();
             var userActions = await GetUserActions(account.UserId);
-            foreach (var action in nextActions)
+            foreach (var action in actions)
             {
                 if (action.Type == ActionTypes.Downline)
                 {
-                    var usernames = await functionHandlerFactory.GetHandler(currentAction.FunctionId).GetTopDownlineUsername(account);
+                    var usernames = await functionHandlerFactory.GetHandler(action.FunctionId).GetTopDownlineUsername(account);
                     foreach (var username in usernames)
                     {
                         buttons.Add(new MessageButton(
                             username,
-                            JsonConvert.SerializeObject(new { ActionId = action.ActionId, CompiledCommand = await CompileCommand(userActions, username) })
-                            ));
+                            JsonConvert.SerializeObject(new
+                            {
+                                ActionId = action.ActionId,
+                                CompiledCommand = await CompileCommand(userActions, username)
+                            })));
                     }
 
                     continue;
@@ -131,8 +99,11 @@ namespace TelegramBot.Infrastructure.Action
 
                 buttons.Add(new MessageButton(
                     await messageBuilder.BuildActionName(account.Language, action.ActionId),
-                    JsonConvert.SerializeObject(new { ActionId = action.ActionId, CompiledCommand = action.IsEndAction ? await CompileCommand(userActions, action.Command) : string.Empty })
-                    ));
+                    JsonConvert.SerializeObject(new
+                    {
+                        ActionId = action.ActionId,
+                        CompiledCommand = action.IsEndAction ? await CompileCommand(userActions, action.Command) : string.Empty
+                    })));
             }
 
             return buttons;
@@ -163,21 +134,20 @@ namespace TelegramBot.Infrastructure.Action
             return commandBuilder.ToString().TrimEnd();
         }
 
-        public async Task SendRootActionsMessage(CustBotMessenger messenger, string message)
+        public async Task<IList<MessageButton>> BuildRootActionButtons(string language)
         {
-            await ResetUserActions(messenger.UserId);
             var rootActions = await GetRootActions();
             var buttons = new List<MessageButton>();
 
             foreach (var action in rootActions)
             {
                 buttons.Add(new MessageButton(
-                    await messageBuilder.BuildActionName(messenger.Language, action.ActionId),
+                    await messageBuilder.BuildActionName(language, action.ActionId),
                     JsonConvert.SerializeObject(new { ActionId = action.ActionId, CompiledCommand = action.IsEndAction ? action.Command : string.Empty })
                     ));
             }
 
-            await messageSender.SendMessage(messenger, message, buttons);
+            return buttons;
         }
 
         private async Task<IEnumerable<BotAction>> GetActionChain(int actionId)
@@ -205,7 +175,7 @@ namespace TelegramBot.Infrastructure.Action
         public async Task<BotAction> GetActionById(int id)
             => (await GetAllActions()).FirstOrDefault(action => action.ActionId == id);
 
-        private async Task<IEnumerable<BotAction>> GetChildActions(int parentId)
+        public async Task<IEnumerable<BotAction>> GetChildActions(int parentId)
             => (await GetAllActions()).Where(action => action.ParentId == parentId);
 
         private async Task<IEnumerable<BotAction>> GetRootActions()
@@ -214,8 +184,7 @@ namespace TelegramBot.Infrastructure.Action
         private async Task<IEnumerable<BotAction>> GetAllActions()
             => await dynamicRepository.FetchAsync<BotAction>(new BotActionSelCriteria(!webAPIConfiguration.IsProduction)).ConfigureAwait(false);
 
-
-        private static bool IsMessageAction(BotAction action)
+        public bool IsMessageAction(BotAction action)
             => action.Type == ActionTypes.Message;
 
         public async Task<IList<CustBotAction>> GetUserActions(int userId)

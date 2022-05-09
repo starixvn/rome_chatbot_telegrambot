@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.constants;
 using TelegramBot.Infrastructure.Shared.Constants;
@@ -42,6 +43,10 @@ namespace TelegramBot.Infrastructure.Message
         string BuildInvalidCustNameMessage(string language, string invalidCustName);
 
         Task<string> BuildActionName(string language, short actionId);
+
+        Models.MessageButton BuildCancelButton(string language, short backToActionId);
+
+        string BuildNoDataMessage(string language);
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -140,8 +145,11 @@ namespace TelegramBot.Infrastructure.Message
                 invalidCustName);
 
         public async Task<string> BuildActionName(string language, short actionId)
-        {
-            return (await resourceService.GetResource(actionId.ToString(), ResourceType.ActionName, language)).Value;
-        }
+            => (await resourceService.GetResource(actionId.ToString(), ResourceType.ActionName, language)).Value;
+
+        public Models.MessageButton BuildCancelButton(string language, short backToActionId)
+            => new Models.MessageButton(ResourceHelper.Get(nameof(SharedResource.Cancel)), JsonConvert.SerializeObject(new { IsCancel = true, ActionId = backToActionId }));
+
+        public string BuildNoDataMessage(string language) => ResourceHelper.Get(nameof(SharedResource.NoData), language);
     }
 }

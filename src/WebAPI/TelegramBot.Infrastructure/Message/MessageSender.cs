@@ -14,13 +14,13 @@ namespace TelegramBot.Infrastructure.Message
 {
     public interface IMessageSender
     {
-        Task SendMessageWithCancelButtion(CustBotMessenger messenger, string message, short parentActionId, short functionId = 0, bool logToDatabase = true);
+        Task<Telegram.Bot.Types.Message> SendMessageWithBackToMainMenuButton(CustBotMessenger messenger, Models.Message message, short functionId = 0, bool logToDatabase = true);
 
-        Task SendMessageWithBackToMainMenuButton(CustBotMessenger messenger, string message, IList<MessageButton> buttons = null, short functionId = 0, bool logToDatabase = true);
+        Task<Telegram.Bot.Types.Message> SendMessage(CustBotMessenger messenger, Models.Message message, short functionId = 0, bool logToDatabase = true);
 
-        Task SendMessage(CustBotMessenger messenger, string message, IList<MessageButton> buttons = null, short functionId = 0, bool logToDatabase = true);
+        Task<Telegram.Bot.Types.Message> SendMessage(CustBotMessenger messenger, string message, short functionId = 0, bool logToDatabase = true);
 
-        Task SendMessage(int botId, long chatId, string message, IReplyMarkup replyMarkup = null);
+        Task<Telegram.Bot.Types.Message> SendMessage(int botId, long chatId, string message, IReplyMarkup replyMarkup = null);
     }
 
     public class MessageSender : IMessageSender
@@ -35,38 +35,61 @@ namespace TelegramBot.Infrastructure.Message
             this.messageLogger = messageLogger;
         }
 
-        public async Task SendMessageWithCancelButtion(CustBotMessenger messenger, string message, short parentActionId, short functionId = 0, bool logToDatabase = true)
-        {
-            await SendMessage(messenger, message, new List<MessageButton> { BuildCancelButtion(messenger.Language, parentActionId) }, false, functionId, logToDatabase);
-        }
+        public async Task<Telegram.Bot.Types.Message> SendMessageWithBackToMainMenuButton(CustBotMessenger messenger, Models.Message message, short functionId = 0, bool logToDatabase = true)
+            => await SendMessage(messenger, message, true, functionId, logToDatabase);
 
-        public async Task SendMessageWithBackToMainMenuButton(CustBotMessenger messenger, string message, IList<MessageButton> buttons = null, short functionId = 0, bool logToDatabase = true)
-        {
-            await SendMessage(messenger, message, buttons, true, functionId, logToDatabase);
-        }
+        public async Task<Telegram.Bot.Types.Message> SendMessage(CustBotMessenger messenger, Models.Message message, short functionId = 0, bool logToDatabase = true)
+            => await SendMessage(messenger, message, false, functionId, logToDatabase);
 
-        public async Task SendMessage(CustBotMessenger messenger, string message, IList<MessageButton> buttons = null, short functionId = 0, bool logToDatabase = true)
+        public async Task<Telegram.Bot.Types.Message> SendMessage(CustBotMessenger messenger, string message, short functionId = 0, bool logToDatabase = true)
         {
-            await SendMessage(messenger, message, buttons, false, functionId, logToDatabase);
-        }
-
-        private async Task SendMessage(CustBotMessenger messenger, string message, IList<MessageButton> buttons = null, bool withBackToMainMenuButton = false, short functionId = 0, bool logToDatabase = true)
-        {
-            IReplyMarkup replyMarkup = null;
-
             try
             {
-                if (buttons != null)
-                {
-                    replyMarkup = BuildReplyMarkup(messenger.Language, buttons, withBackToMainMenuButton);
-                }
-
-                await SendMessage(messenger.BotId, messenger.ChatId, message, replyMarkup);
+                var result = await SendMessage(messenger.BotId, messenger.ChatId, message);
 
                 if (logToDatabase)
                 {
                     await messageLogger.LogMessage(CommonId.BotUserId, messenger.UserId, messenger.ChatId, messenger.BotId, message, MessageSendStatus.Success, functionId);
                 }
+
+                return result;
+            }
+            catch
+            {
+                if (logToDatabase)
+                {
+                    await messageLogger.LogMessage(CommonId.BotUserId, messenger.UserId, messenger.ChatId, messenger.BotId, message, MessageSendStatus.Failure, functionId);
+                }
+
+                throw;
+            }
+
+        }
+
+        public async Task<Telegram.Bot.Types.Message> SendMessage(int botId, long chatId, string message, IReplyMarkup replyMarkup = null)
+        {
+            var botClient = botClientFactory.GetOrCreate(botId);
+
+            return await botClient.SendTextMessageAsync(
+                parseMode: ParseMode.Html,
+                chatId: chatId,
+                text: message,
+                replyMarkup: replyMarkup);
+        }
+
+        private async Task<Telegram.Bot.Types.Message> SendMessage(CustBotMessenger messenger, Models.Message message, bool withBackToMainMenuButton = false, short functionId = 0, bool logToDatabase = true)
+        {
+            try
+            {
+                var replyMarkup = BuildReplyMarkup(messenger.Language, message.Buttons, withBackToMainMenuButton);
+                var result = await SendMessage(messenger.BotId, messenger.ChatId, message.Text, replyMarkup);
+
+                if (logToDatabase)
+                {
+                    await messageLogger.LogMessage(CommonId.BotUserId, messenger.UserId, messenger.ChatId, messenger.BotId, message, MessageSendStatus.Success, functionId);
+                }
+
+                return result;
             }
             catch
             {
@@ -78,18 +101,6 @@ namespace TelegramBot.Infrastructure.Message
                 throw;
             }
         }
-
-        public async Task SendMessage(int botId, long chatId, string message, IReplyMarkup replyMarkup = null)
-        {
-            var botClient = botClientFactory.GetOrCreate(botId);
-
-            await botClient.SendTextMessageAsync(
-                parseMode: ParseMode.Html,
-                chatId: chatId,
-                text: message,
-                replyMarkup: replyMarkup);
-        }
-
 
         private InlineKeyboardMarkup BuildReplyMarkup(string language, IList<MessageButton> buttons, bool withBackToMainMenuButton = false)
         {
@@ -129,11 +140,6 @@ namespace TelegramBot.Infrastructure.Message
             }
 
             return buttonRows;
-        }
-
-        private MessageButton BuildCancelButtion(string language, short parentActionId)
-        {
-            return new MessageButton(ResourceHelper.Get(nameof(SharedResource.Cancel)), JsonConvert.SerializeObject(new { IsCancel = true, ActionId = parentActionId }));
         }
     }
 }

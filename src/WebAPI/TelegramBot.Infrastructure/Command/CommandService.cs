@@ -1,6 +1,7 @@
 ﻿using Alpha.API.Client.Services;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command.Models;
 using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
+using TelegramBot.Infrastructure.Message.Models;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Models;
 
@@ -25,6 +27,7 @@ namespace TelegramBot.Infrastructure.Command
     {
         private readonly IMessageBuilder messageBuilder;
         private readonly IMessageSender messageSender;
+        private readonly IMessageFormatter messageFormatter;
         private readonly ISettingService settingService;
         private readonly IBotService botService;
         private readonly ICustomerService customerService;
@@ -35,6 +38,7 @@ namespace TelegramBot.Infrastructure.Command
         public CommandService(
             IMessageBuilder messageBuilder,
             IMessageSender messageSender,
+            IMessageFormatter messageFormatter,
             ISettingService settingService,
             IBotService botService,
             ICustomerService customerService,
@@ -44,6 +48,7 @@ namespace TelegramBot.Infrastructure.Command
         {
             this.messageBuilder = messageBuilder;
             this.messageSender = messageSender;
+            this.messageFormatter = messageFormatter;
             this.settingService = settingService;
             this.botService = botService;
             this.customerService = customerService;
@@ -130,7 +135,7 @@ namespace TelegramBot.Infrastructure.Command
             }
             else
             {
-                await actionService.SendNextActionsMessage(account, messenger, currentAction);
+                await SendNextActionsMessage(account, messenger, currentAction);
             }
         }
 
@@ -168,7 +173,32 @@ namespace TelegramBot.Infrastructure.Command
             }
             else
             {
-                await actionService.SendNextActionsMessage(account, messenger, currentAction);
+                await SendNextActionsMessage(account, messenger, currentAction);
+            }
+        }
+
+        private async Task SendNextActionsMessage(CustBotAccount account, CustBotMessenger messenger, BotAction currentAction)
+        {
+            var language = account.Language;
+            var nextActions = await actionService.GetChildActions(currentAction.ActionId);
+            var actionSelectedMessage = messageBuilder.BuildActionSelectedMessage(language, await messageBuilder.BuildActionName(language, currentAction.ActionId));
+
+            if (nextActions.Count() == 1 && actionService.IsMessageAction(nextActions.FirstOrDefault()))
+            {
+                var messageAction = nextActions.FirstOrDefault();
+                await actionService.InsertUserAction(account.UserId, messageAction.ActionId, string.Empty);
+                var message = new Message.Models.Message(
+                    string.Join(
+                        messageFormatter.NewLine(),
+                        actionSelectedMessage,
+                        await messageBuilder.BuildActionName(language, messageAction.ActionId)),
+                    new List<MessageButton> { messageBuilder.BuildCancelButton(language, messageAction.BackToActionId) });
+                await messageSender.SendMessage(messenger, message, messageAction.FunctionId);
+            }
+            else
+            {
+                var message = new Message.Models.Message(actionSelectedMessage, await actionService.BuildActionButtons(account, nextActions));
+                await messageSender.SendMessageWithBackToMainMenuButton(messenger, message, currentAction.FunctionId);
             }
         }
 
@@ -191,7 +221,11 @@ namespace TelegramBot.Infrastructure.Command
         {
             await actionService.ResetUserActions(account.UserId);
             var splittedCommand = SplitCommand(command);
-            await functionHandlerFactory.GetHandler(functionId).Handle(account, messenger, splittedCommand.Item1, splittedCommand.Item2);
+            var report = await functionHandlerFactory.GetHandler(functionId).GetReport(account, splittedCommand.Item2);
+            var rootAction = await actionService.GetRootActionByFunctionId(functionId);
+            await actionService.InsertUserAction(account.UserId, rootAction.ActionId, string.Empty);
+            var buttons = await actionService.BuildNextActionButtons(account, rootAction.ActionId);
+            await messageSender.SendMessageWithBackToMainMenuButton(messenger, new Message.Models.Message(report, buttons), functionId);
         }
 
         private static bool IsValidAction(CustBotMessenger messenger, BotAction action)
@@ -199,14 +233,22 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task SendMainMenuMessage(CustBotMessenger messenger)
         {
-            var message = messageBuilder.BuildMenuMessage(messenger.Language);
-            await actionService.SendRootActionsMessage(messenger, message);
+            var text = messageBuilder.BuildMenuMessage(messenger.Language);
+            await SendMessageWithRootActions(messenger, text);
         }
 
         private async Task SendNotRecognizedCommandMessage(CustBotMessenger messenger)
         {
-            var message = messageBuilder.BuildNotRecognizedCommandMessage(messenger.Language);
-            await actionService.SendRootActionsMessage(messenger, message);
+            var text = messageBuilder.BuildNotRecognizedCommandMessage(messenger.Language);
+            await SendMessageWithRootActions(messenger, text);
+        }
+
+        private async Task SendMessageWithRootActions(CustBotMessenger messenger, string text)
+        {
+            await actionService.ResetUserActions(messenger.UserId);
+            var rootActionButtons = await actionService.BuildRootActionButtons(messenger.Language);
+            var message = new Message.Models.Message(text, rootActionButtons);
+            await messageSender.SendMessage(messenger, message);
         }
     }
 }

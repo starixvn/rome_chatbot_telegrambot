@@ -209,8 +209,10 @@ namespace TelegramBot.Infrastructure.Setting
         private async Task SendWelcomeMessage(int custId, int subAccId)
         {
             var messenger = await GetCustBotMessenger(custId, subAccId);
-            var message = _messageBuilder.BuildWelcomeMessage(messenger.Language, messenger.ChatId);
-            await _actionService.SendRootActionsMessage(messenger, message);
+            var text = _messageBuilder.BuildWelcomeMessage(messenger.Language, messenger.ChatId);
+            var rootActionButtons = await _actionService.BuildRootActionButtons(messenger.Language);
+            var message = new Message.Models.Message(text, rootActionButtons);
+            await _messageSender.SendMessage(messenger, message);
         }
     }
 }

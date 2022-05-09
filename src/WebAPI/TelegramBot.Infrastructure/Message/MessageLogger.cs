@@ -2,13 +2,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fanex.Data.Repository;
 using TelegramBot.Infrastructure.Message.Criteria;
-using TelegramBot.Infrastructure.Message.Models;
 
 namespace TelegramBot.Infrastructure.Message
 {
     public interface IMessageLogger
     {
-        Task LogMessage(int sender, int receiver, long chatId, int botId, string message, IList<MessageButton> buttons, byte status = 0, short functionId = 0);
+        Task LogMessage(int sender, int receiver, long chatId, int botId, Models.Message message, byte status = 0, short functionId = 0);
 
         Task LogMessage(int sender, int receiver, long chatId, int botId, string message, byte status = 0, short functionId = 0);
     }
@@ -28,15 +27,13 @@ namespace TelegramBot.Infrastructure.Message
             await dynamicRepository.ExecuteAsync(command).ConfigureAwait(false);
         }
 
-        public async Task LogMessage(int sender, int receiver, long chatId, int botId, string message, IList<MessageButton> buttons, byte status = 0, short functionId = 0)
+        public async Task LogMessage(int sender, int receiver, long chatId, int botId, Models.Message message, byte status = 0, short functionId = 0)
         {
-            var logMessage = new List<string>{
-                message
-            };
+            var logMessage = new List<string> { message.Text };
 
-            if (buttons != null)
+            if (message.Buttons != null)
             {
-                foreach (var button in buttons)
+                foreach (var button in message.Buttons)
                 {
                     logMessage.Add($"<a href='#' data-hidden='{button.CallBackData}'>{button.Text}</a>");
                 }
