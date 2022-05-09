@@ -279,4 +279,10 @@
   <data name="YourAccountIsLocked" xml:space="preserve">
     <value>Your Account is locked</value>
   </data>
+  <data name="TodayWinLoss" xml:space="preserve">
+    <value>Today Win Loss</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>USERNAME</value>
+  </data>
 </root>
