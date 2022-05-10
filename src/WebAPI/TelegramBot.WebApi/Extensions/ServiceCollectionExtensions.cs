@@ -93,6 +93,7 @@ namespace TelegramBot.WebApi.Extensions
         public static IServiceCollection AddFilters(this IServiceCollection services)
         {
             services.AddScoped<AutoReplyUMFilterAttribute>();
+            services.AddScoped<AccountStatusFilterAttribute>();
 
             return services;
         }

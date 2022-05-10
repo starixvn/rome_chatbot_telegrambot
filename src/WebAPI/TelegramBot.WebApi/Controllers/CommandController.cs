@@ -17,6 +17,7 @@ namespace TelegramBot.WebApi.Controllers
         }
 
         [ServiceFilter(typeof(AutoReplyUMFilterAttribute))]
+        [ServiceFilter(typeof(AccountStatusFilterAttribute))]
         [Route("execute"), HttpPost]
         public async Task ExecuteAsync(CommandParam param)
         {

@@ -46,6 +46,10 @@ namespace TelegramBot.Infrastructure.Message
         Models.MessageButton BuildCancelButton(string language, short backToActionId);
 
         string BuildNoDataMessage(string language);
+
+        string BuildAccountClosedMessage(string language);
+
+        string BuildAccountLockedMessage(string language);
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -150,5 +154,11 @@ namespace TelegramBot.Infrastructure.Message
             => new Models.MessageButton(ResourceHelper.Get(nameof(SharedResource.Cancel)), JsonConvert.SerializeObject(new { IsCancel = true, ActionId = backToActionId }));
 
         public string BuildNoDataMessage(string language) => ResourceHelper.Get(nameof(SharedResource.NoData), language);
+
+        public string BuildAccountClosedMessage(string language)
+            => ResourceHelper.Get(nameof(SharedResource.YourAccountIsClosed), language);
+
+        public string BuildAccountLockedMessage(string language)
+            => ResourceHelper.Get(nameof(SharedResource.YourAccountIsLocked), language);
     }
 }

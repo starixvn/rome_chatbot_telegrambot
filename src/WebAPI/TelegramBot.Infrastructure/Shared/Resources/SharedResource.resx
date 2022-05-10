@@ -273,4 +273,10 @@
   <data name="CustLevel_4" xml:space="preserve">
     <value>Super</value>
   </data>
+  <data name="YourAccountIsClosed" xml:space="preserve">
+    <value>Your Account is closed</value>
+  </data>
+  <data name="YourAccountIsLocked" xml:space="preserve">
+    <value>Your Account is locked</value>
+  </data>
 </root>

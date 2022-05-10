@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TelegramBot.Common.Extensions;
 using TelegramBot.Infrastructure.Action;
+using TelegramBot.Infrastructure.Function.Constants;
 using TelegramBot.Infrastructure.Function.Models;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Constants;
@@ -169,6 +170,32 @@ namespace TelegramBot.Infrastructure.Setting
             custBotMessenger.Functions = (subAccId <= 0 || (await _customerService.GetCustomerStatus(custId, subAccId)).HasReportPermission)
                 ? resultSet.secondResultSet.Concat(await _functionService.GetReportFunctions())
                 : resultSet.secondResultSet;
+
+            if (subAccId > 0)
+            {
+                var customerStatus = await _customerService.GetCustomerStatus(custId, subAccId);
+
+                var functions = resultSet.secondResultSet;
+
+                if (customerStatus.HasReportPermission)
+                {
+                    functions = functions.Concat(await _functionService.GetReportFunctions());
+                }
+
+                custBotMessenger.Functions = functions.Where(f =>
+                    (!customerStatus.HasReportPermission && f.FunctionId != FunctionIds.YesterdayWinLossNotification)
+                    || (!customerStatus.HasMemberInformationPermission && f.FunctionId != FunctionIds.ProblemAccount && f.FunctionId != FunctionIds.MemberWinLossLimit));
+            }
+            else
+            {
+                custBotMessenger.Functions = resultSet.secondResultSet.Concat(await _functionService.GetReportFunctions());
+            }
+
+            foreach (var function in custBotMessenger.Functions)
+            {
+                function.FunctionName = await _functionService.GetFunctionName(function.FunctionId, custBotMessenger.Language);
+                function.Description = await _functionService.GetFunctionDescription(function.FunctionId, custBotMessenger.Language);
+            }
 
             return custBotMessenger;
         }

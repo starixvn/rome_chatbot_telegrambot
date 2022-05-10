@@ -6,6 +6,8 @@ using Fanex.Data.Repository;
 using TelegramBot.Infrastructure.Function.Constants;
 using TelegramBot.Infrastructure.Function.Criteria;
 using TelegramBot.Infrastructure.Function.Models;
+using TelegramBot.Infrastructure.Resource;
+using TelegramBot.Infrastructure.Resource.constants;
 using TelegramBot.Infrastructure.Shared.Configurations;
 
 namespace TelegramBot.Infrastructure.Setting
@@ -17,6 +19,10 @@ namespace TelegramBot.Infrastructure.Setting
         Task<IEnumerable<BotFunction>> GetReportFunctions();
 
         Task<BotFunction> GetFunctionByCommand(string command);
+
+        Task<string> GetFunctionName(short functionId, string language);
+
+        Task<string> GetFunctionDescription(short functionId, string language);
     }
 
     public class FunctionService : IFunctionService
@@ -25,11 +31,13 @@ namespace TelegramBot.Infrastructure.Setting
 
         private readonly IDynamicRepository dynamicRepository;
         private readonly WebAPIConfiguration webAPIConfiguration;
+        private readonly IResourceService resourceService;
 
-        public FunctionService(IDynamicRepository dynamicRepository, WebAPIConfiguration webAPIConfiguration)
+        public FunctionService(IDynamicRepository dynamicRepository, WebAPIConfiguration webAPIConfiguration, IResourceService resourceService)
         {
             this.dynamicRepository = dynamicRepository;
             this.webAPIConfiguration = webAPIConfiguration;
+            this.resourceService = resourceService;
         }
 
         public async Task<IEnumerable<BotFunction>> GetAll()
@@ -48,5 +56,10 @@ namespace TelegramBot.Infrastructure.Setting
         public async Task<BotFunction> GetFunctionByCommand(string command)
             => (await GetAll()).FirstOrDefault(f => !string.IsNullOrEmpty(f.Command) && command.IndexOf(f.Command, StringComparison.OrdinalIgnoreCase) == 0);
 
+        public async Task<string> GetFunctionName(short functionId, string language)
+            => (await resourceService.GetResource(functionId.ToString(), ResourceType.FunctionName, language)).Value;
+
+        public async Task<string> GetFunctionDescription(short functionId, string language)
+            => (await resourceService.GetResource(functionId.ToString(), ResourceType.FunctionDescription, language)).Value;
     }
 }

@@ -527,5 +527,23 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
                 return ResourceManager.GetString("WinLossReports", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Account is closed.
+        /// </summary>
+        public static string YourAccountIsClosed {
+            get {
+                return ResourceManager.GetString("YourAccountIsClosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Account is locked.
+        /// </summary>
+        public static string YourAccountIsLocked {
+            get {
+                return ResourceManager.GetString("YourAccountIsLocked", resourceCulture);
+            }
+        }
     }
 }

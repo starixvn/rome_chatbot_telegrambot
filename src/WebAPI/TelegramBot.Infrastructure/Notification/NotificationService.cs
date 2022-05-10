@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Bot;
+using TelegramBot.Infrastructure.Function.Constants;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Shared.Models;
@@ -36,7 +37,7 @@ namespace TelegramBot.Infrastructure.Notification
         {
             var messenger = await settingService.GetCustBotMessenger(custId, subAccId);
 
-            if (messenger == null)
+            if (messenger == null || !messenger.IsFunctionAvailable(FunctionIds.ChangePasswordAlert))
             {
                 return Result.CreateErrorResult();
             }
@@ -51,7 +52,7 @@ namespace TelegramBot.Infrastructure.Notification
         {
             var messenger = await settingService.GetCustBotMessenger(custId, subAccId);
 
-            if (messenger == null)
+            if (messenger == null || !messenger.IsFunctionAvailable(FunctionIds.ChangeSecurityCodeAlert))
             {
                 return Result.CreateErrorResult();
             }
