@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Action.Models;
+using TelegramBot.Infrastructure.Action.Validators;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command.Models;
 using TelegramBot.Infrastructure.Function.Handlers;
@@ -34,6 +35,7 @@ namespace TelegramBot.Infrastructure.Command
         private readonly IActionService actionService;
         private readonly IFunctionService functionService;
         private readonly IFunctionHandlerFactory functionHandlerFactory;
+        private readonly IActionValidatorFactory actionValidatorFactory;
 
         public CommandService(
             IMessageBuilder messageBuilder,
@@ -44,7 +46,8 @@ namespace TelegramBot.Infrastructure.Command
             ICustomerService customerService,
             IActionService actionService,
             IFunctionService functionService,
-            IFunctionHandlerFactory functionHandlerFactory)
+            IFunctionHandlerFactory functionHandlerFactory,
+            IActionValidatorFactory actionValidatorFactory)
         {
             this.messageBuilder = messageBuilder;
             this.messageSender = messageSender;
@@ -55,6 +58,7 @@ namespace TelegramBot.Infrastructure.Command
             this.actionService = actionService;
             this.functionService = functionService;
             this.functionHandlerFactory = functionHandlerFactory;
+            this.actionValidatorFactory = actionValidatorFactory;
         }
 
         public async Task ExecuteAsync(long messengerBotId, long chatId, string message, bool isCallback)
@@ -126,6 +130,16 @@ namespace TelegramBot.Infrastructure.Command
             if (currentAction.Type == ActionTypes.Message)
             {
                 await actionService.UpdateUserAction(lastUserAction.Id, userResponse);
+                var validator = actionValidatorFactory.GetValidator(currentAction.ActionId);
+                if (validator != null)
+                {
+                    var valilationResult = await validator.Validate(account, userResponse);
+                    if (valilationResult.IsNotOk)
+                    {
+                        await messageSender.SendMessageWithCancelButton(messenger, valilationResult.Message, currentAction.BackToActionId, currentAction.FunctionId);
+                        return;
+                    }
+                }
             }
 
             if (currentAction.IsEndAction)
@@ -187,13 +201,11 @@ namespace TelegramBot.Infrastructure.Command
             {
                 var messageAction = nextActions.FirstOrDefault();
                 await actionService.InsertUserAction(account.UserId, messageAction.ActionId, string.Empty);
-                var message = new Message.Models.Message(
-                    string.Join(
-                        messageFormatter.NewLine(),
-                        actionSelectedMessage,
-                        await messageBuilder.BuildActionName(language, messageAction.ActionId)),
-                    new List<MessageButton> { messageBuilder.BuildCancelButton(language, messageAction.BackToActionId) });
-                await messageSender.SendMessage(messenger, message, messageAction.FunctionId);
+                var message = string.Join(
+                    messageFormatter.NewLine(),
+                    actionSelectedMessage,
+                    await messageBuilder.BuildActionName(language, messageAction.ActionId));
+                await messageSender.SendMessageWithCancelButton(messenger, message, messageAction.FunctionId);
             }
             else
             {
@@ -232,8 +244,7 @@ namespace TelegramBot.Infrastructure.Command
             }
             else
             {
-                var message = new Message.Models.Message(result.Message, new List<MessageButton> { messageBuilder.BuildCancelButton(account.Language, rootAction.ActionId) });
-                await messageSender.SendMessage(messenger, message, functionId);
+                await messageSender.SendMessageWithCancelButton(messenger, result.Message, rootAction.ActionId, functionId);
             }
         }
 

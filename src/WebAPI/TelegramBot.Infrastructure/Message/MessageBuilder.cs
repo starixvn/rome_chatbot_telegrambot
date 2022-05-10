@@ -35,8 +35,7 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildActionSelectedMessage(string language, string actionName);
 
-        string BuildInvalidNumerOfDownlineRange(string language, int maxTopQuery);
-
+        string BuildInvalidNumerOfDownlineRange(string language, string userResponse, int maxTopQuery);
 
         string BuildHiddenDownlinesMessage(string language, int count, byte custLevel);
 
@@ -130,8 +129,8 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildActionSelectedMessage(string language, string actionName)
             => $"{ResourceHelper.Get(nameof(SharedResource.ActionSelected), language)}: {actionName}";
 
-        public string BuildInvalidNumerOfDownlineRange(string language, int maxTopQuery)
-            => string.Format(ResourceHelper.Get(nameof(SharedResource.InvalidNumerOfDownlinesRange), language), maxTopQuery);
+        public string BuildInvalidNumerOfDownlineRange(string language, string userResponse, int maxTopQuery)
+            => string.Format(ResourceHelper.Get(nameof(SharedResource.InvalidNumerOfDownlinesRange), language), userResponse, maxTopQuery);
 
         public string BuildHiddenDownlinesMessage(string language, int count, byte custLevel)
             => string.Format(

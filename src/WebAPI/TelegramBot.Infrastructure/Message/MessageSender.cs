@@ -16,6 +16,8 @@ namespace TelegramBot.Infrastructure.Message
     {
         Task<Telegram.Bot.Types.Message> SendMessageWithBackToMainMenuButton(CustBotMessenger messenger, Models.Message message, short functionId = 0, bool logToDatabase = true);
 
+        Task<Telegram.Bot.Types.Message> SendMessageWithCancelButton(CustBotMessenger messenger, string message, short backToActionId, short functionId = 0, bool logToDatabase = true);
+
         Task<Telegram.Bot.Types.Message> SendMessage(CustBotMessenger messenger, Models.Message message, short functionId = 0, bool logToDatabase = true);
 
         Task<Telegram.Bot.Types.Message> SendMessage(CustBotMessenger messenger, string message, short functionId = 0, bool logToDatabase = true);
@@ -27,12 +29,14 @@ namespace TelegramBot.Infrastructure.Message
     {
         private readonly IBotClientFactory botClientFactory;
         private readonly IMessageLogger messageLogger;
+        private readonly IMessageBuilder messageBuilder;
         private readonly int NumberButtonInRow = 2;
 
-        public MessageSender(IBotClientFactory botClientFactory, IMessageLogger messageLogger)
+        public MessageSender(IBotClientFactory botClientFactory, IMessageLogger messageLogger, IMessageBuilder messageBuilder)
         {
             this.botClientFactory = botClientFactory;
             this.messageLogger = messageLogger;
+            this.messageBuilder = messageBuilder;
         }
 
         public async Task<Telegram.Bot.Types.Message> SendMessageWithBackToMainMenuButton(CustBotMessenger messenger, Models.Message message, short functionId = 0, bool logToDatabase = true)
@@ -40,6 +44,15 @@ namespace TelegramBot.Infrastructure.Message
 
         public async Task<Telegram.Bot.Types.Message> SendMessage(CustBotMessenger messenger, Models.Message message, short functionId = 0, bool logToDatabase = true)
             => await SendMessage(messenger, message, false, functionId, logToDatabase);
+
+        public async Task<Telegram.Bot.Types.Message> SendMessageWithCancelButton(CustBotMessenger messenger, string message, short backToActionId, short functionId = 0, bool logToDatabase = true)
+        {
+            return await SendMessage(
+                messenger,
+                new Message.Models.Message(message, new List<MessageButton> { messageBuilder.BuildCancelButton(messenger.Language, backToActionId) }),
+                functionId,
+                logToDatabase);
+        }
 
         public async Task<Telegram.Bot.Types.Message> SendMessage(CustBotMessenger messenger, string message, short functionId = 0, bool logToDatabase = true)
         {

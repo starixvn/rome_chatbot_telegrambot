@@ -45,7 +45,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                     viewTopOutstanding = true;
                     if (topQuery <= 0 && topQuery > webAPIConfiguration.OutstandingMaxTopQuery)
                     {
-                        return Result.CreateErrorResult(messageBuilder.BuildInvalidNumerOfDownlineRange(account.Language, webAPIConfiguration.OutstandingMaxTopQuery));
+                        return Result.CreateErrorResult(messageBuilder.BuildInvalidNumerOfDownlineRange(account.Language, parameter, webAPIConfiguration.OutstandingMaxTopQuery));
                     }
 
                     data = await outstandingService.GetTopOutstanding(account.CustId, account.CustomerLevel, topQuery);
