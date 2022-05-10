@@ -1,7 +1,6 @@
 ﻿using Alpha.API.Client.Services;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -13,7 +12,6 @@ using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command.Models;
 using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
-using TelegramBot.Infrastructure.Message.Models;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Models;
 

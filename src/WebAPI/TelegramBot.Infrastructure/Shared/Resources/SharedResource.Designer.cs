@@ -8,10 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TelegramBot.Infrastructure.Shared.Resources {
+namespace TelegramBot.Infrastructure.Shared.Resources
+{
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,544 +23,664 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class SharedResource {
-        
+    public class SharedResource
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SharedResource() {
+        internal SharedResource()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+        public static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TelegramBot.Infrastructure.Shared.Resources.SharedResource", typeof(SharedResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
-            get {
+        public static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your Telegram&apos;s already linked with another Account.Please unlink that Account first then try again..
         /// </summary>
-        public static string AccountAlreadyLinked {
-            get {
+        public static string AccountAlreadyLinked
+        {
+            get
+            {
                 return ResourceManager.GetString("AccountAlreadyLinked", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Action Selected.
         /// </summary>
-        public static string ActionSelected {
-            get {
+        public static string ActionSelected
+        {
+            get
+            {
                 return ResourceManager.GetString("ActionSelected", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to If this wasn&apos;t you, please change password or contact us for support.
         /// </summary>
-        public static string AlertMessage {
-            get {
+        public static string AlertMessage
+        {
+            get
+            {
                 return ResourceManager.GetString("AlertMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Back to Main Menu.
         /// </summary>
-        public static string BackToMainMenu {
-            get {
+        public static string BackToMainMenu
+        {
+            get
+            {
                 return ResourceManager.GetString("BackToMainMenu", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Balance.
         /// </summary>
-        public static string Balance {
-            get {
+        public static string Balance
+        {
+            get
+            {
                 return ResourceManager.GetString("Balance", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Balance Info.
         /// </summary>
-        public static string BalanceInfo {
-            get {
+        public static string BalanceInfo
+        {
+            get
+            {
                 return ResourceManager.GetString("BalanceInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Balance Info Reports.
         /// </summary>
-        public static string BalanceInfoReports {
-            get {
+        public static string BalanceInfoReports
+        {
+            get
+            {
                 return ResourceManager.GetString("BalanceInfoReports", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        public static string Cancel {
-            get {
+        public static string Cancel
+        {
+            get
+            {
                 return ResourceManager.GetString("Cancel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Change Password Alert.
         /// </summary>
-        public static string ChangePasswordAlert {
-            get {
+        public static string ChangePasswordAlert
+        {
+            get
+            {
                 return ResourceManager.GetString("ChangePasswordAlert", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your Alpha Site account&apos;s Password has been requested to changed.
         /// </summary>
-        public static string ChangePasswordAlertContent {
-            get {
+        public static string ChangePasswordAlertContent
+        {
+            get
+            {
                 return ResourceManager.GetString("ChangePasswordAlertContent", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Change Security Code Alert.
         /// </summary>
-        public static string ChangeSecurityCodeAlert {
-            get {
+        public static string ChangeSecurityCodeAlert
+        {
+            get
+            {
                 return ResourceManager.GetString("ChangeSecurityCodeAlert", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your Security Code has been requested to changed.
         /// </summary>
-        public static string ChangeSecurityCodeAlertContent {
-            get {
+        public static string ChangeSecurityCodeAlertContent
+        {
+            get
+            {
                 return ResourceManager.GetString("ChangeSecurityCodeAlertContent", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Member.
         /// </summary>
-        public static string CustLevcel_1 {
-            get {
+        public static string CustLevcel_1
+        {
+            get
+            {
                 return ResourceManager.GetString("CustLevcel_1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Agent.
         /// </summary>
-        public static string CustLevel_2 {
-            get {
+        public static string CustLevel_2
+        {
+            get
+            {
                 return ResourceManager.GetString("CustLevel_2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Master.
         /// </summary>
-        public static string CustLevel_3 {
-            get {
+        public static string CustLevel_3
+        {
+            get
+            {
                 return ResourceManager.GetString("CustLevel_3", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Super.
         /// </summary>
-        public static string CustLevel_4 {
-            get {
+        public static string CustLevel_4
+        {
+            get
+            {
                 return ResourceManager.GetString("CustLevel_4", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to For.
         /// </summary>
-        public static string For {
-            get {
+        public static string For
+        {
+            get
+            {
                 return ResourceManager.GetString("For", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get Balance Info of specific member.
         /// </summary>
-        public static string GetBalanceInfoOfSpecificMember {
-            get {
+        public static string GetBalanceInfoOfSpecificMember
+        {
+            get
+            {
                 return ResourceManager.GetString("GetBalanceInfoOfSpecificMember", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get Balance Info of top # members.
         /// </summary>
-        public static string GetBalanceInfoOfTopMembers {
-            get {
+        public static string GetBalanceInfoOfTopMembers
+        {
+            get
+            {
                 return ResourceManager.GetString("GetBalanceInfoOfTopMembers", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get Outstanding Report of specific member.
         /// </summary>
-        public static string GetOutstandingReportOfSpecificMember {
-            get {
+        public static string GetOutstandingReportOfSpecificMember
+        {
+            get
+            {
                 return ResourceManager.GetString("GetOutstandingReportOfSpecificMember", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get Outstanding Report of top # members.
         /// </summary>
-        public static string GetOutstandingReportOfTopMembers {
-            get {
+        public static string GetOutstandingReportOfTopMembers
+        {
+            get
+            {
                 return ResourceManager.GetString("GetOutstandingReportOfTopMembers", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get Today Win Loss Report of specfic member.
         /// </summary>
-        public static string GetTodayWinLossReportOfSpecficMember {
-            get {
+        public static string GetTodayWinLossReportOfSpecficMember
+        {
+            get
+            {
                 return ResourceManager.GetString("GetTodayWinLossReportOfSpecficMember", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get Yesterday Win Loss Report of specific member.
         /// </summary>
-        public static string GetYesterdayWinLossReportOfSpecificMember {
-            get {
+        public static string GetYesterdayWinLossReportOfSpecificMember
+        {
+            get
+            {
                 return ResourceManager.GetString("GetYesterdayWinLossReportOfSpecificMember", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get your Balance Info Report.
         /// </summary>
-        public static string GetYourBalanceInfoReport {
-            get {
+        public static string GetYourBalanceInfoReport
+        {
+            get
+            {
                 return ResourceManager.GetString("GetYourBalanceInfoReport", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get your Outstanding Report.
         /// </summary>
-        public static string GetyourOutstandingReport {
-            get {
+        public static string GetyourOutstandingReport
+        {
+            get
+            {
                 return ResourceManager.GetString("GetyourOutstandingReport", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get your Today Win Loss Report.
         /// </summary>
-        public static string GetYourTodayWinLossReport {
-            get {
+        public static string GetYourTodayWinLossReport
+        {
+            get
+            {
                 return ResourceManager.GetString("GetYourTodayWinLossReport", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get your Yesterday Win Loss Report.
         /// </summary>
-        public static string GetYourYesterdayWinLossReport {
-            get {
+        public static string GetYourYesterdayWinLossReport
+        {
+            get
+            {
                 return ResourceManager.GetString("GetYourYesterdayWinLossReport", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You can operate {0} using following commands:.
         /// </summary>
-        public static string HelpCommandIntro {
-            get {
+        public static string HelpCommandIntro
+        {
+            get
+            {
                 return ResourceManager.GetString("HelpCommandIntro", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0} more {1} are not shown.
         /// </summary>
-        public static string HiddenDownlinesCount {
-            get {
+        public static string HiddenDownlinesCount
+        {
+            get
+            {
                 return ResourceManager.GetString("HiddenDownlinesCount", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Please log in to &lt;b&gt;the associated site&lt;/b&gt;, access Chatbot function and follow instruction to setup Telegram Chatbot.
         /// </summary>
-        public static string IntroductionMessage {
-            get {
+        public static string IntroductionMessage
+        {
+            get
+            {
                 return ResourceManager.GetString("IntroductionMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; is invalid, please enter valid username.
         /// </summary>
-        public static string InvalidCustName {
-            get {
+        public static string InvalidCustName
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidCustName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; is invalid, please enter valid number (max 100).
         /// </summary>
-        public static string InvalidNumerOfDownlinesRange {
-            get {
+        public static string InvalidNumerOfDownlinesRange
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidNumerOfDownlinesRange", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to List all commands.
         /// </summary>
-        public static string ListAllCommands {
-            get {
+        public static string ListAllCommands
+        {
+            get
+            {
                 return ResourceManager.GetString("ListAllCommands", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Member.
         /// </summary>
-        public static string Member {
-            get {
+        public static string Member
+        {
+            get
+            {
                 return ResourceManager.GetString("Member", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No information is available.
         /// </summary>
-        public static string NoData {
-            get {
+        public static string NoData
+        {
+            get
+            {
                 return ResourceManager.GetString("NoData", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sorry, we couldn&apos;t recognize your request. Which action would you like to take?.
         /// </summary>
-        public static string NotRecognizeCommandMessage {
-            get {
+        public static string NotRecognizeCommandMessage
+        {
+            get
+            {
                 return ResourceManager.GetString("NotRecognizeCommandMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Open Balance Info Menu.
         /// </summary>
-        public static string OpenBalanceInfoMenu {
-            get {
+        public static string OpenBalanceInfoMenu
+        {
+            get
+            {
                 return ResourceManager.GetString("OpenBalanceInfoMenu", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Open Main Menu of {0}.
         /// </summary>
-        public static string OpenMainMenu {
-            get {
+        public static string OpenMainMenu
+        {
+            get
+            {
                 return ResourceManager.GetString("OpenMainMenu", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Open Outstanding Menu.
         /// </summary>
-        public static string OpenOutstandingMenu {
-            get {
+        public static string OpenOutstandingMenu
+        {
+            get
+            {
                 return ResourceManager.GetString("OpenOutstandingMenu", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Open Settings Menu.
         /// </summary>
-        public static string OpenSettingsMenu {
-            get {
+        public static string OpenSettingsMenu
+        {
+            get
+            {
                 return ResourceManager.GetString("OpenSettingsMenu", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Open Today Win Loss Report Menu.
         /// </summary>
-        public static string OpenTodayWinLossReportMenu {
-            get {
+        public static string OpenTodayWinLossReportMenu
+        {
+            get
+            {
                 return ResourceManager.GetString("OpenTodayWinLossReportMenu", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Open Yesterday Win Loss Report Menu.
         /// </summary>
-        public static string OpenYesterdayWinLossReportMenu {
-            get {
+        public static string OpenYesterdayWinLossReportMenu
+        {
+            get
+            {
                 return ResourceManager.GetString("OpenYesterdayWinLossReportMenu", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Outstanding.
         /// </summary>
-        public static string Outstanding {
-            get {
+        public static string Outstanding
+        {
+            get
+            {
                 return ResourceManager.GetString("Outstanding", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Outstanding Reports.
         /// </summary>
-        public static string OutstandingReports {
-            get {
+        public static string OutstandingReports
+        {
+            get
+            {
                 return ResourceManager.GetString("OutstandingReports", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Please select an action.
         /// </summary>
-        public static string PleaseSelectAnAction {
-            get {
+        public static string PleaseSelectAnAction
+        {
+            get
+            {
                 return ResourceManager.GetString("PleaseSelectAnAction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Products.
         /// </summary>
-        public static string Products {
-            get {
+        public static string Products
+        {
+            get
+            {
                 return ResourceManager.GetString("Products", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Requested IP.
         /// </summary>
-        public static string RequestedIP {
-            get {
+        public static string RequestedIP
+        {
+            get
+            {
                 return ResourceManager.GetString("RequestedIP", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Please enter this private OTP to &lt;b&gt;the associated site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot.&lt;b&gt;OTP:&lt;/b&gt; &lt;code&gt;{0}&lt;/code&gt;.
         /// </summary>
-        public static string Setting_OTP_Help {
-            get {
+        public static string Setting_OTP_Help
+        {
+            get
+            {
                 return ResourceManager.GetString("Setting_OTP_Help", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your Telegram&apos;s already linked to this chatbot using other Account. If this isn&apos;t your Account, please contact us for support..
         /// </summary>
-        public static string TelegramAccountAlreadyLinked {
-            get {
+        public static string TelegramAccountAlreadyLinked
+        {
+            get
+            {
                 return ResourceManager.GetString("TelegramAccountAlreadyLinked", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
-        public static string Total {
-            get {
+        public static string Total
+        {
+            get
+            {
                 return ResourceManager.GetString("Total", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sorry, the system is under maintenance from {0} to {1} GMT+8. Please come back later..
         /// </summary>
-        public static string UnderMaintenance {
-            get {
+        public static string UnderMaintenance
+        {
+            get
+            {
                 return ResourceManager.GetString("UnderMaintenance", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Unlink.
         /// </summary>
-        public static string Unlink {
-            get {
+        public static string Unlink
+        {
+            get
+            {
                 return ResourceManager.GetString("Unlink", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Welcome {0}. Your Telegram Chatbot setup is completed.Yesterday Win Loss will be sent to you daily at 3:00PM (GMT-4).Please select an action:.
         /// </summary>
-        public static string WelcomeMessage {
-            get {
+        public static string WelcomeMessage
+        {
+            get
+            {
                 return ResourceManager.GetString("WelcomeMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Win Loss Reports.
         /// </summary>
-        public static string WinLossReports {
-            get {
+        public static string WinLossReports
+        {
+            get
+            {
                 return ResourceManager.GetString("WinLossReports", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your Account is closed.
         /// </summary>
-        public static string YourAccountIsClosed {
-            get {
+        public static string YourAccountIsClosed
+        {
+            get
+            {
                 return ResourceManager.GetString("YourAccountIsClosed", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your Account is locked.
         /// </summary>
-        public static string YourAccountIsLocked {
-            get {
+        public static string YourAccountIsLocked
+        {
+            get
+            {
                 return ResourceManager.GetString("YourAccountIsLocked", resourceCulture);
             }
         }
@@ -567,8 +688,10 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Today Win Loss.
         /// </summary>
-        public static string TodayWinLoss {
-            get {
+        public static string TodayWinLoss
+        {
+            get
+            {
                 return ResourceManager.GetString("TodayWinLoss", resourceCulture);
             }
         }
@@ -576,8 +699,10 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Username.
         /// </summary>
-        public static string Username {
-            get {
+        public static string Username
+        {
+            get
+            {
                 return ResourceManager.GetString("Username", resourceCulture);
             }
         }
