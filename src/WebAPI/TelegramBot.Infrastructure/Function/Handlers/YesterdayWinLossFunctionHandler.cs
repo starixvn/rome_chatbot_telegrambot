@@ -10,7 +10,7 @@ using TelegramBot.Infrastructure.Shared.Resources;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
 {
-    public class YesterdayWinLossFunctionHandler : WinLossFunctionHandler, IFunctionHandler
+    public class YesterdayWinLossFunctionHandler : BaseWinLossFunctionHandler, IFunctionHandler
     {
         public YesterdayWinLossFunctionHandler(
             IMessageBuilder messageBuilder,

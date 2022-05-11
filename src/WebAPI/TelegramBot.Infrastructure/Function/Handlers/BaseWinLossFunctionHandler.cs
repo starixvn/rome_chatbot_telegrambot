@@ -1,21 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Alpha.API.Client.Models.WinLoss;
 using Alpha.API.Client.Services;
-using Newtonsoft.Json;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
-using TelegramBot.Infrastructure.Shared.Constants;
-using TelegramBot.Infrastructure.Shared.Extensions;
 using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Resources;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
 {
-    public abstract class WinLossFunctionHandler : BaseFunctionHandler
+    public abstract class BaseWinLossFunctionHandler : BaseFunctionHandler
     {
         protected readonly IWinLossService winLossService;
 
@@ -23,7 +19,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         protected readonly WebAPIConfiguration webAPIConfiguration;
 
-        public WinLossFunctionHandler(
+        public BaseWinLossFunctionHandler(
             IMessageBuilder messageBuilder,
             IMessageFormatter messageFormatter,
             IWinLossService winLossService,
@@ -42,10 +38,10 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             if (!string.IsNullOrWhiteSpace(parameter))
             {
                 WinLossBase data = null;
-                var viewMyTodayWinLoss = false;
+                var viewMyWinLoss = false;
                 if (parameter == "m")
                 {
-                    viewMyTodayWinLoss = true;
+                    viewMyWinLoss = true;
                     data = await winLossService.GetWinLoss(account.CustId, account.CustomerLevel, dateTime);
                 }
                 else
@@ -65,7 +61,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 }
 
                 var message = Result.CreateSuccessfulResult(
-                    viewMyTodayWinLoss
+                    viewMyWinLoss
                     ? BuildWinLossMessage(account.Language, data)
                     : BuildDownlineWinLossMessage(account.Language, data, parameter));
 
