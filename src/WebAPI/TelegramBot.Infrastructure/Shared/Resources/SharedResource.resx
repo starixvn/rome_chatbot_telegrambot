@@ -286,6 +286,54 @@
     <value>Today Win Loss</value>
   </data>
   <data name="Username" xml:space="preserve">
-    <value>USERNAME</value>
+    <value>Username</value>
+  </data>
+  <data name="YesterdayWinLoss" xml:space="preserve">
+    <value>Yesterday Win Loss</value>
+  </data>
+  <data name="AgentComm" xml:space="preserve">
+    <value>Agent Comm</value>
+  </data>
+  <data name="AgentTotal" xml:space="preserve">
+    <value>Agent Total</value>
+  </data>
+  <data name="AgentWinLoss" xml:space="preserve">
+    <value>Agent WL</value>
+  </data>
+  <data name="CompanyWinLoss" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="GrossComm" xml:space="preserve">
+    <value>Gross Comm</value>
+  </data>
+  <data name="MasterComm" xml:space="preserve">
+    <value>Master Comm</value>
+  </data>
+  <data name="MasterTotal" xml:space="preserve">
+    <value>Master Total</value>
+  </data>
+  <data name="MasterWinLoss" xml:space="preserve">
+    <value>Master WL</value>
+  </data>
+  <data name="MemberComm" xml:space="preserve">
+    <value>Member Comm</value>
+  </data>
+  <data name="MemberTotal" xml:space="preserve">
+    <value>Member Total</value>
+  </data>
+  <data name="MemberWinLoss" xml:space="preserve">
+    <value>Member WL</value>
+  </data>
+  <data name="SuperComm" xml:space="preserve">
+    <value>Super Comm</value>
+  </data>
+  <data name="SuperTotal" xml:space="preserve">
+    <value>Super Total</value>
+  </data>
+  <data name="SuperWinLoss" xml:space="preserve">
+    <value>Super WL</value>
+  </data>
+  <data name="Turnover" xml:space="preserve">
+    <value>Turnover</value>
   </data>
 </root>

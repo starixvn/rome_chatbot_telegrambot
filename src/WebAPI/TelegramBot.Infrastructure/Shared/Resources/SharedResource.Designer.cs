@@ -20,7 +20,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class SharedResource
@@ -88,6 +88,39 @@ namespace TelegramBot.Infrastructure.Shared.Resources
             get
             {
                 return ResourceManager.GetString("ActionSelected", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Agent Comm.
+        /// </summary>
+        public static string AgentComm
+        {
+            get
+            {
+                return ResourceManager.GetString("AgentComm", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Agent Total.
+        /// </summary>
+        public static string AgentTotal
+        {
+            get
+            {
+                return ResourceManager.GetString("AgentTotal", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Agent WL.
+        /// </summary>
+        public static string AgentWinLoss
+        {
+            get
+            {
+                return ResourceManager.GetString("AgentWinLoss", resourceCulture);
             }
         }
 
@@ -198,6 +231,17 @@ namespace TelegramBot.Infrastructure.Shared.Resources
             get
             {
                 return ResourceManager.GetString("ChangeSecurityCodeAlertContent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Company.
+        /// </summary>
+        public static string CompanyWinLoss
+        {
+            get
+            {
+                return ResourceManager.GetString("CompanyWinLoss", resourceCulture);
             }
         }
 
@@ -367,6 +411,17 @@ namespace TelegramBot.Infrastructure.Shared.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Gross Comm.
+        /// </summary>
+        public static string GrossComm
+        {
+            get
+            {
+                return ResourceManager.GetString("GrossComm", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to You can operate {0} using following commands:.
         /// </summary>
         public static string HelpCommandIntro
@@ -433,6 +488,39 @@ namespace TelegramBot.Infrastructure.Shared.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Master Comm.
+        /// </summary>
+        public static string MasterComm
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterComm", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Master Total.
+        /// </summary>
+        public static string MasterTotal
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterTotal", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Master WL.
+        /// </summary>
+        public static string MasterWinLoss
+        {
+            get
+            {
+                return ResourceManager.GetString("MasterWinLoss", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Member.
         /// </summary>
         public static string Member
@@ -440,6 +528,39 @@ namespace TelegramBot.Infrastructure.Shared.Resources
             get
             {
                 return ResourceManager.GetString("Member", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Member Comm.
+        /// </summary>
+        public static string MemberComm
+        {
+            get
+            {
+                return ResourceManager.GetString("MemberComm", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Member Total.
+        /// </summary>
+        public static string MemberTotal
+        {
+            get
+            {
+                return ResourceManager.GetString("MemberTotal", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Member WL.
+        /// </summary>
+        public static string MemberWinLoss
+        {
+            get
+            {
+                return ResourceManager.GetString("MemberWinLoss", resourceCulture);
             }
         }
 
@@ -598,6 +719,39 @@ namespace TelegramBot.Infrastructure.Shared.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Super Comm.
+        /// </summary>
+        public static string SuperComm
+        {
+            get
+            {
+                return ResourceManager.GetString("SuperComm", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Super Total.
+        /// </summary>
+        public static string SuperTotal
+        {
+            get
+            {
+                return ResourceManager.GetString("SuperTotal", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Super WL.
+        /// </summary>
+        public static string SuperWinLoss
+        {
+            get
+            {
+                return ResourceManager.GetString("SuperWinLoss", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Your Telegram&apos;s already linked to this chatbot using other Account. If this isn&apos;t your Account, please contact us for support..
         /// </summary>
         public static string TelegramAccountAlreadyLinked
@@ -609,6 +763,17 @@ namespace TelegramBot.Infrastructure.Shared.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Today Win Loss.
+        /// </summary>
+        public static string TodayWinLoss
+        {
+            get
+            {
+                return ResourceManager.GetString("TodayWinLoss", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
         public static string Total
@@ -616,6 +781,17 @@ namespace TelegramBot.Infrastructure.Shared.Resources
             get
             {
                 return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Turnover.
+        /// </summary>
+        public static string Turnover
+        {
+            get
+            {
+                return ResourceManager.GetString("Turnover", resourceCulture);
             }
         }
 
@@ -642,6 +818,17 @@ namespace TelegramBot.Infrastructure.Shared.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        public static string Username
+        {
+            get
+            {
+                return ResourceManager.GetString("Username", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Welcome {0}. Your Telegram Chatbot setup is completed.Yesterday Win Loss will be sent to you daily at 3:00PM (GMT-4).Please select an action:.
         /// </summary>
         public static string WelcomeMessage
@@ -664,6 +851,17 @@ namespace TelegramBot.Infrastructure.Shared.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Yesterday Win Loss.
+        /// </summary>
+        public static string YesterdayWinLoss
+        {
+            get
+            {
+                return ResourceManager.GetString("YesterdayWinLoss", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Your Account is closed.
         /// </summary>
         public static string YourAccountIsClosed
@@ -682,28 +880,6 @@ namespace TelegramBot.Infrastructure.Shared.Resources
             get
             {
                 return ResourceManager.GetString("YourAccountIsLocked", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Today Win Loss.
-        /// </summary>
-        public static string TodayWinLoss
-        {
-            get
-            {
-                return ResourceManager.GetString("TodayWinLoss", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Username.
-        /// </summary>
-        public static string Username
-        {
-            get
-            {
-                return ResourceManager.GetString("Username", resourceCulture);
             }
         }
     }
