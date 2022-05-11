@@ -7,7 +7,7 @@ namespace TelegramBot.Client.Services
 {
     public interface ICommandService
     {
-        Task<Result> ExecuteAsync(long messengerBotId, long chatId, string message, bool isCallback);
+        Task<Result> ExecuteAsync(long messengerBotId, long chatId, string message, bool isCallback, int inlineMessageId = 0);
     }
 
     public class CommandService : ICommandService
@@ -19,7 +19,7 @@ namespace TelegramBot.Client.Services
             this.httpClient = httpClient;
         }
 
-        public async Task<Result> ExecuteAsync(long messengerBotId, long chatId, string message, bool isCallback)
+        public async Task<Result> ExecuteAsync(long messengerBotId, long chatId, string message, bool isCallback, int messageId = 0)
         {
             return await httpClient.PostAsJsonAsync<Result>(
                 $"command/execute",
@@ -28,7 +28,8 @@ namespace TelegramBot.Client.Services
                     messengerBotId,
                     chatId,
                     message,
-                    isCallback
+                    isCallback,
+                    messageId
                 });
         }
     }

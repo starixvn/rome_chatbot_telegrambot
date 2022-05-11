@@ -21,7 +21,7 @@ namespace TelegramBot.WebApi.Controllers
         [Route("execute"), HttpPost]
         public async Task ExecuteAsync(CommandParam param)
         {
-            await commandService.ExecuteAsync(param.MessengerBotId, param.ChatId, param.Message, param.IsCallback);
+            await commandService.ExecuteAsync(param.MessengerBotId, param.ChatId, param.Message, param.IsCallback, param.MessageId);
         }
     }
 }
