@@ -17,5 +17,7 @@ namespace TelegramBot.Infrastructure.Shared.Extensions
 
             return result;
         }
+        
+       
     }
 }

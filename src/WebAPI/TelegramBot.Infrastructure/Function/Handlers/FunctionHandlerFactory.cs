@@ -25,6 +25,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                     return (IFunctionHandler)serviceProvider.GetService(typeof(OustandingFunctionHandler));
                 case FunctionIds.TodayWinLoss:
                     return (IFunctionHandler)serviceProvider.GetService(typeof(TodayWinLossFunctionHandler));
+                
+                case FunctionIds.BalanceInfo:
+                    return (IFunctionHandler)serviceProvider.GetService(typeof(BalanceInfoFunctionHandler));
 
                 default:
                     throw new NotImplementedException();

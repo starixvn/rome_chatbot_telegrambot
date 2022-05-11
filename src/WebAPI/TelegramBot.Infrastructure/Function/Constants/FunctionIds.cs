@@ -5,6 +5,8 @@ namespace TelegramBot.Infrastructure.Function.Constants
         public const short Oustanding = 1;
         public const short TodayWinLoss = 3;
         public const short YesterdayWinLossNotification = 5;
+        
+        public const short BalanceInfo = 2;
         public const short ProblemAccount = 7;
         public const short MemberWinLossLimit = 7;
         public const short ChangePasswordAlert = 9;

@@ -276,8 +276,8 @@
   <data name="YourAccountIsClosed" xml:space="preserve">
     <value>Your Account is closed</value>
   </data>
-  <data name="YourAccountIsLocked" xml:space="preserve">
-    <value>Your Account is locked</value>
+  <data name="Balance" xml:space="preserve">
+    <value>Balance</value>
   </data>
   <data name="TodayWinLoss" xml:space="preserve">
     <value>Today Win Loss</value>
