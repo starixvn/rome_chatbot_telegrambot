@@ -28,6 +28,8 @@ namespace TelegramBot.Infrastructure.Action
 
         Task<IEnumerable<BotAction>> GetChildActions(int parentId);
 
+        Task<BotAction> GetActionByCommand(string command);
+
         Task<IList<CustBotAction>> GetUserActions(int userId);
 
         bool IsMessageAction(BotAction action);
@@ -184,6 +186,9 @@ namespace TelegramBot.Infrastructure.Action
         public async Task<BotAction> GetActionById(int id)
             => (await GetAllActions()).FirstOrDefault(action => action.ActionId == id);
 
+        public async Task<BotAction> GetActionByCommand(string command)
+            => (await GetAllActions()).FirstOrDefault(action => action.Command == command);
+
         public async Task<IEnumerable<BotAction>> GetChildActions(int parentId)
             => (await GetAllActions()).Where(action => action.ParentId == parentId);
 
@@ -217,5 +222,5 @@ namespace TelegramBot.Infrastructure.Action
         {
             await dynamicRepository.ExecuteAsync(new CustBotActionStatusUpdCriteria(userId)).ConfigureAwait(false);
         }
-    }
+  }
 }

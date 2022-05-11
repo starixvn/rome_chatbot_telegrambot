@@ -121,6 +121,12 @@ namespace TelegramBot.Infrastructure.Command
                     return;
                 }
 
+                var action = await actionService.GetActionByCommand(userResponse);
+                if (action != null) {
+                    await SendNextActionsMessage(account, messenger, action);
+                    return;
+                }
+
                 await HandleCommand(account, messenger, userResponse, function.FunctionId, messageId);
                 return;
             }
@@ -131,10 +137,10 @@ namespace TelegramBot.Infrastructure.Command
                 var validator = actionValidatorFactory.GetValidator(currentAction.ActionId);
                 if (validator != null)
                 {
-                    var valilationResult = await validator.Validate(account, userResponse);
-                    if (valilationResult.IsNotOk)
+                    var validationResult = await validator.Validate(account, userResponse);
+                    if (validationResult.IsNotOk)
                     {
-                        await messageSender.SendMessageWithCancelButton(messenger, valilationResult.Message, currentAction.BackToActionId, currentAction.FunctionId);
+                        await messageSender.SendMessageWithCancelButton(messenger, validationResult.Message, currentAction.BackToActionId, currentAction.FunctionId);
                         return;
                     }
                 }
