@@ -207,31 +207,16 @@ namespace TelegramBot.Infrastructure.Command
             var nextActions = await actionService.GetChildActions(currentAction.ActionId);
             var actionSelectedMessage = messageBuilder.BuildActionSelectedMessage(language, await messageBuilder.BuildActionName(language, currentAction.ActionId));
 
-            if (nextActions.Count() == 1 && actionService.IsMessageAction(nextActions.FirstOrDefault()))
-            {
-                var messageAction = nextActions.FirstOrDefault();
-                await actionService.InsertUserAction(account.UserId, messageAction.ActionId, string.Empty);
-                var text = string.Join(
-                    messageFormatter.NewLine(),
-                    actionSelectedMessage,
-                    await messageBuilder.BuildActionName(language, messageAction.ActionId));
-                await messageSender.SendMessageWithBackButton(
-                    messenger: messenger,
-                    message: new Message.Models.Message(text),
-                    backToActionId: currentAction.ParentId,
-                    functionId: messageAction.FunctionId,
-                    messageId: messageId);
-            }
-            else
-            {
-                var message = new Message.Models.Message(actionSelectedMessage, await actionService.BuildActionButtons(account, nextActions));
-                await messageSender.SendMessageWithBackButton(
+            var message = nextActions.Count() == 1 && actionService.IsMessageAction(nextActions.FirstOrDefault())
+                ? new Message.Models.Message(await messageBuilder.BuildActionName(language, nextActions.FirstOrDefault().ActionId))
+                : new Message.Models.Message(actionSelectedMessage, await actionService.BuildActionButtons(account, nextActions));
+
+            await messageSender.SendMessageWithBackButton(
                     messenger: messenger,
                     message: message,
                     backToActionId: currentAction.ParentId,
                     functionId: currentAction.FunctionId,
                     messageId: messageId);
-            }
         }
 
         private static (string, string[]) SplitCommand(string command)

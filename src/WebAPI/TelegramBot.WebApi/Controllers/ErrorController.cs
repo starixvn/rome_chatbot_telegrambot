@@ -1,9 +1,6 @@
 ﻿using Fanex.Logging.Extensions.AspNetCore;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
-using System.Threading.Tasks;
 
 namespace TelegramBot.WebApi.Controllers
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Fanex.Caching;
 using Fanex.Data.Repository;
 using Newtonsoft.Json;
 using TelegramBot.Infrastructure.Action.Constants;
@@ -12,6 +13,7 @@ using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Message.Models;
 using TelegramBot.Infrastructure.Setting.Models;
+using TelegramBot.Infrastructure.Shared.Caching;
 using TelegramBot.Infrastructure.Shared.Configurations;
 
 namespace TelegramBot.Infrastructure.Action
@@ -47,24 +49,28 @@ namespace TelegramBot.Infrastructure.Action
 
     public class ActionService : IActionService
     {
+        private const string AllActionsCacheKey = "TelegramBot.Infrastructure.Action.ActionService.AllActions";
         private readonly IDynamicRepository dynamicRepository;
         private readonly WebAPIConfiguration webAPIConfiguration;
         private readonly IMessageBuilder messageBuilder;
         private readonly IMessageFormatter messageFormatter;
         private readonly IFunctionHandlerFactory functionHandlerFactory;
+        private readonly ICacheService cacheService;
 
         public ActionService(
             IDynamicRepository dynamicRepository,
             WebAPIConfiguration webAPIConfiguration,
             IMessageBuilder messageBuilder,
             IMessageFormatter messageFormatter,
-            IFunctionHandlerFactory functionHandlerFactory)
+            IFunctionHandlerFactory functionHandlerFactory,
+            ICacheServiceFactory cacheServiceFactory)
         {
             this.dynamicRepository = dynamicRepository;
             this.webAPIConfiguration = webAPIConfiguration;
             this.messageBuilder = messageBuilder;
             this.messageFormatter = messageFormatter;
             this.functionHandlerFactory = functionHandlerFactory;
+            this.cacheService = cacheServiceFactory.Get();
         }
 
         public async Task<BotAction> GetRootActionByFunctionId(short functionId)
@@ -195,7 +201,10 @@ namespace TelegramBot.Infrastructure.Action
             => (await GetAllActions()).Where(action => action.ParentId == 0);
 
         private async Task<IEnumerable<BotAction>> GetAllActions()
-            => await dynamicRepository.FetchAsync<BotAction>(new BotActionSelCriteria(!webAPIConfiguration.IsProduction)).ConfigureAwait(false);
+            => await cacheService.GetOrSetAsync(
+                AllActionsCacheKey,
+                () => dynamicRepository.FetchAsync<BotAction>(new BotActionSelCriteria(!webAPIConfiguration.IsProduction)),
+                new CacheItemOptions().SetAbsoluteExpiration(new TimeSpan(1, 0, 0))).ConfigureAwait(false);
 
         public bool IsMessageAction(BotAction action)
             => action.Type == ActionTypes.Message;
