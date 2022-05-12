@@ -8,6 +8,7 @@ using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Resources;
+using TelegramBot.Infrastructure.Shared.Extensions;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
 {
@@ -95,7 +96,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         {
             foreach (var property in winLoss.GetType().GetProperties())
             {
-                textContainer.Add($"{ResourceHelper.Get(property.Name, language).ToUpperInvariant()}: {property.GetValue(winLoss)}");
+                textContainer.Add($"{ResourceHelper.Get(property.Name, language).ToUpperInvariant()}: {((decimal)property.GetValue(winLoss)).ToFormattedNumber()}");
             }
         }
     }
