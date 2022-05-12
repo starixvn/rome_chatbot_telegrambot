@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Alpha.API.Client.Models.BalanceInfo;
 using Alpha.API.Client.Services;
@@ -36,7 +37,6 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             this.actionService = actionService;
         }
 
-
         public async Task<Result> Handle(CustBotAccount account, string[] parameters)
         {
             var parameter = parameters[0];
@@ -46,17 +46,13 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 return await HandleTopXBalance(account, topQuery, parameter);
             }
 
-            switch (parameter)
+            return parameter switch
             {
-                case null:
-                case "":
-                    return await HandleBalanceInfo(account);
-                case "m":
-                    return await HandleMyBalance(account);
-                default:
-                    return await HandleBalanceDownLineUsername(account, parameter);
-            }
+                "m" => await HandleMyBalance(account),
+                _ => await HandleBalanceDownLineUsername(account, parameter)
+            };
         }
+
 
         private async Task<Result> HandleTopXBalance(CustBotAccount account, int topQuery, string parameter)
         {
@@ -67,63 +63,80 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                         webAPIConfiguration.OutstandingMaxTopQuery));
             }
 
-            var data = await balanceInfoService.GetTopBalance(account.CustId, account.CustomerLevel, topQuery);
-            return Result.CreateSuccessfulResult("you select /bal number");
+            var topBalanceReport =
+                await balanceInfoService.GetTopBalance(account.CustId, account.CustomerLevel, topQuery);
+
+            var textContainer = new List<string>();
+            textContainer.Add(BuildTitleRow(account.Language));
+
+            textContainer.Add(NameLevelAccount(account.CustomerLevel, account.Language));
+            textContainer.Add($"Today{messageFormatter.Point()}Yesterday");
+            textContainer.Add(messageFormatter.NewLine());
+
+            textContainer.Add("TOTAL:");
+            textContainer.Add(
+                $"      {topBalanceReport.Total.Balance.ToFormattedNumber()}{messageFormatter.Point()}{topBalanceReport.Total.YesterdayBalance.ToFormattedNumber()}");
+            var index = 1;
+            foreach (var item in topBalanceReport.TopBalances)
+            {
+                textContainer.Add($"{index++}.{item.Username}:");
+                textContainer.Add(
+                    $"      {item.Balance.ToFormattedNumber()}{messageFormatter.Point()}{item.YesterdayBalance.ToFormattedNumber()}");
+            }
+
+            if ((topBalanceReport.HiddenDownlinesCount) > 0)
+            {
+                textContainer.Add(
+                    $"      {topBalanceReport.HiddenDownlinesCount} more {NameLevelAccount(account.CustomerLevel - 1, account.Language)}(s) not shown");
+            }
+
+
+            var message = string.Join(messageFormatter.NewLine(), textContainer);
+            return Result.CreateSuccessfulResult(message);
         }
 
         private async Task<Result> HandleMyBalance(CustBotAccount account)
         {
             var myBalance = await balanceInfoService.GetMyBalance(account.CustId, account.CustomerLevel);
 
+            var dict = new Dictionary<string, string>
+            {
+                { "CURRENCY", myBalance.CurrencyName },
+                { "CASH", myBalance.CashBalance.ToFormattedNumber() },
+                { "YESTERDAY CASH", myBalance.CashBalance.ToFormattedNumber() },
+                { "BALANCE", myBalance.TotalBalance.ToFormattedNumber() },
+                { "YESTERDAY BAL:", myBalance.YesterdayTotalBalance.ToFormattedNumber() },
+                { "TODAY WL:", myBalance.TodayWinLoss.ToFormattedNumber() },
+                { "YESTERDAY WL:", myBalance.YesterdayWinLoss.ToFormattedNumber() },
+                { "3RD PARTY PENDING TRANSFER:", myBalance.PendingTransfer3rd.ToFormattedNumber() },
+                { "GIVEN CREDIT:", myBalance.GivenCredit.ToFormattedNumber() },
+                {
+                    $"{NameLevelAccount(account.CustomerLevel - 1, account.Language)} CREDIT:",
+                    myBalance.MemberCredit.ToFormattedNumber()
+                },
+                { "MEMBER OUTSTANDING:", myBalance.TotalOutstanding.ToFormattedNumber() },
+                {
+                    $"{NameLevelAccount(account.CustomerLevel, account.Language)} OUTSTANDING:",
+                    myBalance.Outstanding.ToFormattedNumber()
+                },
+            };
+
             var textContainer = new List<string>();
-            AddTitleRow(textContainer, account.Language);
-            textContainer.Add(messageFormatter.NewLine());
+            textContainer.Add(BuildTitleRow(account.Language));
 
-            const int tabCharacter = 15;
-
-            textContainer.Add("CURRENCY:");
-            textContainer.Add(myBalance.CurrencyName.PadLeft(tabCharacter));
-
-            textContainer.Add("CASH:");
-            textContainer.Add(myBalance.CashBalance.ToFormattedNumber().PadLeft(tabCharacter));
-
-            textContainer.Add("YESTERDAY CASH:");
-            textContainer.Add(myBalance.CashBalance.ToFormattedNumber().PadLeft(tabCharacter));
-
-            textContainer.Add("BALANCE:");
-            textContainer.Add(myBalance.TotalBalance.ToFormattedNumber().PadLeft(tabCharacter));
-
-            textContainer.Add("YESTERDAY BAL:");
-            textContainer.Add(myBalance.YesterdayTotalBalance.ToFormattedNumber().PadLeft(tabCharacter));
-
-            textContainer.Add("TODAY WL:");
-            textContainer.Add(myBalance.TodayWinLoss.ToFormattedNumber().PadLeft(tabCharacter));
-
-            textContainer.Add("YESTERDAY WL:");
-            textContainer.Add(myBalance.YesterdayWinLoss.ToFormattedNumber().PadLeft(tabCharacter));
-
-            textContainer.Add("3RD PARTY PENDING TRANSFER:");
-            textContainer.Add("I DONT KNOW ahuahu".PadLeft(tabCharacter));
-
-            textContainer.Add("GIVEN CREDIT:");
-            textContainer.Add(myBalance.GivenCredit.ToFormattedNumber().PadLeft(tabCharacter));
-
-            textContainer.Add("[Direct Downline level] CREDIT:");
-            textContainer.Add("I DONT KNOW ahuahu".PadLeft(tabCharacter));
-
-            textContainer.Add("MEMBER OUTSTANDING:");
-            textContainer.Add("I DONT KNOW ahuahu".PadLeft(tabCharacter));
-
-            textContainer.Add("[User's level] OUTSTANDING:");
-            textContainer.Add("I DONT KNOW ahuahu".PadLeft(tabCharacter));
+            foreach (var keyValuePair in dict)
+            {
+                textContainer.Add(keyValuePair.Key);
+                textContainer.Add($"    {keyValuePair.Value}");
+            }
 
             var message = string.Join(messageFormatter.NewLine(), textContainer);
             return Result.CreateSuccessfulResult(message);
         }
+        
 
         private async Task<Result> HandleBalanceDownLineUsername(CustBotAccount account, string username)
         {
-            // 1176070 => custID role acc supper => =>4
             var downlineInfo = await customerService.GetDownlineInfo(account.CustId, username);
             if (!IsValidDirectDownline(account.CustomerLevel, downlineInfo))
             {
@@ -136,71 +149,119 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 downlineInfo.CustId);
 
             var textContainer = new List<string>();
-            AddTitleRow(textContainer, account.Language);
-            
-            const int tabCharacter = 15;
-            
+            textContainer.Add(BuildTitleRow(account.Language));
+
+            textContainer.Add("USERNAME:");
+            textContainer.Add(username);
             textContainer.Add(messageFormatter.NewLine());
-            textContainer.Add("CASH:");
-            textContainer.Add(downlineBalance.TotalCash?.ToFormattedNumber().PadLeft(tabCharacter));
 
-            textContainer.Add("YESTERDAY CASH:");
-            textContainer.Add(downlineBalance.YesterdayCash?.ToFormattedNumber().PadLeft(tabCharacter));
+            var dict = new Dictionary<string, string>();
+            switch (downlineInfo.RoleId)
+            {
+                case 3:
+                    dict = BuildAgentDownLineUsernameMessage(downlineBalance);
+                    break;
+                case 2:
+                    dict = BuildMasterDownLineUsernameMessage(downlineBalance);
+                    break;
+                case 1:
+                    dict = BuildMemberDownLineUsernameMessage(downlineBalance);
+                    break;
+            }
 
-            textContainer.Add("BALANCE:");
-            textContainer.Add(downlineBalance.TotalBalance.ToFormattedNumber().PadLeft(tabCharacter));
-
-            textContainer.Add("YESTERDAY BAL");
-            textContainer.Add(downlineBalance.YesterdayBalance.ToFormattedNumber().PadLeft(tabCharacter));
-
-            textContainer.Add("OUTSTANDING:");
-            textContainer.Add(downlineBalance.TotalOutstanding.ToFormattedNumber().PadLeft(tabCharacter));
-
-            textContainer.Add("3RD PARTY PENDING TRANSFER:");
-            textContainer.Add(downlineBalance.PendingTransfer3rd.ToFormattedNumber().PadLeft(tabCharacter));
-
-            textContainer.Add("USED CREDIT:");
-            textContainer.Add(downlineBalance.UsedCredit?.ToFormattedNumber().PadLeft(tabCharacter));
-
-            textContainer.Add("GIVEN CREDIT:");
-            textContainer.Add(downlineBalance.GivenCredit.ToFormattedNumber().PadLeft(tabCharacter));
-
-            textContainer.Add("AG.ACT/CLOSED/SUS:");
-            textContainer.Add("I DONT KNOW ahuahu".PadLeft(tabCharacter));
-            
-            textContainer.Add("MEM.ACT/CLOSED/SUS:");
-            textContainer.Add("I DONT KNOW ahuahu".PadLeft(tabCharacter));
-
-            textContainer.Add("MEMBER OUTSTANDING:");
-            textContainer.Add("I DONT KNOW ahuahu".PadLeft(tabCharacter));
-
-            textContainer.Add("[User's level] OUTSTANDING:");
-            textContainer.Add("I DONT KNOW ahuahu".PadLeft(tabCharacter));
+            foreach (var keyValuePair in dict)
+            {
+                textContainer.Add(keyValuePair.Key);
+                textContainer.Add($"    {keyValuePair.Value}");
+            }
 
             var message = string.Join(messageFormatter.NewLine(), textContainer);
-
             return Result.CreateSuccessfulResult(message);
         }
 
-        private async Task<Result> HandleBalanceInfo(CustBotAccount account)
+         public Dictionary<string, string> BuildMasterDownLineUsernameMessage(DownlineBalance downlineBalance)
         {
-            var actionSelectedMessage = messageBuilder.BuildActionSelectedMessage(account.Language,
-                await messageBuilder.BuildActionName(account.Language, 2));
-            var pleaseSelectNextAction = messageBuilder.BuildMenuMessage(account.Language);
-
-            var textContainer = new List<string>();
-            textContainer.Add(actionSelectedMessage);
-            textContainer.Add(pleaseSelectNextAction);
-
-            return Result.CreateSuccessfulResult(string.Join(messageFormatter.NewLine(), textContainer));
+            var dictAgentLevel = new Dictionary<string, string>
+            {
+                { "CASH:", downlineBalance.TotalCash?.ToFormattedNumber() },
+                { "YESTERDAY CASH:", downlineBalance.YesterdayCash?.ToFormattedNumber() },
+                { "BALANCE:", downlineBalance.TotalBalance.ToFormattedNumber() },
+                { "YESTERDAY BAL:", downlineBalance.YesterdayBalance.ToFormattedNumber() },
+                { "MASTER OUTSTANDING:", downlineBalance.TotalOutstanding.ToFormattedNumber() },
+                { "3RD PARTY PENDING TRANSFER:", downlineBalance.PendingTransfer3rd.ToFormattedNumber() },
+                { "USED CREDIT:", downlineBalance.UsedCredit?.ToFormattedNumber() },
+                { "GIVEN CREDIT:", downlineBalance.GivenCredit.ToFormattedNumber() },
+                { "MEM. MAX CREDIT:", downlineBalance.MemberMaxCredit?.ToFormattedNumber() },
+                {
+                    "MEM.ACT/CLOSED/SUS:",
+                    $"{BuildTotalACT_CLOSED_SUS(downlineBalance.TotalDownlines.ToList().Find(e => e.RoleId == 1))}"
+                },
+                { "MEMBER OUTSTANDING:", downlineBalance.TotalOutstanding.ToFormattedNumber() },
+                { "SUPER OUTSTANDING:", downlineBalance.UplineOutstanding.ToFormattedNumber() },
+            };
+            return dictAgentLevel;
         }
 
-        private void AddTitleRow(List<string> textContainer, string language)
-            => textContainer.Add(
-                $"[{ResourceHelper.Get(nameof(SharedResource.Balance), language)} - {DateTime.Now:yyyyMMdd}]");
+        public Dictionary<string, string> BuildAgentDownLineUsernameMessage(DownlineBalance downlineBalance)
+        {
+            var dictAgentLevel = new Dictionary<string, string>
+            {
+                { "CASH:", downlineBalance.TotalCash?.ToFormattedNumber() },
+                { "YESTERDAY CASH:", downlineBalance.YesterdayCash?.ToFormattedNumber() },
+                { "BALANCE:", downlineBalance.TotalBalance.ToFormattedNumber() },
+                { "YESTERDAY BAL:", downlineBalance.YesterdayBalance.ToFormattedNumber() },
+                { "AGENT OUTSTANDING:", downlineBalance.TotalOutstanding.ToFormattedNumber() },
+                { "3RD PARTY PENDING TRANSFER:", downlineBalance.PendingTransfer3rd.ToFormattedNumber() },
+                { "USED CREDIT:", downlineBalance.UsedCredit?.ToFormattedNumber() },
+                { "GIVEN CREDIT:", downlineBalance.GivenCredit.ToFormattedNumber() },
+                { "MEM. MAX CREDIT:", downlineBalance.MemberMaxCredit?.ToFormattedNumber() },
+                {
+                    "MEM.ACT/CLOSED/SUS:",
+                    $"{BuildTotalACT_CLOSED_SUS(downlineBalance.TotalDownlines.ToList().Find(e => e.RoleId == 1))}"
+                },
+                { "MEMBER OUTSTANDING:", downlineBalance.TotalOutstanding.ToFormattedNumber() },
+                {
+                    $"MASTER OUTSTANDING:",
+                    downlineBalance.UplineOutstanding.ToFormattedNumber()
+                },
+            };
+            return dictAgentLevel;
+        }
+
+        public Dictionary<string, string> BuildMemberDownLineUsernameMessage(DownlineBalance downlineBalance)
+        {
+            var dictMemberLevel = new Dictionary<string, string>
+            {
+                { "BALANCE:", downlineBalance.TotalBalance.ToFormattedNumber() },
+                { "YESTERDAY BAL:", downlineBalance.YesterdayBalance.ToFormattedNumber() },
+                { "AGENT OUTSTANDING:", downlineBalance.TotalOutstanding.ToFormattedNumber() },
+                { "3RD PARTY PENDING TRANSFER:", downlineBalance.PendingTransfer3rd.ToFormattedNumber() },
+                { "USED CREDIT:", downlineBalance.UsedCredit?.ToFormattedNumber() },
+                { "GIVEN CREDIT:", downlineBalance.GivenCredit.ToFormattedNumber() },
+                { "MEM. MAX CREDIT:", downlineBalance.MemberMaxCredit?.ToFormattedNumber() },
+                {
+                    "MEM.ACT/CLOSED/SUS:",
+                    $"{BuildTotalACT_CLOSED_SUS(downlineBalance.TotalDownlines.ToList().Find(e => e.RoleId == 1))}"
+                },
+                { "MEMBER OUTSTANDING:", downlineBalance.TotalOutstanding.ToFormattedNumber() },
+                {
+                    "MASTER OUTSTANDING:", downlineBalance.UplineOutstanding.ToFormattedNumber()
+                },
+            };
+            return dictMemberLevel;
+        }
+        
+        private string BuildTitleRow(string language)
+            => $"[{ResourceHelper.Get(nameof(SharedResource.Balance), language)} - {DateTime.Now:yyyyMMdd}]";
 
 
         public async Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)
             => await balanceInfoService.GetTopUsername(account.CustId, account.CustomerLevel, top);
+
+        private string NameLevelAccount(int level, string language) =>
+            ResourceHelper.Get($"CustLevel_{level - 1}", language);
+
+        private string BuildTotalACT_CLOSED_SUS(TotalDownline downline)
+            => $"{downline.TotalActive}/{downline.TotalClosed}/{downline.TotalSuspended}";
     }
 };
