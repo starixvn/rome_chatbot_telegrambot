@@ -50,6 +50,8 @@ namespace TelegramBot.Infrastructure.Message
         string BuildAccountClosedMessage(string language);
 
         string BuildAccountLockedMessage(string language);
+
+        Task<string> BuildBackButton(string language, short backToActionId);
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -160,5 +162,16 @@ namespace TelegramBot.Infrastructure.Message
 
         public string BuildAccountLockedMessage(string language)
             => ResourceHelper.Get(nameof(SharedResource.YourAccountIsLocked), language);
+
+        public async Task<string> BuildBackButton(string language, short backToActionId)
+        {
+            if (backToActionId > 0)
+            {
+                return $"<< {ResourceHelper.Get(nameof(SharedResource.BackTo), language)} {await BuildActionName(language, backToActionId)}";
+            }
+
+            return $"<< {ResourceHelper.Get(nameof(SharedResource.BackToMainMenu), language)}";
+        }
+
     }
 }

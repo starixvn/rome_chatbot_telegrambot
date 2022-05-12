@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Fanex.Caching;
-using Fanex.Logging;
 using Newtonsoft.Json;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
@@ -9,19 +7,15 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Infrastructure.Message.Constants;
 using TelegramBot.Infrastructure.Message.Models;
 using TelegramBot.Infrastructure.Setting.Models;
-using TelegramBot.Infrastructure.Shared.Caching;
 using TelegramBot.Infrastructure.Shared.Constants;
-using TelegramBot.Infrastructure.Shared.Resources;
 
 namespace TelegramBot.Infrastructure.Message
 {
     public interface IMessageSender
     {
-        Task SendMessageWithBackToMainMenuButton(CustBotMessenger messenger, Models.Message message, short functionId = 0, bool logToDatabase = true, int messageId = 0);
+        Task SendMessageWithBackButton(CustBotMessenger messenger, Models.Message message, int messageId = 0, short backToActionId = -1, short functionId = 0, bool logToDatabase = true);
 
-        Task SendMessageWithCancelButton(CustBotMessenger messenger, string message, short backToActionId, short functionId = 0, bool logToDatabase = true, int messageId = 0);
-
-        Task SendMessage(CustBotMessenger messenger, Models.Message message, short functionId = 0, bool logToDatabase = true, int messageId = 0);
+        Task SendMessage(CustBotMessenger messenger, Models.Message message, int messageId = 0, short functionId = 0, bool logToDatabase = true);
 
         Task SendMessage(CustBotMessenger messenger, string message, short functionId = 0, bool logToDatabase = true);
 
@@ -42,18 +36,11 @@ namespace TelegramBot.Infrastructure.Message
             this.messageBuilder = messageBuilder;
         }
 
-        public async Task SendMessageWithBackToMainMenuButton(CustBotMessenger messenger, Models.Message message, short functionId = 0, bool logToDatabase = true, int messageId = 0)
-            => await SendMessage(messenger, message, messageId, true, functionId, logToDatabase);
+        public async Task SendMessageWithBackButton(CustBotMessenger messenger, Models.Message message, int messageId = 0, short backToActionId = 0, short functionId = 0, bool logToDatabase = true)
+            => await SendMessage(messenger, message, messageId, backToActionId, functionId, logToDatabase);
 
-        public async Task SendMessage(CustBotMessenger messenger, Models.Message message, short functionId = 0, bool logToDatabase = true, int messageId = 0)
-            => await SendMessage(messenger, message, messageId, false, functionId, logToDatabase);
-
-        public async Task SendMessageWithCancelButton(CustBotMessenger messenger, string message, short backToActionId, short functionId = 0, bool logToDatabase = true, int messageId = 0)
-            => await SendMessage(
-                messenger,
-                new Message.Models.Message(message, new List<MessageButton> { messageBuilder.BuildCancelButton(messenger.Language, backToActionId) }),
-                functionId,
-                logToDatabase, messageId);
+        public async Task SendMessage(CustBotMessenger messenger, Models.Message message, int messageId = 0, short functionId = 0, bool logToDatabase = true)
+            => await SendMessage(messenger, message, messageId, -1, functionId, logToDatabase);
 
         public async Task SendMessage(CustBotMessenger messenger, string message, short functionId = 0, bool logToDatabase = true)
         {
@@ -88,27 +75,24 @@ namespace TelegramBot.Infrastructure.Message
                     chatId: chatId,
                     messageId: messageId,
                     text: message,
-                    replyMarkup: replyMarkup
-                );
+                    replyMarkup: replyMarkup);
             }
             else
             {
                 var result = await botClient.SendTextMessageAsync(
-                                parseMode: ParseMode.Html,
-                                chatId: chatId,
-                                text: message,
-                                replyMarkup: replyMarkup);
-
-
+                    parseMode: ParseMode.Html,
+                    chatId: chatId,
+                    text: message,
+                    replyMarkup: replyMarkup);
             }
         }
 
-        private async Task SendMessage(CustBotMessenger messenger, Models.Message message, int messageId, bool withBackToMainMenuButton = false, short functionId = 0, bool logToDatabase = true)
+        private async Task SendMessage(CustBotMessenger messenger, Models.Message message, int messageId, short backToActionId = 0, short functionId = 0, bool logToDatabase = true)
         {
             try
             {
-                var replyMarkup = BuildReplyMarkup(messenger.Language, message.Buttons, withBackToMainMenuButton);
-                await SendMessage(messenger.BotId, messenger.ChatId, message.Text, replyMarkup, messageId);
+                var replyMarkup = await BuildReplyMarkup(messenger.Language, message.Buttons, backToActionId);
+                await SendMessage(messenger.BotId, messenger.ChatId, message.Text, messageId: messageId, replyMarkup: replyMarkup);
 
                 if (logToDatabase)
                 {
@@ -126,22 +110,23 @@ namespace TelegramBot.Infrastructure.Message
             }
         }
 
-        private InlineKeyboardMarkup BuildReplyMarkup(string language, IList<MessageButton> buttons, bool withBackToMainMenuButton = false)
+        private async Task<InlineKeyboardMarkup> BuildReplyMarkup(string language, IList<MessageButton> buttons, short backToActionId = -1)
         {
-            var numberOfRows = buttons.Count % NumberButtonInRow > 0 ? (buttons.Count / NumberButtonInRow) + 1 : (buttons.Count / NumberButtonInRow);
-            numberOfRows = withBackToMainMenuButton ? numberOfRows + 1 : numberOfRows;
+            var hasBackButton = backToActionId >= 0;
+            var numberOfRows = (buttons.Count % NumberButtonInRow > 0 ? (buttons.Count / NumberButtonInRow) + 1 : (buttons.Count / NumberButtonInRow)) + (hasBackButton ? 1 : 0);
             var buttonRows = new InlineKeyboardButton[numberOfRows][];
 
             for (var i = 0; i < numberOfRows; i++)
             {
-                if (withBackToMainMenuButton && i == numberOfRows - 1)
+                if (hasBackButton && i == numberOfRows - 1)
                 {
+                    var text = await messageBuilder.BuildBackButton(language, backToActionId);
+                    var callBackData = JsonConvert.SerializeObject(new { ActionId = backToActionId });
                     buttonRows[i] = new InlineKeyboardButton[]
                     {
-                        InlineKeyboardButton.WithCallbackData(
-                            ResourceHelper.Get(nameof(SharedResource.BackToMainMenu),language),
-                            JsonConvert.SerializeObject(new {IsBackToMainMenu=true}))
+                        InlineKeyboardButton.WithCallbackData(text, callBackData)
                     };
+
                     break;
                 }
 

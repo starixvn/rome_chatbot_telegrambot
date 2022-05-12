@@ -122,7 +122,8 @@ namespace TelegramBot.Infrastructure.Command
                 }
 
                 var action = await actionService.GetActionByCommand(userResponse);
-                if (action != null) {
+                if (action != null)
+                {
                     await SendNextActionsMessage(account, messenger, action);
                     return;
                 }
@@ -140,7 +141,12 @@ namespace TelegramBot.Infrastructure.Command
                     var validationResult = await validator.Validate(account, userResponse);
                     if (validationResult.IsNotOk)
                     {
-                        await messageSender.SendMessageWithCancelButton(messenger, validationResult.Message, currentAction.BackToActionId, currentAction.FunctionId);
+                        var prevAction = await actionService.GetActionById(currentAction.ParentId);
+                        await messageSender.SendMessageWithBackButton(
+                            messenger: messenger,
+                            message: new Message.Models.Message(validationResult.Message),
+                            backToActionId: prevAction.ParentId,
+                            functionId: currentAction.FunctionId);
                         return;
                     }
                 }
@@ -165,7 +171,7 @@ namespace TelegramBot.Infrastructure.Command
                 throw new InvalidOperationException($"Wrong call back data format {message}");
             }
 
-            if (callBackData.IsBackToMainMenu)
+            if (callBackData.ActionId == ActionIds.MainMenu)
             {
                 await SendMainMenuMessage(messenger);
                 return;
@@ -205,16 +211,26 @@ namespace TelegramBot.Infrastructure.Command
             {
                 var messageAction = nextActions.FirstOrDefault();
                 await actionService.InsertUserAction(account.UserId, messageAction.ActionId, string.Empty);
-                var message = string.Join(
+                var text = string.Join(
                     messageFormatter.NewLine(),
                     actionSelectedMessage,
                     await messageBuilder.BuildActionName(language, messageAction.ActionId));
-                await messageSender.SendMessageWithCancelButton(messenger, message, messageAction.FunctionId, messageId: messageId);
+                await messageSender.SendMessageWithBackButton(
+                    messenger: messenger,
+                    message: new Message.Models.Message(text),
+                    backToActionId: currentAction.ParentId,
+                    functionId: messageAction.FunctionId,
+                    messageId: messageId);
             }
             else
             {
                 var message = new Message.Models.Message(actionSelectedMessage, await actionService.BuildActionButtons(account, nextActions));
-                await messageSender.SendMessageWithBackToMainMenuButton(messenger, message, currentAction.FunctionId, messageId: messageId);
+                await messageSender.SendMessageWithBackButton(
+                    messenger: messenger,
+                    message: message,
+                    backToActionId: currentAction.ParentId,
+                    functionId: currentAction.FunctionId,
+                    messageId: messageId);
             }
         }
 
@@ -235,21 +251,15 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task HandleCommand(CustBotAccount account, CustBotMessenger messenger, string command, short functionId, int messageId)
         {
-
             var splittedCommand = SplitCommand(command);
             var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2);
             var rootAction = await actionService.GetRootActionByFunctionId(functionId);
-            if (result.IsOk)
-            {
-                await actionService.ResetUserActions(account.UserId);
-                await actionService.InsertUserAction(account.UserId, rootAction.ActionId, string.Empty);
-                var buttons = await actionService.BuildNextActionButtons(account, rootAction.ActionId);
-                await messageSender.SendMessageWithBackToMainMenuButton(messenger, new Message.Models.Message(result.Message, buttons), functionId, messageId: messageId);
-            }
-            else
-            {
-                await messageSender.SendMessageWithCancelButton(messenger, result.Message, rootAction.ActionId, functionId, messageId: messageId);
-            }
+            await messageSender.SendMessageWithBackButton(
+                messenger: messenger,
+                message: new Message.Models.Message(result.Message),
+                backToActionId: rootAction.ActionId,
+                functionId: functionId,
+                messageId: messageId);
         }
 
         private static bool IsValidAction(CustBotMessenger messenger, BotAction action)

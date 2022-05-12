@@ -336,4 +336,7 @@
   <data name="Turnover" xml:space="preserve">
     <value>Turnover</value>
   </data>
+  <data name="BackTo" xml:space="preserve">
+    <value>Back to</value>
+  </data>
 </root>

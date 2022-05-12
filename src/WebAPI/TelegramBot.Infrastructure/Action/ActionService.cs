@@ -84,18 +84,17 @@ namespace TelegramBot.Infrastructure.Action
             {
                 if (action.Type == ActionTypes.Downline)
                 {
-
                     var usernames = await functionHandlerFactory.GetHandler(action.FunctionId).GetTopDownlineUsername(account);
                     foreach (var username in usernames)
                     {
-                        var nextUserAction = new CustBotAction(int.MaxValue, 0, action.ActionId, username, string.Empty, DateTime.Now);
+                        var nextUserAction = new CustBotAction(int.MaxValue, 0, action.ActionId, string.Empty, string.Empty, DateTime.Now);
                         var nextUserActions = userActions.Concat(new List<CustBotAction> { nextUserAction }).ToList();
                         buttons.Add(new MessageButton(
                             username,
                             JsonConvert.SerializeObject(new
                             {
                                 ActionId = action.ActionId,
-                                CompiledCommand = await CompileCommand(nextUserActions, string.Empty)
+                                CompiledCommand = await CompileCommand(nextUserActions, username)
                             })));
                     }
                 }
@@ -222,5 +221,5 @@ namespace TelegramBot.Infrastructure.Action
         {
             await dynamicRepository.ExecuteAsync(new CustBotActionStatusUpdCriteria(userId)).ConfigureAwait(false);
         }
-  }
+    }
 }

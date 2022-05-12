@@ -4,6 +4,12 @@ namespace TelegramBot.Infrastructure.Message.Models
 {
     public class Message
     {
+        public Message(string text)
+        {
+            Text = text;
+            Buttons = new List<MessageButton>();
+        }
+
         public Message(string text, IList<MessageButton> buttons)
         {
             Text = text;

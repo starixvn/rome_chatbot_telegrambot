@@ -7,7 +7,7 @@ namespace TelegramBot.Client.Services
 {
     public interface ICommandService
     {
-        Task<Result> ExecuteAsync(long messengerBotId, long chatId, string message, bool isCallback, int inlineMessageId = 0);
+        Task<Result> ExecuteAsync(long messengerBotId, long chatId, string message, bool isCallback, int messageId = 0);
     }
 
     public class CommandService : ICommandService
