@@ -73,7 +73,7 @@ namespace TelegramBot.Infrastructure.Command
             var action = message.Split(' ')[0] switch
             {
                 "/help" => HandleHelpCommand(messenger, !account.IsSubAccount || (await customerService.GetCustomerStatus(account.CustId, account.SubAccId)).HasReportPermission),
-                "/menu" => SendMainMenuMessage(messenger),
+                "/menu" => SendMainMenuMessage(messenger, messageId),
                 _ => HandleUserReply(account, messenger, message, isCallback, messageId),
             };
 
@@ -117,7 +117,7 @@ namespace TelegramBot.Infrastructure.Command
                 var function = await functionService.GetFunctionByCommand(userResponse);
                 if (function == null)
                 {
-                    await SendNotRecognizedCommandMessage(messenger);
+                    await SendNotRecognizedCommandMessage(messenger, messageId);
                     return;
                 }
 
@@ -173,7 +173,7 @@ namespace TelegramBot.Infrastructure.Command
 
             if (callBackData.ActionId == ActionIds.MainMenu)
             {
-                await SendMainMenuMessage(messenger);
+                await SendMainMenuMessage(messenger, messageId);
                 return;
             }
 
@@ -185,7 +185,7 @@ namespace TelegramBot.Infrastructure.Command
             var currentAction = await actionService.GetActionById(callBackData.ActionId);
             if (currentAction == null || !IsValidAction(messenger, currentAction))
             {
-                await SendNotRecognizedCommandMessage(messenger);
+                await SendNotRecognizedCommandMessage(messenger, messageId);
                 return;
             }
 
@@ -265,24 +265,24 @@ namespace TelegramBot.Infrastructure.Command
         private static bool IsValidAction(CustBotMessenger messenger, BotAction action)
             => messenger.Functions.Any(f => f.FunctionId == action.FunctionId);
 
-        private async Task SendMainMenuMessage(CustBotMessenger messenger)
+        private async Task SendMainMenuMessage(CustBotMessenger messenger, int messageId)
         {
             var text = messageBuilder.BuildMenuMessage(messenger.Language);
-            await SendMessageWithRootActions(messenger, text);
+            await SendMessageWithRootActions(messenger, text, messageId);
         }
 
-        private async Task SendNotRecognizedCommandMessage(CustBotMessenger messenger)
+        private async Task SendNotRecognizedCommandMessage(CustBotMessenger messenger, int messageId)
         {
             var text = messageBuilder.BuildNotRecognizedCommandMessage(messenger.Language);
-            await SendMessageWithRootActions(messenger, text);
+            await SendMessageWithRootActions(messenger, text, messageId);
         }
 
-        private async Task SendMessageWithRootActions(CustBotMessenger messenger, string text)
+        private async Task SendMessageWithRootActions(CustBotMessenger messenger, string text, int messageId)
         {
             await actionService.ResetUserActions(messenger.UserId);
             var rootActionButtons = await actionService.BuildRootActionButtons(messenger.Language);
             var message = new Message.Models.Message(text, rootActionButtons);
-            await messageSender.SendMessage(messenger, message);
+            await messageSender.SendMessage(messenger, message, messageId);
         }
     }
 }
