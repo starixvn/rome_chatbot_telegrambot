@@ -1,0 +1,6 @@
+namespace TelegramBot.SenderService.Configurations;
+
+public sealed class AppSettings
+{
+    public IDictionary<string, string> FunctionPermissions { get; init; } = default!;
+}

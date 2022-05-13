@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Functions SiteId="105" SiteName="Alpha">
+  <Function Name="ChatBot">
+    <Setting Key="Age_Chatbot_BotSystemSetting_Sel" SpName="Age_Chatbot_BotSystemSetting_Sel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_SendNotification" SpName="Age_Chatbot_SendNotification" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_SendNotification_Status_Upd" SpName="Age_Chatbot_SendNotification_Status_Upd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+  </Function>
+
+  <Function Name="Customer">
+    <Setting Key="Age_Chatbot_CustomerStatusSel" SpName="Age_Chatbot_CustomerStatusSel" DbName="DBCust.CustDB.BODBDownlineNet" />
+  </Function>
+</Functions>

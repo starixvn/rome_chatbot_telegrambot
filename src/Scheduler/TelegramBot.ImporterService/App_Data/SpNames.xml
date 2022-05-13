@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Functions SiteId="105" SiteName="Alpha">
+  <Function Name="ChatBot">
+    <Setting Key="Age_Chatbot_BotSystemSetting_Sel" SpName="Age_Chatbot_BotSystemSetting_Sel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_BotSystemSetting_Upd" SpName="Age_Chatbot_BotSystemSetting_Upd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_GetLinkedAccounts" SpName="Age_Chatbot_GetLinkedAccounts" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_PersonalMessageImport" SpName="Age_Chatbot_PersonalMessageImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+  </Function>
+
+  <Function Name="Customer">
+    <Setting Key="Age_Chatbot_CustomerStatusSel" SpName="Age_Chatbot_CustomerStatusSel" DbName="DBCust.CustDB.BODBDownlineNet" />
+  </Function>
+
+  <Function Name="Personal Message">
+    <Setting Key="Age_Chatbot_PersonalMessage_Sel" SpName="Age_Chatbot_PersonalMessage_Sel" DbName="DBMSG.bodb_Message.BODBDownlineNet">
+      <Mapping DataField="Content_en" ObjectProperty="ContentEN" />
+      <Mapping DataField="Content_cs" ObjectProperty="ContentCS" />
+      <Mapping DataField="Content_ch" ObjectProperty="ContentCH" />
+      <Mapping DataField="Content_th" ObjectProperty="ContentTH" />
+      <Mapping DataField="Content_vn" ObjectProperty="ContentVI" />
+    </Setting>
+  </Function>
+</Functions>
