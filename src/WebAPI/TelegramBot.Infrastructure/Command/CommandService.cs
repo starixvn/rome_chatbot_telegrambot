@@ -179,6 +179,14 @@ namespace TelegramBot.Infrastructure.Command
                 throw new InvalidOperationException($"Wrong call back data format {message}");
             }
 
+            await Task.Run(() => messageLogger.LogMessage(
+                account.UserId,
+                CommonId.BotUserId,
+                messenger.ChatId,
+                messenger.BotId,
+                callBackData.Value,
+                MessageSendStatus.Success));
+
             if (callBackData.ActionId == ActionIds.MainMenu)
             {
                 await SendMainMenuMessage(messenger, messageId);
@@ -186,25 +194,21 @@ namespace TelegramBot.Infrastructure.Command
             }
 
             var currentAction = await actionService.GetActionById(callBackData.ActionId);
-            await Task.Run(() => messageLogger.LogMessage(
-                account.UserId,
-                CommonId.BotUserId,
-                messenger.ChatId,
-                messenger.BotId,
-                currentAction.ActionName ?? string.Empty,
-                MessageSendStatus.Success,
-                functionId: currentAction?.FunctionId ?? 0));
+
             if (currentAction == null || !IsValidAction(messenger, currentAction))
             {
                 await SendNotRecognizedCommandMessage(messenger, messageId);
                 return;
             }
 
-            await actionService.InsertUserAction(account.UserId, currentAction.ActionId, string.Empty, callBackData.CompiledCommand ?? string.Empty);
+            var userResponse = currentAction.Type == ActionTypes.Downline ? callBackData.Value : string.Empty;
+            await actionService.InsertUserAction(account.UserId, currentAction.ActionId, userResponse);
 
-            if (!string.IsNullOrEmpty(callBackData.CompiledCommand))
+            if (currentAction.IsEndAction)
             {
-                await HandleCommand(account, messenger, callBackData.CompiledCommand, currentAction.FunctionId, messageId);
+                var userActions = await actionService.GetUserActions(account.UserId);
+                var compiledCommand = await actionService.CompileCommand(userActions, userResponse);
+                await HandleCommand(account, messenger, compiledCommand, currentAction.FunctionId, messageId);
             }
             else
             {
@@ -218,9 +222,17 @@ namespace TelegramBot.Infrastructure.Command
             var nextActions = await actionService.GetChildActions(currentAction.ActionId);
             var actionSelectedMessage = messageBuilder.BuildActionSelectedMessage(language, await messageBuilder.BuildActionName(language, currentAction.ActionId));
 
-            var message = nextActions.Count() == 1 && actionService.IsMessageAction(nextActions.FirstOrDefault())
-                ? new Message.Models.Message(await messageBuilder.BuildActionName(language, nextActions.FirstOrDefault().ActionId))
-                : new Message.Models.Message(actionSelectedMessage, await actionService.BuildActionButtons(account, nextActions));
+            Message.Models.Message message = null;
+            if (nextActions.Count() == 1 && actionService.IsMessageAction(nextActions.FirstOrDefault()))
+            {
+                var nextAction = nextActions.FirstOrDefault();
+                await actionService.InsertUserAction(account.UserId, nextAction.ActionId, string.Empty);
+                message = new Message.Models.Message(await messageBuilder.BuildActionName(language, nextActions.FirstOrDefault().ActionId));
+            }
+            else
+            {
+                message = new Message.Models.Message(actionSelectedMessage, await actionService.BuildActionButtons(account, nextActions));
+            }
 
             await messageSender.SendMessageWithBackButton(
                 messenger: messenger,

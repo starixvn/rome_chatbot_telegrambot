@@ -100,7 +100,7 @@ namespace TelegramBot.Infrastructure.Action
                             JsonConvert.SerializeObject(new
                             {
                                 ActionId = action.ActionId,
-                                CompiledCommand = await CompileCommand(nextUserActions, username)
+                                Value = username
                             })));
                     }
                 }
@@ -108,12 +108,13 @@ namespace TelegramBot.Infrastructure.Action
                 {
                     var nextUserAction = new CustBotAction(int.MaxValue, 0, action.ActionId, action.Command, string.Empty, DateTime.Now);
                     var nextUserActions = userActions.Concat(new List<CustBotAction> { nextUserAction }).ToList();
+                    var actionName = await messageBuilder.BuildActionName(account.Language, action.ActionId);
                     buttons.Add(new MessageButton(
-                        await messageBuilder.BuildActionName(account.Language, action.ActionId),
+                        actionName,
                         JsonConvert.SerializeObject(new
                         {
                             ActionId = action.ActionId,
-                            CompiledCommand = action.IsEndAction ? await CompileCommand(nextUserActions, string.Empty) : string.Empty
+                            Value = actionName
                         })));
                 }
             }
@@ -157,9 +158,10 @@ namespace TelegramBot.Infrastructure.Action
 
             foreach (var action in rootActions)
             {
+                var actionName = await messageBuilder.BuildActionName(language, action.ActionId);
                 buttons.Add(new MessageButton(
                     await messageBuilder.BuildActionName(language, action.ActionId),
-                    JsonConvert.SerializeObject(new { ActionId = action.ActionId, CompiledCommand = action.IsEndAction ? action.Command : string.Empty })
+                    JsonConvert.SerializeObject(new { ActionId = action.ActionId, Value = actionName })
                     ));
             }
 

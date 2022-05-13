@@ -4,6 +4,6 @@ namespace TelegramBot.Infrastructure.Command.Models
     {
         public int ActionId { get; set; }
 
-        public string CompiledCommand { get; set; }
+        public string Value { get; set; }
     }
 }

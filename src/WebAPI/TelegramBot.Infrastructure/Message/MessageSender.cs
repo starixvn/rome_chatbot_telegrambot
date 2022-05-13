@@ -121,7 +121,7 @@ namespace TelegramBot.Infrastructure.Message
                 if (hasBackButton && i == numberOfRows - 1)
                 {
                     var text = await messageBuilder.BuildBackButton(language, backToActionId);
-                    var callBackData = JsonConvert.SerializeObject(new { ActionId = backToActionId });
+                    var callBackData = JsonConvert.SerializeObject(new { ActionId = backToActionId, Value = text });
                     buttonRows[i] = new InlineKeyboardButton[]
                     {
                         InlineKeyboardButton.WithCallbackData(text, callBackData)
