@@ -1,4 +1,6 @@
-﻿using Telegram.Bot;
+﻿using Fanex.Logging;
+using Newtonsoft.Json;
+using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -90,6 +92,7 @@ namespace TelegramBot.Receiver.Services
 
         private async Task BotOnCallbackQueryReceived(ITelegramBotClient botClient, CallbackQuery callbackQuery)
         {
+            Logger.Log.Info(JsonConvert.SerializeObject(callbackQuery.Message));
             await _commandService.ExecuteAsync(botClient.BotId.Value, callbackQuery.Message.Chat.Id, callbackQuery.Data, true, callbackQuery.Message.MessageId);
         }
 

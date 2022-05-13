@@ -12,8 +12,10 @@ using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command.Models;
 using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
+using TelegramBot.Infrastructure.Message.Constants;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Models;
+using TelegramBot.Infrastructure.Shared.Constants;
 
 namespace TelegramBot.Infrastructure.Command
 {
@@ -26,6 +28,7 @@ namespace TelegramBot.Infrastructure.Command
     {
         private readonly IMessageBuilder messageBuilder;
         private readonly IMessageSender messageSender;
+        private readonly IMessageLogger messageLogger;
         private readonly IMessageFormatter messageFormatter;
         private readonly ISettingService settingService;
         private readonly IBotService botService;
@@ -38,6 +41,7 @@ namespace TelegramBot.Infrastructure.Command
         public CommandService(
             IMessageBuilder messageBuilder,
             IMessageSender messageSender,
+            IMessageLogger messageLogger,
             IMessageFormatter messageFormatter,
             ISettingService settingService,
             IBotService botService,
@@ -49,6 +53,7 @@ namespace TelegramBot.Infrastructure.Command
         {
             this.messageBuilder = messageBuilder;
             this.messageSender = messageSender;
+            this.messageLogger = messageLogger;
             this.messageFormatter = messageFormatter;
             this.settingService = settingService;
             this.botService = botService;
@@ -70,14 +75,14 @@ namespace TelegramBot.Infrastructure.Command
             var account = await settingService.GetCustBotAccount(chatId, bot.BotId);
             var messenger = await settingService.GetCustBotMessenger(account.CustId, account.SubAccId);
 
-            var action = message.Split(' ')[0] switch
+            if (isCallback)
             {
-                "/help" => HandleHelpCommand(messenger, !account.IsSubAccount || (await customerService.GetCustomerStatus(account.CustId, account.SubAccId)).HasReportPermission),
-                "/menu" => SendMainMenuMessage(messenger, messageId),
-                _ => HandleUserReply(account, messenger, message, isCallback, messageId),
-            };
-
-            await action;
+                await HandleUserReplyByButton(account, messenger, message, messageId);
+            }
+            else
+            {
+                await HandleUserReplyByText(account, messenger, message, messageId);
+            }
         }
 
         private async Task HandleHelpCommand(CustBotMessenger messenger, bool hasReportPermission)
@@ -89,18 +94,6 @@ namespace TelegramBot.Infrastructure.Command
             await messageSender.SendMessage(messenger, message);
         }
 
-        private async Task HandleUserReply(CustBotAccount account, CustBotMessenger messenger, string message, bool isCallback, int messageId)
-        {
-            if (isCallback)
-            {
-                await HandleUserReplyByButton(account, messenger, message, messageId);
-            }
-            else
-            {
-                await HandleUserReplyByText(account, messenger, message, messageId);
-            }
-        }
-
         private async Task HandleUserReplyByText(CustBotAccount account, CustBotMessenger messenger, string message, int messageId)
         {
             var userResponse = WebUtility.HtmlEncode(
@@ -109,6 +102,21 @@ namespace TelegramBot.Infrastructure.Command
                     message.Split(
                         default(string[]),
                         StringSplitOptions.RemoveEmptyEntries)));
+
+            await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger.ChatId, messenger.BotId, message, MessageSendStatus.Success));
+
+            if (userResponse.Split(' ')[0] == "/help")
+            {
+                await HandleHelpCommand(messenger, !account.IsSubAccount || (await customerService.GetCustomerStatus(account.CustId, account.SubAccId)).HasReportPermission);
+                return;
+            }
+
+            if (userResponse.Split(' ')[0] == "/menu")
+            {
+                await SendMainMenuMessage(messenger, messageId);
+                return;
+            }
+
             var userActions = await actionService.GetUserActions(account.UserId);
             var lastUserAction = userActions.LastOrDefault();
             var currentAction = lastUserAction != null ? await actionService.GetActionById(lastUserAction.ActionId) : null;
@@ -177,12 +185,15 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
-            if (callBackData.IsCancel)
-            {
-                await actionService.ResetUserActions(account.UserId);
-            }
-
             var currentAction = await actionService.GetActionById(callBackData.ActionId);
+            await Task.Run(() => messageLogger.LogMessage(
+                account.UserId,
+                CommonId.BotUserId,
+                messenger.ChatId,
+                messenger.BotId,
+                currentAction.ActionName ?? string.Empty,
+                MessageSendStatus.Success,
+                functionId: currentAction?.FunctionId ?? 0));
             if (currentAction == null || !IsValidAction(messenger, currentAction))
             {
                 await SendNotRecognizedCommandMessage(messenger, messageId);
@@ -212,11 +223,11 @@ namespace TelegramBot.Infrastructure.Command
                 : new Message.Models.Message(actionSelectedMessage, await actionService.BuildActionButtons(account, nextActions));
 
             await messageSender.SendMessageWithBackButton(
-                    messenger: messenger,
-                    message: message,
-                    backToActionId: currentAction.ParentId,
-                    functionId: currentAction.FunctionId,
-                    messageId: messageId);
+                messenger: messenger,
+                message: message,
+                backToActionId: currentAction.ParentId,
+                functionId: currentAction.FunctionId,
+                messageId: messageId);
         }
 
         private static (string, string[]) SplitCommand(string command)
