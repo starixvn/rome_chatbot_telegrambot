@@ -182,9 +182,8 @@ namespace TelegramBot.Infrastructure.Setting
                     functions = functions.Concat(await _functionService.GetReportFunctions());
                 }
 
-                custBotMessenger.Functions = functions.Where(f =>
-                    (!customerStatus.HasReportPermission && f.FunctionId != FunctionIds.YesterdayWinLossNotification)
-                    || (!customerStatus.HasMemberInformationPermission && f.FunctionId != FunctionIds.ProblemAccount && f.FunctionId != FunctionIds.MemberWinLossLimit));
+                functions = functions.Where(f => !customerStatus.HasReportPermission && f.FunctionId != FunctionIds.YesterdayWinLossNotification);
+                functions = functions.Where(f => !customerStatus.HasMemberInformationPermission && f.FunctionId != FunctionIds.ProblemAccount && f.FunctionId != FunctionIds.MemberWinLossLimit);
             }
             else
             {
