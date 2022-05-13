@@ -43,10 +43,11 @@ app.UseRouting();
 app.MapGet("/", () => "Telegram bot web api!!!");
 app.UseUM(configuration);
 app.UseFanexDataWithSqlServer(configuration, app.Environment);
+
 app.MapControllers();
 
 var isDevelopment = app.Environment.IsDevelopment();
-app.UseExceptionHandler(isDevelopment ? "/error-development" : "/error");
+app.ConfigureExceptionHandler(isDevelopment, Fanex.Logging.Logger.Log);
 app.UseSwagger();
 app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "TelegramBot v1"));
 

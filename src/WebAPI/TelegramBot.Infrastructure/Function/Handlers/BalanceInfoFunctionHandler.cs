@@ -11,6 +11,7 @@ using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Extensions;
 using TelegramBot.Infrastructure.Shared.Resources;
+using Newtonsoft.Json;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
 {
@@ -46,11 +47,13 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 return await HandleTopXBalance(account, topQuery, parameter);
             }
 
-            return parameter switch
+            var action = parameter switch
             {
-                "m" => await HandleMyBalance(account),
-                _ => await HandleBalanceDownLineUsername(account, parameter)
+                "m" => HandleMyBalance(account),
+                _ => HandleBalanceDownLineUsername(account, parameter)
             };
+
+            return await action;
         }
 
 
@@ -97,6 +100,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         private async Task<Result> HandleMyBalance(CustBotAccount account)
         {
+            Fanex.Logging.Logger.Log.Info(JsonConvert.SerializeObject(account));
             var myBalance = await balanceInfoService.GetMyBalance(account.CustId, account.CustomerLevel);
 
             var dict = new Dictionary<string, string>
@@ -133,7 +137,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var message = string.Join(messageFormatter.NewLine(), textContainer);
             return Result.CreateSuccessfulResult(message);
         }
-        
+
 
         private async Task<Result> HandleBalanceDownLineUsername(CustBotAccount account, string username)
         {
@@ -179,7 +183,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             return Result.CreateSuccessfulResult(message);
         }
 
-         public Dictionary<string, string> BuildMasterDownLineUsernameMessage(DownlineBalance downlineBalance)
+        public Dictionary<string, string> BuildMasterDownLineUsernameMessage(DownlineBalance downlineBalance)
         {
             var dictAgentLevel = new Dictionary<string, string>
             {
@@ -250,7 +254,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             };
             return dictMemberLevel;
         }
-        
+
         private string BuildTitleRow(string language)
             => $"[{ResourceHelper.Get(nameof(SharedResource.Balance), language)} - {DateTime.Now:yyyyMMdd}]";
 
