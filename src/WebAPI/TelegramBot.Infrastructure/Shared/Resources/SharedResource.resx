@@ -339,4 +339,64 @@
   <data name="BackTo" xml:space="preserve">
     <value>Back to</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>CURRENCY</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>CASH</value>
+  </data>
+  <data name="YesterdayCash" xml:space="preserve">
+    <value>YESTERDAY CASH</value>
+  </data>
+  <data name="YesterdayBal" xml:space="preserve">
+    <value>YESTERDAY BAL</value>
+  </data>
+  <data name="ThirdPartyPendingTransfer" xml:space="preserve">
+    <value>3RD PARTY PENDING TRANSFER</value>
+  </data>
+  <data name="GivenCredit" xml:space="preserve">
+    <value>GIVEN CREDIT</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Credit</value>
+  </data>
+  <data name="MemberOutStanding" xml:space="preserve">
+    <value>MEMBER OUTSTANDING</value>
+  </data>
+  <data name="MasterOutStanding" xml:space="preserve">
+    <value>MASTER OUTSTANDING</value>
+  </data>
+  <data name="UsedCredit" xml:space="preserve">
+    <value>USED CREDIT</value>
+  </data>
+  <data name="MemMaxCredit" xml:space="preserve">
+    <value>MEM. MAX CREDIT</value>
+  </data>
+  <data name="MemActClosedSus" xml:space="preserve">
+    <value>MEM. ACT/CLOSED/SUS</value>
+  </data>
+  <data name="SuperOutStanding" xml:space="preserve">
+    <value>SUPER OUTSTANDING</value>
+  </data>
+  <data name="AgentOutStanding" xml:space="preserve">
+    <value>AGENT OUTSTANDING</value>
+  </data>
+  <data name="NetPosition" xml:space="preserve">
+    <value>NET POSITION</value>
+  </data>
+  <data name="BetCredit" xml:space="preserve">
+    <value>BET CREDIT</value>
+  </data>
+  <data name="AgentActClosedSus" xml:space="preserve">
+    <value>AG. ACT/CLOSED/SUS</value>
+  </data>
+  <data name="AgentCredit" xml:space="preserve">
+    <value>AGENT CREDIT</value>
+  </data>
+  <data name="MasterCredit" xml:space="preserve">
+    <value>MASTER CREDIT</value>
+  </data>
+  <data name="MemberCredit" xml:space="preserve">
+    <value>MEMBER CREDIT</value>
+  </data>
 </root>
