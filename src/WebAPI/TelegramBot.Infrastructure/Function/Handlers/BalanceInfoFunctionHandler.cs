@@ -105,7 +105,6 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         private async Task<Result> HandleMyBalance(CustBotAccount account)
         {
-            Fanex.Logging.Logger.Log.Info(JsonConvert.SerializeObject(account));
             var bal = await balanceInfoService.GetMyBalance(account.CustId, account.CustomerLevel);
             var lang = account.Language;
             var dict = new Dictionary<string, string> { };

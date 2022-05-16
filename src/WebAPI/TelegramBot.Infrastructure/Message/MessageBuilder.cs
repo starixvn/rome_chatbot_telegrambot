@@ -139,7 +139,7 @@ namespace TelegramBot.Infrastructure.Message
             => string.Format(
                 ResourceHelper.Get(nameof(SharedResource.HiddenDownlinesCount), language),
                 count,
-                ResourceHelper.Get($"CustLevel_{custLevel}", language));
+                $"{ResourceHelper.Get($"CustLevel_{custLevel}", language)}(s)");
 
         public string BuildInvalidCustNameMessage(string language, string invalidCustName)
             => string.Format(
