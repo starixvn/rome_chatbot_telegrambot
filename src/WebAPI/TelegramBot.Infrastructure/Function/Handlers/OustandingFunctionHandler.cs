@@ -36,7 +36,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         public async Task<Result> Handle(CustBotAccount account, string[] parameters)
         {
             var parameter = parameters[0];
-            
+
             if (!string.IsNullOrWhiteSpace(parameter))
             {
                 OutstandingReport data = null;
@@ -93,7 +93,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             if (data.HiddenDownlinesCount > 0)
             {
-                textContainer.Add(messageBuilder.BuildHiddenDownlinesMessage(language, data.HiddenDownlinesCount, custLevel));
+                textContainer.Add(messageBuilder.BuildHiddenDownlinesMessage(language, data.HiddenDownlinesCount, (byte)(custLevel - 1)));
             }
 
             return string.Join(messageFormatter.NewLine(), textContainer);

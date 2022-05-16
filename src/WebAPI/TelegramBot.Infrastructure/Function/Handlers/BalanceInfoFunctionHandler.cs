@@ -94,8 +94,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             if ((topBalanceReport.HiddenDownlinesCount) > 0)
             {
-                textContainer.Add(
-                    $"      {topBalanceReport.HiddenDownlinesCount} more {NameLevelAccount(account.CustomerLevel - 1, account.Language)}(s) not shown");
+                textContainer.Add(messageBuilder.BuildHiddenDownlinesMessage(account.Language, topBalanceReport.HiddenDownlinesCount, (byte)(account.CustomerLevel - 1)));
             }
 
 
@@ -117,7 +116,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             AddWinLossMessage(dict, bal, lang);
             AddPendingTransfer3rdMessage(dict, bal, lang);
             AddGivenCreditMessage(dict, bal, lang);
-            AddDirectDownLineCreditMessage(dict, bal, lang, (AccountLevel)account.CustomerLevel-1);
+            AddDirectDownLineCreditMessage(dict, bal, lang, (AccountLevel)account.CustomerLevel - 1);
             AddMemberOutStandingMessage(dict, bal, lang);
             AddUserLevelOutStandingMessage(dict, bal, lang, (AccountLevel)account.CustomerLevel);
 
