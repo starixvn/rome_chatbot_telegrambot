@@ -78,25 +78,26 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             textContainer.Add(BuildTitleRow(account.Language));
 
             textContainer.Add(NameLevelAccount(account.CustomerLevel, account.Language));
-            textContainer.Add($"Today{messageFormatter.Point()}Yesterday");
+
+            textContainer.Add(
+                $"{ResourceHelper.Get(nameof(SharedResource.Today), account.Language)}{messageFormatter.Point()}{ResourceHelper.Get(nameof(SharedResource.Yesterday), account.Language)}");
             textContainer.Add(messageFormatter.NewLine());
 
-            textContainer.Add("TOTAL:");
+            textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), account.Language).ToUpperInvariant());
             textContainer.Add(
-                $"      {topBalanceReport.Total.Balance.ToFormattedNumber()}{messageFormatter.Point()}{topBalanceReport.Total.YesterdayBalance.ToFormattedNumber()}");
+                $"    {topBalanceReport.Total.Balance.ToFormattedNumber()}{messageFormatter.Point()}{topBalanceReport.Total.YesterdayBalance.ToFormattedNumber()}");
             var index = 1;
             foreach (var item in topBalanceReport.TopBalances)
             {
                 textContainer.Add($"{index++}.{item.Username}:");
                 textContainer.Add(
-                    $"      {item.Balance.ToFormattedNumber()}{messageFormatter.Point()}{item.YesterdayBalance.ToFormattedNumber()}");
+                    $"    {item.Balance.ToFormattedNumber()}{messageFormatter.Point()}{item.YesterdayBalance.ToFormattedNumber()}");
             }
 
-            if ((topBalanceReport.HiddenDownlinesCount) > 0)
+            if (topBalanceReport.HiddenDownlinesCount > 0)
             {
                 textContainer.Add(messageBuilder.BuildHiddenDownlinesMessage(account.Language, topBalanceReport.HiddenDownlinesCount, (byte)(account.CustomerLevel - 1)));
             }
-
 
             var message = string.Join(messageFormatter.NewLine(), textContainer);
             return Result.CreateSuccessfulResult(message);
@@ -148,7 +149,8 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var textContainer = new List<string>();
             textContainer.Add(BuildTitleRow(account.Language));
 
-            textContainer.Add("USERNAME:");
+            textContainer.Add(
+                $"{ResourceHelper.Get(nameof(SharedResource.Username), account.Language).ToUpperInvariant()}:");
             textContainer.Add(username);
 
             var level = (AccountLevel)downlineInfo.RoleId;

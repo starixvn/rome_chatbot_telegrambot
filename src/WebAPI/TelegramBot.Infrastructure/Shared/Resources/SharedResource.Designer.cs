@@ -781,6 +781,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Today.
+        /// </summary>
+        public static string Today {
+            get {
+                return ResourceManager.GetString("Today", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Today Win Loss.
         /// </summary>
         public static string TodayWinLoss {
@@ -858,6 +867,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string WinLossReports {
             get {
                 return ResourceManager.GetString("WinLossReports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yesterday.
+        /// </summary>
+        public static string Yesterday {
+            get {
+                return ResourceManager.GetString("Yesterday", resourceCulture);
             }
         }
         
