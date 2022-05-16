@@ -10,8 +10,6 @@ using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Extensions;
 using TelegramBot.Infrastructure.Shared.Resources;
-using Newtonsoft.Json;
-
 
 namespace TelegramBot.Infrastructure.Function.Handlers
 {

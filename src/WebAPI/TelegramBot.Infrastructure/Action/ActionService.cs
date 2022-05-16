@@ -85,7 +85,6 @@ namespace TelegramBot.Infrastructure.Action
         public async Task<IList<MessageButton>> BuildActionButtons(CustBotAccount account, IEnumerable<BotAction> actions)
         {
             var buttons = new List<MessageButton>();
-            var userActions = await GetUserActions(account.UserId);
             foreach (var action in actions)
             {
                 if (action.Type == ActionTypes.Downline)
@@ -93,8 +92,6 @@ namespace TelegramBot.Infrastructure.Action
                     var usernames = await functionHandlerFactory.GetHandler(action.FunctionId).GetTopDownlineUsername(account);
                     foreach (var username in usernames)
                     {
-                        var nextUserAction = new CustBotAction(int.MaxValue, 0, action.ActionId, string.Empty, string.Empty, DateTime.Now);
-                        var nextUserActions = userActions.Concat(new List<CustBotAction> { nextUserAction }).ToList();
                         buttons.Add(new MessageButton(
                             username,
                             JsonConvert.SerializeObject(new
@@ -106,8 +103,6 @@ namespace TelegramBot.Infrastructure.Action
                 }
                 else
                 {
-                    var nextUserAction = new CustBotAction(int.MaxValue, 0, action.ActionId, action.Command, string.Empty, DateTime.Now);
-                    var nextUserActions = userActions.Concat(new List<CustBotAction> { nextUserAction }).ToList();
                     var actionName = await messageBuilder.BuildActionName(account.Language, action.ActionId);
                     buttons.Add(new MessageButton(
                         actionName,
