@@ -372,7 +372,7 @@
   <data name="MemMaxCredit" xml:space="preserve">
     <value>MEM. MAX CREDIT</value>
   </data>
-  <data name="MemActClosedSus" xml:space="preserve">
+  <data name="MemberActClosedSus" xml:space="preserve">
     <value>MEM. ACT/CLOSED/SUS</value>
   </data>
   <data name="SuperOutStanding" xml:space="preserve">

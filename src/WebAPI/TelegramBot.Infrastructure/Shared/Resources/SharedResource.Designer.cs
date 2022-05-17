@@ -520,20 +520,20 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEM. ACT/CLOSED/SUS.
-        /// </summary>
-        public static string MemActClosedSus {
-            get {
-                return ResourceManager.GetString("MemActClosedSus", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Member.
         /// </summary>
         public static string Member {
             get {
                 return ResourceManager.GetString("Member", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MEM. ACT/CLOSED/SUS.
+        /// </summary>
+        public static string MemberActClosedSus {
+            get {
+                return ResourceManager.GetString("MemberActClosedSus", resourceCulture);
             }
         }
         
