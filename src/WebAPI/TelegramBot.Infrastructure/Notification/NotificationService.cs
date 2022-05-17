@@ -43,7 +43,7 @@ namespace TelegramBot.Infrastructure.Notification
             }
 
             var message = messageBuilder.BuildChangePasswordAlertMessage(messenger.Language, ip);
-            await messageSender.SendMessage(messenger, message);
+            await messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), message);
 
             return Result.CreateSuccessfulResult();
         }
@@ -58,7 +58,7 @@ namespace TelegramBot.Infrastructure.Notification
             }
 
             var message = messageBuilder.BuildChangeSecurityCodeAlertMessage(messenger.Language, ip);
-            await messageSender.SendMessage(messenger, message);
+            await messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), message);
 
             return Result.CreateSuccessfulResult();
         }

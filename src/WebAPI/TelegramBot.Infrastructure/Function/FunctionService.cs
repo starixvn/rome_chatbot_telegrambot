@@ -18,6 +18,8 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<IEnumerable<BotFunction>> GetReportFunctions();
 
+        Task<IEnumerable<BotFunction>> GetCommonFunctions();
+
         Task<BotFunction> GetFunctionByCommand(string command);
 
         Task<string> GetFunctionName(short functionId, string language);
@@ -57,9 +59,12 @@ namespace TelegramBot.Infrastructure.Setting
             => (await GetAll()).FirstOrDefault(f => !string.IsNullOrEmpty(f.Command) && command.IndexOf(f.Command, StringComparison.OrdinalIgnoreCase) == 0);
 
         public async Task<string> GetFunctionName(short functionId, string language)
-            => (await resourceService.GetResource(functionId.ToString(), ResourceType.FunctionName, language)).Value;
+            => (await resourceService.GetResource(functionId.ToString(), ResourceType.FunctionName, language))?.Value;
 
         public async Task<string> GetFunctionDescription(short functionId, string language)
-            => (await resourceService.GetResource(functionId.ToString(), ResourceType.FunctionDescription, language)).Value;
+            => (await resourceService.GetResource(functionId.ToString(), ResourceType.FunctionDescription, language))?.Value;
+
+        public async Task<IEnumerable<BotFunction>> GetCommonFunctions()
+            => (await GetAll()).Where(f => f.Type == FunctionTypes.Common);
     }
 }

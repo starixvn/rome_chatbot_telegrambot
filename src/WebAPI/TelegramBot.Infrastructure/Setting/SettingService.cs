@@ -2,6 +2,7 @@
 using Fanex.Caching;
 using Fanex.Data.Repository;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TelegramBot.Common.Extensions;
@@ -72,19 +73,19 @@ namespace TelegramBot.Infrastructure.Setting
         {
             var criteria = new CustBotAccountInsCriteria(botId, chatId, custId, subAccId, language, ip);
             await _dynamicRepository.ExecuteAsync(criteria).ConfigureAwait(false);
-            var messenger = new CustBotMessenger(criteria.UserId, botId, chatId);
+            var messenger = new Messenger(botId, chatId);
             if (!criteria.IsSuccess)
             {
                 if (criteria.ErrCode == ErrorCodes.AccountAlreadyLinked)
                 {
                     var errorMsg = _messageBuilder.BuildAccountAlreadyLinkedMessage(language);
-                    await _messageSender.SendMessage(messenger, errorMsg);
+                    await _messageSender.SendMessage(criteria.UserId, messenger, errorMsg);
                 }
 
                 if (criteria.ErrCode == ErrorCodes.TelegramAccountAlreadyLinked)
                 {
                     var errorMsg = _messageBuilder.BuildTelegramAccountAlreadyLinkedMessage(language);
-                    await _messageSender.SendMessage(messenger, errorMsg);
+                    await _messageSender.SendMessage(criteria.UserId, messenger, errorMsg);
                 }
 
                 return new Result(criteria.ErrCode, criteria.ErrMsg);
@@ -107,7 +108,7 @@ namespace TelegramBot.Infrastructure.Setting
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var custBotMessenger = await GetVerifyingMessenger(custId, subAccId);
             var message = _messageBuilder.BuildOTPMessage(custBotMessenger.Language, otp);
-            await _messageSender.SendMessage(custBotMessenger, message);
+            await _messageSender.SendMessage(custBotMessenger.UserId, new Messenger(custBotMessenger.BotId, custBotMessenger.ChatId), message);
             return Result.CreateSuccessfulResult();
         }
 
@@ -167,16 +168,21 @@ namespace TelegramBot.Infrastructure.Setting
                 return null;
             }
 
-            custBotMessenger.Functions = (subAccId <= 0 || (await _customerService.GetCustomerStatus(custId, subAccId)).HasReportPermission)
-                ? resultSet.secondResultSet.Concat(await _functionService.GetReportFunctions())
-                : resultSet.secondResultSet;
+            custBotMessenger.Functions = await GetAccountFunctions(custId, subAccId, resultSet.secondResultSet);
+            foreach (var function in custBotMessenger.Functions)
+            {
+                function.FunctionName = await _functionService.GetFunctionName(function.FunctionId, custBotMessenger.Language);
+                function.Description = await _functionService.GetFunctionDescription(function.FunctionId, custBotMessenger.Language);
+            }
 
+            return custBotMessenger;
+        }
+
+        private async Task<IEnumerable<BotFunction>> GetAccountFunctions(int custId, int subAccId, IEnumerable<BotFunction> functions)
+        {
             if (subAccId > 0)
             {
                 var customerStatus = await _customerService.GetCustomerStatus(custId, subAccId);
-
-                var functions = resultSet.secondResultSet;
-
                 if (customerStatus.HasReportPermission)
                 {
                     functions = functions.Concat(await _functionService.GetReportFunctions());
@@ -187,16 +193,10 @@ namespace TelegramBot.Infrastructure.Setting
             }
             else
             {
-                custBotMessenger.Functions = resultSet.secondResultSet.Concat(await _functionService.GetReportFunctions());
+                functions = functions.Concat(await _functionService.GetReportFunctions());
             }
 
-            foreach (var function in custBotMessenger.Functions)
-            {
-                function.FunctionName = await _functionService.GetFunctionName(function.FunctionId, custBotMessenger.Language);
-                function.Description = await _functionService.GetFunctionDescription(function.FunctionId, custBotMessenger.Language);
-            }
-
-            return custBotMessenger;
+            return functions.Concat(await _functionService.GetCommonFunctions());
         }
 
         private async Task<CustBotMessenger> GetVerifyingMessenger(int custId, int subAccId)
@@ -223,7 +223,10 @@ namespace TelegramBot.Infrastructure.Setting
         public async Task<CustBotAccount> GetCustBotAccount(long chatId, int botId)
         {
             var criteria = new CustBotUserSelCriteria(chatId, botId);
-            return await _dynamicRepository.GetAsync<CustBotAccount>(criteria);
+            var resultSet = await _dynamicRepository.FetchMultipleAsync<CustBotAccount, BotFunction>(criteria);
+            var account = resultSet.firstResultSet.FirstOrDefault();
+            account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, resultSet.secondResultSet);
+            return account;
         }
 
         private static string GenerateOtp()
@@ -237,8 +240,8 @@ namespace TelegramBot.Infrastructure.Setting
             var messenger = await GetCustBotMessenger(custId, subAccId);
             var text = _messageBuilder.BuildWelcomeMessage(messenger.Language, messenger.ChatId);
             var rootActionButtons = await _actionService.BuildRootActionButtons(messenger.Language);
-            var message = new Message.Models.Message(text, rootActionButtons);
-            await _messageSender.SendMessage(messenger, message);
+            var message = await _messageBuilder.BuildMessage(text, rootActionButtons, messenger.Language);
+            await _messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), message);
         }
     }
 }

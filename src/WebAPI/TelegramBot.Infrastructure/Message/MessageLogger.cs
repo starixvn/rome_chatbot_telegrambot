@@ -2,14 +2,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fanex.Data.Repository;
 using TelegramBot.Infrastructure.Message.Criteria;
+using TelegramBot.Infrastructure.Shared.Models;
 
 namespace TelegramBot.Infrastructure.Message
 {
     public interface IMessageLogger
     {
-        Task LogMessage(int sender, int receiver, long chatId, int botId, Models.Message message, byte status = 0, short functionId = 0);
+        Task LogMessage(int sender, int receiver, Messenger messenger, Models.Message message, byte status = 0, short functionId = 0);
 
-        Task LogMessage(int sender, int receiver, long chatId, int botId, string message, byte status = 0, short functionId = 0);
+        Task LogMessage(int sender, int receiver, Messenger messenger, string message, byte status = 0, short functionId = 0);
     }
 
     public class MessageLogger : IMessageLogger
@@ -21,29 +22,31 @@ namespace TelegramBot.Infrastructure.Message
             this.dynamicRepository = dynamicRepository;
         }
 
-        public async Task LogMessage(int sender, int receiver, long chatId, int botId, string message, byte status = 0, short functionId = 0)
+        public async Task LogMessage(int sender, int receiver, Messenger messenger, string message, byte status = 0, short functionId = 0)
         {
-            var command = new CustBotMessageInsCriteria(sender, receiver, chatId, botId, functionId, message, status);
+            var command = new CustBotMessageInsCriteria(sender, receiver, messenger.ChatId, messenger.BotId, functionId, message, status);
             await dynamicRepository.ExecuteAsync(command).ConfigureAwait(false);
         }
 
-        public async Task LogMessage(int sender, int receiver, long chatId, int botId, Models.Message message, byte status = 0, short functionId = 0)
+        public async Task LogMessage(int sender, int receiver, Messenger messenger, Models.Message message, byte status = 0, short functionId = 0)
         {
             var logMessage = new List<string> { message.Text };
 
-            if (message.Buttons != null)
+            if (message.ReplyMarkup != null)
             {
-                foreach (var button in message.Buttons)
+                foreach (var inlineKeyboard in message.ReplyMarkup.InlineKeyboard)
                 {
-                    logMessage.Add($"<a href='#' data-hidden='{button.CallBackData}'>{button.Text}</a>");
+                    foreach (var button in inlineKeyboard)
+                    {
+                        logMessage.Add($"<a href='#'>{button.Text}</a>");
+                    }
                 }
             }
 
             await LogMessage(
               sender,
               receiver,
-              chatId,
-              botId,
+              messenger,
               string.Join("<br>", logMessage),
               status,
               functionId);

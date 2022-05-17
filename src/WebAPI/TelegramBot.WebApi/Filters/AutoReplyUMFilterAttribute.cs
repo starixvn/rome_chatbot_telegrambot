@@ -3,6 +3,7 @@ using ONEbook.UM.Services;
 using System.Net;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
+using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.WebApi.Params;
 
 namespace TelegramBot.WebApi.Filters
@@ -41,7 +42,7 @@ namespace TelegramBot.WebApi.Filters
                     {
                         var bot = await botService.GetAsync(command.MessengerBotId);
                         var message = messageBuilder.BuildUnderMaintenanceMessage(umInfo.From, umInfo.To);
-                        await messageSender.SendMessage(bot.BotId, command.ChatId, message);
+                        await messageSender.SendMessage(new Messenger(bot.BotId, command.ChatId), message);
                         await HandleUnderMaintenance(context.HttpContext, message);
 
                         return;

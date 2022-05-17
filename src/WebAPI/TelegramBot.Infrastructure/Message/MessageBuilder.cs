@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBot.Infrastructure.Message.Models;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.constants;
 using TelegramBot.Infrastructure.Shared.Constants;
@@ -49,6 +52,10 @@ namespace TelegramBot.Infrastructure.Message
         string BuildAccountLockedMessage(string language);
 
         Task<string> BuildBackButton(string language, short backToActionId);
+
+        Task<Models.Message> BuildMessage(string text, IList<MessageButton> buttons, string language);
+
+        Task<Models.Message> BuildMessageWithBackButton(string text, IList<MessageButton> buttons, short backToActionId, string language);
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -59,7 +66,7 @@ namespace TelegramBot.Infrastructure.Message
             LanguageCodes.Chinese,
             LanguageCodes.Taiwan
         };
-
+        private readonly int NumberButtonInRow = 2;
         private readonly IMessageFormatter messageFormatter;
         private readonly IResourceService resourceService;
 
@@ -167,5 +174,51 @@ namespace TelegramBot.Infrastructure.Message
             return $"<< {ResourceHelper.Get(nameof(SharedResource.BackToMainMenu), language)}";
         }
 
+        public async Task<Models.Message> BuildMessage(string text, IList<MessageButton> buttons, string language)
+            => new Models.Message(text, await BuildReplyMarkup(language, buttons));
+
+        public async Task<Models.Message> BuildMessageWithBackButton(string text, IList<MessageButton> buttons, short backToActionId, string language)
+            => new Models.Message(text, await BuildReplyMarkup(language, buttons, backToActionId));
+
+        private async Task<InlineKeyboardMarkup> BuildReplyMarkup(string language, IList<MessageButton> buttons, short backToActionId = -1)
+        {
+            var hasBackButton = backToActionId >= 0;
+            var numberOfRows = (buttons.Count % NumberButtonInRow > 0 ? (buttons.Count / NumberButtonInRow) + 1 : (buttons.Count / NumberButtonInRow)) + (hasBackButton ? 1 : 0);
+            var buttonRows = new InlineKeyboardButton[numberOfRows][];
+
+            for (var i = 0; i < numberOfRows; i++)
+            {
+                if (hasBackButton && i == numberOfRows - 1)
+                {
+                    var text = await BuildBackButton(language, backToActionId);
+                    var callBackData = JsonConvert.SerializeObject(new { ActionId = backToActionId, Value = text });
+                    buttonRows[i] = new InlineKeyboardButton[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(text, callBackData)
+                    };
+
+                    break;
+                }
+
+                var actionIndex = i * NumberButtonInRow;
+                if (actionIndex == buttons.Count - 1)
+                {
+                    buttonRows[i] = new InlineKeyboardButton[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(buttons[actionIndex].Text, buttons[actionIndex].CallBackData)
+                    };
+                }
+                else
+                {
+                    buttonRows[i] = new InlineKeyboardButton[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(buttons[actionIndex].Text, buttons[actionIndex].CallBackData),
+                        InlineKeyboardButton.WithCallbackData(buttons[actionIndex + 1].Text, buttons[actionIndex + 1].CallBackData)
+                    };
+                }
+            }
+
+            return buttonRows;
+        }
     }
 }

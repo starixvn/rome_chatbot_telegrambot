@@ -1,26 +1,24 @@
-﻿namespace TelegramBot.Infrastructure.Setting.Models
+﻿using System.Collections.Generic;
+using TelegramBot.Infrastructure.Function.Models;
+
+namespace TelegramBot.Infrastructure.Setting.Models
 {
     public class CustBotAccount
     {
-        public CustBotAccount(int userId, int custId, int subAccId, byte customerLevel, string language)
-        {
-            UserId = userId;
-            CustId = custId;
-            SubAccId = subAccId;
-            CustomerLevel = customerLevel;
-            Language = language;
-        }
 
-        public int UserId { get; }
+        public int UserId { get; set; }
 
-        public int CustId { get; }
+        public int CustId { get; set; }
 
-        public int SubAccId { get; }
+        public int SubAccId { get; set; }
 
-        public byte CustomerLevel { get; }
+        public byte CustomerLevel { get; set; }
 
-        public string Language { get; }
+        public string Language { get; set; }
 
         public bool IsSubAccount => SubAccId > 0;
+
+
+        public IEnumerable<BotFunction> Functions { get; set; }
     }
 }

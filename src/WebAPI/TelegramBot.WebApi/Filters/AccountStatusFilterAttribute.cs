@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
+using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.WebApi.Params;
 
 namespace TelegramBot.WebApi.Filters
@@ -52,17 +53,18 @@ namespace TelegramBot.WebApi.Filters
                         return;
                     }
 
+                    var messenger = new Messenger(bot.BotId, param.ChatId);
                     if (accountStatus.IsLocked)
                     {
                         var message = messageBuilder.BuildAccountLockedMessage(account.Language);
-                        await messageSender.SendMessage(bot.BotId, param.ChatId, message);
+                        await messageSender.SendMessage(messenger, message);
                         return;
                     }
 
                     if (!accountStatus.IsActive)
                     {
                         var message = messageBuilder.BuildAccountClosedMessage(account.Language);
-                        await messageSender.SendMessage(bot.BotId, param.ChatId, message);
+                        await messageSender.SendMessage(messenger, message);
                         return;
                     }
                 }

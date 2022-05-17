@@ -12,7 +12,7 @@ namespace TelegramBot.Infrastructure.Message
     public class BotClientFactory : IBotClientFactory
     {
         private readonly IBotService botService;
-        private readonly Dictionary<long, ITelegramBotClient> botClients = new();
+        private readonly Dictionary<int, ITelegramBotClient> botClients = new();
 
         public BotClientFactory(IBotService botService)
         {

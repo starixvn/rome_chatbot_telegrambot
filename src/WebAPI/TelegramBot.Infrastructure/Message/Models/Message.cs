@@ -1,23 +1,17 @@
-using System.Collections.Generic;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot.Infrastructure.Message.Models
 {
     public class Message
     {
-        public Message(string text)
+        public Message(string text, InlineKeyboardMarkup replyMarkup = null)
         {
             Text = text;
-            Buttons = new List<MessageButton>();
-        }
-
-        public Message(string text, IList<MessageButton> buttons)
-        {
-            Text = text;
-            Buttons = buttons;
+            ReplyMarkup = replyMarkup;
         }
 
         public string Text { get; }
 
-        public IList<MessageButton> Buttons { get; }
+        public InlineKeyboardMarkup ReplyMarkup { get; }
     }
 }

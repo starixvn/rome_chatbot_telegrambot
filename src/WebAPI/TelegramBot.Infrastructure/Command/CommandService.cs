@@ -1,6 +1,7 @@
 ﻿using Alpha.API.Client.Services;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -13,9 +14,11 @@ using TelegramBot.Infrastructure.Command.Models;
 using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Message.Constants;
+using TelegramBot.Infrastructure.Message.Models;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Constants;
+using TelegramBot.Infrastructure.Shared.Models;
 
 namespace TelegramBot.Infrastructure.Command
 {
@@ -29,7 +32,6 @@ namespace TelegramBot.Infrastructure.Command
         private readonly IMessageBuilder messageBuilder;
         private readonly IMessageSender messageSender;
         private readonly IMessageLogger messageLogger;
-        private readonly IMessageFormatter messageFormatter;
         private readonly ISettingService settingService;
         private readonly IBotService botService;
         private readonly ICustomerService customerService;
@@ -42,7 +44,6 @@ namespace TelegramBot.Infrastructure.Command
             IMessageBuilder messageBuilder,
             IMessageSender messageSender,
             IMessageLogger messageLogger,
-            IMessageFormatter messageFormatter,
             ISettingService settingService,
             IBotService botService,
             ICustomerService customerService,
@@ -54,7 +55,6 @@ namespace TelegramBot.Infrastructure.Command
             this.messageBuilder = messageBuilder;
             this.messageSender = messageSender;
             this.messageLogger = messageLogger;
-            this.messageFormatter = messageFormatter;
             this.settingService = settingService;
             this.botService = botService;
             this.customerService = customerService;
@@ -73,7 +73,7 @@ namespace TelegramBot.Infrastructure.Command
 
             var bot = await botService.GetAsync(messengerBotId);
             var account = await settingService.GetCustBotAccount(chatId, bot.BotId);
-            var messenger = await settingService.GetCustBotMessenger(account.CustId, account.SubAccId);
+            var messenger = new Messenger(bot.BotId, chatId);
 
             if (isCallback)
             {
@@ -85,16 +85,16 @@ namespace TelegramBot.Infrastructure.Command
             }
         }
 
-        private async Task HandleHelpCommand(CustBotMessenger messenger, bool hasReportPermission)
+        private async Task HandleHelpCommand(CustBotAccount account, Messenger messenger, bool hasReportPermission)
         {
             var message = messageBuilder.BuildHelpMessage(
-                messenger.Language,
-                messenger.BotName,
+                account.Language,
+                string.Empty,
                 hasReportPermission);
             await messageSender.SendMessage(messenger, message);
         }
 
-        private async Task HandleUserReplyByText(CustBotAccount account, CustBotMessenger messenger, string message, int messageId)
+        private async Task HandleUserReplyByText(CustBotAccount account, Messenger messenger, string message, int messageId)
         {
             var userResponse = WebUtility.HtmlEncode(
                 string.Join(
@@ -103,17 +103,17 @@ namespace TelegramBot.Infrastructure.Command
                         default(string[]),
                         StringSplitOptions.RemoveEmptyEntries)));
 
-            await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger.ChatId, messenger.BotId, message, MessageSendStatus.Success));
+            await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, message, MessageSendStatus.Success));
 
             if (userResponse.Split(' ')[0] == "/help")
             {
-                await HandleHelpCommand(messenger, !account.IsSubAccount || (await customerService.GetCustomerStatus(account.CustId, account.SubAccId)).HasReportPermission);
+                await HandleHelpCommand(account, messenger, !account.IsSubAccount || (await customerService.GetCustomerStatus(account.CustId, account.SubAccId)).HasReportPermission);
                 return;
             }
 
             if (userResponse.Split(' ')[0] == "/menu")
             {
-                await SendMainMenuMessage(messenger, messageId);
+                await SendMainMenuMessage(account, messenger, messageId);
                 return;
             }
 
@@ -125,7 +125,7 @@ namespace TelegramBot.Infrastructure.Command
                 var function = await functionService.GetFunctionByCommand(userResponse);
                 if (function == null)
                 {
-                    await SendNotRecognizedCommandMessage(messenger, messageId);
+                    await SendNotRecognizedCommandMessage(account, messenger, messageId);
                     return;
                 }
 
@@ -150,10 +150,10 @@ namespace TelegramBot.Infrastructure.Command
                     if (validationResult.IsNotOk)
                     {
                         var prevAction = await actionService.GetActionById(currentAction.ParentId);
-                        await messageSender.SendMessageWithBackButton(
+                        await messageSender.SendMessage(
+                            account.UserId,
                             messenger: messenger,
-                            message: new Message.Models.Message(validationResult.Message),
-                            backToActionId: prevAction.ParentId,
+                            message: await messageBuilder.BuildMessageWithBackButton(validationResult.Message, new List<MessageButton>(), prevAction.ParentId, account.Language),
                             functionId: currentAction.FunctionId);
                         return;
                     }
@@ -171,7 +171,7 @@ namespace TelegramBot.Infrastructure.Command
             }
         }
 
-        private async Task HandleUserReplyByButton(CustBotAccount account, CustBotMessenger messenger, string message, int messageId)
+        private async Task HandleUserReplyByButton(CustBotAccount account, Messenger messenger, string message, int messageId)
         {
             var callBackData = JsonConvert.DeserializeObject<CallBackData>(message);
             if (callBackData == null)
@@ -179,25 +179,19 @@ namespace TelegramBot.Infrastructure.Command
                 throw new InvalidOperationException($"Wrong call back data format {message}");
             }
 
-            await Task.Run(() => messageLogger.LogMessage(
-                account.UserId,
-                CommonId.BotUserId,
-                messenger.ChatId,
-                messenger.BotId,
-                callBackData.Value,
-                MessageSendStatus.Success));
+            await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, callBackData.Value, MessageSendStatus.Success));
 
             if (callBackData.ActionId == ActionIds.MainMenu)
             {
-                await SendMainMenuMessage(messenger, messageId);
+                await SendMainMenuMessage(account, messenger, messageId);
                 return;
             }
 
             var currentAction = await actionService.GetActionById(callBackData.ActionId);
 
-            if (currentAction == null || !IsValidAction(messenger, currentAction))
+            if (currentAction == null || !IsValidAction(account, currentAction))
             {
-                await SendNotRecognizedCommandMessage(messenger, messageId);
+                await SendNotRecognizedCommandMessage(account, messenger, messageId);
                 return;
             }
 
@@ -216,30 +210,27 @@ namespace TelegramBot.Infrastructure.Command
             }
         }
 
-        private async Task SendNextActionsMessage(CustBotAccount account, CustBotMessenger messenger, BotAction currentAction, int messageId = 0)
+        private async Task SendNextActionsMessage(CustBotAccount account, Messenger messenger, BotAction currentAction, int messageId = 0)
         {
             var language = account.Language;
             var nextActions = await actionService.GetChildActions(currentAction.ActionId);
-            var actionSelectedMessage = messageBuilder.BuildActionSelectedMessage(language, await messageBuilder.BuildActionName(language, currentAction.ActionId));
 
-            Message.Models.Message message = null;
+            var text = string.Empty;
+            IList<MessageButton> buttons = new List<MessageButton>();
             if (nextActions.Count() == 1 && actionService.IsMessageAction(nextActions.FirstOrDefault()))
             {
                 var nextAction = nextActions.FirstOrDefault();
                 await actionService.InsertUserAction(account.UserId, nextAction.ActionId, string.Empty);
-                message = new Message.Models.Message(await messageBuilder.BuildActionName(language, nextActions.FirstOrDefault().ActionId));
+                text = await messageBuilder.BuildActionName(language, nextActions.FirstOrDefault().ActionId);
             }
             else
             {
-                message = new Message.Models.Message(actionSelectedMessage, await actionService.BuildActionButtons(account, nextActions));
+                text = messageBuilder.BuildActionSelectedMessage(language, await messageBuilder.BuildActionName(language, currentAction.ActionId));
+                buttons = await actionService.BuildActionButtons(account, nextActions);
             }
 
-            await messageSender.SendMessageWithBackButton(
-                messenger: messenger,
-                message: message,
-                backToActionId: currentAction.ParentId,
-                functionId: currentAction.FunctionId,
-                messageId: messageId);
+            var message = await messageBuilder.BuildMessageWithBackButton(text, buttons, currentAction.ParentId, language);
+            await messageSender.SendMessage(account.UserId, messenger, message, functionId: currentAction.FunctionId, messageId: messageId);
         }
 
         private static (string, string[]) SplitCommand(string command)
@@ -257,40 +248,41 @@ namespace TelegramBot.Infrastructure.Command
             return (commandName, commandParam);
         }
 
-        private async Task HandleCommand(CustBotAccount account, CustBotMessenger messenger, string command, short functionId, int messageId)
+        private async Task HandleCommand(CustBotAccount account, Messenger messenger, string command, short functionId, int messageId)
         {
             var splittedCommand = SplitCommand(command);
             var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2);
             var rootAction = await actionService.GetRootActionByFunctionId(functionId);
-            await messageSender.SendMessageWithBackButton(
+            var message = await messageBuilder.BuildMessageWithBackButton(result.Message, new List<MessageButton>(), rootAction.ActionId, account.Language);
+            await messageSender.SendMessage(
+                account.UserId,
                 messenger: messenger,
-                message: new Message.Models.Message(result.Message),
-                backToActionId: rootAction.ActionId,
+                message: message,
                 functionId: functionId,
                 messageId: messageId);
         }
 
-        private static bool IsValidAction(CustBotMessenger messenger, BotAction action)
-            => messenger.Functions.Any(f => f.FunctionId == action.FunctionId);
+        private static bool IsValidAction(CustBotAccount account, BotAction action)
+            => account.Functions.Any(f => f.FunctionId == action.FunctionId);
 
-        private async Task SendMainMenuMessage(CustBotMessenger messenger, int messageId)
+        private async Task SendMainMenuMessage(CustBotAccount account, Messenger messenger, int messageId)
         {
-            var text = messageBuilder.BuildMenuMessage(messenger.Language);
-            await SendMessageWithRootActions(messenger, text, messageId);
+            var text = messageBuilder.BuildMenuMessage(account.Language);
+            await SendMessageWithRootActions(account, messenger, text, messageId);
         }
 
-        private async Task SendNotRecognizedCommandMessage(CustBotMessenger messenger, int messageId)
+        private async Task SendNotRecognizedCommandMessage(CustBotAccount account, Messenger messenger, int messageId)
         {
-            var text = messageBuilder.BuildNotRecognizedCommandMessage(messenger.Language);
-            await SendMessageWithRootActions(messenger, text, messageId);
+            var text = messageBuilder.BuildNotRecognizedCommandMessage(account.Language);
+            await SendMessageWithRootActions(account, messenger, text, messageId);
         }
 
-        private async Task SendMessageWithRootActions(CustBotMessenger messenger, string text, int messageId)
+        private async Task SendMessageWithRootActions(CustBotAccount account, Messenger messenger, string text, int messageId)
         {
-            await actionService.ResetUserActions(messenger.UserId);
-            var rootActionButtons = await actionService.BuildRootActionButtons(messenger.Language);
-            var message = new Message.Models.Message(text, rootActionButtons);
-            await messageSender.SendMessage(messenger, message, messageId);
+            await actionService.ResetUserActions(account.UserId);
+            var rootActionButtons = await actionService.BuildRootActionButtons(account.Language);
+            var message = await messageBuilder.BuildMessage(text, rootActionButtons, account.Language);
+            await messageSender.SendMessage(account.UserId, messenger, message, messageId);
         }
     }
 }
