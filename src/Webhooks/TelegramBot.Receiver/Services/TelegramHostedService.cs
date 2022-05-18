@@ -1,5 +1,4 @@
 ﻿using Telegram.Bot;
-using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types.Enums;
 using TelegramBot.Client.Services;
 using TelegramBot.Receiver.Configurations;
@@ -37,22 +36,11 @@ namespace TelegramBot.Receiver.Services
                 var botClient = new TelegramBotClient(botEntity.AccessToken);
                 botClients.Add(botClient);
 
-                if (_receiverConfiguration.IsUsingWebhook)
-                {
-                    return botClient.SetWebhookAsync(
-                        url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
-                        allowedUpdates: _allowedUpdates,
-                        cancellationToken: cancellationToken);
-                }
-                else
-                {
-                    botClient.StartReceiving(
-                        _handleUpdateSerice.HandleUpdateAsync,
-                        _handleUpdateSerice.HandleErrorAsync,
-                        new ReceiverOptions { AllowedUpdates = _allowedUpdates },
-                        cancellationToken);
-                    return botClient.GetMeAsync(cancellationToken);
-                }
+                return botClient.SetWebhookAsync(
+                    url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
+                    allowedUpdates: _allowedUpdates,
+                    cancellationToken: cancellationToken);
+
             });
             _handleUpdateSerice.BotClients = botClients;
             await Task.WhenAll(tasks).ConfigureAwait(false);
@@ -60,12 +48,8 @@ namespace TelegramBot.Receiver.Services
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            if (_receiverConfiguration.IsUsingWebhook)
-            {
-                var tasks = _handleUpdateSerice.BotClients.Select(botClient => botClient.DeleteWebhookAsync(cancellationToken: cancellationToken));
-                await Task.WhenAll(tasks).ConfigureAwait(false);
-            }
-
+            var tasks = _handleUpdateSerice.BotClients.Select(botClient => botClient.DeleteWebhookAsync(cancellationToken: cancellationToken));
+            await Task.WhenAll(tasks).ConfigureAwait(false);
             await _logger.InfoAsync($"Worker {typeof(TelegramHostedService).Assembly.GetName().Name} stopping at: {DateTimeOffset.Now}");
         }
     }

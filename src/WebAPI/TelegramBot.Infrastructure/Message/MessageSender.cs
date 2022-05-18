@@ -83,6 +83,7 @@ namespace TelegramBot.Infrastructure.Message
                     chatId: messenger.ChatId,
                     messageId: messageId,
                     text: message,
+                    parseMode: ParseMode.Html,
                     replyMarkup: replyMarkup);
             }
             else

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Message.Models;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.constants;
@@ -43,7 +44,6 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildInvalidCustNameMessage(string language, string invalidCustName);
 
-
         string BuildNoDataMessage(string language);
 
         string BuildAccountClosedMessage(string language);
@@ -55,6 +55,8 @@ namespace TelegramBot.Infrastructure.Message
         Task<Models.Message> BuildMessage(string text, IList<MessageButton> buttons, string language);
 
         Task<Models.Message> BuildMessageWithBackButton(string text, IList<MessageButton> buttons, short backToActionId, string language);
+
+        Task<Models.Message> BuildStopUsingChatbotConfirmMessage(string language, string chatbotName);
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -218,6 +220,18 @@ namespace TelegramBot.Infrastructure.Message
             }
 
             return buttonRows;
+        }
+
+        public async Task<Models.Message> BuildStopUsingChatbotConfirmMessage(string language, string chatbotName)
+        {
+            var text = string.Format(ResourceHelper.Get(nameof(SharedResource.StopUsingChatbotConfirmMessage), language), chatbotName);
+            var buttons = new List<MessageButton>()
+            {
+                new MessageButton(ResourceHelper.Get(nameof(SharedResource.No), language), JsonConvert.SerializeObject(new { ActionId = ActionIds.Settings })),
+                new MessageButton(ResourceHelper.Get(nameof(SharedResource.StopUsingChatbot), language), JsonConvert.SerializeObject(new { IsStopUsingChatbot = true }))
+            };
+
+            return new Models.Message(text, await BuildReplyMarkup(language, buttons));
         }
     }
 }

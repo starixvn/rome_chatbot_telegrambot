@@ -601,6 +601,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No information is available.
         /// </summary>
         public static string NoData {
@@ -741,6 +750,26 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string Setting_OTP_Help {
             get {
                 return ResourceManager.GetString("Setting_OTP_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop Using Chatbot.
+        /// </summary>
+        public static string StopUsingChatbot {
+            get {
+                return ResourceManager.GetString("StopUsingChatbot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;re about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;.
+        ///Your Telegram will be unlinked with {0} and you won&apos;t be able to use {0} anymore.
+        ///Are you sure you want to stop using {0}?.
+        /// </summary>
+        public static string StopUsingChatbotConfirmMessage {
+            get {
+                return ResourceManager.GetString("StopUsingChatbotConfirmMessage", resourceCulture);
             }
         }
         

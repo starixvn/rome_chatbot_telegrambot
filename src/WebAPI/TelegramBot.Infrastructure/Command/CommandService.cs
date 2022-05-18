@@ -75,7 +75,7 @@ namespace TelegramBot.Infrastructure.Command
 
             var bot = await botService.GetAsync(messengerBotId);
             var account = await settingService.GetCustBotAccount(chatId, bot.BotId);
-            var messenger = new Messenger(bot.BotId, chatId);
+            var messenger = new Messenger(bot.BotId, chatId, bot.Name);
 
             if (isCallback)
             {
@@ -116,6 +116,12 @@ namespace TelegramBot.Infrastructure.Command
             if (userResponse.Split(' ')[0] == "/menu")
             {
                 await SendMainMenuMessage(account, messenger, messageId);
+                return;
+            }
+
+            if (userResponse.Split(' ')[0] == "/stop")
+            {
+                await HandleStopCommand(account, messenger, messageId);
                 return;
             }
 
@@ -182,6 +188,12 @@ namespace TelegramBot.Infrastructure.Command
             }
 
             await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, callBackData.Value, MessageSendStatus.Success));
+
+            if (callBackData.IsStopUsingChatbot)
+            {
+                await settingService.Unlink(messenger.BotId, account.CustId, account.SubAccId, string.Empty);
+                return;
+            }
 
             if (callBackData.ActionId == ActionIds.MainMenu)
             {
@@ -258,7 +270,7 @@ namespace TelegramBot.Infrastructure.Command
         {
             if (parameter == "stop")
             {
-                await settingService.Unlink(messenger.BotId, account.CustId, account.SubAccId, string.Empty);
+                await HandleStopCommand(account, messenger, messageId);
                 return;
             }
 
@@ -272,6 +284,16 @@ namespace TelegramBot.Infrastructure.Command
                     await SendNextActionsMessage(account, messenger, rootAction, messageId);
                 }
             }
+        }
+
+        private async Task HandleStopCommand(CustBotAccount account, Messenger messenger, int messageId = 0)
+        {
+            var message = await messageBuilder.BuildStopUsingChatbotConfirmMessage(account.Language, messenger.BotName);
+            await messageSender.SendMessage(
+                userId: account.UserId,
+                messenger: messenger,
+                message: message,
+                messageId: messageId);
         }
 
         private static bool IsValidAction(CustBotAccount account, BotAction action)

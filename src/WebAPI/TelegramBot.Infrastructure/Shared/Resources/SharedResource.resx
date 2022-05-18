@@ -411,4 +411,15 @@
   <data name="ON" xml:space="preserve">
     <value>ON</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="StopUsingChatbot" xml:space="preserve">
+    <value>Stop Using Chatbot</value>
+  </data>
+  <data name="StopUsingChatbotConfirmMessage" xml:space="preserve">
+    <value>You're about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;.
+Your Telegram will be unlinked with {0} and you won't be able to use {0} anymore.
+Are you sure you want to stop using {0}?</value>
+  </data>
 </root>

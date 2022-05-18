@@ -5,6 +5,7 @@ namespace TelegramBot.Infrastructure.Action.Constants
         public const short MainMenu = 0;
         public const short OutstandingEnterDownlineUsername = 9;
         public const short TopXOutstanding = 10;
+        public const short Settings = 11;
         public const short YesterdayWinLossNotification = 26;
         public const short PersonalMessageNotification = 27;
         public const short ProblemAccountNotification = 28;
