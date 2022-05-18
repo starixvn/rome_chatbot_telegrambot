@@ -25,6 +25,7 @@ namespace TelegramBot.Infrastructure.Command
     public interface ICommandService
     {
         Task ExecuteAsync(long messengerBotId, long chatId, string message, bool isCallback, int messageId);
+        Task SendMainMenuMessage(CustBotAccount account, Messenger messenger, int messageId = 0);
     }
 
     public class CommandService : ICommandService
@@ -248,7 +249,7 @@ namespace TelegramBot.Infrastructure.Command
         private static bool IsValidAction(CustBotAccount account, BotAction action)
             => account.Functions.Any(f => f.FunctionId == action.FunctionId);
 
-        private async Task SendMainMenuMessage(CustBotAccount account, Messenger messenger, int messageId)
+        public async Task SendMainMenuMessage(CustBotAccount account, Messenger messenger, int messageId = 0)
         {
             var text = messageBuilder.BuildMenuMessage(account.Language);
             await SendMessageWithRootActions(account, messenger, text, messageId);

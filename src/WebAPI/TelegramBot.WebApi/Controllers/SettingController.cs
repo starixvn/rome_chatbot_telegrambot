@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TelegramBot.Infrastructure.Bot;
+using TelegramBot.Infrastructure.Command;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Models;
@@ -18,13 +19,15 @@ namespace TelegramBot.WebApi.Controllers
         private readonly ISettingService _settingService;
         private readonly IBotService _botService;
         private readonly IMessageSender _messageSender;
+        private readonly ICommandService _commandService;
 
-        public SettingController(ICryptography cryptography, ISettingService settingService, IBotService botService, IMessageSender messageSender)
+        public SettingController(ICryptography cryptography, ISettingService settingService, IBotService botService, IMessageSender messageSender, ICommandService commandService)
         {
             _cryptography = cryptography;
             _settingService = settingService;
             _botService = botService;
             _messageSender = messageSender;
+            _commandService = commandService;
         }
 
         /// <summary>
@@ -49,8 +52,15 @@ namespace TelegramBot.WebApi.Controllers
         public async Task<Result> Start(StartParam param)
         {
             var bot = await _botService.GetAsync(param.MessengerBotId);
-            var words = param.Message.Split(' ');
             var messenger = new Messenger(bot.BotId, param.ChatId);
+            var account = await _settingService.GetCustBotAccount(param.ChatId, bot.BotId);
+            if (account != null)
+            {
+                await _commandService.SendMainMenuMessage(account, messenger);
+                return Result.CreateSuccessfulResult();
+            }
+
+            var words = param.Message.Split(' ');
             if (words.Length != 2)
             {
                 await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
@@ -69,6 +79,7 @@ namespace TelegramBot.WebApi.Controllers
             var custId = int.Parse(words[0]);
             var subAccId = int.Parse(words[1]);
             return await _settingService.Start(bot.BotId, param.ChatId, custId, subAccId, param.Language, param.IP);
+
         }
 
         /// <summary>

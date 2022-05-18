@@ -4,6 +4,7 @@ using NSubstitute;
 using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Bot.Models;
+using TelegramBot.Infrastructure.Command;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Models;
@@ -23,6 +24,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
         private readonly IBotService _botService;
         private readonly SettingController _settingController;
         private readonly IMessageSender _messageSender;
+        private readonly ICommandService _commandService;
 
         public SettingControllerTests()
         {
@@ -30,7 +32,8 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             _settingService = Substitute.For<ISettingService>();
             _botService = Substitute.For<IBotService>();
             _messageSender = Substitute.For<IMessageSender>();
-            _settingController = new SettingController(_cryptography, _settingService, _botService, _messageSender);
+            _commandService = Substitute.For<ICommandService>();
+            _settingController = new SettingController(_cryptography, _settingService, _botService, _messageSender, _commandService);
         }
 
         [Theory, AutoData]

@@ -225,7 +225,11 @@ namespace TelegramBot.Infrastructure.Setting
             var criteria = new CustBotUserSelCriteria(chatId, botId);
             var resultSet = await _dynamicRepository.FetchMultipleAsync<CustBotAccount, BotFunction>(criteria);
             var account = resultSet.firstResultSet.FirstOrDefault();
-            account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, resultSet.secondResultSet);
+            if (account != null)
+            {
+                account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, resultSet.secondResultSet);
+            }
+
             return account;
         }
 
