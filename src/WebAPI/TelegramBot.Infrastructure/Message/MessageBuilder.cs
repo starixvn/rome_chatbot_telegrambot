@@ -43,7 +43,6 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildInvalidCustNameMessage(string language, string invalidCustName);
 
-        Task<string> BuildActionName(string language, short actionId);
 
         string BuildNoDataMessage(string language);
 

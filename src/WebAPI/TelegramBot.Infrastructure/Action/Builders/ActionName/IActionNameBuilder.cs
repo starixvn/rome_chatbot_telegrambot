@@ -6,6 +6,6 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
 {
     public interface IActionNameBuilder
     {
-        Task<string> BuildActionName(BotAction action, CustBotMessenger messenger);
+        Task<string> BuildActionName(BotAction action, CustBotAccount account);
     }
 }

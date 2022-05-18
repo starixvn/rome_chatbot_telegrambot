@@ -15,7 +15,7 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
             this.resourceService = resourceService;
         }
 
-        public async Task<string> BuildActionName(BotAction action, CustBotMessenger messenger)
-            => (await resourceService.GetResource(action.ActionId.ToString(), ResourceType.ActionName, messenger.Language))?.Value;
+        public async Task<string> BuildActionName(BotAction action, CustBotAccount account)
+            => (await resourceService.GetResource(action.ActionId.ToString(), ResourceType.ActionName, account.Language))?.Value;
     }
 }

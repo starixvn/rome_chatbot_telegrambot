@@ -11,6 +11,7 @@ using ONEbook.UM.Transport;
 using Sentry;
 using StackExchange.Redis;
 using TelegramBot.Infrastructure.Action;
+using TelegramBot.Infrastructure.Action.Builders.ActionName;
 using TelegramBot.Infrastructure.Action.Validators;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command;
@@ -42,6 +43,7 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<IMessageFormatter, TelegramFormatter>();
             services.AddSingleton<IResourceService, ResourceService>();
             services.AddSingleton<IActionValidatorFactory, ActionValidatorFactory>();
+            services.AddSingleton<IActionNameBuilderFactory, ActionNameBuilderFactory>();
             services.AddFunctionHandlers();
 
             return services;

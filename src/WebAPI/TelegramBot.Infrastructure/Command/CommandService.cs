@@ -212,24 +212,7 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task SendNextActionsMessage(CustBotAccount account, Messenger messenger, BotAction currentAction, int messageId = 0)
         {
-            var language = account.Language;
-            var nextActions = await actionService.GetChildActions(currentAction.ActionId);
-
-            var text = string.Empty;
-            IList<MessageButton> buttons = new List<MessageButton>();
-            if (nextActions.Count() == 1 && actionService.IsMessageAction(nextActions.FirstOrDefault()))
-            {
-                var nextAction = nextActions.FirstOrDefault();
-                await actionService.InsertUserAction(account.UserId, nextAction.ActionId, string.Empty);
-                text = await messageBuilder.BuildActionName(language, nextActions.FirstOrDefault().ActionId);
-            }
-            else
-            {
-                text = messageBuilder.BuildActionSelectedMessage(language, await messageBuilder.BuildActionName(language, currentAction.ActionId));
-                buttons = await actionService.BuildActionButtons(account, nextActions);
-            }
-
-            var message = await messageBuilder.BuildMessageWithBackButton(text, buttons, currentAction.ParentId, language);
+            var message = await actionService.BuildNextActionsMessage(account, currentAction);
             await messageSender.SendMessage(account.UserId, messenger, message, functionId: currentAction.FunctionId, messageId: messageId);
         }
 
@@ -280,7 +263,7 @@ namespace TelegramBot.Infrastructure.Command
         private async Task SendMessageWithRootActions(CustBotAccount account, Messenger messenger, string text, int messageId)
         {
             await actionService.ResetUserActions(account.UserId);
-            var rootActionButtons = await actionService.BuildRootActionButtons(account.Language);
+            var rootActionButtons = await actionService.BuildRootActionButtons(account);
             var message = await messageBuilder.BuildMessage(text, rootActionButtons, account.Language);
             await messageSender.SendMessage(account.UserId, messenger, message, messageId);
         }

@@ -405,4 +405,10 @@
   <data name="Yesterday" xml:space="preserve">
     <value>Yesterday</value>
   </data>
+  <data name="OFF" xml:space="preserve">
+    <value>OFF</value>
+  </data>
+  <data name="ON" xml:space="preserve">
+    <value>ON</value>
+  </data>
 </root>

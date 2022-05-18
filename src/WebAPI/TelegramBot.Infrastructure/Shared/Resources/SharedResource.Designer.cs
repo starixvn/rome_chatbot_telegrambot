@@ -619,6 +619,24 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OFF.
+        /// </summary>
+        public static string OFF {
+            get {
+                return ResourceManager.GetString("OFF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ON.
+        /// </summary>
+        public static string ON {
+            get {
+                return ResourceManager.GetString("ON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open Balance Info Menu.
         /// </summary>
         public static string OpenBalanceInfoMenu {

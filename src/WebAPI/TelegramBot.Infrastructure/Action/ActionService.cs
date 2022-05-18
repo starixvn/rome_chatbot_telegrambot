@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Fanex.Caching;
 using Fanex.Data.Repository;
 using Newtonsoft.Json;
+using TelegramBot.Infrastructure.Action.Builders.ActionName;
 using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Action.Criteria;
 using TelegramBot.Infrastructure.Action.Models;
@@ -20,9 +21,9 @@ namespace TelegramBot.Infrastructure.Action
 {
     public interface IActionService
     {
-        Task<IList<MessageButton>> BuildRootActionButtons(string language);
+        Task<IList<MessageButton>> BuildRootActionButtons(CustBotAccount account);
 
-        Task<IList<MessageButton>> BuildNextActionButtons(CustBotAccount account, short currentActionId);
+        Task<Message.Models.Message> BuildNextActionsMessage(CustBotAccount account, BotAction currentAction);
 
         Task<BotAction> GetActionById(int id);
 
@@ -53,33 +54,52 @@ namespace TelegramBot.Infrastructure.Action
         private readonly IDynamicRepository dynamicRepository;
         private readonly WebAPIConfiguration webAPIConfiguration;
         private readonly IMessageBuilder messageBuilder;
-        private readonly IMessageFormatter messageFormatter;
         private readonly IFunctionHandlerFactory functionHandlerFactory;
+        private readonly IActionNameBuilderFactory actionNameBuilderFactory;
         private readonly ICacheService cacheService;
+
 
         public ActionService(
             IDynamicRepository dynamicRepository,
             WebAPIConfiguration webAPIConfiguration,
             IMessageBuilder messageBuilder,
-            IMessageFormatter messageFormatter,
             IFunctionHandlerFactory functionHandlerFactory,
+            IActionNameBuilderFactory actionNameBuilderFactory,
             ICacheServiceFactory cacheServiceFactory)
         {
             this.dynamicRepository = dynamicRepository;
             this.webAPIConfiguration = webAPIConfiguration;
             this.messageBuilder = messageBuilder;
-            this.messageFormatter = messageFormatter;
             this.functionHandlerFactory = functionHandlerFactory;
+            this.actionNameBuilderFactory = actionNameBuilderFactory;
             this.cacheService = cacheServiceFactory.Get();
         }
 
         public async Task<BotAction> GetRootActionByFunctionId(short functionId)
             => (await GetRootActions()).FirstOrDefault(a => a.FunctionId == functionId);
 
-        public async Task<IList<MessageButton>> BuildNextActionButtons(CustBotAccount account, short currentActionId)
+        public async Task<Message.Models.Message> BuildNextActionsMessage(CustBotAccount account, BotAction currentAction)
         {
-            var actions = await GetChildActions(currentActionId);
-            return await BuildActionButtons(account, actions);
+            var nextActions = await GetChildActions(currentAction.ActionId);
+
+            var text = string.Empty;
+            IList<MessageButton> buttons = new List<MessageButton>();
+            if (nextActions.Count() == 1 && IsMessageAction(nextActions.FirstOrDefault()))
+            {
+                var nextAction = nextActions.FirstOrDefault();
+                await InsertUserAction(account.UserId, nextAction.ActionId, string.Empty);
+                var builder = actionNameBuilderFactory.GetBuilder(nextAction.ActionId);
+                text = await builder.BuildActionName(nextAction, account);
+            }
+            else
+            {
+                var builder = actionNameBuilderFactory.GetBuilder(currentAction.ActionId);
+                var actionName = await builder.BuildActionName(currentAction, account);
+                text = messageBuilder.BuildActionSelectedMessage(account.Language, actionName);
+                buttons = await BuildActionButtons(account, nextActions);
+            }
+
+            return await messageBuilder.BuildMessageWithBackButton(text, buttons, currentAction.ParentId, account.Language);
         }
 
         public async Task<IList<MessageButton>> BuildActionButtons(CustBotAccount account, IEnumerable<BotAction> actions)
@@ -103,7 +123,8 @@ namespace TelegramBot.Infrastructure.Action
                 }
                 else
                 {
-                    var actionName = await messageBuilder.BuildActionName(account.Language, action.ActionId);
+                    var builder = actionNameBuilderFactory.GetBuilder(action.ActionId);
+                    var actionName = await builder.BuildActionName(action, account);
                     buttons.Add(new MessageButton(
                         actionName,
                         JsonConvert.SerializeObject(new
@@ -146,18 +167,16 @@ namespace TelegramBot.Infrastructure.Action
             return string.Empty;
         }
 
-        public async Task<IList<MessageButton>> BuildRootActionButtons(string language)
+        public async Task<IList<MessageButton>> BuildRootActionButtons(CustBotAccount account)
         {
             var rootActions = await GetRootActions();
             var buttons = new List<MessageButton>();
 
             foreach (var action in rootActions)
             {
-                var actionName = await messageBuilder.BuildActionName(language, action.ActionId);
-                buttons.Add(new MessageButton(
-                    await messageBuilder.BuildActionName(language, action.ActionId),
-                    JsonConvert.SerializeObject(new { ActionId = action.ActionId, Value = actionName })
-                    ));
+                var builder = actionNameBuilderFactory.GetBuilder(action.ActionId);
+                var actionName = await builder.BuildActionName(action, account);
+                buttons.Add(new MessageButton(actionName, JsonConvert.SerializeObject(new { ActionId = action.ActionId, Value = actionName })));
             }
 
             return buttons;
@@ -183,7 +202,7 @@ namespace TelegramBot.Infrastructure.Action
         }
 
         private async Task<BotAction> GetPrevAction(short parentId)
-          => (await GetAllActions()).FirstOrDefault(action => action.ActionId == parentId);
+            => (await GetAllActions()).FirstOrDefault(action => action.ActionId == parentId);
 
         public async Task<BotAction> GetActionById(int id)
             => (await GetAllActions()).FirstOrDefault(action => action.ActionId == id);
