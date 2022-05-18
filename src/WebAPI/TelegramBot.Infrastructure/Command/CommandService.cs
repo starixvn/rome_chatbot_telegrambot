@@ -11,6 +11,7 @@ using TelegramBot.Infrastructure.Action.Models;
 using TelegramBot.Infrastructure.Action.Validators;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command.Models;
+using TelegramBot.Infrastructure.Function.Constants;
 using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Message.Constants;
@@ -235,15 +236,42 @@ namespace TelegramBot.Infrastructure.Command
         private async Task HandleCommand(CustBotAccount account, Messenger messenger, string command, short functionId, int messageId)
         {
             var splittedCommand = SplitCommand(command);
-            var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2);
             var rootAction = await actionService.GetRootActionByFunctionId(functionId);
-            var message = await messageBuilder.BuildMessageWithBackButton(result.Message, new List<MessageButton>(), rootAction.ActionId, account.Language);
-            await messageSender.SendMessage(
-                account.UserId,
-                messenger: messenger,
-                message: message,
-                functionId: functionId,
-                messageId: messageId);
+            if (functionId == FunctionIds.Settings)
+            {
+                await HandleSettingsCommand(account, messenger, rootAction, splittedCommand.Item2?[0], messageId);
+            }
+            else
+            {
+                var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2);
+                var message = await messageBuilder.BuildMessageWithBackButton(result.Message, new List<MessageButton>(), rootAction.ActionId, account.Language);
+                await messageSender.SendMessage(
+                    account.UserId,
+                    messenger: messenger,
+                    message: message,
+                    functionId: functionId,
+                    messageId: messageId);
+            }
+        }
+
+        private async Task HandleSettingsCommand(CustBotAccount account, Messenger messenger, BotAction rootAction, string parameter, int messageId)
+        {
+            if (parameter == "stop")
+            {
+                await settingService.Unlink(messenger.BotId, account.CustId, account.SubAccId, string.Empty);
+                return;
+            }
+
+            if (short.TryParse(parameter, out short id))
+            {
+                if (account.IsFunctionAvailable(id))
+                {
+                    var function = account.Functions.FirstOrDefault(f => f.FunctionId == id);
+                    function.Enabled = !function.Enabled;
+                    var result = await settingService.UpdateUserFunction(account.UserId, function, account.CustId, string.Empty);
+                    await SendNextActionsMessage(account, messenger, rootAction, messageId);
+                }
+            }
         }
 
         private static bool IsValidAction(CustBotAccount account, BotAction action)

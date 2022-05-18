@@ -20,7 +20,7 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
         public async Task<string> BuildActionName(BotAction action, CustBotAccount account)
         {
             var resource = await resourceService.GetResource(action.ActionId.ToString(), ResourceType.ActionName, account.Language);
-            var function = account.Functions.FirstOrDefault(f => f.FunctionId == action.FunctionId);
+            var function = account.Functions.FirstOrDefault(f => f.FunctionId == short.Parse(action.Command));
 
             return string.Format(resource.Value, ResourceHelper.Get(function.Enabled ? nameof(SharedResource.ON) : nameof(SharedResource.OFF)));
         }
