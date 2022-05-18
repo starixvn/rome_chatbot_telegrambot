@@ -18,7 +18,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         Member = 1,
         Agent = 2,
         Master = 3,
-        Supper = 4
+        Super = 4
     }
 
     public class BalanceInfoFunctionHandler : BaseFunctionHandler, IFunctionHandler
@@ -163,7 +163,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             
             textContainer.Add(BuildTitleRow(account.Language));
             textContainer.Add(
-                $"**{ResourceHelper.Get(nameof(SharedResource.Username), account.Language).ToUpperInvariant()}**:");
+                $"{ResourceHelper.Get(nameof(SharedResource.Username), account.Language).ToUpperInvariant()}:");
             textContainer.Add($"{username}{messageFormatter.NewLine()}");
             foreach (var keyValuePair in dict)
             {
