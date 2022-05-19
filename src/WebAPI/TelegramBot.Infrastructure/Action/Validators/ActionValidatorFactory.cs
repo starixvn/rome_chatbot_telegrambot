@@ -25,13 +25,21 @@ namespace TelegramBot.Infrastructure.Action.Validators
             switch (actionId)
             {
                 case ActionIds.OutstandingEnterDownlineUsername:
+                case ActionIds.BalanceEnterDownlineUsername:
                     return new DirectDownlinesValidator(
                         (IMessageBuilder)serviceProvider.GetService(typeof(IMessageBuilder)),
                         (ICustomerService)serviceProvider.GetService(typeof(ICustomerService)));
                 case ActionIds.TopXOutstanding:
                     return new NumberOfDownlinesValidator(
                         (IMessageBuilder)serviceProvider.GetService(typeof(IMessageBuilder)),
-                        ((WebAPIConfiguration)serviceProvider.GetService(typeof(WebAPIConfiguration))).OutstandingMaxTopQuery);
+                        ((WebAPIConfiguration)serviceProvider.GetService(typeof(WebAPIConfiguration)))
+                        .OutstandingMaxTopQuery);
+                case ActionIds.TopXBalance:
+                    return new NumberOfDownlinesValidator(
+                        (IMessageBuilder)serviceProvider.GetService(typeof(IMessageBuilder)),
+                        ((WebAPIConfiguration)serviceProvider.GetService(typeof(WebAPIConfiguration)))
+                        .BalanceMaxTopQuery);
+
                 default:
                     return null;
             }

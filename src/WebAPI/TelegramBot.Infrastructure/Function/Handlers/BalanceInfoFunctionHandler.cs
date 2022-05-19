@@ -62,13 +62,6 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         private async Task<Result> HandleTopXBalance(CustBotAccount account, int topQuery, string parameter)
         {
-            if (topQuery <= 0 && topQuery > webAPIConfiguration.OutstandingMaxTopQuery)
-            {
-                return Result.CreateErrorResult(
-                    messageBuilder.BuildInvalidNumerOfDownlineRange(account.Language, parameter,
-                        webAPIConfiguration.OutstandingMaxTopQuery));
-            }
-
             var topBalanceReport =
                 await balanceInfoService.GetTopBalance(account.CustId, account.CustomerLevel, topQuery);
 
@@ -140,12 +133,6 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         private async Task<Result> HandleBalanceDownLineUsername(CustBotAccount account, string username)
         {
             var downlineInfo = await customerService.GetDownlineInfo(account.CustId, username);
-            if (!IsValidDirectDownline(account.CustomerLevel, downlineInfo))
-            {
-                return Result.CreateErrorResult(
-                    messageBuilder.BuildInvalidCustNameMessage(account.Language, username));
-            }
-
             var downlineBalance = await balanceInfoService.GetDownlineBalance(account.CustId,
                 account.CustomerLevel,
                 downlineInfo.CustId);

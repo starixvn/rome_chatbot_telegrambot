@@ -9,5 +9,7 @@ namespace TelegramBot.Infrastructure.Shared.Configurations
         public bool IsProduction { get; set; }
 
         public int OutstandingMaxTopQuery { get; set; }
+        
+        public int BalanceMaxTopQuery { get; set; }
     }
 }
