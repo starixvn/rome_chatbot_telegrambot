@@ -1,12 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using TelegramBot.Infrastructure.Command;
+using TelegramBot.Infrastructure.Command.Models;
 using TelegramBot.WebApi.Filters;
 using TelegramBot.WebApi.Params;
 
 namespace TelegramBot.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+
     [ApiController]
+    [Route("api/[controller]")]
+    [ServiceFilter(typeof(AutoReplyUMFilterAttribute))]
+    [ServiceFilter(typeof(AccountStatusFilterAttribute))]
     public class CommandController : ControllerBase
     {
         private readonly ICommandService commandService;
@@ -16,12 +21,21 @@ namespace TelegramBot.WebApi.Controllers
             this.commandService = commandService;
         }
 
-        [ServiceFilter(typeof(AutoReplyUMFilterAttribute))]
-        [ServiceFilter(typeof(AccountStatusFilterAttribute))]
-        [Route("execute"), HttpPost]
-        public async Task ExecuteAsync(CommandParam param)
+        [Route("handle/text"), HttpPost]
+        public async Task HandleTextMessage(CommandParam param)
         {
-            await commandService.ExecuteAsync(param.MessengerBotId, param.ChatId, param.Message, param.IsCallback, param.MessageId);
+            await commandService.HandleUserReplyByText(param.MessengerBotId, param.ChatId, param.Message);
+        }
+
+        [Route("handle/callback"), HttpPost]
+        public async Task HandleCallbackQuery(CallbackQueryParam param)
+        {
+            await commandService.HandleUserReplyByButton(
+                param.MessengerBotId,
+                param.ChatId,
+                param.MessageId,
+                param.CallbackId,
+                JsonConvert.DeserializeObject<CallbackData>(param.CallbackData));
         }
     }
 }

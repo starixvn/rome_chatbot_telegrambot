@@ -15,7 +15,7 @@ namespace TelegramBot.Client.Extensions
             {
                 Content = stringContent
             };
-            using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+            using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
         }
@@ -28,7 +28,7 @@ namespace TelegramBot.Client.Extensions
 
         public static async Task<T> GetAsJsonAsync<T>(this HttpClient client, string requestUri)
         {
-            using var response = await client.GetAsync(requestUri);
+            using var response = await client.GetAsync(requestUri).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(content);

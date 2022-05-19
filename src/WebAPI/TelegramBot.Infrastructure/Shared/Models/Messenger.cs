@@ -6,12 +6,9 @@ namespace TelegramBot.Infrastructure.Shared.Models
         {
             BotId = botId;
             ChatId = chatId;
-            BotName = botName;
         }
 
         public int BotId { get; }
-
-        public string BotName { get; }
 
         public long ChatId { get; }
     }

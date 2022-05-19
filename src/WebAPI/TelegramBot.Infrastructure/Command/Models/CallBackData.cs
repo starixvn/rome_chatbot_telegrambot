@@ -1,6 +1,6 @@
 namespace TelegramBot.Infrastructure.Command.Models
 {
-    public class CallBackData
+    public class CallbackData
     {
         public int ActionId { get; set; }
 

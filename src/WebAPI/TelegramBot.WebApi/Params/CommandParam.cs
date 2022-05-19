@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TelegramBot.Infrastructure.Command.Models;
 
 namespace TelegramBot.WebApi.Params
 {
@@ -12,9 +13,5 @@ namespace TelegramBot.WebApi.Params
 
         [Required]
         public string Message { get; set; }
-
-        public bool IsCallback { get; set; }
-
-        public int MessageId { get; set; }
     }
 }
