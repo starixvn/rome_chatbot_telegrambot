@@ -50,6 +50,8 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildAccountLockedMessage(string language);
 
+        string BuildUnlinkMessage(string language, string botName);
+
         Task<string> BuildBackButton(string language, short backToActionId);
 
         Task<Models.Message> BuildMessage(string text, IList<MessageButton> buttons, string language);
@@ -233,5 +235,8 @@ namespace TelegramBot.Infrastructure.Message
 
             return new Models.Message(text, await BuildReplyMarkup(language, buttons));
         }
+
+        public string BuildUnlinkMessage(string language, string botName)
+            => string.Format(ResourceHelper.Get(nameof(SharedResource.UnlinkMessage), language), botName);
     }
 }

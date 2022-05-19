@@ -422,4 +422,7 @@
 Your Telegram will be unlinked with {0} and you won't be able to use {0} anymore.
 Are you sure you want to stop using {0}?</value>
   </data>
+  <data name="UnlinkMessage" xml:space="preserve">
+    <value>Your telegram has been unlinked with {0} successfully.</value>
+  </data>
 </root>

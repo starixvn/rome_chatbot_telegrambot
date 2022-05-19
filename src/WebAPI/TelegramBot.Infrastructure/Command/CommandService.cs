@@ -176,7 +176,7 @@ namespace TelegramBot.Infrastructure.Command
 
             if (callBackData.IsStopUsingChatbot)
             {
-                await settingService.Unlink(messenger.BotId, account.CustId, account.SubAccId, string.Empty);
+                await settingService.Unlink(bot, account.CustId, account.SubAccId, string.Empty);
                 return;
             }
 

@@ -108,7 +108,7 @@ namespace TelegramBot.WebApi.Controllers
         [Route("unlink"), HttpPost]
         public async Task<Result> Unlink(UnlinkParam param)
         {
-            return await _settingService.Unlink(param.BotId, param.CustId, param.SubAccId, param.IP);
+            return await _settingService.Unlink(await _botService.GetAsync(param.BotId), param.CustId, param.SubAccId, param.IP);
         }
 
         /// <summary>

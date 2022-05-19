@@ -70,20 +70,6 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
         }
 
         [Theory, AutoData]
-        public async Task UnlinkAsync_Always_Calls(UnlinkParam param, Result expectedResult)
-        {
-            // Arrange
-            _settingService.Unlink(param.BotId, param.CustId, param.SubAccId, param.IP)
-                .Returns(Task.FromResult(expectedResult));
-
-            // Act
-            var result = await _settingController.Unlink(param).ConfigureAwait(false);
-
-            // Assert
-            Assert.Equal(JsonConvert.SerializeObject(expectedResult), JsonConvert.SerializeObject(result));
-        }
-
-        [Theory, AutoData]
         public async Task GetCustBotMessengerAsync_Always_Calls(GetCustBotMessengerParam param, CustBotMessenger custBotMessenger)
         {
             // Arrange

@@ -882,6 +882,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your telegram has been unlinked with {0} successfully..
+        /// </summary>
+        public static string UnlinkMessage {
+            get {
+                return ResourceManager.GetString("UnlinkMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to USED CREDIT.
         /// </summary>
         public static string UsedCredit {
