@@ -12,6 +12,8 @@ namespace TelegramBot.Infrastructure.Notification
         Task<Result> NotifyChangePassword(int custId, int subAccId, string ip);
 
         Task<Result> NotifyChangeSecurityCode(int custId, int subAccId, string ip);
+
+        Task<Result> Notify(int botId, long chatid, string message);
     }
 
     public class NotificationService : INotificationService
@@ -31,6 +33,13 @@ namespace TelegramBot.Infrastructure.Notification
             this.settingService = settingService;
             this.messageBuilder = messageBuilder;
             this.messageSender = messageSender;
+        }
+
+        public async Task<Result> Notify(int botId, long chatId, string message)
+        {
+            await messageSender.SendMessage(new Messenger(botId, chatId), message);
+
+            return Result.CreateSuccessfulResult();
         }
 
         public async Task<Result> NotifyChangePassword(int custId, int subAccId, string ip)

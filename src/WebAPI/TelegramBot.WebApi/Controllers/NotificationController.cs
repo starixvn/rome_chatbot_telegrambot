@@ -32,5 +32,9 @@ namespace TelegramBot.WebApi.Controllers
         {
             return await notificationService.NotifyChangeSecurityCode(param.CustId, param.SubAccId, param.IP);
         }
+
+        [HttpPost("notify")]
+        public async Task<Result> Notify([FromBody] NotifyParam param)
+            => await notificationService.Notify(param.BotId, param.ChatId, param.Message);
     }
 }

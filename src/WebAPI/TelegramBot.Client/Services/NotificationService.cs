@@ -10,6 +10,8 @@ namespace TelegramBot.Client.Services
         Task<Result> NotifyChangePassword(int custId, int subAccId, string ip);
 
         Task<Result> NotifyChangeSecurityCode(int custId, int subAccId, string ip);
+
+        Task<Result> Notify(int botId, long chatId, string message);
     }
 
     public class NotificationService : INotificationService
@@ -39,6 +41,16 @@ namespace TelegramBot.Client.Services
                     custId,
                     subAccId,
                     ip
+                });
+
+        public async Task<Result> Notify(int botId, long chatId, string message)
+             => await httpClient.PostAsJsonAsync<Result>(
+                $"notification/notify",
+                new
+                {
+                    botId,
+                    chatId,
+                    message
                 });
     }
 }

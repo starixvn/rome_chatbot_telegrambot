@@ -2,7 +2,7 @@ namespace TelegramBot.Infrastructure.Shared.Models
 {
     public class Messenger
     {
-        public Messenger(int botId, long chatId, string botName = "")
+        public Messenger(int botId, long chatId)
         {
             BotId = botId;
             ChatId = chatId;

@@ -24,7 +24,6 @@ namespace TelegramBot.Infrastructure.Command
 {
     public interface ICommandService
     {
-
         Task HandleUserReplyByText(long messengerBotId, long chatId, string message);
 
         Task HandleUserReplyByButton(long messengerBotId, long chatId, int messageId, string callbackId, CallbackData callBackData);
