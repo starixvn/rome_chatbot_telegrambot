@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Alpha.API.Client.Models.Outstanding;
 using Alpha.API.Client.Services;
@@ -62,7 +63,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                     data = await outstandingService.GetDownlineOutstanding(account.CustId, account.CustomerLevel, downlineInfo.CustId, account.Language);
                 }
 
-                if (data == null)
+                if (data == null || data.Outstandings.Count() == 0)
                 {
                     return Result.CreateSuccessfulResult(messageBuilder.BuildNoDataMessage(account.Language));
                 }
@@ -91,10 +92,6 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             AddTotalRow(textContainer, data.Total, language);
             AddBodyMessage(textContainer, data.Outstandings);
 
-            if (data.HiddenDownlinesCount > 0)
-            {
-                textContainer.Add(messageBuilder.BuildHiddenDownlinesMessage(language, data.HiddenDownlinesCount, (byte)(custLevel - 1)));
-            }
 
             return string.Join(messageFormatter.NewLine(), textContainer);
         }

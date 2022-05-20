@@ -29,7 +29,7 @@ namespace TelegramBot.Infrastructure.Action
 
         Task<BotAction> GetRootActionByFunctionId(short functionId);
 
-        Task<IEnumerable<BotAction>> GetChildActions(int parentId);
+        Task<IEnumerable<BotAction>> GetChildActions(CustBotAccount account, int parentId);
 
         Task<BotAction> GetActionByCommand(string command);
 
@@ -80,7 +80,7 @@ namespace TelegramBot.Infrastructure.Action
 
         public async Task<Message.Models.Message> BuildNextActionsMessage(CustBotAccount account, BotAction currentAction)
         {
-            var nextActions = await GetChildActions(currentAction.ActionId);
+            var nextActions = await GetChildActions(account, currentAction.ActionId);
 
             var text = string.Empty;
             IList<MessageButton> buttons = new List<MessageButton>();
@@ -210,8 +210,8 @@ namespace TelegramBot.Infrastructure.Action
         public async Task<BotAction> GetActionByCommand(string command)
             => (await GetAllActions()).FirstOrDefault(action => action.Command == command);
 
-        public async Task<IEnumerable<BotAction>> GetChildActions(int parentId)
-            => (await GetAllActions()).Where(action => action.ParentId == parentId);
+        public async Task<IEnumerable<BotAction>> GetChildActions(CustBotAccount account, int parentId)
+            => (await GetAllActions()).Where(action => action.ParentId == parentId && account.Functions.Any(f => f.FunctionId == action.FunctionId));
 
         private async Task<IEnumerable<BotAction>> GetRootActions()
             => (await GetAllActions()).Where(action => action.ParentId == 0);

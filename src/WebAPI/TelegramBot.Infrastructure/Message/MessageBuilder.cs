@@ -52,8 +52,6 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildUnlinkMessage(string language, string botName);
 
-        Task<string> BuildBackButton(string language, short backToActionId);
-
         Task<Models.Message> BuildMessage(string text, IList<MessageButton> buttons, string language);
 
         Task<Models.Message> BuildMessageWithBackButton(string text, IList<MessageButton> buttons, short backToActionId, string language);
@@ -167,15 +165,7 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildAccountLockedMessage(string language)
             => ResourceHelper.Get(nameof(SharedResource.YourAccountIsLocked), language);
 
-        public async Task<string> BuildBackButton(string language, short backToActionId)
-        {
-            if (backToActionId > 0)
-            {
-                return $"<< {ResourceHelper.Get(nameof(SharedResource.BackTo), language)} {await BuildActionName(language, backToActionId)}";
-            }
 
-            return $"<< {ResourceHelper.Get(nameof(SharedResource.BackToMainMenu), language)}";
-        }
 
         public async Task<Models.Message> BuildMessage(string text, IList<MessageButton> buttons, string language)
             => new Models.Message(text, await BuildReplyMarkup(language, buttons));
@@ -193,12 +183,24 @@ namespace TelegramBot.Infrastructure.Message
             {
                 if (hasBackButton && i == numberOfRows - 1)
                 {
-                    var text = await BuildBackButton(language, backToActionId);
-                    var callBackData = JsonConvert.SerializeObject(new { ActionId = backToActionId, Value = text });
-                    buttonRows[i] = new InlineKeyboardButton[]
+                    var backToMainMenu = $"<< {ResourceHelper.Get(nameof(SharedResource.BackToMainMenu), language)}";
+                    if (backToActionId > 0)
                     {
-                        InlineKeyboardButton.WithCallbackData(text, callBackData)
-                    };
+                        var backToAction = $"<< {ResourceHelper.Get(nameof(SharedResource.BackTo), language)} {await BuildActionName(language, backToActionId)}";
+                        buttonRows[i] = new InlineKeyboardButton[]
+                        {
+                            InlineKeyboardButton.WithCallbackData(backToAction, JsonConvert.SerializeObject(new { ActionId = backToActionId, Value = backToAction })),
+                            InlineKeyboardButton.WithCallbackData(backToMainMenu, JsonConvert.SerializeObject(new { ActionId = ActionIds.MainMenu, Value = backToMainMenu })),
+                        };
+                    }
+                    else
+                    {
+                        buttonRows[i] = new InlineKeyboardButton[]
+                        {
+                            InlineKeyboardButton.WithCallbackData(backToMainMenu, JsonConvert.SerializeObject(new { ActionId = ActionIds.MainMenu, Value = backToMainMenu })),
+                        };
+                    }
+
 
                     break;
                 }
