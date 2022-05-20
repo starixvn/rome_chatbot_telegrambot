@@ -1,8 +1,7 @@
 using System.Text;
 using Quartz;
-using TelegramBot.Notifications.Jobs;
-using TelegramBot.Notifications.Shared.Configuration;
-using TelegramBot.Notifications.Shared.Constants;
+using TelegramBot.Importer.Configuration;
+using TelegramBot.Importer.Constants;
 
 namespace TelegramBot.ImporterService.Extensions;
 
@@ -18,22 +17,21 @@ public static class ServiceCollectionQuartzConfiguratorExtensions
             .ToList()
             .ForEach(async job =>
             {
-                if (job.Name.Equals("PersonalMessage", StringComparison.OrdinalIgnoreCase))
-                {
-                    await quartz.AddNotificationJob<PersonalMessageJob>(job, logger);
-                }
+                var jobType = Type.GetType(
+                    $"TelegramBot.Importer.Jobs.{job.Name}Job, TelegramBot.Importer", true);
+                await quartz.AddNotificationJob(jobType, job, logger);
             });
 
-    private static Task AddNotificationJob<T>(
+    private static Task AddNotificationJob(
         this IServiceCollectionQuartzConfigurator quartz,
+        Type jobType,
         ScheduleJob job,
-        Fanex.Logging.ILogger logger) where T : IJob
+        Fanex.Logging.ILogger logger)
     {
         const string GroupName = "Notification";
         var jobKey = new JobKey(job.Name, GroupName);
 
-        quartz.AddJob<T>(opts => opts
-            .WithIdentity(jobKey)
+        quartz.AddJob(jobType, jobKey, opts => opts
             .UsingJobData(JobDataKey.JobName, job.Name)
             .UsingJobData(JobDataKey.SubAccPermission, job.SubAccPermission)
             .UsingJobData(JobDataKey.Environment, job.Environment)

@@ -14,7 +14,7 @@ builder.Services
         quartz.UseMicrosoftDependencyInjectionJobFactory();
         quartz.AddNotificationSenderJob(configuration, Fanex.Logging.Logger.Log);
     })
-    .AddQuartzServer(options => options.WaitForJobsToComplete = true);
+    .AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
     
 var app = builder.Build();
 app.MapGet("/", () => "TelegramBot.Sender service!!!");

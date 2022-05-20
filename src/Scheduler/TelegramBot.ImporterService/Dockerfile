@@ -6,7 +6,7 @@ RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
 RUN dotnet restore TelegramBot.ImporterService/TelegramBot.ImporterService.csproj -v n
 
 COPY src/Scheduler/TelegramBot.ImporterService ./TelegramBot.ImporterService
-COPY src/Scheduler/TelegramBot.Notifications ./TelegramBot.Notifications
+COPY src/Scheduler/TelegramBot.Importer ./TelegramBot.Importer
 
 WORKDIR /src/TelegramBot.ImporterService
 RUN dotnet publish -r linux-x64 --self-contained false -o /app

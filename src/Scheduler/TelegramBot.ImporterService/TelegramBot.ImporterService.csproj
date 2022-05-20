@@ -14,7 +14,7 @@
     <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
     <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.0" />
     <PackageReference Include="ONEbook.UM.Transport" Version="3.1.1" />
-    <PackageReference Include="Quartz.AspNetCore" Version="3.4.0" />
+    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.4.0" />
   </ItemGroup>
 
   <ItemGroup> 
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TelegramBot.Notifications\TelegramBot.Notifications.csproj" />
+    <ProjectReference Include="..\TelegramBot.Importer\TelegramBot.Importer.csproj" />
   </ItemGroup>
 
 </Project>

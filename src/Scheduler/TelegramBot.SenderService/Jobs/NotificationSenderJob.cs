@@ -4,6 +4,7 @@ using TelegramBot.SenderService.Configurations;
 using TelegramBot.SenderService.Constants;
 using TelegramBot.SenderService.Models;
 using TelegramBot.SenderService.Services;
+using TelegramBotNotificationService = TelegramBot.Client.Services.INotificationService;
 
 namespace TelegramBot.SenderService.Jobs;
 
@@ -16,6 +17,7 @@ public sealed class NotificationSenderJob : IJob
     private readonly INotificationService notificationService;
     private readonly ICustomerService customerService;
     private readonly AppSettings appSettings;
+    private readonly TelegramBotNotificationService telegramBotNotificationService;
 
     public NotificationSenderJob(
         IMaintenanceService maintenanceService,
@@ -23,7 +25,8 @@ public sealed class NotificationSenderJob : IJob
         ISystemSettingService systemSettingService,
         INotificationService notificationService,
         ICustomerService customerService,
-        AppSettings appSettings)
+        AppSettings appSettings,
+        TelegramBotNotificationService telegramBotNotificationService)
     {
         this.maintenanceService = maintenanceService;
         this.loggerService = loggerService;
@@ -31,6 +34,7 @@ public sealed class NotificationSenderJob : IJob
         this.notificationService = notificationService;
         this.customerService = customerService;
         this.appSettings = appSettings;
+        this.telegramBotNotificationService = telegramBotNotificationService;
     }
 
     public async Task Execute(IJobExecutionContext context)
@@ -65,14 +69,14 @@ public sealed class NotificationSenderJob : IJob
 
             var successNotifications = new List<Notification>();
             var failureNotificationStatus = new List<NotificationStatusParam>();
-            
+
             await JoinWithCustomerStatus(notifications, successNotifications, failureNotificationStatus);
 
-            var notificationStatus = ChunkAndSendNotifications(
+            var notificationStatus = await ChunkAndSendNotifications(
                 successNotifications,
                 failureNotificationStatus,
                 notificationChunkSize);
-            
+
             await UpdateNotificationStatus(notificationStatus, lastNotifications, jobName, environment);
         }
         catch (Exception ex)
@@ -172,7 +176,7 @@ public sealed class NotificationSenderJob : IJob
             _ => "Unknown"
         };
 
-    private static IEnumerable<NotificationStatusParam> ChunkAndSendNotifications(
+    private async Task<IEnumerable<NotificationStatusParam>> ChunkAndSendNotifications(
         IEnumerable<Notification> notifications,
         IList<NotificationStatusParam> failureNotificationStatus,
         int notificationChunkSize)
@@ -184,19 +188,19 @@ public sealed class NotificationSenderJob : IJob
 
         foreach (var notificationArray in chunkNotifications)
         {
-            SendNotifications(
+            await SendNotifications(
                 notificationArray,
                 successNotificationStatus,
                 failureNotificationStatus,
                 sleepTime);
         }
-            
+
         successNotificationStatus.AddRange(failureNotificationStatus);
 
         return successNotificationStatus;
     }
 
-    private static void SendNotifications(
+    private async Task SendNotifications(
         Notification[] notifications,
         IList<NotificationStatusParam> successNotificationStatus,
         IList<NotificationStatusParam> failureNotificationStatus,
@@ -206,7 +210,7 @@ public sealed class NotificationSenderJob : IJob
 
         foreach (var item in notifications)
         {
-            result = SendNotification(item);
+            result = await NotifyToUser(item);
 
             if (result.IsFailed)
             {
@@ -226,11 +230,16 @@ public sealed class NotificationSenderJob : IJob
         }
     }
 
-    private static Result SendNotification(Notification notification)
+    private async Task<Result> NotifyToUser(Notification notification)
     {
         try
         {
-            return new Result(0, "");
+            var telegramBotResult = await telegramBotNotificationService.Notify(
+                notification.BotId,
+                notification.ChatId,
+                notification.Message);
+            
+            return new Result(telegramBotResult.Code, telegramBotResult.Message);
         }
         catch (Exception ex)
         {

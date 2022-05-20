@@ -1,6 +1,5 @@
-using TelegramBot.Notifications.Messages.Services;
-using TelegramBot.Notifications.Shared.Configuration;
-using TelegramBot.Notifications.Shared.Services;
+using TelegramBot.Importer.Configuration;
+using TelegramBot.Importer.Services;
 
 namespace TelegramBot.ImporterService.Extensions;
 
@@ -12,6 +11,5 @@ public static class DIExtensions
             .AddSingleton<ILoggerService, LoggerService>()
             .AddScoped<ISystemSettingService, SystemSettingService>()
             .AddScoped<ICustomerService, CustomerService>()
-            .AddSingleton<IMessageService, MessageService>()
-            .AddScoped<INotificationService, NotificationService>();
+            .AddSingleton<IPersonalMessageService, PersonalMessageService>();
 }
