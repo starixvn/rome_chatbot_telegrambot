@@ -92,24 +92,19 @@ namespace TelegramBot.Infrastructure.Command
 
             await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, message, MessageSendStatus.Success));
 
-            if (userResponse.Split(' ')[0] == "/help")
+            var action = userResponse.Split(' ')[0] switch
             {
-                await HandleHelpCommand(account, messenger, bot.Name, !account.IsSubAccount || (await customerService.GetCustomerStatus(account.CustId, account.SubAccId)).HasReportPermission);
-                return;
-            }
+                "/help" => HandleHelpCommand(account, messenger, bot.Name, !account.IsSubAccount || (await customerService.GetCustomerStatus(account.CustId, account.SubAccId)).HasReportPermission),
+                "/menu" => SendMainMenuMessage(account, messenger),
+                "/stop" => HandleStopCommand(account, messenger, bot.Name),
+                _ => HandleOtherResponse(account, messenger, userResponse)
+            };
 
-            if (userResponse.Split(' ')[0] == "/menu")
-            {
-                await SendMainMenuMessage(account, messenger);
-                return;
-            }
+            await action;
+        }
 
-            if (userResponse.Split(' ')[0] == "/stop")
-            {
-                await HandleStopCommand(account, messenger, bot.Name);
-                return;
-            }
-
+        private async Task HandleOtherResponse(CustBotAccount account, Messenger messenger, string userResponse)
+        {
             var userActions = await actionService.GetUserActions(account.UserId);
             var lastUserAction = userActions.LastOrDefault();
             var currentAction = lastUserAction != null ? await actionService.GetActionById(lastUserAction.ActionId) : null;
