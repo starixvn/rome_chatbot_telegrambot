@@ -140,6 +140,5 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         public async Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)
             => await outstandingService.GetTopUsername(account.CustId, account.CustomerLevel, top);
-
     }
 }

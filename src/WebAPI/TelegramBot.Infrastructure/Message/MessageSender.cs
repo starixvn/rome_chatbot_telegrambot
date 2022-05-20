@@ -15,6 +15,8 @@ namespace TelegramBot.Infrastructure.Message
         Task SendMessage(int userId, Messenger messenger, Models.Message message, int messageId = 0, short functionId = 0, bool logToDatabase = true);
 
         Task SendMessage(Messenger messenger, string message, InlineKeyboardMarkup replyMarkup = null, int messageId = 0);
+
+        Task Alert(Messenger messenger, string message, string callbackId);
     }
 
     public class MessageSender : IMessageSender
@@ -94,6 +96,12 @@ namespace TelegramBot.Infrastructure.Message
                     text: message,
                     replyMarkup: replyMarkup);
             }
+        }
+
+        public async Task Alert(Messenger messenger, string message, string callbackId)
+        {
+            var botClient = botClientFactory.GetOrCreate(messenger.BotId);
+            await botClient.AnswerCallbackQueryAsync(callbackId, message);
         }
     }
 }

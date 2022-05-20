@@ -4,7 +4,6 @@ using TelegramBot.Infrastructure.Action.Models;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.constants;
 using TelegramBot.Infrastructure.Setting.Models;
-using TelegramBot.Infrastructure.Shared.Resources;
 
 namespace TelegramBot.Infrastructure.Action.Builders.ActionName
 {
@@ -22,7 +21,7 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
             var resource = await resourceService.GetResource(action.ActionId.ToString(), ResourceType.ActionName, account.Language);
             var function = account.Functions.FirstOrDefault(f => f.FunctionId == short.Parse(action.Command));
 
-            return string.Format(resource.Value, ResourceHelper.Get(function.Enabled ? nameof(SharedResource.ON) : nameof(SharedResource.OFF)));
+            return (function.Enabled ? "\u2705 " : string.Empty) + resource.Value;
         }
     }
 }

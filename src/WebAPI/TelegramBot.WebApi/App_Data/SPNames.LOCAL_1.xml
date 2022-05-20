@@ -11,7 +11,11 @@
 			</Mappings>
 		</Setting>
 		<Setting Key="CustBotFunctionUpd" SpName="Age_Chatbot_CustBotFunctionUpd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-		<Setting Key="CustBotUserSel" SpName="Age_Chatbot_CustBotUserSel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+		<Setting Key="CustBotUserSel" SpName="Age_Chatbot_CustBotUserSel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" >
+			<Mappings>
+				<Mapping DataField="Status" ObjectProperty="Enabled" />
+			</Mappings>
+		</Setting>
 		<Setting Key="CustBotMessageIns" SpName="Age_Chatbot_CustBotMessageIns" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 		<Setting Key="BotFunctionSelAll" SpName="Age_Chatbot_BotFunctionSelAll" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 		<Setting Key="BotActionSel" SpName="Age_Chatbot_BotActionSel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />

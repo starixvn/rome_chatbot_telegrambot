@@ -19,8 +19,5 @@ namespace TelegramBot.Infrastructure.Setting.Models
         public bool IsSubAccount => SubAccId > 0;
 
         public IEnumerable<BotFunction> Functions { get; set; }
-
-        public bool IsFunctionAvailable(short functionId)
-            => Functions.Any(f => f.FunctionId == functionId && f.Enabled);
     }
 }

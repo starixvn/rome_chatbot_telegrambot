@@ -201,7 +201,14 @@ namespace TelegramBot.Infrastructure.Command
             {
                 var userActions = await actionService.GetUserActions(account.UserId);
                 var compiledCommand = await actionService.CompileCommand(userActions, userResponse);
-                await HandleCommand(account, messenger, compiledCommand, currentAction.FunctionId, messageId);
+                if (currentAction.FunctionId == FunctionIds.Settings)
+                {
+                    await HandleSettingsCommand(account, messenger, compiledCommand, messageId, callbackId);
+                }
+                else
+                {
+                    await HandleCommand(account, messenger, compiledCommand, currentAction.FunctionId, messageId);
+                }
             }
             else
             {
@@ -234,25 +241,20 @@ namespace TelegramBot.Infrastructure.Command
         {
             var splittedCommand = SplitCommand(command);
             var rootAction = await actionService.GetRootActionByFunctionId(functionId);
-            if (functionId == FunctionIds.Settings)
-            {
-                await HandleSettingsCommand(account, messenger, rootAction, splittedCommand.Item2?[0], messageId);
-            }
-            else
-            {
-                var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2);
-                var message = await messageBuilder.BuildMessageWithBackButton(result.Message, new List<MessageButton>(), rootAction.ActionId, account.Language);
-                await messageSender.SendMessage(
-                    account.UserId,
-                    messenger: messenger,
-                    message: message,
-                    functionId: functionId,
-                    messageId: messageId);
-            }
+            var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2);
+            var message = await messageBuilder.BuildMessageWithBackButton(result.Message, new List<MessageButton>(), rootAction.ActionId, account.Language);
+            await messageSender.SendMessage(
+                account.UserId,
+                messenger: messenger,
+                message: message,
+                functionId: functionId,
+                messageId: messageId);
         }
 
-        private async Task HandleSettingsCommand(CustBotAccount account, Messenger messenger, BotAction rootAction, string parameter, int messageId)
+        private async Task HandleSettingsCommand(CustBotAccount account, Messenger messenger, string compiledCommand, int messageId, string callbackId)
         {
+            var splittedCommand = SplitCommand(compiledCommand);
+            var parameter = splittedCommand.Item2?[0];
             if (parameter == "stop")
             {
                 var bot = await botService.GetAsync(messenger.BotId);
@@ -262,13 +264,19 @@ namespace TelegramBot.Infrastructure.Command
 
             if (short.TryParse(parameter, out short id))
             {
-                if (account.IsFunctionAvailable(id))
+
+                var function = account.Functions.FirstOrDefault(f => f.FunctionId == id);
+                if (function == null)
                 {
-                    var function = account.Functions.FirstOrDefault(f => f.FunctionId == id);
-                    function.Enabled = !function.Enabled;
-                    var result = await settingService.UpdateUserFunction(account.UserId, function, account.CustId, string.Empty);
-                    await SendNextActionsMessage(account, messenger, rootAction, messageId);
+                    return;
                 }
+
+                function.Enabled = !function.Enabled;
+                var result = await settingService.UpdateUserFunction(account.UserId, function, account.CustId, string.Empty);
+                var rootAction = await actionService.GetRootActionByFunctionId(FunctionIds.Settings);
+                await SendNextActionsMessage(account, messenger, rootAction, messageId);
+                await messageSender.Alert(messenger, "Setting Updated!", callbackId);
+
             }
         }
 
