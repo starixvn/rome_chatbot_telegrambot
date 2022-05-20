@@ -1,10 +1,10 @@
 namespace TelegramBot.Infrastructure.Shared.Constants
 {
-    public static class CustomerLevel
+    public enum CustomerLevel
     {
-        public const byte Member = 1;
-        public const byte Agent = 2;
-        public const byte Master = 3;
-        public const byte Super = 4;
+        Member = 1,
+        Agent = 2,
+        Master = 3,
+        Super = 4,
     }
 }

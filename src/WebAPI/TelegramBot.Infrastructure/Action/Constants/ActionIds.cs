@@ -15,5 +15,7 @@ namespace TelegramBot.Infrastructure.Action.Constants
         public const short ChangePasswordAlert = 30;
         public const short ChangeSecurityCodeAlert = 31;
         public const short AbnormalLoginAlert = 32;
+        public const short TodayWinLossDownlineUsername = 21;
+        public const short YesterdayWinLossDownlineUsername = 25;
     }
 }

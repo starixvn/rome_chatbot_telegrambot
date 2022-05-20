@@ -92,65 +92,77 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 return;
             }
 
-            switch (custLevel)
+            var messages = (CustomerLevel)custLevel switch
             {
-                case CustomerLevel.Super:
-                    AddWinLossMaster(textContainer, (WinLossMaster)winLoss, language);
-                    break;
-                case CustomerLevel.Master:
-                    AddWinLossAgent(textContainer, (WinLossAgent)winLoss, language);
-                    break;
-                case CustomerLevel.Agent:
-                    AddWinLossMember(textContainer, (WinLossMember)winLoss, language);
-                    break;
-                case CustomerLevel.Member:
-                    AddWinLossMemberDownline(textContainer, (WinLossMember)winLoss, language);
-                    break;
-                default:
-                    break;
+                CustomerLevel.Super => AddWinLossMaster((WinLossMaster)winLoss),
+                CustomerLevel.Master => AddWinLossAgent((WinLossAgent)winLoss),
+                CustomerLevel.Agent => AddWinLossMember((WinLossMember)winLoss),
+                _ => AddWinLossMemberDownline((WinLossMember)winLoss),
+            };
+
+            this.FormatMessages(textContainer, messages, language);
+        }
+
+        private Dictionary<string, decimal> AddWinLossMaster(WinLossMaster winLossMaster)
+        {
+            return new Dictionary<string, decimal>()
+            {
+                {nameof(winLossMaster.Turnover), winLossMaster.Turnover},
+                {nameof(winLossMaster.GrossComm), winLossMaster.GrossComm},
+                {nameof(winLossMaster.MasterTotal), winLossMaster.MasterTotal},
+                {nameof(winLossMaster.SuperWinLoss), winLossMaster.SuperWinLoss},
+                {nameof(winLossMaster.SuperComm), winLossMaster.SuperComm},
+                {nameof(winLossMaster.SuperTotal), winLossMaster.MasterTotal},
+                {nameof(winLossMaster.CompanyWinLoss), winLossMaster.CompanyWinLoss},
+            };
+        }
+
+        private Dictionary<string, decimal> AddWinLossAgent(WinLossAgent winLossAgent)
+        {
+            return new Dictionary<string, decimal>()
+            {
+                {nameof(winLossAgent.Turnover), winLossAgent.Turnover},
+                {nameof(winLossAgent.GrossComm), winLossAgent.GrossComm},
+                {nameof(winLossAgent.AgentTotal), winLossAgent.AgentTotal},
+                {nameof(winLossAgent.MasterWinLoss), winLossAgent.MasterWinLoss},
+                {nameof(winLossAgent.MasterComm), winLossAgent.MasterComm},
+                {nameof(winLossAgent.MasterTotal), winLossAgent.MasterTotal},
+                {nameof(winLossAgent.CompanyWinLoss), winLossAgent.CompanyWinLoss},
+            };
+        }
+
+        private Dictionary<string, decimal> AddWinLossMember(WinLossMember winLossMember)
+        {
+            return new Dictionary<string, decimal>()
+            {
+                {nameof(winLossMember.Turnover), winLossMember.Turnover},
+                {nameof(winLossMember.GrossComm), winLossMember.GrossComm},
+                {nameof(winLossMember.MemberWinLoss), winLossMember.MemberWinLoss},
+                {nameof(winLossMember.MemberComm), winLossMember.MemberComm},
+                {nameof(winLossMember.MemberTotal), winLossMember.MemberTotal},
+                {nameof(winLossMember.AgentWinLoss), winLossMember.AgentWinLoss},
+                {nameof(winLossMember.AgentComm), winLossMember.AgentComm},
+                {nameof(winLossMember.AgentTotal), winLossMember.AgentTotal},
+                {nameof(winLossMember.CompanyWinLoss), winLossMember.CompanyWinLoss}
+            };
+        }
+
+        private Dictionary<string, decimal> AddWinLossMemberDownline(WinLossMember winLossMember)
+        {
+            return new Dictionary<string, decimal>()
+            {
+                {nameof(winLossMember.MemberWinLoss), winLossMember.MemberWinLoss},
+                {nameof(winLossMember.MemberComm), winLossMember.MemberComm},
+                {nameof(winLossMember.MemberTotal), winLossMember.MemberTotal}
+            };
+        }
+
+        private void FormatMessages(List<string> textContainer, Dictionary<string, decimal> messages, string language)
+        {
+            foreach (var message in messages)
+            {
+                textContainer.Add($"{ResourceHelper.Get(message.Key, language).ToUpperInvariant()}: {message.Value.ToFormattedNumber()}");
             }
-        }
-
-        private void AddWinLossMaster(List<string> textContainer, WinLossMaster winLossMaster, string language)
-        {
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMaster.Turnover), language).ToUpperInvariant()}: {winLossMaster.Turnover.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMaster.GrossComm), language).ToUpperInvariant()}: {winLossMaster.GrossComm.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMaster.MasterTotal), language).ToUpperInvariant()}: {winLossMaster.MasterTotal.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMaster.SuperWinLoss), language).ToUpperInvariant()}: {winLossMaster.SuperWinLoss.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMaster.SuperComm), language).ToUpperInvariant()}: {winLossMaster.SuperComm.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMaster.SuperTotal), language).ToUpperInvariant()}: {winLossMaster.SuperTotal.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMaster.CompanyWinLoss), language).ToUpperInvariant()}: {winLossMaster.CompanyWinLoss.ToFormattedNumber()}");
-        }
-
-        private void AddWinLossAgent(List<string> textContainer, WinLossAgent winLossAgent, string language)
-        {
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossAgent.Turnover), language).ToUpperInvariant()}: {winLossAgent.Turnover.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossAgent.GrossComm), language).ToUpperInvariant()}: {winLossAgent.GrossComm.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossAgent.AgentTotal), language).ToUpperInvariant()}: {winLossAgent.AgentTotal.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossAgent.MasterWinLoss), language).ToUpperInvariant()}: {winLossAgent.MasterWinLoss.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossAgent.MasterComm), language).ToUpperInvariant()}: {winLossAgent.MasterComm.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossAgent.MasterTotal), language).ToUpperInvariant()}: {winLossAgent.MasterTotal.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossAgent.CompanyWinLoss), language).ToUpperInvariant()}: {winLossAgent.CompanyWinLoss.ToFormattedNumber()}");
-        }
-
-        private void AddWinLossMember(List<string> textContainer, WinLossMember winLossMember, string language)
-        {
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMember.Turnover), language).ToUpperInvariant()}: {winLossMember.Turnover.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMember.GrossComm), language).ToUpperInvariant()}: {winLossMember.GrossComm.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMember.MemberWinLoss), language).ToUpperInvariant()}: {winLossMember.MemberWinLoss.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMember.MemberComm), language).ToUpperInvariant()}: {winLossMember.MemberComm.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMember.MemberTotal), language).ToUpperInvariant()}: {winLossMember.MemberTotal.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMember.AgentWinLoss), language).ToUpperInvariant()}: {winLossMember.AgentWinLoss.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMember.AgentComm), language).ToUpperInvariant()}: {winLossMember.AgentComm.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMember.AgentTotal), language).ToUpperInvariant()}: {winLossMember.AgentTotal.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMember.CompanyWinLoss), language).ToUpperInvariant()}: {winLossMember.CompanyWinLoss.ToFormattedNumber()}");
-        }
-
-        private void AddWinLossMemberDownline(List<string> textContainer, WinLossMember winLossMember, string language)
-        {
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMember.MemberWinLoss), language).ToUpperInvariant()}: {winLossMember.MemberWinLoss.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMember.MemberComm), language).ToUpperInvariant()}: {winLossMember.MemberComm.ToFormattedNumber()}");
-            textContainer.Add($"{ResourceHelper.Get(nameof(winLossMember.MemberTotal), language).ToUpperInvariant()}: {winLossMember.MemberTotal.ToFormattedNumber()}");
         }
     }
 }
