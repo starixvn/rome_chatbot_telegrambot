@@ -270,8 +270,8 @@ namespace TelegramBot.Infrastructure.Command
 
                 function.Enabled = !function.Enabled;
                 var result = await settingService.UpdateUserFunction(account.UserId, function, account.CustId, string.Empty);
-                var rootAction = await actionService.GetRootActionByFunctionId(FunctionIds.Settings);
-                await SendNextActionsMessage(account, messenger, rootAction, messageId);
+                var action = await actionService.GetActionById(ActionIds.Notifications);
+                await SendNextActionsMessage(account, messenger, action, messageId);
                 await messageSender.Alert(messenger, "Setting Updated!", callbackId);
 
             }

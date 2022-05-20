@@ -7,20 +7,13 @@ using Alpha.API.Client.Services;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
+using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Extensions;
 using TelegramBot.Infrastructure.Shared.Resources;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
 {
-    public enum AccountLevel
-    {
-        Member = 1,
-        Agent = 2,
-        Master = 3,
-        Super = 4
-    }
-
     public class BalanceInfoFunctionHandler : BaseFunctionHandler, IFunctionHandler
     {
         private readonly WebAPIConfiguration webAPIConfiguration;
@@ -62,32 +55,26 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         private async Task<Result> HandleTopXBalance(CustBotAccount account, int topQuery, string parameter)
         {
-            var topBalanceReport =
-                await balanceInfoService.GetTopBalance(account.CustId, account.CustomerLevel, topQuery);
+            var topBalanceReport = await balanceInfoService.GetTopBalance(account.CustId, account.CustomerLevel, topQuery);
 
-            var textContainer = new List<string>();
-            textContainer.Add(BuildTitleRow(account.Language));
-
-            textContainer.Add(ResourceHelper.Get($"CustLevel_{account.CustomerLevel - 1}", account.Language));
-
-            textContainer.Add(
-                $"{ResourceHelper.Get(nameof(SharedResource.Today), account.Language)}{messageFormatter.Point()}{ResourceHelper.Get(nameof(SharedResource.Yesterday), account.Language)}{messageFormatter.NewLine()}");
-
-            textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), account.Language).ToUpperInvariant());
-            textContainer.Add(
-                $"    {topBalanceReport.Total.Balance.ToFormattedNumber()}{messageFormatter.Point()}{topBalanceReport.Total.YesterdayBalance.ToFormattedNumber()}");
+            var textContainer = new List<string>()
+            {
+                $"[{ResourceHelper.Get(nameof(SharedResource.Balance), account.Language)} - {DateTime.Now:yyyyMMdd}]",
+                ResourceHelper.Get($"CustLevel_{account.CustomerLevel - 1}", account.Language),
+                $"{ResourceHelper.Get(nameof(SharedResource.Today), account.Language)}{messageFormatter.Point()}{ResourceHelper.Get(nameof(SharedResource.Yesterday), account.Language)}{messageFormatter.NewLine()}",
+                ResourceHelper.Get(nameof(SharedResource.Total), account.Language).ToUpperInvariant(),
+                $"    {topBalanceReport.Total.Balance.ToFormattedNumber()}{messageFormatter.Point()}{topBalanceReport.Total.YesterdayBalance.ToFormattedNumber()}"
+            };
             var index = 1;
             foreach (var item in topBalanceReport.TopBalances)
             {
                 textContainer.Add($"{index++}.{item.Username}:");
-                textContainer.Add(
-                    $"    {item.Balance.ToFormattedNumber()}{messageFormatter.Point()}{item.YesterdayBalance.ToFormattedNumber()}");
+                textContainer.Add($"    {item.Balance.ToFormattedNumber()}{messageFormatter.Point()}{item.YesterdayBalance.ToFormattedNumber()}");
             }
 
             if (topBalanceReport.HiddenDownlinesCount > 0)
             {
-                textContainer.Add(messageBuilder.BuildHiddenDownlinesMessage(account.Language,
-                    topBalanceReport.HiddenDownlinesCount, (byte)(account.CustomerLevel - 1)));
+                textContainer.Add(messageBuilder.BuildHiddenDownlinesMessage(account.Language, topBalanceReport.HiddenDownlinesCount, (byte)(account.CustomerLevel - 1)));
             }
 
             var message = string.Join(messageFormatter.NewLine(), textContainer);
@@ -100,31 +87,24 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var lang = account.Language;
             var dict = new Dictionary<string, string>
             {
+                {$"[{ResourceHelper.Get(nameof(SharedResource.Balance), lang)} - {DateTime.Now:yyyyMMdd}]",""},
+                {$"{ResourceHelper.Get(nameof(SharedResource.Currency), lang)}:", bal.CurrencyName},
+                {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}:", bal.CashBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}:", bal.YesterdayTotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.TodayWinLoss), lang)}:", bal.TodayWinLoss.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayWinLoss), lang)}:", bal.YesterdayWinLoss.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}:", bal.PendingTransfer3rd.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}:", bal.GivenCredit.ToFormattedNumber()},
+                {$"{ResourceHelper.Get($"{(CustomerLevel)account.CustomerLevel - 1}Credit",lang)}:", bal.MemberCredit.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}:", bal.TotalOutstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get($"{(CustomerLevel)account.CustomerLevel}OutStanding", lang)}:", bal.Outstanding.ToFormattedNumber()},
             };
             var textContainer = new List<string>();
-
-            dict.Add($"{ResourceHelper.Get(nameof(SharedResource.Currency), lang)}:", bal.CurrencyName);
-            AddCashMessage(dict, lang, bal.CashBalance, bal.YesterdayCashBalance);
-            AddBalMessage(dict, lang, bal.TotalBalance, bal.YesterdayTotalBalance);
-            dict.Add($"{ResourceHelper.Get(nameof(SharedResource.TodayWinLoss), lang)}:",
-                bal.TodayWinLoss.ToFormattedNumber());
-            dict.Add($"{ResourceHelper.Get(nameof(SharedResource.YesterdayWinLoss), lang)}:",
-                bal.YesterdayWinLoss.ToFormattedNumber());
-            AddPendingTransfer3rdMessage(dict, bal.PendingTransfer3rd, lang);
-            AddCreditMessage(dict, lang, nameof(SharedResource.GivenCredit), bal.GivenCredit);
-            AddCreditMessage(dict, lang, $"{(AccountLevel)account.CustomerLevel - 1}Credit",
-                bal.MemberCredit);
-            AddOutStandingMessage(dict, lang, nameof(SharedResource.MemberOutStanding), bal.TotalOutstanding);
-            AddOutStandingMessage(dict, lang, $"{(AccountLevel)account.CustomerLevel}OutStanding",
-                bal.Outstanding);
-
-            textContainer.Add(BuildTitleRow(account.Language));
             foreach (var keyValuePair in dict)
             {
                 textContainer.Add(keyValuePair.Key);
                 textContainer.Add($"    {keyValuePair.Value}");
             }
-
             var message = string.Join(messageFormatter.NewLine(), textContainer);
             return Result.CreateSuccessfulResult(message);
         }
@@ -133,25 +113,23 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         private async Task<Result> HandleBalanceDownLineUsername(CustBotAccount account, string username)
         {
             var downlineInfo = await customerService.GetDownlineInfo(account.CustId, username);
-            var downlineBalance = await balanceInfoService.GetDownlineBalance(account.CustId,
-                account.CustomerLevel,
-                downlineInfo.CustId);
+            var downlineBalance = await balanceInfoService.GetDownlineBalance(account.CustId, account.CustomerLevel, downlineInfo.CustId);
 
-            var textContainer = new List<string>();
-            var level = (AccountLevel)downlineInfo.RoleId;
-
-            var dict = level switch
+            var textContainer = new List<string>()
             {
-                AccountLevel.Member => BuildMemberDownLineUsernameMessage(downlineBalance, account.Language,
-                    account.CustomerLevel),
-                _ => BuildOtherDownLineUsernameMessage(downlineBalance, account.Language, account.CustomerLevel),
+                $"[{ResourceHelper.Get(nameof(SharedResource.Balance),  account.Language)} - {DateTime.Now:yyyyMMdd}]",
+                $"{ResourceHelper.Get(nameof(SharedResource.Username), account.Language).ToUpperInvariant()}:",
+                $"{username}{messageFormatter.NewLine()}"
             };
             
+            var dict = (CustomerLevel)downlineInfo.RoleId switch
+            {
+                CustomerLevel.Member => BuildMemberDownLineUsernameMessage(downlineBalance, account.Language, account.CustomerLevel),
+                CustomerLevel.Agent => BuildAgentDownLineUsernameMessage(downlineBalance, account.Language, account.CustomerLevel),
+                CustomerLevel.Master => BuildMasterDownLineUsernameMessage(downlineBalance, account.Language, account.CustomerLevel),
+                _ => new Dictionary<string,string>(),
+            };
             
-            textContainer.Add(BuildTitleRow(account.Language));
-            textContainer.Add(
-                $"{ResourceHelper.Get(nameof(SharedResource.Username), account.Language).ToUpperInvariant()}:");
-            textContainer.Add($"{username}{messageFormatter.NewLine()}");
             foreach (var keyValuePair in dict)
             {
                 textContainer.Add(keyValuePair.Key);
@@ -162,103 +140,65 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             return Result.CreateSuccessfulResult(message);
         }
 
-        public Dictionary<string, string> BuildOtherDownLineUsernameMessage(DownlineBalance bal, string lang,
-            int customerLevel)
+        public Dictionary<string, string> BuildMasterDownLineUsernameMessage(DownlineBalance bal, string lang, int customerLevel)
         {
-            var dict = new Dictionary<string, string> { };
-
-            AddCashMessage(dict, lang, bal.TotalCash, bal.YesterdayCash);
-            AddBalMessage(dict, lang, bal.TotalBalance, bal.YesterdayBalance);
-            AddOutStandingMessage(dict, lang, $"{(AccountLevel)customerLevel - 1}OutStanding", bal.Outstanding);
-            AddPendingTransfer3rdMessage(dict, bal.PendingTransfer3rd, lang);
-            AddCreditMessage(dict, lang, nameof(SharedResource.UsedCredit), bal.UsedCredit);
-            AddCreditMessage(dict, lang, nameof(SharedResource.GivenCredit), bal.GivenCredit);
-            AddCreditMessage(dict, lang, nameof(SharedResource.MemMaxCredit), bal.MemberMaxCredit);
-            foreach (var totalDownline in bal.TotalDownlines.ToList())
+            return new Dictionary<string, string>
             {
-                Add_Active_Close_Suspended_Message(dict, lang, $"{(AccountLevel)totalDownline.RoleId}ActClosedSus",
-                    totalDownline);
-            }
-
-            AddOutStandingMessage(dict, lang, nameof(SharedResource.MemberOutStanding), bal.TotalOutstanding);
-            AddOutStandingMessage(dict, lang, $"{(AccountLevel)customerLevel}OutStanding", bal.UplineOutstanding);
-            return dict;
+                {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}:", bal.TotalCash?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}:", bal.YesterdayCash?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}:", bal.TotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}:", bal.YesterdayBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.AgentOutStanding), lang)}:", bal.Outstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}:", bal.PendingTransfer3rd.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.UsedCredit),lang)}:", bal.UsedCredit?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}:", bal.GivenCredit.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.AgentActClosedSus), lang)}:", $"{BuildTotalACT_CLOSED_SUS(bal.TotalDownlines,CustomerLevel.Agent)}"},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MemberActClosedSus), lang)}:", $"{BuildTotalACT_CLOSED_SUS(bal.TotalDownlines,CustomerLevel.Member)}"},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}:", bal.TotalOutstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.SuperOutStanding), lang)}:", bal.UplineOutstanding.ToFormattedNumber()}
+            };
         }
-
-        public Dictionary<string, string> BuildMemberDownLineUsernameMessage(DownlineBalance bal, string lang,
-            int customerLevel)
-        {
-            var dict = new Dictionary<string, string> { };
-            AddBalMessage(dict, lang, bal.TotalBalance, bal.YesterdayBalance);
-            AddPendingTransfer3rdMessage(dict, bal.PendingTransfer3rd, lang);
-            AddCreditMessage(dict, lang, nameof(SharedResource.GivenCredit), bal.GivenCredit);
-            dict.Add($"{ResourceHelper.Get(nameof(SharedResource.NetPosition), lang)}:",
-                bal.NetPosition?.ToFormattedNumber());
-            AddCreditMessage(dict, lang, nameof(SharedResource.BetCredit), bal.BetCredit);
-            AddOutStandingMessage(dict, lang, nameof(SharedResource.MemberOutStanding), bal.Outstanding);
-            AddOutStandingMessage(dict, lang, $"{(AccountLevel)customerLevel}OutStanding", bal.UplineOutstanding);
-            return dict;
-        }
-
-        private string BuildTitleRow(string language)
-            => $"[{ResourceHelper.Get(nameof(SharedResource.Balance), language)} - {DateTime.Now:yyyyMMdd}]";
         
+        public Dictionary<string, string> BuildAgentDownLineUsernameMessage(DownlineBalance bal, string lang, int customerLevel)
+        {
+            return new Dictionary<string, string>
+            {
+                {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}:", bal.TotalCash?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}:", bal.YesterdayCash?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}:", bal.TotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}:", bal.YesterdayBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}:", bal.Outstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}:", bal.PendingTransfer3rd.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.UsedCredit),lang)}:", bal.UsedCredit?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}:", bal.GivenCredit.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MemMaxCredit),lang)}:", bal.GivenCredit.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MemberActClosedSus), lang)}:",$"{BuildTotalACT_CLOSED_SUS(bal.TotalDownlines,CustomerLevel.Member)}"},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}:", bal.TotalOutstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MasterOutStanding), lang)}:", bal.UplineOutstanding.ToFormattedNumber()}
+            };
+        }
+        
+        public Dictionary<string, string> BuildMemberDownLineUsernameMessage(DownlineBalance bal, string lang, int customerLevel)
+        {
+            return new Dictionary<string, string>
+            {
+                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}:", bal.TotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}:", bal.YesterdayBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}:", bal.PendingTransfer3rd.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}:", bal.GivenCredit.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.NetPosition), lang)}:", bal.NetPosition?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.BetCredit), lang)}:", bal.BetCredit?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}:", bal.Outstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.AgentOutStanding), lang)}:", bal.UplineOutstanding.ToFormattedNumber()}
+            };
+        }
         public async Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)
             => await balanceInfoService.GetTopUsername(account.CustId, account.CustomerLevel, top);
 
-        private string BuildTotalACT_CLOSED_SUS(TotalDownline downline)
+        private string BuildTotalACT_CLOSED_SUS(IEnumerable<TotalDownline> totalDownline, CustomerLevel level)
         {
-            return downline == null
-                ? "0/0/0"
-                : $"{downline.TotalActive}/{downline.TotalClosed}/{downline.TotalSuspended}";
-        }
-
-        public void AddCashMessage(Dictionary<string, string> dict, string lang, decimal? todayCash,
-            decimal? yesterdayCash)
-        {
-            
-            dict.Add($"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}:", todayCash?.ToFormattedNumber());
-            dict.Add($"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}:",
-                yesterdayCash?.ToFormattedNumber());
-        }
-
-        public void AddBalMessage(Dictionary<string, string> dict, string lang, decimal todayBalance,
-            decimal yesterdayBalance)
-        {
-            dict.Add($"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}:",
-                todayBalance.ToFormattedNumber());
-            dict.Add($"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}:",
-                yesterdayBalance.ToFormattedNumber());
-        }
-
-        public void AddPendingTransfer3rdMessage(Dictionary<string, string> dict, decimal pendingTransfer3rd,
-            string lang)
-        {
-            dict.Add($"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}:",
-                pendingTransfer3rd.ToFormattedNumber());
-        }
-
-        public void AddCreditMessage(Dictionary<string, string> dict, string lang, string typeCredit,
-            decimal? creditValue)
-        {
-            if (creditValue != null)
-                dict.Add($"{ResourceHelper.Get(typeCredit, lang)}:",
-                    creditValue?.ToFormattedNumber());
-        }
-
-        public void Add_Active_Close_Suspended_Message(Dictionary<string, string> dict,
-            string lang, string typeAccountActCloseSus, TotalDownline totalDownline)
-        {
-            dict.Add($"{ResourceHelper.Get(typeAccountActCloseSus, lang)}:",
-                $"{BuildTotalACT_CLOSED_SUS(totalDownline)}");
-        }
-
-        public void AddOutStandingMessage(Dictionary<string, string> dict, string lang, string typeOutStanding,
-            decimal valueOutStanding)
-        {
-            dict.Add(
-                $"{ResourceHelper.Get(typeOutStanding, lang)}:",
-                valueOutStanding.ToFormattedNumber());
+            var downline = totalDownline.ToList().Find(e => e.RoleId == (byte)level);
+            return downline == null ? "0/0/0" : $"{downline.TotalActive}/{downline.TotalClosed}/{downline.TotalSuspended}";
         }
     }
 };
