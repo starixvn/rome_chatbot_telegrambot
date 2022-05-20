@@ -1,5 +1,4 @@
 ﻿using Alpha.API.Client.Services;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -258,13 +257,12 @@ namespace TelegramBot.Infrastructure.Command
             if (parameter == "stop")
             {
                 var bot = await botService.GetAsync(messenger.BotId);
-                await HandleStopCommand(account, messenger, bot.Name);
+                await HandleStopCommand(account, messenger, bot.Name, messageId);
                 return;
             }
 
             if (short.TryParse(parameter, out short id))
             {
-
                 var function = account.Functions.FirstOrDefault(f => f.FunctionId == id);
                 if (function == null)
                 {
