@@ -139,10 +139,10 @@
     <value>If this wasn't you, please change password or contact us for support</value>
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
-    <value>Your Alpha Site account's Password has been requested to changed</value>
+    <value>Your Alpha Site account's Password has been changed.</value>
   </data>
   <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
-    <value>Your Security Code has been requested to changed</value>
+    <value>Your Security Code has been changed.</value>
   </data>
   <data name="RequestedIP" xml:space="preserve">
     <value>Requested IP</value>
