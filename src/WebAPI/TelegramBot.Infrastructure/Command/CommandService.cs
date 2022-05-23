@@ -251,6 +251,7 @@ namespace TelegramBot.Infrastructure.Command
         private async Task HandleCommand(CustBotAccount account, Messenger messenger, string command, short functionId, int messageId = 0)
         {
             var splittedCommand = SplitCommand(command);
+            await actionService.ResetUserActions(account.UserId);
             var rootAction = await actionService.GetRootActionByFunctionId(functionId);
             var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2);
             var message = await messageBuilder.BuildMessageWithBackButton(result.Message, new List<MessageButton>(), rootAction.ActionId, account.Language);
