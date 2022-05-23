@@ -45,7 +45,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 if (int.TryParse(parameter, out int topQuery))
                 {
                     viewTopOutstanding = true;
-                    if (topQuery <= 0 && topQuery > webAPIConfiguration.OutstandingMaxTopQuery)
+                    if (topQuery <= 0 || topQuery > webAPIConfiguration.OutstandingMaxTopQuery)
                     {
                         return Result.CreateErrorResult(messageBuilder.BuildInvalidNumerOfDownlineRange(account.Language, parameter, webAPIConfiguration.OutstandingMaxTopQuery));
                     }
