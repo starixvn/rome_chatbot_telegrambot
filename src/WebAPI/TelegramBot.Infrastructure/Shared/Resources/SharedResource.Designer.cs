@@ -133,6 +133,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If this wasn&apos;t you, please contact us for support.
+        /// </summary>
+        public static string AlertChangePasswordMessage {
+            get {
+                return ResourceManager.GetString("AlertChangePasswordMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If this wasn&apos;t you, please change password or contact us for support.
         /// </summary>
         public static string AlertMessage {

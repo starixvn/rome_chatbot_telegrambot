@@ -425,4 +425,7 @@ Are you sure you want to stop using {0}?</value>
   <data name="UnlinkMessage" xml:space="preserve">
     <value>Your telegram has been unlinked with {0} successfully.</value>
   </data>
+  <data name="AlertChangePasswordMessage" xml:space="preserve">
+    <value>If this wasn't you, please contact us for support</value>
+  </data>
 </root>

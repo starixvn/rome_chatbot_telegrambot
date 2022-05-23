@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Action.Constants;
@@ -68,15 +69,6 @@ namespace TelegramBot.Infrastructure.Command
             this.actionValidatorFactory = actionValidatorFactory;
         }
 
-        private async Task HandleHelpCommand(CustBotAccount account, Messenger messenger, string botName, bool hasReportPermission)
-        {
-            var message = messageBuilder.BuildHelpMessage(
-                account.Language,
-                botName,
-                hasReportPermission);
-            await messageSender.SendMessage(messenger, message);
-        }
-
         public async Task HandleUserReplyByText(long messengerBotId, long chatId, string message)
         {
             var userResponse = WebUtility.HtmlEncode(
@@ -94,13 +86,39 @@ namespace TelegramBot.Infrastructure.Command
 
             var action = userResponse.Split(' ')[0] switch
             {
-                "/help" => HandleHelpCommand(account, messenger, bot.Name, !account.IsSubAccount || (await customerService.GetCustomerStatus(account.CustId, account.SubAccId)).HasReportPermission),
+                "/help" => HandleHelpCommand(account, messenger, bot.Name),
                 "/menu" => SendMainMenuMessage(account, messenger),
                 "/stop" => HandleStopCommand(account, messenger, bot.Name),
                 _ => HandleOtherResponse(account, messenger, userResponse)
             };
 
             await action;
+        }
+
+        private async Task HandleHelpCommand(CustBotAccount account, Messenger messenger, string botName)
+        {
+            var message = messageBuilder.BuildGeneralCommandsHelpMessage(account.Language, botName);
+            var builder = new StringBuilder(message);
+            var hasReportPermission = !account.IsSubAccount || (await customerService.GetCustomerStatus(account.CustId, account.SubAccId)).HasReportPermission;
+            if (hasReportPermission)
+            {
+                var formatter = messageBuilder.GetFormatter();
+                var reports = await functionService.GetReportFunctions();
+                foreach (var report in reports)
+                {
+                    builder.Append(formatter.NewLine());
+                    builder.Append($"{formatter.NewLine()}{formatter.Bold(await functionService.GetFunctionName(report.FunctionId, account.Language))}");
+                    var rootAction = await actionService.GetRootActionByFunctionId(report.FunctionId);
+                    builder.Append($"{formatter.NewLine()}{rootAction.Command} - {await actionService.GetActionDescription(rootAction.ActionId, account.Language)}");
+                    var childActions = (await actionService.GetChildActions(account, rootAction.ActionId)).Where(a => a.Type != ActionTypes.Downline);
+                    foreach (var childAction in childActions)
+                    {
+                        builder.Append($"{formatter.NewLine()}{rootAction.Command} {childAction.Command} - {await actionService.GetActionDescription(childAction.ActionId, account.Language)}");
+                    }
+                }
+            }
+
+            await messageSender.SendMessage(messenger, builder.ToString());
         }
 
         private async Task HandleOtherResponse(CustBotAccount account, Messenger messenger, string userResponse)

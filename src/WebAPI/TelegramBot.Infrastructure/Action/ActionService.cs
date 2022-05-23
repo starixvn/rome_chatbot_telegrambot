@@ -13,6 +13,8 @@ using TelegramBot.Infrastructure.Action.Models;
 using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Message.Models;
+using TelegramBot.Infrastructure.Resource;
+using TelegramBot.Infrastructure.Resource.constants;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Caching;
 using TelegramBot.Infrastructure.Shared.Configurations;
@@ -46,6 +48,8 @@ namespace TelegramBot.Infrastructure.Action
         Task ResetUserActions(int userId);
 
         Task<IList<MessageButton>> BuildActionButtons(CustBotAccount account, IEnumerable<BotAction> actions);
+
+        Task<string> GetActionDescription(short actionId, string language);
     }
 
     public class ActionService : IActionService
@@ -57,7 +61,7 @@ namespace TelegramBot.Infrastructure.Action
         private readonly IFunctionHandlerFactory functionHandlerFactory;
         private readonly IActionNameBuilderFactory actionNameBuilderFactory;
         private readonly ICacheService cacheService;
-
+        private readonly IResourceService resourceService;
 
         public ActionService(
             IDynamicRepository dynamicRepository,
@@ -65,7 +69,8 @@ namespace TelegramBot.Infrastructure.Action
             IMessageBuilder messageBuilder,
             IFunctionHandlerFactory functionHandlerFactory,
             IActionNameBuilderFactory actionNameBuilderFactory,
-            ICacheServiceFactory cacheServiceFactory)
+            ICacheServiceFactory cacheServiceFactory,
+            IResourceService resourceService)
         {
             this.dynamicRepository = dynamicRepository;
             this.webAPIConfiguration = webAPIConfiguration;
@@ -73,7 +78,11 @@ namespace TelegramBot.Infrastructure.Action
             this.functionHandlerFactory = functionHandlerFactory;
             this.actionNameBuilderFactory = actionNameBuilderFactory;
             this.cacheService = cacheServiceFactory.Get();
+            this.resourceService = resourceService;
         }
+
+        public async Task<string> GetActionDescription(short actionId, string language)
+            => (await this.resourceService.GetResource(actionId.ToString(), ResourceType.ActionDescription, language))?.Value;
 
         public async Task<BotAction> GetRootActionByFunctionId(short functionId)
             => (await GetRootActions()).FirstOrDefault(a => a.FunctionId == functionId);

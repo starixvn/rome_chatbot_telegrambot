@@ -28,7 +28,7 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildOTPMessage(string language, string otp);
 
-        string BuildHelpMessage(string language, string botName, bool hasReportPermission);
+        string BuildGeneralCommandsHelpMessage(string language, string botName);
 
         string BuildMenuMessage(string language);
 
@@ -57,6 +57,8 @@ namespace TelegramBot.Infrastructure.Message
         Task<Models.Message> BuildMessageWithBackButton(string text, IList<MessageButton> buttons, short backToActionId, string language);
 
         Task<Models.Message> BuildStopUsingChatbotConfirmMessage(string language, string chatbotName);
+
+        IMessageFormatter GetFormatter();
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -77,6 +79,8 @@ namespace TelegramBot.Infrastructure.Message
             this.resourceService = resourceService;
         }
 
+        public IMessageFormatter GetFormatter() => messageFormatter;
+
         public string BuildAccountAlreadyLinkedMessage(string language)
             => ResourceHelper.Get(nameof(SharedResource.AccountAlreadyLinked), language);
 
@@ -86,7 +90,7 @@ namespace TelegramBot.Infrastructure.Message
                 $"[{ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlert), language)} - {DateTime.Now:yyyyMMdd}]",
                 ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlertContent), language),
                 $"<b>{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}</b>: {ip}",
-                ResourceHelper.Get(nameof(SharedResource.AlertMessage), language));
+                ResourceHelper.Get(nameof(SharedResource.AlertChangePasswordMessage), language));
 
         public string BuildChangeSecurityCodeAlertMessage(string language, string ip)
             => string.Join(
@@ -110,7 +114,7 @@ namespace TelegramBot.Infrastructure.Message
                     string.Format(ResourceHelper.Get(nameof(SharedResource.UnderMaintenance), langCode), from, to)));
         }
 
-        public string BuildHelpMessage(string language, string botName, bool hasReportPermission)
+        public string BuildGeneralCommandsHelpMessage(string language, string botName)
         {
             var generalCommands = string.Join(
                 messageFormatter.NewLine(),
@@ -121,8 +125,9 @@ namespace TelegramBot.Infrastructure.Message
 
             var stringBuilder = new StringBuilder($"{string.Format(ResourceHelper.Get(nameof(SharedResource.HelpCommandIntro), language), botName)}");
             stringBuilder
-                .AppendLine()
-                .AppendLine(generalCommands);
+                .Append(messageFormatter.NewLine())
+                .Append(messageFormatter.NewLine())
+                .Append(generalCommands);
 
 
             return stringBuilder.ToString();
@@ -135,7 +140,7 @@ namespace TelegramBot.Infrastructure.Message
             => string.Format(ResourceHelper.Get(nameof(SharedResource.WelcomeMessage), language), chatId);
 
         public string BuildNotRecognizedCommandMessage(string language)
-        => ResourceHelper.Get(nameof(SharedResource.NotRecognizeCommandMessage), language);
+            => ResourceHelper.Get(nameof(SharedResource.NotRecognizeCommandMessage), language);
 
         public string BuildActionSelectedMessage(string language, string actionName)
             => $"{ResourceHelper.Get(nameof(SharedResource.ActionSelected), language)}: {actionName}";
@@ -164,8 +169,6 @@ namespace TelegramBot.Infrastructure.Message
 
         public string BuildAccountLockedMessage(string language)
             => ResourceHelper.Get(nameof(SharedResource.YourAccountIsLocked), language);
-
-
 
         public async Task<Models.Message> BuildMessage(string text, IList<MessageButton> buttons, string language)
             => new Models.Message(text, await BuildReplyMarkup(language, buttons));
