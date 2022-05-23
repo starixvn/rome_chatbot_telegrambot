@@ -161,7 +161,7 @@ namespace TelegramBot.Infrastructure.Action
                     var action = actionChain.FirstOrDefault(act => act.ActionId == userAction.ActionId)
                                 ?? throw new InvalidOperationException($"Cannot found action {userAction.ActionId} of user {userAction.UserId}");
                     var actionCommand = action.Type == ActionTypes.Button
-                        ? action.Command
+                        ? (action.Command.StartsWith("&lt;") ? string.Empty : action.Command)
                         : userAction.UserResponse;
 
                     if (!string.IsNullOrEmpty(actionCommand))
