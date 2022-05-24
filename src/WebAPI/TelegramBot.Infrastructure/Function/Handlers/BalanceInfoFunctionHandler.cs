@@ -76,10 +76,6 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             }
 
             var topBalanceReport = await balanceInfoService.GetTopBalance(account.CustId, account.CustomerLevel, topQuery);
-            if (topBalanceReport == null || !topBalanceReport.Any())
-            {
-                return Result.CreateSuccessfulResult(messageBuilder.BuildNoDataMessage(account.Language));
-            }
 
             var textContainer = new List<string>()
             {
@@ -88,11 +84,19 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 $"{ResourceHelper.Get(nameof(SharedResource.Today), account.Language)}{messageFormatter.Point()}{ResourceHelper.Get(nameof(SharedResource.Yesterday), account.Language)}{messageFormatter.NewLine()}",
 
             };
-            var index = 1;
-            foreach (var item in topBalanceReport)
+
+            if(topBalanceReport == null || !topBalanceReport.Any())
             {
-                textContainer.Add($"{index++}.{item.Username}:");
-                textContainer.Add($"    {item.Balance.ToFormattedNumber()}{messageFormatter.Point()}{item.YesterdayBalance.ToFormattedNumber()}");
+                textContainer.Add(messageBuilder.BuildNoDataMessage(account.Language));
+            }
+            else
+            {
+                var index = 1;
+                foreach (var item in topBalanceReport)
+                {
+                    textContainer.Add($"{index++}.{item.Username}:");
+                    textContainer.Add($"    {item.Balance.ToFormattedNumber()}{messageFormatter.Point()}{item.YesterdayBalance.ToFormattedNumber()}");
+                }
             }
 
             var message = string.Join(messageFormatter.NewLine(), textContainer);

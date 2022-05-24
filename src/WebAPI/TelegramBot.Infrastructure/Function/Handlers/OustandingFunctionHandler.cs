@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Alpha.API.Client.Models.Customers;
 using Alpha.API.Client.Models.Outstanding;
 using Alpha.API.Client.Services;
-using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
@@ -66,10 +65,6 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             }
 
             var data = await outstandingService.GetDownlineOutstanding(account.CustId, account.CustomerLevel, downlineInfo.CustId, account.Language);
-            if (data == null || !data.Outstandings.Any())
-            {
-                return Result.CreateSuccessfulResult(messageBuilder.BuildNoDataMessage(account.Language));
-            }
 
             return Result.CreateSuccessfulResult(BuildDownlineOutstandingMessage(account.Language, data, account.CustomerLevel, username));
         }
@@ -82,10 +77,6 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             }
 
             var data = await outstandingService.GetTopOutstanding(account.CustId, account.CustomerLevel, topQuery);
-            if (data == null || !data.Outstandings.Any())
-            {
-                return Result.CreateSuccessfulResult(messageBuilder.BuildNoDataMessage(account.Language));
-            }
 
             return Result.CreateSuccessfulResult(BuildTopOutstandingMessage(account.Language, data, account.CustomerLevel));
         }
@@ -102,10 +93,17 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var textContainer = new List<string>();
             AddTitleRow(textContainer, language);
             textContainer.Add($"{headerRow}{messageFormatter.NewLine()}");
-            AddTotalRow(textContainer, data.Total, language);
-            AddBodyMessage(textContainer, data.Outstandings);
 
-
+            if (data == null || !data.Outstandings.Any())
+            {
+                textContainer.Add(messageBuilder.BuildNoDataMessage(language));
+            }
+            else
+            {
+                AddTotalRow(textContainer, data.Total, language);
+                AddBodyMessage(textContainer, data.Outstandings);
+            }
+            
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
@@ -122,8 +120,16 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             AddTitleRow(textContainer, language);
             textContainer.Add($"{ResourceHelper.Get(nameof(SharedResource.For), language)} {downlineUsername}");
             textContainer.Add($"{headerRow}{messageFormatter.NewLine()}");
-            AddTotalRow(textContainer, data.Total, language);
-            AddBodyMessage(textContainer, data.Outstandings);
+
+            if (data == null || !data.Outstandings.Any())
+            {
+                textContainer.Add(messageBuilder.BuildNoDataMessage(language));
+            }
+            else
+            {
+                AddTotalRow(textContainer, data.Total, language);
+                AddBodyMessage(textContainer, data.Outstandings);
+            }
 
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
