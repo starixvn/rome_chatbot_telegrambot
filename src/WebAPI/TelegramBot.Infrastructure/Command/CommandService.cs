@@ -89,6 +89,7 @@ namespace TelegramBot.Infrastructure.Command
                 "/help" => HandleHelpCommand(account, messenger, bot.Name),
                 "/menu" => SendMainMenuMessage(account, messenger),
                 "/stop" => HandleStopCommand(account, messenger, bot.Name),
+                "/unlink" => HandleStopCommand(account, messenger, bot.Name),
                 _ => HandleOtherResponse(account, messenger, userResponse)
             };
 

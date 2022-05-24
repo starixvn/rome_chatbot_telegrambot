@@ -125,7 +125,7 @@ namespace TelegramBot.Infrastructure.Message
                 $"/menu - {string.Format(ResourceHelper.Get(nameof(SharedResource.OpenMainMenu), language), botName)}",
                 $"/help - {ResourceHelper.Get(nameof(SharedResource.ListAllCommands), language)}",
                 $"/settings - {ResourceHelper.Get(nameof(SharedResource.OpenSettingsMenu), language)}",
-                $"/stop - Unlink {botName}");
+                $"/stop, /unlink - Unlink {botName}");
 
             var stringBuilder = new StringBuilder($"{string.Format(ResourceHelper.Get(nameof(SharedResource.HelpCommandIntro), language), botName)}");
             stringBuilder
