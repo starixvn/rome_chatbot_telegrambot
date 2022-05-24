@@ -42,11 +42,11 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 return Result.CreateErrorResult();
             }
 
-            WinLossBase data = null;
-            string message = string.Empty;
+            
+            var message = string.Empty;
             if (parameter == "m")
             {
-                data = await winLossService.GetWinLoss(account.CustId, account.CustomerLevel, dateTime);
+                var data = await winLossService.GetWinLoss(account.CustId, account.CustomerLevel, dateTime);
                 message = BuildWinLossMessage(account.Language, data, account.CustomerLevel);
             }
             else
@@ -54,10 +54,10 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 var downlineInfo = await customerService.GetDownlineInfo(account.CustId, parameter);
                 if (!IsValidDirectDownline(account.CustomerLevel, downlineInfo))
                 {
-                    return Result.CreateErrorResult(messageBuilder.BuildInvalidCustNameMessage(account.Language, parameter));
+                    return Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
                 }
 
-                data = await winLossService.GetDownlineWinLoss(account.CustId, account.CustomerLevel, dateTime, downlineInfo.CustId);
+                var data = await winLossService.GetDownlineWinLoss(account.CustId, account.CustomerLevel, dateTime, downlineInfo.CustId);
                 message = BuildDownlineWinLossMessage(account.Language, data, parameter, (byte)downlineInfo.RoleId);
             }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Alpha.API.Client.Models.Customers;
 using Alpha.API.Client.Models.Outstanding;
 using Alpha.API.Client.Services;
 using TelegramBot.Infrastructure.Action;
@@ -25,8 +26,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             IMessageFormatter messageFormatter,
             IOutstandingService outstandingService,
             ICustomerService customerService,
-            WebAPIConfiguration webAPIConfiguration,
-            IActionService actionService)
+            WebAPIConfiguration webAPIConfiguration)
             : base(messageBuilder, messageFormatter)
         {
             this.outstandingService = outstandingService;
@@ -42,42 +42,52 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 return Result.CreateErrorResult();
             }
 
-            var viewTopOutstanding = false;
-            OutstandingReport data = null;
             var downlineInfo = await customerService.GetDownlineInfo(account.CustId, parameter);
-            if (downlineInfo != null)
+            if (downlineInfo != null && downlineInfo.CustId > 0)
             {
-                if (!IsValidDirectDownline(account.CustomerLevel, downlineInfo))
-                {
-                    return Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
-                }
+                return await HandleDownlineOutstanding(account, downlineInfo, parameter);
+            }
 
-                data = await outstandingService.GetDownlineOutstanding(account.CustId, account.CustomerLevel, downlineInfo.CustId, account.Language);
+            if (int.TryParse(parameter, out int topQuery))
+            {
+                return await HandleTopOutstanding(account, topQuery);
             }
             else
             {
-                if (int.TryParse(parameter, out int topQuery))
-                {
-                    viewTopOutstanding = true;
-                    if (topQuery <= 0 || topQuery > webAPIConfiguration.OutstandingMaxTopQuery)
-                    {
-                        return Result.CreateErrorResult(messageBuilder.BuildInvalidDownlinesMessage(account.Language, webAPIConfiguration.OutstandingMaxTopQuery));
-                    }
+                return Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
+            }
+        }
 
-                    data = await outstandingService.GetTopOutstanding(account.CustId, account.CustomerLevel, topQuery);
-                }
+        private async Task<Result> HandleDownlineOutstanding(CustBotAccount account, DownlineInfo downlineInfo, string username)
+        {
+            if (!IsValidDirectDownline(account.CustomerLevel, downlineInfo))
+            {
+                return Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
             }
 
-            if (data == null || data.Outstandings.Count() == 0)
+            var data = await outstandingService.GetDownlineOutstanding(account.CustId, account.CustomerLevel, downlineInfo.CustId, account.Language);
+            if (data == null || !data.Outstandings.Any())
             {
                 return Result.CreateSuccessfulResult(messageBuilder.BuildNoDataMessage(account.Language));
             }
 
-            return Result.CreateSuccessfulResult(
-                viewTopOutstanding
-                ? BuildTopOutstandingMessage(account.Language, data, account.CustomerLevel)
-                : BuildDownlineOutstandingMessage(account.Language, data, account.CustomerLevel, parameter));
+            return Result.CreateSuccessfulResult(BuildDownlineOutstandingMessage(account.Language, data, account.CustomerLevel, username));
+        }
 
+        private async Task<Result> HandleTopOutstanding(CustBotAccount account, int topQuery)
+        {
+            if (topQuery <= 0 || topQuery > webAPIConfiguration.OutstandingMaxTopQuery)
+            {
+                return Result.CreateErrorResult(messageBuilder.BuildInvalidDownlinesMessage(account.Language, webAPIConfiguration.OutstandingMaxTopQuery));
+            }
+
+            var data = await outstandingService.GetTopOutstanding(account.CustId, account.CustomerLevel, topQuery);
+            if (data == null || !data.Outstandings.Any())
+            {
+                return Result.CreateSuccessfulResult(messageBuilder.BuildNoDataMessage(account.Language));
+            }
+
+            return Result.CreateSuccessfulResult(BuildTopOutstandingMessage(account.Language, data, account.CustomerLevel));
         }
 
         private string BuildTopOutstandingMessage(string language, OutstandingReport data, byte custLevel)
@@ -118,7 +128,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
-        private void AddTitleRow(List<string> textContainer, string language)
+        private static void AddTitleRow(List<string> textContainer, string language)
             => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.Outstanding), language)} - {DateTime.Now:yyyyMMdd}]");
 
         private void AddTotalRow(List<string> textContainer, OutstandingEntity total, string language)

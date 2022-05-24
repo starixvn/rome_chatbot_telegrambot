@@ -249,7 +249,7 @@ namespace TelegramBot.Infrastructure.Message
             => string.Format(ResourceHelper.Get(nameof(SharedResource.UnlinkMessage), language), botName);
 
         public string BuildInvalidUsernameMessage(string language)
-            => ResourceHelper.Get(nameof(SharedResource.InvalidCustName), language);
+            => ResourceHelper.Get(nameof(SharedResource.InvalidUsername), language);
 
         public string BuildInvalidDownlinesMessage(string language, int max)
             => string.Format(ResourceHelper.Get(nameof(SharedResource.InvalidNumberOfDownlines), language), max);
