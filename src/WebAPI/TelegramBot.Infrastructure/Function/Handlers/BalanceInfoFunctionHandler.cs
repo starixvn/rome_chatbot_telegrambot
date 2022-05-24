@@ -24,12 +24,14 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             IMessageBuilder messageBuilder,
             IMessageFormatter messageFormatter,
             ICustomerService customerService,
-            IBalanceInfoService balanceInfoService
+            IBalanceInfoService balanceInfoService,
+            WebAPIConfiguration webAPIConfiguration
         ) :
             base(messageBuilder, messageFormatter)
         {
             this.balanceInfoService = balanceInfoService;
             this.customerService = customerService;
+            this.webAPIConfiguration = webAPIConfiguration;
         }
 
         public async Task<Result> Handle(CustBotAccount account, string[] parameters)
@@ -38,7 +40,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var isNumber = int.TryParse(parameter, out int topQuery);
             if (isNumber)
             {
-                return await HandleTopXBalance(account, topQuery);
+                return await HandleTopXBalance(account, topQuery,parameter);
             }
 
             var action = parameter switch
@@ -51,8 +53,15 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         }
 
 
-        private async Task<Result> HandleTopXBalance(CustBotAccount account, int topQuery)
+        private async Task<Result> HandleTopXBalance(CustBotAccount account, int topQuery, string parameter)
         {
+            if (topQuery <= 0 || topQuery > webAPIConfiguration.BalanceMaxTopQuery)
+            {
+                return Result.CreateErrorResult(
+                    messageBuilder.BuildInvalidNumerOfDownlineRange(account.Language, parameter,
+                        webAPIConfiguration.BalanceMaxTopQuery));
+            }
+            
             var topBalanceReport = await balanceInfoService.GetTopBalance(account.CustId, account.CustomerLevel, topQuery);
 
             var textContainer = new List<string>()
@@ -105,6 +114,13 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         private async Task<Result> HandleBalanceDownLineUsername(CustBotAccount account, string username)
         {
             var downlineInfo = await customerService.GetDownlineInfo(account.CustId, username);
+            
+            if (!IsValidDirectDownline(account.CustomerLevel, downlineInfo))
+            {
+                return Result.CreateErrorResult(
+                    messageBuilder.BuildInvalidCustNameMessage(account.Language, username));
+            }
+            
             var downlineBalance = await balanceInfoService.GetDownlineBalance(account.CustId, account.CustomerLevel, downlineInfo.CustId);
 
             var textContainer = new List<string>()
