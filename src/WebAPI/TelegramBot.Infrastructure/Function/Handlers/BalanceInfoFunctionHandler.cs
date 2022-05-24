@@ -53,10 +53,10 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 return await HandleBalanceDownLineUsername(account, parameter, downlineInfo);
             }
-
-            if (int.TryParse(parameter, out int topQuery))
+            
+            if (int.TryParse(parameter, out var topQuery))
             {
-                return await HandleTopXBalance(account, topQuery, parameter);
+                return await HandleTopXBalance(account, topQuery);
             }
             else
             {
@@ -65,7 +65,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         }
 
 
-        private async Task<Result> HandleTopXBalance(CustBotAccount account, int topQuery, string parameter)
+        private async Task<Result> HandleTopXBalance(CustBotAccount account, int topQuery)
         {
             if (topQuery <= 0 || topQuery > webAPIConfiguration.BalanceMaxTopQuery)
             {
@@ -77,7 +77,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             var topBalanceReport = await balanceInfoService.GetTopBalance(account.CustId, account.CustomerLevel, topQuery);
 
-            var textContainer = new List<string>()
+            var textContainer = new List<string>
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.Balance), account.Language)} - {DateTime.Now:yyyyMMdd}]",
                 ResourceHelper.Get($"CustLevel_{account.CustomerLevel - 1}", account.Language),
@@ -141,7 +141,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             var downlineBalance = await balanceInfoService.GetDownlineBalance(account.CustId, account.CustomerLevel, downlineInfo.CustId);
 
-            var textContainer = new List<string>()
+            var textContainer = new List<string>
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.Balance),  account.Language)} - {DateTime.Now:yyyyMMdd}]",
                 $"{ResourceHelper.Get(nameof(SharedResource.Username), account.Language).ToUpperInvariant()}:",
@@ -166,7 +166,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             return Result.CreateSuccessfulResult(message);
         }
 
-        public Dictionary<string, string> BuildMasterDownLineUsernameMessage(DownlineBalance bal, string lang)
+        public static Dictionary<string, string> BuildMasterDownLineUsernameMessage(DownlineBalance bal, string lang)
         {
             return new Dictionary<string, string>
             {
@@ -185,7 +185,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             };
         }
 
-        public Dictionary<string, string> BuildAgentDownLineUsernameMessage(DownlineBalance bal, string lang)
+        public static Dictionary<string, string> BuildAgentDownLineUsernameMessage(DownlineBalance bal, string lang)
         {
             return new Dictionary<string, string>
             {
@@ -204,7 +204,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             };
         }
 
-        public Dictionary<string, string> BuildMemberDownLineUsernameMessage(DownlineBalance bal, string lang)
+        public static Dictionary<string, string> BuildMemberDownLineUsernameMessage(DownlineBalance bal, string lang)
         {
             return new Dictionary<string, string>
             {

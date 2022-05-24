@@ -1,3 +1,5 @@
+using TelegramBot.Infrastructure.Shared.Configurations;
+
 namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 {
     using TelegramBot.Infrastructure.Function.Handlers;
@@ -6,7 +8,6 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
     using Message;
     using NSubstitute;
     using Alpha.API.Client.Services;
-    using Shared.Configurations;
     using TelegramBot.Infrastructure.Setting.Models;
     using Shared.Models;
     using System.Collections.Generic;
@@ -21,20 +22,24 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
     public class BalanceInfoFunctionHandlerUnitTest
     {
         private readonly BalanceInfoFunctionHandler handler;
-        private readonly MessageBuilder messageBuilder;
+        private readonly IMessageBuilder messageBuilder;
         private readonly TelegramFormatter telegramFormatter;
         private readonly ICustomerService customerService;
         private readonly IBalanceInfoService balanceInfoService;
+
+
         private readonly WebAPIConfiguration webAPIConfiguration;
 
         public BalanceInfoFunctionHandlerUnitTest()
         {
             customerService = Substitute.For<ICustomerService>();
-            customerService = Substitute.For<ICustomerService>();
             balanceInfoService = Substitute.For<IBalanceInfoService>();
-            telegramFormatter = new TelegramFormatter();
             webAPIConfiguration = Substitute.For<WebAPIConfiguration>();
+            messageBuilder = Substitute.For<IMessageBuilder>();
+            telegramFormatter = new TelegramFormatter();
+            
             handler = new BalanceInfoFunctionHandler(messageBuilder, telegramFormatter, customerService, balanceInfoService, webAPIConfiguration);
+
         }
 
         private string BuildTotalACT_CLOSED_SUS(IEnumerable<TotalDownline> totalDownline, CustomerLevel level)
@@ -207,6 +212,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
                 new TopBalance(  "DirectDownLineUserName2", 2, 20 )
             };
             balanceInfoService.GetTopBalance(requestAccount.CustId, requestAccount.CustomerLevel, Arg.Any<int>()).Returns(topBalanceReport);
+            webAPIConfiguration.BalanceMaxTopQuery = 100;
 
             var textContainer = new List<string>()
             {
@@ -231,6 +237,39 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             // Assert
             Assert.Equal(expect.Code, result.Code);
             Assert.Equal(expect.Message, result.Message);
+        }
+        
+        
+        public static IEnumerable<object[]> RequestTopXBalanceOutOfRange()
+        {
+            yield return new object[] { new CustBotAccount(){CustomerLevel = (byte)CustomerLevel.Super, CustId = 1, Language = "CN"}, new []{"101"} };
+        }
+        
+        [Theory]
+        [MemberData(nameof(RequestTopXBalanceOutOfRange))]
+        public async Task Handle_RequestTopXBalanceOutOfRange_ReturnSuccessMessage(CustBotAccount requestAccount, string[] parameters)
+        {
+            // Arrange
+            var topBalanceReport = new List<TopBalance>()
+            {
+                new TopBalance(  "DirectDownLineUserName", 1, 10 ),
+                new TopBalance(  "DirectDownLineUserName2", 2, 20 )
+            };
+            balanceInfoService.GetTopBalance(requestAccount.CustId, requestAccount.CustomerLevel, Arg.Any<int>()).Returns(topBalanceReport);
+            webAPIConfiguration.BalanceMaxTopQuery = 100;
+            messageBuilder.BuildInvalidNumerOfDownlineRange(requestAccount.Language, parameters[0], webAPIConfiguration.BalanceMaxTopQuery).Returns("MessageAlert");
+
+            
+          //  var message = string.Join(telegramFormatter.NewLine(), textContainer);
+            var expect = new Result(1, "");
+
+            // Act
+            var result = await handler.Handle(requestAccount, parameters);
+
+            // Assert
+            Assert.Equal( expect.Code, result.Code);
+            Assert.Equal(expect.Message, result.Message);
+          
         }
     }
 }
