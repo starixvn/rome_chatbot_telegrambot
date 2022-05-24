@@ -47,18 +47,18 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
         }
 
 
-        [Theory, AutoData]
-        public async Task GetCustBotMessengerAsync_Always_Call(int custId, int subAccId, bool isTest, CustBotMessenger custBotMessenger)
-        {
-            // Arrange
-            var criteria = new CustBotMessengerSelCriteria(custId, subAccId, isTest);
-            _dynamicRepository.GetAsync<CustBotMessenger>(criteria).Returns(Task.FromResult(custBotMessenger));
+        // [Theory, AutoData]
+        // public async Task GetCustBotMessengerAsync_Always_Call(int custId, int subAccId, bool isTest, CustBotMessenger custBotMessenger)
+        // {
+        //     // Arrange
+        //     var criteria = new CustBotMessengerSelCriteria(custId, subAccId, isTest);
+        //     _dynamicRepository.GetAsync<CustBotMessenger>(criteria).Returns(Task.FromResult(custBotMessenger));
 
-            // Act
-            await _settingService.GetCustBotMessenger(custId, subAccId).ConfigureAwait(false);
+        //     // Act
+        //     await _settingService.GetCustBotMessenger(custId, subAccId).ConfigureAwait(false);
 
-            // Assert
-            await _dynamicRepository.Received().GetAsync<CustBotMessenger>(Arg.Any<CustBotMessengerSelCriteria>());
-        }
+        //     // Assert
+        //     await _dynamicRepository.Received().GetAsync<CustBotMessenger>(Arg.Any<CustBotMessengerSelCriteria>());
+        // }
     }
 }

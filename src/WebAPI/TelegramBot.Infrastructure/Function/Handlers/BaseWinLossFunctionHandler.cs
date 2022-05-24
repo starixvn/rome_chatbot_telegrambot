@@ -21,7 +21,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         protected readonly WebAPIConfiguration webAPIConfiguration;
 
-        public BaseWinLossFunctionHandler(
+        protected BaseWinLossFunctionHandler(
             IMessageBuilder messageBuilder,
             IMessageFormatter messageFormatter,
             IWinLossService winLossService,
@@ -42,7 +42,6 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 return Result.CreateErrorResult();
             }
 
-            
             var message = string.Empty;
             if (parameter == "m")
             {
@@ -58,13 +57,13 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 }
 
                 var data = await winLossService.GetDownlineWinLoss(account.CustId, account.CustomerLevel, dateTime, downlineInfo.CustId);
-                message = BuildDownlineWinLossMessage(account.Language, data, parameter, (byte)downlineInfo.RoleId);
+                message = BuildDownlineWinLossMessage(account.Language, data, parameter, downlineInfo.RoleId);
             }
 
             return Result.CreateSuccessfulResult(message);
         }
 
-        protected string BuildWinLossMessage(string language, WinLossBase winLoss, byte custLevel)
+        private string BuildWinLossMessage(string language, WinLossBase winLoss, byte custLevel)
         {
             var textContainer = new List<string>();
             AddTitleRow(textContainer, language);
@@ -72,7 +71,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
-        protected string BuildDownlineWinLossMessage(string language, WinLossBase winLoss, string downlineUsername, byte custLevel)
+        private string BuildDownlineWinLossMessage(string language, WinLossBase winLoss, string downlineUsername, byte custLevel)
         {
             var textContainer = new List<string>();
             AddTitleRow(textContainer, language);
@@ -84,7 +83,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         protected abstract void AddTitleRow(List<string> textContainer, string language);
 
-        protected void AddBodyMessage(List<string> textContainer, WinLossBase winLoss, string language, byte custLevel)
+        private void AddBodyMessage(List<string> textContainer, WinLossBase winLoss, string language, byte custLevel)
         {
             if (winLoss == null)
             {
@@ -103,9 +102,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             this.FormatMessages(textContainer, messages, language);
         }
 
-        private Dictionary<string, decimal> AddWinLossMaster(WinLossMaster winLossMaster)
+        private static Dictionary<string, decimal> AddWinLossMaster(WinLossMaster winLossMaster)
         {
-            return new Dictionary<string, decimal>()
+            return new Dictionary<string, decimal>
             {
                 {nameof(winLossMaster.Turnover), winLossMaster.Turnover},
                 {nameof(winLossMaster.GrossComm), winLossMaster.GrossComm},
@@ -117,9 +116,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             };
         }
 
-        private Dictionary<string, decimal> AddWinLossAgent(WinLossAgent winLossAgent)
+        private static Dictionary<string, decimal> AddWinLossAgent(WinLossAgent winLossAgent)
         {
-            return new Dictionary<string, decimal>()
+            return new Dictionary<string, decimal>
             {
                 {nameof(winLossAgent.Turnover), winLossAgent.Turnover},
                 {nameof(winLossAgent.GrossComm), winLossAgent.GrossComm},
@@ -131,9 +130,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             };
         }
 
-        private Dictionary<string, decimal> AddWinLossMember(WinLossMember winLossMember)
+        private static Dictionary<string, decimal> AddWinLossMember(WinLossMember winLossMember)
         {
-            return new Dictionary<string, decimal>()
+            return new Dictionary<string, decimal>
             {
                 {nameof(winLossMember.Turnover), winLossMember.Turnover},
                 {nameof(winLossMember.GrossComm), winLossMember.GrossComm},
@@ -147,9 +146,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             };
         }
 
-        private Dictionary<string, decimal> AddWinLossMemberDownline(WinLossMember winLossMember)
+        private static Dictionary<string, decimal> AddWinLossMemberDownline(WinLossMember winLossMember)
         {
-            return new Dictionary<string, decimal>()
+            return new Dictionary<string, decimal>
             {
                 {nameof(winLossMember.MemberWinLoss), winLossMember.MemberWinLoss},
                 {nameof(winLossMember.MemberComm), winLossMember.MemberComm},
