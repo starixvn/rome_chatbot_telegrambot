@@ -237,8 +237,8 @@
   <data name="HiddenDownlinesCount" xml:space="preserve">
     <value>{0} more {1} are not shown</value>
   </data>
-  <data name="InvalidNumerOfDownlinesRange" xml:space="preserve">
-    <value>"{0}" is invalid, please enter valid number (max 100)</value>
+  <data name="InvalidNumberOfDownlines" xml:space="preserve">
+    <value>Number of downlines must be from 1 to {0}.</value>
   </data>
   <data name="Member" xml:space="preserve">
     <value>Member</value>
@@ -418,14 +418,18 @@
     <value>Stop Using Chatbot</value>
   </data>
   <data name="StopUsingChatbotConfirmMessage" xml:space="preserve">
-    <value>You're about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;.
-Your Telegram will be unlinked with {0} and you won't be able to use {0} anymore.
-Are you sure you want to stop using {0}?</value>
+    <value>You're about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;.Your Telegram will be unlinked with {0} and you won't be able to use {0} anymore.Are you sure you want to stop using {0}?</value>
   </data>
   <data name="UnlinkMessage" xml:space="preserve">
     <value>Your telegram has been unlinked with {0} successfully.</value>
   </data>
   <data name="AlertChangePasswordMessage" xml:space="preserve">
     <value>If this wasn't you, please contact us for support</value>
+  </data>
+  <data name="InvalidUsername" xml:space="preserve">
+    <value>Invalid username</value>
+  </data>
+  <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
+    <value>"{0}" is invalid, please enter valid number (max {1})</value>
   </data>
 </root>

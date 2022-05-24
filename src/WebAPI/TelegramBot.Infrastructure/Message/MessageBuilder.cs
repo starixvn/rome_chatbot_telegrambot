@@ -59,6 +59,10 @@ namespace TelegramBot.Infrastructure.Message
         Task<Models.Message> BuildStopUsingChatbotConfirmMessage(string language, string chatbotName);
 
         IMessageFormatter GetFormatter();
+
+        string BuildInvalidUsernameMessage(string language);
+
+        string BuildInvalidDownlinesMessage(string language, int max);
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -146,7 +150,7 @@ namespace TelegramBot.Infrastructure.Message
             => $"{ResourceHelper.Get(nameof(SharedResource.ActionSelected), language)}: {actionName}";
 
         public string BuildInvalidNumerOfDownlineRange(string language, string userResponse, int maxTopQuery)
-            => string.Format(ResourceHelper.Get(nameof(SharedResource.InvalidNumerOfDownlinesRange), language), userResponse, maxTopQuery);
+            => string.Format(ResourceHelper.Get(nameof(SharedResource.InvalidNumberOfDownlinesRange), language), userResponse, maxTopQuery);
 
         public string BuildHiddenDownlinesMessage(string language, int count, byte custLevel)
             => string.Format(
@@ -243,5 +247,11 @@ namespace TelegramBot.Infrastructure.Message
 
         public string BuildUnlinkMessage(string language, string botName)
             => string.Format(ResourceHelper.Get(nameof(SharedResource.UnlinkMessage), language), botName);
+
+        public string BuildInvalidUsernameMessage(string language)
+            => ResourceHelper.Get(nameof(SharedResource.InvalidCustName), language);
+
+        public string BuildInvalidDownlinesMessage(string language, int max)
+            => string.Format(ResourceHelper.Get(nameof(SharedResource.InvalidNumberOfDownlines), language), max);
     }
 }

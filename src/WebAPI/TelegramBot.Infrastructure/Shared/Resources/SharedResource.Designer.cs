@@ -19,7 +19,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class SharedResource {
@@ -466,11 +466,29 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;{0}&quot; is invalid, please enter valid number (max 100).
+        ///   Looks up a localized string similar to Number of downlines must be from 1 to {0}..
         /// </summary>
-        public static string InvalidNumerOfDownlinesRange {
+        public static string InvalidNumberOfDownlines {
             get {
-                return ResourceManager.GetString("InvalidNumerOfDownlinesRange", resourceCulture);
+                return ResourceManager.GetString("InvalidNumberOfDownlines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;{0}&quot; is invalid, please enter valid number (max {1}).
+        /// </summary>
+        public static string InvalidNumberOfDownlinesRange {
+            get {
+                return ResourceManager.GetString("InvalidNumberOfDownlinesRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid username.
+        /// </summary>
+        public static string InvalidUsername {
+            get {
+                return ResourceManager.GetString("InvalidUsername", resourceCulture);
             }
         }
         
@@ -772,9 +790,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;re about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;.
-        ///Your Telegram will be unlinked with {0} and you won&apos;t be able to use {0} anymore.
-        ///Are you sure you want to stop using {0}?.
+        ///   Looks up a localized string similar to You&apos;re about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;.Your Telegram will be unlinked with {0} and you won&apos;t be able to use {0} anymore.Are you sure you want to stop using {0}?.
         /// </summary>
         public static string StopUsingChatbotConfirmMessage {
             get {
