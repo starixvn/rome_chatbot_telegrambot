@@ -58,7 +58,7 @@ namespace TelegramBot.ClientExample
 
         private static async Task TestSetting()
         {
-            var startUri = await _settingService.GenerateStartUriAsync(custId, subAccId, system);
+            var startUri = await _settingService.GenerateStartUriAsync(custId, subAccId, system, "en-US");
             Write("Generate start uri", startUri);
 
             var telegramCommand = $"/start {startUri.Substring(startUri.IndexOf("=", StringComparison.InvariantCulture) + 1)}";

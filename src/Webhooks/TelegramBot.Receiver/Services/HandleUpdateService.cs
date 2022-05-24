@@ -77,7 +77,7 @@ namespace TelegramBot.Receiver.Services
 
             if (message.Text!.Split(' ')[0].Equals("/start"))
             {
-                await _settingService.StartAsync(botClient.BotId.Value, message.Chat.Id, message.Text, "en-US");
+                await _settingService.StartAsync(botClient.BotId.Value, message.Chat.Id, message.Text);
             }
             else
             {

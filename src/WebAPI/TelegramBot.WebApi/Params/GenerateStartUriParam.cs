@@ -11,5 +11,8 @@ namespace TelegramBot.WebApi.Params
 
         [Required]
         public string System { get; set; }
+
+        [Required]
+        public string Language { get; set; }
     }
 }

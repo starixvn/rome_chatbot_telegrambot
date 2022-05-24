@@ -39,7 +39,7 @@ namespace TelegramBot.WebApi.Controllers
         [Route("start-uri"), HttpPost]
         public async Task<string> GenerateStartUri([FromBody] GenerateStartUriParam param)
         {
-            var plainKey = $"{param.CustId}:{param.SubAccId}";
+            var plainKey = $"{param.CustId}:{param.SubAccId}:{param.Language}";
             var encryptKey = _cryptography.Encrypt(plainKey);
             var botEntity = await _botService.GetAsync(param.System);
             return $"https://t.me/{botEntity.Name}?start={encryptKey}";
@@ -70,7 +70,7 @@ namespace TelegramBot.WebApi.Controllers
             var uniqueToken = words[1];
             var plainKey = _cryptography.Decrypt(uniqueToken);
             words = plainKey.Split(':');
-            if (words.Length != 2)
+            if (words.Length != 3)
             {
                 await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
                 return Result.CreateErrorResult("Invalid start unique token");
@@ -78,7 +78,8 @@ namespace TelegramBot.WebApi.Controllers
 
             var custId = int.Parse(words[0]);
             var subAccId = int.Parse(words[1]);
-            return await _settingService.Start(bot.BotId, param.ChatId, custId, subAccId, param.Language, param.IP);
+            var language = words[2];
+            return await _settingService.Start(bot.BotId, param.ChatId, custId, subAccId, language, param.IP);
 
         }
 
