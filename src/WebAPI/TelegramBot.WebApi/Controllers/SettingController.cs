@@ -5,6 +5,7 @@ using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared;
+using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Resources;
 using TelegramBot.WebApi.Params;
@@ -53,17 +54,25 @@ namespace TelegramBot.WebApi.Controllers
         {
             var bot = await _botService.GetAsync(param.MessengerBotId);
             var messenger = new Messenger(bot.BotId, param.ChatId);
-            var account = await _settingService.GetCustBotAccount(param.ChatId, bot.BotId);
-            if (account != null)
+            if (string.IsNullOrEmpty(param.Message))
             {
-                await _commandService.SendMainMenuMessage(account, messenger);
-                return Result.CreateSuccessfulResult();
+                var account = await _settingService.GetCustBotAccount(param.ChatId, bot.BotId);
+                if (account != null)
+                {
+                    await _commandService.SendMainMenuMessage(account, messenger);
+                    return Result.CreateSuccessfulResult();
+                }
+                else
+                {
+                    await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), LanguageCodes.English));
+                    return Result.CreateErrorResult("Invalid start request");
+                }
             }
 
             var words = param.Message.Split(' ');
             if (words.Length != 2)
             {
-                await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
+                await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), LanguageCodes.English));
                 return Result.CreateErrorResult("Invalid start request");
             }
 
@@ -72,7 +81,7 @@ namespace TelegramBot.WebApi.Controllers
             words = plainKey.Split(':');
             if (words.Length != 3)
             {
-                await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
+                await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), LanguageCodes.English));
                 return Result.CreateErrorResult("Invalid start unique token");
             }
 
@@ -80,7 +89,6 @@ namespace TelegramBot.WebApi.Controllers
             var subAccId = int.Parse(words[1]);
             var language = words[2];
             return await _settingService.Start(bot.BotId, param.ChatId, custId, subAccId, language, param.IP);
-
         }
 
         /// <summary>
