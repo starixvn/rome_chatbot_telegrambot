@@ -54,7 +54,9 @@ namespace TelegramBot.WebApi.Controllers
         {
             var bot = await _botService.GetAsync(param.MessengerBotId);
             var messenger = new Messenger(bot.BotId, param.ChatId);
-            if (string.IsNullOrEmpty(param.Message))
+
+            var words = param.Message.Split(' ');
+            if (words.Length == 1)
             {
                 var account = await _settingService.GetCustBotAccount(param.ChatId, bot.BotId);
                 if (account != null)
@@ -69,7 +71,6 @@ namespace TelegramBot.WebApi.Controllers
                 }
             }
 
-            var words = param.Message.Split(' ');
             if (words.Length != 2)
             {
                 await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), LanguageCodes.English));
