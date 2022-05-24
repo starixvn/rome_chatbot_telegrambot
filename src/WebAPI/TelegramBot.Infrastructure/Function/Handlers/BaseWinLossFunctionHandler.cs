@@ -112,7 +112,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 {nameof(winLossMaster.MasterTotal), winLossMaster.MasterTotal},
                 {nameof(winLossMaster.SuperWinLoss), winLossMaster.SuperWinLoss},
                 {nameof(winLossMaster.SuperComm), winLossMaster.SuperComm},
-                {nameof(winLossMaster.SuperTotal), winLossMaster.MasterTotal},
+                {nameof(winLossMaster.SuperTotal), winLossMaster.SuperTotal},
                 {nameof(winLossMaster.CompanyWinLoss), winLossMaster.CompanyWinLoss},
             };
         }
