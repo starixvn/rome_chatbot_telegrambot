@@ -132,7 +132,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             var textContainer = new List<string>();
             foreach (var keyValuePair in dict)
             {
-                textContainer.Add(keyValuePair.Key);
+                textContainer.Add(keyValuePair.Key.ToUpperInvariant());
                 textContainer.Add($"    {keyValuePair.Value}");
             }
             var message = string.Join("\n", textContainer);
@@ -180,7 +180,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 
             foreach (var keyValuePair in dict)
             {
-                textContainer.Add(keyValuePair.Key);
+                textContainer.Add(keyValuePair.Key.ToUpperInvariant());
                 textContainer.Add($"    {keyValuePair.Value}");
             }
 
@@ -247,7 +247,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         
         [Theory]
         [MemberData(nameof(RequestTopXBalanceOutOfRange))]
-        public async Task Handle_RequestTopXBalanceOutOfRange_ReturnSuccessMessage(CustBotAccount requestAccount, string[] parameters)
+        public async Task Handle_RequestTopXBalanceOutOfRange_ReturnErrorResultMessage(CustBotAccount requestAccount, string[] parameters)
         {
             // Arrange
             var topBalanceReport = new List<TopBalance>()
@@ -260,7 +260,6 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             messageBuilder.BuildInvalidNumerOfDownlineRange(requestAccount.Language, parameters[0], webAPIConfiguration.BalanceMaxTopQuery).Returns("MessageAlert");
 
             
-          //  var message = string.Join(telegramFormatter.NewLine(), textContainer);
             var expect = new Result(1, "");
 
             // Act

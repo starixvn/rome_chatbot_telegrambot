@@ -54,14 +54,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 return await HandleBalanceDownLineUsername(account, parameter, downlineInfo);
             }
             
-            if (int.TryParse(parameter, out var topQuery))
-            {
-                return await HandleTopXBalance(account, topQuery);
-            }
-            else
-            {
-                return Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
-            }
+            return int.TryParse(parameter, out var topQuery) 
+                ? await HandleTopXBalance(account, topQuery) 
+                : Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
         }
 
 
@@ -76,12 +71,13 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             }
 
             var topBalanceReport = await balanceInfoService.GetTopBalance(account.CustId, account.CustomerLevel, topQuery);
-
+            var todayText = ResourceHelper.Get(nameof(SharedResource.Today), account.Language);
+            var yesterdayText = ResourceHelper.Get(nameof(SharedResource.Yesterday), account.Language);
             var textContainer = new List<string>
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.Balance), account.Language)} - {DateTime.Now:yyyyMMdd}]",
                 ResourceHelper.Get($"CustLevel_{account.CustomerLevel - 1}", account.Language),
-                $"{ResourceHelper.Get(nameof(SharedResource.Today), account.Language)}{messageFormatter.Point()}{ResourceHelper.Get(nameof(SharedResource.Yesterday), account.Language)}{messageFormatter.NewLine()}",
+                $"{todayText}{messageFormatter.Point()}{yesterdayText}{messageFormatter.NewLine()}",
 
             };
 
@@ -124,7 +120,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var textContainer = new List<string>();
             foreach (var keyValuePair in dict)
             {
-                textContainer.Add(keyValuePair.Key);
+                textContainer.Add(keyValuePair.Key.ToUpperInvariant());
                 textContainer.Add($"    {keyValuePair.Value}");
             }
             var message = string.Join(messageFormatter.NewLine(), textContainer);
@@ -158,7 +154,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             foreach (var keyValuePair in dict)
             {
-                textContainer.Add(keyValuePair.Key);
+                textContainer.Add(keyValuePair.Key.ToUpperInvariant());
                 textContainer.Add($"    {keyValuePair.Value}");
             }
 

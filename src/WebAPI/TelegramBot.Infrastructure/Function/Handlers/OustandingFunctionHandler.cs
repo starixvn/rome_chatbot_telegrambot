@@ -46,15 +46,10 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 return await HandleDownlineOutstanding(account, downlineInfo, parameter);
             }
-
-            if (int.TryParse(parameter, out int topQuery))
-            {
-                return await HandleTopOutstanding(account, topQuery);
-            }
-            else
-            {
-                return Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
-            }
+            
+            return  int.TryParse(parameter, out int topQuery) 
+                ? await HandleTopOutstanding(account, topQuery) 
+                : Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
         }
 
         private async Task<Result> HandleDownlineOutstanding(CustBotAccount account, DownlineInfo downlineInfo, string username)
