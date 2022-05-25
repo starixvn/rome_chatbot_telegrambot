@@ -90,10 +90,18 @@ namespace TelegramBot.Infrastructure.Command
                 "/menu" => SendMainMenuMessage(account, messenger),
                 "/stop" => HandleStopCommand(account, messenger, bot.Name),
                 "/unlink" => HandleStopCommand(account, messenger, bot.Name),
+                "/settings" => HandleSettingsCommand(account, messenger),
+                "/setting" => HandleSettingsCommand(account, messenger),
                 _ => HandleOtherResponse(account, messenger, userResponse)
             };
 
             await action;
+        }
+
+        private async Task HandleSettingsCommand(CustBotAccount account, Messenger messenger)
+        {
+            var settingsAction = await actionService.GetActionById(ActionIds.Settings);
+            await SendNextActionsMessage(account, messenger, settingsAction);
         }
 
         private async Task HandleHelpCommand(CustBotAccount account, Messenger messenger, string botName)

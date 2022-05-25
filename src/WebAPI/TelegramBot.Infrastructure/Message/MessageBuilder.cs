@@ -122,7 +122,7 @@ namespace TelegramBot.Infrastructure.Message
                 messageFormatter.NewLine(),
                 $"/menu - {string.Format(ResourceHelper.Get(nameof(SharedResource.OpenMainMenu), language), botName)}",
                 $"/help - {ResourceHelper.Get(nameof(SharedResource.ListAllCommands), language)}",
-                $"/settings - {ResourceHelper.Get(nameof(SharedResource.OpenSettingsMenu), language)}",
+                $"/settings, /setting - {ResourceHelper.Get(nameof(SharedResource.OpenSettingsMenu), language)}",
                 $"/stop, /unlink - Unlink {botName}");
 
             var stringBuilder = new StringBuilder($"{string.Format(ResourceHelper.Get(nameof(SharedResource.HelpCommandIntro), language), botName)}");
