@@ -101,6 +101,7 @@ namespace TelegramBot.Infrastructure.Command
         private async Task HandleSettingsCommand(CustBotAccount account, Messenger messenger)
         {
             var settingsAction = await actionService.GetActionById(ActionIds.Settings);
+            await actionService.InsertUserAction(account.UserId, settingsAction.ActionId, string.Empty);
             await SendNextActionsMessage(account, messenger, settingsAction);
         }
 
@@ -147,6 +148,7 @@ namespace TelegramBot.Infrastructure.Command
                 var action = await actionService.GetActionByCommand(userResponse);
                 if (action != null)
                 {
+                    await actionService.InsertUserAction(account.UserId, action.ActionId, string.Empty);
                     await SendNextActionsMessage(account, messenger, action);
                     return;
                 }
