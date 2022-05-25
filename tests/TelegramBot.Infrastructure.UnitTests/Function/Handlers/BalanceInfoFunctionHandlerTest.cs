@@ -196,6 +196,32 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             Assert.Equal(expect.Message, result.Message);
         }
 
+        
+        [Fact]
+        public async Task Handle_InValidRequestDownLineUserName_ReturnErrorMessage()
+        {
+            // Arrange
+            var requestAccount =  new CustBotAccount
+            {
+                CustomerLevel = (byte)CustomerLevel.Super,
+                CustId = 1, 
+                Language = "CN" 
+            };
+            
+            
+            var downlineInfo = new DownlineInfo(1, (byte)CustomerLevel.Super, true);
+            customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(downlineInfo));
+            var downlineBalance = new DownlineBalance(1, 2, 3, 4, 5, 6, 7, 8, 9, new TotalDownline[] { }, 10, 11, 12, 13);
+            balanceInfoService.GetDownlineBalance(Arg.Any<int>(), Arg.Any<byte>(), Arg.Any<int>()).Returns(downlineBalance);
+           
+            // Act
+            var result = await handler.Handle(requestAccount, new []{"Username"});
+            
+            // Assert
+            Assert.Equal(1, result.Code);
+            Assert.Equal("", result.Message);
+        }
+        
         public static IEnumerable<object[]> RequestsRequestTopXBalance()
         {
             yield return new object[] { new CustBotAccount() { CustomerLevel = (byte)CustomerLevel.Super, CustId = 1, Language = "CN" }, new[] { "10" } };
@@ -243,6 +269,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         public static IEnumerable<object[]> RequestTopXBalanceOutOfRange()
         {
             yield return new object[] { new CustBotAccount(){CustomerLevel = (byte)CustomerLevel.Super, CustId = 1, Language = "CN"}, new []{"101"} };
+            yield return new object[] { new CustBotAccount(){CustomerLevel = (byte)CustomerLevel.Super, CustId = 1, Language = "CN"}, new []{"-1"} };
         }
         
         [Theory]
@@ -270,5 +297,36 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             Assert.Equal(expect.Message, result.Message);
           
         }
+        
+        [Fact]
+        public async Task Handle_NullParameters_ReturnErrorResult()
+        {
+            // Arrange
+            var account = new CustBotAccount();
+            string[] parameters = { "" };
+
+            // Act
+            var result = await handler.Handle(account, parameters);
+
+            // Assert
+            Assert.Equal(1, result.Code);
+            Assert.Equal("", result.Message);
+        }
+        [Fact]
+        public async Task GetTopDownlineUsername()
+        {
+            // Arrange
+            var account = new CustBotAccount { Language = "en-US", CustId = 111, CustomerLevel = (byte)CustomerLevel.Master };
+            var topDownlineUsername = new[] { "top1", "top2", "top3" };
+            balanceInfoService.GetTopUsername(account.CustId, account.CustomerLevel).Returns(topDownlineUsername);
+
+            // Act
+            var result = await handler.GetTopDownlineUsername(account, 5);
+
+            // Assert
+            Assert.Equal(topDownlineUsername, result);
+        }
+        
+       
     }
 }
