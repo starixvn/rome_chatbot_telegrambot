@@ -11,7 +11,7 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
 
     public class ActionNameBuilderFactory : IActionNameBuilderFactory
     {
-        private IDictionary<short, IActionNameBuilder> builders = new Dictionary<short, IActionNameBuilder>();
+        private readonly IDictionary<short, IActionNameBuilder> builders = new Dictionary<short, IActionNameBuilder>();
         private readonly IResourceService resourceService;
 
         public ActionNameBuilderFactory(IResourceService resourceService)

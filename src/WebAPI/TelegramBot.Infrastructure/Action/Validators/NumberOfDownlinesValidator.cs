@@ -18,12 +18,9 @@ namespace TelegramBot.Infrastructure.Action.Validators
 
         public Task<Result> Validate(CustBotAccount account, string userResponse)
         {
-            if (!string.IsNullOrEmpty(userResponse) && int.TryParse(userResponse, out int number))
+            if (!string.IsNullOrEmpty(userResponse) && int.TryParse(userResponse, out int number) && number > 0 && number <= maxValue)
             {
-                if (number > 0 && number <= maxValue)
-                {
-                    return Task.FromResult(Result.CreateSuccessfulResult());
-                }
+                return Task.FromResult(Result.CreateSuccessfulResult());
             }
 
             return Task.FromResult(Result.CreateErrorResult(messageBuilder.BuildInvalidNumerOfDownlineRange(account.Language, userResponse, maxValue)));

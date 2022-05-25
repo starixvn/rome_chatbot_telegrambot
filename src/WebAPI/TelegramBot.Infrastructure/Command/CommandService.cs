@@ -27,7 +27,7 @@ namespace TelegramBot.Infrastructure.Command
     {
         Task HandleUserReplyByText(long messengerBotId, long chatId, string message);
 
-        Task HandleUserReplyByButton(long messengerBotId, long chatId, int messageId, string callbackId, CallbackData callBackData);
+        Task HandleUserReplyByButton(long messengerBotId, long chatId, int messageId, string callbackId, CallbackData callbackData);
 
         Task SendMainMenuMessage(CustBotAccount account, Messenger messenger, int messageId = 0);
     }
@@ -186,27 +186,27 @@ namespace TelegramBot.Infrastructure.Command
             }
         }
 
-        public async Task HandleUserReplyByButton(long messengerBotId, long chatId, int messageId, string callbackId, CallbackData callBackData)
+        public async Task HandleUserReplyByButton(long messengerBotId, long chatId, int messageId, string callbackId, CallbackData callbackData)
         {
             var bot = await botService.GetAsync(messengerBotId);
             var account = await settingService.GetCustBotAccount(chatId, bot.BotId);
             var messenger = new Messenger(bot.BotId, chatId);
 
-            await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, callBackData.Value, MessageSendStatus.Success));
+            await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, callbackData.Value, MessageSendStatus.Success));
 
-            if (callBackData.IsStopUsingChatbot)
+            if (callbackData.IsStopUsingChatbot)
             {
                 await settingService.Unlink(bot, account.CustId, account.SubAccId, string.Empty);
                 return;
             }
 
-            if (callBackData.ActionId == ActionIds.MainMenu)
+            if (callbackData.ActionId == ActionIds.MainMenu)
             {
                 await SendMainMenuMessage(account, messenger, messageId);
                 return;
             }
 
-            var currentAction = await actionService.GetActionById(callBackData.ActionId);
+            var currentAction = await actionService.GetActionById(callbackData.ActionId);
 
             if (currentAction == null || !IsValidAction(account, currentAction))
             {
@@ -214,7 +214,7 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
-            var userResponse = currentAction.Type == ActionTypes.Downline ? callBackData.Value : string.Empty;
+            var userResponse = currentAction.Type == ActionTypes.Downline ? callbackData.Value : string.Empty;
             await actionService.InsertUserAction(account.UserId, currentAction.ActionId, userResponse);
 
             if (currentAction.IsEndAction)

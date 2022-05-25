@@ -186,7 +186,7 @@ namespace TelegramBot.Infrastructure.Message
                     if (backToActionId > 0)
                     {
                         var backToAction = $"<< {ResourceHelper.Get(nameof(SharedResource.BackTo), language)} {await BuildActionName(language, backToActionId)}";
-                        buttonRows[i] = new InlineKeyboardButton[]
+                        buttonRows[i] = new[]
                         {
                             InlineKeyboardButton.WithCallbackData(backToAction, JsonConvert.SerializeObject(new { ActionId = backToActionId, Value = backToAction })),
                             InlineKeyboardButton.WithCallbackData(backToMainMenu, JsonConvert.SerializeObject(new { ActionId = ActionIds.MainMenu, Value = backToMainMenu })),
@@ -194,7 +194,7 @@ namespace TelegramBot.Infrastructure.Message
                     }
                     else
                     {
-                        buttonRows[i] = new InlineKeyboardButton[]
+                        buttonRows[i] = new[]
                         {
                             InlineKeyboardButton.WithCallbackData(backToMainMenu, JsonConvert.SerializeObject(new { ActionId = ActionIds.MainMenu, Value = backToMainMenu })),
                         };
@@ -207,14 +207,14 @@ namespace TelegramBot.Infrastructure.Message
                 var actionIndex = i * NumberButtonInRow;
                 if (actionIndex == buttons.Count - 1)
                 {
-                    buttonRows[i] = new InlineKeyboardButton[]
+                    buttonRows[i] = new[]
                     {
                         InlineKeyboardButton.WithCallbackData(buttons[actionIndex].Text, buttons[actionIndex].CallBackData)
                     };
                 }
                 else
                 {
-                    buttonRows[i] = new InlineKeyboardButton[]
+                    buttonRows[i] = new[]
                     {
                         InlineKeyboardButton.WithCallbackData(buttons[actionIndex].Text, buttons[actionIndex].CallBackData),
                         InlineKeyboardButton.WithCallbackData(buttons[actionIndex + 1].Text, buttons[actionIndex + 1].CallBackData)
@@ -228,7 +228,7 @@ namespace TelegramBot.Infrastructure.Message
         public async Task<Models.Message> BuildStopUsingChatbotConfirmMessage(string language, string chatbotName)
         {
             var text = string.Format(ResourceHelper.Get(nameof(SharedResource.StopUsingChatbotConfirmMessage), language), chatbotName);
-            var buttons = new List<MessageButton>()
+            var buttons = new List<MessageButton>
             {
                 new MessageButton(ResourceHelper.Get(nameof(SharedResource.No), language), JsonConvert.SerializeObject(new { ActionId = ActionIds.Settings })),
                 new MessageButton(ResourceHelper.Get(nameof(SharedResource.StopUsingChatbot), language), JsonConvert.SerializeObject(new { IsStopUsingChatbot = true }))

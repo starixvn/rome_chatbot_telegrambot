@@ -44,11 +44,7 @@ namespace TelegramBot.Infrastructure.Setting
 
         public async Task<IEnumerable<BotFunction>> GetAll()
         {
-            if (_functions == null)
-            {
-                _functions = await dynamicRepository.FetchAsync<BotFunction>(new BotFunctionSelAllCriteria(!webAPIConfiguration.IsProduction));
-            }
-
+            _functions ??= await dynamicRepository.FetchAsync<BotFunction>(new BotFunctionSelAllCriteria(!webAPIConfiguration.IsProduction));
             return _functions;
         }
 

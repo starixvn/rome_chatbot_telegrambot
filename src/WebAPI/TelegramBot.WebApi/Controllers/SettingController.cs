@@ -22,7 +22,12 @@ namespace TelegramBot.WebApi.Controllers
         private readonly IMessageSender _messageSender;
         private readonly ICommandService _commandService;
 
-        public SettingController(ICryptography cryptography, ISettingService settingService, IBotService botService, IMessageSender messageSender, ICommandService commandService)
+        public SettingController(
+            ICryptography cryptography,
+            ISettingService settingService,
+            IBotService botService,
+            IMessageSender messageSender,
+            ICommandService commandService)
         {
             _cryptography = cryptography;
             _settingService = settingService;
@@ -66,14 +71,14 @@ namespace TelegramBot.WebApi.Controllers
                 }
                 else
                 {
-                    await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), LanguageCodes.English));
+                    await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage)));
                     return Result.CreateErrorResult("Invalid start request");
                 }
             }
 
             if (words.Length != 2)
             {
-                await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), LanguageCodes.English));
+                await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage)));
                 return Result.CreateErrorResult("Invalid start request");
             }
 
@@ -82,7 +87,7 @@ namespace TelegramBot.WebApi.Controllers
             words = plainKey.Split(':');
             if (words.Length != 3)
             {
-                await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), LanguageCodes.English));
+                await _messageSender.SendMessage(messenger, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage)));
                 return Result.CreateErrorResult("Invalid start unique token");
             }
 

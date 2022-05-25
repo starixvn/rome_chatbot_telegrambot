@@ -13,7 +13,7 @@ namespace TelegramBot.Infrastructure.Notification
 
         Task<Result> NotifyChangeSecurityCode(int custId, int subAccId, string ip);
 
-        Task<Result> Notify(int botId, long chatid, string message);
+        Task<Result> Notify(int botId, long chatId, string message);
     }
 
     public class NotificationService : INotificationService

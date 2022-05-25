@@ -8,7 +8,7 @@ namespace TelegramBot.Client.Services
     public interface ICommandService
     {
         Task HandleTextMessage(long messengerBotId, long chatId, string message);
-        Task HandleCallbackMessage(long messengerBotId, long chatId, int messageId, string callbackId, string callBackData);
+        Task HandleCallbackMessage(long messengerBotId, long chatId, int messageId, string callbackId, string callbackData);
     }
 
     public class CommandService : ICommandService

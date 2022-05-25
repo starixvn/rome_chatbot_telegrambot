@@ -53,7 +53,7 @@ namespace TelegramBot.Infrastructure.Message
 
         }
 
-        public async Task SendMessage(int userId, Messenger messenger, Models.Message message, int messageId, short functionId = 0, bool logToDatabase = true)
+        public async Task SendMessage(int userId, Messenger messenger, Models.Message message, int messageId = 0, short functionId = 0, bool logToDatabase = true)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace TelegramBot.Infrastructure.Message
             }
             else
             {
-                var result = await botClient.SendTextMessageAsync(
+                await botClient.SendTextMessageAsync(
                     parseMode: ParseMode.Html,
                     chatId: messenger.ChatId,
                     text: message,

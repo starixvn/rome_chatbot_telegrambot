@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using TelegramBot.Common.Extensions;
 using TelegramBot.Infrastructure.Action;
-using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Bot.Models;
 using TelegramBot.Infrastructure.Function.Constants;
 using TelegramBot.Infrastructure.Function.Models;
@@ -197,14 +196,9 @@ namespace TelegramBot.Infrastructure.Setting
             if (subAccId > 0)
             {
                 var customerStatus = await _customerService.GetCustomerStatus(custId, subAccId);
-                if (customerStatus.HasReportPermission)
-                {
-                    functions = functions.Concat(await _functionService.GetReportFunctions());
-                }
-                else
-                {
-                    functions = functions.Where(f => f.FunctionId != FunctionIds.YesterdayWinLossNotification);
-                }
+                functions = customerStatus.HasReportPermission
+                    ? functions.Concat(await _functionService.GetReportFunctions())
+                    : functions.Where(f => f.FunctionId != FunctionIds.YesterdayWinLossNotification);
 
                 if (!customerStatus.HasMemberInformationPermission)
                 {

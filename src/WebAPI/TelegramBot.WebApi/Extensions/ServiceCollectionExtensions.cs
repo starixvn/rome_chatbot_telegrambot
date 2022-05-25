@@ -132,7 +132,7 @@ namespace TelegramBot.WebApi.Extensions
 
             if (endPoints != null && endPoints.Length > 0)
             {
-                options.ConnectionOptions = options.ConnectionOptions ?? new ConfigurationOptions();
+                options.ConnectionOptions ??= new ConfigurationOptions();
 
                 foreach (var endPoint in endPoints)
                 {
