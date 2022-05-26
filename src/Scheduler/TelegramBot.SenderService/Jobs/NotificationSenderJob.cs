@@ -140,40 +140,23 @@ public sealed class NotificationSenderJob : IJob
         Notification notification,
         CustomerStatus customerStatus)
     {
-        if (notification.ErrCode != 0)
+
+        appSettings.FunctionPermissions.TryGetValue(notification.FunctionKey, out var subAccPermission);
+        var customerStatusText = customerStatus.GetStatus(subAccPermission);
+
+        if (customerStatusText.Length > 0)
         {
             failureNotificationStatus.Add(new NotificationStatusParam(
                 notification.NotificationId,
                 NotificationStatus.Invalid,
-                ConvertToDBErrorMessage(notification.ErrCode)));
+                customerStatusText));
         }
         else
         {
-            appSettings.FunctionPermissions.TryGetValue(notification.FunctionKey, out var subAccPermission);
-            var customerStatusText = customerStatus.GetStatus(subAccPermission);
-
-            if (customerStatusText.Length > 0)
-            {
-                failureNotificationStatus.Add(new NotificationStatusParam(
-                    notification.NotificationId,
-                    NotificationStatus.Invalid,
-                    customerStatusText));
-            }
-            else
-            {
-                successNotifications.Add(notification);
-            }
+            successNotifications.Add(notification);
         }
-    }
 
-    private static string ConvertToDBErrorMessage(int errorCode)
-        => errorCode switch
-        {
-            1 => "Turn off Notification Setting",
-            2 => "Unlink",
-            3 => "Unverify OTP",
-            _ => "Unknown"
-        };
+    }
 
     private async Task<IEnumerable<NotificationStatusParam>> ChunkAndSendNotifications(
         IEnumerable<Notification> notifications,
