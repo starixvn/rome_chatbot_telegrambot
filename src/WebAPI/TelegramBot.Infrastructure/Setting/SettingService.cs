@@ -28,7 +28,7 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<Result> ResendOtp(int custId, int subAccId);
 
-        Task<Result> Link(int botId, int custId, int subAccId, string otp, string ip);
+        Task<Result> Link(int botId, int custId, int subAccId, string otp, string username, string ip);
 
         Task<Result> Unlink(BotEntity bot, int custId, int subAccId, string ip);
 
@@ -113,7 +113,7 @@ namespace TelegramBot.Infrastructure.Setting
             return Result.CreateSuccessfulResult();
         }
 
-        public async Task<Result> Link(int botId, int custId, int subAccId, string otp, string ip)
+        public async Task<Result> Link(int botId, int custId, int subAccId, string otp, string username, string ip)
         {
             var countCacheKey = $"otp_count_{custId}_{subAccId}";
             var failedCount = await _cacheService.GetAsync<int>(countCacheKey);
@@ -145,7 +145,7 @@ namespace TelegramBot.Infrastructure.Setting
             if (criteria.IsSuccess)
             {
                 await _cacheService.RemoveAsync(countCacheKey);
-                await SendWelcomeMessage(custId, subAccId);
+                await SendWelcomeMessage(custId, subAccId, username);
             }
 
             return new Result(criteria.ErrCode, criteria.ErrMsg);
@@ -254,11 +254,11 @@ namespace TelegramBot.Infrastructure.Setting
             return ThreadSafeRandom.Next(0, maxValue).ToString("D6");
         }
 
-        private async Task SendWelcomeMessage(int custId, int subAccId)
+        private async Task SendWelcomeMessage(int custId, int subAccId, string username)
         {
             var messenger = await GetCustBotMessenger(custId, subAccId);
             var account = await GetCustBotAccount(messenger.ChatId, messenger.BotId);
-            var text = _messageBuilder.BuildWelcomeMessage(messenger.Language, messenger.ChatId);
+            var text = _messageBuilder.BuildWelcomeMessage(messenger.Language, username);
             var rootActionButtons = await _actionService.BuildRootActionButtons(account);
             var message = await _messageBuilder.BuildMessage(text, rootActionButtons, messenger.Language);
             await _messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), message);

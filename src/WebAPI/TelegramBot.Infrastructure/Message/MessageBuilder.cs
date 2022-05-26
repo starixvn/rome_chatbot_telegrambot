@@ -32,7 +32,7 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildMenuMessage(string language);
 
-        string BuildWelcomeMessage(string language, long chatId);
+        string BuildWelcomeMessage(string language, string username);
 
         string BuildNotRecognizedCommandMessage(string language);
 
@@ -138,8 +138,8 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildMenuMessage(string language)
             => $"{ResourceHelper.Get(nameof(SharedResource.PleaseSelectAnAction), language)}:";
 
-        public string BuildWelcomeMessage(string language, long chatId)
-            => string.Format(ResourceHelper.Get(nameof(SharedResource.WelcomeMessage), language), chatId);
+        public string BuildWelcomeMessage(string language, string username)
+            => string.Format(ResourceHelper.Get(nameof(SharedResource.WelcomeMessage), language), username);
 
         public string BuildNotRecognizedCommandMessage(string language)
             => ResourceHelper.Get(nameof(SharedResource.NotRecognizeCommandMessage), language);

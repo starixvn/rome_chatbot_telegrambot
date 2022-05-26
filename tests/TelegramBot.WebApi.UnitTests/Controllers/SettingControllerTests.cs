@@ -59,7 +59,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
         public async Task LinkAsync_Always_Calls(LinkParam param, Result expectedResult)
         {
             // Arrange
-            _settingService.Link(param.BotId, param.CustId, param.SubAccId, param.Otp, param.IP)
+            _settingService.Link(param.BotId, param.CustId, param.SubAccId, param.Otp, param.Username, param.IP)
                 .Returns(Task.FromResult(expectedResult));
 
             // Act

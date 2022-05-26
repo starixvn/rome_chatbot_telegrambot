@@ -13,7 +13,7 @@ namespace TelegramBot.Client.Services
 
         Task<Result> ResendOtpAsync(int custId, int subAccId);
 
-        Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip = "");
+        Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string username, string ip = "");
 
         Task<Result> UnlinkAsync(int botId, int custId, int subAccId, string ip = "");
 
@@ -70,7 +70,7 @@ namespace TelegramBot.Client.Services
                 });
         }
 
-        public async Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip = "")
+        public async Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string username, string ip = "")
         {
             return await httpClient.PostAsJsonAsync<Result>(
                 $"setting/link",
@@ -80,6 +80,7 @@ namespace TelegramBot.Client.Services
                     custId,
                     subAccId,
                     otp,
+                    username,
                     ip
                 });
         }

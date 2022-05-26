@@ -114,7 +114,7 @@ namespace TelegramBot.WebApi.Controllers
         [Route("link"), HttpPost]
         public async Task<Result> Link(LinkParam param)
         {
-            return await _settingService.Link(param.BotId, param.CustId, param.SubAccId, param.Otp, param.IP);
+            return await _settingService.Link(param.BotId, param.CustId, param.SubAccId, param.Otp, param.Username, param.IP);
         }
 
         /// <summary>
