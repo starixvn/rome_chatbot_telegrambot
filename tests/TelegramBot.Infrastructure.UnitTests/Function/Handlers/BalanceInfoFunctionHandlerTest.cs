@@ -1,5 +1,3 @@
-using TelegramBot.Infrastructure.Shared.Configurations;
-
 namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 {
     using TelegramBot.Infrastructure.Function.Handlers;
@@ -18,8 +16,9 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
     using Shared.Resources;
     using Alpha.API.Client.Models.Customers;
     using System.Linq;
+    using Shared.Configurations;
 
-    public class BalanceInfoFunctionHandlerUnitTest
+    public class BalanceInfoFunctionHandlerTest
     {
         private readonly BalanceInfoFunctionHandler handler;
         private readonly IMessageBuilder messageBuilder;
@@ -30,7 +29,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 
         private readonly WebAPIConfiguration webAPIConfiguration;
 
-        public BalanceInfoFunctionHandlerUnitTest()
+        public BalanceInfoFunctionHandlerTest()
         {
             customerService = Substitute.For<ICustomerService>();
             balanceInfoService = Substitute.For<IBalanceInfoService>();
