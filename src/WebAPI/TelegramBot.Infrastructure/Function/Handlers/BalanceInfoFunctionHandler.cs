@@ -53,9 +53,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 return await HandleBalanceDownLineUsername(account, parameter, downlineInfo);
             }
-            
-            return int.TryParse(parameter, out var topQuery) 
-                ? await HandleTopXBalance(account, topQuery) 
+
+            return int.TryParse(parameter, out var topQuery)
+                ? await HandleTopXBalance(account, topQuery)
                 : Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
         }
 
@@ -81,7 +81,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             };
 
-            if(topBalanceReport == null || !topBalanceReport.Any())
+            if (topBalanceReport == null || !topBalanceReport.Any())
             {
                 textContainer.Add(messageBuilder.BuildNoDataMessage(account.Language));
             }
@@ -108,7 +108,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 {$"[{ResourceHelper.Get(nameof(SharedResource.Balance), lang)} - {DateTime.Now:yyyyMMdd}]",""},
                 {$"{ResourceHelper.Get(nameof(SharedResource.Currency), lang)}:", bal.CurrencyName},
                 {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}:", bal.CashBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}:", bal.YesterdayTotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}:", bal.YesterdayCashBalance.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.TodayWinLoss), lang)}:", bal.TodayWinLoss.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayWinLoss), lang)}:", bal.YesterdayWinLoss.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}:", bal.PendingTransfer3rd.ToFormattedNumber()},

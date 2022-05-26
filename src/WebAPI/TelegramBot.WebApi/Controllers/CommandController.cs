@@ -34,7 +34,7 @@ namespace TelegramBot.WebApi.Controllers
                 param.ChatId,
                 param.MessageId,
                 param.CallbackId,
-                JsonConvert.DeserializeObject<CallbackData>(param.CallbackData));
+                JsonConvert.DeserializeObject<CallbackData>(param.Message));
         }
     }
 }
