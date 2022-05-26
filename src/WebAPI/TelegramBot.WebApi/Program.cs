@@ -47,7 +47,7 @@ app.UseFanexDataWithSqlServer(configuration, app.Environment);
 app.MapControllers();
 
 var isDevelopment = app.Environment.IsDevelopment();
-app.ConfigureExceptionHandler(isDevelopment, Fanex.Logging.Logger.Log);
+app.ConfigureExceptionHandler(Logger.Log);
 app.UseSwagger();
 app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "TelegramBot v1"));
 

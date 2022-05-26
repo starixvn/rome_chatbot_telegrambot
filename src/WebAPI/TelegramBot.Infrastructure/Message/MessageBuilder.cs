@@ -199,26 +199,17 @@ namespace TelegramBot.Infrastructure.Message
                             InlineKeyboardButton.WithCallbackData(backToMainMenu, JsonConvert.SerializeObject(new { ActionId = ActionIds.MainMenu, Value = backToMainMenu })),
                         };
                     }
-
-
-                    break;
-                }
-
-                var actionIndex = i * NumberButtonInRow;
-                if (actionIndex == buttons.Count - 1)
-                {
-                    buttonRows[i] = new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData(buttons[actionIndex].Text, buttons[actionIndex].CallBackData)
-                    };
                 }
                 else
                 {
-                    buttonRows[i] = new[]
-                    {
+                    var actionIndex = i * NumberButtonInRow;
+                    buttonRows[i] = actionIndex == buttons.Count - 1
+                        ? new[] { InlineKeyboardButton.WithCallbackData(buttons[actionIndex].Text, buttons[actionIndex].CallBackData) }
+                        : new[]
+                        {
                         InlineKeyboardButton.WithCallbackData(buttons[actionIndex].Text, buttons[actionIndex].CallBackData),
                         InlineKeyboardButton.WithCallbackData(buttons[actionIndex + 1].Text, buttons[actionIndex + 1].CallBackData)
-                    };
+                        };
                 }
             }
 

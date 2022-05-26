@@ -11,7 +11,7 @@ namespace TelegramBot.WebApi.Extensions
         private const string BreakLine = "\r\n";
         private const string TwoBreakLine = "\r\n\r\n";
 
-        public static void ConfigureExceptionHandler(this IApplicationBuilder app, bool isDevelopment, Fanex.Logging.ILogger logger)
+        public static void ConfigureExceptionHandler(this IApplicationBuilder app, Fanex.Logging.ILogger logger)
         {
             app.UseExceptionHandler(appError =>
             {
@@ -29,7 +29,7 @@ namespace TelegramBot.WebApi.Extensions
 
                         await context.Response.WriteAsync(new
                         {
-                            StatusCode = context.Response.StatusCode,
+                            context.Response.StatusCode,
                             Message = "Internal Server Error."
                         }.ToString());
                     }
@@ -71,10 +71,8 @@ namespace TelegramBot.WebApi.Extensions
 
         private static async Task<string> GetRawBodyStringAsync(HttpRequest request)
         {
-            using (var reader = new StreamReader(request.Body, Encoding.UTF8))
-            {
-                return await reader.ReadToEndAsync();
-            }
+            using var reader = new StreamReader(request.Body, Encoding.UTF8);
+            return await reader.ReadToEndAsync();
         }
 
         private static string GetHeaderValues(HttpRequest request)

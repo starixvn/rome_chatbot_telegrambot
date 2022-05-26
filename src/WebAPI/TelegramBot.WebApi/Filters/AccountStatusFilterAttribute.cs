@@ -36,37 +36,35 @@ namespace TelegramBot.WebApi.Filters
             ActionExecutingContext context,
             ActionExecutionDelegate next)
         {
-            if (context.ActionArguments.ContainsKey(ParamName))
+            if (context.ActionArguments.ContainsKey(ParamName) && context.ActionArguments[ParamName] is CommandParam param)
             {
-                if (context.ActionArguments[ParamName] is CommandParam param)
+
+                var bot = await botService.GetAsync(param.MessengerBotId);
+                var account = await settingService.GetCustBotAccount(param.ChatId, bot.BotId);
+                if (account == null)
                 {
-                    var bot = await botService.GetAsync(param.MessengerBotId);
-                    var account = await settingService.GetCustBotAccount(param.ChatId, bot.BotId);
-                    if (account == null)
-                    {
-                        return;
-                    }
+                    return;
+                }
 
-                    var accountStatus = await this.customerService.GetCustomerStatus(account.CustId, account.SubAccId);
-                    if (accountStatus == null || accountStatus.IsProtectedMode)
-                    {
-                        return;
-                    }
+                var accountStatus = await this.customerService.GetCustomerStatus(account.CustId, account.SubAccId);
+                if (accountStatus == null || accountStatus.IsProtectedMode)
+                {
+                    return;
+                }
 
-                    var messenger = new Messenger(bot.BotId, param.ChatId);
-                    if (accountStatus.IsLocked)
-                    {
-                        var message = messageBuilder.BuildAccountLockedMessage(account.Language);
-                        await messageSender.SendMessage(messenger, message);
-                        return;
-                    }
+                var messenger = new Messenger(bot.BotId, param.ChatId);
+                if (accountStatus.IsLocked)
+                {
+                    var message = messageBuilder.BuildAccountLockedMessage(account.Language);
+                    await messageSender.SendMessage(messenger, message);
+                    return;
+                }
 
-                    if (!accountStatus.IsActive)
-                    {
-                        var message = messageBuilder.BuildAccountClosedMessage(account.Language);
-                        await messageSender.SendMessage(messenger, message);
-                        return;
-                    }
+                if (!accountStatus.IsActive)
+                {
+                    var message = messageBuilder.BuildAccountClosedMessage(account.Language);
+                    await messageSender.SendMessage(messenger, message);
+                    return;
                 }
             }
 

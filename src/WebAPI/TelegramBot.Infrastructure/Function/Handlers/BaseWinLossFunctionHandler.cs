@@ -42,7 +42,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 return Result.CreateErrorResult();
             }
 
-            var message = string.Empty;
+            string message;
             if (parameter == "m")
             {
                 var data = await winLossService.GetWinLoss(account.CustId, account.CustomerLevel, dateTime);
@@ -99,7 +99,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 _ => AddWinLossMemberDownline((WinLossMember)winLoss),
             };
 
-            this.FormatMessages(textContainer, messages, language);
+            FormatMessages(textContainer, messages, language);
         }
 
         private static Dictionary<string, decimal> AddWinLossMaster(WinLossMaster winLossMaster)
@@ -156,7 +156,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             };
         }
 
-        private void FormatMessages(List<string> textContainer, Dictionary<string, decimal> messages, string language)
+        private static void FormatMessages(List<string> textContainer, Dictionary<string, decimal> messages, string language)
         {
             foreach (var message in messages)
             {
