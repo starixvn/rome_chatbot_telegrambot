@@ -26,7 +26,7 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
                 return builders[actionId];
             }
 
-            IActionNameBuilder builder = null;
+            IActionNameBuilder builder;
             switch (actionId)
             {
                 case ActionIds.YesterdayWinLossNotification:
@@ -35,7 +35,6 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
                 case ActionIds.MemberWinLossLimitNotification:
                 case ActionIds.ChangePasswordAlert:
                 case ActionIds.ChangeSecurityCodeAlert:
-                case ActionIds.AbnormalLoginAlert:
                     builder = new UpdateNotificationStatusActionName(resourceService);
                     break;
                 default:
