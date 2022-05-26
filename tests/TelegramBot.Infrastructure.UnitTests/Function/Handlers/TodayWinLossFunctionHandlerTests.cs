@@ -24,7 +24,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
         private readonly IWinLossService winLossService;
         private readonly WebAPIConfiguration webAPIConfiguration;
         private readonly TodayWinLossFunctionHandler todayWinLossFunctionHandler;
-        private static DateTime today = DateTime.Today;
+        private static readonly DateTime today = DateTime.Today;
 
         public TodayWinLossFunctionHandlerTests()
         {
@@ -103,7 +103,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
             string[] parameters = { "downlineInfo" };
 
             // Act
-            var result = await todayWinLossFunctionHandler.Handle(account, parameters);
+            await todayWinLossFunctionHandler.Handle(account, parameters);
 
             // Assert
             await customerService.Received().GetDownlineInfo(account.CustId, "downlineInfo");
