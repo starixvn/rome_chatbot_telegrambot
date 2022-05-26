@@ -40,7 +40,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
         public async Task GenerateStartUriAsync_Always_Calls(GenerateStartUriParam param, BotEntity botEntity)
         {
             // Arrange
-            var plainKey = $"{param.CustId}:{param.SubAccId}";
+            var plainKey = $"{param.CustId}:{param.SubAccId}:{param.Language}";
             var encryptKey = "encryptKey";
             _cryptography.Encrypt(plainKey).Returns(encryptKey);
             _botService.GetAsync(param.System).Returns(Task.FromResult(botEntity));

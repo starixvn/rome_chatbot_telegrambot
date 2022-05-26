@@ -33,3 +33,4 @@ packages/
 *.orig
 .vscode/*
 .idea/*
+lcov.info
