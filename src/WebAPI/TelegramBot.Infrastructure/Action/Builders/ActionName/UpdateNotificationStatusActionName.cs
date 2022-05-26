@@ -21,7 +21,7 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
             var resource = await resourceService.GetResource(action.ActionId.ToString(), ResourceType.ActionName, account.Language);
             var function = account.Functions.FirstOrDefault(f => f.FunctionId == short.Parse(action.Command));
 
-            return (function.Enabled ? "\u2705 " : string.Empty) + resource.Value;
+            return (function.Enabled ? "\uD83D\uDD14" : "\uD83D\uDD15") + resource.Value;
         }
     }
 }
