@@ -46,9 +46,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 return await HandleDownlineOutstanding(account, downlineInfo, parameter);
             }
-            
-            return  int.TryParse(parameter, out int topQuery) 
-                ? await HandleTopOutstanding(account, topQuery) 
+
+            return int.TryParse(parameter, out int topQuery)
+                ? await HandleTopOutstanding(account, topQuery)
                 : Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
         }
 
@@ -98,7 +98,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 AddTotalRow(textContainer, data.Total, language);
                 AddBodyMessage(textContainer, data.Outstandings);
             }
-            
+
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
@@ -143,7 +143,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var index = 1;
             foreach (var outstanding in outstandings)
             {
-                textContainer.Add($"{index}. {outstanding.Name}:");
+                textContainer.Add($"{index}. {outstanding.Name}");
                 textContainer.Add($"    {outstanding.MemberOutstanding.ToFormattedNumber()} {messageFormatter.Point()} {outstanding.Outstanding.ToFormattedNumber()}");
                 index++;
             }

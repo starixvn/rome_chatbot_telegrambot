@@ -16,9 +16,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
     public abstract class BaseWinLossFunctionHandler : BaseFunctionHandler
     {
         protected readonly IWinLossService winLossService;
-
         protected readonly ICustomerService customerService;
-
         protected readonly WebAPIConfiguration webAPIConfiguration;
 
         protected BaseWinLossFunctionHandler(

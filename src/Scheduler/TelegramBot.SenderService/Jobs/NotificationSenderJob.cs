@@ -111,8 +111,7 @@ public sealed class NotificationSenderJob : IJob
         IList<Notification> successNotifications,
         IList<NotificationStatusParam> failureNotificationStatus)
     {
-        var customerStatusParams = notifications
-            .Select(n => new CustomerStatusParam(n.CustId, n.SubAccId));
+        var customerStatusParams = notifications.Select(n => new CustomerStatusParam(n.CustId, n.SubAccId));
         var customerStatus = await customerService.GetCustomerStatus(customerStatusParams);
 
         var query =
@@ -238,7 +237,7 @@ public sealed class NotificationSenderJob : IJob
                 notification.BotId,
                 notification.ChatId,
                 notification.Message);
-            
+
             return new Result(telegramBotResult.Code, telegramBotResult.Message);
         }
         catch (Exception ex)

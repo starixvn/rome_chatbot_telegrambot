@@ -90,7 +90,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 var index = 1;
                 foreach (var item in topBalanceReport)
                 {
-                    textContainer.Add($"{index++}.{item.Username}:");
+                    textContainer.Add($"{index++}. {item.Username}");
                     textContainer.Add($"    {item.Balance.ToFormattedNumber()}{messageFormatter.Point()}{item.YesterdayBalance.ToFormattedNumber()}");
                 }
             }
