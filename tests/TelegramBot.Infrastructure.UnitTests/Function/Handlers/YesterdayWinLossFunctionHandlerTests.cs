@@ -103,7 +103,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             string[] parameters = { "downlineInfo" };
 
             // Act
-            var result = await yesterdayWinLossFunctionHandler.Handle(account, parameters);
+            await yesterdayWinLossFunctionHandler.Handle(account, parameters);
 
             // Assert
             await customerService.Received().GetDownlineInfo(account.CustId, "downlineInfo");

@@ -37,6 +37,13 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
                 case ActionIds.ChangeSecurityCodeAlert:
                     builder = new UpdateNotificationStatusActionName(resourceService);
                     break;
+                case ActionIds.English:
+                case ActionIds.ChineseTraditional:
+                case ActionIds.ChineseSimplified:
+                case ActionIds.Thai:
+                case ActionIds.Vietnamese:
+                    builder = new UpdateLanguageActionName(resourceService);
+                    break;
                 default:
                     builder = new DefaultActionNameBuilder(resourceService);
                     break;

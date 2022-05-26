@@ -291,9 +291,9 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
-            if (short.TryParse(parameter, out short id))
+            if (short.TryParse(parameter, out short settingCommandId))
             {
-                var function = account.Functions.FirstOrDefault(f => f.FunctionId == id);
+                var function = account.Functions.FirstOrDefault(f => f.FunctionId == settingCommandId);
                 if (function == null)
                 {
                     return;
@@ -304,6 +304,20 @@ namespace TelegramBot.Infrastructure.Command
                 var action = await actionService.GetActionById(ActionIds.Notifications);
                 await SendNextActionsMessage(account, messenger, action, messageId);
                 await messageSender.Alert(messenger, messageBuilder.BuildUpdateNotificationSettingMessage(account.Language, function.Enabled), callbackId);
+            }
+
+            if (IsLanguageSettingCommand(parameter))
+            {
+                if (string.Equals(account.Language, parameter))
+                {
+                    return;
+                }
+
+                await settingService.UpdateUserLanguage(account.UserId, parameter, string.Empty);
+                var action = await actionService.GetActionById(ActionIds.Language);
+                account.Language = parameter;
+                await SendNextActionsMessage(account, messenger, action, messageId);
+                await messageSender.Alert(messenger, "Language Updated!", callbackId);
             }
         }
 
@@ -319,6 +333,12 @@ namespace TelegramBot.Infrastructure.Command
 
         private static bool IsValidAction(CustBotAccount account, BotAction action)
             => account.Functions.Any(f => f.FunctionId == action.FunctionId);
+
+        private static bool IsLanguageSettingCommand(string languageUpdate)
+        {
+            var languageSettingCommand = new[] { "en-US", "zh-TW", "zh-CN", "th-TH", "vi-VN" };
+            return Array.Exists(languageSettingCommand, language => language == languageUpdate);
+        }
 
         public async Task SendMainMenuMessage(CustBotAccount account, Messenger messenger, int messageId = 0)
         {
