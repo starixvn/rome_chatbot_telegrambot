@@ -1,6 +1,4 @@
 
-using System.Diagnostics;
-using Alpha.API.Client.Models.WinLoss;
 using ONEbook.UM.Services;
 using Quartz;
 using TelegramBot.Importer.Configuration;
@@ -10,7 +8,6 @@ using TelegramBot.Importer.Models.Customers;
 using TelegramBot.Importer.Models.PersonalMessages;
 using TelegramBot.Importer.Models.SystemSettings;
 using TelegramBot.Importer.Services;
-using ClientServices = Alpha.API.Client.Services;
 
 namespace TelegramBot.Importer.Jobs;
 
@@ -18,78 +15,78 @@ namespace TelegramBot.Importer.Jobs;
 public sealed class YesterdayWinLossJob : NotificationBaseJob
 {
     private readonly ICustomerService customerService;
-    private readonly ClientServices.IWinLossService winLossService;
+    private readonly IYesterdayWinLossService yesterdayWinLossService;
 
     public YesterdayWinLossJob(
         IMaintenanceService maintenanceService,
         ILoggerService loggerService,
         ISystemSettingService systemSettingService,
         ICustomerService customerService,
-        ClientServices.IWinLossService winLossService)
+        IYesterdayWinLossService yesterdayWinLossService)
         : base(maintenanceService, loggerService, systemSettingService)
     {
         this.customerService = customerService;
-        this.winLossService = winLossService;
+        this.yesterdayWinLossService = yesterdayWinLossService;
     }
 
     protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
         bool continueGettingData;
-        var yesterday = DateTime.Today.Yesterday();
+        var isFirstBatch = true;
+        const int delayTime = 1000;
+        var winLossDate = DateTime.Today.Yesterday();
 
         do
         {
-            continueGettingData = await ImportYesterdayWinLoss(job, yesterday);
+            // Must update JobStatus=Running in 2nd, 3rd, ... batch.
+            if (!isFirstBatch)
+            {
+                await UpdateJobStatusToRunning(job);
+            }
 
-            await Task.Delay(1000);
+            continueGettingData = await ImportYesterdayWinLoss(job, winLossDate);
+            isFirstBatch = false;
+
+            await Task.Delay(delayTime);
         }
         while (continueGettingData);
     }
 
-    private async Task<bool> ImportYesterdayWinLoss(ScheduleJob job, DateTime yesterday)
+    private async Task<bool> ImportYesterdayWinLoss(ScheduleJob job, DateTime winLossDate)
     {
-        Stopwatch sw = Stopwatch.StartNew();
-
-        await loggerService.Debug(job, "Start get Linked Customers");
-        sw.Start();
-
-        var (linkedCustomers, maxUserId) = await customerService.GetYesterdayWLLinkedCustomers(yesterday, job.Environment);
-
-        sw.Stop();
-        await loggerService.Debug(job, $"End get Linked Customers in {sw.Elapsed.TotalMilliseconds} - Data count {linkedCustomers.Count()}");
-
+        var (linkedCustomers, maxUserId) = await customerService.GetYesterdayWinLossLinkedCustomers(winLossDate, job.Environment);
         var hasLinkedCustomer = linkedCustomers.Any();
 
-        if (hasLinkedCustomer)
+        try
         {
-            await loggerService.Debug(job, "Start get Customer Status");
-            sw.Reset();
-            sw.Start();
+            var notifications = hasLinkedCustomer
+                ? await BuildImportYesterdayWinLoss(job, linkedCustomers, winLossDate)
+                : Enumerable.Empty<ImportYesterdayWinLoss>();
 
-            var customerStatusParams = linkedCustomers.Select(c => new CustomerStatusParam(c.CustId, c.SubAccId));
-            var customerStatus = await customerService.GetCustomerStatus(customerStatusParams);
+            // In case of NoData, call Import to update JobStatus=Completed and LastRuntime.
+            var result = await yesterdayWinLossService.Import(notifications, winLossDate, job.Environment, maxUserId);
 
-            sw.Stop();
-            await loggerService.Debug(job, $"End get Customer Status in {sw.Elapsed.TotalMilliseconds} - Data count {customerStatus.Count()}");
-
-            await loggerService.Debug(job, "Start join 2 list LinkedCustomers, CustomerStatus");
-            sw.Reset();
-            sw.Start();
-
-            var notifications = await BuildImportYesterdayWinLossList(job, linkedCustomers, customerStatus);
-
-            sw.Stop();
-            await loggerService.Debug(job, $"End join 2 list LinkedCustomers, CustomerStatus in {sw.Elapsed.TotalMilliseconds}");
+            if (result.IsFailed)
+            {
+                await loggerService.Error(job, result.Message);
+            }
+        }
+        catch (Exception ex)
+        {
+            await loggerService.Error(ex, job);
         }
 
         return hasLinkedCustomer;
     }
 
-    private async Task<IEnumerable<ImportYesterdayWinLoss>> BuildImportYesterdayWinLossList(
+    private async Task<IEnumerable<ImportYesterdayWinLoss>> BuildImportYesterdayWinLoss(
         ScheduleJob job,
         IEnumerable<LinkedCustomer> linkedCustomers,
-        IEnumerable<CustomerStatus> customerStatus)
+        DateTime winLossDate)
     {
+        var customerStatusParams = linkedCustomers.Select(c => new CustomerStatusParam(c.CustId, c.SubAccId));
+        var customerStatus = await customerService.GetCustomerStatus(customerStatusParams);
+
         var query =
             from customer in linkedCustomers
             join status in customerStatus on new { customer.CustId, customer.SubAccId }
@@ -97,14 +94,13 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
             where status.IsValid(job.SubAccPermission)
             select customer;
 
-        var yesterday = DateTime.Today.Yesterday();
         var notifications = new List<ImportYesterdayWinLoss>();
 
         await Parallel.ForEachAsync(
             query,
-            async (customer, cancellationToken) =>
+            async (customer, _) =>
             {
-                var yesterdayWinLoss = await BuildImportYesterdayWinLoss(job, customer, yesterday);
+                var yesterdayWinLoss = await BuildImportYesterdayWinLoss(job, customer, winLossDate);
 
                 if (yesterdayWinLoss != null)
                 {
@@ -118,76 +114,19 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
     private async Task<ImportYesterdayWinLoss> BuildImportYesterdayWinLoss(
         ScheduleJob job,
         LinkedCustomer customer,
-        DateTime yesterday)
+        DateTime winLossDate)
     {
         try
         {
-            string template, message;
-            var winloss = await winLossService.GetWinLoss(customer.CustId, customer.CustomerLevel, yesterday);
-
-            if (winloss == null)
-            {
-                template = "";//GetTemplate("NoInfo", customer.Language);
-                message = string.Format(template, yesterday.ToSimpleDate());
-            }
-            else
-            {
-                template = "";//GetTemplate(job.Name, customer.CustomerLevel, customer.Language);
-                message = customer.CustomerLevel switch
-                {
-                    CustomerLevel.Super => GetWinLossSuper(template, yesterday, (WinLossMaster)winloss),
-                    CustomerLevel.Master => GetWinLossMaster(template, yesterday, (WinLossAgent)winloss),
-                    CustomerLevel.Agent => GetWinLossAgent(template, yesterday, (WinLossMember)winloss),
-                    _ => throw new ArgumentOutOfRangeException(
-                        nameof(customer.CustomerLevel),
-                        $"Not expected custLevel value: {customer.CustomerLevel}")
-                };
-            }
-
-            return new ImportYesterdayWinLoss(customer.UserId, message, NotificationStatus.Initial);
+            var winloss = await yesterdayWinLossService.GetYesterdayWinLoss(customer.CustId, customer.CustomerLevel, winLossDate);
+            var message = yesterdayWinLossService.BuildMessage(winloss, customer.CustomerLevel, customer.Language, winLossDate.ToSimpleDate());
+            
+            return new ImportYesterdayWinLoss(customer.UserId, message, customer.IsRealUser && job.IsUAT ? NotificationStatus.Draft : NotificationStatus.Initial);
         }
         catch (Exception ex)
         {
-            await loggerService.Error(ex, job, $"Could not get Yesterday Win Loss of CustId={customer.CustId}, CustLevel={customer.CustomerLevel}, DateTime={yesterday}");
+            await loggerService.Error(ex, job, $"Could not get Yesterday Win Loss of CustId={customer.CustId}, CustLevel={customer.CustomerLevel}, DateTime={winLossDate}");
             return null;
         }
     }
-
-    private static string GetWinLossSuper(string template, DateTime yesterday, WinLossMaster winloss)
-        => string.Format(
-            template,
-            yesterday.ToSimpleDate(),
-            winloss.Turnover.FormatDecimal(),
-            winloss.GrossComm.FormatDecimal(),
-            winloss.MasterTotal.FormatDecimal(),
-            winloss.SuperWinLoss.FormatDecimal(),
-            winloss.SuperComm.FormatDecimal(),
-            winloss.SuperTotal.FormatDecimal(),
-            winloss.CompanyWinLoss.FormatDecimal());
-
-    private static string GetWinLossMaster(string template, DateTime yesterday, WinLossAgent winloss)
-        => string.Format(
-            template,
-            yesterday.ToSimpleDate(),
-            winloss.Turnover.FormatDecimal(),
-            winloss.GrossComm.FormatDecimal(),
-            winloss.AgentTotal.FormatDecimal(),
-            winloss.MasterWinLoss.FormatDecimal(),
-            winloss.MasterComm.FormatDecimal(),
-            winloss.MasterTotal.FormatDecimal(),
-            winloss.CompanyWinLoss.FormatDecimal());
-
-    private static string GetWinLossAgent(string template, DateTime yesterday, WinLossMember winloss)
-        => string.Format(
-            template,
-            yesterday.ToSimpleDate(),
-            winloss.Turnover.FormatDecimal(),
-            winloss.GrossComm.FormatDecimal(),
-            winloss.MemberWinLoss.FormatDecimal(),
-            winloss.MemberComm.FormatDecimal(),
-            winloss.MemberTotal.FormatDecimal(),
-            winloss.AgentWinLoss.FormatDecimal(),
-            winloss.AgentComm.FormatDecimal(),
-            winloss.AgentTotal.FormatDecimal(),
-            winloss.CompanyWinLoss.FormatDecimal());
 }

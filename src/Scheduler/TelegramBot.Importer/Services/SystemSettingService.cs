@@ -10,7 +10,11 @@ public interface ISystemSettingService
 {
     Task<SystemSetting> GetSystemSetting(string serviceName, string environment);
 
-    Task UpdateJobStatusToRunningdAndLastRunTime(string serviceName, string environment);
+    Task UpdateJobStatusAndLastRunTime(
+        string serviceName,
+        string environment,
+        string jobStatus,
+        DateTime lastRuntime);
 }
 
 public class SystemSettingService : ISystemSettingService
@@ -36,18 +40,20 @@ public class SystemSettingService : ISystemSettingService
         return settingsDict;
     }
 
-    public Task UpdateJobStatusToRunningdAndLastRunTime(string serviceName, string environment)
+    public Task UpdateJobStatusAndLastRunTime(
+        string serviceName,
+        string environment,
+        string jobStatus,
+        DateTime lastRuntime)
         => dynamicRepository.ExecuteAsync(
-            new UpdateSystemSettingCriteria(serviceName, environment, BuildSettingXML()));
+            new UpdateSystemSettingCriteria(serviceName, environment, BuildSettingXML(jobStatus, lastRuntime)));
 
-    private static string BuildSettingXML()
+    private static string BuildSettingXML(string jobStatus, DateTime lastRuntime)
     {
-        var lastRuntime = DateTime.Now.ToLongDateTime12h();
-
         var setting = new StringBuilder();
         setting.Append("<root>")
-            .Append($"<r SettingName=\"JobStatus\" Value=\"Running\"/>")
-            .Append($"<r SettingName=\"LastRuntime\" Value=\"{lastRuntime}\"/>")
+            .Append($"<r SettingName=\"JobStatus\" Value=\"{jobStatus}\"/>")
+            .Append($"<r SettingName=\"LastRuntime\" Value=\"{lastRuntime.ToLongDateTime24h()}\"/>")
             .Append("</root>");
 
         return setting.ToString();

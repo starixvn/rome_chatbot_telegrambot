@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alpha.API.Client" Version="1.0.0-beta07"/>
+    <PackageReference Include="Alpha.API.Client" Version="1.0.0-beta10"/>
     <PackageReference Include="Fanex.Data.Repository" Version="4.2.2"/>
     <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.2"/>
     <PackageReference Include="Fanex.Logging.Extensions.AspNetCore" Version="1.0.0"/>
@@ -28,6 +28,6 @@
     <ProjectReference Include="..\TelegramBot.Importer\TelegramBot.Importer.csproj"/>
   </ItemGroup>
 
-  <PropertyGroup Label="sonarqube-rules-synchronizer">
-    <CodeAnalysisRuleSet>../../../.sonarlint/telegrambotcsharp.ruleset</CodeAnalysisRuleSet>
+    <PropertyGroup Label="sonarqube-rules-synchronizer">
+    <CodeAnalysisRuleSet>../../../.sonarlint/alpha-apicsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup></Project>

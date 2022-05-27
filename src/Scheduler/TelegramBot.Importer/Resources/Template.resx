@@ -117,16 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PersonalMessageTemplate" xml:space="preserve">
-    <value>[Personal Message - {0}]{1}{2}</value>
+  <data name="PersonalMessage" xml:space="preserve">
+    <value>Personal Message</value>
     <comment/>
   </data>
   <data name="NoInfo" xml:space="preserve">
     <value>No information is available</value>
     <comment/>
   </data>
-  <data name="YesterdayWLTitleTemplate" xml:space="preserve">
-    <value>[Yesterday Win Loss - {0}]</value>
+  <data name="YesterdayWinLoss" xml:space="preserve">
+    <value>Yesterday Win Loss</value>
+    <comment/>
+  </data>
+  <data name="Turnover" xml:space="preserve">
+    <value>TURNOVER</value>
+    <comment/>
+  </data>
+  <data name="GrossComm" xml:space="preserve">
+    <value>GROSS COMM</value>
+    <comment/>
+  </data>
+  <data name="MasterTotal" xml:space="preserve">
+    <value>MASTER TOTAL</value>
+    <comment/>
+  </data>
+  <data name="SuperWinLoss" xml:space="preserve">
+    <value>SUPER WL</value>
+    <comment/>
+  </data>
+  <data name="SuperComm" xml:space="preserve">
+    <value>SUPER COMM</value>
+    <comment/>
+  </data>
+  <data name="SuperTotal" xml:space="preserve">
+    <value>SUPER TOTAL</value>
+    <comment/>
+  </data>
+  <data name="CompanyWinLoss" xml:space="preserve">
+    <value>COMPANY</value>
+    <comment/>
+  </data>
+  <data name="AgentTotal" xml:space="preserve">
+    <value>AGENT TOTAL</value>
+    <comment/>
+  </data>
+  <data name="MasterWinLoss" xml:space="preserve">
+    <value>MASTER WL</value>
+    <comment/>
+  </data>
+  <data name="MasterComm" xml:space="preserve">
+    <value>MASTER COMM</value>
+    <comment/>
+  </data>
+  <data name="MemberWinLoss" xml:space="preserve">
+    <value>MEMBER WL</value>
+    <comment/>
+  </data>
+  <data name="MemberComm" xml:space="preserve">
+    <value>MEMBER COMM</value>
+    <comment/>
+  </data>
+  <data name="MemberTotal" xml:space="preserve">
+    <value>MEMBER TOTAL</value>
+    <comment/>
+  </data>
+  <data name="AgentWinLoss" xml:space="preserve">
+    <value>AGENT WL</value>
+    <comment/>
+  </data>
+  <data name="AgentComm" xml:space="preserve">
+    <value>AGENT COMM</value>
     <comment/>
   </data>
 </root>

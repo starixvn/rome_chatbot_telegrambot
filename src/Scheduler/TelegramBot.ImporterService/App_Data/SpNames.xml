@@ -4,7 +4,9 @@
     <Setting Key="Age_Chatbot_BotSystemSetting_Sel" SpName="Age_Chatbot_BotSystemSetting_Sel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
     <Setting Key="Age_Chatbot_BotSystemSetting_Upd" SpName="Age_Chatbot_BotSystemSetting_Upd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
     <Setting Key="Age_Chatbot_GetLinkedAccounts" SpName="Age_Chatbot_GetLinkedAccounts" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_YesterdateWinlost_LinkedAccounts_Sel" SpName="Age_Chatbot_YesterdateWinlost_LinkedAccounts_Sel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
     <Setting Key="Age_Chatbot_PersonalMessageImport" SpName="Age_Chatbot_PersonalMessageImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_YesterdateWinlostImport" SpName="Age_Chatbot_YesterdateWinlostImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
   </Function>
 
   <Function Name="Customer">

@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using ONEbook.UM.Services;
 using Quartz;
 using TelegramBot.Importer.Configuration;
@@ -31,70 +30,36 @@ public sealed class PersonalMessageJob : NotificationBaseJob
 
     protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
-        Stopwatch sw = Stopwatch.StartNew();
         var notifications = Enumerable.Empty<ImportPersonalMessage>();
-
-        await loggerService.Debug(job, "Start get Personal Messages");
-        sw.Start();
 
         var (maxMsgTargetId, personalMessages) = await personalMessageService.GetNewMessages(
             systemSetting.MaxMsgTargetId,
             systemSetting.BatchSize,
             job.IsGetTestData);
 
-        sw.Stop();
-        await loggerService.Debug(job, $"End get Personal Messages in {sw.Elapsed.TotalMilliseconds} - Data count {personalMessages.Count()}");
-
         if (personalMessages.Any())
         {
-            await loggerService.Debug(job, "Start get Linked Customers");
-            sw.Reset();
-            sw.Start();
-
             var custIds = personalMessages.Select(m => m.TargetId).Distinct().JoinWithComma();
             var linkedCustomers = await customerService.GetLinkedCustomers(
                 job.Name,
                 custIds,
                 job.Environment);
 
-            sw.Stop();
-            await loggerService.Debug(job, $"End get Linked Customers in {sw.Elapsed.TotalMilliseconds} - Data count {linkedCustomers.Count()}");
-
             if (linkedCustomers.Any())
             {
-                await loggerService.Debug(job, "Start get Customer Status");
-                sw.Reset();
-                sw.Start();
-
                 var customerStatusParams = linkedCustomers.Select(c => new CustomerStatusParam(c.CustId, c.SubAccId));
                 var customerStatus = await customerService.GetCustomerStatus(customerStatusParams);
-
-                sw.Stop();
-                await loggerService.Debug(job, $"End get Customer Status in {sw.Elapsed.TotalMilliseconds} - Data count {customerStatus.Count()}");
-                
-                await loggerService.Debug(job, "Start join 3 list PersonalMessages, LinkedCustomers, CustomerStatus");
-                sw.Reset();
-                sw.Start();
 
                 notifications = BuildImportPersonalMessages(
                     job,
                     personalMessages,
                     linkedCustomers,
                     customerStatus);
-                
-                sw.Stop();
-                await loggerService.Debug(job, $"End join 3 list PersonalMessages, LinkedCustomers, CustomerStatus in {sw.Elapsed.TotalMilliseconds}");
             }
         }
 
-        await loggerService.Debug(job, $"Start import");
-        sw.Reset();
-        sw.Start();
-
+        // In case of NoData, call Import to update JobStatus=Completed and LastRuntime.
         var result = await personalMessageService.Import(notifications, job.Environment, maxMsgTargetId);
-
-        sw.Stop();
-        await loggerService.Debug(job, $"End import in {sw.Elapsed.TotalMilliseconds} - Data count {notifications.Count()}, MaxMsgTargetId = {maxMsgTargetId}");
 
         if (result.IsFailed)
         {
@@ -120,6 +85,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
                 Customer = customer
             };
 
+        var currentDate = DateTime.Today.ToSimpleDate();
         var notifications = new List<ImportPersonalMessage>();
 
         foreach (var item in query)
@@ -127,7 +93,8 @@ public sealed class PersonalMessageJob : NotificationBaseJob
             notifications.AddRange(BuildImportPersonalMessages(
                 job,
                 item.PersonalMessage,
-                item.Customer));
+                item.Customer,
+                currentDate));
         }
 
         return notifications;
@@ -136,7 +103,8 @@ public sealed class PersonalMessageJob : NotificationBaseJob
     private IEnumerable<ImportPersonalMessage> BuildImportPersonalMessages(
         ScheduleJob job,
         PersonalMessage message,
-        LinkedCustomer customer)
+        LinkedCustomer customer,
+        string currentDate)
     {
         var isReplaceBetTransId = message.ContentEN.Contains("@@")
             && !string.IsNullOrWhiteSpace(message.BetTransId);
@@ -153,6 +121,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
                     message.MessageId,
                     personalMessageService.BuildMessage(
                         customer.Language,
+                        currentDate,
                         message.GetContentByLanguage(customer.Language),
                         transId),
                     customer.IsRealUser && job.IsUAT ? NotificationStatus.Draft : NotificationStatus.Initial);
@@ -166,6 +135,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
                 message.MessageId,
                 personalMessageService.BuildMessage(
                     customer.Language,
+                    currentDate,
                     message.GetContentByLanguage(customer.Language)),
                 customer.IsRealUser && job.IsUAT ? NotificationStatus.Draft : NotificationStatus.Initial);
         }

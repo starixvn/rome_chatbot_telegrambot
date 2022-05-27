@@ -1,8 +1,0 @@
-[ยอดได้เสียเมื่อวาน - {0}]
-<b>TURNOVER</b>: {1}
-<b>GROSS COMM</b>: {2}
-<b>AGENT TOTAL</b>: {3}
-<b>MASTER WL</b>: {4}
-<b>MASTER COMM</b>: {5}
-<b>MASTER TOTAL</b>: {6}
-<b>COMPANY</b>: {7}

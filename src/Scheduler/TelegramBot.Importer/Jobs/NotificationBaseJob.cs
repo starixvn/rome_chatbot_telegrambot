@@ -26,13 +26,13 @@ public abstract class NotificationBaseJob : IJob
     public async Task Execute(IJobExecutionContext context)
     {
         var job = GetJobDetails(context);
+        
+        await loggerService.Debug(job, "Start run");
 
         if (await IsUM(job))
         {
             return;
         }
-
-        await loggerService.Debug(job, "Start run");
 
         try
         {
@@ -43,7 +43,7 @@ public abstract class NotificationBaseJob : IJob
                 return;
             }
 
-            await UpdateJobStatusToRunningdAndLastRunTime(job);
+            await UpdateJobStatusToRunning(job);
 
             await Execute(job, systemSetting);
         }
@@ -85,15 +85,18 @@ public abstract class NotificationBaseJob : IJob
         return false;
     }
 
-    private Task UpdateJobStatusToRunningdAndLastRunTime(ScheduleJob job)
+    protected Task UpdateJobStatusToRunning(ScheduleJob job)
+        => UpdateJobStatusAndLastRunTime(job, "Running", DateTime.Now);
+
+    private Task UpdateJobStatusAndLastRunTime(ScheduleJob job, string jobStatus, DateTime lastRunTime)
     {
         try
         {
-            return systemSettingService.UpdateJobStatusToRunningdAndLastRunTime(job.Name, job.Environment);
+            return systemSettingService.UpdateJobStatusAndLastRunTime(job.Name, job.Environment, jobStatus, lastRunTime);
         }
         catch (Exception ex)
         {
-            return loggerService.Error(ex, job, "Could not update job status to Running and LastRunTime.");
+            return loggerService.Error(ex, job, $"Could not update job status to {jobStatus} and LastRunTime = {lastRunTime}.");
         }
     }
 

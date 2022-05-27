@@ -1,8 +1,0 @@
-[Thắng thua hôm qua - {0}]
-<b>TIỀN CƯỢC</b>: {1}
-<b>TỔNG HOA HỒNG</b>: {2}
-<b>TỔNG GIAO DỊCH CỦA AGENT</b>: {3}
-<b>THẮNG THUA CỦA MASTER</b>: {4}
-<b>HOA HỒNG CỦA MASTER</b>: {5}
-<b>TỔNG GIAO DỊCH CỦA MASTER</b>: {6}
-<b>CÔNG TY</b>: {7}

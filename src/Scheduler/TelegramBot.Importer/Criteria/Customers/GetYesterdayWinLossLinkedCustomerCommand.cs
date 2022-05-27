@@ -2,9 +2,9 @@ using Fanex.Data.Repository;
 
 namespace TelegramBot.Importer.Criteria.Customers;
 
-public class GetYesterdayWLLinkedCustomerCommand : NonQueryCommand
+public class GetYesterdayWinLossLinkedCustomerCommand : NonQueryCommand
 {
-    public GetYesterdayWLLinkedCustomerCommand(
+    public GetYesterdayWinLossLinkedCustomerCommand(
         DateTime winLostDate,
         string environment)
     {

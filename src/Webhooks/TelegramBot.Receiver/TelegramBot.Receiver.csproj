@@ -20,6 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\WebAPI\TelegramBot.Client\TelegramBot.Client.csproj"/>
   </ItemGroup>
-  <PropertyGroup Label="sonarqube-rules-synchronizer">
-    <CodeAnalysisRuleSet>../../../.sonarlint/telegrambotcsharp.ruleset</CodeAnalysisRuleSet>
+    <PropertyGroup Label="sonarqube-rules-synchronizer">
+    <CodeAnalysisRuleSet>../../../.sonarlint/alpha-apicsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup></Project>

@@ -11,7 +11,8 @@ public static class DIExtensions
             .AddSingleton<ILoggerService, LoggerService>()
             .AddScoped<ISystemSettingService, SystemSettingService>()
             .AddScoped<ICustomerService, CustomerService>()
-            .AddSingleton<IPersonalMessageService, PersonalMessageService>();
+            .AddSingleton<IPersonalMessageService, PersonalMessageService>()
+            .AddSingleton<IYesterdayWinLossService, YesterdayWinLossService>();
     
     public static IServiceCollection AddAlphaServicesClient(this IServiceCollection services, IConfiguration configuration)
     {        
