@@ -20,6 +20,12 @@ public record CustomerStatus(
 {
     public bool IsSubAcc => SubAccId != 0;
 
+    public bool IsInvalid(string subAccPermission, out string reason)
+    {
+        reason = GetStatus(subAccPermission);
+        return !string.IsNullOrEmpty(reason);
+    }
+
     public string GetStatus(string subAccPermission)
     {
         if (!IsActive)
@@ -32,14 +38,14 @@ public record CustomerStatus(
             return "Customer Status: Protected";
         }
 
-        if (IsSubAcc)
+        if (IsSubAcc && !string.IsNullOrWhiteSpace(subAccPermission) && !PageAccess.Contains(subAccPermission))
         {
-            if (!string.IsNullOrWhiteSpace(subAccPermission) && !PageAccess.Contains(subAccPermission))
-            {
-                return $"Customer Status: Sub-Account doesn't has {subAccPermission} permission";
-            }
+
+            return $"Customer Status: Sub-Account doesn't has {subAccPermission} permission";
+
         }
-        else if (IsLocked)
+
+        if (IsLocked)
         {
             return "Customer Status: Locked";
         }

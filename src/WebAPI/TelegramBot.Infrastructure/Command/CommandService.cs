@@ -202,6 +202,12 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
+            if (callbackData.IsMainMenu)
+            {
+                await SendMainMenuMessage(account, messenger);
+                return;
+            }
+
             if (callbackData.ActionId == ActionIds.MainMenu)
             {
                 await SendMainMenuMessage(account, messenger, messageId);
@@ -265,7 +271,7 @@ namespace TelegramBot.Infrastructure.Command
             await actionService.ResetUserActions(account.UserId);
             var rootAction = await actionService.GetRootActionByFunctionId(functionId);
             var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2);
-            var message = await messageBuilder.BuildMessageWithBackButton(result.Message, new List<MessageButton>(), rootAction.ActionId, account.Language);
+            var message = await messageBuilder.BuildMessageWithBackButton(result.Message, new List<MessageButton>(), rootAction.ActionId, account.Language, true);
             await messageSender.SendMessage(
                 account.UserId,
                 messenger: messenger,

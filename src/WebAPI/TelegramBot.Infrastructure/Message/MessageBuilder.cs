@@ -52,7 +52,7 @@ namespace TelegramBot.Infrastructure.Message
 
         Task<Models.Message> BuildMessage(string text, IList<MessageButton> buttons, string language);
 
-        Task<Models.Message> BuildMessageWithBackButton(string text, IList<MessageButton> buttons, short backToActionId, string language);
+        Task<Models.Message> BuildMessageWithBackButton(string text, IList<MessageButton> buttons, short backToActionId, string language, bool isEndAction = false);
 
         Task<Models.Message> BuildStopUsingChatbotConfirmMessage(string language, string chatbotName);
 
@@ -171,10 +171,10 @@ namespace TelegramBot.Infrastructure.Message
         public async Task<Models.Message> BuildMessage(string text, IList<MessageButton> buttons, string language)
             => new Models.Message(text, await BuildReplyMarkup(language, buttons));
 
-        public async Task<Models.Message> BuildMessageWithBackButton(string text, IList<MessageButton> buttons, short backToActionId, string language)
-            => new Models.Message(text, await BuildReplyMarkup(language, buttons, backToActionId));
+        public async Task<Models.Message> BuildMessageWithBackButton(string text, IList<MessageButton> buttons, short backToActionId, string language, bool isEndAction = false)
+            => new Models.Message(text, await BuildReplyMarkup(language, buttons, backToActionId, isEndAction));
 
-        private async Task<InlineKeyboardMarkup> BuildReplyMarkup(string language, IList<MessageButton> buttons, short backToActionId = -1)
+        private async Task<InlineKeyboardMarkup> BuildReplyMarkup(string language, IList<MessageButton> buttons, short backToActionId = -1, bool isEndAction = false)
         {
             var hasBackButton = backToActionId >= 0;
             var numberOfRows = (buttons.Count % NumberButtonInRow > 0 ? (buttons.Count / NumberButtonInRow) + 1 : (buttons.Count / NumberButtonInRow)) + (hasBackButton ? 1 : 0);
@@ -184,21 +184,21 @@ namespace TelegramBot.Infrastructure.Message
             {
                 if (hasBackButton && i == numberOfRows - 1)
                 {
-                    var backToMainMenu = $"<< {ResourceHelper.Get(nameof(SharedResource.BackToMainMenu), language)}";
+                    var mainMenuButton = BuildMainMenuButton(isEndAction, language);
                     if (backToActionId > 0)
                     {
                         var backToAction = $"<< {ResourceHelper.Get(nameof(SharedResource.BackTo), language)} {await BuildActionName(language, backToActionId)}";
                         buttonRows[i] = new[]
                         {
                             InlineKeyboardButton.WithCallbackData(backToAction, JsonConvert.SerializeObject(new { ActionId = backToActionId, Value = backToAction })),
-                            InlineKeyboardButton.WithCallbackData(backToMainMenu, JsonConvert.SerializeObject(new { ActionId = ActionIds.MainMenu, Value = backToMainMenu })),
+                            InlineKeyboardButton.WithCallbackData(mainMenuButton.Text, mainMenuButton.CallBackData),
                         };
                     }
                     else
                     {
                         buttonRows[i] = new[]
                         {
-                            InlineKeyboardButton.WithCallbackData(backToMainMenu, JsonConvert.SerializeObject(new { ActionId = ActionIds.MainMenu, Value = backToMainMenu })),
+                            InlineKeyboardButton.WithCallbackData(mainMenuButton.Text, mainMenuButton.CallBackData),
                         };
                     }
                 }
@@ -216,6 +216,20 @@ namespace TelegramBot.Infrastructure.Message
             }
 
             return buttonRows;
+        }
+
+        private static MessageButton BuildMainMenuButton(bool isEndAction, string language)
+        {
+            if (isEndAction)
+            {
+                var text = $"\uD83C\uDFDB {ResourceHelper.Get(nameof(SharedResource.MainMenu), language)}";
+                return new MessageButton(text, JsonConvert.SerializeObject(new { IsMainMenu = true, Value = text }));
+            }
+            else
+            {
+                var text = $"<< {ResourceHelper.Get(nameof(SharedResource.BackToMainMenu), language)}";
+                return new MessageButton(text, JsonConvert.SerializeObject(new { ActionId = ActionIds.MainMenu, Value = text }));
+            }
         }
 
         public async Task<Models.Message> BuildStopUsingChatbotConfirmMessage(string language, string chatbotName)

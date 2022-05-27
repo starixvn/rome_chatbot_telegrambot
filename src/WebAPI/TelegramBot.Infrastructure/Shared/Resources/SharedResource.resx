@@ -438,4 +438,7 @@
   <data name="TurnOnNotification" xml:space="preserve">
     <value>Turn on notification</value>
   </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>Main Menu</value>
+  </data>
 </root>

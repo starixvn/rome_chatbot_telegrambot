@@ -130,7 +130,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         }
 
         private static void AddTitleRow(List<string> textContainer, string language)
-            => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.Outstanding), language)} - {DateTime.Now:yyyyMMdd}]");
+            => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.Outstanding), language)}]");
 
         private void AddTotalRow(List<string> textContainer, OutstandingEntity total, string language)
         {

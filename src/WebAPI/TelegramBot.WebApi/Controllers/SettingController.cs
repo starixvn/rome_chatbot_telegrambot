@@ -5,7 +5,6 @@ using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared;
-using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Resources;
 using TelegramBot.WebApi.Params;

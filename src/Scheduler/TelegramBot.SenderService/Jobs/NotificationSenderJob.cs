@@ -67,15 +67,7 @@ public sealed class NotificationSenderJob : IJob
                 return;
             }
 
-            var successNotifications = new List<Notification>();
-            var failureNotificationStatus = new List<NotificationStatusParam>();
-
-            await JoinWithCustomerStatus(notifications, successNotifications, failureNotificationStatus);
-
-            var notificationStatus = await ChunkAndSendNotifications(
-                successNotifications,
-                failureNotificationStatus,
-                notificationChunkSize);
+            var notificationStatus = await ChunkAndSendNotifications(notifications, notificationChunkSize);
 
             await UpdateNotificationStatus(notificationStatus, lastNotifications, jobName, environment);
         }
@@ -106,110 +98,54 @@ public sealed class NotificationSenderJob : IJob
     private static bool IsStopJob(SystemSetting systemSetting)
         => systemSetting == null || !systemSetting.ServiceFlag;
 
-    private async Task JoinWithCustomerStatus(
-        IEnumerable<Notification> notifications,
-        IList<Notification> successNotifications,
-        IList<NotificationStatusParam> failureNotificationStatus)
+
+    public async Task<IEnumerable<CustomerStatus>> GetCustomerStatus(IEnumerable<Notification> notifications)
     {
         var customerStatusParams = notifications.Select(n => new CustomerStatusParam(n.CustId, n.SubAccId));
-        var customerStatus = await customerService.GetCustomerStatus(customerStatusParams);
-
-        var query =
-            from notification in notifications
-            join status in customerStatus on new { notification.CustId, notification.SubAccId }
-                equals new { status.CustId, status.SubAccId }
-            select new
-            {
-                Notification = notification,
-                CustomerStatus = status
-            };
-
-        foreach (var item in query)
-        {
-            UpdateSuccessAndFailureNotifications(
-                successNotifications,
-                failureNotificationStatus,
-                item.Notification,
-                item.CustomerStatus);
-        }
+        return await customerService.GetCustomerStatus(customerStatusParams);
     }
 
-    private void UpdateSuccessAndFailureNotifications(
-        IList<Notification> successNotifications,
-        IList<NotificationStatusParam> failureNotificationStatus,
-        Notification notification,
-        CustomerStatus customerStatus)
+    private async Task<IEnumerable<NotificationStatusParam>> ChunkAndSendNotifications(IEnumerable<Notification> notifications, int notificationChunkSize)
     {
-
-        appSettings.FunctionPermissions.TryGetValue(notification.FunctionKey, out var subAccPermission);
-        var customerStatusText = customerStatus.GetStatus(subAccPermission);
-
-        if (customerStatusText.Length > 0)
-        {
-            failureNotificationStatus.Add(new NotificationStatusParam(
-                notification.NotificationId,
-                NotificationStatus.Invalid,
-                customerStatusText));
-        }
-        else
-        {
-            successNotifications.Add(notification);
-        }
-
-    }
-
-    private async Task<IEnumerable<NotificationStatusParam>> ChunkAndSendNotifications(
-        IEnumerable<Notification> notifications,
-        IList<NotificationStatusParam> failureNotificationStatus,
-        int notificationChunkSize)
-    {
-        var successNotificationStatus = new List<NotificationStatusParam>();
+        var status = new List<NotificationStatusParam>();
+        var customerStatus = await GetCustomerStatus(notifications);
 
         var sleepTime = 1000 / notificationChunkSize;
         var chunkNotifications = notifications.Chunk(notificationChunkSize);
 
         foreach (var notificationArray in chunkNotifications)
         {
-            await SendNotifications(
-                notificationArray,
-                successNotificationStatus,
-                failureNotificationStatus,
-                sleepTime);
+
+            status.AddRange(await SendNotifications(notificationArray, customerStatus, sleepTime));
         }
 
-        successNotificationStatus.AddRange(failureNotificationStatus);
-
-        return successNotificationStatus;
+        return status;
     }
 
-    private async Task SendNotifications(
-        Notification[] notifications,
-        IList<NotificationStatusParam> successNotificationStatus,
-        IList<NotificationStatusParam> failureNotificationStatus,
-        int sleepTime)
+    private async Task<IEnumerable<NotificationStatusParam>> SendNotifications(Notification[] notifications, IEnumerable<CustomerStatus> customerStatus, int sleepTime)
     {
-        Result result;
+        var status = new List<NotificationStatusParam>();
 
         foreach (var item in notifications)
         {
-            result = await NotifyToUser(item);
-
-            if (result.IsFailed)
+            appSettings.FunctionPermissions.TryGetValue(item.FunctionKey, out var subAccPermission);
+            var custStatus = customerStatus.FirstOrDefault(status => status.CustId == item.CustId && status.SubAccId == item.SubAccId);
+            if (custStatus != null)
             {
-                failureNotificationStatus.Add(new NotificationStatusParam(
-                    item.NotificationId,
-                    NotificationStatus.Fail,
-                    result.Message));
+                if (custStatus.IsInvalid(subAccPermission, out var reason))
+                {
+                    status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Invalid, reason));
+                }
+                else
+                {
+                    var result = await NotifyToUser(item);
+                    status.Add(new NotificationStatusParam(item.NotificationId, result.IsFailed ? NotificationStatus.Fail : NotificationStatus.Completed, result.Message));
+                    await Task.Delay(sleepTime);
+                }
             }
-            else
-            {
-                successNotificationStatus.Add(new NotificationStatusParam(
-                    item.NotificationId,
-                    NotificationStatus.Completed));
-            }
-
-            await Task.Delay(sleepTime);
         }
+
+        return status;
     }
 
     private async Task<Result> NotifyToUser(Notification notification)

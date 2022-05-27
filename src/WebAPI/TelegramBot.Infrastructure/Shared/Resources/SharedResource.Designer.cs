@@ -502,6 +502,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Main Menu.
+        /// </summary>
+        public static string MainMenu {
+            get {
+                return ResourceManager.GetString("MainMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Master Comm.
         /// </summary>
         public static string MasterComm {
