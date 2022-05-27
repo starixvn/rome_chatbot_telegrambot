@@ -116,7 +116,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}:", bal.GivenCredit.ToFormattedNumber()},
                 {$"{ResourceHelper.Get($"{(CustomerLevel)account.CustomerLevel - 1}Credit",lang)}:", bal.MemberCredit.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}:", bal.Outstanding.MemberOutstanding.ToFormattedNumber()},
-                {$"{ResourceHelper.Get($"{(CustomerLevel)account.CustomerLevel}OutStanding", lang)}:", getOutStanding(bal.Outstanding,account.CustomerLevel).ToFormattedNumber()},
+                {$"{ResourceHelper.Get($"{(CustomerLevel)account.CustomerLevel}OutStanding", lang)}:", GetOutStanding(bal.Outstanding,account.CustomerLevel).ToFormattedNumber()},
             };
             var textContainer = new List<string>();
             foreach (var keyValuePair in dict)
@@ -224,7 +224,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             return downline == null ? "0/0/0" : $"{downline.TotalActive}/{downline.TotalClosed}/{downline.TotalSuspended}";
         }
 
-        private static decimal getOutStanding(CustomerOutstanding outstanding,byte customerLevel)
+        private static decimal GetOutStanding(CustomerOutstanding outstanding,byte customerLevel)
         {
             return (CustomerLevel)customerLevel switch
             {

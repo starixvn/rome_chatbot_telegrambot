@@ -373,7 +373,7 @@
     <value>MEM. MAX CREDIT</value>
   </data>
   <data name="MemberActClosedSus" xml:space="preserve">
-    <value>MEM. ACT/CLOSED/SUS</value>
+    <value>MEM.ACTIVE/CLOSED/SUSPENDED</value>
   </data>
   <data name="SuperOutStanding" xml:space="preserve">
     <value>SUPER OUTSTANDING</value>
@@ -388,7 +388,7 @@
     <value>BET CREDIT</value>
   </data>
   <data name="AgentActClosedSus" xml:space="preserve">
-    <value>AG. ACT/CLOSED/SUS</value>
+    <value>AG.ACTIVE/CLOSED/SUSPENDED</value>
   </data>
   <data name="AgentCredit" xml:space="preserve">
     <value>AGENT CREDIT</value>
