@@ -1,0 +1,10 @@
+[Thắng thua hôm qua - {0}]
+<b>TIỀN CƯỢC</b>: {1}
+<b>TỔNG HOA HỒNG</b>: {2}
+<b>THẮNG THUA CỦA MEMBER</b>: {3}
+<b>HOA HỒNG CỦA MEMBER</b>: {4}
+<b>TỔNG CỘNG CỦA MEMBER</b>: {5}
+<b>THẮNG THUA CỦA AGENT</b>: {6}
+<b>HOA HỒNG CỦA AGENT</b>: {7}
+<b>TỔNG GIAO DỊCH CỦA AGENT</b>: {8}
+<b>CÔNG TY</b>: {9}

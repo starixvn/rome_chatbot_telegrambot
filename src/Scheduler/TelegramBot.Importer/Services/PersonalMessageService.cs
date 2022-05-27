@@ -6,6 +6,7 @@ using TelegramBot.Importer.Criteria.PersonalMessages;
 using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Models.PersonalMessages;
+using TelegramBot.Importer.Resources;
 
 namespace TelegramBot.Importer.Services;
 
@@ -23,15 +24,6 @@ public interface IPersonalMessageService
 
 public class PersonalMessageService : IPersonalMessageService
 {
-    private static readonly IDictionary<string, string> MessageTemplates = new Dictionary<string, string>
-    {
-        [LanguageCode.English] = "[Personal Message - {0}]\n{1}",
-        [LanguageCode.ChineseTraditional] = "[個人訊息 - {0}]\n{1}",
-        [LanguageCode.ChineseSimplified] = "[个人讯息 - {0}]\n{1}",
-        [LanguageCode.Thai] = "[ข้อความส่วนตัว - {0}]\n{1}",
-        [LanguageCode.Vietnamese] = "[Tin nhắn cá nhân - {0}]\n{1}"
-    };
-    
     private readonly IDynamicRepository dynamicRepository;
 
     public PersonalMessageService(IDynamicRepository dynamicRepository)
@@ -46,17 +38,14 @@ public class PersonalMessageService : IPersonalMessageService
     }
 
     public string BuildMessage(string language, string content, string transId = "")
-    {
-        if (!MessageTemplates.TryGetValue(language, out var template))
-        {
-            template = MessageTemplates[LanguageCode.English];
-        }
-
-        return string.Format(
-            template,
+        => string.Format(
+            TemplateHelper.Get("PersonalMessage", language),
             DateTime.Today.ToSimpleDate(),
-            SecurityElement.Escape(transId.Length == 0 ? content : content.Replace("@@", transId)));
-    }
+            TelegramHtmlFormat.NewLine,
+            SafeMessageContent(content, transId));
+
+    private static string SafeMessageContent(string content, string transId)
+        => SecurityElement.Escape(transId.Length == 0 ? content : content.Replace("@@", transId));
 
     public async Task<Result> Import(
         IEnumerable<ImportPersonalMessage> notifications,

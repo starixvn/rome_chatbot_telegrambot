@@ -10,4 +10,7 @@ public static class DateTimeExtensions
 
     public static string ToLongDateTime12h(this DateTime dateTime)
         => dateTime.ToString(LongDateTime12h);
+
+    public static DateTime Yesterday(this DateTime dateTime)
+        => dateTime.AddDays(-1);
 }

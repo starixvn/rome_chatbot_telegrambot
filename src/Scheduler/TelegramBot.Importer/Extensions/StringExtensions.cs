@@ -4,4 +4,7 @@ public static class StringExtensions
 {
     public static string[] SplitComma(this string text)
         => text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+    public static string FormatDecimal(this decimal value)
+        => value.ToString("N2");
 }

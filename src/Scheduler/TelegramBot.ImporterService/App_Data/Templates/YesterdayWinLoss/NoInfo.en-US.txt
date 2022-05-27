@@ -1,0 +1,2 @@
+[Yesterday Win Loss - {0}]
+No information is available

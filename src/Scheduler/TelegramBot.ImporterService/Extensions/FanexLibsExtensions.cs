@@ -66,6 +66,9 @@ public static class FanexLibsExtensions
         }
     }
 
+    public static IServiceCollection AddFanexCachingMemory(this IServiceCollection services)
+        => services.AddSingleton<Fanex.Caching.ICacheService, Fanex.Caching.CacheService>();
+
     public static IServiceCollection AddONEBookUM(this IServiceCollection services, IConfiguration configuration)
     {
         var umConfig = configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>();

@@ -1,0 +1,10 @@
+[Yesterday Win Loss - {0}]
+<b>TURNOVER</b>: {1}
+<b>GROSS COMM</b>: {2}
+<b>MEMBER WL</b>: {3}
+<b>MEMBER COMM</b>: {4}
+<b>MEMBER TOTAL</b>: {5}
+<b>AGENT WL</b>: {6}
+<b>AGENT COMM</b>: {7}
+<b>AGENT TOTAL</b>: {8}
+<b>COMPANY</b>: {9}

@@ -7,10 +7,11 @@ namespace TelegramBot.Importer.Services;
 
 public interface ICustomerService
 {
+    Task<Tuple<IEnumerable<LinkedCustomer>, int>> GetYesterdayWLLinkedCustomers(
+        DateTime winLossDate,
+        string environment);
+
     Task<IEnumerable<LinkedCustomer>> GetLinkedCustomers(
-        string system,
-        bool botStatus,
-        bool isBotTest,
         string functionKey,
         string custIds,
         string environment);
@@ -25,17 +26,21 @@ public class CustomerService : ICustomerService
     public CustomerService(IDynamicRepository dynamicRepository)
         => this.dynamicRepository = dynamicRepository;
 
+    public async Task<Tuple<IEnumerable<LinkedCustomer>, int>> GetYesterdayWLLinkedCustomers(
+        DateTime winLossDate,
+        string environment)
+    {
+        var command = new GetYesterdayWLLinkedCustomerCommand(winLossDate, environment);
+        var winloss = await dynamicRepository.FetchAsync<LinkedCustomer>(command);
+
+        return new Tuple<IEnumerable<LinkedCustomer>, int>(winloss, command.MaxUserId);
+    } 
+
     public Task<IEnumerable<LinkedCustomer>> GetLinkedCustomers(
-        string system,
-        bool botStatus,
-        bool isBotTest,
         string functionKey,
         string custIds,
         string environment)
         => dynamicRepository.FetchAsync<LinkedCustomer>(new GetLinkedCustomerCriteria(
-            system,
-            botStatus,
-            isBotTest,
             functionKey,
             custIds,
             environment));

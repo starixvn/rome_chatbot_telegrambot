@@ -1,0 +1,8 @@
+[Yesterday Win Loss - {0}]
+<b>TURNOVER</b>: {1}
+<b>GROSS COMM</b>: {2}
+<b>MASTER TOTAL</b>: {3}
+<b>SUPER WL</b>: {4}
+<b>SUPER COMM</b>: {5}
+<b>SUPER TOTAL</b>: {6}
+<b>COMPANY</b>: {7}

@@ -1,0 +1,8 @@
+[Thắng thua hôm qua - {0}]
+<b>TIỀN CƯỢC</b>: {1}
+<b>TỔNG HOA HỒNG</b>: {2}
+<b>TỔNG GIAO DỊCH CỦA MASTER</b>: {3}
+<b>THẮNG THUA CỦA SUPER</b>: {4}
+<b>HOA HỒNG CỦA SUPER</b>: {5}
+<b>TỔNG CỘNG CỦA SUPER</b>: {6}
+<b>CÔNG TY</b>: {7}

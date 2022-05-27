@@ -7,8 +7,10 @@ var configuration = builder.Configuration;
 builder.Services
     .AddFanexDataWithSqlServer(configuration)
     .AddFanexLogging(configuration)
+    .AddFanexCachingMemory()
     .AddONEBookUM(configuration)
-    .AddServices(configuration)
+    .AddServices()
+    .AddAlphaServicesClient(configuration)
     .AddQuartz(quartz =>
     {
         quartz.UseMicrosoftDependencyInjectionJobFactory();

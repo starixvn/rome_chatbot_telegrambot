@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Microsoft.Extensions.Options;
 using ONEbook.UM.Services;
 using Quartz;
 using TelegramBot.Importer.Configuration;
@@ -17,20 +16,17 @@ public sealed class PersonalMessageJob : NotificationBaseJob
 {
     private readonly IPersonalMessageService personalMessageService;
     private readonly ICustomerService customerService;
-    private readonly AppSettings appSettings;
 
     public PersonalMessageJob(
         IMaintenanceService maintenanceService,
         ILoggerService loggerService,
         ISystemSettingService systemSettingService,
         IPersonalMessageService personalMessageService,
-        ICustomerService customerService,
-        IOptions<AppSettings> options)
+        ICustomerService customerService)
         : base(maintenanceService, loggerService, systemSettingService)
     {
         this.personalMessageService = personalMessageService;
         this.customerService = customerService;
-        appSettings = options.Value;
     }
 
     protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
@@ -57,9 +53,6 @@ public sealed class PersonalMessageJob : NotificationBaseJob
 
             var custIds = personalMessages.Select(m => m.TargetId).Distinct().JoinWithComma();
             var linkedCustomers = await customerService.GetLinkedCustomers(
-                appSettings.System,
-                true,
-                appSettings.IsBotTest,
                 job.Name,
                 custIds,
                 job.Environment);
