@@ -222,12 +222,12 @@ namespace TelegramBot.Infrastructure.Message
         {
             if (isEndAction)
             {
-                var text = $"\uD83C\uDFDB {ResourceHelper.Get(nameof(SharedResource.MainMenu), language)}";
+                var text = $"\u2630 {ResourceHelper.Get(nameof(SharedResource.MainMenu), language)}";
                 return new MessageButton(text, JsonConvert.SerializeObject(new { IsMainMenu = true, Value = text }));
             }
             else
             {
-                var text = $"<< {ResourceHelper.Get(nameof(SharedResource.BackToMainMenu), language)}";
+                var text = $"\u00AB {ResourceHelper.Get(nameof(SharedResource.BackToMainMenu), language)}";
                 return new MessageButton(text, JsonConvert.SerializeObject(new { ActionId = ActionIds.MainMenu, Value = text }));
             }
         }
