@@ -208,7 +208,7 @@ public sealed class NotificationSenderJob : IJob
                     NotificationStatus.Completed));
             }
 
-            Thread.Sleep(sleepTime);
+            await Task.Delay(sleepTime);
         }
     }
 

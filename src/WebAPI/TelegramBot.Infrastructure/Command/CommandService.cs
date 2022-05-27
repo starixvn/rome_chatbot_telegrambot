@@ -297,8 +297,7 @@ namespace TelegramBot.Infrastructure.Command
                 await settingService.UpdateUserFunction(account.UserId, function, account.CustId, string.Empty);
                 var action = await actionService.GetActionById(ActionIds.Notifications);
                 await SendNextActionsMessage(account, messenger, action, messageId);
-                await messageSender.Alert(messenger, "Setting Updated!", callbackId);
-
+                await messageSender.Alert(messenger, messageBuilder.BuildUpdateNotificationSettingMessage(account.Language, function.Enabled), callbackId);
             }
         }
 

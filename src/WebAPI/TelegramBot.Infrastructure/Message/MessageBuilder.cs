@@ -61,6 +61,8 @@ namespace TelegramBot.Infrastructure.Message
         string BuildInvalidUsernameMessage(string language);
 
         string BuildInvalidDownlinesMessage(string language, int max);
+
+        string BuildUpdateNotificationSettingMessage(string language, bool enabled);
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -236,5 +238,8 @@ namespace TelegramBot.Infrastructure.Message
 
         public string BuildInvalidDownlinesMessage(string language, int max)
             => string.Format(ResourceHelper.Get(nameof(SharedResource.InvalidNumberOfDownlines), language), max);
+
+        public string BuildUpdateNotificationSettingMessage(string language, bool enabled)
+            => ResourceHelper.Get(enabled ? nameof(SharedResource.TurnOnNotification) : nameof(SharedResource.TurnOffNotification), language);
     }
 }

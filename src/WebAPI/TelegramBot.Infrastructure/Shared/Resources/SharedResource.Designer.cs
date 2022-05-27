@@ -448,7 +448,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please log in to &lt;b&gt;the associated site&lt;/b&gt;, access Chatbot function and follow instruction to setup Telegram Chatbot.
+        ///   Looks up a localized string similar to Please log in to &lt;b&gt;the agent site&lt;/b&gt;, access Chatbot function and follow instruction to setup Telegram Chatbot.
         /// </summary>
         public static string IntroductionMessage {
             get {
@@ -772,7 +772,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please enter this private OTP to &lt;b&gt;the associated site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot.&lt;b&gt;OTP:&lt;/b&gt; &lt;code&gt;{0}&lt;/code&gt;.
+        ///   Looks up a localized string similar to Please enter this private OTP to &lt;b&gt;the agent site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot.&lt;b&gt;OTP:&lt;/b&gt; &lt;code&gt;{0}&lt;/code&gt;.
         /// </summary>
         public static string Setting_OTP_Help {
             get {
@@ -880,6 +880,24 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Turn off notification.
+        /// </summary>
+        public static string TurnOffNotification {
+            get {
+                return ResourceManager.GetString("TurnOffNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn on notification.
+        /// </summary>
+        public static string TurnOnNotification {
+            get {
+                return ResourceManager.GetString("TurnOnNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Turnover.
         /// </summary>
         public static string Turnover {
@@ -934,7 +952,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Welcome {0}. Your Telegram Chatbot setup is completed.Yesterday Win Loss will be sent to you daily at 3:00PM (GMT-4).Please select an action:.
+        ///   Looks up a localized string similar to Welcome {0}. Your Telegram Chatbot setup is completed. This bot can assist you to view report more easily or keep you posted with the latest important notifications. You will receive your yesterday&apos;s win loss after 2:00 PM (GMT+8) daily..
         /// </summary>
         public static string WelcomeMessage {
             get {
