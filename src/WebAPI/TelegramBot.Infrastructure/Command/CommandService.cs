@@ -80,7 +80,7 @@ namespace TelegramBot.Infrastructure.Command
 
             var bot = await botService.GetAsync(messengerBotId);
             var account = await settingService.GetCustBotAccount(chatId, bot.BotId);
-            var messenger = new Messenger(bot.BotId, chatId);
+            Messenger messenger = new(bot.BotId, chatId, bot.System);
 
             await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, message, MessageSendStatus.Success));
 
@@ -100,7 +100,7 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task HandleSettingsCommand(CustBotAccount account, Messenger messenger)
         {
-            var settingsAction = await actionService.GetActionById(ActionIds.Settings);
+            var settingsAction = await actionService.GetActionById(ActionIds.Settings, messenger.System);
             await actionService.InsertUserAction(account.UserId, settingsAction.ActionId, string.Empty);
             await SendNextActionsMessage(account, messenger, settingsAction);
         }
@@ -118,9 +118,9 @@ namespace TelegramBot.Infrastructure.Command
                 {
                     builder.Append(formatter.NewLine());
                     builder.Append($"{formatter.NewLine()}{formatter.Bold(await functionService.GetFunctionName(report.FunctionId, account.Language))}");
-                    var rootAction = await actionService.GetRootActionByFunctionId(report.FunctionId);
+                    var rootAction = await actionService.GetRootActionByFunctionId(report.FunctionId, messenger.System);
                     builder.Append($"{formatter.NewLine()}{rootAction.Command} - {await actionService.GetActionDescription(rootAction.ActionId, account.Language)}");
-                    var childActions = (await actionService.GetChildActions(account, rootAction.ActionId)).Where(a => a.Type != ActionTypes.Downline);
+                    var childActions = (await actionService.GetChildActions(account, rootAction.ActionId, messenger.System)).Where(a => a.Type != ActionTypes.Downline);
                     foreach (var childAction in childActions)
                     {
                         builder.Append($"{formatter.NewLine()}{rootAction.Command} {childAction.Command} - {await actionService.GetActionDescription(childAction.ActionId, account.Language)}");
@@ -135,7 +135,7 @@ namespace TelegramBot.Infrastructure.Command
         {
             var userActions = await actionService.GetUserActions(account.UserId);
             var lastUserAction = userActions.LastOrDefault();
-            var currentAction = lastUserAction != null ? await actionService.GetActionById(lastUserAction.ActionId) : null;
+            var currentAction = lastUserAction != null ? await actionService.GetActionById(lastUserAction.ActionId, messenger.System) : null;
             if (currentAction == null || currentAction.Type != ActionTypes.Message)
             {
                 var function = await functionService.GetFunctionByCommand(userResponse);
@@ -145,7 +145,7 @@ namespace TelegramBot.Infrastructure.Command
                     return;
                 }
 
-                var action = await actionService.GetActionByCommand(userResponse);
+                var action = await actionService.GetActionByCommand(userResponse, messenger.System);
                 if (action != null)
                 {
                     await actionService.InsertUserAction(account.UserId, action.ActionId, string.Empty);
@@ -166,7 +166,7 @@ namespace TelegramBot.Infrastructure.Command
                     var validationResult = await validator.Validate(account, userResponse);
                     if (validationResult.IsNotOk)
                     {
-                        var prevAction = await actionService.GetActionById(currentAction.ParentId);
+                        var prevAction = await actionService.GetActionById(currentAction.ParentId, messenger.System);
                         await messageSender.SendMessage(
                             account.UserId,
                             messenger: messenger,
@@ -179,7 +179,7 @@ namespace TelegramBot.Infrastructure.Command
 
             if (currentAction.IsEndAction)
             {
-                var compiledCommand = await actionService.CompileCommand(userActions, userResponse);
+                var compiledCommand = await actionService.CompileCommand(userActions, userResponse, messenger.System);
                 await HandleCommand(account, messenger, compiledCommand, currentAction.FunctionId);
             }
             else
@@ -192,7 +192,7 @@ namespace TelegramBot.Infrastructure.Command
         {
             var bot = await botService.GetAsync(messengerBotId);
             var account = await settingService.GetCustBotAccount(chatId, bot.BotId);
-            var messenger = new Messenger(bot.BotId, chatId);
+            Messenger messenger = new(bot.BotId, chatId, bot.System);
 
             await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, callbackData.Value, MessageSendStatus.Success));
 
@@ -214,7 +214,7 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
-            var currentAction = await actionService.GetActionById(callbackData.ActionId);
+            var currentAction = await actionService.GetActionById(callbackData.ActionId, messenger.System);
 
             if (currentAction == null || !IsValidAction(account, currentAction))
             {
@@ -228,7 +228,7 @@ namespace TelegramBot.Infrastructure.Command
             if (currentAction.IsEndAction)
             {
                 var userActions = await actionService.GetUserActions(account.UserId);
-                var compiledCommand = await actionService.CompileCommand(userActions, userResponse);
+                var compiledCommand = await actionService.CompileCommand(userActions, userResponse, messenger.System);
                 if (currentAction.FunctionId == FunctionIds.Settings)
                 {
                     await HandleSettingsCommand(account, messenger, compiledCommand, messageId, callbackId);
@@ -246,7 +246,7 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task SendNextActionsMessage(CustBotAccount account, Messenger messenger, BotAction currentAction, int messageId = 0)
         {
-            var message = await actionService.BuildNextActionsMessage(account, currentAction);
+            var message = await actionService.BuildNextActionsMessage(account, currentAction, messenger.System);
             await messageSender.SendMessage(account.UserId, messenger, message, functionId: currentAction.FunctionId, messageId: messageId);
         }
 
@@ -269,7 +269,7 @@ namespace TelegramBot.Infrastructure.Command
         {
             var splittedCommand = SplitCommand(command);
             await actionService.ResetUserActions(account.UserId);
-            var rootAction = await actionService.GetRootActionByFunctionId(functionId);
+            var rootAction = await actionService.GetRootActionByFunctionId(functionId, messenger.System);
             var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2);
             var message = await messageBuilder.BuildMessageWithBackButton(result.Message, new List<MessageButton>(), rootAction.ActionId, account.Language, true);
             await messageSender.SendMessage(
@@ -301,7 +301,7 @@ namespace TelegramBot.Infrastructure.Command
 
                 function.Enabled = !function.Enabled;
                 await settingService.UpdateUserFunction(account.UserId, function, account.CustId, string.Empty);
-                var action = await actionService.GetActionById(ActionIds.Notifications);
+                var action = await actionService.GetActionById(ActionIds.Notifications, messenger.System);
                 await SendNextActionsMessage(account, messenger, action, messageId);
                 await messageSender.Alert(messenger, messageBuilder.BuildUpdateNotificationSettingMessage(account.Language, function.Enabled), callbackId);
             }
@@ -314,7 +314,7 @@ namespace TelegramBot.Infrastructure.Command
                 }
 
                 await settingService.UpdateUserLanguage(account.UserId, parameter, string.Empty);
-                var action = await actionService.GetActionById(ActionIds.Language);
+                var action = await actionService.GetActionById(ActionIds.Language, messenger.System);
                 account.Language = parameter;
                 await SendNextActionsMessage(account, messenger, action, messageId);
                 await messageSender.Alert(messenger, "Language Updated!", callbackId);
@@ -355,7 +355,7 @@ namespace TelegramBot.Infrastructure.Command
         private async Task SendMessageWithRootActions(CustBotAccount account, Messenger messenger, string text, int messageId)
         {
             await actionService.ResetUserActions(account.UserId);
-            var rootActionButtons = await actionService.BuildRootActionButtons(account);
+            var rootActionButtons = await actionService.BuildRootActionButtons(account, messenger.System);
             var message = await messageBuilder.BuildMessage(text, rootActionButtons, account.Language);
             await messageSender.SendMessage(account.UserId, messenger, message, messageId);
         }

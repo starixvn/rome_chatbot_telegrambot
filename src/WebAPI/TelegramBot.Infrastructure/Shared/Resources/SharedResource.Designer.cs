@@ -79,7 +79,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AG. ACT/CLOSED/SUS.
+        ///   Looks up a localized string similar to AG.ACTIVE/CLOSED/SUSPENDED.
         /// </summary>
         public static string AgentActClosedSus {
             get {
@@ -565,7 +565,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEM. ACT/CLOSED/SUS.
+        ///   Looks up a localized string similar to MEM.ACTIVE/CLOSED/SUSPENDED.
         /// </summary>
         public static string MemberActClosedSus {
             get {
@@ -781,7 +781,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please enter this private OTP to &lt;b&gt;the agent site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot.&lt;b&gt;OTP:&lt;/b&gt; &lt;code&gt;{0}&lt;/code&gt;.
+        ///   Looks up a localized string similar to Please enter this private OTP to &lt;b&gt;the agent site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot. &lt;b&gt;OTP:&lt;/b&gt; &lt;code&gt;{0}&lt;/code&gt;.
         /// </summary>
         public static string Setting_OTP_Help {
             get {
@@ -799,7 +799,9 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;re about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;.Your Telegram will be unlinked with {0} and you won&apos;t be able to use {0} anymore.Are you sure you want to stop using {0}?.
+        ///   Looks up a localized string similar to You&apos;re about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;.
+        ///Your Telegram will be unlinked with {0} and you won&apos;t be able to use {0} anymore.
+        ///Are you sure you want to stop using {0}?.
         /// </summary>
         public static string StopUsingChatbotConfirmMessage {
             get {

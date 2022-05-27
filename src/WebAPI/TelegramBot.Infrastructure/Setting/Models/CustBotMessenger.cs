@@ -16,6 +16,7 @@ namespace TelegramBot.Infrastructure.Setting.Models
             int botId,
             long chatId,
             string botName = "",
+            string system = "",
             bool enabled = false,
             bool isVerifyOTP = false,
             string language = LanguageCodes.English)
@@ -23,6 +24,7 @@ namespace TelegramBot.Infrastructure.Setting.Models
             UserId = userId;
             BotId = botId;
             BotName = botName;
+            System = system;
             ChatId = chatId;
             Enabled = enabled;
             IsVerifyOTP = isVerifyOTP;
@@ -34,6 +36,8 @@ namespace TelegramBot.Infrastructure.Setting.Models
         public int BotId { get; }
 
         public string BotName { get; }
+
+        public string System { get; }
 
         public long ChatId { get; }
 

@@ -259,7 +259,7 @@ namespace TelegramBot.Infrastructure.Setting
             var messenger = await GetCustBotMessenger(custId, subAccId);
             var account = await GetCustBotAccount(messenger.ChatId, messenger.BotId);
             var text = _messageBuilder.BuildWelcomeMessage(messenger.Language, username);
-            var rootActionButtons = await _actionService.BuildRootActionButtons(account);
+            var rootActionButtons = await _actionService.BuildRootActionButtons(account, messenger.System);
             var message = await _messageBuilder.BuildMessage(text, rootActionButtons, messenger.Language);
             await _messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), message);
         }

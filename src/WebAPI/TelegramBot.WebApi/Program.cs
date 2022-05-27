@@ -17,8 +17,13 @@ builder.Services.AddControllers();
 var configuration = builder.Configuration;
 var webAPIConfiguration = new WebAPIConfiguration();
 configuration.GetSection(nameof(WebAPIConfiguration)).Bind(webAPIConfiguration);
+webAPIConfiguration.HiddenActionsBySystem = configuration.GetSection("HiddenActionsBySystems")
+                .Get<HiddenActionsBySystem[]>()
+                .ToDictionary(kvp => kvp.SiteName, kvp => kvp.ActionIds);
+
 builder.Services
-    .AddSingleton(webAPIConfiguration).AddSingleton<IDynamicRepository, DynamicRepository>()
+    .AddSingleton(webAPIConfiguration)
+    .AddSingleton<IDynamicRepository, DynamicRepository>()
     .AddSingleton<ICryptography, Cryptography>()
     .AddFanexLogging(configuration)
     .AddFanexCaching(configuration)
