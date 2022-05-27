@@ -1,6 +1,3 @@
-using TelegramBot.Infrastructure.Function.Constants;
-using TelegramBot.Infrastructure.Resource.Models;
-
 namespace TelegramBot.Infrastructure.UnitTests.Function
 {
     using System.Collections.Generic;
@@ -9,11 +6,13 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
     using Newtonsoft.Json;
     using NSubstitute;
     using TelegramBot.Infrastructure.Function.Models;
-    using Resource;
     using TelegramBot.Infrastructure.Setting;
     using Shared.Configurations;
     using Xunit;
-
+    using TelegramBot.Infrastructure.Function.Constants;
+    using TelegramBot.Infrastructure.Resource;
+    using TelegramBot.Infrastructure.Resource.Models;
+    
     public class FunctionServiceTest
     {
         private readonly IDynamicRepository _dynamicRepository;
