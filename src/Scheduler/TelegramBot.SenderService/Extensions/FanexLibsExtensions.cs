@@ -13,6 +13,7 @@ using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
 using Sentry;
+using Fanex.Caching.Memory;
 
 namespace TelegramBot.SenderService.Extensions;
 
@@ -45,8 +46,8 @@ public static class FanexLibsExtensions
         ExceptionHandler
             // To use custom config
             .UseConfig(new LoggingConfiguration()
-                // To ignore exceptions
-                // .IgnoreException<DivideByZeroException>()                
+            // To ignore exceptions
+            // .IgnoreException<DivideByZeroException>()                
             );
 
         return services.AddSingleton(Logger.Log);
@@ -69,7 +70,7 @@ public static class FanexLibsExtensions
     public static IServiceCollection AddONEBookUM(this IServiceCollection services, IConfiguration configuration)
     {
         var umConfig = configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>();
-        
+
         return services
             .AddSingleton(umConfig)
             .AddSingleton<IPHelper, IPHelperImpl>()
@@ -84,7 +85,7 @@ public static class FanexLibsExtensions
         UMClientManager
             .UseConfig(umConfig)
             .UseRestClient(new UMRestClient(umConfig));
-        
+
         return app;
     }
 }

@@ -98,7 +98,6 @@ public sealed class NotificationSenderJob : IJob
     private static bool IsStopJob(SystemSetting systemSetting)
         => systemSetting == null || !systemSetting.ServiceFlag;
 
-
     public async Task<IEnumerable<CustomerStatus>> GetCustomerStatus(IEnumerable<Notification> notifications)
     {
         var customerStatusParams = notifications.Select(n => new CustomerStatusParam(n.CustId, n.SubAccId));
