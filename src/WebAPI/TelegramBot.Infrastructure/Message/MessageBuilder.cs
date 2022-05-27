@@ -187,7 +187,7 @@ namespace TelegramBot.Infrastructure.Message
                     var mainMenuButton = BuildMainMenuButton(isEndAction, language);
                     if (backToActionId > 0)
                     {
-                        var backToAction = $"<< {ResourceHelper.Get(nameof(SharedResource.BackTo), language)} {await BuildActionName(language, backToActionId)}";
+                        var backToAction = $"\u00AB {ResourceHelper.Get(nameof(SharedResource.BackTo), language)} {await BuildActionName(language, backToActionId)}";
                         buttonRows[i] = new[]
                         {
                             InlineKeyboardButton.WithCallbackData(backToAction, JsonConvert.SerializeObject(new { ActionId = backToActionId, Value = backToAction })),
