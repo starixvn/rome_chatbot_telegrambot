@@ -23,5 +23,6 @@ namespace TelegramBot.Infrastructure.Action.Constants
         public const short ChineseSimplified = 37;
         public const short Thai = 38;
         public const short Vietnamese = 39;
+        public const short StopUsingChatBot = 40;
     }
 }

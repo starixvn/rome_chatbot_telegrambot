@@ -70,8 +70,8 @@ namespace TelegramBot.Infrastructure.Message
         private static readonly List<string> underMaintenanceLanguageCodes = new()
         {
             LanguageCodes.English,
-            LanguageCodes.Chinese,
-            LanguageCodes.Taiwan
+            LanguageCodes.ChineseTraditional,
+            LanguageCodes.ChineseSimplified
         };
         private readonly int NumberButtonInRow = 2;
         private readonly IMessageFormatter messageFormatter;
@@ -187,7 +187,7 @@ namespace TelegramBot.Infrastructure.Message
                     var mainMenuButton = BuildMainMenuButton(isEndAction, language);
                     if (backToActionId > 0)
                     {
-                        var backToAction = $"\u00AB {ResourceHelper.Get(nameof(SharedResource.BackTo), language)} {await BuildActionName(language, backToActionId)}";
+                        var backToAction = $"{Unicode.Back} {ResourceHelper.Get(nameof(SharedResource.BackTo), language)} {await BuildActionName(language, backToActionId)}";
                         buttonRows[i] = new[]
                         {
                             InlineKeyboardButton.WithCallbackData(backToAction, JsonConvert.SerializeObject(new { ActionId = backToActionId, Value = backToAction })),
@@ -222,12 +222,12 @@ namespace TelegramBot.Infrastructure.Message
         {
             if (isEndAction)
             {
-                var text = $"\u2630 {ResourceHelper.Get(nameof(SharedResource.MainMenu), language)}";
+                var text = $"{Unicode.MainMenu} {ResourceHelper.Get(nameof(SharedResource.MainMenu), language)}";
                 return new MessageButton(text, JsonConvert.SerializeObject(new { IsMainMenu = true, Value = text }));
             }
             else
             {
-                var text = $"\u00AB {ResourceHelper.Get(nameof(SharedResource.BackToMainMenu), language)}";
+                var text = $"{Unicode.Back} {ResourceHelper.Get(nameof(SharedResource.BackToMainMenu), language)}";
                 return new MessageButton(text, JsonConvert.SerializeObject(new { ActionId = ActionIds.MainMenu, Value = text }));
             }
         }

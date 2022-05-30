@@ -316,7 +316,7 @@ namespace TelegramBot.Infrastructure.Command
                 await messageSender.Alert(messenger, messageBuilder.BuildUpdateNotificationSettingMessage(account.Language, function.Enabled), callbackId);
             }
 
-            if (IsLanguageSettingCommand(parameter))
+            if (LanguageCodes.SupportLanguages().Contains(parameter))
             {
                 if (string.Equals(account.Language, parameter))
                 {
@@ -343,12 +343,6 @@ namespace TelegramBot.Infrastructure.Command
 
         private static bool IsValidAction(CustBotAccount account, BotAction action)
             => account.Functions.Any(f => f.FunctionId == action.FunctionId);
-
-        private static bool IsLanguageSettingCommand(string languageUpdate)
-        {
-            var languageSettingCommand = new[] { "en-US", "zh-TW", "zh-CN", "th-TH", "vi-VN" };
-            return Array.Exists(languageSettingCommand, language => language == languageUpdate);
-        }
 
         public async Task SendMainMenuMessage(CustBotAccount account, Messenger messenger, int messageId = 0)
         {

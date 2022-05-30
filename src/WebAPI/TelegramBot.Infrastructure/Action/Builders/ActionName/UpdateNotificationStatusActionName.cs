@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Action.Models;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.constants;
@@ -21,7 +22,7 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
             var resource = await resourceService.GetResource(action.ActionId.ToString(), ResourceType.ActionName, account.Language);
             var function = account.Functions.FirstOrDefault(f => f.FunctionId == short.Parse(action.Command));
 
-            return (function.Enabled ? "\uD83D\uDD14" : "\uD83D\uDD15") + resource.Value;
+            return (function.Enabled ? $"{Unicode.Bell}" : $"{Unicode.BellWithSlash}") + resource.Value;
         }
     }
 }

@@ -7,6 +7,7 @@ using TelegramBot.Infrastructure.Action.Models;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.constants;
 using TelegramBot.Infrastructure.Setting.Models;
+using TelegramBot.Infrastructure.Shared.Constants;
 
 namespace TelegramBot.Infrastructure.Action.Builders.ActionName
 {
@@ -26,20 +27,20 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
             var isCurrentLanguage = account.Language.Equals(language.Code);
 
             return
-                (isCurrentLanguage ? "\u2705 " : string.Empty) +
+                (isCurrentLanguage ? $"{Unicode.GreenTick} " : string.Empty) +
                 resource.Value +
-                (!string.IsNullOrEmpty(language.EmojiCharacter) ? $" {language.EmojiCharacter}" : string.Empty);
+                (!string.IsNullOrEmpty(language.EmojiUnicode) ? $" {language.EmojiUnicode}" : string.Empty);
         }
 
         public static Language GetLanguageCode(int actionId)
         {
             return actionId switch
             {
-                ActionIds.English => new Language("en-US", "\uD83C\uDDEC\uD83C\uDDE7"),
-                ActionIds.ChineseTraditional => new Language("zh-TW", "\uD83C\uDDE8\uD83C\uDDF3"),
-                ActionIds.ChineseSimplified => new Language("zh-CN", "\uD83C\uDDE8\uD83C\uDDF3"),
-                ActionIds.Thai => new Language("th-TH", "\uD83C\uDDF9\uD83C\uDDED"),
-                ActionIds.Vietnamese => new Language("vi-VN", "\uD83C\uDDFB\uD83C\uDDF3"),
+                ActionIds.English => new Language(LanguageCodes.English, Unicode.UKFlag),
+                ActionIds.ChineseTraditional => new Language(LanguageCodes.ChineseTraditional, Unicode.ChinaFlag),
+                ActionIds.ChineseSimplified => new Language(LanguageCodes.ChineseSimplified, Unicode.ChinaFlag),
+                ActionIds.Thai => new Language(LanguageCodes.Thai, Unicode.ThaiFlag),
+                ActionIds.Vietnamese => new Language(LanguageCodes.Vietnamese, Unicode.VietnamFlag),
                 _ => new Language("", ""),
             };
         }
