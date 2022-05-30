@@ -131,12 +131,12 @@ namespace TelegramBot.Infrastructure.Command
             await messageSender.SendMessage(messenger, builder.ToString());
         }
 
+        private static bool IsCommand(string userResponse)
+            => userResponse.StartsWith("/");
+
         private async Task HandleOtherResponse(CustBotAccount account, Messenger messenger, string userResponse)
         {
-            var userActions = await actionService.GetUserActions(account.UserId);
-            var lastUserAction = userActions.LastOrDefault();
-            var currentAction = lastUserAction != null ? await actionService.GetActionById(lastUserAction.ActionId, messenger.System) : null;
-            if (currentAction == null || currentAction.Type != ActionTypes.Message)
+            if (IsCommand(userResponse))
             {
                 var function = await functionService.GetFunctionByCommand(userResponse);
                 if (function == null)
@@ -154,6 +154,15 @@ namespace TelegramBot.Infrastructure.Command
                 }
 
                 await HandleCommand(account, messenger, userResponse, function.FunctionId);
+                return;
+            }
+
+            var userActions = await actionService.GetUserActions(account.UserId);
+            var lastUserAction = userActions.LastOrDefault();
+            var currentAction = lastUserAction != null ? await actionService.GetActionById(lastUserAction.ActionId, messenger.System) : null;
+            if (currentAction == null)
+            {
+                await SendNotRecognizedCommandMessage(account, messenger);
                 return;
             }
 
@@ -186,6 +195,7 @@ namespace TelegramBot.Infrastructure.Command
             {
                 await SendNextActionsMessage(account, messenger, currentAction);
             }
+
         }
 
         public async Task HandleUserReplyByButton(long messengerBotId, long chatId, int messageId, string callbackId, CallbackData callbackData)
@@ -348,6 +358,7 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task SendNotRecognizedCommandMessage(CustBotAccount account, Messenger messenger, int messageId = 0)
         {
+            await actionService.ResetUserActions(account.UserId);
             var text = messageBuilder.BuildNotRecognizedCommandMessage(account.Language);
             await SendMessageWithRootActions(account, messenger, text, messageId);
         }
