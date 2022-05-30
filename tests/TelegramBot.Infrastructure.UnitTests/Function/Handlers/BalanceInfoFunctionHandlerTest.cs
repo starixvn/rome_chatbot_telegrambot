@@ -1,11 +1,11 @@
 using Alpha.API.Client.Models.Outstanding;
+using TelegramBot.Infrastructure.Message;
 
 namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 {
     using TelegramBot.Infrastructure.Function.Handlers;
     using System.Threading.Tasks;
     using Xunit;
-    using Message;
     using NSubstitute;
     using Alpha.API.Client.Services;
     using TelegramBot.Infrastructure.Setting.Models;
