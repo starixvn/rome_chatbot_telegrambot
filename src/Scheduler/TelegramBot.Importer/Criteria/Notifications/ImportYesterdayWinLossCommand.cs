@@ -1,6 +1,6 @@
 using Fanex.Data.Repository;
 
-namespace TelegramBot.Importer.Criteria.YesterdayWinLoss;
+namespace TelegramBot.Importer.Criteria.Notifications;
 
 public class ImportYesterdayWinLossCommand : NonQueryCommand
 {

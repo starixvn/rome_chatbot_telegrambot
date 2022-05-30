@@ -1,12 +1,13 @@
 namespace TelegramBot.Importer.Models.PersonalMessages;
 
-public record ImportPersonalMessage(
+public record PersonalMessageNotification(
     int UserId,
     int MsgTargetId,
     int MessageId,
     string Message,
-    string Status)
+    bool IsRealUser,
+    bool IsJobUAT) : Notification(UserId, Message, IsRealUser, IsJobUAT)
 {
-    public string ToXml()
+    public override string ToXml()
         => $"<r UserId=\"{UserId}\" MsgTargetId=\"{MsgTargetId}\" MessageId=\"{MessageId}\" Message=\"{Message}\" Status=\"{Status}\" />";
 }

@@ -1,6 +1,6 @@
 using Fanex.Data.Repository;
 
-namespace TelegramBot.Importer.Criteria.PersonalMessages;
+namespace TelegramBot.Importer.Criteria.Notifications;
 
 public class ImportPersonalMessageCommand : NonQueryCommand
 {

@@ -1,39 +1,41 @@
 
 using ONEbook.UM.Services;
-using Quartz;
 using TelegramBot.Importer.Configuration;
-using TelegramBot.Importer.Constants;
 using TelegramBot.Importer.Extensions;
+using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Models.Customers;
-using TelegramBot.Importer.Models.PersonalMessages;
 using TelegramBot.Importer.Models.SystemSettings;
 using TelegramBot.Importer.Services;
+using ClientServices = Alpha.API.Client.Services;
 
 namespace TelegramBot.Importer.Jobs;
 
-[DisallowConcurrentExecution]
 public sealed class YesterdayWinLossJob : NotificationBaseJob
 {
-    private readonly ICustomerService customerService;
-    private readonly IYesterdayWinLossService yesterdayWinLossService;
+    private readonly ClientServices.IWinLossService winLossService;
+    private readonly IMessageTemplate messageTemplate;
+    private readonly IImportNotificationService importNotificationService;
 
     public YesterdayWinLossJob(
         IMaintenanceService maintenanceService,
         ILoggerService loggerService,
         ISystemSettingService systemSettingService,
         ICustomerService customerService,
-        IYesterdayWinLossService yesterdayWinLossService)
-        : base(maintenanceService, loggerService, systemSettingService)
+        ClientServices.IWinLossService winLossService,
+        IMessageTemplate messageTemplate,
+        IImportNotificationService importNotificationService)
+        : base(maintenanceService, loggerService, systemSettingService, customerService)
     {
-        this.customerService = customerService;
-        this.yesterdayWinLossService = yesterdayWinLossService;
+        this.winLossService = winLossService;
+        this.messageTemplate = messageTemplate;
+        this.importNotificationService = importNotificationService;
     }
 
     protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
         bool continueGettingData;
         var isFirstBatch = true;
-        const int delayTime = 1000;
+        const int delayTime = 500;
         var winLossDate = DateTime.Today.Yesterday();
 
         do
@@ -44,7 +46,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
                 await UpdateJobStatusToRunning(job);
             }
 
-            continueGettingData = await ImportYesterdayWinLoss(job, winLossDate);
+            continueGettingData = await ImportYesterdayWinLossNotification(job, winLossDate);
             isFirstBatch = false;
 
             await Task.Delay(delayTime);
@@ -52,7 +54,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
         while (continueGettingData);
     }
 
-    private async Task<bool> ImportYesterdayWinLoss(ScheduleJob job, DateTime winLossDate)
+    private async Task<bool> ImportYesterdayWinLossNotification(ScheduleJob job, DateTime winLossDate)
     {
         var (linkedCustomers, maxUserId) = await customerService.GetYesterdayWinLossLinkedCustomers(winLossDate, job.Environment);
         var hasLinkedCustomer = linkedCustomers.Any();
@@ -60,11 +62,11 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
         try
         {
             var notifications = hasLinkedCustomer
-                ? await BuildImportYesterdayWinLoss(job, linkedCustomers, winLossDate)
-                : Enumerable.Empty<ImportYesterdayWinLoss>();
+                ? await BuildYesterdayWinLossNotification(job, linkedCustomers, winLossDate)
+                : Enumerable.Empty<Notification>();
 
             // In case of NoData, call Import to update JobStatus=Completed and LastRuntime.
-            var result = await yesterdayWinLossService.Import(notifications, winLossDate, job.Environment, maxUserId);
+            var result = await importNotificationService.ImportYesterdayWinLoss(notifications, winLossDate, job.Environment, maxUserId);
 
             if (result.IsFailed)
             {
@@ -79,7 +81,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
         return hasLinkedCustomer;
     }
 
-    private async Task<IEnumerable<ImportYesterdayWinLoss>> BuildImportYesterdayWinLoss(
+    private async Task<IEnumerable<Notification>> BuildYesterdayWinLossNotification(
         ScheduleJob job,
         IEnumerable<LinkedCustomer> linkedCustomers,
         DateTime winLossDate)
@@ -94,13 +96,13 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
             where status.IsValid(job.SubAccPermission)
             select customer;
 
-        var notifications = new List<ImportYesterdayWinLoss>();
+        var notifications = new List<Notification>();
 
         await Parallel.ForEachAsync(
             query,
             async (customer, _) =>
             {
-                var yesterdayWinLoss = await BuildImportYesterdayWinLoss(job, customer, winLossDate);
+                var yesterdayWinLoss = await BuildYesterdayWinLossNotification(job, customer, winLossDate);
 
                 if (yesterdayWinLoss != null)
                 {
@@ -111,17 +113,17 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
         return notifications;
     }
 
-    private async Task<ImportYesterdayWinLoss> BuildImportYesterdayWinLoss(
+    private async Task<Notification> BuildYesterdayWinLossNotification(
         ScheduleJob job,
         LinkedCustomer customer,
         DateTime winLossDate)
     {
         try
         {
-            var winloss = await yesterdayWinLossService.GetYesterdayWinLoss(customer.CustId, customer.CustomerLevel, winLossDate);
-            var message = yesterdayWinLossService.BuildMessage(winloss, customer.CustomerLevel, customer.Language, winLossDate.ToSimpleDate());
+            var winloss = await winLossService.GetWinLoss(customer.CustId, customer.CustomerLevel, winLossDate);
+            var message = messageTemplate.BuildYesterdayWinLossMessage(winloss, customer.CustomerLevel, customer.Language, winLossDate.ToSimpleDate());
             
-            return new ImportYesterdayWinLoss(customer.UserId, message, customer.IsRealUser && job.IsUAT ? NotificationStatus.Draft : NotificationStatus.Initial);
+            return new Notification(customer.UserId, message, customer.IsRealUser, job.IsUAT);
         }
         catch (Exception ex)
         {

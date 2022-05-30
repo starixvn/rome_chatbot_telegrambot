@@ -1,7 +1,5 @@
 using ONEbook.UM.Services;
-using Quartz;
 using TelegramBot.Importer.Configuration;
-using TelegramBot.Importer.Constants;
 using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Models.Customers;
 using TelegramBot.Importer.Models.PersonalMessages;
@@ -10,27 +8,30 @@ using TelegramBot.Importer.Services;
 
 namespace TelegramBot.Importer.Jobs;
 
-[DisallowConcurrentExecution]
 public sealed class PersonalMessageJob : NotificationBaseJob
 {
     private readonly IPersonalMessageService personalMessageService;
-    private readonly ICustomerService customerService;
+    private readonly IMessageTemplate messageTemplate;
+    private readonly IImportNotificationService importNotificationService;
 
     public PersonalMessageJob(
         IMaintenanceService maintenanceService,
         ILoggerService loggerService,
         ISystemSettingService systemSettingService,
+        ICustomerService customerService,
         IPersonalMessageService personalMessageService,
-        ICustomerService customerService)
-        : base(maintenanceService, loggerService, systemSettingService)
+        IMessageTemplate messageTemplate,
+        IImportNotificationService importNotificationService)
+        : base(maintenanceService, loggerService, systemSettingService, customerService)
     {
         this.personalMessageService = personalMessageService;
-        this.customerService = customerService;
+        this.messageTemplate = messageTemplate;
+        this.importNotificationService = importNotificationService;
     }
 
     protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
-        var notifications = Enumerable.Empty<ImportPersonalMessage>();
+        var notifications = Enumerable.Empty<PersonalMessageNotification>();
 
         var (maxMsgTargetId, personalMessages) = await personalMessageService.GetNewMessages(
             systemSetting.MaxMsgTargetId,
@@ -40,17 +41,13 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         if (personalMessages.Any())
         {
             var custIds = personalMessages.Select(m => m.TargetId).Distinct().JoinWithComma();
-            var linkedCustomers = await customerService.GetLinkedCustomers(
-                job.Name,
-                custIds,
-                job.Environment);
+            var linkedCustomers = await GetLinkedCustomers(custIds, job);
 
             if (linkedCustomers.Any())
             {
-                var customerStatusParams = linkedCustomers.Select(c => new CustomerStatusParam(c.CustId, c.SubAccId));
-                var customerStatus = await customerService.GetCustomerStatus(customerStatusParams);
+                var customerStatus = await GetCustomerStatus(linkedCustomers);
 
-                notifications = BuildImportPersonalMessages(
+                notifications = BuildPersonalMessageNotifications(
                     job,
                     personalMessages,
                     linkedCustomers,
@@ -59,7 +56,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         }
 
         // In case of NoData, call Import to update JobStatus=Completed and LastRuntime.
-        var result = await personalMessageService.Import(notifications, job.Environment, maxMsgTargetId);
+        var result = await importNotificationService.ImportPersonalMessages(notifications, job.Environment, maxMsgTargetId);
 
         if (result.IsFailed)
         {
@@ -67,7 +64,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         }
     }
 
-    private IEnumerable<ImportPersonalMessage> BuildImportPersonalMessages(
+    private IEnumerable<PersonalMessageNotification> BuildPersonalMessageNotifications(
         ScheduleJob job,
         IEnumerable<PersonalMessage> personalMessages,
         IEnumerable<LinkedCustomer> linkedCustomers,
@@ -86,11 +83,11 @@ public sealed class PersonalMessageJob : NotificationBaseJob
             };
 
         var currentDate = DateTime.Today.ToSimpleDate();
-        var notifications = new List<ImportPersonalMessage>();
+        var notifications = new List<PersonalMessageNotification>();
 
         foreach (var item in query)
         {
-            notifications.AddRange(BuildImportPersonalMessages(
+            notifications.AddRange(BuildPersonalMessageNotifications(
                 job,
                 item.PersonalMessage,
                 item.Customer,
@@ -100,7 +97,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         return notifications;
     }
 
-    private IEnumerable<ImportPersonalMessage> BuildImportPersonalMessages(
+    private IEnumerable<PersonalMessageNotification> BuildPersonalMessageNotifications(
         ScheduleJob job,
         PersonalMessage message,
         LinkedCustomer customer,
@@ -115,29 +112,31 @@ public sealed class PersonalMessageJob : NotificationBaseJob
 
             foreach (var transId in betTransIds)
             {
-                yield return new ImportPersonalMessage(
+                yield return new PersonalMessageNotification(
                     customer.UserId,
                     message.MsgTargetId,
                     message.MessageId,
-                    personalMessageService.BuildMessage(
+                    messageTemplate.BuildPersonalMessage(
                         customer.Language,
                         currentDate,
                         message.GetContentByLanguage(customer.Language),
                         transId),
-                    customer.IsRealUser && job.IsUAT ? NotificationStatus.Draft : NotificationStatus.Initial);
+                    customer.IsRealUser,
+                    job.IsUAT);
             }
         }
         else
         {
-            yield return new ImportPersonalMessage(
+            yield return new PersonalMessageNotification(
                 customer.UserId,
                 message.MsgTargetId,
                 message.MessageId,
-                personalMessageService.BuildMessage(
+                messageTemplate.BuildPersonalMessage(
                     customer.Language,
                     currentDate,
                     message.GetContentByLanguage(customer.Language)),
-                customer.IsRealUser && job.IsUAT ? NotificationStatus.Draft : NotificationStatus.Initial);
+                customer.IsRealUser,
+                job.IsUAT);
         }
     }
 

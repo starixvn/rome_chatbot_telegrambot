@@ -21,6 +21,8 @@ public class SystemSetting
 
     public int MaxMsgTargetId => GetInt(settings, nameof(MaxMsgTargetId), environment);
 
+    public int MaxLogId => GetInt(settings, nameof(MaxLogId), environment);
+
     private static bool GetBool(IDictionary<string, string> settings, string key, string environment)
         => "1" == GetString(settings, key, environment, "0");
 

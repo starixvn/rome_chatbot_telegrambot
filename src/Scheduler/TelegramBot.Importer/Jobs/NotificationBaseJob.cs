@@ -2,25 +2,30 @@ using ONEbook.UM.Services;
 using Quartz;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Constants;
+using TelegramBot.Importer.Models.Customers;
 using TelegramBot.Importer.Models.SystemSettings;
 using TelegramBot.Importer.Services;
 
 namespace TelegramBot.Importer.Jobs;
 
+[DisallowConcurrentExecution]
 public abstract class NotificationBaseJob : IJob
 {
     private readonly IMaintenanceService maintenanceService;
     protected readonly ILoggerService loggerService;
     protected readonly ISystemSettingService systemSettingService;
+    protected readonly ICustomerService customerService;
 
     protected NotificationBaseJob(
         IMaintenanceService maintenanceService,
         ILoggerService loggerService,
-        ISystemSettingService systemSettingService)
+        ISystemSettingService systemSettingService,
+        ICustomerService customerService)
     {
         this.maintenanceService = maintenanceService;
         this.loggerService = loggerService;
         this.systemSettingService = systemSettingService;
+        this.customerService = customerService;
     }
 
     public async Task Execute(IJobExecutionContext context)
@@ -98,6 +103,16 @@ public abstract class NotificationBaseJob : IJob
         {
             return loggerService.Error(ex, job, $"Could not update job status to {jobStatus} and LastRunTime = {lastRunTime}.");
         }
+    }
+
+    protected Task<IEnumerable<LinkedCustomer>> GetLinkedCustomers(string custIds, ScheduleJob job)
+        => customerService.GetLinkedCustomers(job.Name, custIds, job.Environment);
+
+    protected Task<IEnumerable<CustomerStatus>> GetCustomerStatus(IEnumerable<LinkedCustomer> linkedCustomers)
+    {
+        var customerStatusParams = linkedCustomers.Select(c => new CustomerStatusParam(c.CustId, c.SubAccId));
+        
+        return customerService.GetCustomerStatus(customerStatusParams);
     }
 
     protected abstract Task Execute(ScheduleJob job, SystemSetting systemSetting);

@@ -22,4 +22,8 @@
       <Mapping DataField="Content_vn" ObjectProperty="ContentVI" />
     </Setting>
   </Function>
+
+  <Function Name="Problem Account">
+    <Setting Key="Age_Chatbot_ProblemAccounts_Sel" SpName="Age_Chatbot_ProblemAccounts_Sel" DbName="DBCust.CustDB.BODBDownlineNet" />
+  </Function>
 </Functions>
