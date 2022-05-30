@@ -1,4 +1,3 @@
-using System.Net;
 using TelegramBot.SenderService.Configurations;
 using TelegramBot.SenderService.Services;
 
@@ -10,9 +9,10 @@ public static class DIExtensions
         => services
             .AddConfiguration(configuration)
             .AddSingleton<ILoggerService, LoggerService>()
-            .AddScoped<ISystemSettingService, SystemSettingService>()
-            .AddScoped<ICustomerService, CustomerService>()
-            .AddScoped<INotificationService, NotificationService>();
+            .AddSingleton<ISystemSettingService, SystemSettingService>()
+            .AddSingleton<ICustomerService, CustomerService>()
+            .AddSingleton<INotificationService, NotificationService>()
+            .AddSingleton<IBotService, BotService>();
     private static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
         var appSettings = new AppSettings

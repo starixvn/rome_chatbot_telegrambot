@@ -1,5 +1,4 @@
 using Quartz;
-using Fanex.Caching.Memory;
 using TelegramBot.SenderService.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +6,7 @@ var configuration = builder.Configuration;
 
 builder.Services
     .AddFanexDataWithSqlServer(configuration)
+    .AddFanexCachingMemory()
     .AddFanexLogging(configuration)
     .AddONEBookUM(configuration)
     .AddServices(configuration)
@@ -16,8 +16,6 @@ builder.Services
         quartz.AddNotificationSenderJob(configuration, Fanex.Logging.Logger.Log);
     })
     .AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
-
-Fanex.Caching.Memory.MemoryCacheServiceCollectionExtensions.AddMemoryCache(builder.Services);
 
 var app = builder.Build();
 app.MapGet("/", () => "TelegramBot.Sender service!!!");

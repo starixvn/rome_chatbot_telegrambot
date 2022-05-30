@@ -13,7 +13,6 @@ using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
 using Sentry;
-using Fanex.Caching.Memory;
 
 namespace TelegramBot.SenderService.Extensions;
 
@@ -30,12 +29,15 @@ public static class FanexLibsExtensions
 
         DbSettingProviderManager
             .StartNewSession()
-            .WithSqlServer("App_Data/SpNames.xml")
+            .WithSqlServer("App_Data/SPNames.xml")
             .Use(connectionStrings)
             .Run();
 
         return services.AddSingleton<IDynamicRepository, DynamicRepository>();
     }
+
+    public static IServiceCollection AddFanexCachingMemory(this IServiceCollection services)
+        => services.AddSingleton<Fanex.Caching.ICacheService, Fanex.Caching.CacheService>();
 
     public static IServiceCollection AddFanexLogging(this IServiceCollection services, IConfiguration configuration)
     {
