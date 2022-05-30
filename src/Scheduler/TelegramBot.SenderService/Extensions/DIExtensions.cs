@@ -17,6 +17,7 @@ public static class DIExtensions
     {
         var appSettings = new AppSettings
         {
+            IsTest = configuration.GetSection("IsTest").Get<bool>(),
             FunctionPermissions = configuration.GetSection("FunctionPermissions")
                 .Get<FunctionPermission[]>()
                 .ToDictionary(kvp => kvp.FunctionKey, kvp => kvp.SubAccPermission)

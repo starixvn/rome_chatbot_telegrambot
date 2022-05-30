@@ -156,6 +156,7 @@ public sealed class NotificationSenderJob : IJob
         }
         catch (Exception ex)
         {
+            await loggerService.Debug(ex.Message);
             SendToRetryService(notification);
 
             return new Result(500, ex.Message);
