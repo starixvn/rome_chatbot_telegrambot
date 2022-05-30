@@ -1,6 +1,7 @@
 using Fanex.Caching;
 using Fanex.Data.Repository;
 using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
 using TelegramBot.SenderService.Configurations;
 using TelegramBot.SenderService.Criteria;
 using TelegramBot.SenderService.Models;
@@ -9,7 +10,7 @@ namespace TelegramBot.SenderService.Services;
 
 public interface IBotService
 {
-    Task<ITelegramBotClient> GetBotClient(int botId);
+    Task SendMessage(int botId, long chatId, string message);
 }
 
 public class BotService : IBotService
@@ -31,7 +32,13 @@ public class BotService : IBotService
         this.dynamicRepository = dynamicRepository;
     }
 
-    public async Task<ITelegramBotClient> GetBotClient(int botId)
+    public async Task SendMessage(int botId, long chatId, string message)
+    {
+        var botClient = await GetBotClient(botId);
+        await botClient.SendTextMessageAsync(chatId, message, ParseMode.Html);
+    }
+
+    private async Task<ITelegramBotClient> GetBotClient(int botId)
     {
         if (botClients.ContainsKey(botId))
         {

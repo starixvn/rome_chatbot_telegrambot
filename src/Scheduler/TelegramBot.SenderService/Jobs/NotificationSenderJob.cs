@@ -4,7 +4,6 @@ using TelegramBot.SenderService.Configurations;
 using TelegramBot.SenderService.Constants;
 using TelegramBot.SenderService.Models;
 using TelegramBot.SenderService.Services;
-using TelegramBotNotificationService = TelegramBot.Client.Services.INotificationService;
 
 namespace TelegramBot.SenderService.Jobs;
 
@@ -17,7 +16,7 @@ public sealed class NotificationSenderJob : IJob
     private readonly INotificationService notificationService;
     private readonly ICustomerService customerService;
     private readonly AppSettings appSettings;
-    private readonly TelegramBotNotificationService telegramBotNotificationService;
+    private readonly IBotService botService;
 
     public NotificationSenderJob(
         IMaintenanceService maintenanceService,
@@ -26,7 +25,7 @@ public sealed class NotificationSenderJob : IJob
         INotificationService notificationService,
         ICustomerService customerService,
         AppSettings appSettings,
-        TelegramBotNotificationService telegramBotNotificationService)
+        IBotService botService)
     {
         this.maintenanceService = maintenanceService;
         this.loggerService = loggerService;
@@ -34,7 +33,7 @@ public sealed class NotificationSenderJob : IJob
         this.notificationService = notificationService;
         this.customerService = customerService;
         this.appSettings = appSettings;
-        this.telegramBotNotificationService = telegramBotNotificationService;
+        this.botService = botService;
     }
 
     public async Task Execute(IJobExecutionContext context)
@@ -151,12 +150,9 @@ public sealed class NotificationSenderJob : IJob
     {
         try
         {
-            var telegramBotResult = await telegramBotNotificationService.Notify(
-                notification.BotId,
-                notification.ChatId,
-                notification.Message);
+            await botService.SendMessage(notification.BotId, notification.ChatId, notification.Message);
 
-            return new Result(telegramBotResult.Code, telegramBotResult.Message);
+            return Result.CreateSuccessfulResult();
         }
         catch (Exception ex)
         {
