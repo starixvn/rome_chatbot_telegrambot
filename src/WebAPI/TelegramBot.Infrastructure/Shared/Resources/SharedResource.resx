@@ -443,4 +443,7 @@ Are you sure you want to stop using {0}?</value>
   <data name="MainMenu" xml:space="preserve">
     <value>Main Menu</value>
   </data>
+  <data name="ApiException" xml:space="preserve">
+    <value>Our server is too busy at the moment so this function is turned off temporarily {0} - {1} (GMT+8). Please try again later and sorry for the inconvenience.</value>
+  </data>
 </root>

@@ -10,6 +10,7 @@ using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Resources;
 using TelegramBot.Infrastructure.Shared.Extensions;
 using TelegramBot.Infrastructure.Shared.Constants;
+using Alpha.API.Client.Exceptions;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
 {
@@ -43,8 +44,15 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             string message;
             if (parameter == "m")
             {
-                var data = await winLossService.GetWinLoss(account.CustId, account.CustomerLevel, dateTime);
-                message = BuildWinLossMessage(account.Language, data, account.CustomerLevel);
+                try
+                {
+                    var data = await winLossService.GetWinLoss(account.CustId, account.CustomerLevel, dateTime);
+                    message = BuildWinLossMessage(account.Language, data, account.CustomerLevel);
+                }
+                catch (MinimizeUMException ex)
+                {
+                    message = string.Format(ResourceHelper.Get(nameof(SharedResource.ApiException)), ex.StartTime, ex.EndTime);
+                }
             }
             else
             {
@@ -54,8 +62,15 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                     return Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
                 }
 
-                var data = await winLossService.GetDownlineWinLoss(account.CustId, account.CustomerLevel, dateTime, downlineInfo.CustId);
-                message = BuildDownlineWinLossMessage(account.Language, data, parameter, downlineInfo.RoleId);
+                try
+                {
+                    var data = await winLossService.GetDownlineWinLoss(account.CustId, account.CustomerLevel, dateTime, downlineInfo.CustId);
+                    message = BuildDownlineWinLossMessage(account.Language, data, parameter, downlineInfo.RoleId);
+                }
+                catch (MinimizeUMException ex)
+                {
+                    message = string.Format(ResourceHelper.Get(nameof(SharedResource.ApiException)), ex.StartTime, ex.EndTime);
+                }
             }
 
             return Result.CreateSuccessfulResult(message);
