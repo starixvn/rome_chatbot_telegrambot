@@ -1,21 +1,31 @@
 using Quartz;
 using TelegramBot.SenderService.Extensions;
 
-var builder = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((host, services) =>
+var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
+
+builder.Services
+    .AddFanexDataWithSqlServer(configuration)
+    .AddFanexCachingMemory()
+    .AddFanexLogging(configuration)
+    .AddONEBookUM(configuration)
+    .AddServices(configuration)
+    .AddQuartz(quartz =>
     {
-        services.AddFanexDataWithSqlServer(host.Configuration)
-        .AddFanexCachingMemory()
-        .AddFanexLogging(host.Configuration)
-        .AddONEBookUM(host.Configuration)
-        .AddServices(host.Configuration)
-        .AddQuartz(quartz =>
-        {
-            quartz.UseMicrosoftDependencyInjectionJobFactory();
-            quartz.AddNotificationSenderJob(host.Configuration, Fanex.Logging.Logger.Log);
-        })
-        .AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
-    }).ConfigureAppConfiguration((host, builder) => builder.UseONEBookUM(host.Configuration));
+        quartz.UseMicrosoftDependencyInjectionJobFactory();
+        quartz.AddNotificationSenderJob(configuration, Fanex.Logging.Logger.Log);
+    })
+    .AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
 
 var app = builder.Build();
-await app.RunAsync();
+app.MapGet("/", () => "TelegramBot.Sender service!!!");
+app.UseONEBookUM(configuration);
+
+if (app.Environment.IsDevelopment())
+{
+    await app.RunAsync();
+}
+else
+{
+    await app.RunAsync("http://0.0.0.0:5000");
+}
