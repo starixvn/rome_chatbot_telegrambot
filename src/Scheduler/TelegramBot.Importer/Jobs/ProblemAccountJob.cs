@@ -1,7 +1,7 @@
 
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
-using TelegramBot.Importer.Extensions;
+using TelegramBot.Importer.Models.ProblemAccounts;
 using TelegramBot.Importer.Models.SystemSettings;
 using TelegramBot.Importer.Services;
 
@@ -30,7 +30,7 @@ public sealed class ProblemAccountJob : NotificationBaseJob
 
     protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
-        // var (maxLogId, problemAccounts) = await problemAccountService.GetProblemAccounts(systemSetting.MaxLogId, systemSetting.BatchSize);
+        var (maxLogId, problemAccounts) = await problemAccountService.GetProblemAccounts(systemSetting.MaxLogId, systemSetting.BatchSize);
 
         // if (problemAccounts.Any())
         // {
@@ -47,13 +47,56 @@ public sealed class ProblemAccountJob : NotificationBaseJob
         // }
     }
 
-    // private static void GroupByMasters(IEnumerable<ProblemAccount> problemAccounts, List<string> notifications)
-    // {
-    //     var groupMaster = problemAccounts.GroupBy(pa => pa.MRecommend);
+    private static IEnumerable<Tuple<int, IEnumerable<string>>> GroupBySupers(IEnumerable<ProblemAccount> problemAccounts)
+    {
+        var notifications = new List<Tuple<int, IEnumerable<string>>>();
 
-    //     foreach (var problemAccountList in groupMaster)
-    //     {
-    //         notifications.Add($"{problemAccountList.Key} - {string.Join(", ", problemAccountList.Select(pa => pa.Username))}");
-    //     }
-    // }
+        notifications.AddRange(problemAccounts
+            .Where(pa => pa.MRecommend > 0)
+            .OrderBy(pa => pa.Username)
+            .GroupBy(
+                pa => pa.SRecommend,
+                (superId, problemAccountList) =>
+                {
+                    notifications.AddRange(GroupByMasters(problemAccountList));
+
+                    return new Tuple<int, IEnumerable<string>>(
+                        superId,
+                        problemAccountList.Select(pa => pa.Username)); 
+                }));
+
+        return notifications;
+    }
+
+    private static IEnumerable<Tuple<int, IEnumerable<string>>> GroupByMasters(IEnumerable<ProblemAccount> problemAccounts)
+    {
+        var notifications = new List<Tuple<int, IEnumerable<string>>>();
+
+        notifications.AddRange(problemAccounts
+            .Where(pa => pa.Recommend > 0)
+            .GroupBy(
+                pa => pa.MRecommend,
+                (masterId, problemAccountList) =>
+                    {
+                        var validProblemAccountList = problemAccountList.Where(pa => pa.Recommend > 0).ToList();
+
+                        var agentNotifications = GroupByAgents(validProblemAccountList);
+                        notifications.AddRange(agentNotifications);
+
+                        return new Tuple<int, IEnumerable<string>>(
+                            masterId,
+                            validProblemAccountList.Select(pa => pa.Username));
+                    }));
+
+        return notifications;
+    }
+
+    private static IEnumerable<Tuple<int, IEnumerable<string>>> GroupByAgents(IEnumerable<ProblemAccount> problemAccounts)
+        => problemAccounts
+        .GroupBy(
+            pa => pa.Recommend,
+            (agentId, problemAccountList) => new Tuple<int, IEnumerable<string>>(
+                agentId,
+                problemAccountList.Select(pa => pa.Username)))
+        .ToList();
 }

@@ -121,14 +121,19 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
         try
         {
             var winloss = await winLossService.GetWinLoss(customer.CustId, customer.CustomerLevel, winLossDate);
-            var message = messageTemplate.BuildYesterdayWinLossMessage(winloss, customer.CustomerLevel, customer.Language, winLossDate.ToSimpleDate());
+
+            if (winloss != null)
+            {
+                var message = messageTemplate.BuildYesterdayWinLossMessage(winloss, customer.CustomerLevel, customer.Language, winLossDate.ToSimpleDate());
             
-            return new Notification(customer.UserId, message, customer.IsRealUser, job.IsUAT);
+                return new Notification(customer.UserId, message, customer.IsRealUser, job.IsUAT);
+            }
         }
         catch (Exception ex)
         {
             await loggerService.Error(ex, job, $"Could not get Yesterday Win Loss of CustId={customer.CustId}, CustLevel={customer.CustomerLevel}, DateTime={winLossDate}");
-            return null;
         }
+
+        return null;
     }
 }

@@ -13,6 +13,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2"/>
   </ItemGroup>
 
-      <PropertyGroup Label="sonarqube-rules-synchronizer">
-    <CodeAnalysisRuleSet>../../../.sonarlint/telegrambotcsharp.ruleset</CodeAnalysisRuleSet>
+        <PropertyGroup Label="sonarqube-rules-synchronizer">
+    <CodeAnalysisRuleSet>../../../.sonarlint/alpha-apicsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup></Project>

@@ -121,10 +121,6 @@
     <value>Personal Message</value>
     <comment/>
   </data>
-  <data name="NoInfo" xml:space="preserve">
-    <value>No information is available</value>
-    <comment/>
-  </data>
   <data name="YesterdayWinLoss" xml:space="preserve">
     <value>Yesterday Win Loss</value>
     <comment/>

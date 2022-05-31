@@ -1,5 +1,5 @@
-using System.Security;
 using System.Text;
+using System.Xml.Linq;
 using Alpha.API.Client.Models.WinLoss;
 using TelegramBot.Importer.Constants;
 using TelegramBot.Importer.Extensions;
@@ -21,9 +21,9 @@ public class MessageTemplate : IMessageTemplate
         var messageBuilder = new StringBuilder();
         messageBuilder
             .AppendLine(BuildPersonalMessageTitle(language, currentDate))
-            .Append(SafeMessageContent(transId.Length == 0 ? content : content.Replace("@@", transId)));
+            .Append(transId.Length == 0 ? content : content.Replace("@@", transId));
 
-        return messageBuilder.ToString();
+        return EncodeXml(messageBuilder.ToString());
     }
 
     private static string BuildPersonalMessageTitle(string language, string currentDate)
@@ -32,36 +32,30 @@ public class MessageTemplate : IMessageTemplate
     public string BuildYesterdayWinLossMessage(WinLossBase winloss, byte custLevel, string language, string winLossDate)
     {
         var messageBuilder = new StringBuilder();
-        messageBuilder.AppendLine(BuildYesterdayWinLossTitle(language, winLossDate));
+        messageBuilder
+            .AppendLine(BuildYesterdayWinLossTitle(language, winLossDate));
 
-        if (winloss == null)
+        switch (custLevel)
         {
-            messageBuilder.Append(TemplateHelper.Get("NoInfo", language));
-        }
-        else
-        {
-            switch (custLevel)
-            {
-                case CustomerLevel.Super:
-                    AddMasterWinLossContent(messageBuilder, (WinLossMaster)winloss, language);
-                    break;
+            case CustomerLevel.Super:
+                AddMasterWinLossContent(messageBuilder, (WinLossMaster)winloss, language);
+                break;
 
-                case CustomerLevel.Master:
-                    AddAgentWinLossContent(messageBuilder, (WinLossAgent)winloss, language);
-                    break;
+            case CustomerLevel.Master:
+                AddAgentWinLossContent(messageBuilder, (WinLossAgent)winloss, language);
+                break;
 
-                case CustomerLevel.Agent:
-                    AddMemberWinLossContent(messageBuilder, (WinLossMember)winloss, language);
-                    break;
+            case CustomerLevel.Agent:
+                AddMemberWinLossContent(messageBuilder, (WinLossMember)winloss, language);
+                break;
 
-                default:
-                    throw new ArgumentOutOfRangeException(
-                        nameof(custLevel),
-                        $"Not expected {nameof(custLevel)} value: {custLevel}");
-            }
+            default:
+                throw new ArgumentOutOfRangeException(
+                    nameof(custLevel),
+                    $"Not expected {nameof(custLevel)} value: {custLevel}");
         }
 
-        return SafeMessageContent(messageBuilder.ToString());
+        return EncodeXml(messageBuilder.ToString());
     }
 
     private static string BuildYesterdayWinLossTitle(string language, string winLossDate)
@@ -105,6 +99,8 @@ public class MessageTemplate : IMessageTemplate
     private static string BuildContent(string resourceKey, string language, decimal value)
         => $"<b>{TemplateHelper.Get(resourceKey, language)}</b>: {value.FormatDecimal()}";
 
-    private static string SafeMessageContent(string content)
-        => SecurityElement.Escape(content);
+    public static string EncodeXml(string text, bool isAttribute = true, int attrSubStringLength = 5)
+        => isAttribute
+        ? new XAttribute("__n",text).ToString().Substring(attrSubStringLength).TrimEnd('\"')
+        : new XElement("t", text).LastNode.ToString();
 }
