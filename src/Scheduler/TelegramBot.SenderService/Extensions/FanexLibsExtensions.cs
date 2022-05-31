@@ -81,13 +81,13 @@ public static class FanexLibsExtensions
             .AddSingleton<IUMRestClient, UMRestClient>();
     }
 
-    public static WebApplication UseONEBookUM(this WebApplication app, IConfiguration configuration)
+    public static IConfigurationBuilder UseONEBookUM(this IConfigurationBuilder builder, IConfiguration configuration)
     {
         var umConfig = new UMClientConfiguration().Initialize(configuration);
         UMClientManager
             .UseConfig(umConfig)
             .UseRestClient(new UMRestClient(umConfig));
 
-        return app;
+        return builder;
     }
 }

@@ -57,7 +57,7 @@ namespace TelegramBot.WebApi.Controllers
         public async Task<Result> Start(StartParam param)
         {
             var bot = await _botService.GetAsync(param.MessengerBotId);
-            var messenger = new Messenger(bot.BotId, param.ChatId);
+            var messenger = new Messenger(bot.BotId, param.ChatId, bot.System);
 
             var words = param.Message.Split(' ');
             if (words.Length == 1)

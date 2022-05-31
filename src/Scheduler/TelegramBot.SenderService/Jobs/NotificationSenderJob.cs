@@ -1,5 +1,6 @@
 using ONEbook.UM.Services;
 using Quartz;
+using Telegram.Bot.Exceptions;
 using TelegramBot.SenderService.Configurations;
 using TelegramBot.SenderService.Constants;
 using TelegramBot.SenderService.Models;
@@ -156,10 +157,15 @@ public sealed class NotificationSenderJob : IJob
         }
         catch (Exception ex)
         {
-            await loggerService.Debug(ex.Message);
-            SendToRetryService(notification);
-
-            return new Result(500, ex.Message);
+            if (ex is ApiRequestException apiRequestException && TelegramError.IgnoredErrorCodes.Contains(apiRequestException.ErrorCode))
+            {
+                return new Result(apiRequestException.ErrorCode, apiRequestException.Message);
+            }
+            else
+            {
+                SendToRetryService(notification);
+                return new Result(500, ex.Message);
+            }
         }
     }
 
