@@ -68,7 +68,7 @@ public class MessageBuilderTest
     public void BuildOTPMessage_Always_ReturnOTPMessage()
     {
         const string expect =
-            @"Please enter this private OTP to <b>the agent site</b> within 3 minutes to finish setting up your Telegram Chatbot. <b>OTP:</b> <code>192.168.9.9</code>";
+            @"Please enter this private OTP <code>192.168.9.9</code> to <b>the agent site</b> within 3 minutes to finish setting up your Telegram Chatbot.";
 
         var result = messageBuilder.BuildOTPMessage("EN", "192.168.9.9");
 
