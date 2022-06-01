@@ -469,4 +469,8 @@
     <value>Our server is too busy at the moment so this function is turned off temporarily {0} - {1} (GMT+8). Please try again later and sorry for the inconvenience.</value>
     <comment/>
   </data>
+  <data name="OpenSettingsMenu" xml:space="preserve">
+    <value>Open Settings Menu</value>
+    <comment/>
+  </data>
 </root>
