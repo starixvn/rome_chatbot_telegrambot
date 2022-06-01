@@ -22,7 +22,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         }
 
         [Fact]
-        public async Task GetHandler_FunctionIdOustanding_ReturnOustandingFunctionHandler()
+        public void GetHandler_FunctionIdOustanding_ReturnOustandingFunctionHandler()
         {
             serviceProvider.GetService(typeof(OustandingFunctionHandler))
                 .Returns(new OustandingFunctionHandler(
@@ -36,7 +36,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         }
         
         [Fact]
-        public async Task GetHandler_FunctionIdTodayWinLoss_ReturnTodayWinLossFunctionHandler()
+        public void GetHandler_FunctionIdTodayWinLoss_ReturnTodayWinLossFunctionHandler()
         {
             serviceProvider.GetService(typeof(TodayWinLossFunctionHandler))
                 .Returns(new TodayWinLossFunctionHandler(
@@ -50,7 +50,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         }
         
         [Fact]
-        public async Task GetHandler_FunctionIdBalanceInfo_ReturnBalanceInfoFunctionHandler()
+        public void GetHandler_FunctionIdBalanceInfo_ReturnBalanceInfoFunctionHandler()
         {
             serviceProvider.GetService(typeof(BalanceInfoFunctionHandler))
                 .Returns(new BalanceInfoFunctionHandler(
@@ -64,7 +64,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         }
         
         [Fact]
-        public async Task GetHandler_FunctionYesterdayWinLoss_ReturnYesterdayWinLossFunctionHandler()
+        public void  GetHandler_FunctionYesterdayWinLoss_ReturnYesterdayWinLossFunctionHandler()
         {
             serviceProvider.GetService(typeof(YesterdayWinLossFunctionHandler))
                 .Returns(new YesterdayWinLossFunctionHandler(
@@ -78,7 +78,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         }
         
         [Fact]
-        public async Task GetHandler_UnknownFunctionID_ThrowException()
+        public  void GetHandler_UnknownFunctionID_ThrowException()
         {
             try
             {
