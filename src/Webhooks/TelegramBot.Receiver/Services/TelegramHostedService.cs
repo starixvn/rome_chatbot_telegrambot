@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Newtonsoft.Json;
+using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using TelegramBot.Client.Services;
 using TelegramBot.Receiver.Configurations;
@@ -33,6 +34,7 @@ namespace TelegramBot.Receiver.Services
             var botClients = new List<ITelegramBotClient>();
             var tasks = _handleUpdateSerice.BotEntities.Select(botEntity =>
             {
+
                 var botClient = new TelegramBotClient(botEntity.AccessToken);
                 botClients.Add(botClient);
 
@@ -40,6 +42,7 @@ namespace TelegramBot.Receiver.Services
                     url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
                     allowedUpdates: _allowedUpdates,
                     cancellationToken: cancellationToken);
+
 
             });
             _handleUpdateSerice.BotClients = botClients;
