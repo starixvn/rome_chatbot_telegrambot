@@ -1,5 +1,4 @@
 using System.Text;
-using Microsoft.Extensions.Configuration;
 using Quartz;
 using TelegramBot.SenderService.Constants;
 using TelegramBot.SenderService.Jobs;

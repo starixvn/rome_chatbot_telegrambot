@@ -18,7 +18,7 @@ public class MessageBuilderTest
     public MessageBuilderTest()
     {
         resourceService = Substitute.For<IResourceService>();
-        messageBuilder = new MessageBuilder(new TelegramFormatter(),resourceService);
+        messageBuilder = new MessageBuilder(new TelegramFormatter(), resourceService);
     }
 
     [Fact]
@@ -123,17 +123,17 @@ public class MessageBuilderTest
         var result = messageBuilder.BuildMenuMessage("EN");
 
         Assert.Equal(expect, result);
-    }  
-    
+    }
+
     [Fact]
     public void BuildWelcomeMessage_Always_ReturnWelcomeMessage()
     {
         const string expect = @"Welcome jack. Your Telegram Chatbot setup is completed. This bot can assist you to view report more easily or keep you posted with the latest important notifications. You will receive your yesterday's win loss after 2:00 PM (GMT+8) daily.";
-        var result = messageBuilder.BuildWelcomeMessage("EN","jack");
+        var result = messageBuilder.BuildWelcomeMessage("EN", "jack");
 
         Assert.Equal(expect, result);
     }
-    
+
     [Fact]
     public void BuildNotRecognizedCommandMessage_Always_ReturnNotRecognizedCommandMessage()
     {
@@ -141,35 +141,35 @@ public class MessageBuilderTest
         var result = messageBuilder.BuildNotRecognizedCommandMessage("EN");
 
         Assert.Equal(expect, result);
-    }    
-    
+    }
+
     [Fact]
     public void BuildActionSelectedMessage_Always_ReturnActionSelectedMessage()
     {
         const string expect = @"Action Selected: actionName";
-        var result = messageBuilder.BuildActionSelectedMessage("EN","actionName");
+        var result = messageBuilder.BuildActionSelectedMessage("EN", "actionName");
 
         Assert.Equal(expect, result);
     }
-    
+
     [Fact]
     public void BuildInvalidNumerOfDownlineRange_Always_ReturnInvalidNumerOfDownlineRange()
     {
         const string expect = @"""userResponse"" is invalid, please enter valid number (max 10)";
-        var result = messageBuilder.BuildInvalidNumerOfDownlineRange("EN","userResponse",10);
+        var result = messageBuilder.BuildInvalidNumerOfDownlineRange("EN", "userResponse", 10);
 
         Assert.Equal(expect, result);
-    }  
-    
+    }
+
     [Fact]
     public void BuildInvalidCustNameMessage_Always_ReturnInvalidCustNameMessage()
     {
         const string expect = @"""invalidCustName"" is invalid, please enter valid username";
-        var result = messageBuilder.BuildInvalidCustNameMessage("EN","invalidCustName");
+        var result = messageBuilder.BuildInvalidCustNameMessage("EN", "invalidCustName");
 
         Assert.Equal(expect, result);
-    } 
-    
+    }
+
     [Fact]
     public void BuildNoDataMessage_Always_ReturnNoDataMessage()
     {
@@ -177,8 +177,8 @@ public class MessageBuilderTest
         var result = messageBuilder.BuildNoDataMessage("EN");
 
         Assert.Equal(expect, result);
-    } 
-    
+    }
+
     [Fact]
     public void BuildAccountClosedMessage_Always_ReturnAccountClosedMessage()
     {
@@ -187,7 +187,7 @@ public class MessageBuilderTest
 
         Assert.Equal(expect, result);
     }
-    
+
     [Fact]
     public void BuildAccountLockedMessage_Always_ReturnAccountLockedMessage()
     {
@@ -195,17 +195,17 @@ public class MessageBuilderTest
         var result = messageBuilder.BuildAccountLockedMessage("EN");
 
         Assert.Equal(expect, result);
-    }    
-    
+    }
+
     [Fact]
     public void BuildUnlinkMessage_Always_ReturnUnlinkMessage()
     {
         const string expect = @"Your telegram has been unlinked with Telegram successfully.";
-        var result = messageBuilder.BuildUnlinkMessage("EN","Telegram");
+        var result = messageBuilder.BuildUnlinkMessage("EN", "Telegram");
 
         Assert.Equal(expect, result);
     }
-    
+
     [Fact]
     public void BuildInvalidUsernameMessage_Always_ReturnInvalidUsernameMessage()
     {
@@ -213,35 +213,34 @@ public class MessageBuilderTest
         var result = messageBuilder.BuildInvalidUsernameMessage("EN");
 
         Assert.Equal(expect, result);
-    } 
-    
+    }
+
     [Fact]
     public void BuildInvalidDownlinesMessage_Always_ReturnInvalidDownlinesMessage()
     {
         const string expect = @"Number of downlines must be from 1 to 10.";
-        var result = messageBuilder.BuildInvalidDownlinesMessage("EN",10);
+        var result = messageBuilder.BuildInvalidDownlinesMessage("EN", 10);
 
         Assert.Equal(expect, result);
-    }   
-    
+    }
+
     [Fact]
     public void BuildUpdateNotificationSettingMessage_Always_ReturnUpdateNotificationSettingMessage()
     {
         const string expect = @"Turn on notification";
-        var result = messageBuilder.BuildUpdateNotificationSettingMessage("EN",true);
+        var result = messageBuilder.BuildUpdateNotificationSettingMessage("EN", true);
 
         Assert.Equal(expect, result);
-    }  
-    
+    }
+
     [Fact]
     public async Task BuildActionName_Always_ReturnActionName()
     {
-        const string expect = @"Turn on notification";
-        var botResource = new BotResource("a", "b", "en","BotName");
+        var botResource = new BotResource("a", "b", "en", "BotName");
         resourceService.GetResource(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
             .Returns(Task.FromResult<BotResource>(botResource));
-        
-        var result =await messageBuilder.BuildActionName("EN",13);
+
+        var result = await messageBuilder.BuildActionName("EN", 13);
 
         Assert.Equal(botResource.Value, result);
     }

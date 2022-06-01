@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace TelegramBot.SenderService.Configurations;
 
 public sealed class AppSettings

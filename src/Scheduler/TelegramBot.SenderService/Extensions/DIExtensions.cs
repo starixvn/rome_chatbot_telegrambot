@@ -1,6 +1,3 @@
-using System.Linq;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using TelegramBot.SenderService.Configurations;
 using TelegramBot.SenderService.Services;
 

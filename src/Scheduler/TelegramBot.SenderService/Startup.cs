@@ -1,10 +1,7 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using TelegramBot.SenderService.Extensions;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Http;
 
 namespace TelegramBot.SenderService;
 
