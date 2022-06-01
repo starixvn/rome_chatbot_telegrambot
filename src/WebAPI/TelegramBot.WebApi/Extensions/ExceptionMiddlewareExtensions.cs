@@ -71,7 +71,6 @@ namespace TelegramBot.WebApi.Extensions
 
         private static async Task<string> GetRawBodyStringAsync(HttpRequest request)
         {
-            request.EnableBuffering();
             using var reader = new StreamReader(request.Body, Encoding.UTF8);
             return await reader.ReadToEndAsync();
         }
