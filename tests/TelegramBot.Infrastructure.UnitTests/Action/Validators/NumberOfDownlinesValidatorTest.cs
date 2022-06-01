@@ -16,6 +16,7 @@ public class NumberOfDownlinesValidatorTest
     private readonly int maxValue;
     private readonly IMessageBuilder messageBuilder;
     private readonly NumberOfDownlinesValidator numberOfDownlinesValidator;
+
     public NumberOfDownlinesValidatorTest()
     {
         messageBuilder = Substitute.For<IMessageBuilder>();
@@ -24,32 +25,34 @@ public class NumberOfDownlinesValidatorTest
     }
 
     [Fact]
-    public async Task Validate_ValidNumber_ReturnSuccessful()
+    public void Validate_ValidNumber_ReturnSuccessful()
     {
         var account = new CustBotAccount() { CustId = 1, CustomerLevel = 3 };
         var expectResult = Result.CreateSuccessfulResult();
-        
+
         var result = numberOfDownlinesValidator.Validate(account, "3");
-        
-        Assert.Equal(expectResult.Code,result.Result.Code);
-        Assert.Equal(expectResult.Message,result.Result.Message);
-    } 
+
+        Assert.Equal(expectResult.Code, result.Result.Code);
+        Assert.Equal(expectResult.Message, result.Result.Message);
+    }
+
     public static IEnumerable<object[]> RequestsNumber()
     {
-        yield return new object[] { "-1"};
-        yield return new object[] { "102"};
-        yield return new object[] { ""};
+        yield return new object[] { "-1" };
+        yield return new object[] { "102" };
+        yield return new object[] { "" };
     }
+
     [Theory]
     [MemberData(nameof(RequestsNumber))]
-    public async Task Validate_inValidNumber_ReturnErrorResult(string userResponse)
+    public void Validate_inValidNumber_ReturnErrorResult(string userResponse)
     {
         var account = new CustBotAccount() { CustId = 1, CustomerLevel = 3 };
         var expectResult = Result.CreateErrorResult();
-        
+
         var result = numberOfDownlinesValidator.Validate(account, userResponse);
-        
-        Assert.Equal(expectResult.Code,result.Result.Code);
-        Assert.Equal(expectResult.Message,result.Result.Message);
+
+        Assert.Equal(expectResult.Code, result.Result.Code);
+        Assert.Equal(expectResult.Message, result.Result.Message);
     }
 }

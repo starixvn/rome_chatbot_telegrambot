@@ -72,6 +72,7 @@ public class ActionValidatorFactoryTest
     public void GetValidator_Default_ReturnNull()
     {
        var result= actionValidatorFactory.GetValidator(999);
-       Assert.Equal(null, result);
+    
+       Assert.Null(result);
     }
 }
