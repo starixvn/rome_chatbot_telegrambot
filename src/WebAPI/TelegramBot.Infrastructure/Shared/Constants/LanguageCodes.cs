@@ -7,7 +7,6 @@
         public const string ChineseSimplified = "zh-CN";
         public const string Thai = "th-TH";
         public const string Vietnamese = "vi-VN";
-        public static string[] SupportLanguages()
-            => new[] { English, ChineseTraditional, ChineseSimplified, Thai, Vietnamese };
+        public static string[] SupportLanguages => new[] { English, ChineseTraditional, ChineseSimplified, Thai, Vietnamese };
     }
 }

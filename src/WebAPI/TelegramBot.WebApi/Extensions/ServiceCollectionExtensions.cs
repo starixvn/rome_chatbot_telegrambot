@@ -2,6 +2,9 @@
 using Fanex.Caching.Memory;
 using Fanex.Caching.Redis;
 using Fanex.Logging;
+using Fanex.Logging.Extensions;
+using Fanex.Logging.Extensions.AspNetCore;
+using Fanex.Logging.Extensions.Database;
 using Fanex.Logging.RabbitMQ;
 using Fanex.Logging.Sentry;
 using ONEbook.UM.Configurations;
@@ -89,6 +92,12 @@ namespace TelegramBot.WebApi.Extensions
                     .Use(logEngines);
 
             services.AddSingleton(Logger.Log);
+
+            ExceptionHandler
+                // To use custom config
+                .UseConfig(new LoggingConfiguration()
+                .GetHttpHeaderInfo()
+                .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo));
             return services;
         }
 

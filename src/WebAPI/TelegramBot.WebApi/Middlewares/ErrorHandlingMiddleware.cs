@@ -7,12 +7,10 @@ namespace TelegramBot.WebApi.Middlewares
     public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate next;
-        private readonly ILogger logger;
 
-        public ErrorHandlingMiddleware(RequestDelegate next, ILogger logger)
+        public ErrorHandlingMiddleware(RequestDelegate next)
         {
             this.next = next;
-            this.logger = logger;
         }
 
         public async Task Invoke(HttpContext context /* other dependencies */)
@@ -31,8 +29,6 @@ namespace TelegramBot.WebApi.Middlewares
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             const HttpStatusCode code = HttpStatusCode.InternalServerError; // 500 if unexpected
-
-
             var result = JsonConvert.SerializeObject(new { error = exception.Message });
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;

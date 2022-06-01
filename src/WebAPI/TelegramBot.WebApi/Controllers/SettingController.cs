@@ -5,6 +5,7 @@ using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared;
+using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Resources;
 using TelegramBot.WebApi.Params;
@@ -93,7 +94,13 @@ namespace TelegramBot.WebApi.Controllers
             var custId = int.Parse(words[0]);
             var subAccId = int.Parse(words[1]);
             var language = words[2];
-            return await _settingService.Start(bot.BotId, param.ChatId, custId, subAccId, language, param.IP);
+            return await _settingService.Start(
+                bot.BotId,
+                param.ChatId,
+                custId,
+                subAccId,
+                LanguageCodes.SupportLanguages.Contains(language) ? language : LanguageCodes.English,
+                param.IP);
         }
 
         /// <summary>

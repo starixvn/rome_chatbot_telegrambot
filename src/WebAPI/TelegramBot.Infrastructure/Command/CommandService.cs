@@ -316,7 +316,7 @@ namespace TelegramBot.Infrastructure.Command
                 await messageSender.Alert(messenger, messageBuilder.BuildUpdateNotificationSettingMessage(account.Language, function.Enabled), callbackId);
             }
 
-            if (LanguageCodes.SupportLanguages().Contains(parameter))
+            if (LanguageCodes.SupportLanguages.Contains(parameter))
             {
                 if (string.Equals(account.Language, parameter))
                 {
