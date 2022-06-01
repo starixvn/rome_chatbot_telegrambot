@@ -177,80 +177,8 @@
     <value>List all commands</value>
     <comment/>
   </data>
-  <data name="BalanceInfoReports" xml:space="preserve">
-    <value>Balance Info Reports</value>
-    <comment/>
-  </data>
-  <data name="GetBalanceInfoOfSpecificMember" xml:space="preserve">
-    <value>Get Balance Info of specific member</value>
-    <comment/>
-  </data>
-  <data name="GetBalanceInfoOfTopMembers" xml:space="preserve">
-    <value>Get Balance Info of top # members</value>
-    <comment/>
-  </data>
-  <data name="GetOutstandingReportOfSpecificMember" xml:space="preserve">
-    <value>Get Outstanding Report of specific member</value>
-    <comment/>
-  </data>
-  <data name="GetOutstandingReportOfTopMembers" xml:space="preserve">
-    <value>Get Outstanding Report of top # members</value>
-    <comment/>
-  </data>
-  <data name="GetTodayWinLossReportOfSpecficMember" xml:space="preserve">
-    <value>Get Today Win Loss Report of specfic member</value>
-    <comment/>
-  </data>
-  <data name="GetYesterdayWinLossReportOfSpecificMember" xml:space="preserve">
-    <value>Get Yesterday Win Loss Report of specific member</value>
-    <comment/>
-  </data>
-  <data name="GetYourBalanceInfoReport" xml:space="preserve">
-    <value>Get your Balance Info Report</value>
-    <comment/>
-  </data>
-  <data name="GetyourOutstandingReport" xml:space="preserve">
-    <value>Get your Outstanding Report</value>
-    <comment/>
-  </data>
-  <data name="GetYourTodayWinLossReport" xml:space="preserve">
-    <value>Get your Today Win Loss Report</value>
-    <comment/>
-  </data>
-  <data name="GetYourYesterdayWinLossReport" xml:space="preserve">
-    <value>Get your Yesterday Win Loss Report</value>
-    <comment/>
-  </data>
-  <data name="OpenBalanceInfoMenu" xml:space="preserve">
-    <value>Open Balance Info Menu</value>
-    <comment/>
-  </data>
-  <data name="OpenOutstandingMenu" xml:space="preserve">
-    <value>Open Outstanding Menu</value>
-    <comment/>
-  </data>
-  <data name="OpenSettingsMenu" xml:space="preserve">
-    <value>Open Settings Menu</value>
-    <comment/>
-  </data>
-  <data name="OpenTodayWinLossReportMenu" xml:space="preserve">
-    <value>Open Today Win Loss Report Menu</value>
-    <comment/>
-  </data>
-  <data name="OpenYesterdayWinLossReportMenu" xml:space="preserve">
-    <value>Open Yesterday Win Loss Report Menu</value>
-    <comment/>
-  </data>
-  <data name="OutstandingReports" xml:space="preserve">
-    <value>Outstanding Reports</value>
-    <comment/>
-  </data>
   <data name="Unlink" xml:space="preserve">
     <value>Unlink</value>
-    <comment/>
-  </data>
-  <data name="WinLossReports" xml:space="preserve">
-    <value>Win Loss Reports</value>
     <comment/>
   </data>
   <data name="PleaseSelectAnAction" xml:space="preserve">
@@ -271,10 +199,6 @@
   </data>
   <data name="BackToMainMenu" xml:space="preserve">
     <value>Back to Main Menu</value>
-    <comment/>
-  </data>
-  <data name="HiddenDownlinesCount" xml:space="preserve">
-    <value>{0} more {1} are not shown</value>
     <comment/>
   </data>
   <data name="InvalidNumberOfDownlines" xml:space="preserve">
@@ -499,14 +423,6 @@
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>Yesterday</value>
-    <comment/>
-  </data>
-  <data name="OFF" xml:space="preserve">
-    <value>OFF</value>
-    <comment/>
-  </data>
-  <data name="ON" xml:space="preserve">
-    <value>ON</value>
     <comment/>
   </data>
   <data name="No" xml:space="preserve">

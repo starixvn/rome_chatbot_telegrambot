@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using Quartz;
 using TelegramBot.SenderService.Constants;
 using TelegramBot.SenderService.Jobs;
@@ -13,7 +14,7 @@ public static class ServiceCollectionQuartzConfiguratorExtensions
         Fanex.Logging.ILogger logger)
     {
         var configSection = configuration.GetSection("NotificationSender");
-        
+
         if (configSection.GetValue<bool>("IsActive"))
         {
             quartz.AddNotificationSenderJob(
@@ -47,7 +48,7 @@ public static class ServiceCollectionQuartzConfiguratorExtensions
             .WithIdentity($"{name}-Trigger", GroupName)
             .WithCronSchedule(cronExpression));
 
-        logger.Info(BuildJobNameAndEnvironmentInfo(name,environment));
+        logger.Info(BuildJobNameAndEnvironmentInfo(name, environment));
     }
 
     private static string BuildJobNameAndEnvironmentInfo(string jobName, string environment)

@@ -389,116 +389,6 @@ namespace TelegramBot.Infrastructure.Shared.Resources
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to Get Balance Info of specific member.
-        /// </summary>
-        public static string GetBalanceInfoOfSpecificMember
-        {
-            get
-            {
-                return ResourceManager.GetString("GetBalanceInfoOfSpecificMember", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Get Balance Info of top # members.
-        /// </summary>
-        public static string GetBalanceInfoOfTopMembers
-        {
-            get
-            {
-                return ResourceManager.GetString("GetBalanceInfoOfTopMembers", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Get Outstanding Report of specific member.
-        /// </summary>
-        public static string GetOutstandingReportOfSpecificMember
-        {
-            get
-            {
-                return ResourceManager.GetString("GetOutstandingReportOfSpecificMember", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Get Outstanding Report of top # members.
-        /// </summary>
-        public static string GetOutstandingReportOfTopMembers
-        {
-            get
-            {
-                return ResourceManager.GetString("GetOutstandingReportOfTopMembers", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Get Today Win Loss Report of specfic member.
-        /// </summary>
-        public static string GetTodayWinLossReportOfSpecficMember
-        {
-            get
-            {
-                return ResourceManager.GetString("GetTodayWinLossReportOfSpecficMember", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Get Yesterday Win Loss Report of specific member.
-        /// </summary>
-        public static string GetYesterdayWinLossReportOfSpecificMember
-        {
-            get
-            {
-                return ResourceManager.GetString("GetYesterdayWinLossReportOfSpecificMember", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Get your Balance Info Report.
-        /// </summary>
-        public static string GetYourBalanceInfoReport
-        {
-            get
-            {
-                return ResourceManager.GetString("GetYourBalanceInfoReport", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Get your Outstanding Report.
-        /// </summary>
-        public static string GetyourOutstandingReport
-        {
-            get
-            {
-                return ResourceManager.GetString("GetyourOutstandingReport", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Get your Today Win Loss Report.
-        /// </summary>
-        public static string GetYourTodayWinLossReport
-        {
-            get
-            {
-                return ResourceManager.GetString("GetYourTodayWinLossReport", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Get your Yesterday Win Loss Report.
-        /// </summary>
-        public static string GetYourYesterdayWinLossReport
-        {
-            get
-            {
-                return ResourceManager.GetString("GetYourYesterdayWinLossReport", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   Looks up a localized string similar to GIVEN CREDIT.
         /// </summary>
         public static string GivenCredit
@@ -528,17 +418,6 @@ namespace TelegramBot.Infrastructure.Shared.Resources
             get
             {
                 return ResourceManager.GetString("HelpCommandIntro", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to {0} more {1} are not shown.
-        /// </summary>
-        public static string HiddenDownlinesCount
-        {
-            get
-            {
-                return ResourceManager.GetString("HiddenDownlinesCount", resourceCulture);
             }
         }
 
@@ -807,28 +686,6 @@ namespace TelegramBot.Infrastructure.Shared.Resources
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to OFF.
-        /// </summary>
-        public static string OFF
-        {
-            get
-            {
-                return ResourceManager.GetString("OFF", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to ON.
-        /// </summary>
-        public static string ON
-        {
-            get
-            {
-                return ResourceManager.GetString("ON", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   Looks up a localized string similar to Open Balance Info Menu.
         /// </summary>
         public static string OpenBalanceInfoMenu
@@ -873,28 +730,6 @@ namespace TelegramBot.Infrastructure.Shared.Resources
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to Open Today Win Loss Report Menu.
-        /// </summary>
-        public static string OpenTodayWinLossReportMenu
-        {
-            get
-            {
-                return ResourceManager.GetString("OpenTodayWinLossReportMenu", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Open Yesterday Win Loss Report Menu.
-        /// </summary>
-        public static string OpenYesterdayWinLossReportMenu
-        {
-            get
-            {
-                return ResourceManager.GetString("OpenYesterdayWinLossReportMenu", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   Looks up a localized string similar to Outstanding.
         /// </summary>
         public static string Outstanding
@@ -902,17 +737,6 @@ namespace TelegramBot.Infrastructure.Shared.Resources
             get
             {
                 return ResourceManager.GetString("Outstanding", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Outstanding Reports.
-        /// </summary>
-        public static string OutstandingReports
-        {
-            get
-            {
-                return ResourceManager.GetString("OutstandingReports", resourceCulture);
             }
         }
 
