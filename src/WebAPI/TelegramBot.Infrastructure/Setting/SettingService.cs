@@ -202,9 +202,11 @@ namespace TelegramBot.Infrastructure.Setting
 
                 if (!customerStatus.HasMemberInformationPermission)
                 {
-                    functions = functions.Where(f => f.FunctionId != FunctionIds.ProblemAccount && f.FunctionId != FunctionIds.MemberWinLossLimit);
+                    functions = functions.Where(f =>
+                        f.FunctionId != FunctionIds.ProblemAccount
+                        && f.FunctionId != FunctionIds.MemberWinLossLimit
+                        && f.FunctionId != FunctionIds.BalanceInfo);
                 }
-
             }
             else
             {
