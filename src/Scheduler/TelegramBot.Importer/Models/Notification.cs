@@ -1,4 +1,4 @@
-namespace TelegramBot.Importer.Models.Notifications;
+namespace TelegramBot.Importer.Models;
 
 public record Notification(int UserId, string Message, bool IsRealUser, bool IsJobUAT)
 {

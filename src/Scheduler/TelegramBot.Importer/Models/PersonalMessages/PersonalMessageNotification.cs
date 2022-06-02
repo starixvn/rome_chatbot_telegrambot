@@ -1,4 +1,4 @@
-namespace TelegramBot.Importer.Models.Notifications;
+namespace TelegramBot.Importer.Models.PersonalMessages;
 
 public record PersonalMessageNotification(
     int UserId,

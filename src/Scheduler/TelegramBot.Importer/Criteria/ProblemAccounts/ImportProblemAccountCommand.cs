@@ -1,37 +1,25 @@
-using Fanex.Data.Repository;
+namespace TelegramBot.Importer.Criteria.ProblemAccounts;
 
-namespace TelegramBot.Importer.Criteria.Notifications;
-
-public class ImportProblemAccountCommand : NonQueryCommand
+public class ImportProblemAccountCommand : NonQueryCommandBase
 {
     public ImportProblemAccountCommand(
         string xmlData,
         string xmlDataLog,
         string environment,
-        int maxLogId)
+        int maxLogId) : base(xmlData, environment)
     {
-        XmlData = xmlData;
         XmlDataLog = xmlDataLog;
-        Environment = environment;
         MaxLogId = maxLogId;
     }
 
-    public string XmlData { get; }
-
     public string XmlDataLog { get; }
 
-    public string Environment { get; }
-
     public int MaxLogId { get; }
-
-    public int ErrCode { get; set; }
-
-    public string ErrMsg { get; set; } = default!;
 
     public override string GetSettingKey()
         => "Age_Chatbot_ProblemAccountsImport";
 
     public override bool IsValid()
-        => !string.IsNullOrWhiteSpace(XmlData)
+        => base.IsValid()
         && !string.IsNullOrWhiteSpace(XmlDataLog);
 }

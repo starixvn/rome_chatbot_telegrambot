@@ -2,8 +2,8 @@
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Extensions;
+using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Models.Customers;
-using TelegramBot.Importer.Models.Notifications;
 using TelegramBot.Importer.Models.SystemSettings;
 using TelegramBot.Importer.Services;
 
@@ -12,20 +12,15 @@ namespace TelegramBot.Importer.Jobs;
 public sealed class YesterdayWinLossJob : NotificationBaseJob
 {
     private readonly IYesterdayWinLossService yesterdayWinLossService;
-    private readonly IImportNotificationService importNotificationService;
 
     public YesterdayWinLossJob(
         IMaintenanceService maintenanceService,
         ILoggerService loggerService,
         ISystemSettingService systemSettingService,
         ICustomerService customerService,
-        IYesterdayWinLossService yesterdayWinLossService,
-        IImportNotificationService importNotificationService)
+        IYesterdayWinLossService yesterdayWinLossService)
         : base(maintenanceService, loggerService, systemSettingService, customerService)
-    {
-        this.yesterdayWinLossService = yesterdayWinLossService;
-        this.importNotificationService = importNotificationService;
-    }
+        => this.yesterdayWinLossService = yesterdayWinLossService;
 
     protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
@@ -62,7 +57,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
                 : Enumerable.Empty<Notification>();
 
             // In case of NoData, call Import to update JobStatus=Completed and LastRuntime.
-            var result = await importNotificationService.ImportYesterdayWinLoss(notifications, winLossDate, job.Environment, maxUserId);
+            var result = await yesterdayWinLossService.Import(notifications, winLossDate, job.Environment, maxUserId);
 
             if (result.IsFailed)
             {

@@ -3,7 +3,6 @@ using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Models.Customers;
-using TelegramBot.Importer.Models.Notifications;
 using TelegramBot.Importer.Models.ProblemAccounts;
 using TelegramBot.Importer.Models.SystemSettings;
 using TelegramBot.Importer.Services;
@@ -13,20 +12,15 @@ namespace TelegramBot.Importer.Jobs;
 public sealed class ProblemAccountJob : NotificationBaseJob
 {
     private readonly IProblemAccountService problemAccountService;
-    private readonly IImportNotificationService importNotificationService;
 
     public ProblemAccountJob(
         IMaintenanceService maintenanceService,
         ILoggerService loggerService,
         ISystemSettingService systemSettingService,
         IProblemAccountService problemAccountService,
-        ICustomerService customerService,
-        IImportNotificationService importNotificationService)
+        ICustomerService customerService)
         : base(maintenanceService, loggerService, systemSettingService, customerService)
-    {
-        this.problemAccountService = problemAccountService;
-        this.importNotificationService = importNotificationService;
-    }
+        => this.problemAccountService = problemAccountService;
 
     protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
@@ -54,7 +48,7 @@ public sealed class ProblemAccountJob : NotificationBaseJob
         }
 
         // In case of NoData, call Import to update JobStatus=Completed and LastRuntime.
-        var result = await importNotificationService.ImportProblemAccounts(
+        var result = await problemAccountService.Import(
             notifications,
             job.Environment,
             maxLogId);

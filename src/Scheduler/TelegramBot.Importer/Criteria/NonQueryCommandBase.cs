@@ -1,28 +1,25 @@
 using Fanex.Data.Repository;
 
-namespace TelegramBot.Importer.Criteria.Notifications;
+namespace TelegramBot.Importer.Criteria;
 
-public class ImportPersonalMessageCommand : NonQueryCommand
+public class NonQueryCommandBase : NonQueryCommand
 {
-    public ImportPersonalMessageCommand(string xmlData, string environment, int maxMsgTargetId)
+    protected NonQueryCommandBase(string xmlData, string environment)
     {
         XmlData = xmlData;
         Environment = environment;
-        MaxMsgTargetId = maxMsgTargetId;
     }
 
     public string XmlData { get; }
 
     public string Environment { get; }
 
-    public int MaxMsgTargetId { get; }
-
     public int ErrCode { get; set; }
 
     public string ErrMsg { get; set; } = default!;
 
     public override string GetSettingKey()
-        => "Age_Chatbot_PersonalMessageImport";
+        => throw new NotImplementedException();
 
     public override bool IsValid() => !string.IsNullOrWhiteSpace(XmlData);
 }

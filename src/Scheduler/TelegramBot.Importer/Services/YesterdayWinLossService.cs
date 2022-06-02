@@ -1,6 +1,9 @@
 using System.Text;
 using Alpha.API.Client.Models.WinLoss;
+using Fanex.Data.Repository;
 using TelegramBot.Importer.Constants;
+using TelegramBot.Importer.Criteria.YesterdayWinLoss;
+using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Resources;
 using ClientServices = Alpha.API.Client.Services;
 
@@ -10,14 +13,22 @@ public interface IYesterdayWinLossService
 {
     Task<WinLossBase> GetWinLoss(int custId, byte custLevel, DateTime winLossDate);
     
-    string BuildMessage(string language, WinLossBase winloss, byte custLevel, string winLossDate); 
+    string BuildMessage(string language, WinLossBase winloss, byte custLevel, string winLossDate);
+
+    Task<Result> Import(
+        IEnumerable<Notification> notifications,
+        DateTime winLossDate,
+        string environment,
+        int maxUserId);
 }
 
-public class YesterdayWinLossService : IYesterdayWinLossService
+public class YesterdayWinLossService : NotificationServiceBase, IYesterdayWinLossService
 {
     private readonly ClientServices.IWinLossService winLossService;
 
-    public YesterdayWinLossService(ClientServices.IWinLossService winLossService)
+    public YesterdayWinLossService(
+        ClientServices.IWinLossService winLossService,
+        IDynamicRepository dynamicRepository) : base(dynamicRepository)
         => this.winLossService = winLossService;
 
     public Task<WinLossBase> GetWinLoss(int custId, byte custLevel, DateTime winLossDate)
@@ -83,4 +94,15 @@ public class YesterdayWinLossService : IYesterdayWinLossService
         .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.AgentComm), winloss.AgentComm))
         .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.AgentTotal), winloss.AgentTotal))
         .Append(TemplateHelper.BuildContent(language, nameof(winloss.CompanyWinLoss), winloss.CompanyWinLoss));
+
+    public Task<Result> Import(
+        IEnumerable<Notification> notifications,
+        DateTime winLossDate,
+        string environment,
+        int maxUserId)
+        => ExecuteNonQuery(new ImportYesterdayWinLossCommand(
+            BuildXmlData(notifications),
+            winLossDate,
+            environment,
+            maxUserId));
 }

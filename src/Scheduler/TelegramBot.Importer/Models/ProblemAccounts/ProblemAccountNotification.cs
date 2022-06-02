@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace TelegramBot.Importer.Models.Notifications;
+namespace TelegramBot.Importer.Models.ProblemAccounts;
 
 public record ProblemAccountNotification(
     int Id,

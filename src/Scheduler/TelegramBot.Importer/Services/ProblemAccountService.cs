@@ -2,6 +2,7 @@ using System.Text;
 using Fanex.Data.Repository;
 using TelegramBot.Importer.Criteria.ProblemAccounts;
 using TelegramBot.Importer.Extensions;
+using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Models.ProblemAccounts;
 using TelegramBot.Importer.Resources;
 
@@ -14,15 +15,21 @@ public interface IProblemAccountService
     IEnumerable<GroupProblemAccount> BuildGroupProblemAccounts(IEnumerable<ProblemAccount> problemAccounts);
 
     string BuildMessage(string language, IEnumerable<string> usernames, string currentDate);
+
+    Task<Result> Import(
+        IEnumerable<ProblemAccountNotification> notifications,
+        string environment,
+        int maxLogId);
 }
 
-public class ProblemAccountService : IProblemAccountService
+public class ProblemAccountService : NotificationServiceBase, IProblemAccountService
 {
     private const int MaxUsernames = 10;
-    private readonly IDynamicRepository dynamicRepository;
 
     public ProblemAccountService(IDynamicRepository dynamicRepository)
-        => this.dynamicRepository = dynamicRepository;
+        : base(dynamicRepository)
+    {
+    }
 
     public async Task<Tuple<int, IEnumerable<ProblemAccount>>> GetProblemAccounts(int lastLogId, int batchSize)
     {
@@ -128,4 +135,14 @@ public class ProblemAccountService : IProblemAccountService
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
+
+    public Task<Result> Import(
+        IEnumerable<ProblemAccountNotification> notifications,
+        string environment,
+        int maxLogId)
+        => ExecuteNonQuery(new ImportProblemAccountCommand(
+            BuildXmlData(notifications),
+            BuildXmlDataLog(notifications),
+            environment,
+            maxLogId));
 }

@@ -2,7 +2,6 @@ using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Models.Customers;
-using TelegramBot.Importer.Models.Notifications;
 using TelegramBot.Importer.Models.PersonalMessages;
 using TelegramBot.Importer.Models.SystemSettings;
 using TelegramBot.Importer.Services;
@@ -12,20 +11,15 @@ namespace TelegramBot.Importer.Jobs;
 public sealed class PersonalMessageJob : NotificationBaseJob
 {
     private readonly IPersonalMessageService personalMessageService;
-    private readonly IImportNotificationService importNotificationService;
 
     public PersonalMessageJob(
         IMaintenanceService maintenanceService,
         ILoggerService loggerService,
         ISystemSettingService systemSettingService,
         ICustomerService customerService,
-        IPersonalMessageService personalMessageService,
-        IImportNotificationService importNotificationService)
+        IPersonalMessageService personalMessageService)
         : base(maintenanceService, loggerService, systemSettingService, customerService)
-    {
-        this.personalMessageService = personalMessageService;
-        this.importNotificationService = importNotificationService;
-    }
+        => this.personalMessageService = personalMessageService;
 
     protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
@@ -54,7 +48,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         }
 
         // In case of NoData, call Import to update JobStatus=Completed and LastRuntime.
-        var result = await importNotificationService.ImportPersonalMessages(notifications, job.Environment, maxMsgTargetId);
+        var result = await personalMessageService.Import(notifications, job.Environment, maxMsgTargetId);
 
         if (result.IsFailed)
         {

@@ -1,6 +1,7 @@
 using System.Text;
 using Fanex.Data.Repository;
 using TelegramBot.Importer.Criteria.PersonalMessages;
+using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Models.PersonalMessages;
 using TelegramBot.Importer.Resources;
 
@@ -11,14 +12,19 @@ public interface IPersonalMessageService
     Task<Tuple<int, IEnumerable<PersonalMessage>>> GetNewMessages(int msgTargetId, int batchSize, bool isTest);
 
     string BuildMessage(string language, string currentDate, string content, string transId = "");
+
+    Task<Result> Import(
+        IEnumerable<PersonalMessageNotification> notifications,
+        string environment,
+        int maxMsgTargetId);
 }
 
-public class PersonalMessageService : IPersonalMessageService
+public class PersonalMessageService : NotificationServiceBase, IPersonalMessageService
 {
-    private readonly IDynamicRepository dynamicRepository;
-
     public PersonalMessageService(IDynamicRepository dynamicRepository)
-        => this.dynamicRepository = dynamicRepository;
+        : base(dynamicRepository)
+    {
+    }
 
     public async Task<Tuple<int, IEnumerable<PersonalMessage>>> GetNewMessages(int msgTargetId, int batchSize, bool isTest)
     {
@@ -37,4 +43,13 @@ public class PersonalMessageService : IPersonalMessageService
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
+
+    public Task<Result> Import(
+        IEnumerable<PersonalMessageNotification> notifications,
+        string environment,
+        int maxMsgTargetId)
+        => ExecuteNonQuery(new ImportPersonalMessageCommand(
+            BuildXmlData(notifications),
+            environment,
+            maxMsgTargetId));
 }
