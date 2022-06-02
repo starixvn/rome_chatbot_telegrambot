@@ -255,4 +255,10 @@
   <data name="YourAccountIsClosed" xml:space="preserve">
     <value>您的賬號已關閉</value>
   </data>
+  <data name="Today" xml:space="preserve">
+    <value>今日賽事</value>
+  </data>
+  <data name="UnderMaintenance" xml:space="preserve">
+    <value>很抱歉，伺服器正在進行維護，維護時間從{0}至{1} (GMT+8)。請稍候再試。</value>
+  </data>
 </root>

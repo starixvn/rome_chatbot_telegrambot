@@ -727,7 +727,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Turn off notification.
+        ///   Looks up a localized string similar to Notification is turned off.
         /// </summary>
         public static string TurnOffNotification {
             get {
@@ -736,7 +736,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Turn on notification.
+        ///   Looks up a localized string similar to Notification is turned on.
         /// </summary>
         public static string TurnOnNotification {
             get {

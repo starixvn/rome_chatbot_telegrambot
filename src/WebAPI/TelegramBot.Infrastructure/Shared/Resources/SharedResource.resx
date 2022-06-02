@@ -454,11 +454,11 @@
     <comment />
   </data>
   <data name="TurnOffNotification" xml:space="preserve">
-    <value>Turn off notification</value>
+    <value>Notification is turned off</value>
     <comment />
   </data>
   <data name="TurnOnNotification" xml:space="preserve">
-    <value>Turn on notification</value>
+    <value>Notification is turned on</value>
     <comment />
   </data>
   <data name="MainMenu" xml:space="preserve">

@@ -237,4 +237,7 @@
   <data name="YourAccountIsClosed" xml:space="preserve">
     <value>Tài khoản của bạn đã bị đóng.</value>
   </data>
+  <data name="Today" xml:space="preserve">
+    <value>Hôm nay</value>
+  </data>
 </root>

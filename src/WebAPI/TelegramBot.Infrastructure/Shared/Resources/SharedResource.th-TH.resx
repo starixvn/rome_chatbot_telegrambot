@@ -255,4 +255,7 @@
   <data name="YourAccountIsClosed" xml:space="preserve">
     <value>บัญชีของคุณถูกปิด</value>
   </data>
+  <data name="Today" xml:space="preserve">
+    <value>วันนี้</value>
+  </data>
 </root>
