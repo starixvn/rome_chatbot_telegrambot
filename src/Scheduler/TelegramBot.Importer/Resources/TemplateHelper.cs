@@ -1,15 +1,14 @@
 ﻿using System.Globalization;
 using System.Resources;
+using System.Xml.Linq;
 using TelegramBot.Importer.Constants;
+using TelegramBot.Importer.Extensions;
 
 namespace TelegramBot.Importer.Resources;
 
 public static class TemplateHelper
 {
     private static readonly ResourceManager resourceManager = new("TelegramBot.Importer.Resources.Template", typeof(TemplateHelper).Assembly);
-
-    public static string GetNoInfo(string language)
-        => Get("NoInfo", language);
 
     public static string Get(string key, string language)
     {
@@ -19,4 +18,15 @@ public static class TemplateHelper
             ? resourceManager.GetString(key, CultureInfo.CreateSpecificCulture(LanguageCode.English))
             : value;
     }
+
+    public static string BuildTitle(string language, string resourceKey, string date)
+        => $"[{Get(resourceKey, language)} - {date}]";
+
+    public static string BuildContent(string language, string resourceKey, decimal value)
+        => $"<b>{Get(resourceKey, language)}</b>: {value.FormatDecimal()}";
+
+    public static string EncodeXml(string text, bool isAttribute = true, int attrSubStringLength = 5)
+        => isAttribute
+        ? new XAttribute("__n",text).ToString().Substring(attrSubStringLength).TrimEnd('\"')
+        : new XElement("t", text).LastNode.ToString();
 }

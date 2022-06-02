@@ -1,6 +1,9 @@
 
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
+using TelegramBot.Importer.Extensions;
+using TelegramBot.Importer.Models.Customers;
+using TelegramBot.Importer.Models.Notifications;
 using TelegramBot.Importer.Models.ProblemAccounts;
 using TelegramBot.Importer.Models.SystemSettings;
 using TelegramBot.Importer.Services;
@@ -10,7 +13,6 @@ namespace TelegramBot.Importer.Jobs;
 public sealed class ProblemAccountJob : NotificationBaseJob
 {
     private readonly IProblemAccountService problemAccountService;
-    private readonly IMessageTemplate messageTemplate;
     private readonly IImportNotificationService importNotificationService;
 
     public ProblemAccountJob(
@@ -19,84 +21,79 @@ public sealed class ProblemAccountJob : NotificationBaseJob
         ISystemSettingService systemSettingService,
         IProblemAccountService problemAccountService,
         ICustomerService customerService,
-        IMessageTemplate messageTemplate,
         IImportNotificationService importNotificationService)
         : base(maintenanceService, loggerService, systemSettingService, customerService)
     {
         this.problemAccountService = problemAccountService;
-        this.messageTemplate = messageTemplate;
         this.importNotificationService = importNotificationService;
     }
 
     protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
+        var notifications = Enumerable.Empty<ProblemAccountNotification>();
+
         var (maxLogId, problemAccounts) = await problemAccountService.GetProblemAccounts(systemSetting.MaxLogId, systemSetting.BatchSize);
 
-        // if (problemAccounts.Any())
-        // {
-        //     var customerHashSet = new HashSet<int>();
-        //     foreach (var item in problemAccounts)
-        //     {
-        //         customerHashSet.Add(item.Recommend);
-        //         customerHashSet.Add(item.MRecommend);
-        //         customerHashSet.Add(item.SRecommend);
-        //     }
+        if (problemAccounts.Any())
+        {
+            var groupProblemAccounts = problemAccountService.BuildGroupProblemAccounts(problemAccounts);
 
-        //     var custIds = customerHashSet.AsEnumerable().JoinWithComma();
-        //     var linkedCustomers = await GetLinkedCustomers(custIds, job);
-        // }
+            var custIds = groupProblemAccounts.Select(pa => pa.CustId).JoinWithComma();
+            var linkedCustomers = await GetLinkedCustomers(custIds, job);
+
+            if (linkedCustomers.Any())
+            {
+                var customerStatus = await GetCustomerStatus(linkedCustomers);
+
+                notifications = BuildProblemAccountNotifications(
+                    job,
+                    groupProblemAccounts,
+                    linkedCustomers,
+                    customerStatus);
+            }
+        }
+
+        // In case of NoData, call Import to update JobStatus=Completed and LastRuntime.
+        var result = await importNotificationService.ImportProblemAccounts(
+            notifications,
+            job.Environment,
+            maxLogId);
+
+        if (result.IsFailed)
+        {
+            await loggerService.Error(job, result.Message);
+        }
     }
 
-    private static IEnumerable<Tuple<int, IEnumerable<string>>> GroupBySupers(IEnumerable<ProblemAccount> problemAccounts)
+    private IEnumerable<ProblemAccountNotification> BuildProblemAccountNotifications(
+        ScheduleJob job,
+        IEnumerable<GroupProblemAccount> groupProblemAccounts,
+        IEnumerable<LinkedCustomer> linkedCustomers,
+        IEnumerable<CustomerStatus> customerStatus)
     {
-        var notifications = new List<Tuple<int, IEnumerable<string>>>();
+        var currentDate = DateTime.Today.ToSimpleDate();
 
-        notifications.AddRange(problemAccounts
-            .Where(pa => pa.MRecommend > 0)
-            .OrderBy(pa => pa.Username)
-            .GroupBy(
-                pa => pa.SRecommend,
-                (superId, problemAccountList) =>
-                {
-                    notifications.AddRange(GroupByMasters(problemAccountList));
+        var notifications =
+            from gpa in groupProblemAccounts
+            join customer in linkedCustomers on gpa.CustId equals customer.CustId
+            join status in customerStatus on new { customer.CustId, customer.SubAccId }
+                equals new { status.CustId, status.SubAccId }
+            where status.IsValid(job.SubAccPermission)
+            select BuildProblemAccountNotification(job, gpa, customer, currentDate);
 
-                    return new Tuple<int, IEnumerable<string>>(
-                        superId,
-                        problemAccountList.Select(pa => pa.Username)); 
-                }));
-
-        return notifications;
+        return notifications.ToList();
     }
 
-    private static IEnumerable<Tuple<int, IEnumerable<string>>> GroupByMasters(IEnumerable<ProblemAccount> problemAccounts)
-    {
-        var notifications = new List<Tuple<int, IEnumerable<string>>>();
-
-        notifications.AddRange(problemAccounts
-            .Where(pa => pa.Recommend > 0)
-            .GroupBy(
-                pa => pa.MRecommend,
-                (masterId, problemAccountList) =>
-                    {
-                        var validProblemAccountList = problemAccountList.Where(pa => pa.Recommend > 0).ToList();
-
-                        var agentNotifications = GroupByAgents(validProblemAccountList);
-                        notifications.AddRange(agentNotifications);
-
-                        return new Tuple<int, IEnumerable<string>>(
-                            masterId,
-                            validProblemAccountList.Select(pa => pa.Username));
-                    }));
-
-        return notifications;
-    }
-
-    private static IEnumerable<Tuple<int, IEnumerable<string>>> GroupByAgents(IEnumerable<ProblemAccount> problemAccounts)
-        => problemAccounts
-        .GroupBy(
-            pa => pa.Recommend,
-            (agentId, problemAccountList) => new Tuple<int, IEnumerable<string>>(
-                agentId,
-                problemAccountList.Select(pa => pa.Username)))
-        .ToList();
+    private ProblemAccountNotification BuildProblemAccountNotification(
+        ScheduleJob job,
+        GroupProblemAccount groupProblemAccount,
+        LinkedCustomer customer,
+        string currentDate)
+        => new (
+            groupProblemAccount.Id,
+            customer.UserId,
+            problemAccountService.BuildMessage(customer.Language, groupProblemAccount.Usernames, currentDate),
+            customer.IsRealUser,
+            job.IsUAT,
+            groupProblemAccount.LogIds);
 }

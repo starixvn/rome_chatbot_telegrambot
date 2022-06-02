@@ -1,4 +1,4 @@
-namespace TelegramBot.Importer.Models;
+namespace TelegramBot.Importer.Models.Notifications;
 
 public record Notification(int UserId, string Message, bool IsRealUser, bool IsJobUAT)
 {
@@ -9,4 +9,7 @@ public record Notification(int UserId, string Message, bool IsRealUser, bool IsJ
 
     public virtual string ToXml()
         => $"<r UserId=\"{UserId}\" Message=\"{Message}\" Status=\"{Status}\"/>";
+
+    public virtual string ToLogXml()
+        => string.Empty;
 }

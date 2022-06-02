@@ -4,13 +4,13 @@ namespace TelegramBot.Importer.Criteria.ProblemAccounts;
 
 public class GetProblemAccountCommand : NonQueryCommand
 {
-    public GetProblemAccountCommand(int lastLogIn, int batchSize)
+    public GetProblemAccountCommand(int lastLogId, int batchSize)
     {
-        LastLogIn = lastLogIn;
+        LastLogId = lastLogId;
         BatchSize = batchSize;
     }
 
-    public int LastLogIn { get; }
+    public int LastLogId { get; }
 
     public int BatchSize { get; }
 

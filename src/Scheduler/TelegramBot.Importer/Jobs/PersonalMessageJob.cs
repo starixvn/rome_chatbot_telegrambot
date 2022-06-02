@@ -2,6 +2,7 @@ using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Models.Customers;
+using TelegramBot.Importer.Models.Notifications;
 using TelegramBot.Importer.Models.PersonalMessages;
 using TelegramBot.Importer.Models.SystemSettings;
 using TelegramBot.Importer.Services;
@@ -11,7 +12,6 @@ namespace TelegramBot.Importer.Jobs;
 public sealed class PersonalMessageJob : NotificationBaseJob
 {
     private readonly IPersonalMessageService personalMessageService;
-    private readonly IMessageTemplate messageTemplate;
     private readonly IImportNotificationService importNotificationService;
 
     public PersonalMessageJob(
@@ -20,12 +20,10 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         ISystemSettingService systemSettingService,
         ICustomerService customerService,
         IPersonalMessageService personalMessageService,
-        IMessageTemplate messageTemplate,
         IImportNotificationService importNotificationService)
         : base(maintenanceService, loggerService, systemSettingService, customerService)
     {
         this.personalMessageService = personalMessageService;
-        this.messageTemplate = messageTemplate;
         this.importNotificationService = importNotificationService;
     }
 
@@ -116,7 +114,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
                     customer.UserId,
                     message.MsgTargetId,
                     message.MessageId,
-                    messageTemplate.BuildPersonalMessage(
+                    personalMessageService.BuildMessage(
                         customer.Language,
                         currentDate,
                         message.GetContentByLanguage(customer.Language),
@@ -131,7 +129,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
                 customer.UserId,
                 message.MsgTargetId,
                 message.MessageId,
-                messageTemplate.BuildPersonalMessage(
+                personalMessageService.BuildMessage(
                     customer.Language,
                     currentDate,
                     message.GetContentByLanguage(customer.Language)),

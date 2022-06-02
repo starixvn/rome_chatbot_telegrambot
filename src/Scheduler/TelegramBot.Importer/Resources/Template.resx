@@ -185,4 +185,20 @@
     <value>AGENT COMM</value>
     <comment/>
   </data>
+  <data name="ProblemAccountAlert" xml:space="preserve">
+    <value>Problem Account Alert</value>
+    <comment/>
+  </data>
+  <data name="HavingNewProblemAccounts" xml:space="preserve">
+    <value>Having new problem account(s): {0}.</value>
+    <comment/>
+  </data>
+  <data name="ProblemAccountShowAllDownlines" xml:space="preserve">
+    <value>Please kindly be informed and have a check the details for your downline(s).</value>
+    <comment/>
+  </data>
+  <data name="ProblemAccountShowXDownlines" xml:space="preserve">
+    <value>Please kindly be informed there are {0} new problem accounts. Please check the details in Problem Account List.</value>
+    <comment/>
+  </data>
 </root>

@@ -2,18 +2,16 @@
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Extensions;
-using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Models.Customers;
+using TelegramBot.Importer.Models.Notifications;
 using TelegramBot.Importer.Models.SystemSettings;
 using TelegramBot.Importer.Services;
-using ClientServices = Alpha.API.Client.Services;
 
 namespace TelegramBot.Importer.Jobs;
 
 public sealed class YesterdayWinLossJob : NotificationBaseJob
 {
-    private readonly ClientServices.IWinLossService winLossService;
-    private readonly IMessageTemplate messageTemplate;
+    private readonly IYesterdayWinLossService yesterdayWinLossService;
     private readonly IImportNotificationService importNotificationService;
 
     public YesterdayWinLossJob(
@@ -21,13 +19,11 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
         ILoggerService loggerService,
         ISystemSettingService systemSettingService,
         ICustomerService customerService,
-        ClientServices.IWinLossService winLossService,
-        IMessageTemplate messageTemplate,
+        IYesterdayWinLossService yesterdayWinLossService,
         IImportNotificationService importNotificationService)
         : base(maintenanceService, loggerService, systemSettingService, customerService)
     {
-        this.winLossService = winLossService;
-        this.messageTemplate = messageTemplate;
+        this.yesterdayWinLossService = yesterdayWinLossService;
         this.importNotificationService = importNotificationService;
     }
 
@@ -120,11 +116,11 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
     {
         try
         {
-            var winloss = await winLossService.GetWinLoss(customer.CustId, customer.CustomerLevel, winLossDate);
+            var winloss = await yesterdayWinLossService.GetWinLoss(customer.CustId, customer.CustomerLevel, winLossDate);
 
             if (winloss != null)
             {
-                var message = messageTemplate.BuildYesterdayWinLossMessage(winloss, customer.CustomerLevel, customer.Language, winLossDate.ToSimpleDate());
+                var message = yesterdayWinLossService.BuildMessage(customer.Language, winloss, customer.CustomerLevel, winLossDate.ToSimpleDate());
             
                 return new Notification(customer.UserId, message, customer.IsRealUser, job.IsUAT);
             }

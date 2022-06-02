@@ -2,7 +2,7 @@ using System.Text;
 using Fanex.Data.Repository;
 using TelegramBot.Importer.Criteria.Notifications;
 using TelegramBot.Importer.Models;
-using TelegramBot.Importer.Models.PersonalMessages;
+using TelegramBot.Importer.Models.Notifications;
 
 namespace TelegramBot.Importer.Services;
 
@@ -18,6 +18,11 @@ public interface IImportNotificationService
         DateTime winLossDate,
         string environment,
         int maxUserId);
+
+    Task<Result> ImportProblemAccounts(
+        IEnumerable<ProblemAccountNotification> notifications,
+        string environment,
+        int maxLogId);
 }
 
 public class ImportNotificationService : IImportNotificationService
@@ -54,17 +59,45 @@ public class ImportNotificationService : IImportNotificationService
         return new Result(command.ErrCode, command.ErrMsg);
     }
 
+    public async Task<Result> ImportProblemAccounts(
+        IEnumerable<ProblemAccountNotification> notifications,
+        string environment,
+        int maxLogId)
+    {
+        var command = new ImportProblemAccountCommand(
+            BuildXmlData(notifications),
+            BuildXmlDataLog(notifications),
+            environment,
+            maxLogId);
+        await dynamicRepository.ExecuteAsync(command);
+
+        return new Result(command.ErrCode, command.ErrMsg);
+    }
+
     private static string BuildXmlData(IEnumerable<Notification> notifications)
     {
         var xmlData = new StringBuilder();
-        xmlData.Append("<root>");
 
         foreach (var item in notifications)
         {
             xmlData.Append(item.ToXml());
         }
             
-        xmlData.Append("</root>");
-        return xmlData.ToString();
+        return BuildXmlRoot(xmlData);
     }
+
+    private static string BuildXmlDataLog(IEnumerable<Notification> notifications)
+    {
+        var xmlDataLog = new StringBuilder();
+
+        foreach (var item in notifications)
+        {
+            xmlDataLog.Append(item.ToLogXml());
+        }
+            
+        return BuildXmlRoot(xmlDataLog);
+    }
+
+    private static string BuildXmlRoot(StringBuilder xmlBuilder)
+        => $"<root>{xmlBuilder}</root>";
 }

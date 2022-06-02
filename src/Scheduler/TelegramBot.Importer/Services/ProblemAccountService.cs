@@ -1,18 +1,24 @@
+using System.Text;
 using Fanex.Data.Repository;
 using TelegramBot.Importer.Criteria.ProblemAccounts;
+using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Models.ProblemAccounts;
+using TelegramBot.Importer.Resources;
 
 namespace TelegramBot.Importer.Services;
 
 public interface IProblemAccountService
 {
     Task<Tuple<int, IEnumerable<ProblemAccount>>> GetProblemAccounts(int lastLogId, int batchSize);
-    
-    string BuildMessage(string language, string usernames);
+
+    IEnumerable<GroupProblemAccount> BuildGroupProblemAccounts(IEnumerable<ProblemAccount> problemAccounts);
+
+    string BuildMessage(string language, IEnumerable<string> usernames, string currentDate);
 }
 
 public class ProblemAccountService : IProblemAccountService
 {
+    private const int MaxUsernames = 10;
     private readonly IDynamicRepository dynamicRepository;
 
     public ProblemAccountService(IDynamicRepository dynamicRepository)
@@ -23,67 +29,103 @@ public class ProblemAccountService : IProblemAccountService
         var command = new GetProblemAccountCommand(lastLogId, batchSize);
         var problemAccounts = await dynamicRepository.FetchAsync<ProblemAccount>(command);
 
-        if (problemAccounts.Any())
-        {
-            var notifications = GroupBySupers(problemAccounts);
-        }
-
         return new Tuple<int, IEnumerable<ProblemAccount>>(command.MaxLogId, problemAccounts);
     }
 
-    private static IEnumerable<Tuple<int, IEnumerable<string>>> GroupBySupers(IEnumerable<ProblemAccount> problemAccounts)
+    public IEnumerable<GroupProblemAccount> BuildGroupProblemAccounts(IEnumerable<ProblemAccount> problemAccounts)
     {
-        var notifications = new List<Tuple<int, IEnumerable<string>>>();
+        var identity = 1;
+        var groupProblemAccounts = new List<GroupProblemAccount>();
 
-        notifications.AddRange(problemAccounts
+        var groupSuperList = problemAccounts
             .Where(pa => pa.SRecommend != pa.CustId)
-            .OrderBy(pa => pa.Username)
-            .GroupBy(
-                pa => pa.SRecommend,
-                (superId, problemAccountList) =>
+            .GroupBy(pa => pa.SRecommend);
+
+        foreach (var groupSuper in groupSuperList)
+        {
+            var master = GetGroupProblemAccount(
+                identity++,
+                groupSuper.Key,
+                groupSuper.Where(pa => pa.MRecommend == pa.CustId));
+            groupProblemAccounts.Add(master);
+
+            var groupMasterList = groupSuper
+                .Where(pa => pa.MRecommend != pa.CustId)
+                .GroupBy(pa => pa.MRecommend);
+
+            foreach (var groupMaster in groupMasterList)
+            {
+                var agent = GetGroupProblemAccount(
+                    identity++,
+                    groupMaster.Key,
+                    groupMaster.Where(pa => pa.Recommend == pa.CustId));
+                groupProblemAccounts.Add(agent);
+                master.Usernames.AddRange(agent.Usernames);
+                master.LogIds.AddRange(agent.LogIds);
+
+                var groupAgentList = groupMaster
+                    .Where(pa => pa.Recommend != pa.CustId)
+                    .GroupBy(pa => pa.Recommend);
+
+                foreach (var groupAgent in groupAgentList)
                 {
-                    notifications.AddRange(GroupByMasters(problemAccountList));
+                    var member = GetGroupProblemAccount(
+                        identity++,
+                        groupAgent.Key,
+                        groupAgent);
+                    groupProblemAccounts.Add(member);
+                    agent.Usernames.AddRange(member.Usernames);
+                    agent.LogIds.AddRange(member.LogIds);
+                    master.Usernames.AddRange(member.Usernames);
+                    master.LogIds.AddRange(member.LogIds);
+                }
+            }
+        }
 
-                    return new Tuple<int, IEnumerable<string>>(
-                        superId,
-                        problemAccountList.Select(pa => pa.Username)); 
-                }));
+        return groupProblemAccounts;
+    }
+    
+    private static GroupProblemAccount GetGroupProblemAccount(
+        int id,
+        int custId,
+        IEnumerable<ProblemAccount> problemAccounts)
+    {
+        var usernames = new List<string>();
+        var logIds = new List<long>();
+        
+        foreach (var item in problemAccounts)
+        {
+            usernames.Add(item.Username);
+            logIds.Add(item.LogId);
+        }
 
-        return notifications;
+        return new GroupProblemAccount(
+            id,
+            custId,
+            usernames.Distinct().OrderBy(username => username).ToList(),
+            logIds);
     }
 
-    private static IEnumerable<Tuple<int, IEnumerable<string>>> GroupByMasters(IEnumerable<ProblemAccount> problemAccounts)
+    public string BuildMessage(string language, IEnumerable<string> usernames, string currentDate)
     {
-        var notifications = new List<Tuple<int, IEnumerable<string>>>();
+        var usernamesCount = usernames.Count();
 
-        notifications.AddRange(problemAccounts
-            .Where(pa => pa.Recommend > 0)
-            .GroupBy(
-                pa => pa.MRecommend,
-                (masterId, problemAccountList) =>
-                    {
-                        var agentNotifications = GroupByAgents(problemAccountList);
-                        notifications.AddRange(agentNotifications);
+        var messageBuilder = new StringBuilder();
+        messageBuilder
+            .AppendLine(TemplateHelper.BuildTitle(language, "ProblemAccountAlert", currentDate));
 
-                        return new Tuple<int, IEnumerable<string>>(
-                            masterId,
-                            problemAccountList.Select(pa => pa.Username));
-                    }));
+        if (usernamesCount <= MaxUsernames)
+        {
+            messageBuilder
+                .AppendLine(string.Format(TemplateHelper.Get("HavingNewProblemAccounts", language), usernames.Join(", ")))
+                .Append(TemplateHelper.Get("ProblemAccountShowAllDownlines", language));
+        }
+        else
+        {
+            messageBuilder
+                .Append(string.Format(TemplateHelper.Get("ProblemAccountShowXDownlines", language), usernamesCount));
+        }
 
-        return notifications;
-    }
-
-    private static IEnumerable<Tuple<int, IEnumerable<string>>> GroupByAgents(IEnumerable<ProblemAccount> problemAccounts)
-        => problemAccounts
-        .GroupBy(
-            pa => pa.Recommend,
-            (agentId, problemAccountList) => new Tuple<int, IEnumerable<string>>(
-                agentId,
-                problemAccountList.Select(pa => pa.Username)))
-        .ToList();
-
-    public string BuildMessage(string language, string usernames)
-    {
-        throw new NotImplementedException();
+        return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
 }
