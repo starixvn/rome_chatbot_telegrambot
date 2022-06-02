@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NSubstitute;
+using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Infrastructure.Message;
+using TelegramBot.Infrastructure.Message.Models;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.Models;
 using Xunit;
@@ -33,7 +37,7 @@ public class MessageBuilderTest
     [Fact]
     public void BuildChangePasswordAlertMessage_Always_ReturnChangePasswordAlertMessage()
     {
-        var expect = new List<string>()
+        var expect = new List<string>
         {
             $"[Change Password Alert - {DateTime.Now:yyyyMMdd}]",
             "Your Alpha Site account's Password has been changed.",
@@ -49,7 +53,7 @@ public class MessageBuilderTest
     [Fact]
     public void BuildChangeSecurityCodeAlertMessage_Always_ReturnChangeSecurityCodeAlertMessage()
     {
-        var expect = new List<string>()
+        var expect = new List<string>
         {
             $"[Change Security Code Alert - {DateTime.Now:yyyyMMdd}]",
             "Your Security Code has been changed.",
@@ -87,7 +91,7 @@ public class MessageBuilderTest
     [Fact]
     public void BuildUnderMaintenanceMessage_Always_ReturnUnderMaintenanceMessage()
     {
-        var expect = new List<string>()
+        var expect = new List<string>
         {
             "Sorry, the system is under maintenance from 20/3/2020 to 20/3/2030 GMT+8. Please come back later.",
             "Sorry, the system is under maintenance from 20/3/2020 to 20/3/2030 GMT+8. Please come back later.",
@@ -101,7 +105,7 @@ public class MessageBuilderTest
     [Fact]
     public void BuildGeneralCommandsHelpMessage_Always_ReturnGeneralCommandsHelpMessage()
     {
-        var expect = new List<string>()
+        var expect = new List<string>
         {
             "You can operate Telegram using following commands:\n",
             "/menu - Open Main Menu of Telegram",
@@ -126,10 +130,17 @@ public class MessageBuilderTest
     [Fact]
     public void BuildWelcomeMessage_Always_ReturnWelcomeMessage()
     {
-        const string expect = @"Welcome jack. Your Telegram Chatbot setup is completed. This bot can assist you to view report more easily or keep you posted with the latest important notifications. You will receive your yesterday's win loss after 2:00 PM (GMT+8) daily.";
+        var expect = new List<string>()
+        {
+            "Welcome jack.",
+            "Your Telegram Chatbot setup is completed.",
+            "This bot can assist you to view report more easily or keep you posted with the latest important notifications.",
+            "You will receive your yesterday's win loss after 2:00 PM (GMT+8) daily."
+        };
+       
         var result = messageBuilder.BuildWelcomeMessage("EN", "jack");
 
-        Assert.Equal(expect, result);
+        Assert.Equal(string.Join(" ",expect), result);
     }
 
     [Fact]
@@ -223,10 +234,19 @@ public class MessageBuilderTest
     }
 
     [Fact]
-    public void BuildUpdateNotificationSettingMessage_Always_ReturnUpdateNotificationSettingMessage()
+    public void BuildUpdateNotificationSettingMessage_Enabled_ReturnUpdateNotificationSettingMessage()
     {
         const string expect = @"Notification is turned on";
         var result = messageBuilder.BuildUpdateNotificationSettingMessage("EN", true);
+
+        Assert.Equal(expect, result);
+    } 
+    
+    [Fact]
+    public void BuildUpdateNotificationSettingMessage_UnEnable_ReturnUpdateNotificationSettingMessage()
+    {
+        const string expect = @"Notification is turned off";
+        var result = messageBuilder.BuildUpdateNotificationSettingMessage("EN", false);
 
         Assert.Equal(expect, result);
     }
@@ -241,5 +261,36 @@ public class MessageBuilderTest
         var result = await messageBuilder.BuildActionName("EN", 13);
 
         Assert.Equal(botResource.Value, result);
+    } 
+    
+    [Fact]
+    public async Task BuildMessage_Always_ReturnReplyMarkupMessage()
+    {
+        var result = await messageBuilder.BuildMessage("EN", new List<MessageButton> { new MessageButton("setting","/setting") }, "EN");
+      
+        Assert.IsType<Infrastructure.Message.Models.Message>(result);
+        Assert.Single(result.ReplyMarkup.InlineKeyboard); 
+    }
+    
+    [Fact]
+    public async Task BuildMessageWithBackButton_Always_ReturnReplyMarkupMessage()
+    {
+        var result = await messageBuilder.BuildMessageWithBackButton("EN", new List<MessageButton> { new ("setting","/setting") }, 0,"EN",false);
+      
+        Assert.IsType<Infrastructure.Message.Models.Message>(result);
+        Assert.Equal(2,result.ReplyMarkup.InlineKeyboard.Count()); 
+    }
+    
+    [Fact]
+    public async Task BuildStopUsingChatbotConfirmMessage_Always_ReturnMainMenuButton()
+    {
+        var textBtn =
+            "You're about to <b>Stop Using Chatbot</b>.Your Telegram will be unlinked with Telegram and you won't be able to use Telegram anymore.Are you sure you want to stop using Telegram?";
+
+        var result = await messageBuilder.BuildStopUsingChatbotConfirmMessage("EN","Telegram");
+
+        Assert.IsType<Infrastructure.Message.Models.Message>(result);
+        Assert.Single(result.ReplyMarkup.InlineKeyboard);
+        Assert.Equal(textBtn,result.Text); 
     }
 }
