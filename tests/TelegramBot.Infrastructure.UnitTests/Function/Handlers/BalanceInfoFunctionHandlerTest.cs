@@ -1,25 +1,24 @@
 using Alpha.API.Client.Models.Outstanding;
 using TelegramBot.Infrastructure.Message;
+using TelegramBot.Infrastructure.Shared.Configurations;
+using TelegramBot.Infrastructure.Shared.Constants;
+using TelegramBot.Infrastructure.Shared.Extensions;
+using TelegramBot.Infrastructure.Shared.Models;
+using TelegramBot.Infrastructure.Shared.Resources;
+using TelegramBot.Infrastructure.Function.Handlers;
+using System.Threading.Tasks;
+using Xunit;
+using NSubstitute;
+using Alpha.API.Client.Services;
+using TelegramBot.Infrastructure.Setting.Models;
+using System.Collections.Generic;
+using Alpha.API.Client.Models.BalanceInfo;
+using System;
+using Alpha.API.Client.Models.Customers;
+using System.Linq;
 
 namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 {
-    using TelegramBot.Infrastructure.Function.Handlers;
-    using System.Threading.Tasks;
-    using Xunit;
-    using NSubstitute;
-    using Alpha.API.Client.Services;
-    using TelegramBot.Infrastructure.Setting.Models;
-    using Shared.Models;
-    using System.Collections.Generic;
-    using Alpha.API.Client.Models.BalanceInfo;
-    using System;
-    using Shared.Constants;
-    using Shared.Extensions;
-    using Shared.Resources;
-    using Alpha.API.Client.Models.Customers;
-    using System.Linq;
-    using Shared.Configurations;
-
     public class BalanceInfoFunctionHandlerTest
     {
         private readonly BalanceInfoFunctionHandler handler;

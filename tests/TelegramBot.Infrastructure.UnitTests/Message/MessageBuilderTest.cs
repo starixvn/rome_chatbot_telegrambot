@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Fanex.Data.Repository;
 using NSubstitute;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.Models;
-using TelegramBot.Infrastructure.Shared.Caching;
 using Xunit;
 
 namespace TelegramBot.Infrastructure.UnitTests.Message;
@@ -209,7 +207,7 @@ public class MessageBuilderTest
     [Fact]
     public void BuildInvalidUsernameMessage_Always_ReturnInvalidUsernameMessage()
     {
-        const string expect = @"Invalid username";
+        const string expect = @"Invalid username.";
         var result = messageBuilder.BuildInvalidUsernameMessage("EN");
 
         Assert.Equal(expect, result);
@@ -227,7 +225,7 @@ public class MessageBuilderTest
     [Fact]
     public void BuildUpdateNotificationSettingMessage_Always_ReturnUpdateNotificationSettingMessage()
     {
-        const string expect = @"Turn on notification";
+        const string expect = @"Notification is turned on";
         var result = messageBuilder.BuildUpdateNotificationSettingMessage("EN", true);
 
         Assert.Equal(expect, result);

@@ -1,3 +1,5 @@
+
+
 namespace TelegramBot.Infrastructure.UnitTests.Function
 {
     using System.Collections.Generic;
@@ -7,7 +9,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
     using NSubstitute;
     using TelegramBot.Infrastructure.Function.Models;
     using TelegramBot.Infrastructure.Setting;
-    using Shared.Configurations;
+    using TelegramBot.Infrastructure.Shared.Configurations;
     using Xunit;
     using TelegramBot.Infrastructure.Function.Constants;
     using TelegramBot.Infrastructure.Resource;
