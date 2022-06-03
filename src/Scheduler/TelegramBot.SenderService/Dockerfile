@@ -5,6 +5,7 @@ COPY src/Scheduler/TelegramBot.SenderService/TelegramBot.SenderService.csproj ./
 RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
 RUN dotnet restore Scheduler/TelegramBot.SenderService/TelegramBot.SenderService.csproj -v n
 
+COPY src/Shared/TelegramBot.Utilities ./Shared/TelegramBot.Utilities
 COPY src/Scheduler/TelegramBot.SenderService ./Scheduler/TelegramBot.SenderService
 
 WORKDIR /src/Scheduler/TelegramBot.SenderService

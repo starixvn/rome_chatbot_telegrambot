@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace TelegramBot.Infrastructure.Shared.Configurations;
 
 public class WebAPIConfiguration
@@ -13,6 +11,10 @@ public class WebAPIConfiguration
     public int OutstandingMaxTopQuery { get; set; }
 
     public int BalanceMaxTopQuery { get; set; }
+
+    public string ProxyAddress { get; set; }
+
+    public bool IsUseProxy => !string.IsNullOrEmpty(ProxyAddress);
 
     public IDictionary<string, short[]> HiddenActionsBySystem { get; set; }
 }

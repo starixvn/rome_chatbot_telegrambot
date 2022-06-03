@@ -94,10 +94,10 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton(Logger.Log);
 
             ExceptionHandler
-                // To use custom config
                 .UseConfig(new LoggingConfiguration()
                 .GetHttpHeaderInfo()
                 .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo));
+
             return services;
         }
 

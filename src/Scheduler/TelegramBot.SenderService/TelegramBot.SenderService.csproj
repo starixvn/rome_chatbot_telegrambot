@@ -9,24 +9,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fanex.Caching.AspNetCore" Version="2.2.2"/>
-    <PackageReference Include="Fanex.Data.Repository" Version="4.2.2"/>
-    <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.2"/>
-    <PackageReference Include="Fanex.Logging.Extensions.AspNetCore" Version="1.0.0"/>
-    <PackageReference Include="Fanex.Logging.RabbitMQ" Version="1.0.1"/>
-    <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6"/>
-    <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.0"/>
-    <PackageReference Include="ONEbook.UM.Transport" Version="3.1.1"/>
+    <PackageReference Include="Fanex.Caching.AspNetCore" Version="2.2.2" />
+    <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
+    <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.2" />
+    <PackageReference Include="Fanex.Logging.Extensions.AspNetCore" Version="1.0.0" />
+    <PackageReference Include="Fanex.Logging.RabbitMQ" Version="1.0.1" />
+    <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
+    <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.0" />
+    <PackageReference Include="ONEbook.UM.Transport" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
-    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.4.0"/>
-    <PackageReference Include="Telegram.Bot" Version="17.0.0"/>
+    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.4.0" />
   </ItemGroup>
 
   <ItemGroup> 
     <Content Include="App_Data\**"> 
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content> 
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\TelegramBot.Utilities\TelegramBot.Utilities.csproj" />
   </ItemGroup>
   <PropertyGroup Label="sonarqube-rules-synchronizer">
     <CodeAnalysisRuleSet>../../../.sonarlint/telegrambotcsharp.ruleset</CodeAnalysisRuleSet>

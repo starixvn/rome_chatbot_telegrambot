@@ -5,6 +5,7 @@ using Telegram.Bot.Types.Enums;
 using TelegramBot.SenderService.Configurations;
 using TelegramBot.SenderService.Criteria;
 using TelegramBot.SenderService.Models;
+using TelegramBot.Utilities;
 
 namespace TelegramBot.SenderService.Services;
 
@@ -49,7 +50,7 @@ public class BotService : IBotService
         try
         {
             var bot = await GetBot(botId);
-            var botClient = new TelegramBotClient(bot.AccessToken);
+            var botClient = TelegramBotUtils.InitBotClient(bot.AccessToken, appSettings.ProxyAddress);
             botClients.Add(botId, botClient);
 
             return botClient;

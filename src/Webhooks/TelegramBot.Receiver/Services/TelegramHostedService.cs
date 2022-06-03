@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Net;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using TelegramBot.Client.Services;
 using TelegramBot.Receiver.Configurations;
+using TelegramBot.Utilities;
 
 namespace TelegramBot.Receiver.Services
 {
@@ -34,16 +35,13 @@ namespace TelegramBot.Receiver.Services
             var botClients = new List<ITelegramBotClient>();
             var tasks = _handleUpdateSerice.BotEntities.Select(botEntity =>
             {
-
-                var botClient = new TelegramBotClient(botEntity.AccessToken);
+                var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken);
                 botClients.Add(botClient);
 
                 return botClient.SetWebhookAsync(
                     url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
                     allowedUpdates: _allowedUpdates,
                     cancellationToken: cancellationToken);
-
-
             });
             _handleUpdateSerice.BotClients = botClients;
             await Task.WhenAll(tasks).ConfigureAwait(false);

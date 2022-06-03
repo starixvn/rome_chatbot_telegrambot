@@ -1,6 +1,3 @@
-using System;
-using TelegramBot.Infrastructure.Message.Constants;
-
 namespace TelegramBot.Infrastructure.Message
 {
     public interface IMessageFormatter

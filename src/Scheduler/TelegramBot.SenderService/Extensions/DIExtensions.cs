@@ -22,6 +22,7 @@ public static class DIExtensions
         var appSettings = new AppSettings
         {
             IsTest = configuration.GetSection("IsTest").Get<bool>(),
+            ProxyAddress = configuration.GetSection("ProxyAddress").Get<string>(),
             FunctionPermissions = configuration.GetSection("FunctionPermissions")
                 .Get<FunctionPermission[]>()
                 .ToDictionary(kvp => kvp.FunctionKey, kvp => kvp.SubAccPermission)
@@ -29,5 +30,4 @@ public static class DIExtensions
 
         return services.AddSingleton(appSettings);
     }
-
 }

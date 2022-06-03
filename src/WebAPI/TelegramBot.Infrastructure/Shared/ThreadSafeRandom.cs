@@ -1,21 +1,19 @@
-﻿using System;
+﻿namespace TelegramBot.Common.Extensions;
 
-namespace TelegramBot.Common.Extensions
+public static class ThreadSafeRandom
 {
-    public static class ThreadSafeRandom
+    [ThreadStatic]
+    private static Random _local;
+
+    public static int Next(int minValue, int maxValue)
     {
-        [ThreadStatic]
-        private static Random _local;
-
-        public static int Next(int minValue, int maxValue)
+        Random inst = _local;
+        if (inst == null)
         {
-            Random inst = _local;
-            if (inst == null)
-            {
-                _local = inst = new Random();
-            }
-
-            return inst.Next(minValue, maxValue);
+            _local = inst = new Random();
         }
+
+        return inst.Next(minValue, maxValue);
     }
 }
+

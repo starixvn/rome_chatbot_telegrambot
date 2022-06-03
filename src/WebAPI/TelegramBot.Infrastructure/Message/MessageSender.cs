@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Infrastructure.Message.Constants;
@@ -77,7 +76,7 @@ namespace TelegramBot.Infrastructure.Message
 
         public async Task SendMessage(Messenger messenger, string message, InlineKeyboardMarkup replyMarkup = null, int messageId = 0)
         {
-            var botClient = botClientFactory.GetOrCreate(messenger.BotId);
+            var botClient = await botClientFactory.GetOrCreate(messenger.BotId);
 
             if (messageId > 0)
             {
@@ -100,7 +99,7 @@ namespace TelegramBot.Infrastructure.Message
 
         public async Task Alert(Messenger messenger, string message, string callbackId)
         {
-            var botClient = botClientFactory.GetOrCreate(messenger.BotId);
+            var botClient = await botClientFactory.GetOrCreate(messenger.BotId);
             await botClient.AnswerCallbackQueryAsync(callbackId, message);
         }
     }

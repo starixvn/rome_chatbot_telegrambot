@@ -5,6 +5,7 @@ COPY src/Webhooks/TelegramBot.Receiver/TelegramBot.Receiver.csproj ./Webhooks/Te
 RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
 RUN dotnet restore Webhooks/TelegramBot.Receiver/TelegramBot.Receiver.csproj -v n
 
+COPY src/Shared/TelegramBot.Utilities ./Shared/TelegramBot.Utilities
 COPY src/WebAPI/TelegramBot.Client ./WebAPI/TelegramBot.Client
 COPY src/Webhooks/TelegramBot.Receiver ./Webhooks/TelegramBot.Receiver
 
