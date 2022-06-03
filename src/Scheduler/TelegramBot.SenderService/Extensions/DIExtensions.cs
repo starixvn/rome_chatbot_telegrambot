@@ -1,4 +1,6 @@
+using Quartz;
 using TelegramBot.SenderService.Configurations;
+using TelegramBot.SenderService.Jobs;
 using TelegramBot.SenderService.Services;
 
 namespace TelegramBot.SenderService.Extensions;
@@ -12,7 +14,9 @@ public static class DIExtensions
             .AddSingleton<ISystemSettingService, SystemSettingService>()
             .AddSingleton<ICustomerService, CustomerService>()
             .AddSingleton<INotificationService, NotificationService>()
-            .AddSingleton<IBotService, BotService>();
+            .AddSingleton<IBotService, BotService>()
+            .AddTransient<IJobListener, RetryJobListener>()
+            .AddSingleton<IMessageSender, MessageSender>();
     private static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
         var appSettings = new AppSettings

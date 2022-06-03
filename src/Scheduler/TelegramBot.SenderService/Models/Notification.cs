@@ -18,8 +18,6 @@ public sealed class Notification
 
     public string FunctionKey { get; init; } = default!;
 
-    public int ErrCode { get; set; }
-
     public string Status { get; set; } = default!;
 
     public string ErrorMessage { get; set; } = default!;

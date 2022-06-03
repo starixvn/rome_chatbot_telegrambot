@@ -17,7 +17,7 @@ public sealed class NotificationSenderJob : IJob
     private readonly INotificationService notificationService;
     private readonly ICustomerService customerService;
     private readonly AppSettings appSettings;
-    private readonly IBotService botService;
+    private readonly IMessageSender messageSender;
 
     public NotificationSenderJob(
         IMaintenanceService maintenanceService,
@@ -26,7 +26,7 @@ public sealed class NotificationSenderJob : IJob
         INotificationService notificationService,
         ICustomerService customerService,
         AppSettings appSettings,
-        IBotService botService)
+        IMessageSender messageSender)
     {
         this.maintenanceService = maintenanceService;
         this.loggerService = loggerService;
@@ -34,7 +34,7 @@ public sealed class NotificationSenderJob : IJob
         this.notificationService = notificationService;
         this.customerService = customerService;
         this.appSettings = appSettings;
-        this.botService = botService;
+        this.messageSender = messageSender;
     }
 
     public async Task Execute(IJobExecutionContext context)
@@ -67,7 +67,7 @@ public sealed class NotificationSenderJob : IJob
                 return;
             }
 
-            var notificationStatus = await ChunkAndSendNotifications(notifications, notificationChunkSize);
+            var notificationStatus = await ChunkAndSendNotifications(notifications, notificationChunkSize, environment);
 
             await UpdateNotificationStatus(notificationStatus, lastNotifications, jobName, environment);
         }
@@ -104,7 +104,7 @@ public sealed class NotificationSenderJob : IJob
         return await customerService.GetCustomerStatus(customerStatusParams);
     }
 
-    private async Task<IEnumerable<NotificationStatusParam>> ChunkAndSendNotifications(IEnumerable<Notification> notifications, int notificationChunkSize)
+    private async Task<IEnumerable<NotificationStatusParam>> ChunkAndSendNotifications(IEnumerable<Notification> notifications, int notificationChunkSize, string environment)
     {
         var status = new List<NotificationStatusParam>();
         var customerStatus = await GetCustomerStatus(notifications);
@@ -115,13 +115,13 @@ public sealed class NotificationSenderJob : IJob
         foreach (var notificationArray in chunkNotifications)
         {
 
-            status.AddRange(await SendNotifications(notificationArray, customerStatus, sleepTime));
+            status.AddRange(await SendNotifications(notificationArray, customerStatus, sleepTime, environment));
         }
 
         return status;
     }
 
-    private async Task<IEnumerable<NotificationStatusParam>> SendNotifications(Notification[] notifications, IEnumerable<CustomerStatus> customerStatus, int sleepTime)
+    private async Task<IEnumerable<NotificationStatusParam>> SendNotifications(Notification[] notifications, IEnumerable<CustomerStatus> customerStatus, int sleepTime, string environment)
     {
         var status = new List<NotificationStatusParam>();
 
@@ -137,7 +137,7 @@ public sealed class NotificationSenderJob : IJob
                 }
                 else
                 {
-                    var result = await NotifyToUser(item);
+                    var result = await NotifyToUser(item, environment);
                     status.Add(new NotificationStatusParam(item.NotificationId, result.IsFailed ? NotificationStatus.Fail : NotificationStatus.Completed, result.Message));
                     await Task.Delay(sleepTime);
                 }
@@ -147,11 +147,11 @@ public sealed class NotificationSenderJob : IJob
         return status;
     }
 
-    private async Task<Result> NotifyToUser(Notification notification)
+    private async Task<Result> NotifyToUser(Notification notification, string environment)
     {
         try
         {
-            await botService.SendMessage(notification.BotId, notification.ChatId, notification.Message);
+            await messageSender.SendNotification(notification);
 
             return Result.CreateSuccessfulResult();
         }
@@ -163,19 +163,9 @@ public sealed class NotificationSenderJob : IJob
             }
             else
             {
-                SendToRetryService(notification);
+                await messageSender.RetrySendNotification(notification, environment);
                 return new Result(500, ex.Message);
             }
-        }
-    }
-
-    private static void SendToRetryService(Notification notification)
-    {
-        try
-        {
-        }
-        catch (Exception ex)
-        {
         }
     }
 

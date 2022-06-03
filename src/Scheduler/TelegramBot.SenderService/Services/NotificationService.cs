@@ -13,6 +13,8 @@ public interface INotificationService
         IEnumerable<NotificationStatusParam> notifications,
         IEnumerable<LastNotification> lastNotifications,
         string environment);
+
+    Task<Result> UpdateNotificationStatus(NotificationStatusParam statusParam, string environment);
 }
 
 public class NotificationService : INotificationService
@@ -25,6 +27,9 @@ public class NotificationService : INotificationService
     public Task<(IEnumerable<Notification>, IEnumerable<LastNotification>)> GetNotifications(string environment)
         => dynamicRepository.FetchMultipleAsync<Notification, LastNotification>(
             new GetNotificationCriteria(environment));
+
+    public Task<Result> UpdateNotificationStatus(NotificationStatusParam statusParam, string environment)
+        => UpdateNotificationStatus(new List<NotificationStatusParam> { statusParam }, Enumerable.Empty<LastNotification>(), environment);
 
     public async Task<Result> UpdateNotificationStatus(
         IEnumerable<NotificationStatusParam> notifications,
