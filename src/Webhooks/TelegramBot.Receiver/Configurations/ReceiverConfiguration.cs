@@ -9,7 +9,5 @@ namespace TelegramBot.Receiver.Configurations
         public bool IsTest { get; set; }
 
         public string ProxyAddress { get; set; }
-
-        public bool IsUseProxy => !string.IsNullOrEmpty(ProxyAddress);
     }
 }

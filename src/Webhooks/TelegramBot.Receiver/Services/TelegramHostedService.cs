@@ -33,18 +33,36 @@ namespace TelegramBot.Receiver.Services
             var botEntities = await _botService.GetAllAsync().ConfigureAwait(false);
             _handleUpdateSerice.BotEntities = botEntities.Where(b => b.IsTest == _receiverConfiguration.IsTest).ToList();
             var botClients = new List<ITelegramBotClient>();
-            var tasks = _handleUpdateSerice.BotEntities.Select(botEntity =>
+            foreach (var botEntity in _handleUpdateSerice.BotEntities)
             {
-                var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken);
-                botClients.Add(botClient);
+                try
+                {
+                    var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken, _receiverConfiguration.ProxyAddress);
+                    botClients.Add(botClient);
 
-                return botClient.SetWebhookAsync(
-                    url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
-                    allowedUpdates: _allowedUpdates,
-                    cancellationToken: cancellationToken);
-            });
-            _handleUpdateSerice.BotClients = botClients;
-            await Task.WhenAll(tasks).ConfigureAwait(false);
+                    await botClient.SetWebhookAsync(
+                        url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
+                        allowedUpdates: _allowedUpdates,
+                        cancellationToken: cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    await Fanex.Logging.Logger.Log.ErrorAsync(ex.Message);
+                }
+            }
+            // var tasks = _handleUpdateSerice.BotEntities.Select(botEntity =>
+            // {
+            //     var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken);
+            //     botClients.Add(botClient);
+
+            //     return botClient.SetWebhookAsync(
+            //         url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
+            //         allowedUpdates: _allowedUpdates,
+            //         cancellationToken: cancellationToken);
+            // });
+            // _handleUpdateSerice.BotClients = botClients;
+            // await Task.WhenAll(tasks).ConfigureAwait(false);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
