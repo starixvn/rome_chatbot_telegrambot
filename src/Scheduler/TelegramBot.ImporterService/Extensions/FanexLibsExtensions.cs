@@ -6,6 +6,7 @@ using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
 using Fanex.Logging.RabbitMQ;
 using Fanex.Logging.Sentry;
+using Microsoft.AspNetCore.Builder;
 using ONEbook.UM;
 using ONEbook.UM.AspNetCore;
 using ONEbook.UM.Configurations;
@@ -81,7 +82,7 @@ public static class FanexLibsExtensions
             .AddSingleton<IUMRestClient, UMRestClient>();
     }
 
-    public static WebApplication UseONEBookUM(this WebApplication app, IConfiguration configuration)
+    public static IApplicationBuilder UseONEBookUM(this IApplicationBuilder app, IConfiguration configuration)
     {
         var umConfig = new UMClientConfiguration().Initialize(configuration);
         UMClientManager
