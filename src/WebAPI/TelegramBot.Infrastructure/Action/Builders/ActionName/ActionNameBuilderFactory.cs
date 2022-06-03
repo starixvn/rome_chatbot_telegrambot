@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Resource;
 

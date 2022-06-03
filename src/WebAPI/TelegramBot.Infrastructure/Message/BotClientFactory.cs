@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.Utilities;

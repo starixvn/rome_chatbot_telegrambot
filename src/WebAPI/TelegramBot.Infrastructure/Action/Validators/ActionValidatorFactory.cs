@@ -1,4 +1,3 @@
-using System;
 using Alpha.API.Client.Services;
 using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Message;

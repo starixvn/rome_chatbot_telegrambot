@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Alpha.API.Client.Services;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Models;

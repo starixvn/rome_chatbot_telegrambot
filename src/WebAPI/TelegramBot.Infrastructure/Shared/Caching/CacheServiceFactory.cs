@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Fanex.Caching;
 using Fanex.Caching.Memory;
 using Fanex.Caching.Redis;

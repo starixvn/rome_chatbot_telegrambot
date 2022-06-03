@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Action.Models;
 using TelegramBot.Infrastructure.Resource;

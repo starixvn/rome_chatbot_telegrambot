@@ -1,10 +1,6 @@
 ﻿using Alpha.API.Client.Services;
 using Fanex.Caching;
 using Fanex.Data.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TelegramBot.Common.Extensions;
 using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Bot.Models;

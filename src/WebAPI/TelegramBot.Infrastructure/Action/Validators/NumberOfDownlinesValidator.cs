@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Models;

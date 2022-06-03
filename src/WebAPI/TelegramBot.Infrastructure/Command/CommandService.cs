@@ -1,10 +1,6 @@
 ﻿using Alpha.API.Client.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Action.Models;

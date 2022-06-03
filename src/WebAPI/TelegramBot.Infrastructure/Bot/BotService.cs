@@ -1,7 +1,4 @@
 ﻿using Fanex.Data.Repository;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Bot.Criteria;
 using TelegramBot.Infrastructure.Bot.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;

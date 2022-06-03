@@ -1,5 +1,3 @@
-using System;
-
 namespace TelegramBot.Infrastructure.Action.Models
 {
     public class CustBotAction
