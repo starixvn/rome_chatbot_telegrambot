@@ -8,6 +8,7 @@
     <Setting Key="Age_Chatbot_PersonalMessageImport" SpName="Age_Chatbot_PersonalMessageImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
     <Setting Key="Age_Chatbot_YesterdateWinlostImport" SpName="Age_Chatbot_YesterdateWinlostImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
     <Setting Key="Age_Chatbot_ProblemAccountsImport" SpName="Age_Chatbot_ProblemAccountsImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_WinLossLimitNotificationImport" SpName="Age_Chatbot_WinLossLimitNotificationImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet"/>
   </Function>
 
   <Function Name="Customer">
@@ -26,5 +27,16 @@
 
   <Function Name="Problem Account">
     <Setting Key="Age_Chatbot_ProblemAccounts_Sel" SpName="Age_Chatbot_ProblemAccounts_Sel" DbName="DBCust.CustDB.BODBDownlineNet" />
+  </Function>
+
+  <Function Name="Member Win Loss Limit">
+    <Setting Key="Age_Chatbot_CustWinLossReachLimitSel" SpName="Age_Chatbot_CustWinLossReachLimitSel" DbName="DBCUST.CustDB.BODBDownlineNet">
+      <Mapping DataField="srecommend" ObjectProperty="SCustId" />
+      <Mapping DataField="mrecommend" ObjectProperty="MCustId" />
+      <Mapping DataField="recommend" ObjectProperty="ACustId" />
+      <Mapping DataField="super" ObjectProperty="SUsername" />
+      <Mapping DataField="master" ObjectProperty="MUsername" />
+      <Mapping DataField="agent" ObjectProperty="AUsername" />
+    </Setting>
   </Function>
 </Functions>

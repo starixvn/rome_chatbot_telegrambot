@@ -11,20 +11,21 @@ public sealed class Startup
 
     private IConfiguration Configuration { get; }
 
-     public void ConfigureServices(IServiceCollection services)
-        => services
-        .AddFanexDataWithSqlServer(Configuration)
-        .AddFanexLogging(Configuration)
-        .AddFanexCachingMemory()
-        .AddONEBookUM(Configuration)
-        .AddServices()
-        .AddAlphaServicesClient(Configuration)
-        .AddQuartz(quartz =>
-        {
-            quartz.UseMicrosoftDependencyInjectionJobFactory();
-            quartz.AddScheduleJobs(Configuration, Fanex.Logging.Logger.Log);
-        })
-        .AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+    public void ConfigureServices(IServiceCollection services)
+       => services
+       .AddFanexDataWithSqlServer(Configuration)
+       .AddFanexLogging(Configuration)
+       .AddFanexCachingMemory()
+       .AddRemotingRef(Configuration)
+       .AddONEBookUM(Configuration)
+       .AddServices()
+       .AddAlphaServicesClient(Configuration)
+       .AddQuartz(quartz =>
+       {
+           quartz.UseMicrosoftDependencyInjectionJobFactory();
+           quartz.AddScheduleJobs(Configuration, Fanex.Logging.Logger.Log);
+       })
+       .AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
 
     public void Configure(IApplicationBuilder app)
         => app

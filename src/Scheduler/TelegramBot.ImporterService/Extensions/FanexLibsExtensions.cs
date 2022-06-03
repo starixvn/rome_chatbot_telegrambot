@@ -7,6 +7,7 @@ using Fanex.Logging.Extensions.AspNetCore;
 using Fanex.Logging.RabbitMQ;
 using Fanex.Logging.Sentry;
 using Microsoft.AspNetCore.Builder;
+using Fanex.RemotingRef;
 using ONEbook.UM;
 using ONEbook.UM.AspNetCore;
 using ONEbook.UM.Configurations;
@@ -46,8 +47,8 @@ public static class FanexLibsExtensions
         ExceptionHandler
             // To use custom config
             .UseConfig(new LoggingConfiguration()
-                // To ignore exceptions
-                // .IgnoreException<DivideByZeroException>()                
+            // To ignore exceptions
+            // .IgnoreException<DivideByZeroException>()                
             );
 
         return services.AddSingleton(Logger.Log);
@@ -73,7 +74,7 @@ public static class FanexLibsExtensions
     public static IServiceCollection AddONEBookUM(this IServiceCollection services, IConfiguration configuration)
     {
         var umConfig = configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>();
-        
+
         return services
             .AddSingleton(umConfig)
             .AddSingleton<IPHelper, IPHelperImpl>()
@@ -82,13 +83,22 @@ public static class FanexLibsExtensions
             .AddSingleton<IUMRestClient, UMRestClient>();
     }
 
+    public static IServiceCollection AddRemotingRef(this IServiceCollection services, IConfiguration configuration)
+    {
+        RefDataTypeContainer
+            .ConnectTo(new Uri(configuration["RemotingRefUrl"]))
+            .FromApplication("TelegramBot.ImporterService");
+
+        return services.AddSingleton<IRemotingRefService, RemotingRefService>();
+    }
+
     public static IApplicationBuilder UseONEBookUM(this IApplicationBuilder app, IConfiguration configuration)
     {
         var umConfig = new UMClientConfiguration().Initialize(configuration);
         UMClientManager
             .UseConfig(umConfig)
             .UseRestClient(new UMRestClient(umConfig));
-        
+
         return app;
     }
 }

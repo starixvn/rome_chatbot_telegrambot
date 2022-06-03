@@ -23,11 +23,16 @@ public class SystemSetting
 
     public int MaxLogId => GetInt(settings, nameof(MaxLogId), environment);
 
+    public long MaxLogIdLong => GetLong(settings, nameof(MaxLogId), environment);
+
     private static bool GetBool(IDictionary<string, string> settings, string key, string environment)
         => "1" == GetString(settings, key, environment, "0");
 
     private static int GetInt(IDictionary<string, string> settings, string key, string environment)
         => int.Parse(GetString(settings, key, environment, "0"));
+
+    private static long GetLong(IDictionary<string, string> settings, string key, string environment)
+        => long.Parse(GetString(settings, key, environment, "0"));
 
     private static string GetString(
         IDictionary<string, string> settings,

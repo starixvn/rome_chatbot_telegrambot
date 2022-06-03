@@ -27,7 +27,7 @@ public class NotificationServiceBase
         {
             xmlData.Append(item.ToXml());
         }
-            
+
         return BuildXmlRoot(xmlData);
     }
 
@@ -39,7 +39,7 @@ public class NotificationServiceBase
         {
             xmlDataLog.Append(item.ToLogXml());
         }
-            
+
         return BuildXmlRoot(xmlDataLog);
     }
 
