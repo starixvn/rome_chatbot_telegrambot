@@ -8,6 +8,7 @@ using TelegramBot.Infrastructure.Shared;
 using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Resources;
+using TelegramBot.WebApi.Filters;
 using TelegramBot.WebApi.Params;
 
 namespace TelegramBot.WebApi.Controllers
@@ -55,6 +56,8 @@ namespace TelegramBot.WebApi.Controllers
         /// Save messenger and customer
         /// </summary>
         [Route("start"), HttpPost]
+        [ServiceFilter(typeof(AutoReplyUMFilterAttribute))]
+        [ServiceFilter(typeof(AccountStatusFilterAttribute))]
         public async Task<Result> Start(StartParam param)
         {
             var bot = await _botService.GetAsync(param.MessengerBotId);

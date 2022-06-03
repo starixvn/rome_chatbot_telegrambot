@@ -38,11 +38,11 @@ namespace TelegramBot.WebApi.Filters
         {
             if (context.ActionArguments.ContainsKey(ParamName) && context.ActionArguments[ParamName] is CommandParam param)
             {
-
                 var bot = await botService.GetAsync(param.MessengerBotId);
                 var account = await settingService.GetCustBotAccount(param.ChatId, bot.BotId);
                 if (account == null)
                 {
+                    await base.OnActionExecutionAsync(context, next);
                     return;
                 }
 

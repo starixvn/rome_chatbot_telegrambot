@@ -1,19 +1,14 @@
 using Quartz;
 using TelegramBot.SenderService.Constants;
-using TelegramBot.SenderService.Models;
-using TelegramBot.SenderService.Services;
-
 namespace TelegramBot.SenderService.Jobs;
 
 public class RetryJobListener : IJobListener
 {
     private readonly Fanex.Logging.ILogger logger;
-    private readonly INotificationService notificationService;
 
-    public RetryJobListener(Fanex.Logging.ILogger logger, INotificationService notificationService)
+    public RetryJobListener(Fanex.Logging.ILogger logger)
     {
         this.logger = logger;
-        this.notificationService = notificationService;
     }
 
     private const int RetryInterval = 60;
