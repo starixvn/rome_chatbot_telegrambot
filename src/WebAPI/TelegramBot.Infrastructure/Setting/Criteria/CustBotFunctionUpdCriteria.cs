@@ -24,6 +24,6 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
 
         public string GetSettingKey() => "CustBotFunctionUpd";
 
-        public bool IsValid() => UserId > 0 && !string.IsNullOrEmpty(Setting);
+        public bool IsValid() => UserId > 0;
     }
 }

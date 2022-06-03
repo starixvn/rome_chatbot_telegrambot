@@ -27,7 +27,7 @@ public class CustBotAccountLanguageUpdCriteriaTest
         var result = criteria.IsValid();
             
         //Assert
-        Assert.Equal(true,result);
+        Assert.True(result);
     } 
     
     [Fact]
@@ -36,11 +36,11 @@ public class CustBotAccountLanguageUpdCriteriaTest
         //case UserId <0
         criteria = new CustBotAccountLanguageUpdCriteria(0,"EN","192.158.1.1");
         var case1 = criteria.IsValid();
-        Assert.Equal(false,case1);
+        Assert.False(case1);
         
         //case NullOrWhiteSpace Language
         criteria = new CustBotAccountLanguageUpdCriteria(1,"","192.158.19");
         var case2 = criteria.IsValid();
-        Assert.Equal(false,case2);
+        Assert.False(case2);
     }
 }
