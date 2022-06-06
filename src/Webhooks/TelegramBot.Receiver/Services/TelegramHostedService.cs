@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using TelegramBot.Client.Services;
 using TelegramBot.Receiver.Configurations;
