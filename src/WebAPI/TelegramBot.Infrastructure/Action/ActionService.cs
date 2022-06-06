@@ -43,8 +43,6 @@ namespace TelegramBot.Infrastructure.Action
 
         Task ResetUserActions(int userId);
 
-        Task<IList<MessageButton>> BuildActionButtons(CustBotAccount account, IEnumerable<BotAction> actions);
-
         Task<string> GetActionDescription(short actionId, string language);
     }
 
@@ -101,28 +99,34 @@ namespace TelegramBot.Infrastructure.Action
                 var builder = actionNameBuilderFactory.GetBuilder(currentAction.ActionId);
                 var actionName = await builder.BuildActionName(currentAction, account);
                 text = messageBuilder.BuildActionSelectedMessage(account.Language, actionName);
-                buttons = await BuildActionButtons(account, nextActions);
+                buttons = await BuildActionButtons(account, nextActions, system);
             }
 
             return await messageBuilder.BuildMessageWithBackButton(text, buttons, currentAction.ParentId, account.Language);
         }
 
-        public async Task<IList<MessageButton>> BuildActionButtons(CustBotAccount account, IEnumerable<BotAction> actions)
+        private async Task<IList<MessageButton>> BuildActionButtons(CustBotAccount account, IEnumerable<BotAction> actions, string system)
         {
             var buttons = new List<MessageButton>();
+            var userActions = await GetUserActions(account.UserId);
+
             foreach (var action in actions)
             {
+                var nextUserAction = new CustBotAction(long.MaxValue, account.UserId, action.ActionId, string.Empty, string.Empty, DateTime.Now);
+                var nextUserActions = userActions.Concat(new List<CustBotAction> { nextUserAction }).ToList();
                 if (action.Type == ActionTypes.Downline)
                 {
                     var usernames = await functionHandlerFactory.GetHandler(action.FunctionId).GetTopDownlineUsername(account);
                     foreach (var username in usernames)
                     {
+
                         buttons.Add(new MessageButton(
                             username,
                             JsonConvert.SerializeObject(new
                             {
                                 action.ActionId,
-                                Value = username
+                                Value = username,
+                                Cmd = await CompileCommand(nextUserActions, username, system)
                             })));
                     }
                 }
@@ -135,7 +139,8 @@ namespace TelegramBot.Infrastructure.Action
                         JsonConvert.SerializeObject(new
                         {
                             action.ActionId,
-                            Value = actionName
+                            Value = actionName,
+                            Cmd = action.IsEndAction ? await CompileCommand(nextUserActions, action.Command, system) : string.Empty
                         })));
                 }
             }

@@ -231,17 +231,15 @@ namespace TelegramBot.Infrastructure.Command
             var userResponse = currentAction.Type == ActionTypes.Downline ? callbackData.Value : string.Empty;
             await actionService.InsertUserAction(account.UserId, currentAction.ActionId, userResponse);
 
-            if (currentAction.IsEndAction)
+            if (currentAction.IsEndAction && !string.IsNullOrEmpty(callbackData.Cmd))
             {
-                var userActions = await actionService.GetUserActions(account.UserId);
-                var compiledCommand = await actionService.CompileCommand(userActions, userResponse, messenger.System);
                 if (currentAction.FunctionId == FunctionIds.Settings)
                 {
-                    await HandleSettingsCommand(account, messenger, compiledCommand, messageId, callbackId);
+                    await HandleSettingsCommand(account, messenger, callbackData.Cmd, messageId, callbackId);
                 }
                 else
                 {
-                    await HandleCommand(account, messenger, compiledCommand, currentAction.FunctionId, messageId);
+                    await HandleCommand(account, messenger, callbackData.Cmd, currentAction.FunctionId, messageId);
                 }
             }
             else
