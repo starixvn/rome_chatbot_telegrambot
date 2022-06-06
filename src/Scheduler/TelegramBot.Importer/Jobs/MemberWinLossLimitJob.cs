@@ -9,7 +9,6 @@ using TelegramBot.Importer.Services;
 
 namespace TelegramBot.Importer.Jobs;
 
-[DisallowConcurrentExecution]
 public sealed class MemberWinLossLimitJob : NotificationBaseJob
 {
     private readonly IMemberWinLossLimitService memberWinLostLimitService;
@@ -49,7 +48,6 @@ public sealed class MemberWinLossLimitJob : NotificationBaseJob
 
                 notifications = BuildMemberWinLossLimitNotifications(
                     job,
-                    custIds,
                     memberWinLossLimits,
                     linkedCustomers,
                     customerStatus);
@@ -66,7 +64,6 @@ public sealed class MemberWinLossLimitJob : NotificationBaseJob
 
     private IEnumerable<MemberWinLossLimitNotification> BuildMemberWinLossLimitNotifications(
         ScheduleJob job,
-        IEnumerable<int> custIds,
         IEnumerable<MemberWinLossLimit> memberWinLossLimits,
         IEnumerable<LinkedCustomer> linkedCustomers,
         IEnumerable<CustomerStatus> customerStatus)
@@ -97,19 +94,25 @@ public sealed class MemberWinLossLimitJob : NotificationBaseJob
         var membersWithLinkedUser = memberWinLossLimits
                                     .Where(m => m.ACustId == customer.CustId || m.MCustId == customer.CustId || m.SCustId == customer.CustId);
         var winLossLimitMessages = membersWithLinkedUser
-                                    .GroupBy(m => m.CustId)
-                                    .Select(m => new WinLossLimitMessage(
-                                        m.First().Username,
-                                        m.First().AUsername,
-                                        m.First().MUsername,
-                                        m.First().SUsername,
-                                        m.Select(p => new ProductWinLossLimitMessage(
-                                                    cacheRefService.GetProductName(p.ProductId, customer.Language),
-                                                    p.WinLost,
-                                                    p.WinLossLimit,
-                                                    p.WinLossPercent)
-                                                ).ToList()
-                                    ));
+                                    .GroupBy(
+                                        m => m.CustId,
+                                        (_, m) =>
+                                        {
+                                            var member = m.First();
+
+                                            return new WinLossLimitMessage(
+                                                member.Username,
+                                                member.AUsername,
+                                                member.MUsername,
+                                                member.SUsername,
+                                                m.Select(p => new ProductWinLossLimitMessage(
+                                                            cacheRefService.GetProductName(p.ProductId, customer.Language),
+                                                            p.WinLost,
+                                                            p.WinLossLimit,
+                                                            p.WinLossPercent)
+                                                        ).ToList());
+                                        }
+                                    );
         var logIds = membersWithLinkedUser.Select(m => m.LogId);
 
         return new MemberWinLossLimitNotification(

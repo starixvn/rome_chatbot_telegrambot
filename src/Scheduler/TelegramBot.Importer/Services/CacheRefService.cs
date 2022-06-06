@@ -1,3 +1,5 @@
+using Fanex.RemotingRef;
+
 namespace TelegramBot.Importer.Services;
 
 public interface ICacheRefService
@@ -9,9 +11,9 @@ public interface ICacheRefService
 
 public class CacheRefService : ICacheRefService
 {
-    private readonly Fanex.RemotingRef.IRemotingRefService remotingRefService;
+    private readonly IRemotingRefService remotingRefService;
 
-    public CacheRefService(Fanex.RemotingRef.IRemotingRefService remotingRefService)
+    public CacheRefService(IRemotingRefService remotingRefService)
     {
         this.remotingRefService = remotingRefService;
     }
