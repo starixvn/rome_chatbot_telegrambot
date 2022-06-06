@@ -152,7 +152,7 @@ namespace TelegramBot.Infrastructure.Setting
             var messenger = await GetCustBotMessenger(custId, subAccId);
             if (messenger == null)
             {
-                return Result.CreateErrorResult();
+                return new Result(ErrorCodes.MessengerNotFound, "Messenger not found");
             }
 
             var criteria = new CustBotAccountStatusUpdCriteria(bot.BotId, custId, subAccId, false, false, ip);

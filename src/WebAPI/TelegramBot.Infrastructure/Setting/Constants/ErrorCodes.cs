@@ -7,6 +7,8 @@
         public const int OTP_FailedManyTimes = -3;
         public const int OTP_NotValidated = -4;
 
+        public const int MessengerNotFound = 102;
+
         public const int AccountAlreadyLinked = 103;
         public const int TelegramAccountAlreadyLinked = 104;
     }
