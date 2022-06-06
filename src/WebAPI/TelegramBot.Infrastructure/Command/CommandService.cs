@@ -306,7 +306,7 @@ namespace TelegramBot.Infrastructure.Command
                 }
 
                 function.Enabled = !function.Enabled;
-                await settingService.UpdateUserFunction(account.UserId, function, account.CustId, string.Empty);
+                await settingService.UpdateUserFunction(account.UserId, messenger.BotId, function, account.CustId, string.Empty);
                 var action = await actionService.GetActionById(ActionIds.Notifications, messenger.System);
                 await SendNextActionsMessage(account, messenger, action, messageId);
                 await messageSender.Alert(messenger, messageBuilder.BuildUpdateNotificationSettingMessage(account.Language, function.Enabled), callbackId);
@@ -319,7 +319,7 @@ namespace TelegramBot.Infrastructure.Command
                     return;
                 }
 
-                await settingService.UpdateUserLanguage(account.UserId, parameter, string.Empty);
+                await settingService.UpdateUserLanguage(account.UserId, messenger.BotId, parameter, string.Empty);
                 var action = await actionService.GetActionById(ActionIds.Language, messenger.System);
                 account.Language = parameter;
                 await SendNextActionsMessage(account, messenger, action, messageId);

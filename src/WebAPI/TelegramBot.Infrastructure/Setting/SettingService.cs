@@ -28,9 +28,9 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<Result> Unlink(BotEntity bot, int custId, int subAccId, string ip);
 
-        Task<Result> UpdateUserFunction(int userid, BotFunction function, int creator, string ip);
+        Task<Result> UpdateUserFunction(int userid, int botId, BotFunction function, int creator, string ip);
 
-        Task<Result> UpdateUserLanguage(int userId, string language, string ip);
+        Task<Result> UpdateUserLanguage(int userId, int botId, string language, string ip);
 
         Task<CustBotAccount> GetCustBotAccount(long chatId, int botId);
     }
@@ -219,16 +219,16 @@ namespace TelegramBot.Infrastructure.Setting
             return resultSet.firstResultSet.FirstOrDefault();
         }
 
-        public async Task<Result> UpdateUserFunction(int userid, BotFunction function, int creator, string ip)
+        public async Task<Result> UpdateUserFunction(int userid, int botId, BotFunction function, int creator, string ip)
         {
-            var criteria = new CustBotFunctionUpdCriteria(userid, function, creator, ip);
+            var criteria = new CustBotFunctionUpdCriteria(userid, botId, function, creator, ip);
             await _dynamicRepository.ExecuteAsync(criteria).ConfigureAwait(false);
             return new Result(criteria.ErrCode, criteria.ErrMsg);
         }
 
-        public async Task<Result> UpdateUserLanguage(int userId, string language, string ip)
+        public async Task<Result> UpdateUserLanguage(int userId, int botId, string language, string ip)
         {
-            var command = new CustBotAccountLanguageUpdCriteria(userId, language, ip);
+            var command = new CustBotAccountLanguageUpdCriteria(userId, botId, language, ip);
             await _dynamicRepository.ExecuteAsync(command).ConfigureAwait(false);
             return new Result(command.ErrCode, command.ErrMsg);
         }

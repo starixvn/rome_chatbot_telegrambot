@@ -147,14 +147,14 @@ namespace TelegramBot.WebApi.Controllers
         [HttpPost("{userId}/function")]
         public async Task<Result> UpdateFunction(int userId, [FromBody] UpdateFunctionParam param)
         {
-            return await _settingService.UpdateUserFunction(userId, param.Function, param.Creator, param.IP);
+            return await _settingService.UpdateUserFunction(userId, param.BotId, param.Function, param.Creator, param.IP);
         }
 
         [HttpPost("{userId}/language")]
 
         public async Task<Result> UpdateLanguage(int userId, [FromBody] UpdateLanguageParam param)
         {
-            return await _settingService.UpdateUserLanguage(userId, param.Language, param.IP);
+            return await _settingService.UpdateUserLanguage(userId, param.BotId, param.Language, param.IP);
         }
     }
 }

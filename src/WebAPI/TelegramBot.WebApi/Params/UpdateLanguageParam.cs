@@ -4,9 +4,7 @@
     {
         public string Language { get; set; }
 
-        public int CustId { get; set; }
-
-        public int SubAccId { get; set; }
+        public int BotId { get; set; }
 
         public string IP { get; set; }
     }

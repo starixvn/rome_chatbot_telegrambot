@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Alpha.API.Client.Exceptions;
 using Alpha.API.Client.Models.Customers;
 using Alpha.API.Client.Models.Outstanding;
