@@ -32,7 +32,7 @@ namespace TelegramBot.Receiver.Services
             var botEntities = await _botService.GetAllAsync().ConfigureAwait(false);
             _handleUpdateSerice.BotEntities = botEntities.Where(b => b.IsTest == _receiverConfiguration.IsTest).ToList();
             var botClients = new List<ITelegramBotClient>();
-            foreach (var botEntity in _handleUpdateSerice.BotEntities)
+            foreach (var botEntity in _handleUpdateSerice.BotEntities.DistinctBy(b => b.AccessToken))
             {
                 try
                 {
@@ -50,6 +50,7 @@ namespace TelegramBot.Receiver.Services
                     await Fanex.Logging.Logger.Log.ErrorAsync(ex.Message);
                 }
             }
+            _handleUpdateSerice.BotClients = botClients;
             // var tasks = _handleUpdateSerice.BotEntities.Select(botEntity =>
             // {
             //     var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken);
