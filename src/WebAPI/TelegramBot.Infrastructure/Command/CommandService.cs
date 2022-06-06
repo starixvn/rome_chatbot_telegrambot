@@ -214,13 +214,13 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
-            if (callbackData.ActionId == ActionIds.MainMenu)
+            if (callbackData.Id == ActionIds.MainMenu)
             {
                 await SendMainMenuMessage(account, messenger, messageId);
                 return;
             }
 
-            var currentAction = await actionService.GetActionById(callbackData.ActionId, messenger.System);
+            var currentAction = await actionService.GetActionById(callbackData.Id, messenger.System);
 
             if (currentAction == null || !IsValidAction(account, currentAction))
             {

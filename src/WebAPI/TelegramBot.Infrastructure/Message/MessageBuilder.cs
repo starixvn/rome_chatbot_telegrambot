@@ -186,7 +186,7 @@ namespace TelegramBot.Infrastructure.Message
                         var backToAction = $"{Unicode.Back} {ResourceHelper.Get(nameof(SharedResource.BackTo), language)} {await BuildActionName(language, backToActionId)}";
                         buttonRows[i] = new[]
                         {
-                            InlineKeyboardButton.WithCallbackData(backToAction, JsonConvert.SerializeObject(new { ActionId = backToActionId, Value = backToAction })),
+                            InlineKeyboardButton.WithCallbackData(backToAction, JsonConvert.SerializeObject(new { Id = backToActionId, Value = backToAction })),
                             InlineKeyboardButton.WithCallbackData(mainMenuButton.Text, mainMenuButton.CallBackData),
                         };
                     }
@@ -224,7 +224,7 @@ namespace TelegramBot.Infrastructure.Message
             else
             {
                 var text = $"{Unicode.Back} {ResourceHelper.Get(nameof(SharedResource.BackToMainMenu), language)}";
-                return new MessageButton(text, JsonConvert.SerializeObject(new { ActionId = ActionIds.MainMenu, Value = text }));
+                return new MessageButton(text, JsonConvert.SerializeObject(new { Id = ActionIds.MainMenu, Value = text }));
             }
         }
 
@@ -233,7 +233,7 @@ namespace TelegramBot.Infrastructure.Message
             var text = string.Format(ResourceHelper.Get(nameof(SharedResource.StopUsingChatbotConfirmMessage), language), chatbotName);
             var buttons = new List<MessageButton>
             {
-                new MessageButton(ResourceHelper.Get(nameof(SharedResource.No), language), JsonConvert.SerializeObject(new { ActionId = ActionIds.Settings })),
+                new MessageButton(ResourceHelper.Get(nameof(SharedResource.No), language), JsonConvert.SerializeObject(new { Id = ActionIds.Settings })),
                 new MessageButton(ResourceHelper.Get(nameof(SharedResource.StopUsingChatbot), language), JsonConvert.SerializeObject(new { IsStopUsingChatbot = true }))
             };
 

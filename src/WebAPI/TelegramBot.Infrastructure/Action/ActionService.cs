@@ -124,7 +124,7 @@ namespace TelegramBot.Infrastructure.Action
                             username,
                             JsonConvert.SerializeObject(new
                             {
-                                action.ActionId,
+                                Id = action.ActionId,
                                 Value = username,
                                 Cmd = await CompileCommand(nextUserActions, username, system)
                             })));
@@ -138,7 +138,7 @@ namespace TelegramBot.Infrastructure.Action
                         actionName,
                         JsonConvert.SerializeObject(new
                         {
-                            action.ActionId,
+                            Id = action.ActionId,
                             Value = actionName,
                             Cmd = action.IsEndAction ? await CompileCommand(nextUserActions, action.Command, system) : string.Empty
                         })));
@@ -186,7 +186,7 @@ namespace TelegramBot.Infrastructure.Action
             {
                 var builder = actionNameBuilderFactory.GetBuilder(action.ActionId);
                 var actionName = await builder.BuildActionName(action, account);
-                buttons.Add(new MessageButton(actionName, JsonConvert.SerializeObject(new { action.ActionId, Value = actionName })));
+                buttons.Add(new MessageButton(actionName, JsonConvert.SerializeObject(new { Id = action.ActionId, Value = actionName })));
             }
 
             return buttons;
