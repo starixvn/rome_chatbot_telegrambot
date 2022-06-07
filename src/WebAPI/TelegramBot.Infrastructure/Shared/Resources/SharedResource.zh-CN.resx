@@ -261,4 +261,28 @@
   <data name="UnderMaintenance" xml:space="preserve">
     <value>很抱歉，服务器正在维护中，维护时间从{0}至{1} (GMT+8)。请稍后访问。</value>
   </data>
+  <data name="BetCredit" xml:space="preserve">
+    <value>投注额度</value>
+  </data>
+  <data name="UsedCredit" xml:space="preserve">
+    <value>已用額度</value>
+  </data>
+  <data name="NetPosition" xml:space="preserve">
+    <value>最低净赢</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ThirdPartyPendingTransfer" xml:space="preserve">
+    <value>第三方待定转账</value>
+  </data>
+  <data name="MemMaxCredit" xml:space="preserve">
+    <value>会员最高信用额</value>
+  </data>
+  <data name="MemberActClosedSus" xml:space="preserve">
+    <value>会员们 (活跃/关闭/暫停)</value>
+  </data>
+  <data name="AgentActClosedSus" xml:space="preserve">
+    <value>代理们 (活跃/关闭/暫停)</value>
+  </data>
 </root>

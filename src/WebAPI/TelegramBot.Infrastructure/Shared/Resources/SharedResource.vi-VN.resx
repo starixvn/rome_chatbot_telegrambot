@@ -240,4 +240,25 @@
   <data name="Today" xml:space="preserve">
     <value>Hôm nay</value>
   </data>
+  <data name="BetCredit" xml:space="preserve">
+    <value>Hạn mức khả dụng</value>
+  </data>
+  <data name="UsedCredit" xml:space="preserve">
+    <value>Hạn mức tín dụng đã dùng</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Hủy</value>
+  </data>
+  <data name="ThirdPartyPendingTransfer" xml:space="preserve">
+    <value>Tiền Chưa Chuyển Về Từ Trò Chơi</value>
+  </data>
+  <data name="MemMaxCredit" xml:space="preserve">
+    <value>Hạn mức tín dụng tối đa của Member</value>
+  </data>
+  <data name="MemberActClosedSus" xml:space="preserve">
+    <value>Members (Mở/Bị đóng/Bị đình chỉ)</value>
+  </data>
+  <data name="AgentActClosedSus" xml:space="preserve">
+    <value>Agents (Mở/Bị đóng/Bị đình chỉ)</value>
+  </data>
 </root>
