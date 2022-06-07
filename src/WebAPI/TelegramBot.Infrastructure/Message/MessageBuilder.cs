@@ -222,14 +222,9 @@ namespace TelegramBot.Infrastructure.Message
 
         private MessageButton BuildMainMenuButton(bool isEndAction, string language)
         {
-            if (isEndAction)
-            {
-                return new MessageButton(BuildMainMenuButtonText(language), JsonConvert.SerializeObject(new { IsMainMenu = true }));
-            }
-            else
-            {
-                return new MessageButton(BuildBackToMainMenuButtonText(language), JsonConvert.SerializeObject(new { Id = ActionIds.MainMenu }));
-            }
+            return isEndAction
+                ? new MessageButton(BuildMainMenuButtonText(language), JsonConvert.SerializeObject(new { IsMainMenu = true }))
+                : new MessageButton(BuildBackToMainMenuButtonText(language), JsonConvert.SerializeObject(new { Id = ActionIds.MainMenu }));
         }
 
         public string BuildMainMenuButtonText(string language)
