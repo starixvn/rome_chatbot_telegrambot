@@ -44,6 +44,8 @@ namespace TelegramBot.Infrastructure.Action
         Task ResetUserActions(int userId);
 
         Task<string> GetActionDescription(short actionId, string language);
+
+        Task<string> GetActionName(BotAction action, CustBotAccount account);
     }
 
     public class ActionService : IActionService
@@ -91,18 +93,22 @@ namespace TelegramBot.Infrastructure.Action
             {
                 var nextAction = nextActions.FirstOrDefault();
                 await InsertUserAction(account.UserId, nextAction.ActionId, string.Empty);
-                var builder = actionNameBuilderFactory.GetBuilder(nextAction.ActionId);
-                text = await builder.BuildActionName(nextAction, account);
+                text = await GetActionName(nextAction, account);
             }
             else
             {
-                var builder = actionNameBuilderFactory.GetBuilder(currentAction.ActionId);
-                var actionName = await builder.BuildActionName(currentAction, account);
+                var actionName = await GetActionName(currentAction, account);
                 text = messageBuilder.BuildActionSelectedMessage(account.Language, actionName);
                 buttons = await BuildActionButtons(account, nextActions, system);
             }
 
             return await messageBuilder.BuildMessageWithBackButton(text, buttons, currentAction.ParentId, account.Language);
+        }
+
+        public async Task<string> GetActionName(BotAction action, CustBotAccount account)
+        {
+            var builder = actionNameBuilderFactory.GetBuilder(action.ActionId);
+            return await builder.BuildActionName(action, account);
         }
 
         private async Task<IList<MessageButton>> BuildActionButtons(CustBotAccount account, IEnumerable<BotAction> actions, string system)
@@ -125,21 +131,19 @@ namespace TelegramBot.Infrastructure.Action
                             JsonConvert.SerializeObject(new
                             {
                                 Id = action.ActionId,
-                                Value = username,
+                                t = username,
                                 Cmd = await CompileCommand(nextUserActions, username, system)
                             })));
                     }
                 }
                 else
                 {
-                    var builder = actionNameBuilderFactory.GetBuilder(action.ActionId);
-                    var actionName = await builder.BuildActionName(action, account);
+                    var actionName = await GetActionName(action, account);
                     buttons.Add(new MessageButton(
                         actionName,
                         JsonConvert.SerializeObject(new
                         {
                             Id = action.ActionId,
-                            Value = actionName,
                             Cmd = action.IsEndAction ? await CompileCommand(nextUserActions, action.Command, system) : string.Empty
                         })));
                 }
@@ -186,7 +190,7 @@ namespace TelegramBot.Infrastructure.Action
             {
                 var builder = actionNameBuilderFactory.GetBuilder(action.ActionId);
                 var actionName = await builder.BuildActionName(action, account);
-                buttons.Add(new MessageButton(actionName, JsonConvert.SerializeObject(new { Id = action.ActionId, Value = actionName })));
+                buttons.Add(new MessageButton(actionName, JsonConvert.SerializeObject(new { Id = action.ActionId })));
             }
 
             return buttons;

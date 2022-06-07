@@ -200,35 +200,46 @@ namespace TelegramBot.Infrastructure.Command
             var account = await settingService.GetCustBotAccount(chatId, bot.BotId);
             Messenger messenger = new(bot.BotId, chatId, bot.System);
 
-            await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, callbackData.Value, MessageSendStatus.Success));
-
             if (callbackData.IsStopUsingChatbot)
             {
+                await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, messageBuilder.BuildStopUsingChatbotMessage(account.Language), MessageSendStatus.Success));
                 await settingService.Unlink(bot, account.CustId, account.SubAccId, string.Empty);
                 return;
             }
 
             if (callbackData.IsMainMenu)
             {
+                await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, messageBuilder.BuildMainMenuButtonText(account.Language), MessageSendStatus.Success));
                 await SendMainMenuMessage(account, messenger);
                 return;
             }
 
             if (callbackData.Id == ActionIds.MainMenu)
             {
+                await Task.Run(() => messageLogger.LogMessage(
+                    account.UserId,
+                    CommonId.BotUserId,
+                    messenger,
+                    messageBuilder.BuildBackToMainMenuButtonText(account.Language), MessageSendStatus.Success));
                 await SendMainMenuMessage(account, messenger, messageId);
                 return;
             }
 
             var currentAction = await actionService.GetActionById(callbackData.Id, messenger.System);
+            await Task.Run(async () => messageLogger.LogMessage(
+                account.UserId,
+                CommonId.BotUserId,
+                messenger,
+                callbackData.Text ?? (await actionService.GetActionName(currentAction, account)),
+                MessageSendStatus.Success));
 
-            if (currentAction == null || !IsValidAction(account, currentAction))
+            if (!IsValidAction(account, currentAction))
             {
                 await SendNotRecognizedCommandMessage(account, messenger, messageId);
                 return;
             }
 
-            var userResponse = currentAction.Type == ActionTypes.Downline ? callbackData.Value : string.Empty;
+            var userResponse = currentAction.Type == ActionTypes.Downline ? callbackData.Text : string.Empty;
             await actionService.InsertUserAction(account.UserId, currentAction.ActionId, userResponse);
 
             if (currentAction.IsEndAction && !string.IsNullOrEmpty(callbackData.Cmd))
@@ -336,7 +347,7 @@ namespace TelegramBot.Infrastructure.Command
         }
 
         private static bool IsValidAction(CustBotAccount account, BotAction action)
-            => account.Functions.Any(f => f.FunctionId == action.FunctionId);
+            => action == null || account.Functions.Any(f => f.FunctionId == action.FunctionId);
 
         public async Task SendMainMenuMessage(CustBotAccount account, Messenger messenger, int messageId = 0)
         {
