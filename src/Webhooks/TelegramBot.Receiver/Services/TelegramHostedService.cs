@@ -32,37 +32,38 @@ namespace TelegramBot.Receiver.Services
             var botEntities = await _botService.GetAllAsync().ConfigureAwait(false);
             _handleUpdateSerice.BotEntities = botEntities.Where(b => b.IsTest == _receiverConfiguration.IsTest).ToList();
             var botClients = new List<ITelegramBotClient>();
-            foreach (var botEntity in _handleUpdateSerice.BotEntities.DistinctBy(b => b.AccessToken))
-            {
-                try
-                {
-                    var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken, _receiverConfiguration.ProxyAddress);
-                    botClients.Add(botClient);
-
-                    await botClient.SetWebhookAsync(
-                        url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
-                        allowedUpdates: _allowedUpdates,
-                        cancellationToken: cancellationToken);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    await Fanex.Logging.Logger.Log.ErrorAsync(ex.Message);
-                }
-            }
-            _handleUpdateSerice.BotClients = botClients;
-            // var tasks = _handleUpdateSerice.BotEntities.Select(botEntity =>
+            // foreach (var botEntity in _handleUpdateSerice.BotEntities.DistinctBy(b => b.AccessToken))
             // {
-            //     var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken);
-            //     botClients.Add(botClient);
+            //     try
+            //     {
+            //         var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken, _receiverConfiguration.ProxyAddress);
+            //         botClients.Add(botClient);
 
-            //     return botClient.SetWebhookAsync(
-            //         url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
-            //         allowedUpdates: _allowedUpdates,
-            //         cancellationToken: cancellationToken);
-            // });
+            //         await botClient.SetWebhookAsync(
+            //             url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
+            //             allowedUpdates: _allowedUpdates,
+            //             cancellationToken: cancellationToken);
+            //     }
+            //     catch (Exception ex)
+            //     {
+            //         Console.WriteLine(ex.Message);
+            //         await Fanex.Logging.Logger.Log.ErrorAsync(ex.Message);
+            //     }
+            // }
             // _handleUpdateSerice.BotClients = botClients;
-            // await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            var tasks = _handleUpdateSerice.BotEntities.Select(botEntity =>
+            {
+                var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken, _receiverConfiguration.ProxyAddress);
+                botClients.Add(botClient);
+
+                return botClient.SetWebhookAsync(
+                    url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
+                    allowedUpdates: _allowedUpdates,
+                    cancellationToken: cancellationToken);
+            });
+            await Task.WhenAll(tasks).ConfigureAwait(false);
+            _handleUpdateSerice.BotClients = botClients;
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
