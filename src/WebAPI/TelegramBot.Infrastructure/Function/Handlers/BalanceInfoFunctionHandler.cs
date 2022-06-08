@@ -228,8 +228,8 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         {
             return (CustomerLevel)customerLevel switch
             {
-                CustomerLevel.Member => outstanding.AgentOutstanding,
-                CustomerLevel.Agent => outstanding.MasterOutstanding,
+                CustomerLevel.Member => outstanding.MemberOutstanding,
+                CustomerLevel.Agent => outstanding.AgentOutstanding,
                 CustomerLevel.Master => outstanding.MasterOutstanding,
                 CustomerLevel.Super => outstanding.SuperOutstanding,
                 _ => throw new ArgumentOutOfRangeException(nameof(customerLevel), customerLevel, null)
