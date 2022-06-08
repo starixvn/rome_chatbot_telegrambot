@@ -15,7 +15,7 @@ namespace TelegramBot.Client.Services
 
         Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string username, string ip = "");
 
-        Task<Result> UnlinkAsync(int botId, int custId, int subAccId, string ip = "");
+        Task<Result> UnlinkAsync(int custId, int subAccId, string ip = "");
 
         Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId);
 
@@ -85,13 +85,12 @@ namespace TelegramBot.Client.Services
                 });
         }
 
-        public async Task<Result> UnlinkAsync(int botId, int custId, int subAccId, string ip = "")
+        public async Task<Result> UnlinkAsync(int custId, int subAccId, string ip = "")
         {
             return await httpClient.PostAsJsonAsync<Result>(
                 $"setting/unlink",
                 new
                 {
-                    botId,
                     custId,
                     subAccId,
                     ip

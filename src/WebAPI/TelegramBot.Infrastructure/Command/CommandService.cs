@@ -203,7 +203,7 @@ namespace TelegramBot.Infrastructure.Command
             if (callbackData.IsStopUsingChatbot)
             {
                 await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, messageBuilder.BuildStopUsingChatbotMessage(account.Language), MessageSendStatus.Success));
-                await settingService.Unlink(bot, account.CustId, account.SubAccId, string.Empty);
+                await settingService.Unlink(account.CustId, account.SubAccId, string.Empty);
                 return;
             }
 

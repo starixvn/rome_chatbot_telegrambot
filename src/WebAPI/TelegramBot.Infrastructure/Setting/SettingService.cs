@@ -26,13 +26,15 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<Result> Link(int botId, int custId, int subAccId, string otp, string username, string ip);
 
-        Task<Result> Unlink(BotEntity bot, int custId, int subAccId, string ip);
+        Task<Result> Unlink(int custId, int subAccId, string ip);
 
         Task<Result> UpdateUserFunction(int userid, int botId, BotFunction function, int creator, string ip);
 
         Task<Result> UpdateUserLanguage(int userId, int botId, string language, string ip);
 
         Task<CustBotAccount> GetCustBotAccount(long chatId, int botId);
+
+        Task SendUnlinkMessage(CustBotMessenger messenger);
     }
 
     public class SettingService : ISettingService
@@ -147,7 +149,7 @@ namespace TelegramBot.Infrastructure.Setting
             return new Result(criteria.ErrCode, criteria.ErrMsg);
         }
 
-        public async Task<Result> Unlink(BotEntity bot, int custId, int subAccId, string ip)
+        public async Task<Result> Unlink(int custId, int subAccId, string ip)
         {
             var messenger = await GetCustBotMessenger(custId, subAccId);
             if (messenger == null)
@@ -155,15 +157,20 @@ namespace TelegramBot.Infrastructure.Setting
                 return new Result(ErrorCodes.MessengerNotFound, "Messenger not found");
             }
 
-            var criteria = new CustBotAccountStatusUpdCriteria(bot.BotId, custId, subAccId, false, false, ip);
+            var criteria = new CustBotAccountStatusUpdCriteria(messenger.BotId, custId, subAccId, false, false, ip);
             await _dynamicRepository.ExecuteAsync(criteria).ConfigureAwait(false);
             if (criteria.IsSuccess)
             {
-                var unlinkMessage = _messageBuilder.BuildUnlinkMessage(messenger.Language, bot.Name);
-                await _messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), unlinkMessage);
+                await SendUnlinkMessage(messenger);
             }
 
             return new Result(criteria.ErrCode, criteria.ErrMsg);
+        }
+
+        public async Task SendUnlinkMessage(CustBotMessenger messenger)
+        {
+            var unlinkMessage = _messageBuilder.BuildUnlinkMessage(messenger.Language, messenger.BotName);
+            await _messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), unlinkMessage);
         }
 
         public async Task<CustBotMessenger> GetCustBotMessenger(int custId, int subAccId)

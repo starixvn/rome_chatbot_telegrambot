@@ -11,7 +11,7 @@ namespace TelegramBot.Client.Services
 
         Task<Result> NotifyChangeSecurityCode(int custId, int subAccId, string ip);
 
-        Task<Result> Notify(int botId, long chatId, string message);
+        Task<Result> Unlink(int custId, int subAccId);
     }
 
     public class NotificationService : INotificationService
@@ -43,14 +43,13 @@ namespace TelegramBot.Client.Services
                     ip
                 });
 
-        public async Task<Result> Notify(int botId, long chatId, string message)
+        public async Task<Result> Unlink(int custId, int subAccId)
              => await httpClient.PostAsJsonAsync<Result>(
-                $"notification/notify",
+                $"notification/unlink",
                 new
                 {
-                    botId,
-                    chatId,
-                    message
+                    custId,
+                    subAccId
                 });
     }
 }
