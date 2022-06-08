@@ -1,5 +1,4 @@
 ﻿using Telegram.Bot;
-using Telegram.Bot.Types.Enums;
 using TelegramBot.Client.Services;
 using TelegramBot.Receiver.Configurations;
 using TelegramBot.Utilities;
@@ -12,11 +11,6 @@ namespace TelegramBot.Receiver.Services
         private readonly IHandleUpdateService _handleUpdateSerice;
         private readonly ReceiverConfiguration _receiverConfiguration;
         private readonly IBotService _botService;
-        private readonly UpdateType[] _allowedUpdates = new[]
-        {
-            UpdateType.Message,
-            UpdateType.CallbackQuery
-        };
 
         public TelegramHostedService(Fanex.Logging.ILogger logger, IHandleUpdateService handleUpdateSerice, ReceiverConfiguration receiverConfiguration, IBotService botService)
         {
@@ -30,46 +24,18 @@ namespace TelegramBot.Receiver.Services
         {
             await _logger.InfoAsync($"Worker {typeof(TelegramHostedService).Assembly.GetName().Name} running at: {DateTimeOffset.Now}");
             var botEntities = await _botService.GetAllAsync().ConfigureAwait(false);
-            _handleUpdateSerice.BotEntities = botEntities.Where(b => b.IsTest == _receiverConfiguration.IsTest).ToList();
-            var botClients = new List<ITelegramBotClient>();
-            // foreach (var botEntity in _handleUpdateSerice.BotEntities.DistinctBy(b => b.AccessToken))
-            // {
-            //     try
-            //     {
-            //         var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken, _receiverConfiguration.ProxyAddress);
-            //         botClients.Add(botClient);
-
-            //         await botClient.SetWebhookAsync(
-            //             url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
-            //             allowedUpdates: _allowedUpdates,
-            //             cancellationToken: cancellationToken);
-            //     }
-            //     catch (Exception ex)
-            //     {
-            //         Console.WriteLine(ex.Message);
-            //         await Fanex.Logging.Logger.Log.ErrorAsync(ex.Message);
-            //     }
-            // }
-            // _handleUpdateSerice.BotClients = botClients;
-
-            var tasks = _handleUpdateSerice.BotEntities.Select(botEntity =>
+            var botClients = new Dictionary<string, ITelegramBotClient>();
+            foreach (var botEntity in botEntities)
             {
                 var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken, _receiverConfiguration.ProxyAddress);
-                botClients.Add(botClient);
+                botClients.Add(botEntity.AccessToken, botClient);
+            }
 
-                return botClient.SetWebhookAsync(
-                    url: $"{_receiverConfiguration.HostAddress}/bot/{botEntity.AccessToken}",
-                    allowedUpdates: _allowedUpdates,
-                    cancellationToken: cancellationToken);
-            });
-            await Task.WhenAll(tasks).ConfigureAwait(false);
             _handleUpdateSerice.BotClients = botClients;
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            var tasks = _handleUpdateSerice.BotClients.Select(botClient => botClient.DeleteWebhookAsync(cancellationToken: cancellationToken));
-            await Task.WhenAll(tasks).ConfigureAwait(false);
             await _logger.InfoAsync($"Worker {typeof(TelegramHostedService).Assembly.GetName().Name} stopping at: {DateTimeOffset.Now}");
         }
     }

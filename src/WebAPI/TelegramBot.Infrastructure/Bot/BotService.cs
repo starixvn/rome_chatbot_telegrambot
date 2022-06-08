@@ -19,9 +19,9 @@ namespace TelegramBot.Infrastructure.Bot
 
         Task<BotEntity> GetAsync(int botId);
 
-        Task<Result> SetWebhook(int botId, string url);
+        Task<Result> SetWebhook(string accessToken, string url);
 
-        Task<Result> RemoveWebhook(int botId);
+        Task<Result> RemoveWebhook(string accessToken);
     }
 
     public class BotService : IBotService
@@ -73,18 +73,16 @@ namespace TelegramBot.Infrastructure.Bot
             return botEntities.FirstOrDefault(x => x.BotId == botId);
         }
 
-        public async Task<Result> SetWebhook(int botId, string url)
+        public async Task<Result> SetWebhook(string accessToken, string url)
         {
-            var bot = await GetAsync(botId);
-            var client = TelegramBotUtils.InitBotClient(bot.AccessToken, _webAPIConfiguration.ProxyAddress);
-            await client.SetWebhookAsync(url: $"{url}/bot/{bot.AccessToken}", allowedUpdates: _allowedUpdates);
+            var client = TelegramBotUtils.InitBotClient(accessToken, _webAPIConfiguration.ProxyAddress);
+            await client.SetWebhookAsync(url: $"{url}/bot/{accessToken}", allowedUpdates: _allowedUpdates);
             return Result.CreateSuccessfulResult();
         }
 
-        public async Task<Result> RemoveWebhook(int botId)
+        public async Task<Result> RemoveWebhook(string accessToken)
         {
-            var bot = await GetAsync(botId);
-            var client = TelegramBotUtils.InitBotClient(bot.AccessToken, _webAPIConfiguration.ProxyAddress);
+            var client = TelegramBotUtils.InitBotClient(accessToken, _webAPIConfiguration.ProxyAddress);
             await client.DeleteWebhookAsync();
             return Result.CreateSuccessfulResult();
         }

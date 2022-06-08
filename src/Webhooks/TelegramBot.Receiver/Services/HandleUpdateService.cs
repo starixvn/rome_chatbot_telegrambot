@@ -2,7 +2,6 @@
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using TelegramBot.Client.Models;
 using TelegramBot.Client.Services;
 using TelegramBot.Receiver.Configurations;
 
@@ -10,8 +9,7 @@ namespace TelegramBot.Receiver.Services
 {
     public interface IHandleUpdateService
     {
-        List<BotEntity> BotEntities { get; set; }
-        List<ITelegramBotClient> BotClients { get; set; }
+        IDictionary<string, ITelegramBotClient> BotClients { get; set; }
         Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken = default);
     }
 
@@ -22,8 +20,7 @@ namespace TelegramBot.Receiver.Services
         private readonly ICommandService _commandService;
         private readonly ISettingService _settingService;
 
-        public List<BotEntity> BotEntities { get; set; }
-        public List<ITelegramBotClient> BotClients { get; set; }
+        public IDictionary<string, ITelegramBotClient> BotClients { get; set; }
 
         public HandleUpdateService(Fanex.Logging.ILogger logger, ReceiverConfiguration botConfiguration, ICommandService commandService, ISettingService settingService)
         {

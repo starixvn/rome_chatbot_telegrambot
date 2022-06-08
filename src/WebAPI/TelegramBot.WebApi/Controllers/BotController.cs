@@ -40,16 +40,16 @@ namespace TelegramBot.WebApi.Controllers
             return await _botService.GetAsync(system).ConfigureAwait(false);
         }
 
-        [HttpPost("{botId}/webhook")]
-        public async Task<Result> SetWebhook(int botId, [FromBody] SetWebhookParam param)
+        [HttpPost("{accessToken}/webhook")]
+        public async Task<Result> SetWebhook(string accessToken, [FromBody] SetWebhookParam param)
         {
-            return await _botService.SetWebhook(botId, param.Url);
+            return await _botService.SetWebhook(accessToken, param.Url);
         }
 
-        [HttpPost("{botId}/removeWebhook")]
-        public async Task<Result> RemoveWebhook(int botId)
+        [HttpPost("{accessToken}/removeWebhook")]
+        public async Task<Result> RemoveWebhook(string accessToken)
         {
-            return await _botService.RemoveWebhook(botId);
+            return await _botService.RemoveWebhook(accessToken);
         }
     }
 }
