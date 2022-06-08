@@ -3,7 +3,6 @@ using Fanex.Caching;
 using Fanex.Data.Repository;
 using TelegramBot.Common.Extensions;
 using TelegramBot.Infrastructure.Action;
-using TelegramBot.Infrastructure.Bot.Models;
 using TelegramBot.Infrastructure.Function.Constants;
 using TelegramBot.Infrastructure.Function.Models;
 using TelegramBot.Infrastructure.Message;

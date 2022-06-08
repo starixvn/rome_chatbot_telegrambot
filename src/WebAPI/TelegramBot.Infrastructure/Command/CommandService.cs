@@ -252,7 +252,8 @@ namespace TelegramBot.Infrastructure.Command
 
             if (currentAction.IsEndAction && !string.IsNullOrEmpty(callbackData.Cmd))
             {
-                if (currentAction.FunctionId == FunctionIds.Settings)
+                var parentAction = await actionService.GetActionById(currentAction.ParentId, messenger.System);
+                if (parentAction != null && parentAction.FunctionId == FunctionIds.Settings)
                 {
                     await HandleSettingsCommand(account, messenger, callbackData.Cmd, messageId, callbackId);
                 }

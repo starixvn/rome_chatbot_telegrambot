@@ -22,7 +22,11 @@ namespace TelegramBot.Receiver.Services
 
         public IDictionary<string, ITelegramBotClient> BotClients { get; set; }
 
-        public HandleUpdateService(Fanex.Logging.ILogger logger, ReceiverConfiguration botConfiguration, ICommandService commandService, ISettingService settingService)
+        public HandleUpdateService(
+            Fanex.Logging.ILogger logger,
+            ReceiverConfiguration botConfiguration,
+            ICommandService commandService,
+            ISettingService settingService)
         {
             _logger = logger;
             _botConfiguration = botConfiguration;
