@@ -137,10 +137,10 @@ public class MessageBuilderTest
             "This bot can assist you to view report more easily or keep you posted with the latest important notifications.",
             "You will receive your yesterday's win loss after 2:00 PM (GMT+8) daily."
         };
-       
+
         var result = messageBuilder.BuildWelcomeMessage("EN", "jack");
 
-        Assert.Equal(string.Join(" ",expect), result);
+        Assert.Equal(string.Join(" ", expect), result);
     }
 
     [Fact]
@@ -240,8 +240,8 @@ public class MessageBuilderTest
         var result = messageBuilder.BuildUpdateNotificationSettingMessage("EN", true);
 
         Assert.Equal(expect, result);
-    } 
-    
+    }
+
     [Fact]
     public void BuildUpdateNotificationSettingMessage_UnEnable_ReturnUpdateNotificationSettingMessage()
     {
@@ -261,36 +261,36 @@ public class MessageBuilderTest
         var result = await messageBuilder.BuildActionName("EN", 13);
 
         Assert.Equal(botResource.Value, result);
-    } 
-    
+    }
+
     [Fact]
     public async Task BuildMessage_Always_ReturnReplyMarkupMessage()
     {
-        var result = await messageBuilder.BuildMessage("EN", new List<MessageButton> { new MessageButton("setting","/setting") }, "EN");
-      
+        var result = await messageBuilder.BuildMessage("EN", new List<MessageButton> { new MessageButton("setting", "/setting") }, "EN");
+
         Assert.IsType<Infrastructure.Message.Models.Message>(result);
-        Assert.Single(result.ReplyMarkup.InlineKeyboard); 
+        Assert.Single(result.ReplyMarkup.InlineKeyboard);
     }
-    
+
     [Fact]
     public async Task BuildMessageWithBackButton_Always_ReturnReplyMarkupMessage()
     {
-        var result = await messageBuilder.BuildMessageWithBackButton("EN", new List<MessageButton> { new ("setting","/setting") }, 0,"EN",false);
-      
+        var result = await messageBuilder.BuildMessageWithBackButton("EN", new List<MessageButton> { new("setting", "/setting") }, 0, "EN", false);
+
         Assert.IsType<Infrastructure.Message.Models.Message>(result);
-        Assert.Equal(2,result.ReplyMarkup.InlineKeyboard.Count()); 
+        Assert.Equal(2, result.ReplyMarkup.InlineKeyboard.Count());
     }
-    
+
     [Fact]
     public async Task BuildStopUsingChatbotConfirmMessage_Always_ReturnMainMenuButton()
     {
         var textBtn =
-            "You're about to <b>Stop Using Chatbot</b>.Your Telegram will be unlinked with Telegram and you won't be able to use Telegram anymore.Are you sure you want to stop using Telegram?";
+            "You're about to <b>Stop Using Chatbot</b>. Your Telegram will be unlinked with Telegram and you won't be able to use Telegram anymore. Are you sure you want to stop using Telegram?";
 
-        var result = await messageBuilder.BuildStopUsingChatbotConfirmMessage("EN","Telegram");
+        var result = await messageBuilder.BuildStopUsingChatbotConfirmMessage("EN", "Telegram");
 
         Assert.IsType<Infrastructure.Message.Models.Message>(result);
         Assert.Single(result.ReplyMarkup.InlineKeyboard);
-        Assert.Equal(textBtn,result.Text); 
+        Assert.Equal(textBtn, result.Text);
     }
 }

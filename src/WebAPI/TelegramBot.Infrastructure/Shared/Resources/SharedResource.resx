@@ -434,7 +434,7 @@
     <comment />
   </data>
   <data name="StopUsingChatbotConfirmMessage" xml:space="preserve">
-    <value>You're about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;.Your Telegram will be unlinked with {0} and you won't be able to use {0} anymore.Are you sure you want to stop using {0}?</value>
+    <value>You're about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;. Your Telegram will be unlinked with {0} and you won't be able to use {0} anymore. Are you sure you want to stop using {0}?</value>
     <comment />
   </data>
   <data name="UnlinkMessage" xml:space="preserve">
