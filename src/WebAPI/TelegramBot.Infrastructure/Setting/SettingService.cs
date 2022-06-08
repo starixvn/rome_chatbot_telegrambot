@@ -33,7 +33,7 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<CustBotAccount> GetCustBotAccount(long chatId, int botId);
 
-        Task SendUnlinkMessage(CustBotMessenger messenger);
+        Task SendUnlinkMessage(int userId, long chatId, int botId, string botName, string language);
     }
 
     public class SettingService : ISettingService
@@ -160,16 +160,16 @@ namespace TelegramBot.Infrastructure.Setting
             await _dynamicRepository.ExecuteAsync(criteria).ConfigureAwait(false);
             if (criteria.IsSuccess)
             {
-                await SendUnlinkMessage(messenger);
+                await SendUnlinkMessage(messenger.UserId, messenger.ChatId, messenger.BotId, messenger.BotName, messenger.Language);
             }
 
             return new Result(criteria.ErrCode, criteria.ErrMsg);
         }
 
-        public async Task SendUnlinkMessage(CustBotMessenger messenger)
+        public async Task SendUnlinkMessage(int userId, long chatId, int botId, string botName, string language)
         {
-            var unlinkMessage = _messageBuilder.BuildUnlinkMessage(messenger.Language, messenger.BotName);
-            await _messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), unlinkMessage);
+            var unlinkMessage = _messageBuilder.BuildUnlinkMessage(language, botName);
+            await _messageSender.SendMessage(userId, new Messenger(botId, chatId), unlinkMessage);
         }
 
         public async Task<CustBotMessenger> GetCustBotMessenger(int custId, int subAccId)

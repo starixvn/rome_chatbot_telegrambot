@@ -34,10 +34,10 @@ namespace TelegramBot.WebApi.Controllers
         }
 
 
-        [HttpPost("unlink")]
-        public async Task<Result> Unlink([FromBody] AlertParam param)
+        [HttpPost("{userId}/unlink")]
+        public async Task<Result> Unlink(int userId, [FromBody] UnlinkNotificationParam param)
         {
-            return await notificationService.NotifyUnlink(param.CustId, param.SubAccId);
+            return await notificationService.NotifyUnlink(userId, param.ChatId, param.BotId, param.Language);
         }
     }
 }

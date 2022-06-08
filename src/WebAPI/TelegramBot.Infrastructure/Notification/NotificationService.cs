@@ -12,20 +12,23 @@ namespace TelegramBot.Infrastructure.Notification
 
         Task<Result> NotifyChangeSecurityCode(int custId, int subAccId, string ip);
 
-        Task<Result> NotifyUnlink(int custId, int subAccId);
+        Task<Result> NotifyUnlink(int userId, long chatId, int botId, string language);
     }
 
     public class NotificationService : INotificationService
     {
+        private readonly IBotService botService;
         private readonly ISettingService settingService;
         private readonly IMessageBuilder messageBuilder;
         private readonly IMessageSender messageSender;
 
         public NotificationService(
+            IBotService botService,
             ISettingService settingService,
             IMessageBuilder messageBuilder,
             IMessageSender messageSender)
         {
+            this.botService = botService;
             this.settingService = settingService;
             this.messageBuilder = messageBuilder;
             this.messageSender = messageSender;
@@ -61,10 +64,10 @@ namespace TelegramBot.Infrastructure.Notification
             return Result.CreateSuccessfulResult();
         }
 
-        public async Task<Result> NotifyUnlink(int custId, int subAccId)
+        public async Task<Result> NotifyUnlink(int userId, long chatId, int botId, string language)
         {
-            var messenger = await settingService.GetCustBotMessenger(custId, subAccId);
-            await settingService.SendUnlinkMessage(messenger);
+            var bot = await botService.GetAsync(botId);
+            await settingService.SendUnlinkMessage(userId, chatId, botId, bot.Name, language);
             return Result.CreateSuccessfulResult();
         }
     }

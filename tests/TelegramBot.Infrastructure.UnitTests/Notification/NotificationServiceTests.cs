@@ -15,6 +15,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Notification
         private readonly ISettingService settingService;
         private readonly IMessageBuilder messageBuilder;
         private readonly IMessageSender messageSender;
+        private readonly IBotService botService;
         private readonly INotificationService notificationService;
 
         public NotificationServiceTests()
@@ -22,7 +23,8 @@ namespace TelegramBot.Infrastructure.UnitTests.Notification
             settingService = Substitute.For<ISettingService>();
             messageBuilder = Substitute.For<IMessageBuilder>();
             messageSender = Substitute.For<IMessageSender>();
-            notificationService = new NotificationService(settingService, messageBuilder, messageSender);
+            botService = Substitute.For<IBotService>();
+            notificationService = new NotificationService(botService, settingService, messageBuilder, messageSender);
         }
 
         // [Fact]
