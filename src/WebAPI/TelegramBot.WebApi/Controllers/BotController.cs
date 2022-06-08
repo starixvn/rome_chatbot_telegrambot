@@ -2,6 +2,8 @@
 using System.Net.Mime;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Bot.Models;
+using TelegramBot.Infrastructure.Shared.Models;
+using TelegramBot.WebApi.Params;
 
 namespace TelegramBot.WebApi.Controllers
 {
@@ -36,6 +38,18 @@ namespace TelegramBot.WebApi.Controllers
         public async Task<BotEntity> GetBotBySystem(string system)
         {
             return await _botService.GetAsync(system).ConfigureAwait(false);
+        }
+
+        [HttpPost("{botId}/webhook")]
+        public async Task<Result> SetWebhook(int botId, [FromBody] SetWebhookParam param)
+        {
+            return await _botService.SetWebhook(botId, param.Url);
+        }
+
+        [HttpPost("{botId}/removeWebhook")]
+        public async Task<Result> RemoveWebhook(int botId)
+        {
+            return await _botService.RemoveWebhook(botId);
         }
     }
 }

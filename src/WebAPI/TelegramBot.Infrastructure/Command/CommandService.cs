@@ -114,7 +114,7 @@ namespace TelegramBot.Infrastructure.Command
                 {
                     builder.Append(formatter.NewLine());
                     builder.Append($"{formatter.NewLine()}{formatter.Bold(await functionService.GetFunctionName(report.FunctionId, account.Language))}");
-                    var rootAction = await actionService.GetRootActionByFunctionId(report.FunctionId, messenger.System);
+                    var rootAction = await actionService.GetRootActionByFunctionId(account, report.FunctionId, messenger.System);
                     builder.Append($"{formatter.NewLine()}{rootAction.Command} - {await actionService.GetActionDescription(rootAction.ActionId, account.Language)}");
                     var childActions = (await actionService.GetChildActions(account, rootAction.ActionId, messenger.System)).Where(a => a.Type != ActionTypes.Downline);
                     foreach (var childAction in childActions)
@@ -226,21 +226,29 @@ namespace TelegramBot.Infrastructure.Command
             }
 
             var currentAction = await actionService.GetActionById(callbackData.Id, messenger.System);
-            await Task.Run(async () => messageLogger.LogMessage(
-                account.UserId,
-                CommonId.BotUserId,
-                messenger,
-                callbackData.Text ?? (await actionService.GetActionName(currentAction, account)),
-                MessageSendStatus.Success));
-
             if (!IsValidAction(account, currentAction))
             {
                 await SendNotRecognizedCommandMessage(account, messenger, messageId);
                 return;
             }
 
-            var userResponse = currentAction.Type == ActionTypes.Downline ? callbackData.Text : string.Empty;
-            await actionService.InsertUserAction(account.UserId, currentAction.ActionId, userResponse);
+            if (currentAction.Type == ActionTypes.Downline)
+            {
+                var splittedCommand = SplitCommand(callbackData.Cmd);
+                var userResponse = splittedCommand.Item2?[0];
+                await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success));
+                await actionService.InsertUserAction(account.UserId, currentAction.ActionId, userResponse);
+            }
+            else
+            {
+                await Task.Run(async () => messageLogger.LogMessage(
+                    account.UserId,
+                    CommonId.BotUserId,
+                    messenger,
+                    await actionService.GetActionName(currentAction, account),
+                    MessageSendStatus.Success));
+                await actionService.InsertUserAction(account.UserId, currentAction.ActionId, string.Empty);
+            }
 
             if (currentAction.IsEndAction && !string.IsNullOrEmpty(callbackData.Cmd))
             {
@@ -284,7 +292,7 @@ namespace TelegramBot.Infrastructure.Command
         {
             var splittedCommand = SplitCommand(command);
             await actionService.ResetUserActions(account.UserId);
-            var rootAction = await actionService.GetRootActionByFunctionId(functionId, messenger.System);
+            var rootAction = await actionService.GetRootActionByFunctionId(account, functionId, messenger.System);
             var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2);
             var message = await messageBuilder.BuildMessageWithBackButton(result.Message, new List<MessageButton>(), rootAction.ActionId, account.Language, true);
             await messageSender.SendMessage(

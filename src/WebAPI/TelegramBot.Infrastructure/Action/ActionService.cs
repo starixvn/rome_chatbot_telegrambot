@@ -25,7 +25,7 @@ namespace TelegramBot.Infrastructure.Action
 
         Task<BotAction> GetActionById(int id, string system);
 
-        Task<BotAction> GetRootActionByFunctionId(short functionId, string system);
+        Task<BotAction> GetRootActionByFunctionId(CustBotAccount account, short functionId, string system);
 
         Task<IEnumerable<BotAction>> GetChildActions(CustBotAccount account, int parentId, string system);
 
@@ -80,8 +80,8 @@ namespace TelegramBot.Infrastructure.Action
         public async Task<string> GetActionDescription(short actionId, string language)
             => (await this.resourceService.GetResource(actionId.ToString(), ResourceType.ActionDescription, language))?.Value;
 
-        public async Task<BotAction> GetRootActionByFunctionId(short functionId, string system)
-            => (await GetRootActions(system)).FirstOrDefault(a => a.FunctionId == functionId);
+        public async Task<BotAction> GetRootActionByFunctionId(CustBotAccount account, short functionId, string system)
+            => (await GetRootActions(account, system)).FirstOrDefault(a => a.FunctionId == functionId);
 
         public async Task<Message.Models.Message> BuildNextActionsMessage(CustBotAccount account, BotAction currentAction, string system)
         {
@@ -131,7 +131,6 @@ namespace TelegramBot.Infrastructure.Action
                             JsonConvert.SerializeObject(new
                             {
                                 Id = action.ActionId,
-                                t = username,
                                 Cmd = await CompileCommand(nextUserActions, username, system)
                             })));
                     }
@@ -183,7 +182,7 @@ namespace TelegramBot.Infrastructure.Action
 
         public async Task<IList<MessageButton>> BuildRootActionButtons(CustBotAccount account, string system)
         {
-            var rootActions = await GetRootActions(system);
+            var rootActions = await GetRootActions(account, system);
             var buttons = new List<MessageButton>();
 
             foreach (var action in rootActions)
@@ -227,8 +226,8 @@ namespace TelegramBot.Infrastructure.Action
         public async Task<IEnumerable<BotAction>> GetChildActions(CustBotAccount account, int parentId, string system)
             => (await GetAllActions(system)).Where(action => action.ParentId == parentId && account.Functions.Any(f => f.FunctionId == action.FunctionId));
 
-        private async Task<IEnumerable<BotAction>> GetRootActions(string system)
-            => (await GetAllActions(system)).Where(action => action.ParentId == 0);
+        private async Task<IEnumerable<BotAction>> GetRootActions(CustBotAccount account, string system)
+            => (await GetAllActions(system)).Where(action => action.ParentId == 0 && account.Functions.Any(f => f.FunctionId == action.FunctionId));
 
         private async Task<IEnumerable<BotAction>> GetAllActions(string system)
         {

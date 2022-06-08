@@ -1,7 +1,11 @@
 ﻿using Fanex.Data.Repository;
+using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
 using TelegramBot.Infrastructure.Bot.Criteria;
 using TelegramBot.Infrastructure.Bot.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
+using TelegramBot.Infrastructure.Shared.Models;
+using TelegramBot.Utilities;
 
 namespace TelegramBot.Infrastructure.Bot
 {
@@ -14,6 +18,10 @@ namespace TelegramBot.Infrastructure.Bot
         Task<BotEntity> GetAsync(long messengerBotId);
 
         Task<BotEntity> GetAsync(int botId);
+
+        Task<Result> SetWebhook(int botId, string url);
+
+        Task<Result> RemoveWebhook(int botId);
     }
 
     public class BotService : IBotService
@@ -21,6 +29,11 @@ namespace TelegramBot.Infrastructure.Bot
         private readonly IDynamicRepository _dynamicRepository;
         private readonly WebAPIConfiguration _webAPIConfiguration;
         private List<BotEntity> _botEntities;
+        private readonly UpdateType[] _allowedUpdates = new[]
+        {
+            UpdateType.Message,
+            UpdateType.CallbackQuery
+        };
 
         public BotService(IDynamicRepository dynamicRepository, WebAPIConfiguration webAPIConfiguration)
         {
@@ -58,6 +71,22 @@ namespace TelegramBot.Infrastructure.Bot
         {
             var botEntities = await GetAllAsync();
             return botEntities.FirstOrDefault(x => x.BotId == botId);
+        }
+
+        public async Task<Result> SetWebhook(int botId, string url)
+        {
+            var bot = await GetAsync(botId);
+            var client = TelegramBotUtils.InitBotClient(bot.AccessToken, _webAPIConfiguration.ProxyAddress);
+            await client.SetWebhookAsync(url: $"{url}/bot/{bot.AccessToken}", allowedUpdates: _allowedUpdates);
+            return Result.CreateSuccessfulResult();
+        }
+
+        public async Task<Result> RemoveWebhook(int botId)
+        {
+            var bot = await GetAsync(botId);
+            var client = TelegramBotUtils.InitBotClient(bot.AccessToken, _webAPIConfiguration.ProxyAddress);
+            await client.DeleteWebhookAsync();
+            return Result.CreateSuccessfulResult();
         }
     }
 }
