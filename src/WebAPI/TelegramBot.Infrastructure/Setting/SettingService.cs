@@ -196,12 +196,20 @@ namespace TelegramBot.Infrastructure.Setting
 
         private async Task<IEnumerable<BotFunction>> GetAccountFunctions(int custId, int subAccId, IEnumerable<BotFunction> functions)
         {
+            functions = functions.Concat(await _functionService.GetReportAndCommonFunctions());
+
             if (subAccId > 0)
             {
                 var customerStatus = await _customerService.GetCustomerStatus(custId, subAccId);
-                functions = customerStatus.HasReportPermission
-                    ? functions.Concat(await _functionService.GetReportFunctions())
-                    : functions.Where(f => f.FunctionId != FunctionIds.YesterdayWinLossNotification);
+
+                if (!customerStatus.HasReportPermission)
+                {
+                    functions = functions.Where(f =>
+                        f.FunctionId != FunctionIds.Oustanding
+                        && f.FunctionId != FunctionIds.TodayWinLoss
+                        && f.FunctionId != FunctionIds.YesterdayWinLoss
+                        && f.FunctionId != FunctionIds.YesterdayWinLossNotification);
+                }
 
                 if (!customerStatus.HasMemberInformationPermission)
                 {
@@ -211,12 +219,8 @@ namespace TelegramBot.Infrastructure.Setting
                         && f.FunctionId != FunctionIds.BalanceInfo);
                 }
             }
-            else
-            {
-                functions = functions.Concat(await _functionService.GetReportFunctions());
-            }
 
-            return functions.Concat(await _functionService.GetCommonFunctions());
+            return functions;
         }
 
         private async Task<CustBotMessenger> GetVerifyingMessenger(int custId, int subAccId)

@@ -45,7 +45,6 @@ app.UseRouting();
 app.MapGet("/", () => "Telegram bot web api!!!");
 app.UseUM(configuration);
 app.UseFanexDataWithSqlServer(configuration, app.Environment);
-app.UseMiddleware<EnableRequestBodyBufferingMiddleware>();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.MapControllers();
 
