@@ -1,5 +1,4 @@
-﻿using Alpha.API.Client.Services;
-using System.Net;
+﻿using System.Net;
 using System.Text;
 using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Action.Constants;
@@ -35,7 +34,6 @@ namespace TelegramBot.Infrastructure.Command
         private readonly IMessageLogger messageLogger;
         private readonly ISettingService settingService;
         private readonly IBotService botService;
-        private readonly ICustomerService customerService;
         private readonly IActionService actionService;
         private readonly IFunctionService functionService;
         private readonly IFunctionHandlerFactory functionHandlerFactory;
@@ -47,7 +45,6 @@ namespace TelegramBot.Infrastructure.Command
             IMessageLogger messageLogger,
             ISettingService settingService,
             IBotService botService,
-            ICustomerService customerService,
             IActionService actionService,
             IFunctionService functionService,
             IFunctionHandlerFactory functionHandlerFactory,
@@ -58,7 +55,6 @@ namespace TelegramBot.Infrastructure.Command
             this.messageLogger = messageLogger;
             this.settingService = settingService;
             this.botService = botService;
-            this.customerService = customerService;
             this.actionService = actionService;
             this.functionService = functionService;
             this.functionHandlerFactory = functionHandlerFactory;
@@ -105,22 +101,17 @@ namespace TelegramBot.Infrastructure.Command
         {
             var message = messageBuilder.BuildGeneralCommandsHelpMessage(account.Language, botName);
             var builder = new StringBuilder(message);
-            var hasReportPermission = !account.IsSubAccount || (await customerService.GetCustomerStatus(account.CustId, account.SubAccId)).HasReportPermission;
-            if (hasReportPermission)
+            var formatter = messageBuilder.GetFormatter();
+            foreach (var report in account.Functions.Where(f => f.Type == FunctionTypes.Report))
             {
-                var formatter = messageBuilder.GetFormatter();
-                var reports = await functionService.GetReportFunctions();
-                foreach (var report in reports)
+                builder.Append(formatter.NewLine());
+                builder.Append($"{formatter.NewLine()}{formatter.Bold(await functionService.GetFunctionName(report.FunctionId, account.Language))}");
+                var rootAction = await actionService.GetRootActionByFunctionId(account, report.FunctionId, messenger.System);
+                builder.Append($"{formatter.NewLine()}{rootAction.Command} - {await actionService.GetActionDescription(rootAction.ActionId, account.Language)}");
+                var childActions = (await actionService.GetChildActions(account, rootAction.ActionId, messenger.System)).Where(a => a.Type != ActionTypes.Downline);
+                foreach (var childAction in childActions)
                 {
-                    builder.Append(formatter.NewLine());
-                    builder.Append($"{formatter.NewLine()}{formatter.Bold(await functionService.GetFunctionName(report.FunctionId, account.Language))}");
-                    var rootAction = await actionService.GetRootActionByFunctionId(account, report.FunctionId, messenger.System);
-                    builder.Append($"{formatter.NewLine()}{rootAction.Command} - {await actionService.GetActionDescription(rootAction.ActionId, account.Language)}");
-                    var childActions = (await actionService.GetChildActions(account, rootAction.ActionId, messenger.System)).Where(a => a.Type != ActionTypes.Downline);
-                    foreach (var childAction in childActions)
-                    {
-                        builder.Append($"{formatter.NewLine()}{rootAction.Command} {childAction.Command} - {await actionService.GetActionDescription(childAction.ActionId, account.Language)}");
-                    }
+                    builder.Append($"{formatter.NewLine()}{rootAction.Command} {childAction.Command} - {await actionService.GetActionDescription(childAction.ActionId, account.Language)}");
                 }
             }
 
