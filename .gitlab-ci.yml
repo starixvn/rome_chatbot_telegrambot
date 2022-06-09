@@ -14,3 +14,11 @@ include:
   - project: "ci/repos-ci/rome_telegrambot_notification"
     ref: master
     file: "gitlab-ci-mixing.yml"
+
+  - project: "ci/repos-ci/rome_alpha_accumwl"
+    ref: master
+    file: "gitlab-ci-mixing.yml"
+
+  - project: "ci/repos-ci/rome_alpha_wlmonitor"
+    ref: master
+    file: "gitlab-ci-mixing.yml"

@@ -9,15 +9,15 @@
   <ItemGroup>
     <PackageReference Include="Alpha.Announcements.UplineIdRule" Version="1.0.1-beta2" />
     <PackageReference Include="Alpha.API.Client" Version="1.0.1" />
-    <PackageReference Include="Fanex.Caching.AspNetCore" Version="2.2.2" />
-    <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
-    <PackageReference Include="Fanex.Logging" Version="2.0.1" />
-    <PackageReference Include="Fanex.RemotingRef" Version="1.5.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageReference Include="Fanex.Caching.AspNetCore" Version="2.2.2"/>
+    <PackageReference Include="Fanex.Data.Repository" Version="4.2.2"/>
+    <PackageReference Include="Fanex.Logging" Version="2.0.1"/>
+    <PackageReference Include="Fanex.RemotingRef" Version="1.5.0"/>
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0"/>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="ONEbook.UM" Version="3.1.3" />
-    <PackageReference Include="Quartz" Version="3.4.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="ONEbook.UM" Version="3.1.3"/>
+    <PackageReference Include="Quartz" Version="3.4.0"/>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Template.Designer.cs">
@@ -37,6 +37,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup Label="sonarqube-rules-synchronizer">
-    <CodeAnalysisRuleSet>../../../.sonarlint/telegrambotcsharp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>../../../.sonarlint/alpha-apicsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 </Project>

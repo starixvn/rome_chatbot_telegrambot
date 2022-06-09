@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-WLMonitored.AccumWLService-4012F5F2-89A6-4B1C-B2DB-4D5D108AD796</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fanex.Caching.AspNetCore" Version="2.2.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup> 
+    <Content Include="App_Data\**"> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content> 
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WLMonitored.Shared\WLMonitored.Shared.csproj" />
+  </ItemGroup>
+  <PropertyGroup Label="sonarqube-rules-synchronizer">
+    <CodeAnalysisRuleSet>../../../.sonarlint/alpha-apicsharp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup></Project>
