@@ -168,7 +168,7 @@ public sealed class NotificationSenderJob : IJob
             else
             {
                 await messageSender.RetrySendNotification(notification, environment);
-                return new Result(500, ex.Message);
+                return Result.CreateSuccessfulResult();
             }
         }
     }

@@ -11,7 +11,7 @@ public class RetryJobListener : IJobListener
         this.logger = logger;
     }
 
-    private const int RetryInterval = 60;
+    private const int RetryInterval = 10;
 
     public string Name => "RetryJobListener";
 
