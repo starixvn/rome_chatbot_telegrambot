@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace TelegramBot.SenderService.Models;
 
 public sealed class SystemSetting
