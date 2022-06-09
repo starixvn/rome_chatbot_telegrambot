@@ -141,7 +141,7 @@ namespace TelegramBot.WebApi.Controllers
         [Route("custBotMessenger"), HttpPost]
         public async Task<CustBotMessenger> GetCustBotMessengerAsync(GetCustBotMessengerParam param)
         {
-            return await _settingService.GetCustBotMessenger(param.CustId, param.SubAccId);
+            return await _settingService.GetCustBotMessenger(param.CustId, param.SubAccId, param.Language);
         }
 
         [HttpPost("{userId}/function")]

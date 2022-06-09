@@ -11,13 +11,14 @@ using TelegramBot.Infrastructure.Setting.Criteria;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Caching;
 using TelegramBot.Infrastructure.Shared.Configurations;
+using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Models;
 
 namespace TelegramBot.Infrastructure.Setting
 {
     public interface ISettingService
     {
-        Task<CustBotMessenger> GetCustBotMessenger(int custId, int subAccId);
+        Task<CustBotMessenger> GetCustBotMessenger(int custId, int subAccId, string language = LanguageCodes.English);
 
         Task<Result> Start(int botId, long chatId, int custId, int subAccId, string language, string ip);
 
@@ -172,7 +173,7 @@ namespace TelegramBot.Infrastructure.Setting
             await _messageSender.SendMessage(userId, new Messenger(botId, chatId), unlinkMessage);
         }
 
-        public async Task<CustBotMessenger> GetCustBotMessenger(int custId, int subAccId)
+        public async Task<CustBotMessenger> GetCustBotMessenger(int custId, int subAccId, string language = LanguageCodes.English)
         {
             var criteria = new CustBotMessengerSelCriteria(custId, subAccId, !_webAPIConfiguration.IsProduction);
             var resultSet = await _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(criteria).ConfigureAwait(false);
@@ -186,8 +187,8 @@ namespace TelegramBot.Infrastructure.Setting
             custBotMessenger.Functions = await GetAccountFunctions(custId, subAccId, resultSet.secondResultSet);
             foreach (var function in custBotMessenger.Functions)
             {
-                function.FunctionName = await _functionService.GetFunctionName(function.FunctionId, custBotMessenger.Language);
-                function.Description = await _functionService.GetFunctionDescription(function.FunctionId, custBotMessenger.Language);
+                function.FunctionName = await _functionService.GetFunctionName(function.FunctionId, language);
+                function.Description = await _functionService.GetFunctionDescription(function.FunctionId, language);
             }
 
             return custBotMessenger;

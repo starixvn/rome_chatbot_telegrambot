@@ -17,7 +17,7 @@ namespace TelegramBot.Client.Services
 
         Task<Result> UnlinkAsync(int custId, int subAccId, string ip = "");
 
-        Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId);
+        Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId, string language);
 
         Task<Result> UpdateUserFunction(int userId, int botId, Function function, int creator, string ip = "");
 
@@ -34,8 +34,7 @@ namespace TelegramBot.Client.Services
         }
 
         public async Task<string> GenerateStartUriAsync(int custId, int subAccId, string system, string language)
-        {
-            return await httpClient.PostAsStringAsync(
+            => await httpClient.PostAsStringAsync(
                 $"setting/start-uri",
                 new
                 {
@@ -44,11 +43,9 @@ namespace TelegramBot.Client.Services
                     system,
                     language
                 });
-        }
 
         public async Task<Result> StartAsync(long messengerBotId, long chatId, string message, string ip = "")
-        {
-            return await httpClient.PostAsJsonAsync<Result>(
+            => await httpClient.PostAsJsonAsync<Result>(
                 $"setting/start",
                 new
                 {
@@ -57,22 +54,18 @@ namespace TelegramBot.Client.Services
                     message,
                     ip
                 });
-        }
 
         public async Task<Result> ResendOtpAsync(int custId, int subAccId)
-        {
-            return await httpClient.PostAsJsonAsync<Result>(
+            => await httpClient.PostAsJsonAsync<Result>(
                 $"setting/resend-otp",
                 new
                 {
                     custId,
                     subAccId
                 });
-        }
 
         public async Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string username, string ip = "")
-        {
-            return await httpClient.PostAsJsonAsync<Result>(
+            => await httpClient.PostAsJsonAsync<Result>(
                 $"setting/link",
                 new
                 {
@@ -83,11 +76,9 @@ namespace TelegramBot.Client.Services
                     username,
                     ip
                 });
-        }
 
         public async Task<Result> UnlinkAsync(int custId, int subAccId, string ip = "")
-        {
-            return await httpClient.PostAsJsonAsync<Result>(
+            => await httpClient.PostAsJsonAsync<Result>(
                 $"setting/unlink",
                 new
                 {
@@ -95,18 +86,16 @@ namespace TelegramBot.Client.Services
                     subAccId,
                     ip
                 });
-        }
 
-        public async Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId)
-        {
-            return await httpClient.PostAsJsonAsync<CustBotMessenger>(
+        public async Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId, string language)
+            => await httpClient.PostAsJsonAsync<CustBotMessenger>(
                 $"setting/custBotMessenger",
                 new
                 {
                     custId,
-                    subAccId
+                    subAccId,
+                    language
                 });
-        }
 
         public async Task<Result> UpdateUserFunction(int userId, int botId, Function function, int creator, string ip = "")
             => await httpClient.PostAsJsonAsync<Result>(
