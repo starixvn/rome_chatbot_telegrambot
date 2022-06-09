@@ -142,6 +142,10 @@ public sealed class NotificationSenderJob : IJob
                     await Task.Delay(sleepTime);
                 }
             }
+            else
+            {
+                await loggerService.Debug($"Invalid customer status CustId: {item.CustId} SubAccId: {item.SubAccId}");
+            }
         }
 
         return status;
