@@ -189,4 +189,62 @@ public sealed class NotificationSenderJob : IJob
             await loggerService.Error(jobName, environment, result.Message);
         }
     }
+
+    public static IEnumerable<Notification[]> GetBatches(IEnumerable<Notification> source, int count)
+    {
+        var hashset = new HashSet<int>(count);
+        var batch = new List<Notification>(count);
+        var leftOvers = new Queue<Notification>();
+
+        while (true)
+        {
+            foreach (var item in source)
+            {
+
+                if (hashset.Add(item.UserId))
+                {
+                    batch.Add(item);
+                }
+                else
+                {
+                    leftOvers.Enqueue(item);
+                }
+
+                while (batch.Count == count)
+                {
+                    yield return batch.ToArray();
+
+                    batch.Clear();
+                    hashset.Clear();
+
+                    while (leftOvers.Any() && batch.Count != count)
+                    {
+                        if (hashset.Add(leftOvers.Peek().NotificationId))
+                        {
+                            batch.Add(leftOvers.Dequeue());
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (batch.Any())
+            {
+                yield return batch.ToArray();
+            }
+
+            if (!leftOvers.Any())
+            {
+                break;
+            }
+
+            source = leftOvers.ToList();
+            hashset.Clear();
+            batch.Clear();
+            leftOvers.Clear();
+        }
+    }
 }

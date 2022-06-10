@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TelegramBot.Infrastructure.Command.Models;
 
 namespace TelegramBot.WebApi.Params
 {

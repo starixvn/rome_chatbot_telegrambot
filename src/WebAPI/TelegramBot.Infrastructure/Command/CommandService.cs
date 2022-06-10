@@ -227,7 +227,7 @@ namespace TelegramBot.Infrastructure.Command
             {
                 var splittedCommand = SplitCommand(callbackData.Cmd);
                 var userResponse = splittedCommand.Item2?[0];
-                await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success));
+                await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success, functionId: currentAction.FunctionId));
                 await actionService.InsertUserAction(account.UserId, currentAction.ActionId, userResponse);
             }
             else
@@ -237,7 +237,8 @@ namespace TelegramBot.Infrastructure.Command
                     CommonId.BotUserId,
                     messenger,
                     await actionService.GetActionName(currentAction, account),
-                    MessageSendStatus.Success));
+                    MessageSendStatus.Success,
+                    functionId: currentAction.FunctionId));
                 await actionService.InsertUserAction(account.UserId, currentAction.ActionId, string.Empty);
             }
 
