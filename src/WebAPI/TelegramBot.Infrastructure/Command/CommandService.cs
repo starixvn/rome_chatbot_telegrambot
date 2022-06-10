@@ -121,11 +121,14 @@ namespace TelegramBot.Infrastructure.Command
         private static bool IsCommand(string userResponse)
             => userResponse.StartsWith("/");
 
+        private static Function.Models.BotFunction GetCommandFunction(CustBotAccount account, string command)
+            => account.Functions.FirstOrDefault(f => !string.IsNullOrEmpty(f.Command) && command.IndexOf(f.Command, StringComparison.OrdinalIgnoreCase) == 0);
+
         private async Task HandleOtherResponse(CustBotAccount account, Messenger messenger, string userResponse)
         {
             if (IsCommand(userResponse))
             {
-                var function = await functionService.GetFunctionByCommand(userResponse);
+                var function = GetCommandFunction(account, userResponse);
                 if (function == null)
                 {
                     await SendNotRecognizedCommandMessage(account, messenger);

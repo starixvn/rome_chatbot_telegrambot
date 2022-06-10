@@ -231,7 +231,7 @@ namespace TelegramBot.Infrastructure.Action
 
         private async Task<IEnumerable<BotAction>> GetAllActions(string system)
         {
-            var hiddenActions = webAPIConfiguration.HiddenActionsBySystem[system] ?? Array.Empty<short>();
+            var hiddenActions = webAPIConfiguration.HiddenActionsBySystem.ContainsKey(system) ? webAPIConfiguration.HiddenActionsBySystem[system] : Array.Empty<short>();
 
             var actions = await cacheService.GetOrSetAsync(
                 AllActionsCacheKey,
