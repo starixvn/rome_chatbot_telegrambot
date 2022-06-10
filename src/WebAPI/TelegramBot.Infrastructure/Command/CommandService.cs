@@ -74,20 +74,56 @@ namespace TelegramBot.Infrastructure.Command
             var account = await settingService.GetCustBotAccount(chatId, bot.BotId);
             Messenger messenger = new(bot.BotId, chatId, bot.System);
 
-            await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, message, MessageSendStatus.Success));
-
-            var action = userResponse.Split(' ')[0] switch
+            if (IsCommand(userResponse))
             {
-                "/help" => HandleHelpCommand(account, messenger, bot.Name),
-                "/menu" => SendMainMenuMessage(account, messenger),
-                "/stop" => HandleStopCommand(account, messenger, bot.Name),
-                "/unlink" => HandleStopCommand(account, messenger, bot.Name),
-                "/settings" => HandleSettingsCommand(account, messenger),
-                "/setting" => HandleSettingsCommand(account, messenger),
-                _ => HandleOtherResponse(account, messenger, userResponse)
-            };
+                var function = GetCommandFunction(account, userResponse);
 
-            await action;
+                await Task.Run(() => messageLogger.LogMessage(
+                    account.UserId,
+                    CommonId.BotUserId,
+                    messenger,
+                    message,
+                    MessageSendStatus.Success,
+                    functionId: function != null ? function.FunctionId : (short)0));
+
+                var handle = userResponse.Split(' ')[0] switch
+                {
+                    "/help" => HandleHelpCommand(account, messenger, bot.Name),
+                    "/menu" => SendMainMenuMessage(account, messenger),
+                    "/stop" => HandleStopCommand(account, messenger, bot.Name),
+                    "/unlink" => HandleStopCommand(account, messenger, bot.Name),
+                    "/settings" => HandleSettingsCommand(account, messenger),
+                    "/setting" => HandleSettingsCommand(account, messenger),
+                    _ => HandleOtherCommand(account, messenger, userResponse)
+                };
+
+                await handle;
+            }
+            else
+            {
+                await HandleOtherResponse(account, messenger, userResponse);
+            }
+        }
+
+        private async Task HandleOtherCommand(CustBotAccount account, Messenger messenger, string command)
+        {
+            var function = GetCommandFunction(account, command);
+
+            if (function == null)
+            {
+                await SendNotRecognizedCommandMessage(account, messenger);
+                return;
+            }
+
+            var action = await actionService.GetActionByCommand(command, messenger.System);
+            if (action != null)
+            {
+                await actionService.InsertUserAction(account.UserId, action.ActionId, string.Empty);
+                await SendNextActionsMessage(account, messenger, action);
+                return;
+            }
+
+            await HandleCommand(account, messenger, command, function.FunctionId);
         }
 
         private async Task HandleSettingsCommand(CustBotAccount account, Messenger messenger)
@@ -126,35 +162,17 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task HandleOtherResponse(CustBotAccount account, Messenger messenger, string userResponse)
         {
-            if (IsCommand(userResponse))
-            {
-                var function = GetCommandFunction(account, userResponse);
-                if (function == null)
-                {
-                    await SendNotRecognizedCommandMessage(account, messenger);
-                    return;
-                }
-
-                var action = await actionService.GetActionByCommand(userResponse, messenger.System);
-                if (action != null)
-                {
-                    await actionService.InsertUserAction(account.UserId, action.ActionId, string.Empty);
-                    await SendNextActionsMessage(account, messenger, action);
-                    return;
-                }
-
-                await HandleCommand(account, messenger, userResponse, function.FunctionId);
-                return;
-            }
-
             var userActions = await actionService.GetUserActions(account.UserId);
             var lastUserAction = userActions.LastOrDefault();
             var currentAction = lastUserAction != null ? await actionService.GetActionById(lastUserAction.ActionId, messenger.System) : null;
             if (currentAction == null)
             {
+                await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success));
                 await SendNotRecognizedCommandMessage(account, messenger);
                 return;
             }
+
+            await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success, functionId: currentAction.FunctionId));
 
             if (currentAction.Type == ActionTypes.Message)
             {
