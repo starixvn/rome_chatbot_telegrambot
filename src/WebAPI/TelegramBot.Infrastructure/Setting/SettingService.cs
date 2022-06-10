@@ -117,6 +117,11 @@ namespace TelegramBot.Infrastructure.Setting
 
         public async Task<Result> Link(int botId, int custId, int subAccId, string otp, string username, string ip)
         {
+            if ((await GetVerifyingMessenger(custId, subAccId)) == null)
+            {
+                return new Result(ErrorCodes.MessengerNotFound, "Messenger not found");
+            }
+
             var countCacheKey = $"otp_count_{custId}_{subAccId}";
             var failedCount = await _cacheService.GetAsync<int>(countCacheKey);
             var valueCacheKey = $"otp_value_{custId}_{subAccId}";
@@ -270,9 +275,8 @@ namespace TelegramBot.Infrastructure.Setting
         private async Task SendWelcomeMessage(int custId, int subAccId, string username)
         {
             var messenger = await GetCustBotMessenger(custId, subAccId);
-            var account = await GetCustBotAccount(messenger.ChatId, messenger.BotId);
             var text = _messageBuilder.BuildWelcomeMessage(messenger.Language, username);
-            var rootActionButtons = await _actionService.BuildRootActionButtons(account, messenger.System);
+            var rootActionButtons = await _actionService.BuildRootActionButtons(await GetCustBotAccount(messenger.ChatId, messenger.BotId), messenger.System);
             var message = await _messageBuilder.BuildMessage(text, rootActionButtons, messenger.Language);
             await _messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), message);
         }
