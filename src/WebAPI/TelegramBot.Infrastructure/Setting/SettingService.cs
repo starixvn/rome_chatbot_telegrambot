@@ -106,6 +106,10 @@ namespace TelegramBot.Infrastructure.Setting
             var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var custBotMessenger = await GetVerifyingMessenger(custId, subAccId);
+            if (custBotMessenger == null)
+            {
+                return new Result(ErrorCodes.MessengerNotFound, "Messenger not found");
+            }
             var message = _messageBuilder.BuildOTPMessage(custBotMessenger.Language, otp);
             await _messageSender.SendMessage(custBotMessenger.UserId, new Messenger(custBotMessenger.BotId, custBotMessenger.ChatId), message);
             return Result.CreateSuccessfulResult();
