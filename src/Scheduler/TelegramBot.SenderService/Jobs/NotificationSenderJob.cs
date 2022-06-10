@@ -19,6 +19,8 @@ public sealed class NotificationSenderJob : IJob
     private readonly AppSettings appSettings;
     private readonly IMessageSender messageSender;
 
+    private const int SleepTime = 1000;
+
     public NotificationSenderJob(
         IMaintenanceService maintenanceService,
         ILoggerService loggerService,
@@ -67,7 +69,7 @@ public sealed class NotificationSenderJob : IJob
                 return;
             }
 
-            var notificationStatus = await ChunkAndSendNotifications(notifications, notificationChunkSize, environment);
+            var notificationStatus = await SendNotificationByBatch(notifications, notificationChunkSize, environment);
 
             await UpdateNotificationStatus(notificationStatus, lastNotifications, jobName, environment);
         }
@@ -104,73 +106,64 @@ public sealed class NotificationSenderJob : IJob
         return await customerService.GetCustomerStatus(customerStatusParams);
     }
 
-    private async Task<IEnumerable<NotificationStatusParam>> ChunkAndSendNotifications(IEnumerable<Notification> notifications, int notificationChunkSize, string environment)
+    private async Task<IEnumerable<NotificationStatusParam>> SendNotificationByBatch(IEnumerable<Notification> notifications, int notificationChunkSize, string environment)
     {
         var status = new List<NotificationStatusParam>();
         var customerStatus = await GetCustomerStatus(notifications);
 
-        var sleepTime = 1000 / notificationChunkSize;
-        var chunkNotifications = notifications.Chunk(notificationChunkSize);
-
-        foreach (var notificationArray in chunkNotifications)
+        var batches = GetBatches(notifications, notificationChunkSize);
+        foreach (var notificationArray in batches)
         {
-
-            status.AddRange(await SendNotifications(notificationArray, customerStatus, sleepTime, environment));
+            status.AddRange(await SendNotifications(notificationArray, customerStatus, environment));
+            await Task.Delay(SleepTime);
         }
 
         return status;
     }
 
-    private async Task<IEnumerable<NotificationStatusParam>> SendNotifications(Notification[] notifications, IEnumerable<CustomerStatus> customerStatus, int sleepTime, string environment)
+    private async Task<IEnumerable<NotificationStatusParam>> SendNotifications(
+        Notification[] notifications,
+        IEnumerable<CustomerStatus> customerStatus,
+        string environment)
     {
         var status = new List<NotificationStatusParam>();
-
-        foreach (var item in notifications)
+        await loggerService.Debug(string.Join(", ", notifications.Select(x => x.UserId)));
+        Parallel.ForEach(notifications, async (item) =>
         {
             appSettings.FunctionPermissions.TryGetValue(item.FunctionKey, out var subAccPermission);
             var custStatus = customerStatus.FirstOrDefault(status => status.CustId == item.CustId && status.SubAccId == item.SubAccId);
-            if (custStatus != null)
+            if (custStatus == null)
             {
-                if (custStatus.IsInvalid(subAccPermission, out var reason))
+                await loggerService.Debug($"Invalid customer status CustId: {item.CustId} SubAccId: {item.SubAccId}");
+                return;
+            }
+
+            if (custStatus.IsInvalid(subAccPermission, out var reason))
+            {
+                status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Invalid, reason));
+                return;
+            }
+
+            try
+            {
+                await messageSender.SendNotification(item);
+                status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Completed));
+            }
+            catch (Exception ex)
+            {
+                if (ex is ApiRequestException apiRequestException
+                && TelegramError.IgnoredErrorCodes.Contains(apiRequestException.ErrorCode))
                 {
-                    status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Invalid, reason));
+                    status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Fail, ex.Message));
                 }
                 else
                 {
-                    var result = await NotifyToUser(item, environment);
-                    status.Add(new NotificationStatusParam(item.NotificationId, result.IsFailed ? NotificationStatus.Fail : NotificationStatus.Completed, result.Message));
-                    await Task.Delay(sleepTime);
+                    await messageSender.RetrySendNotification(item, environment);
                 }
             }
-            else
-            {
-                await loggerService.Debug($"Invalid customer status CustId: {item.CustId} SubAccId: {item.SubAccId}");
-            }
-        }
+        });
 
         return status;
-    }
-
-    private async Task<Result> NotifyToUser(Notification notification, string environment)
-    {
-        try
-        {
-            await messageSender.SendNotification(notification);
-
-            return Result.CreateSuccessfulResult();
-        }
-        catch (Exception ex)
-        {
-            if (ex is ApiRequestException apiRequestException && TelegramError.IgnoredErrorCodes.Contains(apiRequestException.ErrorCode))
-            {
-                return new Result(apiRequestException.ErrorCode, apiRequestException.Message);
-            }
-            else
-            {
-                await messageSender.RetrySendNotification(notification, environment);
-                return Result.CreateSuccessfulResult();
-            }
-        }
     }
 
     private async Task UpdateNotificationStatus(
@@ -219,7 +212,7 @@ public sealed class NotificationSenderJob : IJob
 
                     while (leftOvers.Any() && batch.Count != count)
                     {
-                        if (hashset.Add(leftOvers.Peek().NotificationId))
+                        if (hashset.Add(leftOvers.Peek().UserId))
                         {
                             batch.Add(leftOvers.Dequeue());
                         }
