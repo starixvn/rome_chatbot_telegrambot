@@ -128,13 +128,15 @@ public sealed class NotificationSenderJob : IJob
     {
         var status = new List<NotificationStatusParam>();
         await loggerService.Debug(string.Join(", ", notifications.Select(x => x.UserId)));
-        Parallel.ForEach(notifications, async (item) =>
+        var tasks = notifications.Select(async item =>
         {
             appSettings.FunctionPermissions.TryGetValue(item.FunctionKey, out var subAccPermission);
             var custStatus = customerStatus.FirstOrDefault(status => status.CustId == item.CustId && status.SubAccId == item.SubAccId);
             if (custStatus == null)
             {
-                await loggerService.Debug($"Invalid customer status CustId: {item.CustId} SubAccId: {item.SubAccId}");
+                var message = $"Invalid customer status CustId: {item.CustId} SubAccId: {item.SubAccId}";
+                await loggerService.Debug(message);
+                status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Invalid, message));
                 return;
             }
 
@@ -162,6 +164,8 @@ public sealed class NotificationSenderJob : IJob
                 }
             }
         });
+
+        await Task.WhenAll(tasks);
 
         return status;
     }
