@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using TelegramBot.Infrastructure.Function.Models;
+﻿using TelegramBot.Infrastructure.Function.Models;
 
 namespace TelegramBot.Infrastructure.Setting.Models
 {
@@ -15,8 +13,6 @@ namespace TelegramBot.Infrastructure.Setting.Models
         public byte CustomerLevel { get; set; }
 
         public string Language { get; set; }
-
-        public bool IsSubAccount => SubAccId > 0;
 
         public IEnumerable<BotFunction> Functions { get; set; }
     }

@@ -4,7 +4,7 @@ using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Action.Models;
 using TelegramBot.Infrastructure.Action.Validators;
-using TelegramBot.Infrastructure.Bot;
+using TelegramBot.Infrastructure.Bot.Models;
 using TelegramBot.Infrastructure.Command.Models;
 using TelegramBot.Infrastructure.Function.Constants;
 using TelegramBot.Infrastructure.Function.Handlers;
@@ -20,9 +20,9 @@ namespace TelegramBot.Infrastructure.Command
 {
     public interface ICommandService
     {
-        Task HandleUserReplyByText(long messengerBotId, long chatId, string message);
+        Task HandleUserReplyByText(BotEntity bot, long chatId, string message);
 
-        Task HandleUserReplyByButton(long messengerBotId, long chatId, int messageId, string callbackId, CallbackData callbackData);
+        Task HandleUserReplyByButton(BotEntity bot, long chatId, int messageId, string callbackId, CallbackData callbackData);
 
         Task SendMainMenuMessage(CustBotAccount account, Messenger messenger, int messageId = 0);
     }
@@ -33,7 +33,6 @@ namespace TelegramBot.Infrastructure.Command
         private readonly IMessageSender messageSender;
         private readonly IMessageLogger messageLogger;
         private readonly ISettingService settingService;
-        private readonly IBotService botService;
         private readonly IActionService actionService;
         private readonly IFunctionService functionService;
         private readonly IFunctionHandlerFactory functionHandlerFactory;
@@ -44,7 +43,6 @@ namespace TelegramBot.Infrastructure.Command
             IMessageSender messageSender,
             IMessageLogger messageLogger,
             ISettingService settingService,
-            IBotService botService,
             IActionService actionService,
             IFunctionService functionService,
             IFunctionHandlerFactory functionHandlerFactory,
@@ -54,14 +52,13 @@ namespace TelegramBot.Infrastructure.Command
             this.messageSender = messageSender;
             this.messageLogger = messageLogger;
             this.settingService = settingService;
-            this.botService = botService;
             this.actionService = actionService;
             this.functionService = functionService;
             this.functionHandlerFactory = functionHandlerFactory;
             this.actionValidatorFactory = actionValidatorFactory;
         }
 
-        public async Task HandleUserReplyByText(long messengerBotId, long chatId, string message)
+        public async Task HandleUserReplyByText(BotEntity bot, long chatId, string message)
         {
             var userResponse = WebUtility.HtmlEncode(
                 string.Join(
@@ -70,22 +67,12 @@ namespace TelegramBot.Infrastructure.Command
                         default(string[]),
                         StringSplitOptions.RemoveEmptyEntries)));
 
-            var bot = await botService.GetAsync(messengerBotId);
             var account = await settingService.GetCustBotAccount(chatId, bot.BotId);
             Messenger messenger = new(bot.BotId, chatId, bot.System);
 
             if (IsCommand(userResponse))
             {
                 var function = GetCommandFunction(account, userResponse);
-
-                await Task.Run(() => messageLogger.LogMessage(
-                    account.UserId,
-                    CommonId.BotUserId,
-                    messenger,
-                    message,
-                    MessageSendStatus.Success,
-                    functionId: function != null ? function.FunctionId : (short)0));
-
                 var handle = userResponse.Split(' ')[0] switch
                 {
                     "/help" => HandleHelpCommand(account, messenger, bot.Name),
@@ -97,7 +84,9 @@ namespace TelegramBot.Infrastructure.Command
                     _ => HandleOtherCommand(account, messenger, userResponse)
                 };
 
-                await handle;
+                await Task.WhenAll(
+                    messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, message, MessageSendStatus.Success, functionId: function != null ? function.FunctionId : (short)0),
+                    handle);
             }
             else
             {
@@ -165,7 +154,7 @@ namespace TelegramBot.Infrastructure.Command
             var userActions = await actionService.GetUserActions(account.UserId);
             var lastUserAction = userActions.LastOrDefault();
             var currentAction = lastUserAction != null ? await actionService.GetActionById(lastUserAction.ActionId, messenger.System) : null;
-            if (currentAction == null)
+            if (lastUserAction == null || currentAction == null)
             {
                 await Task.WhenAll(
                     messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success),
@@ -207,9 +196,8 @@ namespace TelegramBot.Infrastructure.Command
 
         }
 
-        public async Task HandleUserReplyByButton(long messengerBotId, long chatId, int messageId, string callbackId, CallbackData callbackData)
+        public async Task HandleUserReplyByButton(BotEntity bot, long chatId, int messageId, string callbackId, CallbackData callbackData)
         {
-            var bot = await botService.GetAsync(messengerBotId);
             var account = await settingService.GetCustBotAccount(chatId, bot.BotId);
             Messenger messenger = new(bot.BotId, chatId, bot.System);
 
@@ -255,7 +243,7 @@ namespace TelegramBot.Infrastructure.Command
                 {
                     await Task.WhenAll(
                         messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success, functionId: FunctionIds.Settings),
-                        HandleSettingsCommand(account, messenger, callbackData.Cmd, messageId, callbackId));
+                        HandleSettingsCommand(bot, account, messenger, callbackData.Cmd, messageId, callbackId));
                 }
                 else
                 {
@@ -308,13 +296,12 @@ namespace TelegramBot.Infrastructure.Command
                 messageId: messageId);
         }
 
-        private async Task HandleSettingsCommand(CustBotAccount account, Messenger messenger, string compiledCommand, int messageId, string callbackId)
+        private async Task HandleSettingsCommand(BotEntity bot, CustBotAccount account, Messenger messenger, string compiledCommand, int messageId, string callbackId)
         {
             var splittedCommand = SplitCommand(compiledCommand);
             var parameter = splittedCommand.Item2?[0];
             if (parameter == "stop")
             {
-                var bot = await botService.GetAsync(messenger.BotId);
                 await HandleStopCommand(account, messenger, bot.Name, messageId);
                 return;
             }

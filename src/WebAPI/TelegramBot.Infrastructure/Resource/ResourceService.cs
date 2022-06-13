@@ -1,5 +1,6 @@
 using Fanex.Caching;
 using Fanex.Data.Repository;
+using TelegramBot.Infrastructure.Resource.constants;
 using TelegramBot.Infrastructure.Resource.Criteria;
 using TelegramBot.Infrastructure.Resource.Models;
 using TelegramBot.Infrastructure.Shared.Caching;
@@ -9,6 +10,8 @@ namespace TelegramBot.Infrastructure.Resource
 {
     public interface IResourceService
     {
+        Task<string> GetActionDescription(short actionId, string language);
+
         Task<BotResource> GetResource(string key, string type, string language);
     }
 
@@ -23,6 +26,9 @@ namespace TelegramBot.Infrastructure.Resource
             cacheService = cacheServiceFactory.Get();
             this.dynamicRepository = dynamicRepository;
         }
+
+        public async Task<string> GetActionDescription(short actionId, string language)
+            => (await GetResource(actionId.ToString(), ResourceType.ActionDescription, language))?.Value;
 
         public async Task<BotResource> GetResource(string key, string type, string language)
         {

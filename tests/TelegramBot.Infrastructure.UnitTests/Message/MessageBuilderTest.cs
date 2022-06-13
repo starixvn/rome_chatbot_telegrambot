@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using NSubstitute;
-using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Message.Models;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.Models;
+using TelegramBot.Infrastructure.Setting;
 using Xunit;
 
 namespace TelegramBot.Infrastructure.UnitTests.Message;
@@ -17,6 +17,7 @@ public class MessageBuilderTest
 {
     private readonly MessageBuilder messageBuilder;
     private readonly IResourceService resourceService;
+
     public MessageBuilderTest()
     {
         resourceService = Substitute.For<IResourceService>();
@@ -98,22 +99,6 @@ public class MessageBuilderTest
             "Sorry, the system is under maintenance from 20/3/2020 to 20/3/2030 GMT+8. Please come back later."
         };
         var result = messageBuilder.BuildUnderMaintenanceMessage("20/3/2020", "20/3/2030");
-
-        Assert.Equal(string.Join("\n", expect), result);
-    }
-
-    [Fact]
-    public void BuildGeneralCommandsHelpMessage_Always_ReturnGeneralCommandsHelpMessage()
-    {
-        var expect = new List<string>
-        {
-            "You can operate Telegram using following commands:\n",
-            "/menu - Open Main Menu of Telegram",
-            "/help - List all commands",
-            "/settings, /setting - Open Settings Menu",
-            "/stop, /unlink - Unlink Telegram",
-        };
-        var result = messageBuilder.BuildGeneralCommandsHelpMessage("EN", "Telegram");
 
         Assert.Equal(string.Join("\n", expect), result);
     }

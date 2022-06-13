@@ -1,10 +1,12 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Message.Models;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.constants;
+using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Resources;
 
@@ -23,8 +25,6 @@ namespace TelegramBot.Infrastructure.Message
         string BuildTelegramAccountAlreadyLinkedMessage(string language);
 
         string BuildOTPMessage(string language, string otp);
-
-        string BuildGeneralCommandsHelpMessage(string language, string botName);
 
         string BuildMenuMessage(string language);
 
@@ -65,6 +65,8 @@ namespace TelegramBot.Infrastructure.Message
         string BuildMainMenuButtonText(string language);
 
         string BuildBackToMainMenuButtonText(string language);
+
+        public string BuildGeneralCommandsHelpMessage(string language, string botName);
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -79,7 +81,9 @@ namespace TelegramBot.Infrastructure.Message
         private readonly IMessageFormatter messageFormatter;
         private readonly IResourceService resourceService;
 
-        public MessageBuilder(IMessageFormatter messageFormatter, IResourceService resourceService)
+        public MessageBuilder(
+            IMessageFormatter messageFormatter,
+            IResourceService resourceService)
         {
             this.messageFormatter = messageFormatter;
             this.resourceService = resourceService;
@@ -134,7 +138,6 @@ namespace TelegramBot.Infrastructure.Message
                 .Append(messageFormatter.NewLine())
                 .Append(messageFormatter.NewLine())
                 .Append(generalCommands);
-
 
             return stringBuilder.ToString();
         }
