@@ -167,8 +167,9 @@ namespace TelegramBot.Infrastructure.Command
             var currentAction = lastUserAction != null ? await actionService.GetActionById(lastUserAction.ActionId, messenger.System) : null;
             if (currentAction == null)
             {
-                await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success));
-                await SendNotRecognizedCommandMessage(account, messenger);
+                await Task.WhenAll(
+                    messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success),
+                    SendNotRecognizedCommandMessage(account, messenger));
                 return;
             }
 
@@ -214,26 +215,25 @@ namespace TelegramBot.Infrastructure.Command
 
             if (callbackData.IsStopUsingChatbot)
             {
-                await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, messageBuilder.BuildStopUsingChatbotMessage(account.Language), MessageSendStatus.Success));
-                await settingService.Unlink(account.CustId, account.SubAccId, string.Empty);
+                await Task.WhenAll(
+                    messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, messageBuilder.BuildStopUsingChatbotMessage(account.Language), MessageSendStatus.Success),
+                    settingService.Unlink(account.CustId, account.SubAccId, string.Empty));
                 return;
             }
 
             if (callbackData.IsMainMenu)
             {
-                await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, messageBuilder.BuildMainMenuButtonText(account.Language), MessageSendStatus.Success));
-                await SendMainMenuMessage(account, messenger);
+                await Task.WhenAll(
+                    messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, messageBuilder.BuildMainMenuButtonText(account.Language), MessageSendStatus.Success),
+                    SendMainMenuMessage(account, messenger));
                 return;
             }
 
             if (callbackData.Id == ActionIds.MainMenu)
             {
-                await Task.Run(() => messageLogger.LogMessage(
-                    account.UserId,
-                    CommonId.BotUserId,
-                    messenger,
-                    messageBuilder.BuildBackToMainMenuButtonText(account.Language), MessageSendStatus.Success));
-                await SendMainMenuMessage(account, messenger, messageId);
+                await Task.WhenAll(
+                    messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, messageBuilder.BuildBackToMainMenuButtonText(account.Language), MessageSendStatus.Success),
+                    SendMainMenuMessage(account, messenger, messageId));
                 return;
             }
 
@@ -244,40 +244,31 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
-            if (currentAction.Type == ActionTypes.Downline)
-            {
-                var splittedCommand = SplitCommand(callbackData.Cmd);
-                var userResponse = splittedCommand.Item2?[0];
-                await Task.Run(() => messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success, functionId: currentAction.FunctionId));
-                await actionService.InsertUserAction(account.UserId, currentAction.ActionId, userResponse);
-            }
-            else
-            {
-                await Task.Run(async () => messageLogger.LogMessage(
-                    account.UserId,
-                    CommonId.BotUserId,
-                    messenger,
-                    await actionService.GetActionName(currentAction, account),
-                    MessageSendStatus.Success,
-                    functionId: currentAction.FunctionId));
-                await actionService.InsertUserAction(account.UserId, currentAction.ActionId, string.Empty);
-            }
+            var userResponse = currentAction.Type == ActionTypes.Downline ? SplitCommand(callbackData.Cmd).Item2?[0] : (await actionService.GetActionName(currentAction, account));
+            await actionService.InsertUserAction(account.UserId, currentAction.ActionId, userResponse);
 
             if (currentAction.IsEndAction && !string.IsNullOrEmpty(callbackData.Cmd))
             {
                 var parentAction = await actionService.GetActionById(currentAction.ParentId, messenger.System);
-                if (parentAction != null && parentAction.FunctionId == FunctionIds.Settings)
+                var functionId = parentAction != null ? parentAction.FunctionId : currentAction.FunctionId;
+                if (functionId == FunctionIds.Settings)
                 {
-                    await HandleSettingsCommand(account, messenger, callbackData.Cmd, messageId, callbackId);
+                    await Task.WhenAll(
+                        messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success, functionId: FunctionIds.Settings),
+                        HandleSettingsCommand(account, messenger, callbackData.Cmd, messageId, callbackId));
                 }
                 else
                 {
-                    await HandleCommand(account, messenger, callbackData.Cmd, currentAction.FunctionId, messageId);
+                    await Task.WhenAll(
+                        messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success, functionId: FunctionIds.Settings),
+                        HandleCommand(account, messenger, callbackData.Cmd, currentAction.FunctionId, messageId));
                 }
             }
             else
             {
-                await SendNextActionsMessage(account, messenger, currentAction, messageId);
+                await Task.WhenAll(
+                    messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success, functionId: currentAction.FunctionId),
+                    SendNextActionsMessage(account, messenger, currentAction, messageId));
             }
         }
 
