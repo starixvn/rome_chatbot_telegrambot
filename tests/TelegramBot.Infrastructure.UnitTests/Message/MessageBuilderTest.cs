@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NSubstitute;
-using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Message.Models;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.Models;
-using TelegramBot.Infrastructure.Setting;
 using Xunit;
 
 namespace TelegramBot.Infrastructure.UnitTests.Message;
@@ -95,8 +93,8 @@ public class MessageBuilderTest
         var expect = new List<string>
         {
             "Sorry, the system is under maintenance from 20/3/2020 to 20/3/2030 GMT+8. Please come back later.",
-            "Sorry, the system is under maintenance from 20/3/2020 to 20/3/2030 GMT+8. Please come back later.",
-            "Sorry, the system is under maintenance from 20/3/2020 to 20/3/2030 GMT+8. Please come back later."
+            "很抱歉，伺服器正在進行維護，維護時間從20/3/2020至20/3/2030 (GMT+8)。請稍候再試。",
+            "很抱歉，服务器正在维护中，维护时间从20/3/2020至20/3/2030 (GMT+8)。请稍后访问。"
         };
         var result = messageBuilder.BuildUnderMaintenanceMessage("20/3/2020", "20/3/2030");
 

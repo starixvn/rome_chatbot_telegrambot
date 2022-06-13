@@ -37,17 +37,18 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             webAPIConfiguration = Substitute.For<WebAPIConfiguration>();
             messageBuilder = Substitute.For<IMessageBuilder>();
             telegramFormatter = new TelegramFormatter();
-            
+
             handler = new BalanceInfoFunctionHandler(messageBuilder, telegramFormatter, customerService, balanceInfoService, webAPIConfiguration);
 
         }
 
-        private string BuildTotalACT_CLOSED_SUS(IEnumerable<TotalDownline> totalDownline, CustomerLevel level)
+        private static string BuildTotalACT_CLOSED_SUS(IEnumerable<TotalDownline> totalDownline, CustomerLevel level)
         {
             var downline = totalDownline.ToList().Find(e => e.RoleId == (byte)level);
             return downline == null ? "0/0/0" : $"{downline.TotalActive}/{downline.TotalClosed}/{downline.TotalSuspended}";
         }
-        public Dictionary<string, string> BuildMasterDownLineUsernameMessage(DownlineBalance bal, string lang)
+
+        public static Dictionary<string, string> BuildMasterDownLineUsernameMessage(DownlineBalance bal, string lang)
         {
             return new Dictionary<string, string>
             {
@@ -66,7 +67,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             };
         }
 
-        public Dictionary<string, string> BuildAgentDownLineUsernameMessage(DownlineBalance bal, string lang)
+        public static Dictionary<string, string> BuildAgentDownLineUsernameMessage(DownlineBalance bal, string lang)
         {
             return new Dictionary<string, string>
             {
@@ -85,7 +86,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             };
         }
 
-        public Dictionary<string, string> BuildMemberDownLineUsernameMessage(DownlineBalance bal, string lang)
+        public static Dictionary<string, string> BuildMemberDownLineUsernameMessage(DownlineBalance bal, string lang)
         {
             return new Dictionary<string, string>
             {
@@ -112,7 +113,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             };
             var parameters = new[] { "m" };
             var lang = request.Language;
-            var bal = new CustomerBalance("USD", 1, 2, 3, 4, 5, 6, 7, 8, 9, new CustomerOutstanding(10,11,12,13));
+            var bal = new CustomerBalance("USD", 1, 2, 3, 4, 5, 6, 7, 8, 9, new CustomerOutstanding(10, 11, 12, 13));
             balanceInfoService.GetMyBalance(request.CustId, request.CustomerLevel).Returns(bal);
 
             var dict = new Dictionary<string, string>
@@ -127,7 +128,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
                 {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}:", bal.GivenCredit.ToFormattedNumber()},
                 {$"{ResourceHelper.Get($"{(CustomerLevel)request.CustomerLevel - 1}Credit",lang)}:", bal.MemberCredit.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}:", bal.Outstanding.MemberOutstanding.ToFormattedNumber()},
-                {$"{ResourceHelper.Get($"{(CustomerLevel)request.CustomerLevel}OutStanding", lang)}:", bal.Outstanding.MasterOutstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get($"{(CustomerLevel)request.CustomerLevel}OutStanding", lang)}:", bal.Outstanding.AgentOutstanding.ToFormattedNumber()},
             };
             var textContainer = new List<string>();
             foreach (var keyValuePair in dict)
@@ -163,7 +164,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(downlineInfo));
             var downlineBalance = new DownlineBalance(1, 2, 3, 4, 5, 6, 7, 8, new List<TotalDownline>(), 9, 10,
                 new CustomerOutstanding(11, 12, 13, 14));
-            balanceInfoService.GetDownlineBalance(Arg.Any<int>(),Arg.Any<byte>()).Returns(downlineBalance);
+            balanceInfoService.GetDownlineBalance(Arg.Any<int>(), Arg.Any<byte>()).Returns(downlineBalance);
 
             var textContainer = new List<string>()
             {
@@ -197,33 +198,33 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             Assert.Equal(expect.Message, result.Message);
         }
 
-        
+
         [Fact]
         public async Task Handle_InValidRequestDownLineUserName_ReturnErrorMessage()
         {
             // Arrange
-            var requestAccount =  new CustBotAccount
+            var requestAccount = new CustBotAccount
             {
                 CustomerLevel = (byte)CustomerLevel.Super,
-                CustId = 1, 
-                Language = "CN" 
+                CustId = 1,
+                Language = "CN"
             };
-            
-            
+
+
             var downlineInfo = new DownlineInfo(1, (byte)CustomerLevel.Super, true);
             customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(downlineInfo));
             var downlineBalance = new DownlineBalance(1, 2, 3, 4, 5, 6, 7, 8, new List<TotalDownline>(), 9, 10,
                 new CustomerOutstanding(11, 12, 13, 14));
-            balanceInfoService.GetDownlineBalance(Arg.Any<int>(),Arg.Any<byte>()).Returns(downlineBalance);
-           
+            balanceInfoService.GetDownlineBalance(Arg.Any<int>(), Arg.Any<byte>()).Returns(downlineBalance);
+
             // Act
-            var result = await handler.Handle(requestAccount, new []{"Username"});
-            
+            var result = await handler.Handle(requestAccount, new[] { "Username" });
+
             // Assert
             Assert.Equal(1, result.Code);
             Assert.Equal("", result.Message);
         }
-        
+
         public static IEnumerable<object[]> RequestsRequestTopXBalance()
         {
             yield return new object[] { new CustBotAccount() { CustomerLevel = (byte)CustomerLevel.Super, CustId = 1, Language = "CN" }, new[] { "10" } };
@@ -266,14 +267,14 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             Assert.Equal(expect.Code, result.Code);
             Assert.Equal(expect.Message, result.Message);
         }
-        
-        
+
+
         public static IEnumerable<object[]> RequestTopXBalanceOutOfRange()
         {
-            yield return new object[] { new CustBotAccount(){CustomerLevel = (byte)CustomerLevel.Super, CustId = 1, Language = "CN"}, new []{"101"} };
-            yield return new object[] { new CustBotAccount(){CustomerLevel = (byte)CustomerLevel.Super, CustId = 1, Language = "CN"}, new []{"-1"} };
+            yield return new object[] { new CustBotAccount() { CustomerLevel = (byte)CustomerLevel.Super, CustId = 1, Language = "CN" }, new[] { "101" } };
+            yield return new object[] { new CustBotAccount() { CustomerLevel = (byte)CustomerLevel.Super, CustId = 1, Language = "CN" }, new[] { "-1" } };
         }
-        
+
         [Theory]
         [MemberData(nameof(RequestTopXBalanceOutOfRange))]
         public async Task Handle_RequestTopXBalanceOutOfRange_ReturnErrorResultMessage(CustBotAccount requestAccount, string[] parameters)
@@ -288,18 +289,18 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             webAPIConfiguration.BalanceMaxTopQuery = 100;
             messageBuilder.BuildInvalidNumerOfDownlineRange(requestAccount.Language, parameters[0], webAPIConfiguration.BalanceMaxTopQuery).Returns("MessageAlert");
 
-            
+
             var expect = new Result(1, "");
 
             // Act
             var result = await handler.Handle(requestAccount, parameters);
 
             // Assert
-            Assert.Equal( expect.Code, result.Code);
+            Assert.Equal(expect.Code, result.Code);
             Assert.Equal(expect.Message, result.Message);
-          
+
         }
-        
+
         [Fact]
         public async Task Handle_NullParameters_ReturnErrorResult()
         {
@@ -328,7 +329,5 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             // Assert
             Assert.Equal(topDownlineUsername, result);
         }
-        
-       
     }
 }

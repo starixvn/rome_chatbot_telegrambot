@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Alpha.API.Client.Models.BalanceInfo;
 using Alpha.API.Client.Services;
 using TelegramBot.Infrastructure.Message;
@@ -224,7 +220,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             return downline == null ? "0/0/0" : $"{downline.TotalActive}/{downline.TotalClosed}/{downline.TotalSuspended}";
         }
 
-        private static decimal GetOutStanding(CustomerOutstanding outstanding,byte customerLevel)
+        private static decimal GetOutStanding(CustomerOutstanding outstanding, byte customerLevel)
         {
             return (CustomerLevel)customerLevel switch
             {

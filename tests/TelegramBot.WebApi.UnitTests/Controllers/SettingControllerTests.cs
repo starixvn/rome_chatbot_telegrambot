@@ -73,7 +73,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
         public async Task GetCustBotMessengerAsync_Always_Calls(GetCustBotMessengerParam param, CustBotMessenger custBotMessenger)
         {
             // Arrange
-            _settingService.GetCustBotMessenger(param.CustId, param.SubAccId)
+            _settingService.GetCustBotMessenger(param.CustId, param.SubAccId, param.Language)
                 .Returns(Task.FromResult(custBotMessenger));
 
             // Act
