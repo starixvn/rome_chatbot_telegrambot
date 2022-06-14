@@ -213,7 +213,7 @@ namespace TelegramBot.Infrastructure.Command
             }
             else
             {
-                await SendNextActionsMessage(account, messenger, currentAction);
+                await SendNotRecognizedCommandMessage(account, messenger);
             }
         }
 
