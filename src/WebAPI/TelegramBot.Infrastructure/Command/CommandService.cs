@@ -38,6 +38,7 @@ namespace TelegramBot.Infrastructure.Command
         private readonly IFunctionService functionService;
         private readonly IFunctionHandlerFactory functionHandlerFactory;
         private readonly IActionValidatorFactory actionValidatorFactory;
+        private readonly ILogger logger;
 
         public CommandService(
             IMessageBuilder messageBuilder,
@@ -47,7 +48,8 @@ namespace TelegramBot.Infrastructure.Command
             IActionService actionService,
             IFunctionService functionService,
             IFunctionHandlerFactory functionHandlerFactory,
-            IActionValidatorFactory actionValidatorFactory)
+            IActionValidatorFactory actionValidatorFactory,
+            ILogger logger)
         {
             this.messageBuilder = messageBuilder;
             this.messageSender = messageSender;
@@ -57,6 +59,7 @@ namespace TelegramBot.Infrastructure.Command
             this.functionService = functionService;
             this.functionHandlerFactory = functionHandlerFactory;
             this.actionValidatorFactory = actionValidatorFactory;
+            this.logger = logger;
         }
 
         public async Task HandleUserReplyByText(BotEntity bot, long chatId, string message)
@@ -69,7 +72,7 @@ namespace TelegramBot.Infrastructure.Command
                         StringSplitOptions.RemoveEmptyEntries)));
 
             var account = await settingService.GetCustBotAccount(chatId, bot.BotId);
-            if (account == null)
+            if (IsAccountInvalid(account, chatId))
             {
                 return;
             }
@@ -154,6 +157,17 @@ namespace TelegramBot.Infrastructure.Command
         private static bool IsCommand(string userResponse)
             => userResponse.StartsWith("/");
 
+        private bool IsAccountInvalid(CustBotAccount account, long chatId)
+        {
+            if (account == null)
+            {
+                logger.Info($"ChatId: {chatId} doesn't exist");
+                return true;
+            }
+
+            return false;
+        }
+
         private static Function.Models.BotFunction GetCommandFunction(CustBotAccount account, string command)
             => account.Functions.FirstOrDefault(f => !string.IsNullOrEmpty(f.Command) && command.IndexOf(f.Command, StringComparison.OrdinalIgnoreCase) == 0);
 
@@ -206,7 +220,7 @@ namespace TelegramBot.Infrastructure.Command
         public async Task HandleUserReplyByButton(BotEntity bot, long chatId, int messageId, string callbackId, CallbackData callbackData)
         {
             var account = await settingService.GetCustBotAccount(chatId, bot.BotId);
-            if (account == null)
+            if (IsAccountInvalid(account, chatId))
             {
                 return;
             }
