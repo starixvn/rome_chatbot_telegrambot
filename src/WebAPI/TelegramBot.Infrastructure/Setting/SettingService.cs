@@ -185,15 +185,15 @@ namespace TelegramBot.Infrastructure.Setting
         public async Task<CustBotMessenger> GetCustBotMessenger(int custId, int subAccId, string language = LanguageCodes.English)
         {
             var criteria = new CustBotMessengerSelCriteria(custId, subAccId, !_webAPIConfiguration.IsProduction);
-            var resultSet = await _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(criteria).ConfigureAwait(false);
+            var (custBotMessengers, functions) = await _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(criteria).ConfigureAwait(false);
 
-            var custBotMessenger = resultSet.firstResultSet.FirstOrDefault();
+            var custBotMessenger = custBotMessengers.FirstOrDefault();
             if (custBotMessenger == null)
             {
                 return null;
             }
 
-            custBotMessenger.Functions = await GetAccountFunctions(custId, subAccId, resultSet.secondResultSet);
+            custBotMessenger.Functions = await GetAccountFunctions(custId, subAccId, functions);
             foreach (var function in custBotMessenger.Functions)
             {
                 function.FunctionName = await _functionService.GetFunctionName(function.FunctionId, language);
@@ -235,8 +235,8 @@ namespace TelegramBot.Infrastructure.Setting
         private async Task<CustBotMessenger> GetVerifyingMessenger(int custId, int subAccId)
         {
             var criteria = new CustBotMessengerSelCriteria(custId, subAccId, !_webAPIConfiguration.IsProduction, true, false);
-            var resultSet = await _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(criteria).ConfigureAwait(false);
-            return resultSet.firstResultSet.FirstOrDefault();
+            var (custBotMessengers, functions) = await _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(criteria).ConfigureAwait(false);
+            return custBotMessengers.FirstOrDefault();
         }
 
         public async Task<Result> UpdateUserFunction(int userid, int botId, BotFunction function, int creator, string ip)
@@ -256,11 +256,11 @@ namespace TelegramBot.Infrastructure.Setting
         public async Task<CustBotAccount> GetCustBotAccount(long chatId, int botId)
         {
             var criteria = new CustBotUserSelCriteria(chatId, botId);
-            var resultSet = await _dynamicRepository.FetchMultipleAsync<CustBotAccount, BotFunction>(criteria);
-            var account = resultSet.firstResultSet.FirstOrDefault();
+            var (accounts, functions) = await _dynamicRepository.FetchMultipleAsync<CustBotAccount, BotFunction>(criteria);
+            var account = accounts.FirstOrDefault();
             if (account != null)
             {
-                account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, resultSet.secondResultSet);
+                account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, functions);
             }
 
             return account;

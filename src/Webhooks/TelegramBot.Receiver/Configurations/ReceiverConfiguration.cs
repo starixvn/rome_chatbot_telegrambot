@@ -4,10 +4,6 @@ namespace TelegramBot.Receiver.Configurations
     {
         public bool IsMaintenance { get; set; }
 
-        public string HostAddress { get; set; }
-
-        public bool IsTest { get; set; }
-
         public string ProxyAddress { get; set; }
     }
 }
