@@ -154,7 +154,7 @@ namespace TelegramBot.WebApi.Controllers
 
         public async Task<Result> UpdateLanguage(int userId, [FromBody] UpdateLanguageParam param)
         {
-            return await _settingService.UpdateUserLanguage(userId, param.BotId, LanguageCodes.MapLanguage(param.Language), param.IP);
+            return await _settingService.UpdateUserLanguage(userId, param.BotId, LanguageCodes.MapLanguage(param.Language), param.Creator, param.IP);
         }
     }
 }

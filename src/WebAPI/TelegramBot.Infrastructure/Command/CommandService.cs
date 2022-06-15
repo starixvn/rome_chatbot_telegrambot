@@ -352,7 +352,7 @@ namespace TelegramBot.Infrastructure.Command
                 account.Language = parameter;
                 var action = await actionService.GetActionById(ActionIds.Language, messenger.System);
                 await Task.WhenAll(
-                    settingService.UpdateUserLanguage(account.UserId, messenger.BotId, parameter, string.Empty),
+                    settingService.UpdateUserLanguage(account.UserId, messenger.BotId, parameter, account.CustId, string.Empty),
                     InsertSettingUserAction(account, action),
                     SendNextActionsMessage(account, messenger, action, messageId),
                     messageSender.Alert(messenger, "Language Updated!", callbackId));

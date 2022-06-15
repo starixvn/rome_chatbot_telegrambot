@@ -10,7 +10,7 @@ public class CustBotAccountLanguageUpdCriteriaTest
     [Fact]
     public void GetSettingKey_Always_ReturnName()
     {
-        criteria = new CustBotAccountLanguageUpdCriteria(1, 1, "EN", "192.158.1.1");
+        criteria = new CustBotAccountLanguageUpdCriteria(1, 1, "EN", 1, "192.158.1.1");
         //Act
         var result = criteria.GetSettingKey();
 
@@ -22,7 +22,7 @@ public class CustBotAccountLanguageUpdCriteriaTest
     public void IsValid_ValidCase()
     {
         //Act
-        criteria = new CustBotAccountLanguageUpdCriteria(1, 1, "EN", "192.158.1.1");
+        criteria = new CustBotAccountLanguageUpdCriteria(1, 1, "EN", 1, "192.158.1.1");
 
         var result = criteria.IsValid();
 
@@ -34,12 +34,12 @@ public class CustBotAccountLanguageUpdCriteriaTest
     public void IsValid_inValidCase()
     {
         //case UserId <0
-        criteria = new CustBotAccountLanguageUpdCriteria(0, 1, "EN", "192.158.1.1");
+        criteria = new CustBotAccountLanguageUpdCriteria(0, 1, "EN", 1, "192.158.1.1");
         var case1 = criteria.IsValid();
         Assert.False(case1);
 
         //case NullOrWhiteSpace Language
-        criteria = new CustBotAccountLanguageUpdCriteria(1, 1, "", "192.158.19");
+        criteria = new CustBotAccountLanguageUpdCriteria(1, 1, "", 1, "192.158.19");
         var case2 = criteria.IsValid();
         Assert.False(case2);
     }

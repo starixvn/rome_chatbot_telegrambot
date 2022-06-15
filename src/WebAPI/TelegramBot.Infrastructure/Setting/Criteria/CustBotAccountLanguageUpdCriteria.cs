@@ -5,11 +5,12 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
 {
     public class CustBotAccountLanguageUpdCriteria : ResultCriteriaBase, INonQueryCommand
     {
-        public CustBotAccountLanguageUpdCriteria(int userId, int botId, string language, string ip)
+        public CustBotAccountLanguageUpdCriteria(int userId, int botId, string language, int creator, string ip)
         {
             UserId = userId;
             BotId = botId;
             Language = language;
+            Creator = creator;
             IP = ip;
         }
 
@@ -18,6 +19,8 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
         public int BotId { get; }
 
         public string Language { get; }
+
+        public int Creator { get; }
 
         public string IP { get; }
 

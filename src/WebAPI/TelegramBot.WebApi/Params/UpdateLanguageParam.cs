@@ -7,5 +7,7 @@
         public int BotId { get; set; }
 
         public string IP { get; set; }
+
+        public int Creator { get; set; }
     }
 }
