@@ -105,7 +105,7 @@ namespace TelegramBot.Infrastructure.Command
 
         private async Task HandleOtherCommand(CustBotAccount account, Messenger messenger, string command)
         {
-            var function = GetCommandFunction(account, command);
+            var function = GetCommandFunction(account, command.Split(' ')[0]);
 
             if (function == null)
             {
@@ -169,7 +169,10 @@ namespace TelegramBot.Infrastructure.Command
         }
 
         private static Function.Models.BotFunction GetCommandFunction(CustBotAccount account, string command)
-            => account.Functions.FirstOrDefault(f => !string.IsNullOrEmpty(f.Command) && command.IndexOf(f.Command, StringComparison.OrdinalIgnoreCase) == 0);
+            => account.Functions.FirstOrDefault(f =>
+                !string.IsNullOrEmpty(command)
+                && !string.IsNullOrEmpty(f.Command)
+                && command.Equals(f.Command, StringComparison.OrdinalIgnoreCase));
 
         private async Task HandleOtherResponse(CustBotAccount account, Messenger messenger, string userResponse)
         {
