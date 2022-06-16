@@ -86,7 +86,7 @@ public class MemberWinLossLimitService : NotificationServiceBase, IMemberWinLoss
     {
         foreach (var product in products)
         {
-            messageBuilder.AppendLine($"{product.ProductName}. {product.CurrentWinLoss.FormatDecimal()} | -{product.MaximumWinLoss.FormatDecimal()} | {product.CurrentWinLossPercentage.FormatDecimalUptoTwoDigit()}%");
+            messageBuilder.AppendLine($"{product.ProductName}. {product.CurrentWinLoss.FormatDecimal()} | {product.MaximumWinLoss.FormatDecimal()} | {product.CurrentWinLossPercentage.FormatDecimalUptoTwoDigit()}%");
         }
     }
 
