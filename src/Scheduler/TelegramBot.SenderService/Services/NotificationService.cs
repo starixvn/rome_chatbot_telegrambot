@@ -1,5 +1,6 @@
 using System.Text;
 using Fanex.Data.Repository;
+using Newtonsoft.Json;
 using TelegramBot.SenderService.Criteria;
 using TelegramBot.SenderService.Models;
 
@@ -20,9 +21,13 @@ public interface INotificationService
 public class NotificationService : INotificationService
 {
     private readonly IDynamicRepository dynamicRepository;
+    private readonly Fanex.Logging.ILogger logger;
 
-    public NotificationService(IDynamicRepository dynamicRepository)
-        => this.dynamicRepository = dynamicRepository;
+    public NotificationService(IDynamicRepository dynamicRepository, Fanex.Logging.ILogger logger)
+    {
+        this.dynamicRepository = dynamicRepository;
+        this.logger = logger;
+    }
 
     public Task<(IEnumerable<Notification>, IEnumerable<LastNotification>)> GetNotifications(string environment)
         => dynamicRepository.FetchMultipleAsync<Notification, LastNotification>(
@@ -40,6 +45,9 @@ public class NotificationService : INotificationService
             BuildXmlData(notifications),
             BuildXmlLastNotification(lastNotifications),
             environment);
+
+        await logger.InfoAsync(JsonConvert.SerializeObject(command));
+
         await dynamicRepository.ExecuteAsync(command);
 
         return new Result(command.ErrCode, command.ErrMsg);
