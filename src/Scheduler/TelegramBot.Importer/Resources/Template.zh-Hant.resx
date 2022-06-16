@@ -180,22 +180,13 @@
   <data name="ProblemAccountShowXDownlines" xml:space="preserve">
     <value>Please kindly be informed there are {0} new problem accounts. Please check the details in Problem Account List.</value>
   </data>
-  <data name="MemberLossLimitNote" xml:space="preserve">
-    <value>Product. Current Win Loss. Maximum Loss. Current Loss (%)</value>
-  </data>
-  <data name="MemberProductReachedLossLimit" xml:space="preserve">
-    <value>Member: Product reached Loss Limit</value>
-  </data>
-  <data name="MemberProductReachedWinLimit" xml:space="preserve">
-    <value>Member: Product reached Win Limit</value>
-  </data>
   <data name="MemberReachWinLossIntro" xml:space="preserve">
     <value>You have members who reached 100% of their win loss limit</value>
   </data>
-  <data name="MemberWinLimitNote" xml:space="preserve">
-    <value>Product. Current Win Loss. Maximum Win. Current Win (%)</value>
-  </data>
   <data name="MemberWinLossLimitAlert" xml:space="preserve">
     <value>Member Win Loss Limit Alert</value>
+  </data>
+  <data name="MemberWinLossLimitNote" xml:space="preserve">
+    <value>Product. Current Win Loss | Maximum Win Loss | Current Win Loss (%)</value>
   </data>
 </root>

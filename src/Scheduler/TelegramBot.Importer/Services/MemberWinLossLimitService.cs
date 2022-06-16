@@ -45,69 +45,21 @@ public class MemberWinLossLimitService : NotificationServiceBase, IMemberWinLoss
         var messageBuilder = new StringBuilder();
         messageBuilder
             .AppendLine(TemplateHelper.BuildTitle(language, "MemberWinLossLimitAlert", currentDate))
-            .AppendLine(TemplateHelper.Get("MemberReachWinLossIntro", language));
+            .AppendLine(TemplateHelper.Get("MemberReachWinLossIntro", language))
+            .AppendLine($"<b>{TemplateHelper.Get("MemberWinLossLimitNote", language)}</b>");
 
-        var isHaveMemberReachWinLimit = winLossLimitMessages.Any(m => m.Products.Any(p => p.CurrentWinLoss > 0));
-        if (isHaveMemberReachWinLimit)
+        var sortedWinLossLimitMessage = winLossLimitMessages.OrderBy(w => w.Username);
+        foreach (var memberMessage in sortedWinLossLimitMessage)
         {
-            messageBuilder.AppendLine(TemplateHelper.Get("MemberProductReachedWinLimit", language));
-            messageBuilder.AppendLine(TemplateHelper.Get("MemberWinLimitNote", language));
-            BuildProductReachedWinLimitContent(messageBuilder, winLossLimitMessages, custLevel);
-        }
-
-        var isHaveMemberReachLossLimit = winLossLimitMessages.Any(m => m.Products.Any(p => p.CurrentWinLoss < 0));
-        if (isHaveMemberReachLossLimit)
-        {
-            messageBuilder.AppendLine(TemplateHelper.Get("MemberProductReachedLossLimit", language));
-            messageBuilder.AppendLine(TemplateHelper.Get("MemberLossLimitNote", language));
-            BuildProductReachedLossLimitContent(messageBuilder, winLossLimitMessages, custLevel);
+            BuildUsernames(messageBuilder, memberMessage, custLevel);
+            BuildWinProducts(messageBuilder, memberMessage.Products.Where(p => p.CurrentWinLoss > 0));
+            BuildLossProducts(messageBuilder, memberMessage.Products.Where(p => p.CurrentWinLoss < 0));
         }
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
 
-    private static void BuildProductReachedWinLimitContent(
-        StringBuilder messageBuilder,
-        IEnumerable<WinLossLimitMessage> memberWinLossLimitMessages,
-        byte custLevel)
-    {
-        foreach (var memberMessage in memberWinLossLimitMessages)
-        {
-            var products = memberMessage.Products.Where(p => p.CurrentWinLoss > 0);
-            if (products.Any())
-            {
-                BuildUsernames(messageBuilder, memberMessage, custLevel);
-                foreach (var product in products)
-                {
-                    messageBuilder.AppendLine($"{product.ProductName}. {product.CurrentWinLoss.FormatDecimal()}. {product.MaximumWinLoss.FormatDecimal()}. {product.CurrentWinLossPercentage.FormatDecimal()}%");
-                }
-            }
-        }
-    }
-
-    private static void BuildProductReachedLossLimitContent(
-        StringBuilder messageBuilder,
-        IEnumerable<WinLossLimitMessage> memberWinLossLimitMessages,
-        byte custLevel)
-    {
-        foreach (var memberMessage in memberWinLossLimitMessages)
-        {
-            var products = memberMessage.Products.Where(p => p.CurrentWinLoss < 0);
-            if (products.Any())
-            {
-                BuildUsernames(messageBuilder, memberMessage, custLevel);
-                foreach (var product in products)
-                {
-                    messageBuilder.AppendLine($"{product.ProductName}. {product.CurrentWinLoss.FormatDecimal()}. {(int)product.MaximumWinLoss}X. {product.CurrentWinLossPercentage.FormatDecimal()}%");
-                }
-            }
-        }
-    }
-
-    private static void BuildUsernames(
-        StringBuilder messageBuilder,
-        WinLossLimitMessage memberMessage,
-        byte custLevel)
+    private static void BuildUsernames(StringBuilder messageBuilder, WinLossLimitMessage memberMessage, byte custLevel)
     {
         var usernames = custLevel switch
         {
@@ -120,6 +72,22 @@ public class MemberWinLossLimitService : NotificationServiceBase, IMemberWinLoss
         };
 
         messageBuilder.AppendLine($"<b>{usernames}</b>");
+    }
+
+    private static void BuildWinProducts(StringBuilder messageBuilder, IEnumerable<ProductWinLossLimitMessage> products)
+    {
+        foreach (var product in products)
+        {
+            messageBuilder.AppendLine($"{product.ProductName}. {product.CurrentWinLoss.FormatDecimal()} | {product.MaximumWinLoss.FormatDecimalToInt()}X | {product.CurrentWinLossPercentage.FormatDecimalUptoTwoDigit()}%");
+        }
+    }
+
+    private static void BuildLossProducts(StringBuilder messageBuilder, IEnumerable<ProductWinLossLimitMessage> products)
+    {
+        foreach (var product in products)
+        {
+            messageBuilder.AppendLine($"{product.ProductName}. {product.CurrentWinLoss.FormatDecimal()} | -{product.MaximumWinLoss.FormatDecimal()} | {product.CurrentWinLossPercentage.FormatDecimalUptoTwoDigit()}%");
+        }
     }
 
     public Task<Result> Import(IEnumerable<MemberWinLossLimitNotification> notifications, string environment, long maxLogId)
