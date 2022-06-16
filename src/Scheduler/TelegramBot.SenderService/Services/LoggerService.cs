@@ -1,5 +1,6 @@
 using System.Data.SqlClient;
 using System.Text;
+using System.Web;
 using Fanex.Data;
 
 namespace TelegramBot.SenderService.Services;
@@ -78,7 +79,7 @@ public class LoggerService : ILoggerService
     }
 
     private static string GetSpParameters(IDictionary<string, object> parameters)
-        => string.Join(BreakLine, parameters.Select(p => $"{p.Key}={p.Value}"));
+        => string.Join(BreakLine, parameters.Select(p => $"{p.Key}={HttpUtility.HtmlEncode(p.Value)}"));
 
     public Task Debug(string message) => logger.DebugAsync(message);
 }

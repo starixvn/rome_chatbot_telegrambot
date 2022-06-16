@@ -41,7 +41,6 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
 
     public IEnumerable<GroupProblemAccount> BuildGroupProblemAccounts(IEnumerable<ProblemAccount> problemAccounts)
     {
-        var identity = 1;
         var groupProblemAccounts = new List<GroupProblemAccount>();
 
         var groupSuperList = problemAccounts
@@ -51,7 +50,6 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
         foreach (var groupSuper in groupSuperList)
         {
             var master = GetGroupProblemAccount(
-                identity++,
                 groupSuper.Key,
                 groupSuper.Where(pa => pa.MRecommend == pa.CustId));
             groupProblemAccounts.Add(master);
@@ -63,7 +61,6 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
             foreach (var groupMaster in groupMasterList)
             {
                 var agent = GetGroupProblemAccount(
-                    identity++,
                     groupMaster.Key,
                     groupMaster.Where(pa => pa.Recommend == pa.CustId));
                 groupProblemAccounts.Add(agent);
@@ -77,7 +74,6 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
                 foreach (var groupAgent in groupAgentList)
                 {
                     var member = GetGroupProblemAccount(
-                        identity++,
                         groupAgent.Key,
                         groupAgent);
                     groupProblemAccounts.Add(member);
@@ -93,7 +89,6 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
     }
     
     private static GroupProblemAccount GetGroupProblemAccount(
-        int id,
         int custId,
         IEnumerable<ProblemAccount> problemAccounts)
     {
@@ -107,7 +102,6 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
         }
 
         return new GroupProblemAccount(
-            id,
             custId,
             usernames.Distinct().OrderBy(username => username).ToList(),
             logIds);
