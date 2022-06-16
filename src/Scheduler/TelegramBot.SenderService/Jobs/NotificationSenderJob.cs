@@ -77,8 +77,10 @@ public sealed class NotificationSenderJob : IJob
         {
             await loggerService.Error(ex, jobName, environment);
         }
-
-        await loggerService.Debug($"{DateTime.Now} - {jobName}: End job.");
+        finally
+        {
+            await loggerService.Debug($"{DateTime.Now} - {jobName}: End job.");
+        }
     }
 
     private async Task<bool> IsUM(string jobName, string environment)
@@ -127,7 +129,7 @@ public sealed class NotificationSenderJob : IJob
         string environment)
     {
         var status = new List<NotificationStatusParam>();
-        await loggerService.Debug(string.Join(", ", notifications.Select(x => x.UserId)));
+        await loggerService.Debug(string.Join(", ", notifications.Select(x => x.NotificationId)));
         var tasks = notifications.Select(async item =>
         {
             appSettings.FunctionPermissions.TryGetValue(item.FunctionKey, out var subAccPermission);
