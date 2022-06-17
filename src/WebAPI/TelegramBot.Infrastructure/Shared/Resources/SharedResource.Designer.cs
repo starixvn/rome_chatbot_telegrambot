@@ -61,7 +61,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Telegram&apos;s already linked with another Account.Please unlink that Account first then try again..
+        ///   Looks up a localized string similar to Your Telegram has already linked with another account. Please unlink that account first then try again..
         /// </summary>
         public static string AccountAlreadyLinked {
             get {
@@ -151,7 +151,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Our server is too busy at the moment so this function is turned off temporarily {0} - {1} (GMT+8). Please try again later and sorry for the inconvenience..
+        ///   Looks up a localized string similar to This function is temporarily off from {0} - {1} (GMT+8) as our server is too busy at the moment. Please try again later. We regret any inconvenience caused..
         /// </summary>
         public static string ApiException {
             get {
@@ -223,7 +223,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Alpha Site account&apos;s Password has been changed..
+        ///   Looks up a localized string similar to Your account password has been changed..
         /// </summary>
         public static string ChangePasswordAlertContent {
             get {
@@ -340,7 +340,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can operate {0} using following commands:.
+        ///   Looks up a localized string similar to You can run {0} using the following commands:.
         /// </summary>
         public static string HelpCommandIntro {
             get {
@@ -349,7 +349,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please log in to &lt;b&gt;the agent site&lt;/b&gt;, access Chatbot function and follow instruction to setup Telegram Chatbot.
+        ///   Looks up a localized string similar to Please log in to &lt;b&gt;the Agency Site&lt;/b&gt;, access Chatbot function and follow the instructions to setup Telegram Chatbot..
         /// </summary>
         public static string IntroductionMessage {
             get {
@@ -358,7 +358,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;{0}&quot; is invalid, please enter valid username.
+        ///   Looks up a localized string similar to &quot;{0}&quot; is invalid, please enter a valid username.
         /// </summary>
         public static string InvalidCustName {
             get {
@@ -376,7 +376,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;{0}&quot; is invalid, please enter valid number (max {1}).
+        ///   Looks up a localized string similar to &quot;{0}&quot; is invalid, please enter a valid number (max {1}).
         /// </summary>
         public static string InvalidNumberOfDownlinesRange {
             get {
@@ -390,6 +390,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string InvalidUsername {
             get {
                 return ResourceManager.GetString("InvalidUsername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language updated..
+        /// </summary>
+        public static string LanguageUpdated {
+            get {
+                return ResourceManager.GetString("LanguageUpdated", resourceCulture);
             }
         }
         
@@ -619,7 +628,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please enter this private OTP &lt;code&gt;{0}&lt;/code&gt; to &lt;b&gt;the agent site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot..
+        ///   Looks up a localized string similar to Please enter this OTP {0} to &lt;b&gt;the Agency Site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot..
         /// </summary>
         public static string Setting_OTP_Help {
             get {
@@ -637,7 +646,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;re about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;.Your Telegram will be unlinked with {0} and you won&apos;t be able to use {0} anymore.Are you sure you want to stop using {0}?.
+        ///   Looks up a localized string similar to You&apos;re about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;. Your Telegram will be unlinked with {0} and you cannot use {0} anymore. Would you like to continue?.
         /// </summary>
         public static string StopUsingChatbotConfirmMessage {
             get {
@@ -682,7 +691,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Telegram&apos;s already linked to this chatbot using other Account. If this isn&apos;t your Account, please contact us for support..
+        ///   Looks up a localized string similar to Your Telegram has already linked with this chatbot using another account. If this is not your account, please contact us for support..
         /// </summary>
         public static string TelegramAccountAlreadyLinked {
             get {
@@ -727,7 +736,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Notification is turned off.
+        ///   Looks up a localized string similar to Notification turned off.
         /// </summary>
         public static string TurnOffNotification {
             get {
@@ -736,7 +745,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Notification is turned on.
+        ///   Looks up a localized string similar to Notification turned on.
         /// </summary>
         public static string TurnOnNotification {
             get {
@@ -772,7 +781,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your telegram has been unlinked with {0} successfully..
+        ///   Looks up a localized string similar to Your Telegram has been unlinked with {0}..
         /// </summary>
         public static string UnlinkMessage {
             get {
@@ -799,7 +808,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Welcome {0}. Your Telegram Chatbot setup is completed. This bot can assist you to view report more easily or keep you posted with the latest important notifications. You will receive your yesterday&apos;s win loss after 2:00 PM (GMT+8) daily..
+        ///   Looks up a localized string similar to Welcome {0}. Your Telegram Chatbot setup is completed. You can view reports by interacting with this chatbot, and keep up with the latest information via automated notifications. You will receive your Yesterday Win Loss Report after 2:00 PM (GMT+8) everyday..
         /// </summary>
         public static string WelcomeMessage {
             get {
@@ -844,7 +853,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Account is closed.
+        ///   Looks up a localized string similar to Your account is closed.
         /// </summary>
         public static string YourAccountIsClosed {
             get {
@@ -853,7 +862,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Account is locked.
+        ///   Looks up a localized string similar to Your account is locked.
         /// </summary>
         public static string YourAccountIsLocked {
             get {

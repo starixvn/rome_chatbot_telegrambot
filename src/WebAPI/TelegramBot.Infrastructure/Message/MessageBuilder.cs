@@ -67,6 +67,8 @@ namespace TelegramBot.Infrastructure.Message
         string BuildBackToMainMenuButtonText(string language);
 
         public string BuildGeneralCommandsHelpMessage(string language, string botName);
+
+        public string BuildLanguageUpdatedMessage(string language);
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -262,5 +264,8 @@ namespace TelegramBot.Infrastructure.Message
 
         public string BuildUpdateNotificationSettingMessage(string language, bool enabled)
             => ResourceHelper.Get(enabled ? nameof(SharedResource.TurnOnNotification) : nameof(SharedResource.TurnOffNotification), language);
+
+        public string BuildLanguageUpdatedMessage(string language)
+            => ResourceHelper.Get(nameof(SharedResource.LanguageUpdated), language);
     }
 }

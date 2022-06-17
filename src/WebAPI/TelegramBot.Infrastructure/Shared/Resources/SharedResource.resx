@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Setting_OTP_Help" xml:space="preserve">
-    <value>Please enter this private OTP &lt;code&gt;{0}&lt;/code&gt; to &lt;b&gt;the agent site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot.</value>
+    <value>Please enter this OTP {0} to &lt;b&gt;the Agency Site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot.</value>
     <comment />
   </data>
   <data name="UnderMaintenance" xml:space="preserve">
@@ -126,11 +126,11 @@
     <comment />
   </data>
   <data name="IntroductionMessage" xml:space="preserve">
-    <value>Please log in to &lt;b&gt;the agent site&lt;/b&gt;, access Chatbot function and follow instruction to setup Telegram Chatbot</value>
+    <value>Please log in to &lt;b&gt;the Agency Site&lt;/b&gt;, access Chatbot function and follow the instructions to setup Telegram Chatbot.</value>
     <comment />
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
-    <value>Welcome {0}. Your Telegram Chatbot setup is completed. This bot can assist you to view report more easily or keep you posted with the latest important notifications. You will receive your yesterday's win loss after 2:00 PM (GMT+8) daily.</value>
+    <value>Welcome {0}. Your Telegram Chatbot setup is completed. You can view reports by interacting with this chatbot, and keep up with the latest information via automated notifications. You will receive your Yesterday Win Loss Report after 2:00 PM (GMT+8) everyday.</value>
     <comment />
   </data>
   <data name="ChangePasswordAlert" xml:space="preserve">
@@ -146,7 +146,7 @@
     <comment />
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
-    <value>Your Alpha Site account's Password has been changed.</value>
+    <value>Your account password has been changed.</value>
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
@@ -158,15 +158,15 @@
     <comment />
   </data>
   <data name="AccountAlreadyLinked" xml:space="preserve">
-    <value>Your Telegram's already linked with another Account.Please unlink that Account first then try again.</value>
+    <value>Your Telegram has already linked with another account. Please unlink that account first then try again.</value>
     <comment />
   </data>
   <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
-    <value>Your Telegram's already linked to this chatbot using other Account. If this isn't your Account, please contact us for support.</value>
+    <value>Your Telegram has already linked with this chatbot using another account. If this is not your account, please contact us for support.</value>
     <comment />
   </data>
   <data name="HelpCommandIntro" xml:space="preserve">
-    <value>You can operate {0} using following commands:</value>
+    <value>You can run {0} using the following commands:</value>
     <comment />
   </data>
   <data name="OpenMainMenu" xml:space="preserve">
@@ -222,7 +222,7 @@
     <comment />
   </data>
   <data name="InvalidCustName" xml:space="preserve">
-    <value>"{0}" is invalid, please enter valid username</value>
+    <value>"{0}" is invalid, please enter a valid username</value>
     <comment />
   </data>
   <data name="For" xml:space="preserve">
@@ -250,11 +250,11 @@
     <comment />
   </data>
   <data name="YourAccountIsClosed" xml:space="preserve">
-    <value>Your Account is closed</value>
+    <value>Your account is closed</value>
     <comment />
   </data>
   <data name="YourAccountIsLocked" xml:space="preserve">
-    <value>Your Account is locked</value>
+    <value>Your account is locked</value>
     <comment />
   </data>
   <data name="Balance" xml:space="preserve">
@@ -434,11 +434,11 @@
     <comment />
   </data>
   <data name="StopUsingChatbotConfirmMessage" xml:space="preserve">
-    <value>You're about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;. Your Telegram will be unlinked with {0} and you won't be able to use {0} anymore. Are you sure you want to stop using {0}?</value>
+    <value>You're about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;. Your Telegram will be unlinked with {0} and you cannot use {0} anymore. Would you like to continue?</value>
     <comment />
   </data>
   <data name="UnlinkMessage" xml:space="preserve">
-    <value>Your telegram has been unlinked with {0} successfully.</value>
+    <value>Your Telegram has been unlinked with {0}.</value>
     <comment />
   </data>
   <data name="AlertChangePasswordMessage" xml:space="preserve">
@@ -450,15 +450,15 @@
     <comment />
   </data>
   <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
-    <value>"{0}" is invalid, please enter valid number (max {1})</value>
+    <value>"{0}" is invalid, please enter a valid number (max {1})</value>
     <comment />
   </data>
   <data name="TurnOffNotification" xml:space="preserve">
-    <value>Notification is turned off</value>
+    <value>Notification turned off</value>
     <comment />
   </data>
   <data name="TurnOnNotification" xml:space="preserve">
-    <value>Notification is turned on</value>
+    <value>Notification turned on</value>
     <comment />
   </data>
   <data name="MainMenu" xml:space="preserve">
@@ -466,11 +466,14 @@
     <comment />
   </data>
   <data name="ApiException" xml:space="preserve">
-    <value>Our server is too busy at the moment so this function is turned off temporarily {0} - {1} (GMT+8). Please try again later and sorry for the inconvenience.</value>
+    <value>This function is temporarily off from {0} - {1} (GMT+8) as our server is too busy at the moment. Please try again later. We regret any inconvenience caused.</value>
     <comment />
   </data>
   <data name="OpenSettingsMenu" xml:space="preserve">
     <value>Open Settings Menu</value>
     <comment />
+  </data>
+  <data name="LanguageUpdated" xml:space="preserve">
+    <value>Language updated.</value>
   </data>
 </root>

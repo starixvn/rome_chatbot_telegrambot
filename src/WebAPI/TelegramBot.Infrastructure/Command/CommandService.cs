@@ -355,7 +355,7 @@ namespace TelegramBot.Infrastructure.Command
                     settingService.UpdateUserLanguage(account.UserId, messenger.BotId, parameter, account.CustId, string.Empty),
                     InsertSettingUserAction(account, action),
                     SendNextActionsMessage(account, messenger, action, messageId),
-                    messageSender.Alert(messenger, "Language Updated!", callbackId));
+                    messageSender.Alert(messenger, messageBuilder.BuildLanguageUpdatedMessage(account.Language), callbackId));
             }
         }
 
