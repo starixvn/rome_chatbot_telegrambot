@@ -22,6 +22,8 @@ namespace TelegramBot.Infrastructure.Bot
         Task<Result> SetWebhook(string accessToken, string url);
 
         Task<Result> RemoveWebhook(string accessToken);
+
+        Task<Telegram.Bot.Types.Chat> GetChat(string accessToken, long chatId);
     }
 
     public class BotService : IBotService
@@ -85,6 +87,12 @@ namespace TelegramBot.Infrastructure.Bot
             var client = TelegramBotUtils.InitBotClient(accessToken, _webAPIConfiguration.ProxyAddress);
             await client.DeleteWebhookAsync();
             return Result.CreateSuccessfulResult();
+        }
+
+        public async Task<Telegram.Bot.Types.Chat> GetChat(string accessToken, long chatId)
+        {
+            var client = TelegramBotUtils.InitBotClient(accessToken, _webAPIConfiguration.ProxyAddress);
+            return await client.GetChatAsync(chatId);
         }
     }
 }

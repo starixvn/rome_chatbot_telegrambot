@@ -129,7 +129,6 @@ public sealed class NotificationSenderJob : IJob
         string environment)
     {
         var status = new List<NotificationStatusParam>();
-        await loggerService.Debug(string.Join(", ", notifications.Select(x => x.NotificationId)));
         foreach (var item in notifications)
         {
             appSettings.FunctionPermissions.TryGetValue(item.FunctionKey, out var subAccPermission);
@@ -137,23 +136,19 @@ public sealed class NotificationSenderJob : IJob
             if (custStatus == null)
             {
                 var message = $"Invalid customer status CustId: {item.CustId}, SubAccId: {item.SubAccId}, Id: {item.NotificationId} ";
-                await loggerService.Debug(message);
                 status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Invalid, message));
                 continue;
             }
 
             if (custStatus.IsInvalid(subAccPermission, out var reason))
             {
-                await loggerService.Debug($"SendNotifications: {item.NotificationId} - {reason}");
                 status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Invalid, reason));
                 continue;
             }
 
             try
             {
-
                 await messageSender.SendNotification(item);
-                await loggerService.Debug($"Success: {item.NotificationId}");
                 status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Completed));
             }
             catch (Exception ex)
@@ -170,48 +165,6 @@ public sealed class NotificationSenderJob : IJob
                 }
             }
         }
-        // var tasks = notifications.Select(async item =>
-        // {
-        //     appSettings.FunctionPermissions.TryGetValue(item.FunctionKey, out var subAccPermission);
-        //     var custStatus = customerStatus.FirstOrDefault(status => status.CustId == item.CustId && status.SubAccId == item.SubAccId);
-        //     if (custStatus == null)
-        //     {
-        //         var message = $"Invalid customer status CustId: {item.CustId}, SubAccId: {item.SubAccId}, Id: {item.NotificationId} ";
-        //         await loggerService.Debug(message);
-        //         status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Invalid, message));
-        //         return;
-        //     }
-
-        //     if (custStatus.IsInvalid(subAccPermission, out var reason))
-        //     {
-        //         await loggerService.Debug($"SendNotifications: {item.NotificationId} - {reason}");
-        //         status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Invalid, reason));
-        //         return;
-        //     }
-
-        //     try
-        //     {
-
-        //         await messageSender.SendNotification(item);
-        //         await loggerService.Debug($"Success: {item.NotificationId}");
-        //         status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Completed));
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         await loggerService.Error("SendNotifications", environment, ex.Message);
-        //         if (ex is ApiRequestException apiRequestException
-        //         && TelegramError.IgnoredErrorCodes.Contains(apiRequestException.ErrorCode))
-        //         {
-        //             status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Fail, ex.Message));
-        //         }
-        //         else
-        //         {
-        //             await messageSender.RetrySendNotification(item, environment);
-        //         }
-        //     }
-        // });
-
-        // await Task.WhenAll(tasks);
 
         return status;
     }
