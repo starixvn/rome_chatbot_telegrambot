@@ -115,6 +115,7 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
         messageBuilder
             .AppendLine(TemplateHelper.BuildTitle(language, "ProblemAccountAlert", currentDate));
 
+#pragma warning disable S3240
         if (usernamesCount <= MaxUsernames)
         {
             messageBuilder
@@ -126,6 +127,7 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
             messageBuilder
                 .Append(string.Format(TemplateHelper.Get("ProblemAccountShowXDownlines", language), usernamesCount));
         }
+#pragma warning restore S3240
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }

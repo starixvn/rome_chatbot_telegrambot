@@ -6,6 +6,7 @@ public record MemberWinLossLimit
     {
     }
 
+#pragma warning disable S107
     public MemberWinLossLimit(
         int custId,
         string username,
@@ -20,6 +21,7 @@ public record MemberWinLossLimit
         string mUsername,
         string aUsername,
         int productId)
+#pragma warning restore S107
     {
         CustId = custId;
         Username = username;

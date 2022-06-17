@@ -74,6 +74,7 @@ public class MemberWinLossLimitService : NotificationServiceBase, IMemberWinLoss
         messageBuilder.AppendLine($"<b>{usernames}</b>");
     }
 
+#pragma warning disable S103
     private static void BuildWinProducts(StringBuilder messageBuilder, IEnumerable<ProductWinLossLimitMessage> products)
     {
         foreach (var product in products)
@@ -89,6 +90,7 @@ public class MemberWinLossLimitService : NotificationServiceBase, IMemberWinLoss
             messageBuilder.AppendLine($"{product.ProductName}. {product.CurrentWinLoss.FormatDecimal()} | {product.MaximumWinLoss.FormatDecimal()} | {product.CurrentWinLossPercentage.FormatDecimalUptoTwoDigit()}%");
         }
     }
+#pragma warning restore S103
 
     public Task<Result> Import(IEnumerable<MemberWinLossLimitNotification> notifications, string environment, long maxLogId)
         => ExecuteNonQuery(new ImportMemberWinLossLimitCommand(

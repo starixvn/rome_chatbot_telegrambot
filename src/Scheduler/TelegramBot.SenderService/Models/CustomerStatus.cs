@@ -20,7 +20,9 @@ public record CustomerStatus(
 {
     public bool IsSubAcc => SubAccId != 0;
 
+#pragma warning disable S3874
     public bool IsInvalid(string subAccPermission, out string reason)
+#pragma warning restore S3874
     {
         reason = GetStatus(subAccPermission);
         return !string.IsNullOrEmpty(reason);

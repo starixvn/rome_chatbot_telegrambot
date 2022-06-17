@@ -8,6 +8,7 @@ public record PersonalMessage
     {
     }
 
+#pragma warning disable S107
     public PersonalMessage(
         int msgTargetId,
         int messageId,
@@ -18,6 +19,7 @@ public record PersonalMessage
         string contentVI,
         int targetId,
         string betTransId)
+#pragma warning restore S107
     {
         MsgTargetId = msgTargetId;
         MessageId = messageId;
