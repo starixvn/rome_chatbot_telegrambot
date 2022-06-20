@@ -119,7 +119,7 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
         if (usernamesCount <= MaxUsernames)
         {
             messageBuilder
-                .AppendLine(string.Format(TemplateHelper.Get("HavingNewProblemAccounts", language), usernames.Join(", ")))
+                .AppendLine(string.Format(TemplateHelper.Get("NewProblemAccounts", language), usernames.Join(", ")))
                 .Append(TemplateHelper.Get("ProblemAccountShowAllDownlines", language));
         }
         else
