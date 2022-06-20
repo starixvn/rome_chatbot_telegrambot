@@ -221,7 +221,7 @@ namespace TelegramBot.Infrastructure.Action
             => (await GetAllActions(system)).FirstOrDefault(action => action.ActionId == id);
 
         public async Task<BotAction> GetActionByCommand(string command, string system)
-            => (await GetAllActions(system)).FirstOrDefault(action => action.Command == command);
+            => (await GetAllActions(system)).FirstOrDefault(action => action.Command?.ToLowerInvariant() == command.ToLowerInvariant());
 
         public async Task<IEnumerable<BotAction>> GetChildActions(CustBotAccount account, int parentId, string system)
             => (await GetAllActions(system)).Where(action => action.ParentId == parentId && account.Functions.Any(f => f.FunctionId == action.FunctionId));

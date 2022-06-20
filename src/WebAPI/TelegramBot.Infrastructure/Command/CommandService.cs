@@ -82,7 +82,7 @@ namespace TelegramBot.Infrastructure.Command
             if (IsCommand(userResponse))
             {
                 var function = GetCommandFunction(account, userResponse);
-                var handle = userResponse.Split(' ')[0] switch
+                var handle = userResponse.ToLowerInvariant().Split(' ')[0] switch
                 {
                     "/help" => HandleHelpCommand(account, messenger, bot.Name),
                     "/menu" => SendMainMenuMessage(account, messenger),
@@ -172,7 +172,7 @@ namespace TelegramBot.Infrastructure.Command
             => account.Functions.FirstOrDefault(f =>
                 !string.IsNullOrEmpty(command)
                 && !string.IsNullOrEmpty(f.Command)
-                && command.Equals(f.Command, StringComparison.OrdinalIgnoreCase));
+                && command.ToLowerInvariant().Equals(f.Command.ToLowerInvariant(), StringComparison.OrdinalIgnoreCase));
 
         private async Task HandleOtherResponse(CustBotAccount account, Messenger messenger, string userResponse)
         {
@@ -299,7 +299,7 @@ namespace TelegramBot.Infrastructure.Command
             }
 
             var commandName = command.Substring(0, firstSpaceIndex);
-            var commandParam = command.Substring(firstSpaceIndex + 1).Split(" ");
+            var commandParam = command.Substring(firstSpaceIndex + 1).Split(" ")?.Select(c => c.ToLowerInvariant()).ToArray();
 
             return (commandName, commandParam);
         }
