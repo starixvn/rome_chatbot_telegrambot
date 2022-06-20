@@ -67,8 +67,8 @@ public class BotService : IBotService
     private async Task<IEnumerable<Bot>> GetBots()
     {
         return await cacheService.GetOrSetAsync(
-                AllBotCacheKey,
-                () => dynamicRepository.FetchAsync<Bot>(new GetAllBotCriteria(appSettings.IsTest)),
-                new CacheItemOptions().SetAbsoluteExpiration(new TimeSpan(1, 0, 0)));
+            AllBotCacheKey,
+            () => dynamicRepository.FetchAsync<Bot>(new GetAllBotCriteria(appSettings.IsTest)),
+            new CacheItemOptions().SetAbsoluteExpiration(new TimeSpan(1, 0, 0)));
     }
 }
