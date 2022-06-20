@@ -12,7 +12,7 @@ namespace TelegramBot.Client.Extensions
         {
             var json = value != null ? JsonConvert.SerializeObject(value) : string.Empty;
             using var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-            using var request = new HttpRequestMessage(HttpMethod.Post, new Uri(requestUri))
+            using var request = new HttpRequestMessage(HttpMethod.Post, requestUri)
             {
                 Content = stringContent
             };
@@ -29,7 +29,7 @@ namespace TelegramBot.Client.Extensions
 
         public static async Task<T> GetAsJsonAsync<T>(this HttpClient client, string requestUri)
         {
-            using var response = await client.GetAsync(new Uri(requestUri)).ConfigureAwait(false);
+            using var response = await client.GetAsync(requestUri).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(content);

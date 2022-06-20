@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using ONEbook.UM.Services;
 using Quartz;
 using TelegramBot.Importer.Configuration;
@@ -30,10 +31,9 @@ public abstract class NotificationBaseJob : IJob
 
     public async Task Execute(IJobExecutionContext context)
     {
+        var sw = Stopwatch.StartNew();
         var job = GetJobDetails(context);
         
-        await loggerService.Debug(job, "Start run");
-
         if (await IsUM(job))
         {
             return;
@@ -57,7 +57,8 @@ public abstract class NotificationBaseJob : IJob
             await loggerService.Error(ex, job);
         }
 
-        await loggerService.Debug(job, "End run");
+        sw.Stop();
+        await loggerService.Debug(job, $"End run in {sw.ElapsedMilliseconds} milliseconds");
     }
 
     private static ScheduleJob GetJobDetails(IJobExecutionContext context)

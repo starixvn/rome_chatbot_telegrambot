@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Newtonsoft.Json;
+using Telegram.Bot;
 using TelegramBot.Client.Services;
 using TelegramBot.Receiver.Configurations;
 using TelegramBot.Utilities;
@@ -22,16 +23,24 @@ namespace TelegramBot.Receiver.Services
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await _logger.InfoAsync($"Worker {typeof(TelegramHostedService).Assembly.GetName().Name} running at: {DateTimeOffset.Now}");
-            var botEntities = await _botService.GetAllAsync().ConfigureAwait(false);
-            var botClients = new Dictionary<string, ITelegramBotClient>();
-            foreach (var botEntity in botEntities)
+            try
             {
-                var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken, _receiverConfiguration.ProxyAddress);
-                botClients.Add(botEntity.AccessToken, botClient);
-            }
+                await _logger.InfoAsync($"Worker {typeof(TelegramHostedService).Assembly.GetName().Name} running at: {DateTimeOffset.Now}");
+                var botEntities = await _botService.GetAllAsync();
+                var botClients = new Dictionary<string, ITelegramBotClient>();
 
-            _handleUpdateSerice.BotClients = botClients;
+                foreach (var botEntity in botEntities)
+                {
+                    var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken, _receiverConfiguration.ProxyAddress);
+                    botClients.Add(botEntity.AccessToken, botClient);
+                }
+
+                _handleUpdateSerice.BotClients = botClients;
+            }
+            catch (Exception ex)
+            {
+                await _logger.ErrorAsync(ex.Message, ex);
+            }
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
