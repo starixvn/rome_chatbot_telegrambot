@@ -382,7 +382,7 @@
     <comment />
   </data>
   <data name="MemberActClosedSus" xml:space="preserve">
-    <value>MEM.ACTIVE/CLOSED/SUSPENDED</value>
+    <value>Members (Active/Closed/Suspended)</value>
     <comment />
   </data>
   <data name="SuperOutStanding" xml:space="preserve">
@@ -402,7 +402,7 @@
     <comment />
   </data>
   <data name="AgentActClosedSus" xml:space="preserve">
-    <value>AG.ACTIVE/CLOSED/SUSPENDED</value>
+    <value>Agents (Active/Closed/Suspended)</value>
     <comment />
   </data>
   <data name="AgentCredit" xml:space="preserve">

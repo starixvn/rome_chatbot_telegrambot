@@ -79,7 +79,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AG.ACTIVE/CLOSED/SUSPENDED.
+        ///   Looks up a localized string similar to Agents (Active/Closed/Suspended).
         /// </summary>
         public static string AgentActClosedSus {
             get {
@@ -475,7 +475,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEM.ACTIVE/CLOSED/SUSPENDED.
+        ///   Looks up a localized string similar to Members (Active/Closed/Suspended).
         /// </summary>
         public static string MemberActClosedSus {
             get {

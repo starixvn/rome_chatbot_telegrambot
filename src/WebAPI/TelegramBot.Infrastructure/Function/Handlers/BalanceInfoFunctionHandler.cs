@@ -117,7 +117,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var textContainer = new List<string>();
             foreach (var keyValuePair in dict)
             {
-                textContainer.Add(keyValuePair.Key.ToUpperInvariant());
+                textContainer.Add(messageFormatter.Bold(keyValuePair.Key.ToUpperInvariant()));
                 textContainer.Add($"    {keyValuePair.Value}");
             }
             var message = string.Join(messageFormatter.NewLine(), textContainer);
@@ -151,7 +151,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             foreach (var keyValuePair in dict)
             {
-                textContainer.Add(keyValuePair.Key.ToUpperInvariant());
+                textContainer.Add(messageFormatter.Bold(keyValuePair.Key.ToUpperInvariant()));
                 textContainer.Add($"    {keyValuePair.Value}");
             }
 

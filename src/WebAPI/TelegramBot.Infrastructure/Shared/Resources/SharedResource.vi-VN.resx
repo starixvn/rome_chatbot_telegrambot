@@ -261,4 +261,103 @@
   <data name="AgentActClosedSus" xml:space="preserve">
     <value>Agents (Mở/Bị đóng/Bị đình chỉ)</value>
   </data>
+  <data name="Setting_OTP_Help" xml:space="preserve">
+    <value>Vui lòng nhập mã OTP này trên &lt;b&gt;trang Agency&lt;/b&gt; trong vòng 3 phút để hoàn thành cài đặt Telegram Chatbot.</value>
+  </data>
+  <data name="YourAccountIsLocked" xml:space="preserve">
+    <value>Tài khoản của bạn đã bị khóa</value>
+  </data>
+  <data name="OpenSettingsMenu" xml:space="preserve">
+    <value>Mở Menu Thiết Lập</value>
+  </data>
+  <data name="BackTo" xml:space="preserve">
+    <value>Trở về</value>
+  </data>
+  <data name="StopUsingChatbot" xml:space="preserve">
+    <value>Ngưng sử dụng Chatbot</value>
+  </data>
+  <data name="StopUsingChatbotConfirmMessage" xml:space="preserve">
+    <value>Bạn sắp &lt;b&gt;ngưng sử dụng Chatbot&lt;/b&gt;. Telegram của bạn sẽ hủy liên kết với {0} và bạn không thể sử dụng {0} nữa. Bạn có muốn tiếp tục?</value>
+  </data>
+  <data name="UnlinkMessage" xml:space="preserve">
+    <value>Telegram của bạn đã hủy liên kết với {0}</value>
+  </data>
+  <data name="AlertChangePasswordMessage" xml:space="preserve">
+    <value>Nếu đây không phải là bạn, vui lòng liên hệ chúng tôi để được hỗ trợ.</value>
+  </data>
+  <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
+    <value>"{0}" không hợp lệ, vui lòng nhập số hợp lệ (tối đa {1})</value>
+  </data>
+  <data name="TurnOffNotification" xml:space="preserve">
+    <value>Đã tắt thông báo</value>
+  </data>
+  <data name="TurnOnNotification" xml:space="preserve">
+    <value>Đã bật thông báo</value>
+  </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>Menu Chính</value>
+  </data>
+  <data name="ApiException" xml:space="preserve">
+    <value>Chức năng này tạm thời gián đoạn từ {0} - {1} (GMT+8) do máy chủ đang bận vào thời điểm này. Vui lòng thử lại sau. Chúng tôi rất tiếc vì sự bất tiện này.</value>
+  </data>
+  <data name="InvalidCustName" xml:space="preserve">
+    <value>"{0}" không hợp lệ, vui lòng nhập tên người dùng hợp lệ.</value>
+  </data>
+  <data name="ListAllCommands" xml:space="preserve">
+    <value>Liệt kê tất cả các lệnh</value>
+  </data>
+  <data name="HelpCommandIntro" xml:space="preserve">
+    <value>Bạn có thể sử dụng {0} bằng các lệnh sau:</value>
+  </data>
+  <data name="OpenMainMenu" xml:space="preserve">
+    <value>Mở Menu Chính của {0}</value>
+  </data>
+  <data name="AccountAlreadyLinked" xml:space="preserve">
+    <value>Telegram của bạn đã liên kết với tài khoản khác. Vui lòng hủy liên kết với tài khoản đó và thử lại.</value>
+  </data>
+  <data name="RequestedIP" xml:space="preserve">
+    <value>IP đã yêu cầu</value>
+  </data>
+  <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
+    <value>Mã Bảo Mật của bạn đã thay đổi.</value>
+  </data>
+  <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
+    <value>Telegram của bạn đã liên kết với Chatbot này bằng tài khoản khác. Nếu đây không phải tài khoản của bạn, vui lòng liên hệ chúng tôi để được hỗ trợ.</value>
+  </data>
+  <data name="AlertMessage" xml:space="preserve">
+    <value>Nếu đây không phải là bạn, vui lòng đổi mật khẩu hoặc liên hệ chúng tôi để được hỗ trợ.</value>
+  </data>
+  <data name="InvalidNumberOfDownlines" xml:space="preserve">
+    <value>Số lượng cấp dưới phải từ 1 đến {0}</value>
+  </data>
+  <data name="ActionSelected" xml:space="preserve">
+    <value>Danh mục đã chọn</value>
+  </data>
+  <data name="ChangePasswordAlert" xml:space="preserve">
+    <value>Thông Báo Đổi Mật Khẩu</value>
+  </data>
+  <data name="ChangeSecurityCodeAlert" xml:space="preserve">
+    <value>Thông Báo Đổi Mã Bảo Mật</value>
+  </data>
+  <data name="Unlink" xml:space="preserve">
+    <value>Hủy liên kết</value>
+  </data>
+  <data name="PleaseSelectAnAction" xml:space="preserve">
+    <value>Vui lòng chọn một danh mục</value>
+  </data>
+  <data name="BackToMainMenu" xml:space="preserve">
+    <value>Trở về Menu Chính</value>
+  </data>
+  <data name="IntroductionMessage" xml:space="preserve">
+    <value>Vui lòng đăng nhập vào &lt;b&gt;trang Agency&lt;/b&gt;, đi đến chức năng Chatbot và làm theo hướng dẫn để cài đặt Telegram Chatbot.</value>
+  </data>
+  <data name="WelcomeMessage" xml:space="preserve">
+    <value>Xin chào {0}. Quá trình cài đặt Telegram Chatbot của bạn đã hoàn thành. Bạn có thể xem báo cáo bằng cách tương tác với Chatbot, và cập nhật thông tin mới nhất qua thông báo tự động. Bạn sẽ nhận Báo Cáo Thắng Thua Hôm Qua sau 2:00 PM (GMT+8) hằng ngày.</value>
+  </data>
+  <data name="ChangePasswordAlertContent" xml:space="preserve">
+    <value>Mật khẩu của bạn đã thay đổi.</value>
+  </data>
+  <data name="LanguageUpdated" xml:space="preserve">
+    <value>Đã cập nhật ngôn ngữ.</value>
+  </data>
 </root>

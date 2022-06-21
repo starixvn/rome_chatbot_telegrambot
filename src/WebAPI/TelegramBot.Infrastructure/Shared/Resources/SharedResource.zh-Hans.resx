@@ -285,4 +285,97 @@
   <data name="AgentActClosedSus" xml:space="preserve">
     <value>代理们 (活跃/关闭/暫停)</value>
   </data>
+  <data name="Setting_OTP_Help" xml:space="preserve">
+    <value>请在 3 分钟内输入一次性密码 OTP &lt;code&gt;{0}&lt;/code&gt; 到&lt;b&gt;代理网&lt;/b&gt;，以完成Telegram Chatbot的设置。</value>
+  </data>
+  <data name="InvalidCustName" xml:space="preserve">
+    <value>"{0}"无效，请输入有效的账号。</value>
+  </data>
+  <data name="YourAccountIsLocked" xml:space="preserve">
+    <value>您的账号已被锁</value>
+  </data>
+  <data name="OpenSettingsMenu" xml:space="preserve">
+    <value>打开设置目录</value>
+  </data>
+  <data name="BackTo" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="StopUsingChatbot" xml:space="preserve">
+    <value>停止使用Chatbot</value>
+  </data>
+  <data name="StopUsingChatbotConfirmMessage" xml:space="preserve">
+    <value>您即将&lt;b&gt;停止使用Chatbot&lt;/b&gt;。 您的 Telegram将未链接与 {0}，您将无法再使用 {0}。 请问你想继续吗？</value>
+  </data>
+  <data name="UnlinkMessage" xml:space="preserve">
+    <value>您的Telegram已经未链接与{0}</value>
+  </data>
+  <data name="AlertChangePasswordMessage" xml:space="preserve">
+    <value>如果这不是您，请联系我们寻求协助。</value>
+  </data>
+  <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
+    <value>"{0}"无效，请输入有效的数字（最多{1}）。</value>
+  </data>
+  <data name="TurnOffNotification" xml:space="preserve">
+    <value>通告已关闭</value>
+  </data>
+  <data name="TurnOnNotification" xml:space="preserve">
+    <value>通告已开启</value>
+  </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>主要目录</value>
+  </data>
+  <data name="ApiException" xml:space="preserve">
+    <value>由于我们的服务器目前太繁忙，此功能从 {0} - {1} (GMT+8) 期间暂时关闭。 请稍后再试。 给您带来的任何不便，我们深表歉意。</value>
+  </data>
+  <data name="BackToMainMenu" xml:space="preserve">
+    <value>返回主要目录</value>
+  </data>
+  <data name="ActionSelected" xml:space="preserve">
+    <value>已选择动作</value>
+  </data>
+  <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
+    <value>您的Telegram已经用另一个账户连接Chatbot。如果这不是您的账户，请联系我们寻求协助。</value>
+  </data>
+  <data name="HelpCommandIntro" xml:space="preserve">
+    <value>您可以使用以下指令运行{0}：</value>
+  </data>
+  <data name="AccountAlreadyLinked" xml:space="preserve">
+    <value>您的Telegram已链接另一个账号。请先取消该相关账号，然后再重试。</value>
+  </data>
+  <data name="OpenMainMenu" xml:space="preserve">
+    <value>打开{0}的主要目录</value>
+  </data>
+  <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
+    <value>您的保安码已经更改。</value>
+  </data>
+  <data name="AlertMessage" xml:space="preserve">
+    <value>如果这不是您，请更改密码或联系我们寻求协助。</value>
+  </data>
+  <data name="ChangeSecurityCodeAlert" xml:space="preserve">
+    <value>警惕更换保安码</value>
+  </data>
+  <data name="RequestedIP" xml:space="preserve">
+    <value>要求IP</value>
+  </data>
+  <data name="ChangePasswordAlert" xml:space="preserve">
+    <value>警惕更换密码</value>
+  </data>
+  <data name="WelcomeMessage" xml:space="preserve">
+    <value>欢迎{0}。您的Telegram Chatbot设置已完成。您可以通过此Chatbot交互来查看报告，并通过自动通告取得最新资讯。您将在每日下注2:00PM (GMT+8)之后收到昨日的输赢报告</value>
+  </data>
+  <data name="IntroductionMessage" xml:space="preserve">
+    <value>请登入&lt;b&gt;代理网&lt;/b&gt;，访问Chatbot功能并按照指示设置Telegram Chatbot</value>
+  </data>
+  <data name="PleaseSelectAnAction" xml:space="preserve">
+    <value>请选择一个动作</value>
+  </data>
+  <data name="Unlink" xml:space="preserve">
+    <value>取消链接</value>
+  </data>
+  <data name="ListAllCommands" xml:space="preserve">
+    <value>列出所有指令</value>
+  </data>
+  <data name="InvalidNumberOfDownlines" xml:space="preserve">
+    <value>下线的数量必须是从 1 至 {0}</value>
+  </data>
 </root>

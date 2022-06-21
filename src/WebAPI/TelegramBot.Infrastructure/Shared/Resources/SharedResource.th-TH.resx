@@ -282,4 +282,97 @@
   <data name="AgentActClosedSus" xml:space="preserve">
     <value>เอเย่นต์ (เปิด/ปิด/ถูกระงับ)</value>
   </data>
+  <data name="Setting_OTP_Help" xml:space="preserve">
+    <value>โปรดป้อนรหัส OTP นี้ &lt;code&gt;{0}&lt;/code&gt; ไปยัง &lt;b&gt;เว็บไซต์ตัวแทน&lt;/b&gt; ภายใน 3 นาที เพื่อตั้งค่า Telegram Chatbot ให้เสร็จสิ้น</value>
+  </data>
+  <data name="InvalidCustName" xml:space="preserve">
+    <value>"{0}" ไม่สามารถใช้ได้ โปรดป้อนชื่อบัญชีที่ใช้ได้</value>
+  </data>
+  <data name="YourAccountIsLocked" xml:space="preserve">
+    <value>บัญชีของคุณถูกล็อค</value>
+  </data>
+  <data name="OpenSettingsMenu" xml:space="preserve">
+    <value>เปิดเมนูการตั้งค่า</value>
+  </data>
+  <data name="BackTo" xml:space="preserve">
+    <value>ย้อนกลับ</value>
+  </data>
+  <data name="StopUsingChatbot" xml:space="preserve">
+    <value>หยุดการใช้งานChatbot</value>
+  </data>
+  <data name="StopUsingChatbotConfirmMessage" xml:space="preserve">
+    <value>คุณกำลังจะ&lt;b&gt;หยุดการใช้งานChatbot&lt;/b&gt; Telegramของคุณจะถูกยกเลิกการเชื่อมต่อจาก {0} และคุณจะไม่สามารถใช้งาน {0} ได้อีกต่อไป คุณต้องการดำเนินการต่อหรือไม่</value>
+  </data>
+  <data name="UnlinkMessage" xml:space="preserve">
+    <value>Telegramของคุณจะถูกยกเลิกการเชื่อมต่อจาก {0}</value>
+  </data>
+  <data name="AlertChangePasswordMessage" xml:space="preserve">
+    <value>หากนี่ไม่ใช่คุณ โปรดติดต่อเราเพื่อขอความช่วยแหลือ</value>
+  </data>
+  <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
+    <value>"{0}" ไม่สามารถใช้ได้ โปรดป้อนตัวเลขที่ใช้ได้ (สูงสุด {1})</value>
+  </data>
+  <data name="TurnOffNotification" xml:space="preserve">
+    <value>ปิดการแจ้งเตือน</value>
+  </data>
+  <data name="TurnOnNotification" xml:space="preserve">
+    <value>เปิดการแจ้งเตือน</value>
+  </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>เมนูหลัก</value>
+  </data>
+  <data name="ApiException" xml:space="preserve">
+    <value>ฟังก์ชันนี้ปิดชั่วคราวตั้งแต่ {0} - {1} (GMT+8) เนื่องจากขณะนี้เซิร์ฟเวอร์ของเรามีผู้ใช้งานจำนวนมาก โปรดลองอีกครั้งในภายหลัง ขออภัยในความไม่สะดวกที่เกิดขึ้นค่ะ</value>
+  </data>
+  <data name="BackToMainMenu" xml:space="preserve">
+    <value>กลับไปที่เมนูหลัก</value>
+  </data>
+  <data name="ActionSelected" xml:space="preserve">
+    <value>เลือกการดำเนินการแล้ว</value>
+  </data>
+  <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
+    <value>Telegramของคุณเชื่อมต่อกับChatboโดยบัญชีอื่น หากนี่ไม่ใช่บัญชีของคุณ โปรดติดต่อเราเพื่อขอความช่วยแหลือ</value>
+  </data>
+  <data name="HelpCommandIntro" xml:space="preserve">
+    <value>คุณสามารถเรียกใช้ {0} โดยใช้คำสั่งต่อไปนี้:</value>
+  </data>
+  <data name="AccountAlreadyLinked" xml:space="preserve">
+    <value>Telegramของคุณเชื่อมโยงกับบัญชีอื่น โปรดยกเลิกบัญชีที่เกี่ยวข้องแล้วลองอีกครั้ง</value>
+  </data>
+  <data name="OpenMainMenu" xml:space="preserve">
+    <value>เปิดเมนูหลักของ {0}</value>
+  </data>
+  <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
+    <value>รหัสความปลอดภัยของคุณถูกเปลี่ยนแล้ว</value>
+  </data>
+  <data name="AlertMessage" xml:space="preserve">
+    <value>หากนี่ไม่ใช่คุณ โปรดเปลี่ยนรหัสผ่านหรือติดต่อเราเพื่อขอความช่วยแหลือ</value>
+  </data>
+  <data name="ChangeSecurityCodeAlert" xml:space="preserve">
+    <value>การแจ้งเตือนเปลี่ยนรหัสความปลอดภัย</value>
+  </data>
+  <data name="RequestedIP" xml:space="preserve">
+    <value>ที่อยู่ IP</value>
+  </data>
+  <data name="ChangePasswordAlert" xml:space="preserve">
+    <value>การแจ้งเตือนเปลี่ยนรหัสผ่าน</value>
+  </data>
+  <data name="WelcomeMessage" xml:space="preserve">
+    <value>ยินดีต้อนรับ {0} การตั้งค่าTelegram Chatbotของคุณเสร็จสิ้นแล้ว คุณสามารถดูรายงานได้ด้วยการสนทนากับChatbotนี้ และติดตามข้อมูลล่าสุดผ่านการแจ้งเตือนอัตโนมัติ คุณจะได้รับรายงานชนะ/แพ้เมื่อวาน หลัง 2:00 PM (GMT+8)ของทุกวัน</value>
+  </data>
+  <data name="IntroductionMessage" xml:space="preserve">
+    <value>โปรดลงชื่อเข้าใช้ &lt;b&gt;เว็บไซต์ตัวแทน&lt;/b&gt; เข้าถึงฟังก์ชันChatboและทำตามคำแนะนำเพื่อตั้งค่าTelegram Chatbot</value>
+  </data>
+  <data name="PleaseSelectAnAction" xml:space="preserve">
+    <value>โปรดเลือกการดำเนินการ</value>
+  </data>
+  <data name="Unlink" xml:space="preserve">
+    <value>ยกเลิกการเชื่อมต่อ</value>
+  </data>
+  <data name="ListAllCommands" xml:space="preserve">
+    <value>รายการคำสั่งทั้งหมด</value>
+  </data>
+  <data name="InvalidNumberOfDownlines" xml:space="preserve">
+    <value>จำนวนของดาวน์ไลน์ต้องเริ่มตั้งแต่ 1 ถึง {0}</value>
+  </data>
 </root>
