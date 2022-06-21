@@ -29,7 +29,7 @@ IWebHost BuildWebHost(IConfiguration configuration, string[] args) =>
         .ConfigureAppConfiguration(x => x.AddConfiguration(configuration))
         .UseContentRoot(Directory.GetCurrentDirectory())
         .UseStartup<Startup>()
-        .UseUrls("http://localhost:5000")
+        .UseUrls("http://0.0.0.0:5000")
         .Build();
 
 void InitFanexLogger(IConfiguration configuration)

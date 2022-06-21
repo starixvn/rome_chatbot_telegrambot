@@ -34,7 +34,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         public async Task<Result> Handle(CustBotAccount account, string[] parameters)
         {
-            var parameter = parameters[0];
+            var parameter = parameters[0]?.ToLowerInvariant();
             if (string.IsNullOrEmpty(parameter))
             {
                 return Result.CreateErrorResult();

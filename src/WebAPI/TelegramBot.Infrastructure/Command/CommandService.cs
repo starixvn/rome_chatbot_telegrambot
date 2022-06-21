@@ -299,7 +299,7 @@ namespace TelegramBot.Infrastructure.Command
             }
 
             var commandName = command.Substring(0, firstSpaceIndex);
-            var commandParam = command.Substring(firstSpaceIndex + 1).Split(" ")?.Select(c => c.ToLowerInvariant()).ToArray();
+            var commandParam = command.Substring(firstSpaceIndex + 1).Split(" ");
 
             return (commandName, commandParam);
         }

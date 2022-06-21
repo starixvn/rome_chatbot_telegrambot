@@ -35,7 +35,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         public async Task<Result> HandleWinLoss(CustBotAccount account, string[] parameters, DateTime dateTime)
         {
-            var parameter = parameters[0];
+            var parameter = parameters[0]?.ToLowerInvariant();
             if (string.IsNullOrWhiteSpace(parameter))
             {
                 return Result.CreateErrorResult();

@@ -628,7 +628,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please enter this OTP {0} to &lt;b&gt;the Agency Site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot..
+        ///   Looks up a localized string similar to Please enter this OTP &lt;code&gt;{0}&lt;/code&gt; to &lt;b&gt;the Agency Site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot..
         /// </summary>
         public static string Setting_OTP_Help {
             get {
