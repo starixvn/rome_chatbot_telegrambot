@@ -116,8 +116,8 @@ public class YesterdayWinLossService : NotificationServiceBase, IYesterdayWinLos
         .AppendLine(FormatDecimalWithPadLeft(winloss.AgentComm))
         .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.AgentTotal)))
         .AppendLine(FormatDecimalWithPadLeft(winloss.AgentTotal))
-        .Append(TemplateHelper.BuildBoldContent(language, nameof(winloss.CompanyWinLoss)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.CompanyWinLoss));
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.CompanyWinLoss)))
+        .Append(FormatDecimalWithPadLeft(winloss.CompanyWinLoss));
 
     private static string FormatDecimalWithPadLeft(decimal value)
         => $"    {value.FormatDecimal()}";
