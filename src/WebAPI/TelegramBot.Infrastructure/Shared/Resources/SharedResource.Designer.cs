@@ -279,9 +279,9 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Member.
         /// </summary>
-        public static string CustLevcel_1 {
+        public static string CustLevel_1 {
             get {
-                return ResourceManager.GetString("CustLevcel_1", resourceCulture);
+                return ResourceManager.GetString("CustLevel_1", resourceCulture);
             }
         }
         

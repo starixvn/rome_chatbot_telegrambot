@@ -149,7 +149,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         private void AddTotalRow(List<string> textContainer, OutstandingEntity total, string language)
         {
-            textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant());
+            textContainer.Add(messageFormatter.Bold(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant()));
             textContainer.Add($"    {total.MemberOutstanding.ToFormattedNumber()} {messageFormatter.Point()} {total.Outstanding.ToFormattedNumber()}");
         }
 
@@ -158,7 +158,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var index = 1;
             foreach (var outstanding in outstandings)
             {
-                textContainer.Add($"{index}. {outstanding.Name}");
+                textContainer.Add(messageFormatter.Bold($"{index}. {outstanding.Name}"));
                 textContainer.Add($"    {outstanding.MemberOutstanding.ToFormattedNumber()} {messageFormatter.Point()} {outstanding.Outstanding.ToFormattedNumber()}");
                 index++;
             }
