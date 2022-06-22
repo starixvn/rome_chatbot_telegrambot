@@ -378,4 +378,13 @@
   <data name="InvalidNumberOfDownlines" xml:space="preserve">
     <value>下线的数量必须是从 1 至 {0}</value>
   </data>
+  <data name="ChangePasswordAlertContent" xml:space="preserve">
+    <value>您帐户密码已更改。</value>
+  </data>
+  <data name="LanguageUpdated" xml:space="preserve">
+    <value>语言已更新。</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>否</value>
+  </data>
 </root>

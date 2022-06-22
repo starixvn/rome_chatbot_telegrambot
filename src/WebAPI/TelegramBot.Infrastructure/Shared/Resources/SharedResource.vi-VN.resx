@@ -360,4 +360,7 @@
   <data name="LanguageUpdated" xml:space="preserve">
     <value>Đã cập nhật ngôn ngữ.</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>Không</value>
+  </data>
 </root>

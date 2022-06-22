@@ -375,4 +375,13 @@
   <data name="InvalidNumberOfDownlines" xml:space="preserve">
     <value>จำนวนของดาวน์ไลน์ต้องเริ่มตั้งแต่ 1 ถึง {0}</value>
   </data>
+  <data name="ChangePasswordAlertContent" xml:space="preserve">
+    <value>รหัสผ่านบัญชีของคุณมีการเปลี่ยนแปลง</value>
+  </data>
+  <data name="LanguageUpdated" xml:space="preserve">
+    <value>เปลี่ยนภาษา</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>ไม่</value>
+  </data>
 </root>
