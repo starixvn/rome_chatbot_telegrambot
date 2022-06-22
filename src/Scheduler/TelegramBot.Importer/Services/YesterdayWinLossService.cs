@@ -3,6 +3,7 @@ using Alpha.API.Client.Models.WinLoss;
 using Fanex.Data.Repository;
 using TelegramBot.Importer.Constants;
 using TelegramBot.Importer.Criteria.YesterdayWinLoss;
+using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Resources;
 using ClientServices = Alpha.API.Client.Services;
@@ -65,35 +66,64 @@ public class YesterdayWinLossService : NotificationServiceBase, IYesterdayWinLos
 
     private static void AddMasterWinLossContent(StringBuilder messageBuilder, string language, WinLossMaster winloss)
         => messageBuilder
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.Turnover), winloss.Turnover))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.GrossComm), winloss.GrossComm))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.MasterTotal), winloss.MasterTotal))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.SuperWinLoss), winloss.SuperWinLoss))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.SuperComm), winloss.SuperComm))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.SuperTotal), winloss.SuperTotal))
-        .Append(TemplateHelper.BuildContent(language, nameof(winloss.CompanyWinLoss), winloss.CompanyWinLoss));
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.Turnover)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.Turnover))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.GrossComm)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.GrossComm))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MasterTotal)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.MasterTotal))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.SuperWinLoss)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.SuperWinLoss))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.SuperComm)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.SuperComm))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.SuperTotal)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.SuperTotal))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.CompanyWinLoss)))
+        .Append(FormatDecimalWithPadLeft(winloss.CompanyWinLoss));
 
     private static void AddAgentWinLossContent(StringBuilder messageBuilder, string language, WinLossAgent winloss)
         => messageBuilder
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.Turnover), winloss.Turnover))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.GrossComm), winloss.GrossComm))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.AgentTotal), winloss.AgentTotal))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.MasterWinLoss), winloss.MasterWinLoss))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.MasterComm), winloss.MasterComm))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.MasterTotal), winloss.MasterTotal))
-        .Append(TemplateHelper.BuildContent(language, nameof(winloss.CompanyWinLoss), winloss.CompanyWinLoss));
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.Turnover)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.Turnover))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.GrossComm)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.GrossComm))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.AgentTotal)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.AgentTotal))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MasterWinLoss)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.MasterWinLoss))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MasterComm)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.MasterComm))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MasterTotal)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.MasterTotal))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.CompanyWinLoss)))
+        .Append(FormatDecimalWithPadLeft(winloss.CompanyWinLoss));
 
     private static void AddMemberWinLossContent(StringBuilder messageBuilder, string language, WinLossMember winloss)
         => messageBuilder
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.Turnover), winloss.Turnover))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.GrossComm), winloss.GrossComm))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.MemberWinLoss), winloss.MemberWinLoss))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.MemberComm), winloss.MemberComm))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.MemberTotal), winloss.MemberTotal))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.AgentWinLoss), winloss.AgentWinLoss))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.AgentComm), winloss.AgentComm))
-        .AppendLine(TemplateHelper.BuildContent(language, nameof(winloss.AgentTotal), winloss.AgentTotal))
-        .Append(TemplateHelper.BuildContent(language, nameof(winloss.CompanyWinLoss), winloss.CompanyWinLoss));
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.Turnover)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.Turnover))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.GrossComm)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.GrossComm))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MemberWinLoss)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.MemberWinLoss))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MemberComm)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.MemberComm))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MemberTotal)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.MemberTotal))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.AgentWinLoss)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.AgentWinLoss))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.AgentComm)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.AgentComm))
+        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.AgentTotal)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.AgentTotal))
+        .Append(TemplateHelper.BuildBoldContent(language, nameof(winloss.CompanyWinLoss)))
+        .AppendLine(FormatDecimalWithPadLeft(winloss.CompanyWinLoss));
+
+    private static string FormatDecimalWithPadLeft(
+        decimal value,
+        int padLeftTotalWidth = 4,
+        char padLeftChar = ' ')
+        => value.FormatDecimal().PadLeft(padLeftTotalWidth, padLeftChar);
 
     public Task<Result> Import(
         IEnumerable<Notification> notifications,

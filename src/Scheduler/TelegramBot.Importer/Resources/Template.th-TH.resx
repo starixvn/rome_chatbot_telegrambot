@@ -186,27 +186,27 @@
     <comment/>
   </data>
   <data name="NewProblemAccounts" xml:space="preserve">
-    <value>New problem account(s): {0}.</value>
+    <value>บัญชีที่มีปัญหาใหม่: {0}</value>
     <comment/>
   </data>
   <data name="ProblemAccountAlert" xml:space="preserve">
-    <value>Problem Account Alert</value>
+    <value>แจ้งเตือนบัญชีที่มีปัญหา</value>
     <comment/>
   </data>
   <data name="ProblemAccountShowAllDownlines" xml:space="preserve">
-    <value>Please kindly be informed and review the listed downline(s).</value>
+    <value>โปรดทราบและตรวจสอบรายชื่อดาวน์ไลน์</value>
     <comment/>
   </data>
   <data name="ProblemAccountShowXDownlines" xml:space="preserve">
-    <value>Please kindly be informed that there are {0} new problem accounts. Details can be found in Problem Account List.</value>
+    <value>โปรดทราบว่ามีบัญชีที่มีปัญหาใหม่จำนวน {0} บัญชี รายละเอียดสามารถตรวจสอบได้ในรายการบัญชีที่มีปัญหา</value>
     <comment/>
   </data>
   <data name="MemberReachWinLossIntro" xml:space="preserve">
-    <value>You have Members who have reached 100% of their Win Loss Limit</value>
+    <value>สมาชิกของคุณถึง 100% ของขีดจำกัดการชนะ/แพ้</value>
     <comment/>
   </data>
   <data name="MemberWinLossLimitAlert" xml:space="preserve">
-    <value>Member Win Loss Limit Alert</value>
+    <value>แจ้งเตือนขีดจำกัดชนะ/แพ้ของสมาชิก</value>
     <comment/>
   </data>
   <data name="MemberWinLossLimitNote" xml:space="preserve">

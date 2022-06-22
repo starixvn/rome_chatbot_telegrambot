@@ -2,7 +2,6 @@
 using System.Resources;
 using System.Xml.Linq;
 using TelegramBot.Importer.Constants;
-using TelegramBot.Importer.Extensions;
 
 namespace TelegramBot.Importer.Resources;
 
@@ -22,8 +21,8 @@ public static class TemplateHelper
     public static string BuildTitle(string language, string resourceKey, string date)
         => $"[{Get(resourceKey, language)} - {date}]";
 
-    public static string BuildContent(string language, string resourceKey, decimal value)
-        => $"<b>{Get(resourceKey, language)}</b>: {value.FormatDecimal()}";
+    public static string BuildBoldContent(string language, string resourceKey)
+        => $"<b>{Get(resourceKey, language)}:</b>";
 
     public static string EncodeXml(string text, bool isAttribute = true, int attrSubStringLength = 5)
         => isAttribute

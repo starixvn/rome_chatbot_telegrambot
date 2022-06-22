@@ -186,27 +186,27 @@
     <comment/>
   </data>
   <data name="NewProblemAccounts" xml:space="preserve">
-    <value>New problem account(s): {0}.</value>
+    <value>新的問題賬號：{0}</value>
     <comment/>
   </data>
   <data name="ProblemAccountAlert" xml:space="preserve">
-    <value>Problem Account Alert</value>
+    <value>警惕問題賬號</value>
     <comment/>
   </data>
   <data name="ProblemAccountShowAllDownlines" xml:space="preserve">
-    <value>Please kindly be informed and review the listed downline(s).</value>
+    <value>請告知並審查以下列出的下線。</value>
     <comment/>
   </data>
   <data name="ProblemAccountShowXDownlines" xml:space="preserve">
-    <value>Please kindly be informed that there are {0} new problem accounts. Details can be found in Problem Account List.</value>
+    <value>在此通知有{0}個新的問題賬號。詳情可在問題賬號列表查詢。</value>
     <comment/>
   </data>
   <data name="MemberReachWinLossIntro" xml:space="preserve">
-    <value>You have Members who have reached 100% of their Win Loss Limit</value>
+    <value>您的會員已達到100%的輸贏限額</value>
     <comment/>
   </data>
   <data name="MemberWinLossLimitAlert" xml:space="preserve">
-    <value>Member Win Loss Limit Alert</value>
+    <value>警惕輸贏限額</value>
     <comment/>
   </data>
   <data name="MemberWinLossLimitNote" xml:space="preserve">
