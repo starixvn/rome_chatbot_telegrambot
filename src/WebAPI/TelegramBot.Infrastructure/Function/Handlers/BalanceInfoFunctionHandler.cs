@@ -137,7 +137,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var textContainer = new List<string>
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.Balance),  account.Language)} - {DateTime.Now:yyyyMMdd}]",
-                $"{ResourceHelper.Get(nameof(SharedResource.Username), account.Language).ToUpperInvariant()}:",
+                $"{messageFormatter.Bold(ResourceHelper.Get(nameof(SharedResource.Username), account.Language).ToUpperInvariant())}:",
                 $"{username}{messageFormatter.NewLine()}"
             };
 
