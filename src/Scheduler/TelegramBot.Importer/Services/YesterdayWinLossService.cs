@@ -119,11 +119,8 @@ public class YesterdayWinLossService : NotificationServiceBase, IYesterdayWinLos
         .Append(TemplateHelper.BuildBoldContent(language, nameof(winloss.CompanyWinLoss)))
         .AppendLine(FormatDecimalWithPadLeft(winloss.CompanyWinLoss));
 
-    private static string FormatDecimalWithPadLeft(
-        decimal value,
-        int padLeftTotalWidth = 4,
-        char padLeftChar = ' ')
-        => value.FormatDecimal().PadLeft(padLeftTotalWidth, padLeftChar);
+    private static string FormatDecimalWithPadLeft(decimal value)
+        => $"    {value.FormatDecimal()}";
 
     public Task<Result> Import(
         IEnumerable<Notification> notifications,
