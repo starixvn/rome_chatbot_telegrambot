@@ -210,7 +210,7 @@
     <comment/>
   </data>
   <data name="MemberWinLossLimitNote" xml:space="preserve">
-    <value>Product. Current Win Loss | Maximum Win Loss | Current Win Loss (%)</value>
+    <value>产品: 目前输赢| 最大输赢 | 目前输赢 (%)</value>
     <comment/>
   </data>
 </root>
