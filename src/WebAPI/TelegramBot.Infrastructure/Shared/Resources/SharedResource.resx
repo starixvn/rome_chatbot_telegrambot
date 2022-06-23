@@ -350,8 +350,7 @@
     <comment />
   </data>
   <data name="YesterdayBal" xml:space="preserve">
-    <value>YESTERDAY BAL</value>
-    <comment />
+    <value>YESTERDAY BALANCE</value>
   </data>
   <data name="ThirdPartyPendingTransfer" xml:space="preserve">
     <value>3RD PARTY PENDING TRANSFER</value>
