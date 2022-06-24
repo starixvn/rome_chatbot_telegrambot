@@ -74,7 +74,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.Balance), account.Language)} - {DateTime.Now:yyyyMMdd}]",
                 ResourceHelper.Get($"CustLevel_{account.CustomerLevel - 1}", account.Language),
-                $"{todayText}{messageFormatter.Point()}{yesterdayText}{messageFormatter.NewLine()}",
+                $"{todayText} {messageFormatter.Point()} {yesterdayText}{messageFormatter.NewLine()}",
 
             };
 
@@ -88,7 +88,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 foreach (var item in topBalanceReport)
                 {
                     textContainer.Add($"{index++}. {item.Username}");
-                    textContainer.Add($"    {item.Balance.ToFormattedNumber()}{messageFormatter.Point()}{item.YesterdayBalance.ToFormattedNumber()}");
+                    textContainer.Add($"    {item.Balance.ToFormattedNumber()} {messageFormatter.Point()} {item.YesterdayBalance.ToFormattedNumber()}");
                 }
             }
 
