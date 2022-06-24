@@ -377,8 +377,7 @@
     <comment />
   </data>
   <data name="MemMaxCredit" xml:space="preserve">
-    <value>MEM. MAX CREDIT</value>
-    <comment />
+    <value>MEMBER MAX CREDIT</value>
   </data>
   <data name="MemberActClosedSus" xml:space="preserve">
     <value>Members (Active/Closed/Suspended)</value>
