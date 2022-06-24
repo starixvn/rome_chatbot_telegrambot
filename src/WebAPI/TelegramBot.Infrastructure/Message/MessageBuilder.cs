@@ -113,7 +113,7 @@ namespace TelegramBot.Infrastructure.Message
                 ResourceHelper.Get(nameof(SharedResource.AlertMessage), language));
 
         public string BuildOTPMessage(string language, string otp)
-            => string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help)), otp);
+            => string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help), language), otp);
 
         public string BuildTelegramAccountAlreadyLinkedMessage(string language)
             => ResourceHelper.Get(nameof(SharedResource.TelegramAccountAlreadyLinked), language);
