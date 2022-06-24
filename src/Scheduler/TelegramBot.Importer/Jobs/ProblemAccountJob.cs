@@ -66,7 +66,6 @@ public sealed class ProblemAccountJob : NotificationBaseJob
         IEnumerable<CustomerStatus> customerStatus)
     {
         var identity = 1;
-        var currentDate = DateTime.Today.ToSimpleDate();
 
         var notifications =
             from gpa in groupProblemAccounts
@@ -74,7 +73,7 @@ public sealed class ProblemAccountJob : NotificationBaseJob
             join status in customerStatus on new { customer.CustId, customer.SubAccId }
                 equals new { status.CustId, status.SubAccId }
             where status.IsValid(job.SubAccPermission)
-            select BuildProblemAccountNotification(job, identity++, gpa, customer, currentDate);
+            select BuildProblemAccountNotification(job, identity++, gpa, customer);
 
         return notifications.ToList();
     }
@@ -83,12 +82,14 @@ public sealed class ProblemAccountJob : NotificationBaseJob
         ScheduleJob job,
         int identity,
         GroupProblemAccount groupProblemAccount,
-        LinkedCustomer customer,
-        string currentDate)
+        LinkedCustomer customer)
         => new (
             identity,
             customer.UserId,
-            problemAccountService.BuildMessage(customer.Language, groupProblemAccount.Usernames, currentDate),
+            problemAccountService.BuildMessage(
+                customer.Language,
+                groupProblemAccount.Usernames,
+                groupProblemAccount.CreatedDate.ToSimpleDate()),
             customer.IsRealUser,
             job.IsUAT,
             groupProblemAccount.LogIds);

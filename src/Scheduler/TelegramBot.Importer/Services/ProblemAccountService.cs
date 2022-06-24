@@ -45,23 +45,25 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
 
         var groupSuperList = problemAccounts
             .Where(pa => pa.SRecommend != pa.CustId)
-            .GroupBy(pa => pa.SRecommend);
+            .GroupBy(pa => new { pa.SRecommend, pa.CreatedDate });
 
         foreach (var groupSuper in groupSuperList)
         {
             var master = GetGroupProblemAccount(
-                groupSuper.Key,
+                groupSuper.Key.SRecommend,
+                groupSuper.Key.CreatedDate,
                 groupSuper.Where(pa => pa.MRecommend == pa.CustId));
             groupProblemAccounts.Add(master);
 
             var groupMasterList = groupSuper
                 .Where(pa => pa.MRecommend != pa.CustId)
-                .GroupBy(pa => pa.MRecommend);
+                .GroupBy(pa => new { pa.MRecommend, pa.CreatedDate });
 
             foreach (var groupMaster in groupMasterList)
             {
                 var agent = GetGroupProblemAccount(
-                    groupMaster.Key,
+                    groupMaster.Key.MRecommend,
+                    groupSuper.Key.CreatedDate,
                     groupMaster.Where(pa => pa.Recommend == pa.CustId));
                 groupProblemAccounts.Add(agent);
                 master.Usernames.AddRange(agent.Usernames);
@@ -69,12 +71,13 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
 
                 var groupAgentList = groupMaster
                     .Where(pa => pa.Recommend != pa.CustId)
-                    .GroupBy(pa => pa.Recommend);
+                    .GroupBy(pa => new { pa.Recommend, pa.CreatedDate });
 
                 foreach (var groupAgent in groupAgentList)
                 {
                     var member = GetGroupProblemAccount(
-                        groupAgent.Key,
+                        groupAgent.Key.Recommend,
+                        groupSuper.Key.CreatedDate,
                         groupAgent);
                     groupProblemAccounts.Add(member);
                     agent.Usernames.AddRange(member.Usernames);
@@ -90,6 +93,7 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
     
     private static GroupProblemAccount GetGroupProblemAccount(
         int custId,
+        DateTime createdDate,
         IEnumerable<ProblemAccount> problemAccounts)
     {
         var usernames = new List<string>();
@@ -103,6 +107,7 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
 
         return new GroupProblemAccount(
             custId,
+            createdDate,
             usernames.Distinct().OrderBy(username => username).ToList(),
             logIds);
     }
