@@ -14,6 +14,8 @@ namespace TelegramBot.Infrastructure.Message
 {
     public interface IMessageBuilder
     {
+        string BuildIntroductionMessage(string system);
+
         string BuildUnderMaintenanceMessage(string from, string to);
 
         string BuildChangePasswordAlertMessage(string language, string ip);
@@ -79,6 +81,7 @@ namespace TelegramBot.Infrastructure.Message
             LanguageCodes.ChineseTraditional,
             LanguageCodes.ChineseSimplified
         };
+        private readonly string Site789 = "789Y";
         private readonly int NumberButtonInRow = 2;
         private readonly IMessageFormatter messageFormatter;
         private readonly IResourceService resourceService;
@@ -92,6 +95,12 @@ namespace TelegramBot.Infrastructure.Message
         }
 
         public IMessageFormatter GetFormatter() => messageFormatter;
+
+        public string BuildIntroductionMessage(string system)
+            => string.Join(
+                messageFormatter.NewLine(),
+                ResourceHelper.Get(nameof(SharedResource.IntroductionMessage)),
+                ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), system == Site789 ? LanguageCodes.Vietnamese : LanguageCodes.ChineseSimplified));
 
         public string BuildAccountAlreadyLinkedMessage(string language)
             => ResourceHelper.Get(nameof(SharedResource.AccountAlreadyLinked), language);

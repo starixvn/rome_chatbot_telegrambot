@@ -25,6 +25,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
         private readonly SettingController _settingController;
         private readonly IMessageSender _messageSender;
         private readonly ICommandService _commandService;
+        private readonly IMessageBuilder _messageBuilder;
 
         public SettingControllerTests()
         {
@@ -33,7 +34,8 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             _botService = Substitute.For<IBotService>();
             _messageSender = Substitute.For<IMessageSender>();
             _commandService = Substitute.For<ICommandService>();
-            _settingController = new SettingController(_cryptography, _settingService, _botService, _messageSender, _commandService);
+            _messageBuilder = Substitute.For<IMessageBuilder>();
+            _settingController = new SettingController(_cryptography, _settingService, _botService, _messageSender, _commandService, _messageBuilder);
         }
 
         [Theory, AutoData]
