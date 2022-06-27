@@ -45,7 +45,7 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
 
         var groupSuperList = problemAccounts
             .Where(pa => pa.SRecommend != pa.CustId)
-            .GroupBy(pa => new { pa.SRecommend, pa.CreatedDate });
+            .GroupBy(pa => new { pa.SRecommend, CreatedDate = pa.CreatedDate.Date });
 
         foreach (var groupSuper in groupSuperList)
         {
@@ -57,7 +57,7 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
 
             var groupMasterList = groupSuper
                 .Where(pa => pa.MRecommend != pa.CustId)
-                .GroupBy(pa => new { pa.MRecommend, pa.CreatedDate });
+                .GroupBy(pa => new { pa.MRecommend, CreatedDate = pa.CreatedDate.Date });
 
             foreach (var groupMaster in groupMasterList)
             {
@@ -71,7 +71,7 @@ public class ProblemAccountService : NotificationServiceBase, IProblemAccountSer
 
                 var groupAgentList = groupMaster
                     .Where(pa => pa.Recommend != pa.CustId)
-                    .GroupBy(pa => new { pa.Recommend, pa.CreatedDate });
+                    .GroupBy(pa => new { pa.Recommend, CreatedDate = pa.CreatedDate.Date });
 
                 foreach (var groupAgent in groupAgentList)
                 {
