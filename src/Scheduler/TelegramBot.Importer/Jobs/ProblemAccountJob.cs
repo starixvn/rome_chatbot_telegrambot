@@ -88,8 +88,7 @@ public sealed class ProblemAccountJob : NotificationBaseJob
             customer.UserId,
             problemAccountService.BuildMessage(
                 customer.Language,
-                groupProblemAccount.Usernames,
-                groupProblemAccount.CreatedDate.ToSimpleDate()),
+                groupProblemAccount.Usernames),
             customer.IsRealUser,
             job.IsUAT,
             groupProblemAccount.LogIds);

@@ -21,6 +21,9 @@ public static class TemplateHelper
     public static string BuildTitle(string language, string resourceKey, string date)
         => $"[{Get(resourceKey, language)} - {date}]";
 
+    public static string BuildTitleWithoutStrikeThrough(string language, string resourceKey, string date)
+        => $"[{Get(resourceKey, language)} {date}]";
+
     public static string BuildBoldContent(string language, string resourceKey)
         => $"<b>{Get(resourceKey, language)}:</b>";
 
