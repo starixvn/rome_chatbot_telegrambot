@@ -53,7 +53,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             // Assert
             _cryptography.Received().Encrypt(plainKey);
             await _botService.Received().GetAsync(param.System);
-            var expectedResult = $"https://t.me/{botEntity.Name}?start={encryptKey}";
+            var expectedResult = $"https://t.me/{botEntity.Username}?start={encryptKey}";
             Assert.Equal(expectedResult, result);
         }
 

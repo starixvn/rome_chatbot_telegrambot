@@ -67,7 +67,7 @@ namespace TelegramBot.Infrastructure.Notification
         public async Task<Result> NotifyUnlink(int userId, long chatId, int botId, string language)
         {
             var bot = await botService.GetAsync(botId);
-            await settingService.SendUnlinkMessage(userId, chatId, botId, bot.Name, language);
+            await settingService.SendUnlinkMessage(userId, chatId, botId, bot.DisplayName, language);
             return Result.CreateSuccessfulResult();
         }
     }

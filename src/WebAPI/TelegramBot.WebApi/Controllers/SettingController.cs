@@ -52,7 +52,7 @@ namespace TelegramBot.WebApi.Controllers
             var plainKey = $"{param.CustId}:{param.SubAccId}:{param.Language}";
             var encryptKey = _cryptography.Encrypt(plainKey);
             var botEntity = await _botService.GetAsync(param.System);
-            return $"https://t.me/{botEntity.Name}?start={encryptKey}";
+            return $"https://t.me/{botEntity.Username}?start={encryptKey}";
         }
 
         /// <summary>

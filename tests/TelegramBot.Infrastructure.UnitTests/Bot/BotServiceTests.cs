@@ -30,8 +30,8 @@ namespace TelegramBot.Infrastructure.UnitTests.Bot
             // Arrange
             IEnumerable<BotEntity> botEntities = new List<BotEntity>
             {
-                new BotEntity(1, "Name1", "System1", "123:AccessToken1", true, false),
-                new BotEntity(2, "Name2", "System2", "456:AccessToken2", false, true)
+                new BotEntity(1, "Name1", "System1", "123:AccessToken1", true, false, "Name1"),
+                new BotEntity(2, "Name2", "System2", "456:AccessToken2", false, true, "Name2")
             };
             _dynamicRepository.FetchAsync<BotEntity>(Arg.Any<GetAllCriteria>()).Returns(Task.FromResult(botEntities));
 
@@ -41,8 +41,8 @@ namespace TelegramBot.Infrastructure.UnitTests.Bot
             // Assert
             var expectedResult = new List<BotEntity>
             {
-                new BotEntity(1, "Name1", "System1", "123:AccessToken1", true, false) { MessengerBotId = 123},
-                new BotEntity(2, "Name2", "System2", "456:AccessToken2", false, true) { MessengerBotId = 456}
+                new BotEntity(1, "Name1", "System1", "123:AccessToken1", true, false, "Name1") { MessengerBotId = 123},
+                new BotEntity(2, "Name2", "System2", "456:AccessToken2", false, true, "Name2") { MessengerBotId = 456}
             };
             Assert.Equal(JsonConvert.SerializeObject(expectedResult), JsonConvert.SerializeObject(result));
         }
@@ -51,12 +51,12 @@ namespace TelegramBot.Infrastructure.UnitTests.Bot
         {
             var data = new List<BotEntity>
             {
-                new BotEntity(1, "Name1", "System1", "123:AccessToken1", true, false),
-                new BotEntity(2, "Name2", "System2", "456:AccessToken2", false, true)
+                new BotEntity(1, "Name1", "System1", "123:AccessToken1", true, false, "Name1"),
+                new BotEntity(2, "Name2", "System2", "456:AccessToken2", false, true, "Name2")
             };
-            yield return new object[] { data, "System1", new BotEntity(1, "Name1", "System1", "123:AccessToken1", true, false) { MessengerBotId = 123 } };
-            yield return new object[] { data, (long)456, new BotEntity(2, "Name2", "System2", "456:AccessToken2", false, true) { MessengerBotId = 456 } };
-            yield return new object[] { data, 1, new BotEntity(1, "Name1", "System1", "123:AccessToken1", true, false) { MessengerBotId = 123 } };
+            yield return new object[] { data, "System1", new BotEntity(1, "Name1", "System1", "123:AccessToken1", true, false, "Name1") { MessengerBotId = 123 } };
+            yield return new object[] { data, (long)456, new BotEntity(2, "Name2", "System2", "456:AccessToken2", false, true, "Name2") { MessengerBotId = 456 } };
+            yield return new object[] { data, 1, new BotEntity(1, "Name1", "System1", "123:AccessToken1", true, false, "Name1") { MessengerBotId = 123 } };
         }
 
         [Theory]

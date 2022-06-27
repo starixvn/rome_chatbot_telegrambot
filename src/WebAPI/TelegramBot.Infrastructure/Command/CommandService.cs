@@ -84,10 +84,10 @@ namespace TelegramBot.Infrastructure.Command
                 var function = GetCommandFunction(account, userResponse);
                 var handle = userResponse.ToLowerInvariant().Split(' ')[0] switch
                 {
-                    "/help" => HandleHelpCommand(account, messenger, bot.Name),
+                    "/help" => HandleHelpCommand(account, messenger, bot.DisplayName),
                     "/menu" => SendMainMenuMessage(account, messenger),
-                    "/stop" => HandleStopCommand(account, messenger, bot.Name),
-                    "/unlink" => HandleStopCommand(account, messenger, bot.Name),
+                    "/stop" => HandleStopCommand(account, messenger, bot.DisplayName),
+                    "/unlink" => HandleStopCommand(account, messenger, bot.DisplayName),
                     "/settings" => HandleSettingsCommand(account, messenger),
                     "/setting" => HandleSettingsCommand(account, messenger),
                     _ => HandleOtherCommand(account, messenger, userResponse)
@@ -321,7 +321,7 @@ namespace TelegramBot.Infrastructure.Command
             var parameter = splittedCommand.Item2?[0];
             if (parameter == "stop")
             {
-                await HandleStopCommand(account, messenger, bot.Name, messageId);
+                await HandleStopCommand(account, messenger, bot.DisplayName, messageId);
                 return;
             }
 
