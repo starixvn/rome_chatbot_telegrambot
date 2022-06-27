@@ -1,12 +1,10 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Action.Constants;
 using TelegramBot.Infrastructure.Message.Models;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.constants;
-using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Resources;
 

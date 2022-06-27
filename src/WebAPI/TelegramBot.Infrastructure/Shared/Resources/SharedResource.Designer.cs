@@ -124,7 +124,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Agent WL.
+        ///   Looks up a localized string similar to Agent Win Loss.
         /// </summary>
         public static string AgentWinLoss {
             get {
@@ -457,7 +457,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Master WL.
+        ///   Looks up a localized string similar to Master Win Loss.
         /// </summary>
         public static string MasterWinLoss {
             get {
@@ -520,7 +520,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Member WL.
+        ///   Looks up a localized string similar to Member Win Loss.
         /// </summary>
         public static string MemberWinLoss {
             get {
@@ -529,7 +529,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEM. MAX CREDIT.
+        ///   Looks up a localized string similar to MEMBER MAX CREDIT.
         /// </summary>
         public static string MemMaxCredit {
             get {
@@ -682,7 +682,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Super WL.
+        ///   Looks up a localized string similar to Super Win Loss.
         /// </summary>
         public static string SuperWinLoss {
             get {
@@ -826,7 +826,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to YESTERDAY BAL.
+        ///   Looks up a localized string similar to YESTERDAY BALANCE.
         /// </summary>
         public static string YesterdayBal {
             get {

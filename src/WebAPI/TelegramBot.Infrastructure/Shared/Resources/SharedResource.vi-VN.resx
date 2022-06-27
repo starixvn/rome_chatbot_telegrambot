@@ -262,7 +262,7 @@
     <value>Agents (Mở/Bị đóng/Bị đình chỉ)</value>
   </data>
   <data name="Setting_OTP_Help" xml:space="preserve">
-    <value>Vui lòng nhập mã OTP này trên &lt;b&gt;trang Agency&lt;/b&gt; trong vòng 3 phút để hoàn thành cài đặt Telegram Chatbot.</value>
+    <value>Vui lòng nhập mã OTP &lt;code&gt;{0}&lt;/code&gt; trên &lt;b&gt;trang Agency&lt;/b&gt; trong vòng 3 phút để hoàn thành cài đặt Telegram Chatbot.</value>
   </data>
   <data name="YourAccountIsLocked" xml:space="preserve">
     <value>Tài khoản của bạn đã bị khóa</value>
