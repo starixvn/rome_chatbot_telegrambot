@@ -69,6 +69,8 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildGeneralCommandsHelpMessage(string language, string botName);
 
         public string BuildLanguageUpdatedMessage(string language);
+
+        public string BuildMinimizeUMMessage(string language, string startTime, string endTime);
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -274,5 +276,8 @@ namespace TelegramBot.Infrastructure.Message
 
         public string BuildLanguageUpdatedMessage(string language)
             => ResourceHelper.Get(nameof(SharedResource.LanguageUpdated), language);
+
+        public string BuildMinimizeUMMessage(string language, string startTime, string endTime)
+            => string.Format(ResourceHelper.Get(nameof(SharedResource.ApiException), language), startTime, endTime);
     }
 }

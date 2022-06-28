@@ -1,7 +1,6 @@
 using Alpha.API.Client.Services;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Models;
-using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Resources;
 
@@ -13,9 +12,8 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             IMessageBuilder messageBuilder,
             IMessageFormatter messageFormatter,
             IWinLossService winLossService,
-            ICustomerService customerService,
-            WebAPIConfiguration webAPIConfiguration)
-            : base(messageBuilder, messageFormatter, winLossService, customerService, webAPIConfiguration)
+            ICustomerService customerService)
+            : base(messageBuilder, messageFormatter, winLossService, customerService)
         {
         }
 

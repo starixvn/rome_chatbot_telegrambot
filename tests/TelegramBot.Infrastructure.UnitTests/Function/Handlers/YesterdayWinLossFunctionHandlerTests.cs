@@ -6,7 +6,6 @@ using Alpha.API.Client.Models.WinLoss;
 using Alpha.API.Client.Models.Customers;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Models;
-using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Shared.Models;
@@ -22,7 +21,6 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         private readonly IMessageFormatter messageFormatter;
         private readonly ICustomerService customerService;
         private readonly IWinLossService winLossService;
-        private readonly WebAPIConfiguration webAPIConfiguration;
         private readonly YesterdayWinLossFunctionHandler yesterdayWinLossFunctionHandler;
         private static DateTime yesterday = DateTime.Today.AddDays(-1);
 
@@ -32,14 +30,12 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             messageFormatter = Substitute.For<IMessageFormatter>();
             customerService = Substitute.For<ICustomerService>();
             winLossService = Substitute.For<IWinLossService>();
-            webAPIConfiguration = Substitute.For<WebAPIConfiguration>();
 
             yesterdayWinLossFunctionHandler = new YesterdayWinLossFunctionHandler(
                 messageBuilder,
                 messageFormatter,
                 winLossService,
-                customerService,
-                webAPIConfiguration
+                customerService
             );
         }
 

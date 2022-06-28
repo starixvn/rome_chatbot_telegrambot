@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text;
+using Alpha.API.Client.Exceptions;
 using Fanex.Logging;
 using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Action.Constants;
@@ -78,28 +79,34 @@ namespace TelegramBot.Infrastructure.Command
             }
 
             Messenger messenger = new(bot.BotId, chatId, bot.System);
-
-            if (IsCommand(userResponse))
+            try
             {
-                var function = GetCommandFunction(account, userResponse);
-                var handle = userResponse.ToLowerInvariant().Split(' ')[0] switch
+                if (IsCommand(userResponse))
                 {
-                    "/help" => HandleHelpCommand(account, messenger, bot.DisplayName),
-                    "/menu" => SendMainMenuMessage(account, messenger),
-                    "/stop" => HandleStopCommand(account, messenger, bot.DisplayName),
-                    "/unlink" => HandleStopCommand(account, messenger, bot.DisplayName),
-                    "/settings" => HandleSettingsCommand(account, messenger),
-                    "/setting" => HandleSettingsCommand(account, messenger),
-                    _ => HandleOtherCommand(account, messenger, userResponse)
-                };
+                    var function = GetCommandFunction(account, userResponse);
+                    var handle = userResponse.ToLowerInvariant().Split(' ')[0] switch
+                    {
+                        "/help" => HandleHelpCommand(account, messenger, bot.DisplayName),
+                        "/menu" => SendMainMenuMessage(account, messenger),
+                        "/stop" => HandleStopCommand(account, messenger, bot.DisplayName),
+                        "/unlink" => HandleStopCommand(account, messenger, bot.DisplayName),
+                        "/settings" => HandleSettingsCommand(account, messenger),
+                        "/setting" => HandleSettingsCommand(account, messenger),
+                        _ => HandleOtherCommand(account, messenger, userResponse)
+                    };
 
-                await Task.WhenAll(
-                    messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, message, MessageSendStatus.Success, functionId: function != null ? function.FunctionId : (short)0),
-                    handle);
+                    await Task.WhenAll(
+                        messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, message, MessageSendStatus.Success, functionId: function != null ? function.FunctionId : (short)0),
+                        handle);
+                }
+                else
+                {
+                    await HandleOtherResponse(account, messenger, userResponse);
+                }
             }
-            else
+            catch (MinimizeUMException ex)
             {
-                await HandleOtherResponse(account, messenger, userResponse);
+                await SendMinimizeUMMessage(account, messenger, ex);
             }
         }
 
@@ -260,24 +267,31 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
-            var userResponse = currentAction.Type == ActionTypes.Downline ? SplitCommand(callbackData.Cmd).Item2?[0] : (await actionService.GetActionName(currentAction, account));
-            await actionService.InsertUserAction(account.UserId, currentAction.ActionId, userResponse);
+            try
+            {
+                var userResponse = currentAction.Type == ActionTypes.Downline ? SplitCommand(callbackData.Cmd).Item2?[0] : (await actionService.GetActionName(currentAction, account));
+                await actionService.InsertUserAction(account.UserId, currentAction.ActionId, userResponse);
 
-            if (currentAction.IsEndAction && !string.IsNullOrEmpty(callbackData.Cmd))
-            {
-                var parentAction = await actionService.GetActionById(currentAction.ParentId, messenger.System);
-                var functionId = parentAction != null ? parentAction.FunctionId : currentAction.FunctionId;
-                await Task.WhenAll(
-                    messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success, functionId: functionId),
-                    functionId == FunctionIds.Settings
-                        ? HandleSettingsCommand(bot, account, messenger, callbackData.Cmd, messageId, callbackId)
-                        : HandleCommand(account, messenger, callbackData.Cmd, currentAction.FunctionId, messageId));
+                if (currentAction.IsEndAction && !string.IsNullOrEmpty(callbackData.Cmd))
+                {
+                    var parentAction = await actionService.GetActionById(currentAction.ParentId, messenger.System);
+                    var functionId = parentAction != null ? parentAction.FunctionId : currentAction.FunctionId;
+                    await Task.WhenAll(
+                        messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success, functionId: functionId),
+                        functionId == FunctionIds.Settings
+                            ? HandleSettingsCommand(bot, account, messenger, callbackData.Cmd, messageId, callbackId)
+                            : HandleCommand(account, messenger, callbackData.Cmd, currentAction.FunctionId, messageId));
+                }
+                else
+                {
+                    await Task.WhenAll(
+                        messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success, functionId: currentAction.FunctionId),
+                        SendNextActionsMessage(account, messenger, currentAction, messageId));
+                }
             }
-            else
+            catch (MinimizeUMException ex)
             {
-                await Task.WhenAll(
-                    messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success, functionId: currentAction.FunctionId),
-                    SendNextActionsMessage(account, messenger, currentAction, messageId));
+                await SendMinimizeUMMessage(account, messenger, ex, messageId);
             }
         }
 
@@ -389,5 +403,8 @@ namespace TelegramBot.Infrastructure.Command
                     messenger,
                     await messageBuilder.BuildMessage(text, await actionService.BuildRootActionButtons(account, messenger.System), account.Language),
                     messageId));
+
+        private async Task SendMinimizeUMMessage(CustBotAccount account, Messenger messenger, MinimizeUMException ex, int messageId = 0)
+            => await SendMessageWithRootActions(account, messenger, messageBuilder.BuildMinimizeUMMessage(account.Language, ex.StartTime, ex.EndTime), messageId);
     }
 }

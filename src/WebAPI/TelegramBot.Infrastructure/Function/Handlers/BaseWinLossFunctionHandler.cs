@@ -7,7 +7,6 @@ using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Resources;
 using TelegramBot.Infrastructure.Shared.Extensions;
 using TelegramBot.Infrastructure.Shared.Constants;
-using Alpha.API.Client.Exceptions;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
 {
@@ -15,19 +14,16 @@ namespace TelegramBot.Infrastructure.Function.Handlers
     {
         protected readonly IWinLossService winLossService;
         protected readonly ICustomerService customerService;
-        protected readonly WebAPIConfiguration webAPIConfiguration;
 
         protected BaseWinLossFunctionHandler(
             IMessageBuilder messageBuilder,
             IMessageFormatter messageFormatter,
             IWinLossService winLossService,
-            ICustomerService customerService,
-            WebAPIConfiguration webAPIConfiguration)
+            ICustomerService customerService)
             : base(messageBuilder, messageFormatter)
         {
             this.winLossService = winLossService;
             this.customerService = customerService;
-            this.webAPIConfiguration = webAPIConfiguration;
         }
 
         public async Task<Result> HandleWinLoss(CustBotAccount account, string[] parameters, DateTime dateTime)
@@ -38,18 +34,10 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 return Result.CreateErrorResult();
             }
 
-            string message;
             if (parameter == "m")
             {
-                try
-                {
-                    var data = await winLossService.GetWinLoss(account.CustId, account.CustomerLevel, dateTime);
-                    message = BuildWinLossMessage(account.Language, data, account.CustomerLevel);
-                }
-                catch (MinimizeUMException ex)
-                {
-                    message = string.Format(ResourceHelper.Get(nameof(SharedResource.ApiException)), ex.StartTime, ex.EndTime);
-                }
+                var data = await winLossService.GetWinLoss(account.CustId, account.CustomerLevel, dateTime);
+                return Result.CreateSuccessfulResult(BuildWinLossMessage(account.Language, data, account.CustomerLevel));
             }
             else
             {
@@ -59,18 +47,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                     return Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
                 }
 
-                try
-                {
-                    var data = await winLossService.GetDownlineWinLoss(account.CustId, account.CustomerLevel, dateTime, downlineInfo.CustId);
-                    message = BuildDownlineWinLossMessage(account.Language, data, parameter, downlineInfo.RoleId);
-                }
-                catch (MinimizeUMException ex)
-                {
-                    message = string.Format(ResourceHelper.Get(nameof(SharedResource.ApiException)), ex.StartTime, ex.EndTime);
-                }
+                var data = await winLossService.GetDownlineWinLoss(account.CustId, account.CustomerLevel, dateTime, downlineInfo.CustId);
+                return Result.CreateSuccessfulResult(BuildDownlineWinLossMessage(account.Language, data, parameter, downlineInfo.RoleId));
             }
-
-            return Result.CreateSuccessfulResult(message);
         }
 
         private string BuildWinLossMessage(string language, WinLossBase winLoss, byte custLevel)

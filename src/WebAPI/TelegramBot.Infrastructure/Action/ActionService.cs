@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Alpha.API.Client.Exceptions;
 using Fanex.Caching;
 using Fanex.Data.Repository;
 using Newtonsoft.Json;

@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Alpha.API.Client.Services;
 using NSubstitute;
 using TelegramBot.Infrastructure.Function.Constants;
@@ -26,29 +25,28 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         {
             serviceProvider.GetService(typeof(OustandingFunctionHandler))
                 .Returns(new OustandingFunctionHandler(
-                    Substitute.For<IMessageBuilder>(), 
+                    Substitute.For<IMessageBuilder>(),
                     Substitute.For<IMessageFormatter>(),
-                    Substitute.For<IOutstandingService>(), 
+                    Substitute.For<IOutstandingService>(),
                     Substitute.For<ICustomerService>(),
                     Substitute.For<WebAPIConfiguration>()));
             var result = functionHandlerFactory.GetHandler(FunctionIds.Oustanding);
             Assert.Equal(typeof(OustandingFunctionHandler), result.GetType());
         }
-        
+
         [Fact]
         public void GetHandler_FunctionIdTodayWinLoss_ReturnTodayWinLossFunctionHandler()
         {
             serviceProvider.GetService(typeof(TodayWinLossFunctionHandler))
                 .Returns(new TodayWinLossFunctionHandler(
-                    Substitute.For<IMessageBuilder>(), 
+                    Substitute.For<IMessageBuilder>(),
                     Substitute.For<IMessageFormatter>(),
-                    Substitute.For<IWinLossService>(), 
-                    Substitute.For<ICustomerService>(),
-                    Substitute.For<WebAPIConfiguration>()));
+                    Substitute.For<IWinLossService>(),
+                    Substitute.For<ICustomerService>()));
             var result = functionHandlerFactory.GetHandler(FunctionIds.TodayWinLoss);
             Assert.Equal(typeof(TodayWinLossFunctionHandler), result.GetType());
         }
-        
+
         [Fact]
         public void GetHandler_FunctionIdBalanceInfo_ReturnBalanceInfoFunctionHandler()
         {
@@ -62,33 +60,32 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             var result = functionHandlerFactory.GetHandler(FunctionIds.BalanceInfo);
             Assert.Equal(typeof(BalanceInfoFunctionHandler), result.GetType());
         }
-        
+
         [Fact]
-        public void  GetHandler_FunctionYesterdayWinLoss_ReturnYesterdayWinLossFunctionHandler()
+        public void GetHandler_FunctionYesterdayWinLoss_ReturnYesterdayWinLossFunctionHandler()
         {
             serviceProvider.GetService(typeof(YesterdayWinLossFunctionHandler))
                 .Returns(new YesterdayWinLossFunctionHandler(
-                    Substitute.For<IMessageBuilder>(), 
+                    Substitute.For<IMessageBuilder>(),
                     Substitute.For<IMessageFormatter>(),
-                    Substitute.For<IWinLossService>(), 
-                    Substitute.For<ICustomerService>(),
-                    Substitute.For<WebAPIConfiguration>()));
+                    Substitute.For<IWinLossService>(),
+                    Substitute.For<ICustomerService>()));
             var result = functionHandlerFactory.GetHandler(FunctionIds.YesterdayWinLoss);
             Assert.Equal(typeof(YesterdayWinLossFunctionHandler), result.GetType());
         }
-        
+
         [Fact]
-        public  void GetHandler_UnknownFunctionID_ThrowException()
+        public void GetHandler_UnknownFunctionID_ThrowException()
         {
             try
             {
                 functionHandlerFactory.GetHandler(9999);
             }
             catch (Exception e)
-            {      
+            {
                 Assert.Equal(typeof(NotImplementedException), e.GetType());
             }
         }
-        
+
     }
 }

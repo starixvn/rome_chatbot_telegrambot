@@ -1,4 +1,3 @@
-using Alpha.API.Client.Exceptions;
 using Alpha.API.Client.Models.Customers;
 using Alpha.API.Client.Models.Outstanding;
 using Alpha.API.Client.Services;
@@ -56,17 +55,8 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 return Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
             }
 
-            string message;
-            try
-            {
-                var data = await outstandingService.GetDownlineOutstanding(account.CustId, account.CustomerLevel, downlineInfo.CustId, account.Language);
-                message = BuildDownlineOutstandingMessage(account.Language, data, account.CustomerLevel, username);
-            }
-            catch (MinimizeUMException ex)
-            {
-                message = string.Format(ResourceHelper.Get(nameof(SharedResource.ApiException)), ex.StartTime, ex.EndTime);
-            }
-
+            var data = await outstandingService.GetDownlineOutstanding(account.CustId, account.CustomerLevel, downlineInfo.CustId, account.Language);
+            var message = BuildDownlineOutstandingMessage(account.Language, data, account.CustomerLevel, username);
             return Result.CreateSuccessfulResult(message);
         }
 
@@ -77,17 +67,8 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 return Result.CreateErrorResult(messageBuilder.BuildInvalidDownlinesMessage(account.Language, webAPIConfiguration.OutstandingMaxTopQuery));
             }
 
-            string message;
-            try
-            {
-                var data = await outstandingService.GetTopOutstanding(account.CustId, account.CustomerLevel, topQuery);
-                message = BuildTopOutstandingMessage(account.Language, data, account.CustomerLevel);
-            }
-            catch (MinimizeUMException ex)
-            {
-                message = string.Format(ResourceHelper.Get(nameof(SharedResource.ApiException)), ex.StartTime, ex.EndTime);
-            }
-
+            var data = await outstandingService.GetTopOutstanding(account.CustId, account.CustomerLevel, topQuery);
+            var message = BuildTopOutstandingMessage(account.Language, data, account.CustomerLevel);
             return Result.CreateSuccessfulResult(message);
         }
 
