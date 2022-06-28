@@ -14,7 +14,7 @@ namespace TelegramBot.Infrastructure.Message
     {
         string BuildIntroductionMessage(string system);
 
-        string BuildUnderMaintenanceMessage(string from, string to);
+        string BuildUnderMaintenanceMessage(string from, string to, string system);
 
         string BuildChangePasswordAlertMessage(string language, string ip);
 
@@ -127,12 +127,12 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildTelegramAccountAlreadyLinkedMessage(string language)
             => ResourceHelper.Get(nameof(SharedResource.TelegramAccountAlreadyLinked), language);
 
-        public string BuildUnderMaintenanceMessage(string from, string to)
+        public string BuildUnderMaintenanceMessage(string from, string to, string system)
         {
             return string.Join(
                 messageFormatter.NewLine(),
-                underMaintenanceLanguageCodes.Select(langCode =>
-                    string.Format(ResourceHelper.Get(nameof(SharedResource.UnderMaintenance), langCode), from, to)));
+                string.Format(ResourceHelper.Get(nameof(SharedResource.UnderMaintenance)), from, to),
+                string.Format(ResourceHelper.Get(nameof(SharedResource.UnderMaintenance), system == Site789 ? LanguageCodes.Vietnamese : LanguageCodes.ChineseSimplified)), from, to);
         }
 
         public string BuildGeneralCommandsHelpMessage(string language, string botName)

@@ -93,10 +93,9 @@ public class MessageBuilderTest
         var expect = new List<string>
         {
             "Sorry, the system is under maintenance from 20/3/2020 to 20/3/2030 GMT+8. Please come back later.",
-            "很抱歉，伺服器正在進行維護，維護時間從20/3/2020至20/3/2030 (GMT+8)。請稍候再試。",
-            "很抱歉，服务器正在维护中，维护时间从20/3/2020至20/3/2030 (GMT+8)。请稍后访问。"
+            "很抱歉，伺服器正在進行維護，維護時間從20/3/2020至20/3/2030 (GMT+8)。請稍候再試。"
         };
-        var result = messageBuilder.BuildUnderMaintenanceMessage("20/3/2020", "20/3/2030");
+        var result = messageBuilder.BuildUnderMaintenanceMessage("20/3/2020", "20/3/2030", "IBCBet");
 
         Assert.Equal(string.Join("\n", expect), result);
     }
