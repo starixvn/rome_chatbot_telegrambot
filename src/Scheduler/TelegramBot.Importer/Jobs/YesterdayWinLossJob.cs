@@ -1,4 +1,5 @@
 
+using Alpha.API.Client.Exceptions;
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Extensions;
@@ -119,6 +120,10 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
             
                 return new Notification(customer.UserId, message, customer.IsRealUser, job.IsUAT);
             }
+        }
+        catch (MinimizeUMException umEx)
+        {
+            await loggerService.Error(umEx, job, $"{umEx.Message}. CustId={customer.CustId}, CustLevel={customer.CustomerLevel}, DateTime={winLossDate}");
         }
         catch (Exception ex)
         {
