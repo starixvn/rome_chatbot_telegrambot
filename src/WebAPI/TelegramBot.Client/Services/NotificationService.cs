@@ -7,9 +7,9 @@ namespace TelegramBot.Client.Services
 {
     public interface INotificationService
     {
-        Task<Result> NotifyChangePassword(int custId, int subAccId, string ip);
+        Task<Result> NotifyChangePassword(int custId, int subAccId);
 
-        Task<Result> NotifyChangeSecurityCode(int custId, int subAccId, string ip);
+        Task<Result> NotifyChangeSecurityCode(int custId, int subAccId);
 
         Task<Result> Unlink(int userId, long chatId, int botId, string language);
     }
@@ -23,24 +23,22 @@ namespace TelegramBot.Client.Services
             this.httpClient = httpClient;
         }
 
-        public async Task<Result> NotifyChangePassword(int custId, int subAccId, string ip)
+        public async Task<Result> NotifyChangePassword(int custId, int subAccId)
             => await httpClient.PostAsJsonAsync<Result>(
                 $"notification/change-password-alert",
                 new
                 {
                     custId,
-                    subAccId,
-                    ip
+                    subAccId
                 });
 
-        public async Task<Result> NotifyChangeSecurityCode(int custId, int subAccId, string ip)
+        public async Task<Result> NotifyChangeSecurityCode(int custId, int subAccId)
              => await httpClient.PostAsJsonAsync<Result>(
                 $"notification/change-security-code-alert",
                 new
                 {
                     custId,
-                    subAccId,
-                    ip
+                    subAccId
                 });
 
         public async Task<Result> Unlink(int userId, long chatId, int botId, string language)

@@ -40,11 +40,10 @@ public class MessageBuilderTest
         {
             $"[Change Password Alert - {DateTime.Now:yyyyMMdd}]",
             "Your Alpha Site account's Password has been changed.",
-            "<b>Requested IP</b>: 192.168.9.9",
             "If this wasn't you, please contact us for support",
         };
 
-        var result = messageBuilder.BuildChangePasswordAlertMessage("EN", "192.168.9.9");
+        var result = messageBuilder.BuildChangePasswordAlertMessage("EN");
 
         Assert.Equal(string.Join("\n", expect), result);
     }
@@ -56,11 +55,10 @@ public class MessageBuilderTest
         {
             $"[Change Security Code Alert - {DateTime.Now:yyyyMMdd}]",
             "Your Security Code has been changed.",
-            "<b>Requested IP</b>: 192.168.9.9",
             "If this wasn't you, please change password or contact us for support",
         };
 
-        var result = messageBuilder.BuildChangeSecurityCodeAlertMessage("EN", "192.168.9.9");
+        var result = messageBuilder.BuildChangeSecurityCodeAlertMessage("EN");
 
         Assert.Equal(string.Join("\n", expect), result);
     }

@@ -8,9 +8,9 @@ namespace TelegramBot.Infrastructure.Notification
 {
     public interface INotificationService
     {
-        Task<Result> NotifyChangePassword(int custId, int subAccId, string ip);
+        Task<Result> NotifyChangePassword(int custId, int subAccId);
 
-        Task<Result> NotifyChangeSecurityCode(int custId, int subAccId, string ip);
+        Task<Result> NotifyChangeSecurityCode(int custId, int subAccId);
 
         Task<Result> NotifyUnlink(int userId, long chatId, int botId, string language);
     }
@@ -34,7 +34,7 @@ namespace TelegramBot.Infrastructure.Notification
             this.messageSender = messageSender;
         }
 
-        public async Task<Result> NotifyChangePassword(int custId, int subAccId, string ip)
+        public async Task<Result> NotifyChangePassword(int custId, int subAccId)
         {
             var messenger = await settingService.GetCustBotMessenger(custId, subAccId);
 
@@ -43,13 +43,13 @@ namespace TelegramBot.Infrastructure.Notification
                 return Result.CreateErrorResult();
             }
 
-            var message = messageBuilder.BuildChangePasswordAlertMessage(messenger.Language, ip);
+            var message = messageBuilder.BuildChangePasswordAlertMessage(messenger.Language);
             await messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), message);
 
             return Result.CreateSuccessfulResult();
         }
 
-        public async Task<Result> NotifyChangeSecurityCode(int custId, int subAccId, string ip)
+        public async Task<Result> NotifyChangeSecurityCode(int custId, int subAccId)
         {
             var messenger = await settingService.GetCustBotMessenger(custId, subAccId);
 
@@ -58,7 +58,7 @@ namespace TelegramBot.Infrastructure.Notification
                 return Result.CreateErrorResult();
             }
 
-            var message = messageBuilder.BuildChangeSecurityCodeAlertMessage(messenger.Language, ip);
+            var message = messageBuilder.BuildChangeSecurityCodeAlertMessage(messenger.Language);
             await messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), message);
 
             return Result.CreateSuccessfulResult();

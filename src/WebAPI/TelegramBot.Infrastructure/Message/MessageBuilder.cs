@@ -16,9 +16,9 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildUnderMaintenanceMessage(string from, string to, string system);
 
-        string BuildChangePasswordAlertMessage(string language, string ip);
+        string BuildChangePasswordAlertMessage(string language);
 
-        string BuildChangeSecurityCodeAlertMessage(string language, string ip);
+        string BuildChangeSecurityCodeAlertMessage(string language);
 
         string BuildAccountAlreadyLinkedMessage(string language);
 
@@ -105,20 +105,18 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildAccountAlreadyLinkedMessage(string language)
             => ResourceHelper.Get(nameof(SharedResource.AccountAlreadyLinked), language);
 
-        public string BuildChangePasswordAlertMessage(string language, string ip)
+        public string BuildChangePasswordAlertMessage(string language)
             => string.Join(
                 messageFormatter.NewLine(),
                 $"[{ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlert), language)} - {DateTime.Now:yyyyMMdd}]",
                 ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlertContent), language),
-                $"<b>{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}</b>: {ip}",
                 ResourceHelper.Get(nameof(SharedResource.AlertChangePasswordMessage), language));
 
-        public string BuildChangeSecurityCodeAlertMessage(string language, string ip)
+        public string BuildChangeSecurityCodeAlertMessage(string language)
             => string.Join(
                 messageFormatter.NewLine(),
                 $"[{ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlert), language)} - {DateTime.Now:yyyyMMdd}]",
                 ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlertContent), language),
-                $"<b>{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}</b>: {ip}",
                 ResourceHelper.Get(nameof(SharedResource.AlertMessage), language));
 
         public string BuildOTPMessage(string language, string otp)
