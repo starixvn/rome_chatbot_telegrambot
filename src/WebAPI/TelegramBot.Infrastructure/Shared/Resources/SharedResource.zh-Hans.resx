@@ -325,7 +325,7 @@
     <value>主要目录</value>
   </data>
   <data name="ApiException" xml:space="preserve">
-    <value>由于我们的服务器目前太繁忙，此功能从 {0} - {1} (GMT+8) 期间暂时关闭。 请稍后再试。 给您带来的任何不便，我们深表歉意。</value>
+    <value>我们正在更新此功能以获得更好的体验。 因此，此功能将暂时关闭（{0} - {1} (GMT+8)）。 请稍后再试，给您带来不便,敬请谅解。</value>
   </data>
   <data name="BackToMainMenu" xml:space="preserve">
     <value>返回主要目录</value>

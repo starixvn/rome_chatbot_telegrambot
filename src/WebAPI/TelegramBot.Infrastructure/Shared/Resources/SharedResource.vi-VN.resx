@@ -298,7 +298,7 @@
     <value>Menu Chính</value>
   </data>
   <data name="ApiException" xml:space="preserve">
-    <value>Chức năng này tạm thời gián đoạn từ {0} - {1} (GMT+8) do máy chủ đang bận vào thời điểm này. Vui lòng thử lại sau. Chúng tôi rất tiếc vì sự bất tiện này.</value>
+    <value>Chúng tôi đang nâng cấp chức năng này để có trải nghiệm tốt hơn. Do đó, chức năng này tạm gián đoạn ({0} - {1} (GMT+8)). Xin lỗi vì sự bất tiện này, vui lòng thử lại sau.</value>
   </data>
   <data name="InvalidCustName" xml:space="preserve">
     <value>"{0}" không hợp lệ, vui lòng nhập tên người dùng hợp lệ.</value>

@@ -151,7 +151,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This function is temporarily off from {0} - {1} (GMT+8) as our server is too busy at the moment. Please try again later. We regret any inconvenience caused..
+        ///   Looks up a localized string similar to We&apos;re updating this function for a better experience. Thus, this function is turned off temporarily ({0} - {1} (GMT+8)). Please try again later and sorry for the inconvenience..
         /// </summary>
         public static string ApiException {
             get {
