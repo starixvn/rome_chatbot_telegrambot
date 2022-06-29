@@ -133,7 +133,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If this wasn&apos;t you, please contact us for support.
+        ///   Looks up a localized string similar to If this wasn&apos;t you, please contact Customer Service Department for support.
         /// </summary>
         public static string AlertChangePasswordMessage {
             get {
@@ -142,7 +142,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If this wasn&apos;t you, please change password or contact us for support.
+        ///   Looks up a localized string similar to If this wasn&apos;t you, please change password or contact Customer Support Service for support.
         /// </summary>
         public static string AlertMessage {
             get {

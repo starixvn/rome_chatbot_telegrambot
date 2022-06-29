@@ -142,7 +142,7 @@
     <comment />
   </data>
   <data name="AlertMessage" xml:space="preserve">
-    <value>If this wasn't you, please change password or contact us for support</value>
+    <value>If this wasn't you, please change password or contact Customer Support Service for support</value>
     <comment />
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
@@ -436,7 +436,7 @@
     <comment />
   </data>
   <data name="AlertChangePasswordMessage" xml:space="preserve">
-    <value>If this wasn't you, please contact us for support</value>
+    <value>If this wasn't you, please contact Customer Service Department for support</value>
     <comment />
   </data>
   <data name="InvalidUsername" xml:space="preserve">
