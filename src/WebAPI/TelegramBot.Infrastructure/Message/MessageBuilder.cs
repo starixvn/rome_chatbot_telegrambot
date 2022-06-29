@@ -130,7 +130,7 @@ namespace TelegramBot.Infrastructure.Message
             return string.Join(
                 messageFormatter.NewLine(),
                 string.Format(ResourceHelper.Get(nameof(SharedResource.UnderMaintenance)), from, to),
-                string.Format(ResourceHelper.Get(nameof(SharedResource.UnderMaintenance), system == Site789 ? LanguageCodes.Vietnamese : LanguageCodes.ChineseSimplified)), from, to);
+                string.Format(ResourceHelper.Get(nameof(SharedResource.UnderMaintenance), system == Site789 ? LanguageCodes.Vietnamese : LanguageCodes.ChineseSimplified), from, to));
         }
 
         public string BuildGeneralCommandsHelpMessage(string language, string botName)
