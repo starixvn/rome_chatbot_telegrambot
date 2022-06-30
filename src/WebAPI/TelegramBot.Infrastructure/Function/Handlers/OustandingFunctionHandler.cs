@@ -100,17 +100,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         private string BuildDownlineOutstandingMessage(string language, OutstandingReport data, byte custLevel, string downlineUsername)
         {
-            var headerRow = string.Format(
-                "{0} / {1} {2} {3}",
-                ResourceHelper.Get(nameof(SharedResource.Products), language),
-                ResourceHelper.Get(nameof(SharedResource.Member), language),
-                messageFormatter.Point(),
-                ResourceHelper.Get($"CustLevel_{custLevel}", language));
-
             var textContainer = new List<string>();
             AddTitleRow(textContainer, language);
             textContainer.Add($"{ResourceHelper.Get(nameof(SharedResource.For), language)} {downlineUsername}");
-            textContainer.Add($"{headerRow}{messageFormatter.NewLine()}");
 
             if (data == null || !data.Outstandings.Any())
             {
@@ -118,6 +110,13 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             }
             else
             {
+                var headerRow = string.Format(
+                    "{0} / {1} {2} {3}",
+                    ResourceHelper.Get(nameof(SharedResource.Products), language),
+                    ResourceHelper.Get(nameof(SharedResource.Member), language),
+                    messageFormatter.Point(),
+                    ResourceHelper.Get($"CustLevel_{custLevel}", language));
+                textContainer.Add($"{headerRow}{messageFormatter.NewLine()}");
                 AddTotalRow(textContainer, data.Total, language);
                 AddBodyMessage(textContainer, data.Outstandings);
             }
