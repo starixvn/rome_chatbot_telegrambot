@@ -52,8 +52,8 @@ public class MemberWinLossLimitService : NotificationServiceBase, IMemberWinLoss
         foreach (var memberMessage in sortedWinLossLimitMessage)
         {
             BuildUsernames(messageBuilder, memberMessage, custLevel);
-            BuildWinProducts(messageBuilder, memberMessage.Products.Where(p => p.CurrentWinLoss > 0));
-            BuildLossProducts(messageBuilder, memberMessage.Products.Where(p => p.CurrentWinLoss < 0));
+            BuildWinProducts(messageBuilder, memberMessage.Products.Where(p => p.CurrentWinLoss > 0).OrderBy(p => p.ProductName));
+            BuildLossProducts(messageBuilder, memberMessage.Products.Where(p => p.CurrentWinLoss < 0).OrderBy(p => p.ProductName));
         }
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
