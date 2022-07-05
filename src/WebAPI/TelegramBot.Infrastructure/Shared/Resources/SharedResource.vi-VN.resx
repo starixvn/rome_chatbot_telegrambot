@@ -341,7 +341,7 @@
     <comment/>
   </data>
   <data name="AlertChangePasswordMessage" xml:space="preserve">
-    <value>Nếu đây không phải là bạn, vui lòng liên hệ chúng tôi để được hỗ trợ.</value>
+    <value>Nếu đây không phải là bạn, vui lòng liên hệ với bộ phận Chăm Sóc Khách Hàng để được hỗ trợ.</value>
     <comment/>
   </data>
   <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
@@ -397,7 +397,7 @@
     <comment/>
   </data>
   <data name="AlertMessage" xml:space="preserve">
-    <value>Nếu đây không phải là bạn, vui lòng đổi mật khẩu hoặc liên hệ chúng tôi để được hỗ trợ.</value>
+    <value>Nếu đây không phải là bạn, vui lòng đổi mật khẩu hoặc liên hệ với bộ phận Chăm Sóc Khách Hàng để được hỗ trợ.</value>
     <comment/>
   </data>
   <data name="InvalidNumberOfDownlines" xml:space="preserve">
