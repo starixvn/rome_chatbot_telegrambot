@@ -5,13 +5,14 @@ namespace TelegramBot.Importer.Models.ProblemAccounts;
 public record ProblemAccountNotification(
     int Id,
     int UserId,
+    int BotId,
     string Message,
     bool IsRealUser,
     bool IsJobUAT,
-    IEnumerable<long> LogIds) : Notification(UserId, Message, IsRealUser, IsJobUAT)
+    IEnumerable<long> LogIds) : Notification(UserId, BotId, Message, IsRealUser, IsJobUAT)
 {
     public override string ToXml()
-        => $"<r Id=\"{Id}\" UserId=\"{UserId}\" Message=\"{Message}\" Status=\"{Status}\" />";
+        => $"<r Id=\"{Id}\" UserId=\"{UserId}\" BotId=\"{BotId}\" Message=\"{Message}\" Status=\"{Status}\" />";
 
     public override string ToLogXml()
     {

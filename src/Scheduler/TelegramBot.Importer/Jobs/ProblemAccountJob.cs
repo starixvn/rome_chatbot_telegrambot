@@ -86,6 +86,7 @@ public sealed class ProblemAccountJob : NotificationBaseJob
         => new (
             identity,
             customer.UserId,
+            customer.BotId,
             problemAccountService.BuildMessage(
                 customer.Language,
                 groupProblemAccount.Usernames),

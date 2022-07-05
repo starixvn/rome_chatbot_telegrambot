@@ -106,6 +106,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
             {
                 yield return new PersonalMessageNotification(
                     customer.UserId,
+                    customer.BotId,
                     message.MsgTargetId,
                     message.MessageId,
                     personalMessageService.BuildMessage(
@@ -121,6 +122,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         {
             yield return new PersonalMessageNotification(
                 customer.UserId,
+                customer.BotId,
                 message.MsgTargetId,
                 message.MessageId,
                 personalMessageService.BuildMessage(

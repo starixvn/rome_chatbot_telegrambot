@@ -117,6 +117,7 @@ public sealed class MemberWinLossLimitJob : NotificationBaseJob
 
         return new MemberWinLossLimitNotification(
            customer.UserId,
+           customer.BotId,
            memberWinLostLimitService.BuildMessage(
                winLossLimitMessages,
                customer.Language,

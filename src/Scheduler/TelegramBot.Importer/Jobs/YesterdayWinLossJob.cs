@@ -118,7 +118,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
             {
                 var message = yesterdayWinLossService.BuildMessage(customer.Language, winloss, customer.CustomerLevel, winLossDate.ToSimpleDate());
             
-                return new Notification(customer.UserId, message, customer.IsRealUser, job.IsUAT);
+                return new Notification(customer.UserId, customer.BotId, message, customer.IsRealUser, job.IsUAT);
             }
         }
         catch (MinimizeUMException umEx)

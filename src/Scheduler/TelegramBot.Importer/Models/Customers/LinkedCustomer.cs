@@ -6,4 +6,5 @@ public record LinkedCustomer(
     string Language,
     byte CustomerLevel,
     int UserId,
-    bool IsRealUser);
+    bool IsRealUser,
+    int BotId);
