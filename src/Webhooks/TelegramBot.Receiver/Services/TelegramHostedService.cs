@@ -28,7 +28,6 @@ namespace TelegramBot.Receiver.Services
                 await _logger.InfoAsync($"Worker {typeof(TelegramHostedService).Assembly.GetName().Name} running at: {DateTimeOffset.Now}");
                 var botEntities = await _botService.GetAllAsync();
                 var botClients = new Dictionary<string, ITelegramBotClient>();
-                await _logger.InfoAsync(JsonConvert.SerializeObject(botEntities));
 
                 foreach (var botEntity in botEntities)
                 {
