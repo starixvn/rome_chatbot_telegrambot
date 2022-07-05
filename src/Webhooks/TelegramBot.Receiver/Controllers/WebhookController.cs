@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Fanex.Logging;
+using Microsoft.AspNetCore.Mvc;
 using Telegram.Bot.Types;
 using TelegramBot.Receiver.Services;
 
@@ -16,6 +17,7 @@ namespace TelegramBot.Receiver.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(string accessToken, [FromBody] Update update)
         {
+            Logger.Log.Info(accessToken);
             if (_handleUpdateService.BotClients.ContainsKey(accessToken))
             {
                 var botClient = _handleUpdateService.BotClients[accessToken];
