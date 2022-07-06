@@ -158,7 +158,7 @@ namespace TelegramBot.Infrastructure.Command
                 }
             }
 
-            await messageSender.SendMessage(messenger, builder.ToString());
+            await messageSender.SendMessage(account.UserId, messenger, builder.ToString());
         }
 
         private static bool IsCommand(string userResponse)

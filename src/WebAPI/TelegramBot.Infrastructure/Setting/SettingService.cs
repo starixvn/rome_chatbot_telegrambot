@@ -95,7 +95,7 @@ namespace TelegramBot.Infrastructure.Setting
             var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
             await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var message = _messageBuilder.BuildOTPMessage(language, otp);
-            await _messageSender.SendMessage(messenger, message);
+            await _messageSender.SendMessage(criteria.UserId, messenger, message);
             return Result.CreateSuccessfulResult();
         }
 

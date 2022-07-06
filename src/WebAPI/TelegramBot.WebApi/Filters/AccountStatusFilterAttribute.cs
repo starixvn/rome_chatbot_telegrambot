@@ -1,5 +1,6 @@
 using Alpha.API.Client.Services;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Newtonsoft.Json;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
@@ -17,19 +18,22 @@ namespace TelegramBot.WebApi.Filters
         private readonly IBotService botService;
         private readonly IMessageBuilder messageBuilder;
         private readonly IMessageSender messageSender;
+        private readonly Fanex.Logging.ILogger logger;
 
         public AccountStatusFilterAttribute(
             ICustomerService customerService,
             ISettingService settingService,
             IBotService botService,
             IMessageBuilder messageBuilder,
-            IMessageSender messageSender)
+            IMessageSender messageSender,
+            Fanex.Logging.ILogger logger)
         {
             this.customerService = customerService;
             this.settingService = settingService;
             this.botService = botService;
             this.messageBuilder = messageBuilder;
             this.messageSender = messageSender;
+            this.logger = logger;
         }
 
         public override async Task OnActionExecutionAsync(
@@ -46,9 +50,10 @@ namespace TelegramBot.WebApi.Filters
                     return;
                 }
 
-                var accountStatus = await this.customerService.GetCustomerStatus(account.CustId, account.SubAccId);
+                var accountStatus = await customerService.GetCustomerStatus(account.CustId, account.SubAccId);
                 if (accountStatus == null || accountStatus.IsProtectedMode)
                 {
+                    await logger.InfoAsync($"Account Status: {JsonConvert.SerializeObject(accountStatus)}");
                     return;
                 }
 
@@ -56,14 +61,14 @@ namespace TelegramBot.WebApi.Filters
                 if (accountStatus.IsLocked)
                 {
                     var message = messageBuilder.BuildAccountLockedMessage(account.Language);
-                    await messageSender.SendMessage(messenger, message);
+                    await messageSender.SendMessage(account.UserId, messenger, message);
                     return;
                 }
 
                 if (!accountStatus.IsActive)
                 {
                     var message = messageBuilder.BuildAccountClosedMessage(account.Language);
-                    await messageSender.SendMessage(messenger, message);
+                    await messageSender.SendMessage(account.UserId, messenger, message);
                     return;
                 }
             }

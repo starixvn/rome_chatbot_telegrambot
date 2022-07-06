@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using TelegramBot.Client.Services;
 using TelegramBot.Receiver.Configurations;
 using TelegramBot.Utilities;
