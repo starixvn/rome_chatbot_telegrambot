@@ -75,12 +75,6 @@ namespace TelegramBot.Infrastructure.Message
 
     public class MessageBuilder : IMessageBuilder
     {
-        private static readonly List<string> underMaintenanceLanguageCodes = new()
-        {
-            LanguageCodes.English,
-            LanguageCodes.ChineseTraditional,
-            LanguageCodes.ChineseSimplified
-        };
         private readonly string Site789 = "789Y";
         private readonly int NumberButtonInRow = 2;
         private readonly IMessageFormatter messageFormatter;
@@ -140,7 +134,7 @@ namespace TelegramBot.Infrastructure.Message
                 $"/menu - {string.Format(ResourceHelper.Get(nameof(SharedResource.OpenMainMenu), language), botName)}",
                 $"/help - {ResourceHelper.Get(nameof(SharedResource.ListAllCommands), language)}",
                 $"/settings, /setting - {ResourceHelper.Get(nameof(SharedResource.OpenSettingsMenu), language)}",
-                $"/stop, /unlink - Unlink {botName}");
+                $"/stop, /unlink - {ResourceHelper.Get(nameof(SharedResource.Unlink), language)} {botName}");
 
             var stringBuilder = new StringBuilder($"{string.Format(ResourceHelper.Get(nameof(SharedResource.HelpCommandIntro), language), botName)}");
             stringBuilder
