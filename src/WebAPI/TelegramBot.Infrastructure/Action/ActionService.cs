@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Alpha.API.Client.Exceptions;
 using Fanex.Caching;
 using Fanex.Data.Repository;
 using Newtonsoft.Json;
@@ -79,7 +78,7 @@ namespace TelegramBot.Infrastructure.Action
         }
 
         public async Task<string> GetActionDescription(short actionId, string language)
-            => (await this.resourceService.GetResource(actionId.ToString(), ResourceType.ActionDescription, language))?.Value;
+            => (await resourceService.GetResource(actionId.ToString(), ResourceType.ActionDescription, language))?.Value;
 
         public async Task<BotAction> GetRootActionByFunctionId(CustBotAccount account, short functionId, string system)
             => (await GetRootActions(account, system)).FirstOrDefault(a => a.FunctionId == functionId);
@@ -103,7 +102,7 @@ namespace TelegramBot.Infrastructure.Action
                 buttons = await BuildActionButtons(account, nextActions, system);
             }
 
-            return await messageBuilder.BuildMessageWithBackButton(text, buttons, currentAction.ParentId, account.Language);
+            return messageBuilder.BuildMessageWithBackButton(text, buttons, currentAction.ParentId, account.Language);
         }
 
         public async Task<string> GetActionName(BotAction action, CustBotAccount account)

@@ -476,4 +476,24 @@
     <value>ไม่</value>
     <comment/>
   </data>
+  <data name="BackTo_1" xml:space="preserve">
+    <value>กลับไปเมนูก่อนหน้า</value>
+    <comment/>
+  </data>
+  <data name="BackTo_2" xml:space="preserve">
+    <value>กลับไปเมนูก่อนหน้า</value>
+    <comment/>
+  </data>
+  <data name="BackTo_3" xml:space="preserve">
+    <value>กลับไปเมนูก่อนหน้า</value>
+    <comment/>
+  </data>
+  <data name="BackTo_4" xml:space="preserve">
+    <value>กลับไปเมนูก่อนหน้า</value>
+    <comment/>
+  </data>
+  <data name="BackTo_11" xml:space="preserve">
+    <value>กลับไปเมนูก่อนหน้า</value>
+    <comment/>
+  </data>
 </root>

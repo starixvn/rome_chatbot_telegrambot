@@ -480,4 +480,24 @@
     <value>Language updated.</value>
     <comment/>
   </data>
+  <data name="BackTo_1" xml:space="preserve">
+    <value>Back to Outstanding</value>
+    <comment/>
+  </data>
+  <data name="BackTo_2" xml:space="preserve">
+    <value>Back to Balance Info</value>
+    <comment/>
+  </data>
+  <data name="BackTo_3" xml:space="preserve">
+    <value>Back to Today Win Loss</value>
+    <comment/>
+  </data>
+  <data name="BackTo_4" xml:space="preserve">
+    <value>Back to Yesterday Win Loss</value>
+    <comment/>
+  </data>
+  <data name="BackTo_11" xml:space="preserve">
+    <value>Back to Settings</value>
+    <comment/>
+  </data>
 </root>

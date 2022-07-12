@@ -209,7 +209,7 @@ namespace TelegramBot.Infrastructure.Command
                         await messageSender.SendMessage(
                             account.UserId,
                             messenger: messenger,
-                            message: await messageBuilder.BuildMessageWithBackButton(validationResult.Message, new List<MessageButton>(), prevAction.ParentId, account.Language),
+                            message: messageBuilder.BuildMessageWithBackButton(validationResult.Message, new List<MessageButton>(), prevAction.ParentId, account.Language),
                             functionId: currentAction.FunctionId);
                         return;
                     }
@@ -323,7 +323,7 @@ namespace TelegramBot.Infrastructure.Command
             var splittedCommand = SplitCommand(command);
             var rootAction = await actionService.GetRootActionByFunctionId(account, functionId, messenger.System);
             var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2);
-            var message = await messageBuilder.BuildMessageWithBackButton(result.Message, new List<MessageButton>(), rootAction.ActionId, account.Language, true);
+            var message = messageBuilder.BuildMessageWithBackButton(result.Message, new List<MessageButton>(), rootAction.ActionId, account.Language, true);
             await Task.WhenAll(
                 actionService.ResetUserActions(account.UserId),
                 messageSender.SendMessage(account.UserId, messenger: messenger, message: message, functionId: functionId, messageId: messageId));
@@ -383,7 +383,7 @@ namespace TelegramBot.Infrastructure.Command
             => await messageSender.SendMessage(
                 userId: account.UserId,
                 messenger: messenger,
-                message: await messageBuilder.BuildStopUsingChatbotConfirmMessage(account.Language, botName),
+                message: messageBuilder.BuildStopUsingChatbotConfirmMessage(account.Language, botName),
                 messageId: messageId);
 
         private static bool IsValidAction(CustBotAccount account, BotAction action)
@@ -401,7 +401,7 @@ namespace TelegramBot.Infrastructure.Command
                 messageSender.SendMessage(
                     account.UserId,
                     messenger,
-                    await messageBuilder.BuildMessage(text, await actionService.BuildRootActionButtons(account, messenger.System), account.Language),
+                    messageBuilder.BuildMessage(text, await actionService.BuildRootActionButtons(account, messenger.System), account.Language),
                     messageId));
 
         private async Task SendMinimizeUMMessage(CustBotAccount account, Messenger messenger, MinimizeUMException ex, int messageId = 0)

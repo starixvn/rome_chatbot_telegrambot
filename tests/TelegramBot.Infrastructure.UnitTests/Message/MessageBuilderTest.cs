@@ -244,30 +244,30 @@ public class MessageBuilderTest
     }
 
     [Fact]
-    public async Task BuildMessage_Always_ReturnReplyMarkupMessage()
+    public void BuildMessage_Always_ReturnReplyMarkupMessage()
     {
-        var result = await messageBuilder.BuildMessage("EN", new List<MessageButton> { new MessageButton("setting", "/setting") }, "EN");
+        var result = messageBuilder.BuildMessage("EN", new List<MessageButton> { new MessageButton("setting", "/setting") }, "EN");
 
         Assert.IsType<Infrastructure.Message.Models.Message>(result);
         Assert.Single(result.ReplyMarkup.InlineKeyboard);
     }
 
     [Fact]
-    public async Task BuildMessageWithBackButton_Always_ReturnReplyMarkupMessage()
+    public void BuildMessageWithBackButton_Always_ReturnReplyMarkupMessage()
     {
-        var result = await messageBuilder.BuildMessageWithBackButton("EN", new List<MessageButton> { new("setting", "/setting") }, 0, "EN", false);
+        var result = messageBuilder.BuildMessageWithBackButton("EN", new List<MessageButton> { new("setting", "/setting") }, 0, "EN", false);
 
         Assert.IsType<Infrastructure.Message.Models.Message>(result);
         Assert.Equal(2, result.ReplyMarkup.InlineKeyboard.Count());
     }
 
     [Fact]
-    public async Task BuildStopUsingChatbotConfirmMessage_Always_ReturnMainMenuButton()
+    public void BuildStopUsingChatbotConfirmMessage_Always_ReturnMainMenuButton()
     {
         var textBtn =
             "You're about to <b>Stop Using Chatbot</b>. Your Telegram will be unlinked with Telegram and you won't be able to use Telegram anymore. Are you sure you want to stop using Telegram?";
 
-        var result = await messageBuilder.BuildStopUsingChatbotConfirmMessage("EN", "Telegram");
+        var result = messageBuilder.BuildStopUsingChatbotConfirmMessage("EN", "Telegram");
 
         Assert.IsType<Infrastructure.Message.Models.Message>(result);
         Assert.Single(result.ReplyMarkup.InlineKeyboard);

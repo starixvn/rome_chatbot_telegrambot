@@ -46,11 +46,11 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildUnlinkMessage(string language, string botName);
 
-        Task<Models.Message> BuildMessage(string text, IList<MessageButton> buttons, string language);
+        Models.Message BuildMessage(string text, IList<MessageButton> buttons, string language);
 
-        Task<Models.Message> BuildMessageWithBackButton(string text, IList<MessageButton> buttons, short backToActionId, string language, bool isEndAction = false);
+        Models.Message BuildMessageWithBackButton(string text, IList<MessageButton> buttons, short backToActionId, string language, bool isEndAction = false);
 
-        Task<Models.Message> BuildStopUsingChatbotConfirmMessage(string language, string chatbotName);
+        Models.Message BuildStopUsingChatbotConfirmMessage(string language, string chatbotName);
 
         IMessageFormatter GetFormatter();
 
@@ -176,13 +176,13 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildAccountLockedMessage(string language)
             => ResourceHelper.Get(nameof(SharedResource.YourAccountIsLocked), language);
 
-        public async Task<Models.Message> BuildMessage(string text, IList<MessageButton> buttons, string language)
-            => new Models.Message(text, await BuildReplyMarkup(language, buttons));
+        public Models.Message BuildMessage(string text, IList<MessageButton> buttons, string language)
+            => new(text, BuildReplyMarkup(language, buttons));
 
-        public async Task<Models.Message> BuildMessageWithBackButton(string text, IList<MessageButton> buttons, short backToActionId, string language, bool isEndAction = false)
-            => new Models.Message(text, await BuildReplyMarkup(language, buttons, backToActionId, isEndAction));
+        public Models.Message BuildMessageWithBackButton(string text, IList<MessageButton> buttons, short backToActionId, string language, bool isEndAction = false)
+            => new(text, BuildReplyMarkup(language, buttons, backToActionId, isEndAction));
 
-        private async Task<InlineKeyboardMarkup> BuildReplyMarkup(string language, IList<MessageButton> buttons, short backToActionId = -1, bool isEndAction = false)
+        private InlineKeyboardMarkup BuildReplyMarkup(string language, IList<MessageButton> buttons, short backToActionId = -1, bool isEndAction = false)
         {
             var hasBackButton = backToActionId >= 0;
             var numberOfRows = (buttons.Count % NumberButtonInRow > 0 ? (buttons.Count / NumberButtonInRow) + 1 : (buttons.Count / NumberButtonInRow)) + (hasBackButton ? 1 : 0);
@@ -195,7 +195,7 @@ namespace TelegramBot.Infrastructure.Message
                     var mainMenuButton = BuildMainMenuButton(isEndAction, language);
                     if (backToActionId > 0)
                     {
-                        var backToAction = $"{Unicode.Back} {ResourceHelper.Get(nameof(SharedResource.BackTo), language)} {await BuildActionName(language, backToActionId)}";
+                        var backToAction = $"{Unicode.Back} {ResourceHelper.Get($"BackTo_{backToActionId}", language)}";
                         buttonRows[i] = new[]
                         {
                             InlineKeyboardButton.WithCallbackData(backToAction, JsonConvert.SerializeObject(new { Id = backToActionId })),
@@ -239,7 +239,7 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildBackToMainMenuButtonText(string language)
             => $"{Unicode.Back} {ResourceHelper.Get(nameof(SharedResource.BackToMainMenu), language)}";
 
-        public async Task<Models.Message> BuildStopUsingChatbotConfirmMessage(string language, string chatbotName)
+        public Models.Message BuildStopUsingChatbotConfirmMessage(string language, string chatbotName)
         {
             var text = string.Format(ResourceHelper.Get(nameof(SharedResource.StopUsingChatbotConfirmMessage), language), chatbotName);
             var buttons = new List<MessageButton>
@@ -248,7 +248,7 @@ namespace TelegramBot.Infrastructure.Message
                 new MessageButton(BuildStopUsingChatbotMessage(language), JsonConvert.SerializeObject(new { IsStopUsingChatbot = true }))
             };
 
-            return new Models.Message(text, await BuildReplyMarkup(language, buttons));
+            return new Models.Message(text, BuildReplyMarkup(language, buttons));
         }
 
         public string BuildStopUsingChatbotMessage(string language)

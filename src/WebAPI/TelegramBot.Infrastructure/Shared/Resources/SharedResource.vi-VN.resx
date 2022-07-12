@@ -452,4 +452,24 @@
     <value>Hệ thống hiện đang trong thời gian bảo trì định kỳ từ {0} đến {1} (GMT +8). Vui lòng quay lại sau.</value>
     <comment/>
   </data>
+  <data name="BackTo_1" xml:space="preserve">
+    <value>Trở về Tiền Chưa Xử Lý</value>
+    <comment/>
+  </data>
+  <data name="BackTo_2" xml:space="preserve">
+    <value>Trở về Tài Khoản</value>
+    <comment/>
+  </data>
+  <data name="BackTo_3" xml:space="preserve">
+    <value>Trở về Thắng Thua Trong Ngày</value>
+    <comment/>
+  </data>
+  <data name="BackTo_4" xml:space="preserve">
+    <value>Trở về Thắng Thua Hôm Qua</value>
+    <comment/>
+  </data>
+  <data name="BackTo_11" xml:space="preserve">
+    <value>Trở về Cài Đặt</value>
+    <comment/>
+  </data>
 </root>

@@ -480,4 +480,24 @@
     <value>否</value>
     <comment/>
   </data>
+  <data name="BackTo_1" xml:space="preserve">
+    <value>返回未完成交易</value>
+    <comment/>
+  </data>
+  <data name="BackTo_2" xml:space="preserve">
+    <value>返回余额资料</value>
+    <comment/>
+  </data>
+  <data name="BackTo_3" xml:space="preserve">
+    <value>返回今日输赢</value>
+    <comment/>
+  </data>
+  <data name="BackTo_4" xml:space="preserve">
+    <value>返回昨日输赢</value>
+    <comment/>
+  </data>
+  <data name="BackTo_11" xml:space="preserve">
+    <value>返回设定</value>
+    <comment/>
+  </data>
 </root>
