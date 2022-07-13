@@ -247,14 +247,14 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.Balance), requestAccount.Language)} - {DateTime.Now:yyyyMMdd}]",
                 ResourceHelper.Get($"CustLevel_{requestAccount.CustomerLevel - 1}", requestAccount.Language),
-                $"{ResourceHelper.Get(nameof(SharedResource.Today), requestAccount.Language)}{telegramFormatter.Point()}{ResourceHelper.Get(nameof(SharedResource.Yesterday), requestAccount.Language)}{telegramFormatter.NewLine()}",
+                $"{ResourceHelper.Get(nameof(SharedResource.Today), requestAccount.Language)} {telegramFormatter.Point()} {ResourceHelper.Get(nameof(SharedResource.Yesterday), requestAccount.Language)}{telegramFormatter.NewLine()}",
 
             };
             var index = 1;
             foreach (var item in topBalanceReport)
             {
                 textContainer.Add($"{index++}. {item.Username}");
-                textContainer.Add($"    {item.Balance.ToFormattedNumber()}{telegramFormatter.Point()}{item.YesterdayBalance.ToFormattedNumber()}");
+                textContainer.Add($"    {item.Balance.ToFormattedNumber()} {telegramFormatter.Point()} {item.YesterdayBalance.ToFormattedNumber()}");
             }
 
             var message = string.Join(telegramFormatter.NewLine(), textContainer);

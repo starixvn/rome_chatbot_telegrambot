@@ -26,7 +26,7 @@ public class MessageBuilderTest
     public void BuildAccountAlreadyLinkedMessage_Always_ReturnAccountAlreadyLinked()
     {
         const string expect =
-            "Your Telegram's already linked with another Account.Please unlink that Account first then try again.";
+            "Your Telegram has already linked with another account. Please unlink that account first then try again.";
 
         var result = messageBuilder.BuildAccountAlreadyLinkedMessage("EN");
 
@@ -39,8 +39,8 @@ public class MessageBuilderTest
         var expect = new List<string>
         {
             $"[Change Password Alert - {DateTime.Now:yyyyMMdd}]",
-            "Your Alpha Site account's Password has been changed.",
-            "If this wasn't you, please contact us for support",
+            "Your account password has been changed.",
+            "If this wasn't you, please contact Customer Service Department for support",
         };
 
         var result = messageBuilder.BuildChangePasswordAlertMessage("EN");
@@ -55,7 +55,7 @@ public class MessageBuilderTest
         {
             $"[Change Security Code Alert - {DateTime.Now:yyyyMMdd}]",
             "Your Security Code has been changed.",
-            "If this wasn't you, please change password or contact us for support",
+            "If this wasn't you, please change password or contact Customer Service Department for support",
         };
 
         var result = messageBuilder.BuildChangeSecurityCodeAlertMessage("EN");
@@ -67,7 +67,7 @@ public class MessageBuilderTest
     public void BuildOTPMessage_Always_ReturnOTPMessage()
     {
         const string expect =
-            @"Please enter this private OTP <code>192.168.9.9</code> to <b>the agent site</b> within 3 minutes to finish setting up your Telegram Chatbot.";
+            @"Please enter this OTP <code>192.168.9.9</code> to <b>the Agency Site</b> within 3 minutes to finish setting up your Telegram Chatbot.";
 
         var result = messageBuilder.BuildOTPMessage("EN", "192.168.9.9");
 
@@ -78,7 +78,7 @@ public class MessageBuilderTest
     public void BuildTelegramAccountAlreadyLinkedMessage_Always_ReturnTelegramAccountAlreadyLinkedMessage()
     {
         var expect =
-            @"Your Telegram's already linked to this chatbot using other Account. If this isn't your Account, please contact us for support.";
+            @"Your Telegram has already linked with this chatbot using another account. If this is not your account, please contact us for support.";
 
         var result = messageBuilder.BuildTelegramAccountAlreadyLinkedMessage("EN");
 
@@ -91,7 +91,7 @@ public class MessageBuilderTest
         var expect = new List<string>
         {
             "Sorry, the system is under maintenance from 20/3/2020 to 20/3/2030 GMT+8. Please come back later.",
-            "很抱歉，伺服器正在進行維護，維護時間從20/3/2020至20/3/2030 (GMT+8)。請稍候再試。"
+            "很抱歉，服务器正在维护中，维护时间从20/3/2020至20/3/2030 (GMT+8)。请稍后访问。"
         };
         var result = messageBuilder.BuildUnderMaintenanceMessage("20/3/2020", "20/3/2030", "IBCBet");
 
@@ -114,8 +114,8 @@ public class MessageBuilderTest
         {
             "Welcome jack.",
             "Your Telegram Chatbot setup is completed.",
-            "This bot can assist you to view report more easily or keep you posted with the latest important notifications.",
-            "You will receive your yesterday's win loss after 2:00 PM (GMT+8) daily."
+            "You can view reports by interacting with this chatbot, and keep up with the latest information via automated notifications.",
+            "You will receive your Yesterday Win Loss Report after 2:00 PM (GMT+8) everyday."
         };
 
         var result = messageBuilder.BuildWelcomeMessage("EN", "jack");
@@ -144,7 +144,7 @@ public class MessageBuilderTest
     [Fact]
     public void BuildInvalidNumerOfDownlineRange_Always_ReturnInvalidNumerOfDownlineRange()
     {
-        const string expect = @"""userResponse"" is invalid, please enter valid number (max 10)";
+        const string expect = @"""userResponse"" is invalid, please enter a valid number (max 10)";
         var result = messageBuilder.BuildInvalidNumerOfDownlineRange("EN", "userResponse", 10);
 
         Assert.Equal(expect, result);
@@ -153,7 +153,7 @@ public class MessageBuilderTest
     [Fact]
     public void BuildInvalidCustNameMessage_Always_ReturnInvalidCustNameMessage()
     {
-        const string expect = @"""invalidCustName"" is invalid, please enter valid username";
+        const string expect = @"""invalidCustName"" is invalid, please enter a valid username";
         var result = messageBuilder.BuildInvalidCustNameMessage("EN", "invalidCustName");
 
         Assert.Equal(expect, result);
@@ -171,7 +171,7 @@ public class MessageBuilderTest
     [Fact]
     public void BuildAccountClosedMessage_Always_ReturnAccountClosedMessage()
     {
-        const string expect = @"Your Account is closed";
+        const string expect = @"Your account is closed";
         var result = messageBuilder.BuildAccountClosedMessage("EN");
 
         Assert.Equal(expect, result);
@@ -180,7 +180,7 @@ public class MessageBuilderTest
     [Fact]
     public void BuildAccountLockedMessage_Always_ReturnAccountLockedMessage()
     {
-        const string expect = @"Your Account is locked";
+        const string expect = @"Your account is locked";
         var result = messageBuilder.BuildAccountLockedMessage("EN");
 
         Assert.Equal(expect, result);
@@ -189,7 +189,7 @@ public class MessageBuilderTest
     [Fact]
     public void BuildUnlinkMessage_Always_ReturnUnlinkMessage()
     {
-        const string expect = @"Your telegram has been unlinked with Telegram successfully.";
+        const string expect = @"Your Telegram has been unlinked with Telegram.";
         var result = messageBuilder.BuildUnlinkMessage("EN", "Telegram");
 
         Assert.Equal(expect, result);
@@ -216,7 +216,7 @@ public class MessageBuilderTest
     [Fact]
     public void BuildUpdateNotificationSettingMessage_Enabled_ReturnUpdateNotificationSettingMessage()
     {
-        const string expect = @"Notification is turned on";
+        const string expect = @"Notification turned on";
         var result = messageBuilder.BuildUpdateNotificationSettingMessage("EN", true);
 
         Assert.Equal(expect, result);
@@ -225,7 +225,7 @@ public class MessageBuilderTest
     [Fact]
     public void BuildUpdateNotificationSettingMessage_UnEnable_ReturnUpdateNotificationSettingMessage()
     {
-        const string expect = @"Notification is turned off";
+        const string expect = @"Notification turned off";
         var result = messageBuilder.BuildUpdateNotificationSettingMessage("EN", false);
 
         Assert.Equal(expect, result);
@@ -265,7 +265,7 @@ public class MessageBuilderTest
     public void BuildStopUsingChatbotConfirmMessage_Always_ReturnMainMenuButton()
     {
         var textBtn =
-            "You're about to <b>Stop Using Chatbot</b>. Your Telegram will be unlinked with Telegram and you won't be able to use Telegram anymore. Are you sure you want to stop using Telegram?";
+            "You're about to <b>Stop Using Chatbot</b>. Your Telegram will be unlinked with Telegram and you cannot use Telegram anymore. Would you like to continue?";
 
         var result = messageBuilder.BuildStopUsingChatbotConfirmMessage("EN", "Telegram");
 
