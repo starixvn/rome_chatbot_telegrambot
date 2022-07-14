@@ -118,10 +118,11 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 
             var dict = new Dictionary<string, string>
             {
-                {$"[{ResourceHelper.Get(nameof(SharedResource.Balance), lang)} - {DateTime.Now:yyyyMMdd}]",""},
                 {$"{ResourceHelper.Get(nameof(SharedResource.Currency), lang)}:", bal.CurrencyName},
                 {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}:", bal.CashBalance.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}:", bal.YesterdayCashBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}:", bal.TotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}:", bal.YesterdayTotalBalance.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.TodayWinLoss), lang)}:", bal.TodayWinLoss.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayWinLoss), lang)}:", bal.YesterdayWinLoss.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}:", bal.PendingTransfer3rd.ToFormattedNumber()},
@@ -131,9 +132,10 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
                 {$"{ResourceHelper.Get($"{(CustomerLevel)request.CustomerLevel}OutStanding", lang)}:", bal.Outstanding.AgentOutstanding.ToFormattedNumber()},
             };
             var textContainer = new List<string>();
+            textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.Balance), lang)} - {DateTime.Now:yyyyMMdd}]");
             foreach (var keyValuePair in dict)
             {
-                textContainer.Add(keyValuePair.Key.ToUpperInvariant());
+                textContainer.Add($"<b>{keyValuePair.Key.ToUpperInvariant()}</b>");
                 textContainer.Add($"    {keyValuePair.Value}");
             }
             var message = string.Join("\n", textContainer);
@@ -169,8 +171,8 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             var textContainer = new List<string>()
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.Balance),  requestAccount.Language)} - {DateTime.Now:yyyyMMdd}]",
-                $"{ResourceHelper.Get(nameof(SharedResource.Username), requestAccount.Language).ToUpperInvariant()}:",
-                $"{parameters[0]}\n"
+                $"<b>{ResourceHelper.Get(nameof(SharedResource.Username), requestAccount.Language).ToUpperInvariant()}</b>:",
+                $"{parameters[0].ToLowerInvariant()}\n"
             };
             var dict = (CustomerLevel)downlineInfo.RoleId switch
             {
@@ -182,7 +184,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 
             foreach (var keyValuePair in dict)
             {
-                textContainer.Add(keyValuePair.Key.ToUpperInvariant());
+                textContainer.Add($"<b>{keyValuePair.Key.ToUpperInvariant()}</b>");
                 textContainer.Add($"    {keyValuePair.Value}");
             }
 
