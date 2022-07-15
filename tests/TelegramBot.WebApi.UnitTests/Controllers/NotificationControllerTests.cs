@@ -39,4 +39,14 @@ public class NotificationControllerTests
         // Assert
         await notificationService.Received().NotifyChangeSecurityCode(param.CustId, param.SubAccId);
     }
+
+    [Theory, AutoData]
+    public async Task Unlink_Always_CallNotificationServiceNotifyChangeSecurityCode(int userId, UnlinkNotificationParam param)
+    {
+        // Act
+        await notificationController.Unlink(userId, param);
+
+        // Assert
+        await notificationService.Received().NotifyUnlink(userId, param.ChatId, param.BotId, param.Language);
+    }
 }

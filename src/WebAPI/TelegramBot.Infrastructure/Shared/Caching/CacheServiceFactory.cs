@@ -26,7 +26,7 @@ namespace TelegramBot.Infrastructure.Shared.Caching
             cacheServices = new Dictionary<string, ICacheService>();
         }
 
-        public ICacheService Get(string cacheProvider = "memory")
+        public ICacheService Get(string cacheProvider = CacheProvider.Memory)
         {
             if (cacheServices.ContainsKey(cacheProvider))
             {

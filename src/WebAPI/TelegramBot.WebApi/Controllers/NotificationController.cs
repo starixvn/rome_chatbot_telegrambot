@@ -33,7 +33,6 @@ namespace TelegramBot.WebApi.Controllers
             return await notificationService.NotifyChangeSecurityCode(param.CustId, param.SubAccId);
         }
 
-
         [HttpPost("{userId}/unlink")]
         public async Task<Result> Unlink(int userId, [FromBody] UnlinkNotificationParam param)
         {

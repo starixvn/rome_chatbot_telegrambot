@@ -1,5 +1,4 @@
 ﻿using AutoFixture.Xunit2;
-using Newtonsoft.Json;
 using NSubstitute;
 using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Bot;
@@ -68,7 +67,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             var result = await _settingController.Link(param).ConfigureAwait(false);
 
             // Assert
-            Assert.Equal(JsonConvert.SerializeObject(expectedResult), JsonConvert.SerializeObject(result));
+            Assert.Same(expectedResult, result);
         }
 
         [Theory, AutoData]
@@ -82,7 +81,59 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             var result = await _settingController.GetCustBotMessengerAsync(param).ConfigureAwait(false);
 
             // Assert
-            Assert.Equal(JsonConvert.SerializeObject(custBotMessenger), JsonConvert.SerializeObject(result));
+            Assert.Same(custBotMessenger, result);
+        }
+
+        [Theory, AutoData]
+        public async Task ResendOtp_Always_CallsSettingServiceResendOtp(ResendOtpParam param)
+        {
+            // Act
+            await _settingController.ResendOtp(param).ConfigureAwait(false);
+
+            // Assert
+            await _settingService.Received().ResendOtp(param.CustId, param.SubAccId);
+        }
+
+        [Theory, AutoData]
+        public async Task Link_Always_CallsSettingServiceLink(LinkParam param)
+        {
+            // Act
+            await _settingController.Link(param).ConfigureAwait(false);
+
+            // Assert
+            await _settingService.Received().Link(param.BotId, param.CustId, param.SubAccId, param.Otp, param.Username, param.IP);
+        }
+
+        [Theory, AutoData]
+        public async Task Unlink_Always_CallsSettingServiceUnlink(UnlinkParam param)
+        {
+            // Act
+            await _settingController.Unlink(param).ConfigureAwait(false);
+
+            // Assert
+            await _settingService.Received().Unlink(param.CustId, param.SubAccId, param.IP);
+        }
+
+        [Theory, AutoData]
+        public async Task UpdateFunction_Always_CallsSettingServiceUpdateFunction(int userId, UpdateFunctionParam param)
+        {
+            // Act
+            await _settingController.UpdateFunction(userId, param).ConfigureAwait(false);
+
+            // Assert
+            await _settingService.Received().UpdateUserFunction(userId, param.BotId, param.Function, param.Creator, param.IP);
+        }
+
+        [Theory, AutoData]
+        public async Task UpdateLanguage_Always_CallsSettingServiceUpdateLanguage(int userId, UpdateLanguageParam param)
+        {
+            param.Language = "en-US";
+
+            // Act
+            await _settingController.UpdateLanguage(userId, param).ConfigureAwait(false);
+
+            // Assert
+            await _settingService.Received().UpdateUserLanguage(userId, param.BotId, param.Language, param.Creator, param.IP);
         }
     }
 }
