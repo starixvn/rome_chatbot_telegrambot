@@ -1,10 +1,8 @@
 ﻿using Fanex.Data.Repository;
 using Telegram.Bot;
-using Telegram.Bot.Types.Enums;
 using TelegramBot.Infrastructure.Bot.Criteria;
 using TelegramBot.Infrastructure.Bot.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
-using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Utilities;
 
 namespace TelegramBot.Infrastructure.Bot
@@ -19,10 +17,6 @@ namespace TelegramBot.Infrastructure.Bot
 
         Task<BotEntity> GetAsync(int botId);
 
-        Task<Result> SetWebhook(string accessToken, string url);
-
-        Task<Result> RemoveWebhook(string accessToken);
-
         Task<Telegram.Bot.Types.Chat> GetChat(string accessToken, long chatId);
     }
 
@@ -31,11 +25,6 @@ namespace TelegramBot.Infrastructure.Bot
         private readonly IDynamicRepository _dynamicRepository;
         private readonly WebAPIConfiguration _webAPIConfiguration;
         private List<BotEntity> _botEntities;
-        private readonly UpdateType[] _allowedUpdates = new[]
-        {
-            UpdateType.Message,
-            UpdateType.CallbackQuery
-        };
 
         public BotService(IDynamicRepository dynamicRepository, WebAPIConfiguration webAPIConfiguration)
         {
@@ -73,20 +62,6 @@ namespace TelegramBot.Infrastructure.Bot
         {
             var botEntities = await GetAllAsync();
             return botEntities.FirstOrDefault(x => x.BotId == botId);
-        }
-
-        public async Task<Result> SetWebhook(string accessToken, string url)
-        {
-            var client = TelegramBotUtils.InitBotClient(accessToken, _webAPIConfiguration.ProxyAddress);
-            await client.SetWebhookAsync(url: $"{url}/bot/{accessToken}", allowedUpdates: _allowedUpdates);
-            return Result.CreateSuccessfulResult();
-        }
-
-        public async Task<Result> RemoveWebhook(string accessToken)
-        {
-            var client = TelegramBotUtils.InitBotClient(accessToken, _webAPIConfiguration.ProxyAddress);
-            await client.DeleteWebhookAsync();
-            return Result.CreateSuccessfulResult();
         }
 
         public async Task<Telegram.Bot.Types.Chat> GetChat(string accessToken, long chatId)
