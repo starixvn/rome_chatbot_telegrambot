@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TelegramBot.Infrastructure.Bot;
+using TelegramBot.Infrastructure.Command;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared;
+using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Models;
-using TelegramBot.Infrastructure.Shared.Resources;
+using TelegramBot.WebApi.Filters;
 using TelegramBot.WebApi.Params;
 
 namespace TelegramBot.WebApi.Controllers
@@ -18,107 +20,108 @@ namespace TelegramBot.WebApi.Controllers
         private readonly ISettingService _settingService;
         private readonly IBotService _botService;
         private readonly IMessageSender _messageSender;
+        private readonly ICommandService _commandService;
+        private readonly IMessageBuilder _messageBuilder;
 
-        public SettingController(ICryptography cryptography, ISettingService settingService, IBotService botService, IMessageSender messageSender)
+        public SettingController(
+            ICryptography cryptography,
+            ISettingService settingService,
+            IBotService botService,
+            IMessageSender messageSender,
+            ICommandService commandService,
+            IMessageBuilder messageBuilder)
         {
             _cryptography = cryptography;
             _settingService = settingService;
             _botService = botService;
             _messageSender = messageSender;
+            _commandService = commandService;
+            _messageBuilder = messageBuilder;
         }
 
-        /// <summary>
-        /// Generate telegram start URI
-        /// </summary>
-        /// <response code="200">
-        /// https://t.me/LeoVnBot?start=47TfJ2awd8NkARFq4ktqmA==
-        /// </response>
         [Route("start-uri"), HttpPost]
         public async Task<string> GenerateStartUri([FromBody] GenerateStartUriParam param)
         {
-            var plainKey = $"{param.CustId}:{param.SubAccId}";
+            var plainKey = $"{param.CustId}:{param.SubAccId}:{param.Language}";
             var encryptKey = _cryptography.Encrypt(plainKey);
             var botEntity = await _botService.GetAsync(param.System);
-            return $"https://t.me/{botEntity.Name}?start={encryptKey}";
+            return $"https://t.me/{botEntity.Username}?start={encryptKey}";
         }
 
-        /// <summary>
-        /// Save messenger and customer
-        /// </summary>
         [Route("start"), HttpPost]
+        [ServiceFilter(typeof(AutoReplyUMFilterAttribute))]
+        [ServiceFilter(typeof(AccountStatusFilterAttribute))]
         public async Task<Result> Start(StartParam param)
         {
             var bot = await _botService.GetAsync(param.MessengerBotId);
+            var messenger = new Messenger(bot.BotId, param.ChatId, bot.System);
+
             var words = param.Message.Split(' ');
+            var introMessage = _messageBuilder.BuildIntroductionMessage(bot.System);
+            if (words.Length == 1)
+            {
+                var account = await _settingService.GetCustBotAccount(param.ChatId, bot.BotId);
+                if (account != null)
+                {
+                    await _commandService.SendMainMenuMessage(account, messenger);
+                    return Result.CreateSuccessfulResult();
+                }
+                else
+                {
+                    await _messageSender.SendMessage(messenger, introMessage);
+                    return Result.CreateErrorResult("Invalid start request");
+                }
+            }
+
             if (words.Length != 2)
             {
-                await _messageSender.SendMessage(bot.BotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
+                await _messageSender.SendMessage(messenger, introMessage);
                 return Result.CreateErrorResult("Invalid start request");
             }
 
             var uniqueToken = words[1];
             var plainKey = _cryptography.Decrypt(uniqueToken);
             words = plainKey.Split(':');
-            if (words.Length != 2)
+            if (words.Length != 3)
             {
-                await _messageSender.SendMessage(bot.BotId, param.ChatId, ResourceHelper.Get(nameof(SharedResource.IntroductionMessage), param.Language));
+                await _messageSender.SendMessage(messenger, introMessage);
                 return Result.CreateErrorResult("Invalid start unique token");
             }
 
             var custId = int.Parse(words[0]);
             var subAccId = int.Parse(words[1]);
-            return await _settingService.Start(bot.BotId, param.ChatId, custId, subAccId, param.Language, param.IP);
+            var language = words[2];
+            return await _settingService.Start(
+                bot.BotId,
+                param.ChatId,
+                custId,
+                subAccId,
+                LanguageCodes.MapLanguage(language),
+                param.IP);
         }
 
-        /// <summary>
-        /// Resend OTP
-        /// </summary>
         [Route("resend-otp"), HttpPost]
         public async Task<Result> ResendOtp(ResendOtpParam param)
-        {
-            return await _settingService.ResendOtp(param.CustId, param.SubAccId);
-        }
+            => await _settingService.ResendOtp(param.CustId, param.SubAccId);
 
-        /// <summary>
-        /// Link with OTP
-        /// -1: OTP is expired
-        /// -2: Invalid OTP
-        /// </summary>
         [Route("link"), HttpPost]
         public async Task<Result> Link(LinkParam param)
-        {
-            return await _settingService.Link(param.BotId, param.CustId, param.SubAccId, param.Otp, param.IP);
-        }
+            => await _settingService.Link(param.BotId, param.CustId, param.SubAccId, param.Otp, param.Username, param.IP);
 
-        /// <summary>
-        /// Unlink
-        /// </summary>
         [Route("unlink"), HttpPost]
         public async Task<Result> Unlink(UnlinkParam param)
-        {
-            return await _settingService.Unlink(param.BotId, param.CustId, param.SubAccId, param.IP);
-        }
+            => await _settingService.Unlink(param.CustId, param.SubAccId, param.IP);
 
-        /// <summary>
-        /// Get cust bot messenger
-        /// </summary>
         [Route("custBotMessenger"), HttpPost]
         public async Task<CustBotMessenger> GetCustBotMessengerAsync(GetCustBotMessengerParam param)
-        {
-            return await _settingService.GetCustBotMessenger(param.CustId, param.SubAccId);
-        }
+            => await _settingService.GetCustBotMessenger(param.CustId, param.SubAccId, param.Language);
 
         [HttpPost("{userId}/function")]
         public async Task<Result> UpdateFunction(int userId, [FromBody] UpdateFunctionParam param)
-        {
-            return await _settingService.UpdateUserFunction(userId, param.Function, param.Creator, param.IP);
-        }
+            => await _settingService.UpdateUserFunction(userId, param.BotId, param.Function, param.Creator, param.IP);
 
         [HttpPost("{userId}/language")]
-
         public async Task<Result> UpdateLanguage(int userId, [FromBody] UpdateLanguageParam param)
-        {
-            return await _settingService.UpdateUserLanguage(userId, param.Language, param.IP);
-        }
+            => await _settingService.UpdateUserLanguage(userId, param.BotId, LanguageCodes.MapLanguage(param.Language), param.Creator, param.IP);
     }
 }

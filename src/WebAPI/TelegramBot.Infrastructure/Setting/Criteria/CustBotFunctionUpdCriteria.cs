@@ -6,15 +6,18 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
 {
     public class CustBotFunctionUpdCriteria : ResultCriteriaBase, INonQueryCommand
     {
-        public CustBotFunctionUpdCriteria(int userId, BotFunction function, int creator, string ip)
+        public CustBotFunctionUpdCriteria(int userId, int botId, BotFunction function, int creator, string ip)
         {
             UserId = userId;
+            BotId = botId;
             Setting = $"<Root><r id='{function.FunctionId}' stt='{function.Enabled}' /></Root>";
             Creator = creator;
             IP = ip;
         }
 
         public int UserId { get; }
+
+        public int BotId { get; }
 
         public string Setting { get; }
 
@@ -24,6 +27,6 @@ namespace TelegramBot.Infrastructure.Setting.Criteria
 
         public string GetSettingKey() => "CustBotFunctionUpd";
 
-        public bool IsValid() => UserId > 0 && !string.IsNullOrEmpty(Setting);
+        public bool IsValid() => UserId > 0;
     }
 }

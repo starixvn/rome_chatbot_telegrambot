@@ -1,0 +1,11 @@
+using Microsoft.AspNetCore.Hosting;
+using TelegramBot.ImporterService;
+
+await Host.CreateDefaultBuilder(args)
+    .ConfigureWebHostDefaults(webBuilder =>
+        webBuilder
+            .UseStartup<Startup>()
+            .UseUrls("http://0.0.0.0:5000")
+    )
+    .Build()
+    .RunAsync();

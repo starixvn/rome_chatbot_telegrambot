@@ -1,57 +1,67 @@
+using Fanex.Logging;
+using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
-using Microsoft.AspNetCore.Diagnostics;
-using System.Net.Mime;
-using TelegramBot.Receiver.Configurations;
-using TelegramBot.Receiver.DependencyInjection;
-using TelegramBot.Receiver.Services;
+using Fanex.Logging.RabbitMQ;
+using Fanex.Logging.Sentry;
+using Microsoft.AspNetCore;
+using Sentry;
+using TelegramBot.Receiver;
 
-var builder = WebApplication.CreateBuilder(args);
+var configuration = GetConfiguration();
 
-var receiverConfiguration = new ReceiverConfiguration();
-var configuration = builder.Configuration;
+InitFanexLogger(configuration);
 
-configuration.GetSection(nameof(ReceiverConfiguration)).Bind(receiverConfiguration);
-builder.Services.AddSingleton(receiverConfiguration)
-    .AddClient(configuration)
-    .AddFanexLogging(configuration)
-    .AddHostedService<TelegramHostedService>()
-    .AddSingleton<IHandleUpdateService, HandleUpdateService>()
-    .AddControllers()
-    .AddNewtonsoftJson();
+var appName = typeof(Startup).Assembly.GetName().Name;
 
-var app = builder.Build();
-app.UseExceptionHandler(exceptionHandlerApp =>
+try
 {
-    exceptionHandlerApp.Run(async context =>
-    {
-        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        context.Response.ContentType = MediaTypeNames.Text.Plain;
-        var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
-        if (exceptionHandlerPathFeature != null)
-        {
-            await ExceptionHandler.HandleAsync(exceptionHandlerPathFeature.Error, context).ConfigureAwait(false);
-            await context.Response.WriteAsync($"An exception was thrown: {exceptionHandlerPathFeature.Error.Message}");
-            await context.Response.WriteAsync(exceptionHandlerPathFeature.Error.StackTrace);
-        }
-    });
-});
-
-app.UseRouting();
-app.UseCors();
-app.MapGet("/", () => "Telegram bot receiver!!!");
-app.UseEndpoints(endpoints =>
+    Logger.Log.Info($"Starting {appName}");
+    BuildWebHost(configuration, args).Run();
+    Logger.Log.Info($"{appName} has been started up.");
+}
+catch (Exception ex)
 {
-    endpoints.MapControllerRoute(
-        name: $"tgwebhook",
-        pattern: "bot/{accessToken}",
-        new { controller = "Webhook", action = "Post" });
-    endpoints.MapControllers();
-});
-
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHsts();
-    builder.WebHost.UseUrls("http://0.0.0.0:5000");
+    Logger.Log.Error($"Program terminated unexpectedly {appName}", ex);
 }
 
-app.Run();
+IWebHost BuildWebHost(IConfiguration configuration, string[] args) =>
+    WebHost.CreateDefaultBuilder(args)
+        .ConfigureAppConfiguration(x => x.AddConfiguration(configuration))
+        .UseContentRoot(Directory.GetCurrentDirectory())
+        .UseStartup<Startup>()
+        .UseUrls("http://0.0.0.0:5000")
+        .Build();
+
+void InitFanexLogger(IConfiguration configuration)
+{
+    var logEngines = new List<ILogEngine>
+    {
+        new RabbitMQLogging(configuration["Fanex.Logging:RabbitMQConnectionStrings"])
+    };
+
+    var sentryUrl = configuration["Fanex.Logging:SentryUrl"];
+    if (!string.IsNullOrWhiteSpace(sentryUrl))
+    {
+        logEngines.Add(new SentryLogging(new SentryEngineOptions
+        {
+            Dsn = new Dsn(sentryUrl)
+        }));
+    }
+
+    LogManager
+        .SetDefaultLogCategory(configuration["Fanex.Logging:DefaultCategory"])
+        .Use(logEngines);
+
+    ExceptionHandler
+        .UseConfig(new LoggingConfiguration().GetHttpHeaderInfo());
+}
+
+IConfiguration GetConfiguration()
+{
+    var builder = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddEnvironmentVariables();
+
+    return builder.Build();
+}

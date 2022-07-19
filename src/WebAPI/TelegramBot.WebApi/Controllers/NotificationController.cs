@@ -22,7 +22,7 @@ namespace TelegramBot.WebApi.Controllers
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
         public async Task<Result> NotifyChangePassword([FromBody] AlertParam param)
         {
-            return await notificationService.NotifyChangePassword(param.CustId, param.SubAccId, param.IP);
+            return await notificationService.NotifyChangePassword(param.CustId, param.SubAccId);
         }
 
         [HttpPost("change-security-code-alert")]
@@ -30,7 +30,13 @@ namespace TelegramBot.WebApi.Controllers
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
         public async Task<Result> NotifyChangeSecurityCode([FromBody] AlertParam param)
         {
-            return await notificationService.NotifyChangeSecurityCode(param.CustId, param.SubAccId, param.IP);
+            return await notificationService.NotifyChangeSecurityCode(param.CustId, param.SubAccId);
+        }
+
+        [HttpPost("{userId}/unlink")]
+        public async Task<Result> Unlink(int userId, [FromBody] UnlinkNotificationParam param)
+        {
+            return await notificationService.NotifyUnlink(userId, param.ChatId, param.BotId, param.Language);
         }
     }
 }

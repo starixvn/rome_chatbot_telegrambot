@@ -12,7 +12,5 @@ namespace TelegramBot.WebApi.Params
 
         [Required]
         public string Message { get; set; }
-
-        public bool IsCallback { get; set; }
     }
 }

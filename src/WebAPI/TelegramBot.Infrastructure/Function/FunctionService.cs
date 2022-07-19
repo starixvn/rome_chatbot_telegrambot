@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Fanex.Data.Repository;
 using TelegramBot.Infrastructure.Function.Constants;
 using TelegramBot.Infrastructure.Function.Criteria;
 using TelegramBot.Infrastructure.Function.Models;
+using TelegramBot.Infrastructure.Resource;
+using TelegramBot.Infrastructure.Resource.constants;
 using TelegramBot.Infrastructure.Shared.Configurations;
 
 namespace TelegramBot.Infrastructure.Setting
@@ -16,7 +14,11 @@ namespace TelegramBot.Infrastructure.Setting
 
         Task<IEnumerable<BotFunction>> GetReportFunctions();
 
-        Task<BotFunction> GetFunctionByCommand(string command);
+        Task<IEnumerable<BotFunction>> GetReportAndCommonFunctions();
+
+        Task<string> GetFunctionName(short functionId, string language);
+
+        Task<string> GetFunctionDescription(short functionId, string language);
     }
 
     public class FunctionService : IFunctionService
@@ -25,28 +27,31 @@ namespace TelegramBot.Infrastructure.Setting
 
         private readonly IDynamicRepository dynamicRepository;
         private readonly WebAPIConfiguration webAPIConfiguration;
+        private readonly IResourceService resourceService;
 
-        public FunctionService(IDynamicRepository dynamicRepository, WebAPIConfiguration webAPIConfiguration)
+        public FunctionService(IDynamicRepository dynamicRepository, WebAPIConfiguration webAPIConfiguration, IResourceService resourceService)
         {
             this.dynamicRepository = dynamicRepository;
             this.webAPIConfiguration = webAPIConfiguration;
+            this.resourceService = resourceService;
         }
 
         public async Task<IEnumerable<BotFunction>> GetAll()
         {
-            if (_functions == null)
-            {
-                _functions = await dynamicRepository.FetchAsync<BotFunction>(new BotFunctionSelAllCriteria(!webAPIConfiguration.IsProduction));
-            }
-
+            _functions ??= await dynamicRepository.FetchAsync<BotFunction>(new BotFunctionSelAllCriteria(!webAPIConfiguration.IsProduction));
             return _functions;
         }
 
         public async Task<IEnumerable<BotFunction>> GetReportFunctions()
-            => (await GetAll()).Where(f => f.Type == FunctionTypes.Report);
+           => (await GetAll()).Where(f => f.Type == FunctionTypes.Report);
 
-        public async Task<BotFunction> GetFunctionByCommand(string command)
-            => (await GetAll()).FirstOrDefault(f => !string.IsNullOrEmpty(f.Command) && command.IndexOf(f.Command, StringComparison.OrdinalIgnoreCase) == 0);
+        public async Task<IEnumerable<BotFunction>> GetReportAndCommonFunctions()
+            => (await GetAll()).Where(f => f.Type == FunctionTypes.Report || f.Type == FunctionTypes.Common);
 
+        public async Task<string> GetFunctionName(short functionId, string language)
+            => (await resourceService.GetResource(functionId.ToString(), ResourceType.FunctionName, language))?.Value;
+
+        public async Task<string> GetFunctionDescription(short functionId, string language)
+            => (await resourceService.GetResource(functionId.ToString(), ResourceType.FunctionDescription, language))?.Value;
     }
 }

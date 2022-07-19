@@ -16,10 +16,15 @@ namespace TelegramBot.Receiver.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(string accessToken, [FromBody] Update update)
         {
-            var id = _handleUpdateService.BotEntities.FindIndex(x => x.AccessToken == accessToken);
-            var botClient = _handleUpdateService.BotClients[id];
-            await _handleUpdateService.HandleUpdateAsync(botClient, update);
-            return Ok();
+            if (_handleUpdateService.BotClients.ContainsKey(accessToken))
+            {
+                var botClient = _handleUpdateService.BotClients[accessToken];
+                await _handleUpdateService.HandleUpdateAsync(botClient, update);
+
+                return Ok();
+            }
+
+            return BadRequest();
         }
     }
 }

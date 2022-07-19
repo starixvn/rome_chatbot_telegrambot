@@ -7,21 +7,21 @@ namespace TelegramBot.Client.Services
 {
     public interface ISettingService
     {
-        Task<string> GenerateStartUriAsync(int custId, int subAccId, string system);
+        Task<string> GenerateStartUriAsync(int custId, int subAccId, string system, string language);
 
-        Task<Result> StartAsync(long messengerBotId, long chatId, string message, string language, string ip = "");
+        Task<Result> StartAsync(long messengerBotId, long chatId, string message, string ip = "");
 
         Task<Result> ResendOtpAsync(int custId, int subAccId);
 
-        Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip = "");
+        Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string username, string ip = "");
 
-        Task<Result> UnlinkAsync(int botId, int custId, int subAccId, string ip = "");
+        Task<Result> UnlinkAsync(int custId, int subAccId, string ip = "");
 
-        Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId);
+        Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId, string language);
 
-        Task<Result> UpdateUserFunction(int userId, Function function, int creator, string ip = "");
+        Task<Result> UpdateUserFunction(int userId, int botId, Function function, int creator, string ip = "");
 
-        Task<Result> UpdateLanguage(int userId, string language, string ip = "");
+        Task<Result> UpdateLanguage(int userId, int botId, string language, int creator, string ip = "");
     }
 
     public class SettingService : ISettingService
@@ -33,46 +33,39 @@ namespace TelegramBot.Client.Services
             this.httpClient = httpClient;
         }
 
-        public async Task<string> GenerateStartUriAsync(int custId, int subAccId, string system)
-        {
-            return await httpClient.PostAsStringAsync(
+        public async Task<string> GenerateStartUriAsync(int custId, int subAccId, string system, string language)
+            => await httpClient.PostAsStringAsync(
                 $"setting/start-uri",
                 new
                 {
                     custId,
                     subAccId,
-                    system
+                    system,
+                    language
                 });
-        }
 
-        public async Task<Result> StartAsync(long messengerBotId, long chatId, string message, string language, string ip = "")
-        {
-            return await httpClient.PostAsJsonAsync<Result>(
+        public async Task<Result> StartAsync(long messengerBotId, long chatId, string message, string ip = "")
+            => await httpClient.PostAsJsonAsync<Result>(
                 $"setting/start",
                 new
                 {
                     messengerBotId,
                     chatId,
                     message,
-                    language,
                     ip
                 });
-        }
 
         public async Task<Result> ResendOtpAsync(int custId, int subAccId)
-        {
-            return await httpClient.PostAsJsonAsync<Result>(
+            => await httpClient.PostAsJsonAsync<Result>(
                 $"setting/resend-otp",
                 new
                 {
                     custId,
                     subAccId
                 });
-        }
 
-        public async Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string ip = "")
-        {
-            return await httpClient.PostAsJsonAsync<Result>(
+        public async Task<Result> LinkAsync(int botId, int custId, int subAccId, string otp, string username, string ip = "")
+            => await httpClient.PostAsJsonAsync<Result>(
                 $"setting/link",
                 new
                 {
@@ -80,50 +73,49 @@ namespace TelegramBot.Client.Services
                     custId,
                     subAccId,
                     otp,
+                    username,
                     ip
                 });
-        }
 
-        public async Task<Result> UnlinkAsync(int botId, int custId, int subAccId, string ip = "")
-        {
-            return await httpClient.PostAsJsonAsync<Result>(
+        public async Task<Result> UnlinkAsync(int custId, int subAccId, string ip = "")
+            => await httpClient.PostAsJsonAsync<Result>(
                 $"setting/unlink",
                 new
                 {
-                    botId,
                     custId,
                     subAccId,
                     ip
                 });
-        }
 
-        public async Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId)
-        {
-            return await httpClient.PostAsJsonAsync<CustBotMessenger>(
+        public async Task<CustBotMessenger> GetCustBotMessengerAsync(int custId, int subAccId, string language)
+            => await httpClient.PostAsJsonAsync<CustBotMessenger>(
                 $"setting/custBotMessenger",
                 new
                 {
                     custId,
-                    subAccId
+                    subAccId,
+                    language
                 });
-        }
 
-        public async Task<Result> UpdateUserFunction(int userId, Function function, int creator, string ip = "")
+        public async Task<Result> UpdateUserFunction(int userId, int botId, Function function, int creator, string ip = "")
             => await httpClient.PostAsJsonAsync<Result>(
                 $"setting/{userId}/function",
                 new
                 {
                     function,
                     creator,
+                    botId,
                     ip
                 });
 
-        public async Task<Result> UpdateLanguage(int userId, string language, string ip = "")
+        public async Task<Result> UpdateLanguage(int userId, int botId, string language, int creator, string ip = "")
             => await httpClient.PostAsJsonAsync<Result>(
                 $"setting/{userId}/language",
                 new
                 {
                     language,
+                    botId,
+                    creator,
                     ip
                 });
     }

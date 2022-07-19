@@ -10,6 +10,8 @@
 
         public string Otp { get; set; }
 
+        public string Username { get; set; }
+
         public string IP { get; set; }
     }
 }

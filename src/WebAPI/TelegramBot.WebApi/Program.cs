@@ -1,14 +1,13 @@
 using Alpha.API.Client.Extensions;
 using Fanex.Data.Repository;
 using Fanex.Logging;
-using Fanex.Logging.Extensions;
-using Fanex.Logging.Extensions.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using TelegramBot.Infrastructure.Shared;
 using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.WebApi.Extensions;
+using TelegramBot.WebApi.Middlewares;
 
 [assembly: ApiController]
 var builder = WebApplication.CreateBuilder(args);
@@ -17,8 +16,13 @@ builder.Services.AddControllers();
 var configuration = builder.Configuration;
 var webAPIConfiguration = new WebAPIConfiguration();
 configuration.GetSection(nameof(WebAPIConfiguration)).Bind(webAPIConfiguration);
+webAPIConfiguration.HiddenActionsBySystem = configuration.GetSection("HiddenActionsBySystems")
+                .Get<HiddenActionsBySystem[]>()
+                .ToDictionary(kvp => kvp.SiteName, kvp => kvp.ActionIds);
+
 builder.Services
-    .AddSingleton(webAPIConfiguration).AddSingleton<IDynamicRepository, DynamicRepository>()
+    .AddSingleton(webAPIConfiguration)
+    .AddSingleton<IDynamicRepository, DynamicRepository>()
     .AddSingleton<ICryptography, Cryptography>()
     .AddFanexLogging(configuration)
     .AddFanexCaching(configuration)
@@ -36,17 +40,15 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
-ExceptionHandler.UseConfig(new LoggingConfiguration().GetHttpHeaderInfo());
-
 var app = builder.Build();
 app.UseRouting();
 app.MapGet("/", () => "Telegram bot web api!!!");
 app.UseUM(configuration);
 app.UseFanexDataWithSqlServer(configuration, app.Environment);
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.MapControllers();
 
 var isDevelopment = app.Environment.IsDevelopment();
-app.UseExceptionHandler(isDevelopment ? "/error-development" : "/error");
 app.UseSwagger();
 app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "TelegramBot v1"));
 

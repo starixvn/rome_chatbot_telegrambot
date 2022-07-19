@@ -32,3 +32,5 @@ _ReSharper*/
 packages/
 *.orig
 .vscode/*
+.idea/*
+lcov.info

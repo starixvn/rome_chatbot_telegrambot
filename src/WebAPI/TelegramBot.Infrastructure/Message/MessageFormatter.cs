@@ -1,6 +1,3 @@
-using System;
-using TelegramBot.Infrastructure.Message.Constants;
-
 namespace TelegramBot.Infrastructure.Message
 {
     public interface IMessageFormatter
@@ -8,6 +5,8 @@ namespace TelegramBot.Infrastructure.Message
         string NewLine();
 
         string Point();
+
+        string Bold(string value);
     }
 
     public class TelegramFormatter : IMessageFormatter
@@ -15,5 +14,7 @@ namespace TelegramBot.Infrastructure.Message
         public string NewLine() => "\n";
 
         public string Point() => "\u2022";
+
+        public string Bold(string value) => $"<b>{value}</b>";
     }
 }

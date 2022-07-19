@@ -37,5 +37,11 @@ namespace TelegramBot.WebApi.Controllers
         {
             return await _botService.GetAsync(system).ConfigureAwait(false);
         }
+
+        [HttpGet("{accessToken}/chat/{chatId}")]
+        public async Task<Telegram.Bot.Types.Chat> GetChat(string accessToken, long chatId)
+        {
+            return await _botService.GetChat(accessToken, chatId);
+        }
     }
 }

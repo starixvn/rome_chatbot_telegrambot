@@ -1,43 +1,47 @@
-﻿using System.Collections.Generic;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using TelegramBot.Infrastructure.Bot;
+using TelegramBot.Infrastructure.Shared.Configurations;
+using TelegramBot.Utilities;
 
 namespace TelegramBot.Infrastructure.Message
 {
     public interface IBotClientFactory
     {
-        ITelegramBotClient GetOrCreate(int botId);
+        Task<ITelegramBotClient> GetOrCreate(int botId);
     }
 
     public class BotClientFactory : IBotClientFactory
     {
         private readonly IBotService botService;
-        private readonly Dictionary<long, ITelegramBotClient> botClients = new();
+        private readonly Dictionary<int, ITelegramBotClient> botClients = new();
+        private readonly SemaphoreSlim semaphore = new(1, 1);
+        private readonly WebAPIConfiguration webAPIConfiguration;
 
-        public BotClientFactory(IBotService botService)
+        public BotClientFactory(IBotService botService, WebAPIConfiguration webAPIConfiguration)
         {
             this.botService = botService;
+            this.webAPIConfiguration = webAPIConfiguration;
         }
 
-        public ITelegramBotClient GetOrCreate(int botId)
+        public async Task<ITelegramBotClient> GetOrCreate(int botId)
         {
             if (botClients.ContainsKey(botId))
             {
                 return botClients[botId];
             }
 
-
-            lock (botClients)
+            await semaphore.WaitAsync();
+            try
             {
-                if (botClients.ContainsKey(botId))
-                {
-                    return botClients[botId];
-                }
-
-                var bot = botService.GetAsync(botId).GetAwaiter().GetResult();
-                var botClient = new TelegramBotClient(bot.AccessToken);
+                var bot = await botService.GetAsync(botId);
+                var botClient = TelegramBotUtils.InitBotClient(bot.AccessToken, webAPIConfiguration.ProxyAddress);
                 botClients.Add(botId, botClient);
+
                 return botClient;
+            }
+            finally
+            {
+                semaphore.Release();
             }
         }
     }

@@ -2,21 +2,22 @@
 {
     public class BotEntity
     {
-        public BotEntity(int botId, string name, string system, string accessToken, bool status, bool isTest)
+        public BotEntity(int botId, string username, string system, string accessToken, bool status, bool isTest, string displayName)
         {
             BotId = botId;
-            Name = name;
+            Username = username;
             System = system;
             AccessToken = accessToken;
             Status = status;
             IsTest = isTest;
+            DisplayName = displayName;
         }
 
         public int BotId { get; }
 
         public long MessengerBotId { get; set; }
 
-        public string Name { get; }
+        public string Username { get; }
 
         public string System { get; }
 
@@ -25,5 +26,7 @@
         public bool Status { get; }
 
         public bool IsTest { get; }
+
+        public string DisplayName { get; }
     }
 }

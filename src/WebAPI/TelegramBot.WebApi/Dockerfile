@@ -5,6 +5,7 @@ COPY src/WebAPI/TelegramBot.WebApi/TelegramBot.WebApi.csproj ./WebAPI/TelegramBo
 RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
 RUN dotnet restore WebAPI/TelegramBot.WebApi/TelegramBot.WebApi.csproj -v n
 
+COPY src/Shared/TelegramBot.Utilities ./Shared/TelegramBot.Utilities
 COPY src/WebAPI/TelegramBot.Infrastructure ./WebAPI/TelegramBot.Infrastructure
 COPY src/WebAPI/TelegramBot.WebApi ./WebAPI/TelegramBot.WebApi
 
@@ -17,6 +18,11 @@ RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /etc/ssl/openssl.cnf
 RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /etc/ssl/openssl.cnf
 RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /usr/lib/ssl/openssl.cnf
 RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /usr/lib/ssl/openssl.cnf
+
+RUN adduser --disabled-password \
+    --home /app \
+    --gecos '' dotnetuser && chown -R dotnetuser /app
+USER dotnetuser
 
 WORKDIR /app
 COPY --from=builder /app .

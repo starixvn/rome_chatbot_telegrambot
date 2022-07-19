@@ -46,32 +46,19 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
                 _functionService);
         }
 
-        [Theory, AutoData]
-        public async Task UnlinkAsync_Always_Call(int botId, int custId, int subAccId, string ip)
-        {
-            // Arrange
-            var criteria = new CustBotAccountStatusUpdCriteria(botId, custId, subAccId, false, false, ip);
-            _dynamicRepository.ExecuteAsync(criteria).Returns(Task.FromResult(0));
 
-            // Act
-            await _settingService.Unlink(botId, custId, subAccId, ip).ConfigureAwait(false);
+        // [Theory, AutoData]
+        // public async Task GetCustBotMessengerAsync_Always_Call(int custId, int subAccId, bool isTest, CustBotMessenger custBotMessenger)
+        // {
+        //     // Arrange
+        //     var criteria = new CustBotMessengerSelCriteria(custId, subAccId, isTest);
+        //     _dynamicRepository.GetAsync<CustBotMessenger>(criteria).Returns(Task.FromResult(custBotMessenger));
 
-            // Assert
-            await _dynamicRepository.Received().ExecuteAsync(Arg.Any<CustBotAccountStatusUpdCriteria>());
-        }
+        //     // Act
+        //     await _settingService.GetCustBotMessenger(custId, subAccId).ConfigureAwait(false);
 
-        [Theory, AutoData]
-        public async Task GetCustBotMessengerAsync_Always_Call(int custId, int subAccId, bool isTest, CustBotMessenger custBotMessenger)
-        {
-            // Arrange
-            var criteria = new CustBotMessengerSelCriteria(custId, subAccId, isTest);
-            _dynamicRepository.GetAsync<CustBotMessenger>(criteria).Returns(Task.FromResult(custBotMessenger));
-
-            // Act
-            await _settingService.GetCustBotMessenger(custId, subAccId).ConfigureAwait(false);
-
-            // Assert
-            await _dynamicRepository.Received().GetAsync<CustBotMessenger>(Arg.Any<CustBotMessengerSelCriteria>());
-        }
+        //     // Assert
+        //     await _dynamicRepository.Received().GetAsync<CustBotMessenger>(Arg.Any<CustBotMessengerSelCriteria>());
+        // }
     }
 }

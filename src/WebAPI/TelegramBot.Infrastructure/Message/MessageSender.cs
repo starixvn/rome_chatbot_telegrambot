@@ -1,33 +1,27 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Infrastructure.Message.Constants;
-using TelegramBot.Infrastructure.Message.Models;
-using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Constants;
-using TelegramBot.Infrastructure.Shared.Resources;
+using TelegramBot.Infrastructure.Shared.Models;
 
 namespace TelegramBot.Infrastructure.Message
 {
     public interface IMessageSender
     {
-        Task SendMessageWithCancelButtion(CustBotMessenger messenger, string message, short parentActionId, short functionId = 0, bool logToDatabase = true);
+        Task SendMessage(int userId, Messenger messenger, string message, short functionId = 0, bool logToDatabase = true);
 
-        Task SendMessageWithBackToMainMenuButton(CustBotMessenger messenger, string message, IList<MessageButton> buttons = null, short functionId = 0, bool logToDatabase = true);
+        Task SendMessage(int userId, Messenger messenger, Models.Message message, int messageId = 0, short functionId = 0, bool logToDatabase = true);
 
-        Task SendMessage(CustBotMessenger messenger, string message, IList<MessageButton> buttons = null, short functionId = 0, bool logToDatabase = true);
+        Task SendMessage(Messenger messenger, string message, InlineKeyboardMarkup replyMarkup = null, int messageId = 0);
 
-        Task SendMessage(int botId, long chatId, string message, IReplyMarkup replyMarkup = null);
+        Task Alert(Messenger messenger, string message, string callbackId);
     }
 
     public class MessageSender : IMessageSender
     {
         private readonly IBotClientFactory botClientFactory;
         private readonly IMessageLogger messageLogger;
-        private readonly int NumberButtonInRow = 2;
 
         public MessageSender(IBotClientFactory botClientFactory, IMessageLogger messageLogger)
         {
@@ -35,105 +29,78 @@ namespace TelegramBot.Infrastructure.Message
             this.messageLogger = messageLogger;
         }
 
-        public async Task SendMessageWithCancelButtion(CustBotMessenger messenger, string message, short parentActionId, short functionId = 0, bool logToDatabase = true)
+        public async Task SendMessage(int userId, Messenger messenger, string message, short functionId = 0, bool logToDatabase = true)
         {
-            await SendMessage(messenger, message, new List<MessageButton> { BuildCancelButtion(messenger.Language, parentActionId) }, false, functionId, logToDatabase);
-        }
-
-        public async Task SendMessageWithBackToMainMenuButton(CustBotMessenger messenger, string message, IList<MessageButton> buttons = null, short functionId = 0, bool logToDatabase = true)
-        {
-            await SendMessage(messenger, message, buttons, true, functionId, logToDatabase);
-        }
-
-        public async Task SendMessage(CustBotMessenger messenger, string message, IList<MessageButton> buttons = null, short functionId = 0, bool logToDatabase = true)
-        {
-            await SendMessage(messenger, message, buttons, false, functionId, logToDatabase);
-        }
-
-        private async Task SendMessage(CustBotMessenger messenger, string message, IList<MessageButton> buttons = null, bool withBackToMainMenuButton = false, short functionId = 0, bool logToDatabase = true)
-        {
-            IReplyMarkup replyMarkup = null;
-
             try
             {
-                if (buttons != null)
-                {
-                    replyMarkup = BuildReplyMarkup(messenger.Language, buttons, withBackToMainMenuButton);
-                }
-
-                await SendMessage(messenger.BotId, messenger.ChatId, message, replyMarkup);
+                await SendMessage(messenger, message);
 
                 if (logToDatabase)
                 {
-                    await messageLogger.LogMessage(CommonId.BotUserId, messenger.UserId, messenger.ChatId, messenger.BotId, message, MessageSendStatus.Success, functionId);
+                    await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Success, functionId);
                 }
             }
             catch
             {
                 if (logToDatabase)
                 {
-                    await messageLogger.LogMessage(CommonId.BotUserId, messenger.UserId, messenger.ChatId, messenger.BotId, message, MessageSendStatus.Failure, functionId);
+                    await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Failure, functionId);
+                }
+
+                throw;
+            }
+
+        }
+
+        public async Task SendMessage(int userId, Messenger messenger, Models.Message message, int messageId = 0, short functionId = 0, bool logToDatabase = true)
+        {
+            try
+            {
+                await SendMessage(messenger, message.Text, messageId: messageId, replyMarkup: message.ReplyMarkup);
+
+                if (logToDatabase)
+                {
+                    await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Success, functionId);
+                }
+            }
+            catch
+            {
+                if (logToDatabase)
+                {
+                    await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Failure, functionId);
                 }
 
                 throw;
             }
         }
 
-        public async Task SendMessage(int botId, long chatId, string message, IReplyMarkup replyMarkup = null)
+        public async Task SendMessage(Messenger messenger, string message, InlineKeyboardMarkup replyMarkup = null, int messageId = 0)
         {
-            var botClient = botClientFactory.GetOrCreate(botId);
+            var botClient = await botClientFactory.GetOrCreate(messenger.BotId);
 
-            await botClient.SendTextMessageAsync(
-                parseMode: ParseMode.Html,
-                chatId: chatId,
-                text: message,
-                replyMarkup: replyMarkup);
-        }
-
-
-        private InlineKeyboardMarkup BuildReplyMarkup(string language, IList<MessageButton> buttons, bool withBackToMainMenuButton = false)
-        {
-            var numberOfRows = buttons.Count % NumberButtonInRow > 0 ? (buttons.Count / NumberButtonInRow) + 1 : (buttons.Count / NumberButtonInRow);
-            numberOfRows = withBackToMainMenuButton ? numberOfRows + 1 : numberOfRows;
-            var buttonRows = new InlineKeyboardButton[numberOfRows][];
-
-            for (var i = 0; i < numberOfRows; i++)
+            if (messageId > 0)
             {
-                if (withBackToMainMenuButton && i == numberOfRows - 1)
-                {
-                    buttonRows[i] = new InlineKeyboardButton[]
-                    {
-                        InlineKeyboardButton.WithCallbackData(
-                            ResourceHelper.Get(nameof(SharedResource.BackToMainMenu),language),
-                            JsonConvert.SerializeObject(new {IsBackToMainMenu=true}))
-                    };
-                    break;
-                }
-
-                var actionIndex = i * NumberButtonInRow;
-                if (actionIndex == buttons.Count - 1)
-                {
-                    buttonRows[i] = new InlineKeyboardButton[]
-                    {
-                        InlineKeyboardButton.WithCallbackData(buttons[actionIndex].Text, buttons[actionIndex].CallBackData)
-                    };
-                }
-                else
-                {
-                    buttonRows[i] = new InlineKeyboardButton[]
-                    {
-                        InlineKeyboardButton.WithCallbackData(buttons[actionIndex].Text, buttons[actionIndex].CallBackData),
-                        InlineKeyboardButton.WithCallbackData(buttons[actionIndex + 1].Text, buttons[actionIndex + 1].CallBackData)
-                    };
-                }
+                await botClient.EditMessageTextAsync(
+                    chatId: messenger.ChatId,
+                    messageId: messageId,
+                    text: message,
+                    parseMode: ParseMode.Html,
+                    replyMarkup: replyMarkup);
             }
-
-            return buttonRows;
+            else
+            {
+                await botClient.SendTextMessageAsync(
+                    parseMode: ParseMode.Html,
+                    chatId: messenger.ChatId,
+                    text: message,
+                    replyMarkup: replyMarkup);
+            }
         }
 
-        private MessageButton BuildCancelButtion(string language, short parentActionId)
+        public async Task Alert(Messenger messenger, string message, string callbackId)
         {
-            return new MessageButton(ResourceHelper.Get(nameof(SharedResource.Cancel)), JsonConvert.SerializeObject(new { IsCancel = true, ActionId = parentActionId }));
+            var botClient = await botClientFactory.GetOrCreate(messenger.BotId);
+            await botClient.AnswerCallbackQueryAsync(callbackId, message);
         }
     }
 }

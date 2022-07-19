@@ -34,5 +34,19 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             // Assert
             Assert.Equal(JsonConvert.SerializeObject(botEntities), JsonConvert.SerializeObject(result));
         }
+
+        [Theory, AutoData]
+        public async Task GetBotBySystem(BotEntity bot)
+        {
+            // Arrange
+            var system = "System";
+            _botService.GetAsync(system).Returns(Task.FromResult(bot));
+
+            // Act
+            var result = await _botController.GetBotBySystem(system);
+
+            // Assert
+            Assert.Same(result, bot);
+        }
     }
 }

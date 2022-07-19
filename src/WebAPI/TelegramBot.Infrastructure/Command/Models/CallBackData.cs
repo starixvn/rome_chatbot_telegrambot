@@ -1,15 +1,15 @@
+using Newtonsoft.Json;
+
 namespace TelegramBot.Infrastructure.Command.Models
 {
-    public class CallBackData
+    public class CallbackData
     {
-        public int ActionId { get; set; }
+        public int Id { get; set; }
 
-        public bool IsCancel { get; set; }
+        public bool IsStopUsingChatbot { get; set; }
 
-        public bool IsConfirmButton { get; set; }
+        public bool IsMainMenu { get; set; }
 
-        public bool IsBackToMainMenu { get; set; }
-
-        public string CompiledCommand { get; set; }
+        public string Cmd { get; set; }
     }
 }

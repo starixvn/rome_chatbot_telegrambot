@@ -2,7 +2,6 @@
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using TelegramBot.Client.Models;
 using TelegramBot.Client.Services;
 using TelegramBot.Receiver.Configurations;
 
@@ -10,12 +9,8 @@ namespace TelegramBot.Receiver.Services
 {
     public interface IHandleUpdateService
     {
-        List<BotEntity> BotEntities { get; set; }
-        List<ITelegramBotClient> BotClients { get; set; }
-
+        IDictionary<string, ITelegramBotClient> BotClients { get; set; }
         Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken = default);
-
-        Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken);
     }
 
     public class HandleUpdateService : IHandleUpdateService
@@ -25,10 +20,13 @@ namespace TelegramBot.Receiver.Services
         private readonly ICommandService _commandService;
         private readonly ISettingService _settingService;
 
-        public List<BotEntity> BotEntities { get; set; }
-        public List<ITelegramBotClient> BotClients { get; set; }
+        public IDictionary<string, ITelegramBotClient> BotClients { get; set; }
 
-        public HandleUpdateService(Fanex.Logging.ILogger logger, ReceiverConfiguration botConfiguration, ICommandService commandService, ISettingService settingService)
+        public HandleUpdateService(
+            Fanex.Logging.ILogger logger,
+            ReceiverConfiguration botConfiguration,
+            ICommandService commandService,
+            ISettingService settingService)
         {
             _logger = logger;
             _botConfiguration = botConfiguration;
@@ -80,17 +78,22 @@ namespace TelegramBot.Receiver.Services
 
             if (message.Text!.Split(' ')[0].Equals("/start"))
             {
-                await _settingService.StartAsync(botClient.BotId.Value, message.Chat.Id, message.Text, "en-US");
+                await _settingService.StartAsync(botClient.BotId.Value, message.Chat.Id, message.Text);
             }
             else
             {
-                await _commandService.ExecuteAsync(botClient.BotId.Value, message.Chat.Id, message.Text, false);
+                await _commandService.HandleTextMessage(botClient.BotId.Value, message.Chat.Id, message.Text);
             }
         }
 
         private async Task BotOnCallbackQueryReceived(ITelegramBotClient botClient, CallbackQuery callbackQuery)
         {
-            await _commandService.ExecuteAsync(botClient.BotId.Value, callbackQuery.Message.Chat.Id, callbackQuery.Data, true);
+            await _commandService.HandleCallbackMessage(
+                botClient.BotId.Value,
+                callbackQuery.Message.Chat.Id,
+                callbackQuery.Message.MessageId,
+                callbackQuery.Id,
+                callbackQuery.Data);
         }
 
         private async Task UnknownUpdateHandlerAsync(ITelegramBotClient botClient, Update update)
@@ -101,12 +104,7 @@ namespace TelegramBot.Receiver.Services
                 text: "Unknown update!").ConfigureAwait(false);
         }
 
-        public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
-        {
-            return HandleErrorAsync(exception);
-        }
-
-        public async Task HandleErrorAsync(Exception exception)
+        private async Task HandleErrorAsync(Exception exception)
         {
             var errorMessage = exception is ApiRequestException apiRequestException
                 ? $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}"

@@ -6,6 +6,6 @@
 
         public int SubAccId { get; set; }
 
-        public bool IsTest { get; set; }
+        public string Language { get; set; }
     }
 }

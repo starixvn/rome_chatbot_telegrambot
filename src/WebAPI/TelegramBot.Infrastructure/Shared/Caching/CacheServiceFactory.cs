@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Fanex.Caching;
 using Fanex.Caching.Memory;
 using Fanex.Caching.Redis;
@@ -28,7 +26,7 @@ namespace TelegramBot.Infrastructure.Shared.Caching
             cacheServices = new Dictionary<string, ICacheService>();
         }
 
-        public ICacheService Get(string cacheProvider = "memory")
+        public ICacheService Get(string cacheProvider = CacheProvider.Memory)
         {
             if (cacheServices.ContainsKey(cacheProvider))
             {

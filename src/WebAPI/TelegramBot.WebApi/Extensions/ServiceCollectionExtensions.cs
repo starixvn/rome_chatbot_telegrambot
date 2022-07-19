@@ -2,6 +2,9 @@
 using Fanex.Caching.Memory;
 using Fanex.Caching.Redis;
 using Fanex.Logging;
+using Fanex.Logging.Extensions;
+using Fanex.Logging.Extensions.AspNetCore;
+using Fanex.Logging.Extensions.Database;
 using Fanex.Logging.RabbitMQ;
 using Fanex.Logging.Sentry;
 using ONEbook.UM.Configurations;
@@ -11,6 +14,8 @@ using ONEbook.UM.Transport;
 using Sentry;
 using StackExchange.Redis;
 using TelegramBot.Infrastructure.Action;
+using TelegramBot.Infrastructure.Action.Builders.ActionName;
+using TelegramBot.Infrastructure.Action.Validators;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Command;
 using TelegramBot.Infrastructure.Function.Handlers;
@@ -40,6 +45,8 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<IFunctionService, FunctionService>();
             services.AddSingleton<IMessageFormatter, TelegramFormatter>();
             services.AddSingleton<IResourceService, ResourceService>();
+            services.AddSingleton<IActionValidatorFactory, ActionValidatorFactory>();
+            services.AddSingleton<IActionNameBuilderFactory, ActionNameBuilderFactory>();
             services.AddFunctionHandlers();
 
             return services;
@@ -85,12 +92,19 @@ namespace TelegramBot.WebApi.Extensions
                     .Use(logEngines);
 
             services.AddSingleton(Logger.Log);
+
+            ExceptionHandler
+                .UseConfig(new LoggingConfiguration()
+                .GetHttpHeaderInfo()
+                .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo));
+
             return services;
         }
 
         public static IServiceCollection AddFilters(this IServiceCollection services)
         {
             services.AddScoped<AutoReplyUMFilterAttribute>();
+            services.AddScoped<AccountStatusFilterAttribute>();
 
             return services;
         }
@@ -112,6 +126,12 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<IFunctionHandlerFactory, FunctionHandlerFactory>();
             services.AddSingleton<OustandingFunctionHandler>()
                 .AddSingleton<IFunctionHandler, OustandingFunctionHandler>(s => s.GetService<OustandingFunctionHandler>());
+            services.AddSingleton<BalanceInfoFunctionHandler>()
+                .AddSingleton<IFunctionHandler, BalanceInfoFunctionHandler>(s => s.GetService<BalanceInfoFunctionHandler>());
+            services.AddSingleton<TodayWinLossFunctionHandler>()
+                .AddSingleton<IFunctionHandler, TodayWinLossFunctionHandler>(s => s.GetService<TodayWinLossFunctionHandler>());
+            services.AddSingleton<YesterdayWinLossFunctionHandler>()
+                .AddSingleton<IFunctionHandler, YesterdayWinLossFunctionHandler>(s => s.GetService<YesterdayWinLossFunctionHandler>());
             return services;
         }
 
@@ -121,7 +141,7 @@ namespace TelegramBot.WebApi.Extensions
 
             if (endPoints != null && endPoints.Length > 0)
             {
-                options.ConnectionOptions = options.ConnectionOptions ?? new ConfigurationOptions();
+                options.ConnectionOptions ??= new ConfigurationOptions();
 
                 foreach (var endPoint in endPoints)
                 {

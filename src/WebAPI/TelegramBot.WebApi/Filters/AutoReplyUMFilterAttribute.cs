@@ -3,6 +3,7 @@ using ONEbook.UM.Services;
 using System.Net;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Message;
+using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.WebApi.Params;
 
 namespace TelegramBot.WebApi.Filters
@@ -32,21 +33,20 @@ namespace TelegramBot.WebApi.Filters
             ActionExecutingContext context,
             ActionExecutionDelegate next)
         {
-            if (context.ActionArguments.ContainsKey(ParamName))
+            if (context.ActionArguments.ContainsKey(ParamName) && context.ActionArguments[ParamName] is CommandParam command)
             {
-                if (context.ActionArguments[ParamName] is CommandParam command)
-                {
-                    var umInfo = await maintenanceService.GetUnderMaintenanceTimeAsync();
-                    if (umInfo.IsUnderMaintenanceTime)
-                    {
-                        var bot = await botService.GetAsync(command.MessengerBotId);
-                        var message = messageBuilder.BuildUnderMaintenanceMessage(umInfo.From, umInfo.To);
-                        await messageSender.SendMessage(bot.BotId, command.ChatId, message);
-                        await HandleUnderMaintenance(context.HttpContext, message);
 
-                        return;
-                    }
+                var umInfo = await maintenanceService.GetUnderMaintenanceTimeAsync();
+                if (umInfo.IsUnderMaintenanceTime)
+                {
+                    var bot = await botService.GetAsync(command.MessengerBotId);
+                    var message = messageBuilder.BuildUnderMaintenanceMessage(umInfo.From, umInfo.To, bot.System);
+                    await messageSender.SendMessage(new Messenger(bot.BotId, command.ChatId), message);
+                    await HandleUnderMaintenance(context.HttpContext, message);
+
+                    return;
                 }
+
             }
 
             await base.OnActionExecutionAsync(context, next);

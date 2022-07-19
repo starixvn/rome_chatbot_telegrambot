@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root"
+    xmlns=""
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Cash" xml:space="preserve">
+    <value>ยอดเงินสด</value>
+    <comment/>
+  </data>
+  <data name="YesterdayCash" xml:space="preserve">
+    <value>ยอดเงินสดคงเหลือของเมื่อวาน</value>
+    <comment/>
+  </data>
+  <data name="CustLevel_2" xml:space="preserve">
+    <value>ตัวแทน</value>
+    <comment/>
+  </data>
+  <data name="AgentComm" xml:space="preserve">
+    <value>คอมมิชชั่นของ Agent</value>
+    <comment/>
+  </data>
+  <data name="AgentCredit" xml:space="preserve">
+    <value>เครดิตเอเย่น</value>
+    <comment/>
+  </data>
+  <data name="AgentOutStanding" xml:space="preserve">
+    <value>เอเย่นต์ยอดคงค้าง</value>
+    <comment/>
+  </data>
+  <data name="AgentTotal" xml:space="preserve">
+    <value>รวม เอเจนต์</value>
+    <comment/>
+  </data>
+  <data name="AgentWinLoss" xml:space="preserve">
+    <value>เอเจนต์ ได้เสีย</value>
+    <comment/>
+  </data>
+  <data name="CustLevel_3" xml:space="preserve">
+    <value>ตัวแทนหลัก</value>
+    <comment/>
+  </data>
+  <data name="MasterComm" xml:space="preserve">
+    <value>คอมมิชชั่นของ Master</value>
+    <comment/>
+  </data>
+  <data name="MasterCredit" xml:space="preserve">
+    <value>เครดิตมาสเตอร์</value>
+    <comment/>
+  </data>
+  <data name="MasterOutStanding" xml:space="preserve">
+    <value>การเดิมพันที่ยังไม่สิ้นสุดของ ตัวแทนหลัก</value>
+    <comment/>
+  </data>
+  <data name="MasterTotal" xml:space="preserve">
+    <value>รวม Master</value>
+    <comment/>
+  </data>
+  <data name="MasterWinLoss" xml:space="preserve">
+    <value>ตัวแทนหลัก ชนะ แพ้</value>
+    <comment/>
+  </data>
+  <data name="CustLevel_1" xml:space="preserve">
+    <value>สมาชิก</value>
+    <comment/>
+  </data>
+  <data name="Member" xml:space="preserve">
+    <value>สมาชิก</value>
+    <comment/>
+  </data>
+  <data name="MemberComm" xml:space="preserve">
+    <value>คอมมิชชั่นของสมาชิก</value>
+    <comment/>
+  </data>
+  <data name="MemberCredit" xml:space="preserve">
+    <value>เครดิตเมมเบอร์</value>
+    <comment/>
+  </data>
+  <data name="MemberOutStanding" xml:space="preserve">
+    <value>การเดิมพันที่ยังไม่สิ้นสุดของ สมาชิก</value>
+    <comment/>
+  </data>
+  <data name="MemberTotal" xml:space="preserve">
+    <value>จำนวนทั้งหมดของสมาชิก</value>
+    <comment/>
+  </data>
+  <data name="MemberWinLoss" xml:space="preserve">
+    <value>สมาชิก (ชนะ แพ้)</value>
+    <comment/>
+  </data>
+  <data name="CustLevel_4" xml:space="preserve">
+    <value>สูงสุด</value>
+    <comment/>
+  </data>
+  <data name="SuperComm" xml:space="preserve">
+    <value>คอมมิชั่นของซุปเปอร์</value>
+    <comment/>
+  </data>
+  <data name="SuperOutStanding" xml:space="preserve">
+    <value>ยอดคงค้างของซุปเปอร์</value>
+    <comment/>
+  </data>
+  <data name="SuperTotal" xml:space="preserve">
+    <value>ซุปเปอร์ทั้งหมด</value>
+    <comment/>
+  </data>
+  <data name="SuperWinLoss" xml:space="preserve">
+    <value>การได้เสียสูงสุด</value>
+    <comment/>
+  </data>
+  <data name="CompanyWinLoss" xml:space="preserve">
+    <value>บริษัท</value>
+    <comment/>
+  </data>
+  <data name="GrossComm" xml:space="preserve">
+    <value>ยอดรวมของคอมมิชชั่น</value>
+    <comment/>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>ข้อมูลยอดเงินคงเหลือ</value>
+    <comment/>
+  </data>
+  <data name="For" xml:space="preserve">
+    <value>สำหรับ</value>
+    <comment/>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>เครดิต</value>
+    <comment/>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>สกุลเงิน</value>
+    <comment/>
+  </data>
+  <data name="GivenCredit" xml:space="preserve">
+    <value>เครดิตทั้งหมด</value>
+    <comment/>
+  </data>
+  <data name="InvalidUsername" xml:space="preserve">
+    <value>ชื่อผู้ใช้งานไม่ถูกต้อง</value>
+    <comment/>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>ไม่มีข้อมูล</value>
+    <comment/>
+  </data>
+  <data name="NotRecognizeCommandMessage" xml:space="preserve">
+    <value>ขออภัย เราไม่สามารถรับรู้คำขอของคุณได้ คุณต้องการดำเนินการใด?</value>
+    <comment/>
+  </data>
+  <data name="Outstanding" xml:space="preserve">
+    <value>การเดิมพันที่ยังไม่สิ้นสุด</value>
+    <comment/>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>ผลิตภัณฑ์</value>
+    <comment/>
+  </data>
+  <data name="TodayWinLoss" xml:space="preserve">
+    <value>ยอดได้เสียวันนี้</value>
+    <comment/>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>ยอดรวม</value>
+    <comment/>
+  </data>
+  <data name="Turnover" xml:space="preserve">
+    <value>เงินหมุนเวียน</value>
+    <comment/>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>ชื่อผู้ใช้ระบบ</value>
+    <comment/>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>เมื่อวาน</value>
+    <comment/>
+  </data>
+  <data name="YesterdayBal" xml:space="preserve">
+    <value>ยอดคงเหลือเมื่อวาน</value>
+    <comment/>
+  </data>
+  <data name="YesterdayWinLoss" xml:space="preserve">
+    <value>ยอดได้เสียเมื่อวาน</value>
+    <comment/>
+  </data>
+  <data name="YourAccountIsClosed" xml:space="preserve">
+    <value>บัญชีของคุณถูกปิด</value>
+    <comment/>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>วันนี้</value>
+    <comment/>
+  </data>
+  <data name="BetCredit" xml:space="preserve">
+    <value>เครดิตสำหรับการวางเดิมพัน</value>
+    <comment/>
+  </data>
+  <data name="UsedCredit" xml:space="preserve">
+    <value>เครดิตที่ใช้ไป</value>
+    <comment/>
+  </data>
+  <data name="NetPosition" xml:space="preserve">
+    <value>สถานะเงินลงทุนสุทธิ</value>
+    <comment/>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>ยกเลิก</value>
+    <comment/>
+  </data>
+  <data name="ThirdPartyPendingTransfer" xml:space="preserve">
+    <value>บุคคลที่สามรอการถ่ายโอน</value>
+    <comment/>
+  </data>
+  <data name="MemMaxCredit" xml:space="preserve">
+    <value>เครดิตโอนเงินสูงสุดของสมาชิก</value>
+    <comment/>
+  </data>
+  <data name="MemberActClosedSus" xml:space="preserve">
+    <value>สมาชิก (เปิด/ปิด/ถูกระงับ)</value>
+    <comment/>
+  </data>
+  <data name="AgentActClosedSus" xml:space="preserve">
+    <value>เอเย่นต์ (เปิด/ปิด/ถูกระงับ)</value>
+    <comment/>
+  </data>
+  <data name="Setting_OTP_Help" xml:space="preserve">
+    <value>โปรดป้อนรหัส OTP นี้ &lt;code&gt;{0}&lt;/code&gt; ไปยัง &lt;b&gt;เว็บไซต์ตัวแทน&lt;/b&gt; ภายใน 3 นาที เพื่อตั้งค่า Telegram Chatbot ให้เสร็จสิ้น</value>
+    <comment/>
+  </data>
+  <data name="InvalidCustName" xml:space="preserve">
+    <value>"{0}" ไม่สามารถใช้ได้ โปรดป้อนชื่อบัญชีที่ใช้ได้</value>
+    <comment/>
+  </data>
+  <data name="YourAccountIsLocked" xml:space="preserve">
+    <value>บัญชีของคุณถูกล็อค</value>
+    <comment/>
+  </data>
+  <data name="OpenSettingsMenu" xml:space="preserve">
+    <value>เปิดเมนูการตั้งค่า</value>
+    <comment/>
+  </data>
+  <data name="BackTo" xml:space="preserve">
+    <value>ย้อนกลับ</value>
+    <comment/>
+  </data>
+  <data name="StopUsingChatbot" xml:space="preserve">
+    <value>หยุดการใช้งานChatbot</value>
+    <comment/>
+  </data>
+  <data name="StopUsingChatbotConfirmMessage" xml:space="preserve">
+    <value>คุณกำลังจะ&lt;b&gt;หยุดการใช้งานChatbot&lt;/b&gt; Telegramของคุณจะถูกยกเลิกการเชื่อมต่อจาก {0} และคุณจะไม่สามารถใช้งาน {0} ได้อีกต่อไป คุณต้องการดำเนินการต่อหรือไม่</value>
+    <comment/>
+  </data>
+  <data name="UnlinkMessage" xml:space="preserve">
+    <value>Telegramของคุณจะถูกยกเลิกการเชื่อมต่อจาก {0}</value>
+    <comment/>
+  </data>
+  <data name="AlertChangePasswordMessage" xml:space="preserve">
+    <value>หากไม่ใช่คุณ โปรดติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ</value>
+    <comment/>
+  </data>
+  <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
+    <value>"{0}" ไม่สามารถใช้ได้ โปรดป้อนตัวเลขที่ใช้ได้ (สูงสุด {1})</value>
+    <comment/>
+  </data>
+  <data name="TurnOffNotification" xml:space="preserve">
+    <value>ปิดการแจ้งเตือน</value>
+    <comment/>
+  </data>
+  <data name="TurnOnNotification" xml:space="preserve">
+    <value>เปิดการแจ้งเตือน</value>
+    <comment/>
+  </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>เมนูหลัก</value>
+    <comment/>
+  </data>
+  <data name="ApiException" xml:space="preserve">
+    <value>เรากำลังอัปเดตฟังก์ชันนี้เพื่อประสบการณ์ที่ดีขึ้น ดังนั้น ฟังก์ชันนี้จึงถูกปิดชั่วคราว ({0} - {1} (GMT+8)) โปรดลองอีกครั้งในภายหลังและขออภัยในความไม่สะดวก</value>
+    <comment/>
+  </data>
+  <data name="BackToMainMenu" xml:space="preserve">
+    <value>กลับไปที่เมนูหลัก</value>
+    <comment/>
+  </data>
+  <data name="ActionSelected" xml:space="preserve">
+    <value>เลือกการดำเนินการแล้ว</value>
+    <comment/>
+  </data>
+  <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
+    <value>Telegramของคุณเชื่อมต่อกับChatboโดยบัญชีอื่น หากนี่ไม่ใช่บัญชีของคุณ โปรดติดต่อเราเพื่อขอความช่วยแหลือ</value>
+    <comment/>
+  </data>
+  <data name="HelpCommandIntro" xml:space="preserve">
+    <value>คุณสามารถเรียกใช้ {0} โดยใช้คำสั่งต่อไปนี้:</value>
+    <comment/>
+  </data>
+  <data name="AccountAlreadyLinked" xml:space="preserve">
+    <value>Telegramของคุณเชื่อมโยงกับบัญชีอื่น โปรดยกเลิกบัญชีที่เกี่ยวข้องแล้วลองอีกครั้ง</value>
+    <comment/>
+  </data>
+  <data name="OpenMainMenu" xml:space="preserve">
+    <value>เปิดเมนูหลักของ {0}</value>
+    <comment/>
+  </data>
+  <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
+    <value>รหัสความปลอดภัยของคุณถูกเปลี่ยนแล้ว</value>
+    <comment/>
+  </data>
+  <data name="AlertMessage" xml:space="preserve">
+    <value>หากไม่ใช่คุณ กรุณาเปลี่ยนรหัสผ่านหรือติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ</value>
+    <comment/>
+  </data>
+  <data name="ChangeSecurityCodeAlert" xml:space="preserve">
+    <value>การแจ้งเตือนเปลี่ยนรหัสความปลอดภัย</value>
+    <comment/>
+  </data>
+  <data name="RequestedIP" xml:space="preserve">
+    <value>ที่อยู่ IP</value>
+    <comment/>
+  </data>
+  <data name="ChangePasswordAlert" xml:space="preserve">
+    <value>การแจ้งเตือนเปลี่ยนรหัสผ่าน</value>
+    <comment/>
+  </data>
+  <data name="WelcomeMessage" xml:space="preserve">
+    <value>ยินดีต้อนรับ {0} การตั้งค่าTelegram Chatbotของคุณเสร็จสิ้นแล้ว คุณสามารถดูรายงานได้ด้วยการสนทนากับChatbotนี้ และติดตามข้อมูลล่าสุดผ่านการแจ้งเตือนอัตโนมัติ คุณจะได้รับรายงานชนะ/แพ้เมื่อวาน หลัง 2:00 PM (GMT+8)ของทุกวัน</value>
+    <comment/>
+  </data>
+  <data name="IntroductionMessage" xml:space="preserve">
+    <value>โปรดลงชื่อเข้าใช้ &lt;b&gt;เว็บไซต์ตัวแทน&lt;/b&gt; เข้าถึงฟังก์ชันChatboและทำตามคำแนะนำเพื่อตั้งค่าTelegram Chatbot</value>
+    <comment/>
+  </data>
+  <data name="PleaseSelectAnAction" xml:space="preserve">
+    <value>โปรดเลือกการดำเนินการ</value>
+    <comment/>
+  </data>
+  <data name="Unlink" xml:space="preserve">
+    <value>ยกเลิกการเชื่อมต่อ</value>
+    <comment/>
+  </data>
+  <data name="ListAllCommands" xml:space="preserve">
+    <value>รายการคำสั่งทั้งหมด</value>
+    <comment/>
+  </data>
+  <data name="InvalidNumberOfDownlines" xml:space="preserve">
+    <value>จำนวนของดาวน์ไลน์ต้องเริ่มตั้งแต่ 1 ถึง {0}</value>
+    <comment/>
+  </data>
+  <data name="ChangePasswordAlertContent" xml:space="preserve">
+    <value>รหัสผ่านบัญชีของคุณมีการเปลี่ยนแปลง</value>
+    <comment/>
+  </data>
+  <data name="LanguageUpdated" xml:space="preserve">
+    <value>เปลี่ยนภาษา</value>
+    <comment/>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>ไม่</value>
+    <comment/>
+  </data>
+  <data name="BackTo_1" xml:space="preserve">
+    <value>กลับไปเมนูก่อนหน้า</value>
+    <comment/>
+  </data>
+  <data name="BackTo_2" xml:space="preserve">
+    <value>กลับไปเมนูก่อนหน้า</value>
+    <comment/>
+  </data>
+  <data name="BackTo_3" xml:space="preserve">
+    <value>กลับไปเมนูก่อนหน้า</value>
+    <comment/>
+  </data>
+  <data name="BackTo_4" xml:space="preserve">
+    <value>กลับไปเมนูก่อนหน้า</value>
+    <comment/>
+  </data>
+  <data name="BackTo_11" xml:space="preserve">
+    <value>กลับไปเมนูก่อนหน้า</value>
+    <comment/>
+  </data>
+</root>
