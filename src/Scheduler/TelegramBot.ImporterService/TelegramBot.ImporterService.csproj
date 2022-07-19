@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alpha.API.Client" Version="1.0.0-beta10" />
+    <PackageReference Include="Alpha.API.Client" Version="1.0.0" />
     <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
     <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.2" />
     <PackageReference Include="Fanex.Logging.Extensions.AspNetCore" Version="1.0.0" />
@@ -21,10 +21,10 @@
     <PackageReference Include="Fanex.RemotingRef" Version="1.5.0" />
   </ItemGroup>
 
-  <ItemGroup> 
-    <Content Include="App_Data\**"> 
+  <ItemGroup>
+    <Content Include="App_Data\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content> 
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -32,5 +32,6 @@
   </ItemGroup>
 
   <PropertyGroup Label="sonarqube-rules-synchronizer">
-  <CodeAnalysisRuleSet>../../../.sonarlint/telegrambotcsharp.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup></Project>
+    <CodeAnalysisRuleSet>../../../.sonarlint/telegrambotcsharp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+</Project>
