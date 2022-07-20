@@ -390,19 +390,19 @@ namespace TelegramBot.Infrastructure.Command
             => action == null || account.Functions.Any(f => f.FunctionId == action.FunctionId);
 
         public async Task SendMainMenuMessage(CustBotAccount account, Messenger messenger, int messageId = 0)
-            => await SendMessageWithRootActions(account, messenger, messageBuilder.BuildMenuMessage(account.Language), messageId);
+            => await Task.WhenAll(
+                actionService.ResetUserActions(account.UserId),
+                SendMessageWithRootActions(account, messenger, messageBuilder.BuildMenuMessage(account.Language), messageId));
 
         private async Task SendNotRecognizedCommandMessage(CustBotAccount account, Messenger messenger, int messageId = 0)
             => await SendMessageWithRootActions(account, messenger, messageBuilder.BuildNotRecognizedCommandMessage(account.Language), messageId);
 
         private async Task SendMessageWithRootActions(CustBotAccount account, Messenger messenger, string text, int messageId)
-            => await Task.WhenAll(
-                actionService.ResetUserActions(account.UserId),
-                messageSender.SendMessage(
+            => await messageSender.SendMessage(
                     account.UserId,
                     messenger,
                     messageBuilder.BuildMessage(text, await actionService.BuildRootActionButtons(account, messenger.System), account.Language),
-                    messageId));
+                    messageId);
 
         private async Task SendMinimizeUMMessage(CustBotAccount account, Messenger messenger, MinimizeUMException ex, int messageId = 0)
             => await SendMessageWithRootActions(account, messenger, messageBuilder.BuildMinimizeUMMessage(account.Language, ex.StartTime, ex.EndTime), messageId);
