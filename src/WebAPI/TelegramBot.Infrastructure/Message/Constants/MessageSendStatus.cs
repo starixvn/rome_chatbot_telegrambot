@@ -4,5 +4,6 @@
     {
         public const int Success = 1;
         public const int Failure = 2;
+        public const int Duplicated = 3;
     }
 }

@@ -1,4 +1,8 @@
-﻿using Telegram.Bot;
+﻿using System.Text.Json;
+using Fanex.Logging;
+using Newtonsoft.Json;
+using Telegram.Bot;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Infrastructure.Message.Constants;
@@ -22,11 +26,13 @@ namespace TelegramBot.Infrastructure.Message
     {
         private readonly IBotClientFactory botClientFactory;
         private readonly IMessageLogger messageLogger;
+        private readonly ILogger logger;
 
-        public MessageSender(IBotClientFactory botClientFactory, IMessageLogger messageLogger)
+        public MessageSender(IBotClientFactory botClientFactory, IMessageLogger messageLogger, ILogger logger)
         {
             this.botClientFactory = botClientFactory;
             this.messageLogger = messageLogger;
+            this.logger = logger;
         }
 
         public async Task SendMessage(int userId, Messenger messenger, string message, short functionId = 0, bool logToDatabase = true)
@@ -40,14 +46,27 @@ namespace TelegramBot.Infrastructure.Message
                     await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Success, functionId);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                if (logToDatabase)
+                if (ex is ApiRequestException apiRequestException
+                && apiRequestException.ErrorCode == TelegramAPIErrors.BAD_REQUEST
+                && apiRequestException.Message.Equals(TelegramAPIErrors.DuplicatedErrorMessage, StringComparison.OrdinalIgnoreCase))
                 {
-                    await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Failure, functionId);
+                    await logger.WarnAsync(string.Join(Environment.NewLine, $"ChatId: {messenger.ChatId}", apiRequestException.Message));
+                    if (logToDatabase)
+                    {
+                        await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Duplicated, functionId);
+                    }
                 }
+                else
+                {
+                    if (logToDatabase)
+                    {
+                        await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Failure, functionId);
+                    }
 
-                throw;
+                    throw;
+                }
             }
 
         }
@@ -63,14 +82,27 @@ namespace TelegramBot.Infrastructure.Message
                     await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Success, functionId);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                if (logToDatabase)
+                if (ex is ApiRequestException apiRequestException
+                && apiRequestException.ErrorCode == TelegramAPIErrors.BAD_REQUEST
+                && apiRequestException.Message.Equals(TelegramAPIErrors.DuplicatedErrorMessage, StringComparison.OrdinalIgnoreCase))
                 {
-                    await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Failure, functionId);
+                    await logger.WarnAsync(string.Join(Environment.NewLine, $"ChatId: {messenger.ChatId}", apiRequestException.Message));
+                    if (logToDatabase)
+                    {
+                        await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Duplicated, functionId);
+                    }
                 }
+                else
+                {
+                    if (logToDatabase)
+                    {
+                        await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Failure, functionId);
+                    }
 
-                throw;
+                    throw;
+                }
             }
         }
 
