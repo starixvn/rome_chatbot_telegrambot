@@ -136,7 +136,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
 
     private static IEnumerable<string> SplitBetTransId(string betTransId)
     {
-        const int MaxBetTransIdToChunk = 220;
+        const int MaxBetTransIdToChunk = 154;
         var betTransIdArray = betTransId.SplitComma();
 
         if (betTransIdArray.Length <= MaxBetTransIdToChunk)
