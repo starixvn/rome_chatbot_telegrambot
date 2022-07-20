@@ -36,6 +36,7 @@ public abstract class NotificationBaseJob : IJob
         
         if (await IsUM(job))
         {
+            await loggerService.Debug(job, "is Under Maintenance.");
             return;
         }
 
@@ -45,6 +46,7 @@ public abstract class NotificationBaseJob : IJob
 
             if (systemSetting == null || !systemSetting.ServiceFlag)
             {
+                await loggerService.Debug(job, "is set stopped from DB.");
                 return;
             }
 
@@ -58,7 +60,7 @@ public abstract class NotificationBaseJob : IJob
         }
 
         sw.Stop();
-        await loggerService.Debug(job, $"End run in {sw.ElapsedMilliseconds} milliseconds");
+        await loggerService.Debug(job, $"Total execution time {sw.ElapsedMilliseconds} milliseconds.");
     }
 
     private static ScheduleJob GetJobDetails(IJobExecutionContext context)
