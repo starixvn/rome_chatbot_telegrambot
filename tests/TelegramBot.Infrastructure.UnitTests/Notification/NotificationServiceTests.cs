@@ -9,6 +9,10 @@ using NSubstitute;
 using TelegramBot.Infrastructure.Setting.Models;
 using System.Text.Json;
 using AutoFixture.Xunit2;
+using System.Collections.Generic;
+using TelegramBot.Infrastructure.Function.Models;
+using TelegramBot.Infrastructure.Function.Constants;
+using TelegramBot.Infrastructure.Bot.Models;
 
 namespace TelegramBot.Infrastructure.UnitTests.Notification;
 
@@ -60,5 +64,88 @@ public class NotificationServiceTests
 
         // Assert
         Assert.Equal(JsonSerializer.Serialize(expectResult), JsonSerializer.Serialize(result));
+    }
+
+    [Theory, AutoData]
+    public async Task NotifyChangePassword_ValidMessenger_ReturnSuccessfulResult(CustBotMessenger messenger)
+    {
+        // Arrange
+        int custId = 1;
+        int subAccId = 2;
+        var expectResult = Result.CreateSuccessfulResult();
+        messenger.Functions = new List<BotFunction> { new BotFunction() { FunctionId = FunctionIds.ChangePasswordAlert } };
+        settingService.GetCustBotMessenger(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(messenger));
+        messageBuilder.BuildChangePasswordAlertMessage(messenger.Language).Returns("ChangePasswordAlertMessage");
+
+        // Act
+        var result = await notificationService.NotifyChangePassword(custId, subAccId);
+
+        // Assert
+        Assert.Equal(JsonSerializer.Serialize(expectResult), JsonSerializer.Serialize(result));
+    }
+
+    [Fact]
+    public async Task NotifyChangeSecurityCode_MessengerIsNull_ReturnErrorResult()
+    {
+        // Arrange
+        int custId = 1;
+        int subAccId = 2;
+        CustBotMessenger messenger = null;
+        var expectResult = Result.CreateErrorResult();
+        settingService.GetCustBotMessenger(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(messenger));
+
+        // Act
+        var result = await notificationService.NotifyChangeSecurityCode(custId, subAccId);
+
+        // Assert
+        Assert.Equal(JsonSerializer.Serialize(expectResult), JsonSerializer.Serialize(result));
+    }
+
+    [Theory, AutoData]
+    public async Task NotifyChangeSecurityCode_FunctionNotAvailable_ReturnErrorResult(CustBotMessenger messenger)
+    {
+        // Arrange
+        int custId = 1;
+        int subAccId = 2;
+        var expectResult = Result.CreateErrorResult();
+        settingService.GetCustBotMessenger(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(messenger));
+
+        // Act
+        var result = await notificationService.NotifyChangeSecurityCode(custId, subAccId);
+
+        // Assert
+        Assert.Equal(JsonSerializer.Serialize(expectResult), JsonSerializer.Serialize(result));
+    }
+
+    [Theory, AutoData]
+    public async Task NotifyChangeSecurityCode_ValidMessenger_ReturnSuccessfulResult(CustBotMessenger messenger)
+    {
+        // Arrange
+        int custId = 1;
+        int subAccId = 2;
+        var expectResult = Result.CreateSuccessfulResult();
+        messenger.Functions = new List<BotFunction> { new BotFunction() { FunctionId = FunctionIds.ChangeSecurityCodeAlert } };
+        settingService.GetCustBotMessenger(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(messenger));
+        messageBuilder.BuildChangeSecurityCodeAlertMessage(messenger.Language).Returns("ChangeSecurityCodeAlertMessage");
+
+        // Act
+        var result = await notificationService.NotifyChangeSecurityCode(custId, subAccId);
+
+        // Assert
+        Assert.Equal(JsonSerializer.Serialize(expectResult), JsonSerializer.Serialize(result));
+    }
+
+    [Theory, AutoData]
+    public async Task NotifyUnlink_Always_SendUnlinkMessage(int userId, long chatId, int botId, string language, BotEntity bot)
+    {
+        // Arrange
+        botService.GetAsync(botId).Returns(Task.FromResult(bot));
+
+        // Act
+        var result = await notificationService.NotifyUnlink(userId, chatId, botId, language);
+
+        // Assert
+        await settingService.Received().SendUnlinkMessage(userId, chatId, botId, bot.DisplayName, language);
+        Assert.Equal(JsonSerializer.Serialize(Result.CreateSuccessfulResult()), JsonSerializer.Serialize(result));
     }
 }
