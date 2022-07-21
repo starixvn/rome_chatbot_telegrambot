@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using Fanex.Logging;
-using Newtonsoft.Json;
+﻿using Fanex.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types.Enums;
