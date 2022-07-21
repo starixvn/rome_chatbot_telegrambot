@@ -75,7 +75,6 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 $"[{ResourceHelper.Get(nameof(SharedResource.Balance), account.Language)} - {DateTime.Now:yyyyMMdd}]",
                 ResourceHelper.Get($"CustLevel_{account.CustomerLevel - 1}", account.Language),
                 $"{todayText} {messageFormatter.Point()} {yesterdayText}{messageFormatter.NewLine()}",
-
             };
 
             if (topBalanceReport == null || !topBalanceReport.Any())

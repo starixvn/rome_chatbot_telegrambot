@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Bot;
 using TelegramBot.Infrastructure.Setting;
@@ -7,41 +6,59 @@ using TelegramBot.Infrastructure.Notification;
 using TelegramBot.Infrastructure.Shared.Models;
 using Xunit;
 using NSubstitute;
+using TelegramBot.Infrastructure.Setting.Models;
+using System.Text.Json;
+using AutoFixture.Xunit2;
 
-namespace TelegramBot.Infrastructure.UnitTests.Notification
+namespace TelegramBot.Infrastructure.UnitTests.Notification;
+
+public class NotificationServiceTests
 {
-    public class NotificationServiceTests
+    private readonly ISettingService settingService;
+    private readonly IMessageBuilder messageBuilder;
+    private readonly IMessageSender messageSender;
+    private readonly IBotService botService;
+    private readonly INotificationService notificationService;
+
+    public NotificationServiceTests()
     {
-        private readonly ISettingService settingService;
-        private readonly IMessageBuilder messageBuilder;
-        private readonly IMessageSender messageSender;
-        private readonly IBotService botService;
-        private readonly INotificationService notificationService;
+        settingService = Substitute.For<ISettingService>();
+        messageBuilder = Substitute.For<IMessageBuilder>();
+        messageSender = Substitute.For<IMessageSender>();
+        botService = Substitute.For<IBotService>();
+        notificationService = new NotificationService(botService, settingService, messageBuilder, messageSender);
+    }
 
-        public NotificationServiceTests()
-        {
-            settingService = Substitute.For<ISettingService>();
-            messageBuilder = Substitute.For<IMessageBuilder>();
-            messageSender = Substitute.For<IMessageSender>();
-            botService = Substitute.For<IBotService>();
-            notificationService = new NotificationService(botService, settingService, messageBuilder, messageSender);
-        }
+    [Fact]
+    public async Task NotifyChangePassword_MessengerIsNull_ReturnErrorResult()
+    {
+        // Arrange
+        int custId = 1;
+        int subAccId = 2;
+        CustBotMessenger messenger = null;
+        var expectResult = Result.CreateErrorResult();
+        settingService.GetCustBotMessenger(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(messenger));
 
-        // [Fact]
-        // public async Task Notify_Always_ReturnSuccessMessage()
-        // {
-        //     // Arrange
-        //     int botId = 1;
-        //     long chatId = 123;
-        //     string message = "start";
+        // Act
+        var result = await notificationService.NotifyChangePassword(custId, subAccId);
 
-        //     // Act
-        //     var result = await notificationService.Notify(botId, chatId, message);
+        // Assert
+        Assert.Equal(JsonSerializer.Serialize(expectResult), JsonSerializer.Serialize(result));
+    }
 
-        //     // Assert
-        //     var messenger = new Messenger(botId, chatId);
-        //     await messageSender.ReceivedWithAnyArgs().SendMessage(messenger, message);
-        //     Assert.Equal(JsonConvert.SerializeObject(new Result(0)), JsonConvert.SerializeObject(result));
-        // }
+    [Theory, AutoData]
+    public async Task NotifyChangePassword_FunctionNotAvailable_ReturnErrorResult(CustBotMessenger messenger)
+    {
+        // Arrange
+        int custId = 1;
+        int subAccId = 2;
+        var expectResult = Result.CreateErrorResult();
+        settingService.GetCustBotMessenger(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(messenger));
+
+        // Act
+        var result = await notificationService.NotifyChangePassword(custId, subAccId);
+
+        // Assert
+        Assert.Equal(JsonSerializer.Serialize(expectResult), JsonSerializer.Serialize(result));
     }
 }
