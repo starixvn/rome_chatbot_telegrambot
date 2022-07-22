@@ -35,6 +35,7 @@ namespace TelegramBot.Infrastructure.Message
 
         public async Task SendMessage(int userId, Messenger messenger, string message, short functionId = 0, bool logToDatabase = true)
         {
+            var status = MessageSendStatus.Success;
             try
             {
                 await SendMessage(messenger, message);
@@ -46,31 +47,41 @@ namespace TelegramBot.Infrastructure.Message
             }
             catch (Exception ex)
             {
-                if (ex is ApiRequestException apiRequestException
-                && apiRequestException.ErrorCode == TelegramAPIErrors.BAD_REQUEST
-                && apiRequestException.Message.Equals(TelegramAPIErrors.DuplicatedErrorMessage, StringComparison.OrdinalIgnoreCase))
+                if (ex is ApiRequestException apiException)
                 {
-                    await logger.WarnAsync(string.Join(Environment.NewLine, $"ChatId: {messenger.ChatId}", apiRequestException.Message));
-                    if (logToDatabase)
+                    if (apiException.ErrorCode == TelegramAPIErrors.BAD_REQUEST && apiException.Message.Equals(TelegramAPIErrors.DuplicatedErrorMessage, StringComparison.OrdinalIgnoreCase))
                     {
-                        await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Duplicated, functionId);
+                        status = MessageSendStatus.Duplicated;
+                        await logger.WarnAsync(string.Join(Environment.NewLine, $"ChatId: {messenger.ChatId}", apiException.Message));
+                    }
+                    else if (apiException.ErrorCode == TelegramAPIErrors.FORBIDDEN && apiException.Message.Equals(TelegramAPIErrors.BotBlockedMessage, StringComparison.OrdinalIgnoreCase))
+                    {
+                        status = MessageSendStatus.BotBlocked;
+                        await logger.WarnAsync(string.Join(Environment.NewLine, $"ChatId: {messenger.ChatId}", apiException.Message));
+                    }
+                    else
+                    {
+                        throw;
                     }
                 }
                 else
                 {
-                    if (logToDatabase)
-                    {
-                        await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Failure, functionId);
-                    }
-
                     throw;
                 }
-            }
 
+            }
+            finally
+            {
+                if (logToDatabase)
+                {
+                    await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, status, functionId);
+                }
+            }
         }
 
         public async Task SendMessage(int userId, Messenger messenger, Models.Message message, int messageId = 0, short functionId = 0, bool logToDatabase = true)
         {
+            var status = MessageSendStatus.Success;
             try
             {
                 await SendMessage(messenger, message.Text, messageId: messageId, replyMarkup: message.ReplyMarkup);
@@ -82,24 +93,34 @@ namespace TelegramBot.Infrastructure.Message
             }
             catch (Exception ex)
             {
-                if (ex is ApiRequestException apiRequestException
-                && apiRequestException.ErrorCode == TelegramAPIErrors.BAD_REQUEST
-                && apiRequestException.Message.Equals(TelegramAPIErrors.DuplicatedErrorMessage, StringComparison.OrdinalIgnoreCase))
+                if (ex is ApiRequestException apiException)
                 {
-                    await logger.WarnAsync(string.Join(Environment.NewLine, $"ChatId: {messenger.ChatId}", apiRequestException.Message));
-                    if (logToDatabase)
+                    if (apiException.ErrorCode == TelegramAPIErrors.BAD_REQUEST && apiException.Message.Equals(TelegramAPIErrors.DuplicatedErrorMessage, StringComparison.OrdinalIgnoreCase))
                     {
-                        await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Duplicated, functionId);
+                        status = MessageSendStatus.Duplicated;
+                        await logger.WarnAsync(string.Join(Environment.NewLine, $"ChatId: {messenger.ChatId}", apiException.Message));
+                    }
+                    else if (apiException.ErrorCode == TelegramAPIErrors.FORBIDDEN && apiException.Message.Equals(TelegramAPIErrors.BotBlockedMessage, StringComparison.OrdinalIgnoreCase))
+                    {
+                        status = MessageSendStatus.BotBlocked;
+                        await logger.WarnAsync(string.Join(Environment.NewLine, $"ChatId: {messenger.ChatId}", apiException.Message));
+                    }
+                    else
+                    {
+                        throw;
                     }
                 }
                 else
                 {
-                    if (logToDatabase)
-                    {
-                        await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Failure, functionId);
-                    }
-
                     throw;
+                }
+
+            }
+            finally
+            {
+                if (logToDatabase)
+                {
+                    await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, status, functionId);
                 }
             }
         }

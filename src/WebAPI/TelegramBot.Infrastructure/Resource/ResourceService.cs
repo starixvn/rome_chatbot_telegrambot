@@ -42,6 +42,5 @@ namespace TelegramBot.Infrastructure.Resource
                 $"{ResourceCacheKey}.{type}.{key}",
                 () => dynamicRepository.FetchAsync<BotResource>(new BotResourceSelCriteria(type, key)),
                 new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1))).ConfigureAwait(false);
-
     }
 }
