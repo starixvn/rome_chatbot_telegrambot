@@ -9,4 +9,6 @@ public static class NotificationStatus
 
     // Notifications cannot be sent due to a technical error
     public const string Fail = "Fail";
+
+    public const string BotBlocked = "Bot Blocked";
 }
