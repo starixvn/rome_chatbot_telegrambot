@@ -39,11 +39,6 @@ namespace TelegramBot.Infrastructure.Message
             try
             {
                 await SendMessage(messenger, message);
-
-                if (logToDatabase)
-                {
-                    await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Success, functionId);
-                }
             }
             catch (Exception ex)
             {
@@ -85,11 +80,6 @@ namespace TelegramBot.Infrastructure.Message
             try
             {
                 await SendMessage(messenger, message.Text, messageId: messageId, replyMarkup: message.ReplyMarkup);
-
-                if (logToDatabase)
-                {
-                    await messageLogger.LogMessage(CommonId.BotUserId, userId, messenger, message, MessageSendStatus.Success, functionId);
-                }
             }
             catch (Exception ex)
             {

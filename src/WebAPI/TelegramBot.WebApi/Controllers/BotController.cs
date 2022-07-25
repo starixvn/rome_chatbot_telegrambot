@@ -16,12 +16,6 @@ namespace TelegramBot.WebApi.Controllers
             _botService = botService;
         }
 
-        /// <summary>
-        /// Get all bots
-        /// </summary>
-        /// <response code="200">
-        /// [{"BotId":1,"Name":"LeoVnBot","System":"IBC","AccessToken":"5237914512:AAFlfL-a8mJZMLpEuyDE7QDB3d8Hn8aV7lY"}]
-        /// </response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<BotEntity>), StatusCodes.Status200OK)]
@@ -36,12 +30,6 @@ namespace TelegramBot.WebApi.Controllers
         public async Task<BotEntity> GetBotBySystem(string system)
         {
             return await _botService.GetAsync(system).ConfigureAwait(false);
-        }
-
-        [HttpGet("{accessToken}/chat/{chatId}")]
-        public async Task<Telegram.Bot.Types.Chat> GetChat(string accessToken, long chatId)
-        {
-            return await _botService.GetChat(accessToken, chatId);
         }
     }
 }

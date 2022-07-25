@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using NSubstitute;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Message.Models;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.Models;
+using TelegramBot.Infrastructure.Shared.Constants;
 using Xunit;
 
 namespace TelegramBot.Infrastructure.UnitTests.Message;
@@ -272,5 +274,89 @@ public class MessageBuilderTest
         Assert.IsType<Infrastructure.Message.Models.Message>(result);
         Assert.Single(result.ReplyMarkup.InlineKeyboard);
         Assert.Equal(textBtn, result.Text);
+    }
+
+    [Fact]
+    public void BuildIntroductionMessage_SystemIs789_ReturnsCorrectMessage()
+    {
+        // Arrange
+        var expectedResult = string.Join("\n",
+            "Please log in to <b>the Agency Site</b>, access Chatbot function and follow the instructions to setup Telegram Chatbot.",
+            "Vui lòng đăng nhập vào <b>trang Agency</b>, đi đến chức năng Chatbot và làm theo hướng dẫn để cài đặt Telegram Chatbot.");
+
+        // Act
+        var result = messageBuilder.BuildIntroductionMessage("789Y");
+
+        // Assert
+        Assert.Equal(expectedResult, result);
+    }
+
+    [Fact]
+    public void BuildIntroductionMessage_SystemIsNOT789_ReturnsCorrectMessage()
+    {
+        // Arrange
+        var expectedResult = string.Join("\n",
+            "Please log in to <b>the Agency Site</b>, access Chatbot function and follow the instructions to setup Telegram Chatbot.",
+            "请登入<b>代理网</b>，访问Chatbot功能并按照指示设置Telegram Chatbot");
+
+        // Act
+        var result = messageBuilder.BuildIntroductionMessage("IBCBET");
+
+        // Assert
+        Assert.Equal(expectedResult, result);
+    }
+
+    [Fact]
+    public void BuildMainMenuButtonText_Always_ReturnsCorrectValue()
+    {
+        // Act
+        var result = messageBuilder.BuildMainMenuButtonText(LanguageCodes.English);
+
+        // Assert
+        Assert.Equal("\u2630 Main Menu", result);
+    }
+
+    [Fact]
+    public void BuildLanguageUpdatedMessage_Always_ReturnsCorrectValue()
+    {
+        // Act
+        var result = messageBuilder.BuildLanguageUpdatedMessage(LanguageCodes.English);
+
+        // Assert
+        Assert.Equal("Language updated.", result);
+    }
+
+    [Fact]
+    public void BuildMinimizeUMMessage_Always_ReturnsCorrectValue()
+    {
+        // Assert
+        var starTime = "2022/07/25 03:00";
+        var endTime = "2022/07/25 04:00";
+        var expectedResult = "We're updating this function for a better experience. Thus, this function is turned off temporarily (2022/07/25 03:00 - 2022/07/25 04:00 (GMT+8)). Please try again later and sorry for the inconvenience.";
+
+        // Act
+        var result = messageBuilder.BuildMinimizeUMMessage(LanguageCodes.English, starTime, endTime);
+
+        // Assert
+        Assert.Equal(expectedResult, result);
+    }
+
+    [Fact]
+    public void BuildGeneralCommandsHelpMessage_Always_ReturnsCorrectValue()
+    {
+        // Arrange
+        var botName = "IBCBET";
+        var expectedResult = new StringBuilder();
+        expectedResult.Append("You can run IBCBET using the following commands:\n\n");
+        expectedResult.Append("/menu - Open Main Menu of IBCBET\n");
+        expectedResult.Append("/help - List all commands\n");
+        expectedResult.Append("/settings, /setting - Open Settings Menu\n");
+        expectedResult.Append("/stop, /unlink - Unlink IBCBET");
+
+        // Act
+        var result = messageBuilder.BuildGeneralCommandsHelpMessage(LanguageCodes.English, botName);
+
+        // Assert
+        Assert.Equal(expectedResult.ToString(), result);
     }
 }

@@ -7,6 +7,7 @@ using Fanex.Caching;
 using Fanex.Data.Repository;
 using NSubstitute;
 using TelegramBot.Infrastructure.Resource;
+using TelegramBot.Infrastructure.Resource.constants;
 using TelegramBot.Infrastructure.Resource.Models;
 using TelegramBot.Infrastructure.Shared.Caching;
 using TelegramBot.Infrastructure.Shared.Constants;
@@ -46,5 +47,24 @@ public class ResourceServiceTests
 
         // Assert
         Assert.Same(botResources.FirstOrDefault(), result);
+    }
+
+    [Theory, AutoData]
+    public async Task GetActionDescription_Always_RetrunsCorrectValue(short actionId, string language)
+    {
+        // Arrange
+        var actionDescription = "actionDescription";
+        IEnumerable<BotResource> botResources = new List<BotResource>() { new BotResource(ResourceType.ActionDescription, actionId.ToString(), language, actionDescription) };
+        cacheService.GetOrSetAsync(
+            Arg.Any<string>(),
+            Arg.Any<Func<Task<IEnumerable<BotResource>>>>(),
+            Arg.Any<CacheItemOptions>())
+            .Returns(Task.FromResult(botResources));
+
+        // Act
+        var result = await resourceService.GetActionDescription(actionId, language);
+
+        // Assert
+        Assert.Equal(result, actionDescription);
     }
 }

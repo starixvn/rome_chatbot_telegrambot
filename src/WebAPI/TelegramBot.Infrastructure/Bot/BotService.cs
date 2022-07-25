@@ -1,9 +1,7 @@
 ﻿using Fanex.Data.Repository;
-using Telegram.Bot;
 using TelegramBot.Infrastructure.Bot.Criteria;
 using TelegramBot.Infrastructure.Bot.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
-using TelegramBot.Utilities;
 
 namespace TelegramBot.Infrastructure.Bot
 {
@@ -16,8 +14,6 @@ namespace TelegramBot.Infrastructure.Bot
         Task<BotEntity> GetAsync(long messengerBotId);
 
         Task<BotEntity> GetAsync(int botId);
-
-        Task<Telegram.Bot.Types.Chat> GetChat(string accessToken, long chatId);
     }
 
     public class BotService : IBotService
@@ -62,12 +58,6 @@ namespace TelegramBot.Infrastructure.Bot
         {
             var botEntities = await GetAllAsync();
             return botEntities.FirstOrDefault(x => x.BotId == botId);
-        }
-
-        public async Task<Telegram.Bot.Types.Chat> GetChat(string accessToken, long chatId)
-        {
-            var client = TelegramBotUtils.InitBotClient(accessToken, _webAPIConfiguration.ProxyAddress);
-            return await client.GetChatAsync(chatId);
         }
     }
 }

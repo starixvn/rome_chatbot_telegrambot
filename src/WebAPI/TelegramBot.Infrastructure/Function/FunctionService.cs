@@ -12,8 +12,6 @@ namespace TelegramBot.Infrastructure.Setting
     {
         Task<IEnumerable<BotFunction>> GetAll();
 
-        Task<IEnumerable<BotFunction>> GetReportFunctions();
-
         Task<IEnumerable<BotFunction>> GetReportAndCommonFunctions();
 
         Task<string> GetFunctionName(short functionId, string language);
@@ -41,9 +39,6 @@ namespace TelegramBot.Infrastructure.Setting
             _functions ??= await dynamicRepository.FetchAsync<BotFunction>(new BotFunctionSelAllCriteria(!webAPIConfiguration.IsProduction));
             return _functions;
         }
-
-        public async Task<IEnumerable<BotFunction>> GetReportFunctions()
-           => (await GetAll()).Where(f => f.Type == FunctionTypes.Report);
 
         public async Task<IEnumerable<BotFunction>> GetReportAndCommonFunctions()
             => (await GetAll()).Where(f => f.Type == FunctionTypes.Report || f.Type == FunctionTypes.Common);
