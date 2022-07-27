@@ -154,10 +154,20 @@ public sealed class NotificationSenderJob : IJob
             catch (Exception ex)
             {
                 await loggerService.Error("SendNotifications", environment, ex.Message);
-                if (ex is ApiRequestException apiRequestException
-                && TelegramError.IgnoredErrorCodes.Contains(apiRequestException.ErrorCode))
+                if (ex is ApiRequestException apiRequestException)
                 {
-                    status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Fail, ex.Message));
+                    if (apiRequestException.ErrorCode == TelegramError.FORBIDDEN)
+                    {
+                        status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.BotBlocked, ex.Message));
+                    }
+                    else if (TelegramError.IgnoredErrorCodes.Contains(apiRequestException.ErrorCode))
+                    {
+                        status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Fail, ex.Message));
+                    }
+                    else
+                    {
+                        await messageSender.RetrySendNotification(item, environment);
+                    }
                 }
                 else
                 {

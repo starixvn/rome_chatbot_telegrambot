@@ -31,27 +31,6 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
         }
 
         [Fact]
-        public async Task GetReportFunctions_Always_ReturnReportFunctions()
-        {
-            // Arrange
-            IEnumerable<BotFunction> botEntities = new List<BotFunction>
-            {
-                new() { FunctionId = 1, FunctionName = "a" },
-                new() { FunctionId = 1, FunctionName = "a", Type =FunctionTypes.Report}
-            };
-            _dynamicRepository.FetchAsync<BotFunction>(Arg.Any<ICriteria>()).Returns(botEntities);
-            // Act
-            var result = await _funcService.GetReportFunctions();
-
-            // Assert
-            var expectedResult = new List<BotFunction>
-            {
-                new() { FunctionId = 1, FunctionName = "a", Type = FunctionTypes.Report}
-            };
-            Assert.Equal(JsonConvert.SerializeObject(expectedResult), JsonConvert.SerializeObject(result));
-        }
-
-        [Fact]
         public async Task GetFunctionName_Always_ReturnName()
         {
             // Arrange

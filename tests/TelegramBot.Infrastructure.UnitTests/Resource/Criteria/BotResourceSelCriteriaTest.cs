@@ -1,4 +1,3 @@
-using TelegramBot.Infrastructure.Function.Criteria;
 using TelegramBot.Infrastructure.Resource.Criteria;
 using Xunit;
 
@@ -6,21 +5,51 @@ namespace TelegramBot.Infrastructure.UnitTests.Resource.Criteria;
 
 public class BotResourceSelCriteriaTest
 {
-    
-    private readonly BotResourceSelCriteria botResourceSelCriteria;
 
-    public BotResourceSelCriteriaTest()
-    {
-        botResourceSelCriteria = new BotResourceSelCriteria("name","key");
-    }
-        
     [Fact]
     public void GetSettingKey_Always_ReturnName()
     {
+        // Arrange
+        var criteria = new BotResourceSelCriteria("name", "key");
+
         //Act
-        var result = botResourceSelCriteria.GetSettingKey();
-            
+        var result = criteria.GetSettingKey();
+
         //Assert
-        Assert.Equal("BotResourceSel",result);
+        Assert.Equal("BotResourceSel", result);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void IsValid_InvalidResourceName_ReturnFalse(string resourceName)
+    {
+        // Act
+        var criteria = new BotResourceSelCriteria(resourceName, "key");
+
+        // Assert
+        Assert.False(criteria.IsValid());
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void IsValid_InvalidResourceKey_ReturnFalse(string resourceKey)
+    {
+        // Act
+        var criteria = new BotResourceSelCriteria("name", resourceKey);
+
+        // Assert
+        Assert.False(criteria.IsValid());
+    }
+
+    [Fact]
+    public void IsValid_ValidCriteria_ReturnTrue()
+    {
+        // Act
+        var criteria = new BotResourceSelCriteria("name", "key");
+
+        // Assert
+        Assert.True(criteria.IsValid());
     }
 }

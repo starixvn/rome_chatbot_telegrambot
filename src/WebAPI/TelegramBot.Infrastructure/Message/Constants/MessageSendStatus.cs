@@ -2,8 +2,9 @@
 {
     public static class MessageSendStatus
     {
-        public const int Success = 1;
-        public const int Failure = 2;
-        public const int Duplicated = 3;
+        public const byte Success = 1;
+        public const byte Failure = 2;
+        public const byte Duplicated = 3;
+        public const byte BotBlocked = 4;
     }
 }

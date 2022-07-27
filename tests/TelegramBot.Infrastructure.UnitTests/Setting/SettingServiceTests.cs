@@ -1,16 +1,16 @@
 ﻿using Alpha.API.Client.Services;
 using AutoFixture.Xunit2;
-using Fanex.Caching;
 using Fanex.Data.Repository;
 using NSubstitute;
 using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Action;
+using TelegramBot.Infrastructure.Function.Models;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Criteria;
-using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Caching;
 using TelegramBot.Infrastructure.Shared.Configurations;
+using TelegramBot.Infrastructure.Shared.Models;
 using Xunit;
 
 namespace TelegramBot.Infrastructure.UnitTests.Setting
@@ -29,6 +29,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
         public SettingServiceTests()
         {
             _webAPIConfiguration = Substitute.For<WebAPIConfiguration>();
+            _webAPIConfiguration.OtpExpirationInMinutes = 15;
             _dynamicRepository = Substitute.For<IDynamicRepository>();
             _messageSender = Substitute.For<IMessageSender>();
             _messageBuilder = Substitute.For<IMessageBuilder>();
@@ -46,19 +47,48 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
                 _functionService);
         }
 
+        [Theory, AutoData]
+        public async Task Start_Always_InsertCustBotAccount(int botId, long chatId, int custId, int subAccId, string language, string ip)
+        {
+            // Act
+            await _settingService.Start(botId, chatId, custId, subAccId, language, ip);
 
-        // [Theory, AutoData]
-        // public async Task GetCustBotMessengerAsync_Always_Call(int custId, int subAccId, bool isTest, CustBotMessenger custBotMessenger)
-        // {
-        //     // Arrange
-        //     var criteria = new CustBotMessengerSelCriteria(custId, subAccId, isTest);
-        //     _dynamicRepository.GetAsync<CustBotMessenger>(criteria).Returns(Task.FromResult(custBotMessenger));
+            // Assert
+            await _dynamicRepository.Received().ExecuteAsync(Arg.Any<CustBotAccountInsCriteria>());
+        }
 
-        //     // Act
-        //     await _settingService.GetCustBotMessenger(custId, subAccId).ConfigureAwait(false);
+        [Theory, AutoData]
+        public async Task SendUnlinkMessage_Always_CallBuildAndSendMessage(int userId, long chatId, int botId, string botName, string language)
+        {
+            // Assert
+            var message = "UnlinkMessage";
+            _messageBuilder.BuildUnlinkMessage(language, botName).Returns(message);
 
-        //     // Assert
-        //     await _dynamicRepository.Received().GetAsync<CustBotMessenger>(Arg.Any<CustBotMessengerSelCriteria>());
-        // }
+            // Act
+            await _settingService.SendUnlinkMessage(userId, chatId, botId, botName, language);
+
+            // Assert
+            await _messageSender.Received().SendMessage(userId, new Messenger(botId, chatId), message);
+        }
+
+        [Theory, AutoData]
+        public async Task UpdateUserFunction_Always_Calls(int userid, int botId, BotFunction function, int creator, string ip)
+        {
+            // Act
+            await _settingService.UpdateUserFunction(userid, botId, function, creator, ip);
+
+            // Assert
+            await _dynamicRepository.Received().ExecuteAsync(Arg.Any<CustBotFunctionUpdCriteria>());
+        }
+
+        [Theory, AutoData]
+        public async Task UpdateUserLanguage_Always_Calls(int userId, int botId, string language, int creator, string ip)
+        {
+            // Act
+            await _settingService.UpdateUserLanguage(userId, botId, language, creator, ip);
+
+            // Assert
+            await _dynamicRepository.Received().ExecuteAsync(Arg.Any<CustBotAccountLanguageUpdCriteria>());
+        }
     }
 }
