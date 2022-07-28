@@ -135,5 +135,103 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             // Assert
             await _settingService.Received().UpdateUserLanguage(userId, param.BotId, param.Language, param.Creator, param.IP);
         }
+
+        [Theory, AutoData]
+        public async Task Start_Always_CallsGetBot(StartParam param, BotEntity bot)
+        {
+            // Arrang
+            _botService.GetAsync(Arg.Any<long>()).Returns(Task.FromResult(bot));
+
+            // Act
+            await _settingController.Start(param);
+
+            // Assert
+            await _botService.Received().GetAsync(param.MessengerBotId);
+        }
+
+        [Theory, AutoData]
+        public async Task Start_MessageNotContainTokenAndAccountExisted_SendMainMenuMessage(BotEntity bot, CustBotAccount account)
+        {
+            // Arrang
+            var param = new StartParam() { MessengerBotId = 1, ChatId = 2, Message = "/start" };
+            _botService.GetAsync(Arg.Any<long>()).Returns(Task.FromResult(bot));
+            _settingService.GetCustBotAccount(Arg.Any<long>(), Arg.Any<int>()).Returns(Task.FromResult(account));
+
+            // Act
+            await _settingController.Start(param);
+
+            // Assert
+            await _commandService.Received().SendMainMenuMessage(Arg.Is(account), Arg.Is<Messenger>(m => m.BotId == bot.BotId && m.ChatId == param.ChatId && m.System == bot.System));
+        }
+
+        [Theory, AutoData]
+        public async Task Start_MessageNotContainTokenAndAccountNOTExisted_SendIntroMessage(BotEntity bot)
+        {
+            // Arrang
+            var param = new StartParam() { MessengerBotId = 1, ChatId = 2, Message = "/start" };
+            _botService.GetAsync(Arg.Any<long>()).Returns(Task.FromResult(bot));
+            CustBotAccount account = null;
+            _settingService.GetCustBotAccount(Arg.Any<long>(), Arg.Any<int>()).Returns(Task.FromResult(account));
+            _messageBuilder.BuildIntroductionMessage(Arg.Any<string>()).Returns("IntroMessage");
+
+            // Act
+            await _settingController.Start(param);
+
+            // Assert
+            await _messageSender.Received().SendMessage(Arg.Is<Messenger>(m => m.BotId == bot.BotId && m.ChatId == param.ChatId && m.System == bot.System), "IntroMessage");
+        }
+
+        [Theory, AutoData]
+        public async Task Start_InvalidMessage_SendIntroMessage(BotEntity bot)
+        {
+            // Arrang
+            var param = new StartParam() { MessengerBotId = 1, ChatId = 2, Message = "/start abc xyz" };
+            _botService.GetAsync(Arg.Any<long>()).Returns(Task.FromResult(bot));
+            CustBotAccount account = null;
+            _settingService.GetCustBotAccount(Arg.Any<long>(), Arg.Any<int>()).Returns(Task.FromResult(account));
+            _messageBuilder.BuildIntroductionMessage(Arg.Any<string>()).Returns("IntroMessage");
+
+            // Act
+            await _settingController.Start(param);
+
+            // Assert
+            await _messageSender.Received().SendMessage(Arg.Is<Messenger>(m => m.BotId == bot.BotId && m.ChatId == param.ChatId && m.System == bot.System), "IntroMessage");
+        }
+
+        [Theory, AutoData]
+        public async Task Start_InvalidToken_SendIntroMessage(BotEntity bot)
+        {
+            // Arrang
+            var param = new StartParam() { MessengerBotId = 1, ChatId = 2, Message = "/start abc" };
+            _botService.GetAsync(Arg.Any<long>()).Returns(Task.FromResult(bot));
+            CustBotAccount account = null;
+            _settingService.GetCustBotAccount(Arg.Any<long>(), Arg.Any<int>()).Returns(Task.FromResult(account));
+            _messageBuilder.BuildIntroductionMessage(Arg.Any<string>()).Returns("IntroMessage");
+            _cryptography.Decrypt(Arg.Any<string>()).Returns("abc");
+
+            // Act
+            await _settingController.Start(param);
+
+            // Assert
+            await _messageSender.Received().SendMessage(Arg.Is<Messenger>(m => m.BotId == bot.BotId && m.ChatId == param.ChatId && m.System == bot.System), "IntroMessage");
+        }
+
+        [Theory, AutoData]
+        public async Task Start_ValidToken_CallsSettingServiceStart(BotEntity bot)
+        {
+            // Arrang
+            var param = new StartParam() { MessengerBotId = 1, ChatId = 2, Message = "/start abc", IP = "127.0.0.1" };
+            _botService.GetAsync(Arg.Any<long>()).Returns(Task.FromResult(bot));
+            CustBotAccount account = null;
+            _settingService.GetCustBotAccount(Arg.Any<long>(), Arg.Any<int>()).Returns(Task.FromResult(account));
+            _messageBuilder.BuildIntroductionMessage(Arg.Any<string>()).Returns("IntroMessage");
+            _cryptography.Decrypt(Arg.Any<string>()).Returns("1:2:en-US");
+
+            // Act
+            await _settingController.Start(param);
+
+            // Assert
+            await _settingService.Received().Start(bot.BotId, param.ChatId, 1, 2, "en-US", param.IP);
+        }
     }
 }

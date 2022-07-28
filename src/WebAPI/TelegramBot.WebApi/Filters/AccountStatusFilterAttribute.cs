@@ -75,6 +75,5 @@ namespace TelegramBot.WebApi.Filters
 
             await base.OnActionExecutionAsync(context, next);
         }
-
     }
 }
