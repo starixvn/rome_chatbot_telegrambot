@@ -160,13 +160,12 @@ namespace TelegramBot.Infrastructure.Action
                 var actionChain = await GetActionChain(lastAction.ActionId, system);
 
                 var commandBuilder = new StringBuilder();
-                foreach (var userAction in userActions.Where(userAction => actionChain.Any(action => action.ActionId == userAction.ActionId)))
+                foreach (var action in actionChain)
                 {
-                    var action = actionChain.FirstOrDefault(act => act.ActionId == userAction.ActionId)
-                                ?? throw new InvalidOperationException($"Cannot found action {userAction.ActionId} of user {userAction.UserId}");
+                    var userAction = userActions.FirstOrDefault(x => x.ActionId == action.ActionId);
                     var actionCommand = action.Type == ActionTypes.Button
                         ? action.Command
-                        : userAction.UserResponse;
+                        : (userAction?.UserResponse ?? throw new InvalidOperationException($"Cannot found response of action {action.ActionId}"));
 
                     if (!string.IsNullOrEmpty(actionCommand) && !actionCommand!.StartsWith("&lt;"))
                     {

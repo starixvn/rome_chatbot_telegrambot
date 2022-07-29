@@ -35,7 +35,6 @@ namespace TelegramBot.WebApi.Filters
         {
             if (context.ActionArguments.ContainsKey(ParamName) && context.ActionArguments[ParamName] is CommandParam command)
             {
-
                 var umInfo = await maintenanceService.GetUnderMaintenanceTimeAsync();
                 if (umInfo.IsUnderMaintenanceTime)
                 {
@@ -46,7 +45,6 @@ namespace TelegramBot.WebApi.Filters
 
                     return;
                 }
-
             }
 
             await base.OnActionExecutionAsync(context, next);
