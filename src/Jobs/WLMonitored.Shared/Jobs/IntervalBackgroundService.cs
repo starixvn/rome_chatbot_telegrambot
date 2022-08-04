@@ -88,15 +88,6 @@ public abstract class IntervalBackgroundService : BackgroundService
             return CalculateMultiplier(false, multiplier);
         }
 
-        if (scheduleJob.IsUAT
-            && (string.IsNullOrWhiteSpace(globalSetting.CreditSuperUUS) || string.IsNullOrWhiteSpace(globalSetting.DepositSuperUUS)))
-        {
-            await loggerService.Debug(
-                $"{scheduleJob.JobInfo} is stopped because of high risk. Enviroment is UAT and SuperUUS is Empty.");
-
-            return CalculateMultiplier(false, multiplier);
-        }
-
         bool hasData = await ExecuteJob(globalSetting);
         multiplier = CalculateMultiplier(hasData, multiplier);
         

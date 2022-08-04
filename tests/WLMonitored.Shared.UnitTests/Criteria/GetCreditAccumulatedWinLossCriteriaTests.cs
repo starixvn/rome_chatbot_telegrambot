@@ -34,9 +34,12 @@ public class GetCreditAccumulatedWinLossCriteriaTests
     {
         // Arrange
         var now = DateTime.Today;
-        var criteria = new GetCreditAccumulatedWinLossCriteria("1176070", now);
+        var srecommends = "1176086";
+        var criteria = new GetCreditAccumulatedWinLossCriteria("1176070", now, srecommends);
 
         // Act & Assert
-        Assert.Equal(now, criteria.CurrentDate);
+        Assert.True(
+            now == criteria.CurrentDate
+            && srecommends == criteria.Recommends);
     }
 }

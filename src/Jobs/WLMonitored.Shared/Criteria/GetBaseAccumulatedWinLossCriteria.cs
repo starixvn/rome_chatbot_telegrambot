@@ -17,6 +17,5 @@ public class GetBaseAccumulatedWinLossCriteria : CriteriaBase
     public override string GetSettingKey()
         => throw new NotImplementedException();
 
-    public override bool IsValid()
-        => !string.IsNullOrWhiteSpace(CustIds);
+    public override bool IsValid() => true;
 }

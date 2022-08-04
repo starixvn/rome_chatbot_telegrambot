@@ -77,7 +77,7 @@ public class WinLossServiceTests
         var currentDate = DateTime.Now;
 
         // Act
-        await winLossService.GetAccumulatedWinLoss(custIds, currentDate);
+        await winLossService.GetAccumulatedWinLoss(custIds, string.Empty, currentDate);
 
         // Assert
         await dynamicRepository.Received().FetchAsync<AccumulatedWinLoss>(Arg.Is<GetCreditAccumulatedWinLossCriteria>(

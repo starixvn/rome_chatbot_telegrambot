@@ -41,23 +41,15 @@ public sealed class ChangeAccumulatedWinLossJob : ChangeWinLossBaseJob
             return false;
         }
 
-        var reachPlayerHistoryParams = Enumerable.Empty<ReachPlayerHistoryParam>();
-
         var (lastUpdatedTime, custIds) = GetLastUpdatedTimeAndCustIds(accumulatedWinLossList);
         var winLossThresholds = await winLossService.GetWinLossThresholds(
             custIds,
             globalSetting.CreditSuperUUS,
             scheduleJob.IsUAT);
         var hasData = winLossThresholds.Any();
-
-        if (hasData)
-        {
-            reachPlayerHistoryParams =
-                from accumWL in accumulatedWinLossList
-                join wlThreshold in winLossThresholds on accumWL.CustId equals wlThreshold.CustId
-                where IsReachWinning(accumWL, wlThreshold) || IsReachLosing(accumWL, wlThreshold)
-                select BuildReachPlayerHistoryParam(accumWL, wlThreshold);
-        }
+        var reachPlayerHistoryParams = hasData
+            ? BuildReachPlayerHistoryParams(accumulatedWinLossList, winLossThresholds)
+            : Enumerable.Empty<ReachPlayerHistoryParam>();
 
         await InsertPlayerHistoryInCaseOfReachThreshold(
             reachPlayerHistoryParams,
@@ -85,5 +77,20 @@ public sealed class ChangeAccumulatedWinLossJob : ChangeWinLossBaseJob
         }
 
         return new Tuple<DateTime, string>(lastUpdatedTime, custIds.ToString().TrimEnd(','));
+    }
+
+    private static IEnumerable<ReachPlayerHistoryParam> BuildReachPlayerHistoryParams(
+        IEnumerable<AccumulatedWinLoss> accumulatedWinLossList,
+        IEnumerable<WinLossThreshold> winLossThresholds
+    )
+    {
+        IDictionary<int, WinLossThreshold> winLossThresholdDict = new Dictionary<int, WinLossThreshold>();
+       
+        foreach (var winloss in winLossThresholds)
+        {
+            winLossThresholdDict[winloss.CustId] = winloss;
+        }
+
+        return BuildReachPlayerHistoryParams(accumulatedWinLossList, winLossThresholdDict);
     }
 }

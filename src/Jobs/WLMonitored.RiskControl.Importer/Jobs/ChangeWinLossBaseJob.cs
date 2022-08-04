@@ -76,9 +76,34 @@ public class ChangeWinLossBaseJob : IntervalBackgroundService
         }
     }
 
-    protected static ReachPlayerHistoryParam BuildReachPlayerHistoryParam(
+    protected static IEnumerable<ReachPlayerHistoryParam> BuildReachPlayerHistoryParams(
+        IEnumerable<AccumulatedWinLoss> accumulatedWinLossList,
+        IDictionary<int, WinLossThreshold> winLossThresholdDict,
+        DateTime? lastScanDate = null
+    )
+    {
+        foreach (var accumulatedWinLoss in accumulatedWinLossList)
+        {
+            if (winLossThresholdDict.TryGetValue(accumulatedWinLoss.CustId, out var winLossThreshold)) // Personal
+            {
+                if (!winLossThreshold.IsExclude
+                    && (IsReachWinning(accumulatedWinLoss, winLossThreshold, lastScanDate) || IsReachLosing(accumulatedWinLoss, winLossThreshold, lastScanDate)))
+                {
+                    yield return BuildReachPlayerHistoryParam(accumulatedWinLoss, winLossThreshold, lastScanDate);
+                }
+            }
+            else if (winLossThresholdDict.TryGetValue(accumulatedWinLoss.Recommend, out winLossThreshold) // Global
+                && (IsReachWinning(accumulatedWinLoss, winLossThreshold, lastScanDate) || IsReachLosing(accumulatedWinLoss, winLossThreshold, lastScanDate)))
+            {
+                yield return BuildReachPlayerHistoryParam(accumulatedWinLoss, winLossThreshold, lastScanDate);
+            }
+        }
+    }
+
+    private static ReachPlayerHistoryParam BuildReachPlayerHistoryParam(
         AccumulatedWinLoss accumulatedWinLoss,
-        WinLossThreshold winLossThreshold)
+        WinLossThreshold winLossThreshold,
+        DateTime? lastScanDate)
         => new(
             accumulatedWinLoss.CustId,
             accumulatedWinLoss.AccumWL,
@@ -86,13 +111,21 @@ public class ChangeWinLossBaseJob : IntervalBackgroundService
             winLossThreshold.SettingType,
             winLossThreshold.WinningThreshold,
             winLossThreshold.LosingThreshold,
-            IsReachWinning(accumulatedWinLoss, winLossThreshold) ? ReachTypeWinning : ReachTypeLosing);
+            IsReachWinning(accumulatedWinLoss, winLossThreshold, lastScanDate) ? ReachTypeWinning : ReachTypeLosing);
 
-    protected static bool IsReachWinning(AccumulatedWinLoss accumulatedWinLoss, WinLossThreshold winLossThreshold)
+    private static bool IsReachWinning(
+        AccumulatedWinLoss accumulatedWinLoss,
+        WinLossThreshold winLossThreshold,
+        DateTime? lastScanDate)
         => winLossThreshold.WinningThreshold.HasValue
-        && accumulatedWinLoss.AccumWL >= winLossThreshold.WinningThreshold.Value;
+        && accumulatedWinLoss.AccumWL >= winLossThreshold.WinningThreshold.Value
+        && (lastScanDate == null || lastScanDate <= winLossThreshold.WinningUpdateTime);
 
-    protected static bool IsReachLosing(AccumulatedWinLoss accumulatedWinLoss, WinLossThreshold winLossThreshold)
+    private static bool IsReachLosing(
+        AccumulatedWinLoss accumulatedWinLoss,
+        WinLossThreshold winLossThreshold,
+        DateTime? lastScanDate)
         => winLossThreshold.LosingThreshold.HasValue
-        && accumulatedWinLoss.AccumWL <= winLossThreshold.LosingThreshold.Value * -1;
+        && accumulatedWinLoss.AccumWL <= winLossThreshold.LosingThreshold.Value * -1
+        && (lastScanDate == null || lastScanDate <= winLossThreshold.LosingUpdateTime);
 }

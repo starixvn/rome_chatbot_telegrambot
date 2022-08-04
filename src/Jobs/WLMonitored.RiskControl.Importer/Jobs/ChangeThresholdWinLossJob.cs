@@ -1,5 +1,6 @@
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Services;
+using WLMonitored.RiskControl.Importer.Models;
 using WLMonitored.RiskControl.Importer.Services;
 using WLMonitored.Shared.Configuration;
 using WLMonitored.Shared.Extensions;
@@ -32,20 +33,22 @@ public sealed class ChangeThresholdWinLossJob : ChangeWinLossBaseJob
     }
 
     public override async Task<bool> ExecuteJob(GlobalSetting globalSetting)
-    {     
+    {
+        var lastScanSettingDate = globalSetting.LastScanSettingDate;
         var winLossThresholds = await winLossService.GetChangedWinLossThresholds(
             globalSetting.CreditSuperUUS,
             scheduleJob.IsUAT,
-            globalSetting.LastScanSettingDate);
+            lastScanSettingDate);
 
         if (!winLossThresholds.Any())
         {
             return false;
         }
 
-        var custIds = winLossThresholds.Select(wl => wl.CustId);
+        var (custIds, agentIds, winLossThresholdDict) = GetMemberAndAgentCustIds(winLossThresholds);
         var accumulatedWinLossList = await winLossService.GetAccumulatedWinLoss(
             custIds.JoinWithComma(),
+            agentIds.JoinWithComma(),
             DateTime.Today);
 
         if (!accumulatedWinLossList.Any())
@@ -53,41 +56,42 @@ public sealed class ChangeThresholdWinLossJob : ChangeWinLossBaseJob
             return false;
         }
 
-        var reachPlayerHistoryParams =
-            from wlThreshold in winLossThresholds
-            join accumWL in accumulatedWinLossList on wlThreshold.CustId equals accumWL.CustId
-            where IsReachWinning(accumWL, wlThreshold) || IsReachLosing(accumWL, wlThreshold)
-            select BuildReachPlayerHistoryParam(accumWL, wlThreshold);
-
-        var lastScanDate = (from wlThreshold in winLossThresholds
-            let max = Max(wlThreshold.WinningUpdateTime, wlThreshold.LosingUpdateTime)
-            select max).Max();
-
+        var reachPlayerHistoryParams = BuildReachPlayerHistoryParams(
+            accumulatedWinLossList,
+            winLossThresholdDict,
+            lastScanSettingDate);
         await InsertPlayerHistoryInCaseOfChangeSetting(
             reachPlayerHistoryParams,
-            lastScanDate,
+            DateTime.Now,
             globalSetting.GetWLMonitoredAccountWithEnvironment());
 
         return true;
     }
 
-    private static DateTime? Max(DateTime? winningUpdateTime, DateTime? losingUpdateTime)
+    private static Tuple<IEnumerable<int>, IEnumerable<int>, IDictionary<int, WinLossThreshold>> GetMemberAndAgentCustIds(
+        IEnumerable<WinLossThreshold> winLossThresholds)
     {
-        if (!winningUpdateTime.HasValue && !losingUpdateTime.HasValue)
+        const byte GlobalThreshold = 1;
+        const byte PersonalThreshold = 2;
+
+        IList<int> members = new List<int>();
+        IList<int> agents = new List<int>();
+        IDictionary<int, WinLossThreshold> winLossThresholdDict = new Dictionary<int, WinLossThreshold>();
+
+        foreach (var winloss in winLossThresholds)
         {
-            return null;
+            if (winloss.SettingType == GlobalThreshold)
+            {
+                agents.Add(winloss.CustId);
+            }
+            else if (winloss.SettingType == PersonalThreshold)
+            {
+                members.Add(winloss.CustId);
+            }
+
+            winLossThresholdDict[winloss.CustId] = winloss;
         }
 
-        if (!winningUpdateTime.HasValue)
-        {
-            return losingUpdateTime;
-        }
-
-        if (!losingUpdateTime.HasValue)
-        {
-            return winningUpdateTime;
-        }
-
-        return winningUpdateTime.Value > losingUpdateTime.Value ? winningUpdateTime : losingUpdateTime;
+        return Tuple.Create<IEnumerable<int>, IEnumerable<int>, IDictionary<int, WinLossThreshold>>(members, agents, winLossThresholdDict);
     }
 }

@@ -15,4 +15,6 @@ public record WinLossThreshold
     public byte SettingType { get; init; }
 
     public byte SportType { get; init; }
+
+    public bool IsExclude { get; init; }
 }

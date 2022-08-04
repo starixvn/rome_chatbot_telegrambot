@@ -4,6 +4,8 @@ public record AccumulatedWinLoss
 {
     public int CustId { get; init; }
 
+    public int Recommend { get; init; }
+
     public decimal AccumWL { get; init; }
 
     public DateTime UpdatedTime { get; init; }
