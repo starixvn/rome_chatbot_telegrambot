@@ -209,7 +209,7 @@
     <comment/>
   </data>
   <data name="Balance" xml:space="preserve">
-    <value>Tài Khoản</value>
+    <value>Tổng số tiền giao dịch</value>
     <comment/>
   </data>
   <data name="For" xml:space="preserve">
@@ -269,7 +269,7 @@
     <comment/>
   </data>
   <data name="YesterdayBal" xml:space="preserve">
-    <value>Giao dịch đến hết hôm qua</value>
+    <value>Số dư đến hết hôm qua</value>
     <comment/>
   </data>
   <data name="YesterdayWinLoss" xml:space="preserve">
