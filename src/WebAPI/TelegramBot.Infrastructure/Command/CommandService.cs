@@ -358,15 +358,14 @@ namespace TelegramBot.Infrastructure.Command
 
             if (LanguageCodes.SupportLanguages.Contains(parameter))
             {
-                if (string.Equals(account.Language, parameter))
+                if (!string.Equals(account.Language, parameter))
                 {
-                    return;
+                    await settingService.UpdateUserLanguage(account.UserId, messenger.BotId, parameter, account.CustId, string.Empty);
                 }
 
                 account.Language = parameter;
                 var action = await actionService.GetActionById(ActionIds.Language, messenger.System);
                 await Task.WhenAll(
-                    settingService.UpdateUserLanguage(account.UserId, messenger.BotId, parameter, account.CustId, string.Empty),
                     InsertSettingUserAction(account, action),
                     SendNextActionsMessage(account, messenger, action, messageId),
                     messageSender.Alert(messenger, messageBuilder.BuildLanguageUpdatedMessage(account.Language), callbackId));
