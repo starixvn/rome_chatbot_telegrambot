@@ -59,49 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root"
-    xmlns=""
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -122,382 +119,388 @@
   </resheader>
   <data name="Setting_OTP_Help" xml:space="preserve">
     <value>Please enter this OTP &lt;code&gt;{0}&lt;/code&gt; to &lt;b&gt;the Agency Site&lt;/b&gt; within 3 minutes to finish setting up your Telegram Chatbot.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="UnderMaintenance" xml:space="preserve">
     <value>Sorry, the system is under maintenance from {0} to {1} GMT+8. Please come back later.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="IntroductionMessage" xml:space="preserve">
     <value>Please log in to &lt;b&gt;the Agency Site&lt;/b&gt;, access Chatbot function and follow the instructions to setup Telegram Chatbot.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
     <value>Welcome {0}. Your Telegram Chatbot setup is completed. You can view reports by interacting with this chatbot, and keep up with the latest information via automated notifications. You will receive your Yesterday Win Loss Report after 2:00 PM (GMT+8) everyday.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ChangePasswordAlert" xml:space="preserve">
     <value>Change Password Alert</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ChangeSecurityCodeAlert" xml:space="preserve">
     <value>Change Security Code Alert</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AlertMessage" xml:space="preserve">
     <value>If this wasn't you, please change password or contact Customer Service Department for support</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
     <value>Your account password has been changed.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
     <value>Your Security Code has been changed.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="RequestedIP" xml:space="preserve">
     <value>Requested IP</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AccountAlreadyLinked" xml:space="preserve">
     <value>Your Telegram has already linked with another account. Please unlink that account first then try again.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
     <value>Your Telegram has already linked with this chatbot using another account. If this is not your account, please contact us for support.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="HelpCommandIntro" xml:space="preserve">
     <value>You can run {0} using the following commands:</value>
-    <comment/>
+    <comment />
   </data>
   <data name="OpenMainMenu" xml:space="preserve">
     <value>Open Main Menu of {0}</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ListAllCommands" xml:space="preserve">
     <value>List all commands</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Unlink" xml:space="preserve">
     <value>Unlink</value>
-    <comment/>
+    <comment />
   </data>
   <data name="PleaseSelectAnAction" xml:space="preserve">
     <value>Please select an action</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NotRecognizeCommandMessage" xml:space="preserve">
     <value>Sorry, we couldn't recognize your request. Which action would you like to take?</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ActionSelected" xml:space="preserve">
     <value>Action Selected</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackToMainMenu" xml:space="preserve">
     <value>Back to Main Menu</value>
-    <comment/>
+    <comment />
   </data>
   <data name="InvalidNumberOfDownlines" xml:space="preserve">
     <value>Number of downlines must be from 1 to {0}.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Member" xml:space="preserve">
     <value>Member</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Outstanding" xml:space="preserve">
     <value>Outstanding</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Total" xml:space="preserve">
     <value>Total</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NoData" xml:space="preserve">
     <value>No information is available</value>
-    <comment/>
+    <comment />
   </data>
   <data name="InvalidCustName" xml:space="preserve">
     <value>"{0}" is invalid, please enter a valid username</value>
-    <comment/>
+    <comment />
   </data>
   <data name="For" xml:space="preserve">
     <value>For</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Products" xml:space="preserve">
     <value>Products</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CustLevel_1" xml:space="preserve">
     <value>Member</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CustLevel_2" xml:space="preserve">
     <value>Agent</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CustLevel_3" xml:space="preserve">
     <value>Master</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CustLevel_4" xml:space="preserve">
     <value>Super</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YourAccountIsClosed" xml:space="preserve">
     <value>Your account is closed</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YourAccountIsLocked" xml:space="preserve">
     <value>Your account is locked</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Balance" xml:space="preserve">
     <value>Balance</value>
-    <comment/>
+    <comment />
   </data>
   <data name="TodayWinLoss" xml:space="preserve">
     <value>Today Win Loss</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YesterdayWinLoss" xml:space="preserve">
     <value>Yesterday Win Loss</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
     <value>Agent Comm</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentTotal" xml:space="preserve">
     <value>Agent Total</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
     <value>Agent Win Loss</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CompanyWinLoss" xml:space="preserve">
     <value>Company</value>
-    <comment/>
+    <comment />
   </data>
   <data name="GrossComm" xml:space="preserve">
     <value>Gross Comm</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterComm" xml:space="preserve">
     <value>Master Comm</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterTotal" xml:space="preserve">
     <value>Master Total</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
     <value>Master Win Loss</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
     <value>Member Comm</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">
     <value>Member Total</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
     <value>Member Win Loss</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperComm" xml:space="preserve">
     <value>Super Comm</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperTotal" xml:space="preserve">
     <value>Super Total</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
     <value>Super Win Loss</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Turnover" xml:space="preserve">
     <value>Turnover</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo" xml:space="preserve">
     <value>Back to</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Currency" xml:space="preserve">
     <value>CURRENCY</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Cash" xml:space="preserve">
     <value>CASH</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YesterdayCash" xml:space="preserve">
     <value>YESTERDAY CASH</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YesterdayBal" xml:space="preserve">
     <value>YESTERDAY BALANCE</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ThirdPartyPendingTransfer" xml:space="preserve">
     <value>3RD PARTY PENDING TRANSFER</value>
-    <comment/>
+    <comment />
   </data>
   <data name="GivenCredit" xml:space="preserve">
     <value>GIVEN CREDIT</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Credit" xml:space="preserve">
     <value>Credit</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberOutStanding" xml:space="preserve">
     <value>MEMBER OUTSTANDING</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterOutStanding" xml:space="preserve">
     <value>MASTER OUTSTANDING</value>
-    <comment/>
+    <comment />
   </data>
   <data name="UsedCredit" xml:space="preserve">
     <value>USED CREDIT</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemMaxCredit" xml:space="preserve">
     <value>MEMBER MAX CREDIT</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberActClosedSus" xml:space="preserve">
     <value>Members (Active/Closed/Suspended)</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperOutStanding" xml:space="preserve">
     <value>SUPER OUTSTANDING</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentOutStanding" xml:space="preserve">
     <value>AGENT OUTSTANDING</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NetPosition" xml:space="preserve">
     <value>NET POSITION</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BetCredit" xml:space="preserve">
     <value>BET CREDIT</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentActClosedSus" xml:space="preserve">
     <value>Agents (Active/Closed/Suspended)</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentCredit" xml:space="preserve">
     <value>AGENT CREDIT</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterCredit" xml:space="preserve">
     <value>MASTER CREDIT</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberCredit" xml:space="preserve">
     <value>MEMBER CREDIT</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Today" xml:space="preserve">
     <value>Today</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>Yesterday</value>
-    <comment/>
+    <comment />
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
-    <comment/>
+    <comment />
   </data>
   <data name="StopUsingChatbot" xml:space="preserve">
     <value>Stop Using Chatbot</value>
-    <comment/>
+    <comment />
   </data>
   <data name="StopUsingChatbotConfirmMessage" xml:space="preserve">
     <value>You're about to &lt;b&gt;Stop Using Chatbot&lt;/b&gt;. Your Telegram will be unlinked with {0} and you cannot use {0} anymore. Would you like to continue?</value>
-    <comment/>
+    <comment />
   </data>
   <data name="UnlinkMessage" xml:space="preserve">
     <value>Your Telegram has been unlinked with {0}.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AlertChangePasswordMessage" xml:space="preserve">
     <value>If this wasn't you, please contact Customer Service Department for support</value>
-    <comment/>
+    <comment />
   </data>
   <data name="InvalidUsername" xml:space="preserve">
     <value>Invalid username.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
     <value>"{0}" is invalid, please enter a valid number (max {1})</value>
-    <comment/>
+    <comment />
   </data>
   <data name="TurnOffNotification" xml:space="preserve">
     <value>Notification turned off</value>
-    <comment/>
+    <comment />
   </data>
   <data name="TurnOnNotification" xml:space="preserve">
     <value>Notification turned on</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MainMenu" xml:space="preserve">
     <value>Main Menu</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ApiException" xml:space="preserve">
     <value>We're updating this function for a better experience. Thus, this function is turned off temporarily ({0} - {1} (GMT+8)). Please try again later and sorry for the inconvenience.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="OpenSettingsMenu" xml:space="preserve">
     <value>Open Settings Menu</value>
-    <comment/>
+    <comment />
   </data>
   <data name="LanguageUpdated" xml:space="preserve">
     <value>Language updated.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_1" xml:space="preserve">
     <value>Back to Outstanding</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_2" xml:space="preserve">
     <value>Back to Balance Info</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_3" xml:space="preserve">
     <value>Back to Today Win Loss</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_4" xml:space="preserve">
     <value>Back to Yesterday Win Loss</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_11" xml:space="preserve">
     <value>Back to Settings</value>
-    <comment/>
+    <comment />
+  </data>
+  <data name="WrongPasswordAlert" xml:space="preserve">
+    <value>Wrong Password Alert</value>
+  </data>
+  <data name="WrongPasswordAlertContent" xml:space="preserve">
+    <value>Your account password has been entered wrongly several times.</value>
   </data>
 </root>

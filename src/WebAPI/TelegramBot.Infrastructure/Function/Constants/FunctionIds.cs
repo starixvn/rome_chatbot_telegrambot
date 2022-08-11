@@ -11,6 +11,7 @@ namespace TelegramBot.Infrastructure.Function.Constants
         public const short MemberWinLossLimit = 8;
         public const short ChangePasswordAlert = 9;
         public const short ChangeSecurityCodeAlert = 10;
+        public const short WrongPasswordAlert = 11;
         public const short Settings = 12;
     }
 }

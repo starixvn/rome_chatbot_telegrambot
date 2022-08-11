@@ -20,6 +20,8 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildChangeSecurityCodeAlertMessage(string language);
 
+        string BuildWrongPasswordAlertMessage(string language, string ip);
+
         string BuildAccountAlreadyLinkedMessage(string language);
 
         string BuildTelegramAccountAlreadyLinkedMessage(string language);
@@ -271,5 +273,13 @@ namespace TelegramBot.Infrastructure.Message
 
         public string BuildMinimizeUMMessage(string language, string startTime, string endTime)
             => string.Format(ResourceHelper.Get(nameof(SharedResource.ApiException), language), startTime, endTime);
+
+        public string BuildWrongPasswordAlertMessage(string language, string ip)
+            => string.Join(
+                messageFormatter.NewLine(),
+                $"[{ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlert), language)} - {DateTime.Now:yyyyMMdd}]",
+                ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlertContent), language),
+                $"{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}: {ip}",
+                ResourceHelper.Get(nameof(SharedResource.AlertChangePasswordMessage), language));
     }
 }

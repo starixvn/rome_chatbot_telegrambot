@@ -34,6 +34,7 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
                 case ActionIds.MemberWinLossLimitNotification:
                 case ActionIds.ChangePasswordAlert:
                 case ActionIds.ChangeSecurityCodeAlert:
+                case ActionIds.WrongPasswordAlert:
                     builder = new UpdateNotificationStatusActionName(resourceService);
                     break;
                 case ActionIds.English:

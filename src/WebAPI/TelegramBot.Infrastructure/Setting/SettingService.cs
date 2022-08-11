@@ -255,7 +255,7 @@ namespace TelegramBot.Infrastructure.Setting
 
         public async Task<CustBotAccount> GetCustBotAccount(long chatId, int botId)
         {
-            var criteria = new CustBotUserSelCriteria(chatId, botId);
+            var criteria = new CustBotUserSelCriteria(chatId, botId, !_webAPIConfiguration.IsProduction);
             var (accounts, functions) = await _dynamicRepository.FetchMultipleAsync<CustBotAccount, BotFunction>(criteria);
             var account = accounts.FirstOrDefault();
             if (account != null)
