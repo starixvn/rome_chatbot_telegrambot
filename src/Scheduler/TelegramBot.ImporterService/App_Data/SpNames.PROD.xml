@@ -13,6 +13,20 @@
 
   <Function Name="Customer">
     <Setting Key="Age_Chatbot_CustomerStatusSel" SpName="Age_Chatbot_CustomerStatusSel" DbName="DBCust.CustDB.BODBDownlineNet" />
+    <Setting Key="Age_GetCustomerInfo" SpName="Age_GetCustomerInfo" DbName="DBAGE.bodb02.BODBDownlineNet">
+      <Mapping DataField="custid" ObjectProperty="CustId" />
+      <Mapping DataField="username" ObjectProperty="UserName" />
+      <Mapping DataField="currency" ObjectProperty="CurrencyId" />
+      <Mapping DataField="recommend" ObjectProperty="ARecommendId" />
+      <Mapping DataField="mrecommend" ObjectProperty="MRecommendId" />
+      <Mapping DataField="srecommend" ObjectProperty="SRecommendId" />
+    </Setting>
+  </Function>
+
+  <Function Name="Product">
+    <Setting Key="Age_GetOfferedProductByCust" SpName="Age_GetOfferedProductByCust" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
+      <Mapping DataField="ProductID" ObjectProperty="id" />
+    </Setting>
   </Function>
 
   <Function Name="Personal Message">
@@ -37,6 +51,13 @@
       <Mapping DataField="super" ObjectProperty="SUsername" />
       <Mapping DataField="master" ObjectProperty="MUsername" />
       <Mapping DataField="agent" ObjectProperty="AUsername" />
+    </Setting>
+  </Function>
+
+  <Function Name="Announcements">
+    <Setting Key="Age_Announcements_Select" SpName="Age_Announcements_Select" DbName="DBMSG.bodb_Message.bodbAdminNet">
+      <Mapping DataField="FromDate" ObjectProperty="ReleasedDate" />
+      <Mapping DataField="ToDate" ObjectProperty="ExpiredDate" />
     </Setting>
   </Function>
 </Functions>

@@ -1,7 +1,14 @@
+using System.Text.RegularExpressions;
+
 namespace TelegramBot.Importer.Extensions;
 
 public static class StringExtensions
 {
+    private const string HtmlTagPattern = "<.*?>";
+
+    public static string StripHTML(this string value)
+        => Regex.Replace(value, HtmlTagPattern, string.Empty);
+
     public static string[] SplitComma(this string text)
         => text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 

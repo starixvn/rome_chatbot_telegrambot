@@ -18,6 +18,7 @@ public sealed class Startup
        .AddFanexCachingMemory()
        .AddRemotingRef(Configuration)
        .AddONEBookUM(Configuration)
+       .AddRepositories()
        .AddServices()
        .AddAlphaServicesClient(Configuration)
        .AddQuartz(quartz =>

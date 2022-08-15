@@ -1,22 +1,23 @@
 using System.Text;
 using Fanex.Data.Repository;
+using TelegramBot.Importer.Criteria;
 using TelegramBot.Importer.Criteria.Customers;
+using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Models.Customers;
 
 namespace TelegramBot.Importer.Services;
 
 public interface ICustomerService
 {
-    Task<Tuple<IEnumerable<LinkedCustomer>, int>> GetYesterdayWinLossLinkedCustomers(
-        DateTime winLossDate,
-        string environment);
+    Task<Tuple<IEnumerable<LinkedCustomer>, int>> GetYesterdayWinLossLinkedCustomers(DateTime winLossDate, string environment);
 
-    Task<IEnumerable<LinkedCustomer>> GetLinkedCustomers(
-        string functionKey,
-        string custIds,
-        string environment);
+    Task<IEnumerable<LinkedCustomer>> GetLinkedCustomers(string functionKey, string custIds, string environment);
+
+    Task<IEnumerable<LinkedCustomer>> GetLinkedCustomersByFunction(string functionKey, string environment);
 
     Task<IEnumerable<CustomerStatus>> GetCustomerStatus(IEnumerable<CustomerStatusParam> customers);
+
+    Task<Customer> GetCustomerInfo(int custId);
 }
 
 public class CustomerService : ICustomerService
@@ -34,7 +35,7 @@ public class CustomerService : ICustomerService
         var winloss = await dynamicRepository.FetchAsync<LinkedCustomer>(command);
 
         return new Tuple<IEnumerable<LinkedCustomer>, int>(winloss, command.MaxUserId);
-    } 
+    }
 
     public Task<IEnumerable<LinkedCustomer>> GetLinkedCustomers(
         string functionKey,
@@ -62,4 +63,10 @@ public class CustomerService : ICustomerService
         spParams.Append("</Root>");
         return spParams.ToString();
     }
+
+    public async Task<Customer> GetCustomerInfo(int custId)
+        => await dynamicRepository.GetAsync<Customer>(new GetCustomerInfoCriteria(custId));
+
+    public Task<IEnumerable<LinkedCustomer>> GetLinkedCustomersByFunction(string functionKey, string environment)
+        => dynamicRepository.FetchAsync<LinkedCustomer>(new GetLinkedCustomerByFunctionCriteria(functionKey, environment));
 }
