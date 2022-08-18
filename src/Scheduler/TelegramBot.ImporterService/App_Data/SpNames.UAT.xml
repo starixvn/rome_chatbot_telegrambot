@@ -9,6 +9,8 @@
     <Setting Key="Age_Chatbot_YesterdateWinlostImport" SpName="Age_Chatbot_YesterdateWinlostImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
     <Setting Key="Age_Chatbot_ProblemAccountsImport" SpName="Age_Chatbot_ProblemAccountsImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
     <Setting Key="Age_Chatbot_WinLossLimitNotificationImport" SpName="Age_Chatbot_WinLossLimitNotificationImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet"/>
+    <Setting Key="Age_Chatbot_GetAllLinkedAccountsByFunction" SpName="Age_Chatbot_GetAllLinkedAccountsByFunction" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_AnnouncementNotificationImport" SpName="Age_Chatbot_AnnouncementNotificationImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
   </Function>
 
   <Function Name="Customer">
@@ -55,7 +57,7 @@
   </Function>
 
   <Function Name="Announcements">
-    <Setting Key="Age_Announcements_Select" SpName="Age_Announcements_Select" DbName="DBMSG.bodb_Message.bodbAdminNet">
+    <Setting Key="Age_Announcements_Select" SpName="Age_Announcements_Select" DbName="DBMSG.bodb_Message.BODBDownlineNet">
       <Mapping DataField="FromDate" ObjectProperty="ReleasedDate" />
       <Mapping DataField="ToDate" ObjectProperty="ExpiredDate" />
     </Setting>

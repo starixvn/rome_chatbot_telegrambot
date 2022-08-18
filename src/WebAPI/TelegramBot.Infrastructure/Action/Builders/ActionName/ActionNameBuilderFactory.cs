@@ -10,6 +10,7 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
 
     public class ActionNameBuilderFactory : IActionNameBuilderFactory
     {
+
         private readonly IDictionary<short, IActionNameBuilder> builders = new Dictionary<short, IActionNameBuilder>();
         private readonly IResourceService resourceService;
 
@@ -25,32 +26,17 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
                 return builders[actionId];
             }
 
-            IActionNameBuilder builder;
-            switch (actionId)
+            if (ActionIds.NotificationSettingActionIds.Contains(actionId))
             {
-                case ActionIds.YesterdayWinLossNotification:
-                case ActionIds.PersonalMessageNotification:
-                case ActionIds.ProblemAccountNotification:
-                case ActionIds.MemberWinLossLimitNotification:
-                case ActionIds.ChangePasswordAlert:
-                case ActionIds.ChangeSecurityCodeAlert:
-                case ActionIds.WrongPasswordAlert:
-                    builder = new UpdateNotificationStatusActionName(resourceService);
-                    break;
-                case ActionIds.English:
-                case ActionIds.ChineseTraditional:
-                case ActionIds.ChineseSimplified:
-                case ActionIds.Thai:
-                case ActionIds.Vietnamese:
-                    builder = new UpdateLanguageActionName(resourceService);
-                    break;
-                default:
-                    builder = new DefaultActionNameBuilder(resourceService);
-                    break;
+                return new UpdateNotificationStatusActionName(resourceService);
             }
-            builders[actionId] = builder;
 
-            return builder;
+            if (ActionIds.LanguageSettingActionIds.Contains(actionId))
+            {
+                return new UpdateLanguageActionName(resourceService);
+            }
+
+            return new DefaultActionNameBuilder(resourceService);
         }
     }
 }

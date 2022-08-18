@@ -10,4 +10,5 @@ public record BotAction
     public short ParentId { get; init; }
     public byte Status { get; init; }
     public bool IsEndAction { get; init; }
+    public short Order { get; init; }
 }

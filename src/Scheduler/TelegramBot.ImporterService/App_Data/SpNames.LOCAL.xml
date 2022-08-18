@@ -10,6 +10,7 @@
     <Setting Key="Age_Chatbot_ProblemAccountsImport" SpName="Age_Chatbot_ProblemAccountsImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
     <Setting Key="Age_Chatbot_WinLossLimitNotificationImport" SpName="Age_Chatbot_WinLossLimitNotificationImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet"/>
     <Setting Key="Age_Chatbot_GetAllLinkedAccountsByFunction" SpName="Age_Chatbot_GetAllLinkedAccountsByFunction" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_AnnouncementNotificationImport" SpName="Age_Chatbot_AnnouncementNotificationImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
   </Function>
 
   <Function Name="Customer">

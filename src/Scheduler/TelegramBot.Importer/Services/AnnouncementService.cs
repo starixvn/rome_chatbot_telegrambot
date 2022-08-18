@@ -64,7 +64,13 @@ public class AnnouncementService : NotificationServiceBase, IAnnouncementService
                 || !announcement.Specifications.Any()
                 || IsSatisfied(announcement.Specifications, specificationParam))
             {
-                result.Add(new SystemNotification(customer.UserId, customer.BotId, BuildMessage(language, announcement.Contents), customer.IsRealUser, isUAT));
+                result.Add(new SystemNotification(
+                    announcement.Id,
+                    customer.UserId,
+                    customer.BotId,
+                    BuildMessage(language, announcement.Contents),
+                    customer.IsRealUser,
+                    isUAT));
             }
         }
 
@@ -122,5 +128,5 @@ public class AnnouncementService : NotificationServiceBase, IAnnouncementService
     }
 
     public Task<Result> Import(IEnumerable<SystemNotification> notifications, string environment, DateTime lastQueryTime)
-        => ExecuteNonQuery(new ImportSystemAnnouncementCommand(BuildXmlData(notifications), environment, lastQueryTime));
+        => ExecuteNonQuery(new ImportAnnouncementCommand(BuildXmlData(notifications), environment, lastQueryTime));
 }
