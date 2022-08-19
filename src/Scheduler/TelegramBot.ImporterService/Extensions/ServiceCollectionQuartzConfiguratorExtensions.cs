@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Quartz;
 using TelegramBot.Importer.Configuration;
@@ -5,6 +6,7 @@ using TelegramBot.Importer.Constants;
 
 namespace TelegramBot.ImporterService.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class ServiceCollectionQuartzConfiguratorExtensions
 {
     public static void AddScheduleJobs(

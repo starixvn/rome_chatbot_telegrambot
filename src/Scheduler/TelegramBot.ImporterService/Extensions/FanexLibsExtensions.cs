@@ -15,9 +15,11 @@ using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
 using Sentry;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TelegramBot.ImporterService.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class FanexLibsExtensions
 {
     public static IServiceCollection AddFanexDataWithSqlServer(this IServiceCollection services, IConfiguration configuration)

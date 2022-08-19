@@ -9,10 +9,10 @@ namespace TelegramBot.Importer.Jobs;
 public sealed class SystemAnnouncementJob : NotificationBaseJob
 {
 
-    private readonly AnnouncementService announcementService;
+    private readonly IAnnouncementService announcementService;
 
     public SystemAnnouncementJob(
-        AnnouncementService announcementService,
+        IAnnouncementService announcementService,
         IMaintenanceService maintenanceService,
         ILoggerService loggerService,
         ISystemSettingService systemSettingService,

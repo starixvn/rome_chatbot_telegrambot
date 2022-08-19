@@ -23,7 +23,6 @@ public class GetAnnouncementCriteria : CriteriaBase
 
     public bool IsActive { get; } = true;
 
-    [SpParam(Ignored = true)]
     public FilterBy FilterBy { get; } = FilterBy.ReleasedDate;
 
 

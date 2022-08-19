@@ -1,0 +1,29 @@
+using Alpha.API.Client.Services;
+using Fanex.Data.Repository;
+using TelegramBot.Importer.Services;
+
+namespace TelegramBot.Importer.UnitTests.Services;
+
+public class YesterdayWinLossServiceTests
+{
+    private readonly IWinLossService winLossService;
+    private readonly IDynamicRepository dynamicRepository;
+    private readonly YesterdayWinLossService yesterdayWinLossService;
+
+    public YesterdayWinLossServiceTests()
+    {
+        winLossService = Substitute.For<IWinLossService>();
+        dynamicRepository = Substitute.For<IDynamicRepository>();
+        yesterdayWinLossService = new YesterdayWinLossService(winLossService, dynamicRepository);
+    }
+
+    [Theory, AutoData]
+    public async Task GetWinLoss_Always_CallsGetWinLoss(int custId, byte custLevel, DateTime winLossDate)
+    {
+        // Act
+        await yesterdayWinLossService.GetWinLoss(custId, custLevel, winLossDate);
+
+        // Assert
+        await winLossService.Received().GetWinLoss(custId, custLevel, winLossDate);
+    }
+}

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using TelegramBot.Importer.Repositories;
 using TelegramBot.Importer.Services;
@@ -5,6 +6,7 @@ using ClientServices = Alpha.API.Client.Services;
 
 namespace TelegramBot.ImporterService.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class DIExtensions
 {
     public static IServiceCollection AddRepositories(this IServiceCollection services)
@@ -15,7 +17,7 @@ public static class DIExtensions
             .AddSingleton<ILoggerService, LoggerService>()
             .AddSingleton<ICacheRefService, CacheRefService>()
             .AddScoped<ISystemSettingService, SystemSettingService>()
-            .AddScoped<ICustomerService, CustomerService>()
+            .AddSingleton<ICustomerService, CustomerService>()
             .AddSingleton<IProductService, ProductService>()
             .AddSingleton<IPersonalMessageService, PersonalMessageService>()
             .AddSingleton<IYesterdayWinLossService, YesterdayWinLossService>()
