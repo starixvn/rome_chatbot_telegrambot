@@ -49,4 +49,14 @@ public class NotificationControllerTests
         // Assert
         await notificationService.Received().NotifyUnlink(userId, param.ChatId, param.BotId, param.Language);
     }
+
+    [Theory, AutoData]
+    public async Task NotyfyWrongPassword_Always_CallNotificationServiceNotifyWrongPassword(AlertParam param)
+    {
+        // Act
+        await notificationController.NotifyWrongPassword(param);
+
+        // Assert
+        await notificationService.Received().NotifyWrongPassword(param.CustId, param.SubAccId, param.IP);
+    }
 }

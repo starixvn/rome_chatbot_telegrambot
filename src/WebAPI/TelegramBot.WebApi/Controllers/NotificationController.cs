@@ -37,7 +37,7 @@ namespace TelegramBot.WebApi.Controllers
         [HttpPost("wrong-password-alert")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
-        public async Task<Result> NotyfyWrongPassword([FromBody] AlertParam param)
+        public async Task<Result> NotifyWrongPassword([FromBody] AlertParam param)
             => await notificationService.NotifyWrongPassword(param.CustId, param.SubAccId, param.IP);
     }
 }
