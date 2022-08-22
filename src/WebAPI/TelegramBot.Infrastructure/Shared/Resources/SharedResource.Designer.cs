@@ -871,7 +871,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your account password has been entered wrongly several times..
+        ///   Looks up a localized string similar to Your account password has been entered incorrectly several times..
         /// </summary>
         public static string WrongPasswordAlertContent {
             get {

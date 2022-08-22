@@ -501,6 +501,6 @@
     <value>Wrong Password Alert</value>
   </data>
   <data name="WrongPasswordAlertContent" xml:space="preserve">
-    <value>Your account password has been entered wrongly several times.</value>
+    <value>Your account password has been entered incorrectly several times.</value>
   </data>
 </root>
