@@ -17,7 +17,7 @@ public static class DIExtensions
             .AddSingleton<ILoggerService, LoggerService>()
             .AddSingleton<ICacheRefService, CacheRefService>()
             .AddScoped<ISystemSettingService, SystemSettingService>()
-            .AddSingleton<ICustomerService, CustomerService>()
+            .AddScoped<ICustomerService, CustomerService>()
             .AddSingleton<IProductService, ProductService>()
             .AddSingleton<IPersonalMessageService, PersonalMessageService>()
             .AddSingleton<IYesterdayWinLossService, YesterdayWinLossService>()
