@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Constants;
@@ -24,8 +25,10 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
     };
     private readonly IAnnouncementService announcementService;
     private readonly IProductService productService;
+    private readonly string environment;
 
     public SystemAnnouncementJob(
+        IConfiguration configuration,
         IAnnouncementService announcementService,
         IProductService productService,
         IMaintenanceService maintenanceService,
@@ -36,13 +39,14 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
     {
         this.announcementService = announcementService;
         this.productService = productService;
+        environment = configuration["Environment"];
     }
 
     protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
-        var notifications = Enumerable.Empty<SystemNotification>();
+        var notifications = new List<SystemNotification>();
         var now = DateTime.Now;
-        var announcements = await announcementService.GetAnnouncements(systemSetting.LastQueryTime.AddSeconds(1), now, job.Environment);
+        var announcements = await announcementService.GetAnnouncements(systemSetting.LastQueryTime.AddSeconds(1), now, environment);
         if (announcements.Any())
         {
             var linkedCustomers = await customerService.GetLinkedCustomersByFunction(job.Name, job.Environment);
@@ -57,11 +61,11 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
 
                 foreach (var customer in customers)
                 {
-                    notifications = await FilterAnnouncementsByCustomer(
+                    notifications.AddRange(await FilterAnnouncementsByCustomer(
                         customer,
                         announcements,
                         customer.Language,
-                        job.IsUAT);
+                        job.IsUAT));
                 }
             }
         }
