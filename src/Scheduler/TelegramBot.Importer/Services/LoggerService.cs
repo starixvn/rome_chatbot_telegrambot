@@ -14,8 +14,6 @@ public interface ILoggerService
 
     Task Error(Exception exception, ScheduleJob job, string errorMessage = "");
 
-    Task Error(Exception exception, string jobName, string environment, string errorMessage);
-
     Task Debug(ScheduleJob job, string message);
 }
 
@@ -43,7 +41,7 @@ public class LoggerService : ILoggerService
     public Task Error(Exception exception, ScheduleJob job, string errorMessage = "")
         => Error(exception, job.Name, job.Environment, errorMessage);
 
-    public Task Error(Exception exception, string jobName, string environment, string errorMessage)
+    private Task Error(Exception exception, string jobName, string environment, string errorMessage)
         => logger.ErrorAsync(BuildError(exception, jobName, environment, errorMessage), exception);
 
     private static string BuildError(Exception exception, string jobName, string environment, string errorMessage)

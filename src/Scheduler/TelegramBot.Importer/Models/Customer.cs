@@ -2,55 +2,27 @@ namespace TelegramBot.Importer.Models;
 
 public class Customer
 {
-    public Customer()
-    {
-    }
+    public int CustId { get; init; }
 
-    public Customer(
-        int custId,
-        string userName,
-        byte roleId,
-        byte currencyId,
-        int aRecommendId,
-        int mRecommendId,
-        int sRecommendId,
-        string site,
-        int siteCode,
-        bool enabled)
-    {
-        CustId = custId;
-        UserName = userName;
-        RoleId = roleId;
-        CurrencyId = currencyId;
-        ARecommendId = aRecommendId;
-        MRecommendId = mRecommendId;
-        SRecommendId = sRecommendId;
-        Site = site;
-        SiteCode = siteCode;
-        Enabled = enabled;
-    }
+    public string UserName { get; init; }
 
-    public int CustId { get; }
+    public byte RoleId { get; init; }
 
-    public string UserName { get; }
+    public byte CurrencyId { get; init; }
 
-    public byte RoleId { get; }
+    public int ARecommendId { get; init; }
 
-    public byte CurrencyId { get; }
+    public int MRecommendId { get; init; }
 
-    public int ARecommendId { get; }
+    public int SRecommendId { get; init; }
 
-    public int MRecommendId { get; }
-
-    public int SRecommendId { get; }
-
-    public string Site { get; }
+    public string Site { get; init; }
 
     public bool IsIMBC => Site.Equals("IMBC");
 
-    public bool IsAllDayBalTransfer { get; }
+    public bool IsAllDayBalTransfer { get; init; }
 
-    public int SiteCode { get; }
+    public int SiteCode { get; init; }
 
-    public bool Enabled { get; }
+    public bool Enabled { get; init; }
 }

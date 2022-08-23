@@ -8,14 +8,14 @@ namespace TelegramBot.Receiver.Services
     public class TelegramHostedService : IHostedService
     {
         private readonly Fanex.Logging.ILogger _logger;
-        private readonly IHandleUpdateService _handleUpdateSerice;
+        private readonly IHandleUpdateService _handleUpdateService;
         private readonly ReceiverConfiguration _receiverConfiguration;
         private readonly IBotService _botService;
 
-        public TelegramHostedService(Fanex.Logging.ILogger logger, IHandleUpdateService handleUpdateSerice, ReceiverConfiguration receiverConfiguration, IBotService botService)
+        public TelegramHostedService(Fanex.Logging.ILogger logger, IHandleUpdateService handleUpdateService, ReceiverConfiguration receiverConfiguration, IBotService botService)
         {
             _logger = logger;
-            _handleUpdateSerice = handleUpdateSerice;
+            _handleUpdateService = handleUpdateService;
             _receiverConfiguration = receiverConfiguration;
             _botService = botService;
         }
@@ -34,7 +34,7 @@ namespace TelegramBot.Receiver.Services
                     botClients.Add(botEntity.AccessToken, botClient);
                 }
 
-                _handleUpdateSerice.BotClients = botClients;
+                _handleUpdateService.BotClients = botClients;
             }
             catch (Exception ex)
             {

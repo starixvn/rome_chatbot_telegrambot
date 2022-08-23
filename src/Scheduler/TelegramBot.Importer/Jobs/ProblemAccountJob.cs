@@ -22,7 +22,7 @@ public sealed class ProblemAccountJob : NotificationBaseJob
         : base(maintenanceService, loggerService, systemSettingService, customerService)
         => this.problemAccountService = problemAccountService;
 
-    protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
+    public override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
         var notifications = Enumerable.Empty<ProblemAccountNotification>();
 
@@ -83,7 +83,7 @@ public sealed class ProblemAccountJob : NotificationBaseJob
         int identity,
         GroupProblemAccount groupProblemAccount,
         LinkedCustomer customer)
-        => new (
+        => new(
             identity,
             customer.UserId,
             customer.BotId,

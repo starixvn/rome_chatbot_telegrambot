@@ -1,4 +1,4 @@
-namespace TelegramBot.Importer.Criteria.Announment;
+namespace TelegramBot.Importer.Criteria.Announcement;
 
 public class ImportAnnouncementCommand : NonQueryCommandBase
 {

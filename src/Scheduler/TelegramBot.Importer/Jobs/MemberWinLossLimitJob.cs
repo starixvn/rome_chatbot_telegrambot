@@ -27,7 +27,7 @@ public sealed class MemberWinLossLimitJob : NotificationBaseJob
         this.cacheRefService = cacheRefService;
     }
 
-    protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
+    public override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
         var notifications = Enumerable.Empty<MemberWinLossLimitNotification>();
 

@@ -1,8 +1,7 @@
-using Fanex.Data;
 using Fanex.Data.Repository;
 using TelegramBot.Importer.Constants;
 
-namespace TelegramBot.Importer.Criteria.Announment;
+namespace TelegramBot.Importer.Criteria.Announcement;
 
 public class GetAnnouncementCriteria : CriteriaBase
 {

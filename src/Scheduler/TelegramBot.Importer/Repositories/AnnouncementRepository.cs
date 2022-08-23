@@ -2,7 +2,7 @@ using System.Data;
 using System.Text;
 using Fanex.Data;
 using Newtonsoft.Json;
-using TelegramBot.Importer.Criteria.Announment;
+using TelegramBot.Importer.Criteria.Announcement;
 using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Helpers;
 using TelegramBot.Importer.Models.Announcement;

@@ -28,4 +28,14 @@ public class MemberWinLossLimitServiceTests
         // Assert
         Assert.Same(result.Item2, memberWinLossLimits);
     }
+
+    [Theory, AutoData]
+    public async Task Import_Always_CallsExecuteAsync(IEnumerable<MemberWinLossLimitNotification> notifications, string environment, int maxLogId)
+    {
+        // Act
+        await memberWinLossLimitService.Import(notifications, environment, maxLogId);
+
+        // Assert
+        await dynamicRepository.Received().ExecuteAsync(Arg.Is<ImportMemberWinLossLimitCommand>(c => c.Environment == environment && c.MaxLogId == maxLogId));
+    }
 }

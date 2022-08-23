@@ -42,7 +42,7 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
         environment = configuration["Environment"];
     }
 
-    protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
+    public override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
         var notifications = new List<SystemNotification>();
         var now = DateTime.Now;

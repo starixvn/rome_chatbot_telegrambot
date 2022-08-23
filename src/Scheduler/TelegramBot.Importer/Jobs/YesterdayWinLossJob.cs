@@ -23,7 +23,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
         : base(maintenanceService, loggerService, systemSettingService, customerService)
         => this.yesterdayWinLossService = yesterdayWinLossService;
 
-    protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
+    public override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
         bool continueGettingData;
         var isFirstBatch = true;
@@ -117,7 +117,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
             if (winloss != null)
             {
                 var message = yesterdayWinLossService.BuildMessage(customer.Language, winloss, customer.CustomerLevel, winLossDate.ToSimpleDate());
-            
+
                 return new Notification(customer.UserId, customer.BotId, message, customer.IsRealUser, job.IsUAT);
             }
         }

@@ -1,9 +1,11 @@
+using System.Text;
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Models.Customers;
 using TelegramBot.Importer.Models.PersonalMessages;
 using TelegramBot.Importer.Models.SystemSettings;
+using TelegramBot.Importer.Resources;
 using TelegramBot.Importer.Services;
 
 namespace TelegramBot.Importer.Jobs;
@@ -21,7 +23,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         : base(maintenanceService, loggerService, systemSettingService, customerService)
         => this.personalMessageService = personalMessageService;
 
-    protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
+    public override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
         var notifications = Enumerable.Empty<PersonalMessageNotification>();
 
@@ -109,7 +111,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
                     customer.BotId,
                     message.MsgTargetId,
                     message.MessageId,
-                    personalMessageService.BuildMessage(
+                    BuildMessage(
                         customer.Language,
                         currentDate,
                         message.GetContentByLanguage(customer.Language),
@@ -125,7 +127,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
                 customer.BotId,
                 message.MsgTargetId,
                 message.MessageId,
-                personalMessageService.BuildMessage(
+                BuildMessage(
                     customer.Language,
                     currentDate,
                     message.GetContentByLanguage(customer.Language)),
@@ -147,5 +149,15 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         var chunkBetTransIds = betTransIdArray.Chunk(MaxBetTransIdToChunk);
 
         return chunkBetTransIds.Select(array => array.JoinWithComma());
+    }
+
+    private string BuildMessage(string language, string currentDate, string content, string transId = "")
+    {
+        var messageBuilder = new StringBuilder();
+        messageBuilder
+            .AppendLine(TemplateHelper.BuildTitle(language, "PersonalMessage", currentDate))
+            .Append(transId.Length == 0 ? content : content.Replace("@@", transId));
+
+        return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
 }

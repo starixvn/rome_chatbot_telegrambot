@@ -1,5 +1,5 @@
 using Fanex.Data.Repository;
-using TelegramBot.Importer.Criteria.Announment;
+using TelegramBot.Importer.Criteria.Announcement;
 using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Models.Announcement;
 using TelegramBot.Importer.Repositories;
@@ -18,13 +18,10 @@ public class AnnouncementService : NotificationServiceBase, IAnnouncementService
 
     private readonly IAnnouncementRepository announcementRepository;
 
-    public AnnouncementService(
-        IAnnouncementRepository announcementRepository,
-        IDynamicRepository dynamicRepository)
+    public AnnouncementService(IAnnouncementRepository announcementRepository, IDynamicRepository dynamicRepository)
         : base(dynamicRepository)
-    {
-        this.announcementRepository = announcementRepository;
-    }
+        => this.announcementRepository = announcementRepository;
+
 
     public async Task<IEnumerable<Announcement>> GetAnnouncements(DateTime fromDate, DateTime toDate, string environment)
         => await announcementRepository.GetAnnouncements(new GetAnnouncementCriteria(fromDate, toDate, environment));

@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Builder;
 using Quartz;
 using TelegramBot.SenderService.Extensions;
 using Microsoft.AspNetCore.Routing;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TelegramBot.SenderService;
 
+[ExcludeFromCodeCoverage]
 public class Startup
 {
     public Startup(IConfiguration configuration)

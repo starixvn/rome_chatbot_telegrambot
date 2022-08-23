@@ -46,7 +46,7 @@ public class SystemSettingService : ISystemSettingService
         string jobStatus,
         DateTime lastRuntime)
         => dynamicRepository.ExecuteAsync(
-            new UpdateSystemSettingCriteria(serviceName, environment, BuildSettingXML(jobStatus, lastRuntime)));
+            new UpdateSystemSettingCommand(serviceName, environment, BuildSettingXML(jobStatus, lastRuntime)));
 
     private static string BuildSettingXML(string jobStatus, DateTime lastRuntime)
     {

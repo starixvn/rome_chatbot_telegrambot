@@ -2,20 +2,9 @@ namespace TelegramBot.Importer.Models;
 
 public class Product
 {
-    public Product()
-    {
-    }
+    public int Id { get; init; }
 
-    public Product(int id, string name, bool isHidden)
-    {
-        Id = id;
-        Name = name;
-        IsHidden = isHidden;
-    }
+    public string Name { get; init; }
 
-    public int Id { get; }
-
-    public string Name { get; }
-
-    public bool IsHidden { get; }
+    public bool IsHidden { get; init; }
 }

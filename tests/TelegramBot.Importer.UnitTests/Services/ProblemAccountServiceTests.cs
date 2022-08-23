@@ -17,7 +17,7 @@ public class ProblemAccountServiceTests
     }
 
     [Theory, AutoData]
-    public async Task GetProblemAccounts_Always_RetrunsProblemAccounts(int lastLogId, int batchSize, IEnumerable<ProblemAccount> problemAccounts)
+    public async Task GetProblemAccounts_Always_ReturnsProblemAccounts(int lastLogId, int batchSize, IEnumerable<ProblemAccount> problemAccounts)
     {
         // Arrange
         dynamicRepository.FetchAsync<ProblemAccount>(Arg.Any<GetProblemAccountCommand>()).Returns(Task.FromResult(problemAccounts));
@@ -27,5 +27,15 @@ public class ProblemAccountServiceTests
 
         // Assert
         Assert.Same(result.Item2, problemAccounts);
+    }
+
+    [Theory, AutoData]
+    public async Task Import_Always_CallsExecuteAsync(IEnumerable<ProblemAccountNotification> notifications, string environment, int maxLogId)
+    {
+        // Act
+        await problemAccountService.Import(notifications, environment, maxLogId);
+
+        // Assert
+        await dynamicRepository.Received().ExecuteAsync(Arg.Is<ImportProblemAccountCommand>(c => c.Environment == environment && c.MaxLogId == maxLogId));
     }
 }

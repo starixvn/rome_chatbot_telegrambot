@@ -33,7 +33,7 @@ public abstract class NotificationBaseJob : IJob
     {
         var sw = Stopwatch.StartNew();
         var job = GetJobDetails(context);
-        
+
         if (await IsUM(job))
         {
             await loggerService.Debug(job, "is Under Maintenance.");
@@ -114,9 +114,9 @@ public abstract class NotificationBaseJob : IJob
     protected Task<IEnumerable<CustomerStatus>> GetCustomerStatus(IEnumerable<LinkedCustomer> linkedCustomers)
     {
         var customerStatusParams = linkedCustomers.Select(c => new CustomerStatusParam(c.CustId, c.SubAccId));
-        
+
         return customerService.GetCustomerStatus(customerStatusParams);
     }
 
-    protected abstract Task Execute(ScheduleJob job, SystemSetting systemSetting);
+    public abstract Task Execute(ScheduleJob job, SystemSetting systemSetting);
 }

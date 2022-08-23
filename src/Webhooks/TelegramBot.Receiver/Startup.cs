@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using TelegramBot.Receiver.Configurations;
 using TelegramBot.Receiver.DependencyInjection;
 using TelegramBot.Receiver.Extensions;
@@ -5,6 +6,7 @@ using TelegramBot.Receiver.Services;
 
 namespace TelegramBot.Receiver;
 
+[ExcludeFromCodeCoverage]
 public class Startup
 {
     public Startup(IConfiguration configuration) =>
