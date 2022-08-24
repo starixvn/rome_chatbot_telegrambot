@@ -18,7 +18,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         {
             return functionId switch
             {
-                FunctionIds.Oustanding => (IFunctionHandler)serviceProvider.GetService(typeof(OustandingFunctionHandler)),
+                FunctionIds.Outstanding => (IFunctionHandler)serviceProvider.GetService(typeof(OutstandingFunctionHandler)),
                 FunctionIds.TodayWinLoss => (IFunctionHandler)serviceProvider.GetService(typeof(TodayWinLossFunctionHandler)),
                 FunctionIds.BalanceInfo => (IFunctionHandler)serviceProvider.GetService(typeof(BalanceInfoFunctionHandler)),
                 FunctionIds.YesterdayWinLoss => (IFunctionHandler)serviceProvider.GetService(typeof(YesterdayWinLossFunctionHandler)),

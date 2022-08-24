@@ -58,7 +58,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         }
     }
 
-    private IEnumerable<PersonalMessageNotification> BuildPersonalMessageNotifications(
+    private static IEnumerable<PersonalMessageNotification> BuildPersonalMessageNotifications(
         ScheduleJob job,
         IEnumerable<PersonalMessage> personalMessages,
         IEnumerable<LinkedCustomer> linkedCustomers,
@@ -91,7 +91,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         return notifications;
     }
 
-    private IEnumerable<PersonalMessageNotification> BuildPersonalMessageNotifications(
+    private static IEnumerable<PersonalMessageNotification> BuildPersonalMessageNotifications(
         ScheduleJob job,
         PersonalMessage message,
         LinkedCustomer customer,
@@ -151,7 +151,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         return chunkBetTransIds.Select(array => array.JoinWithComma());
     }
 
-    private string BuildMessage(string language, string currentDate, string content, string transId = "")
+    private static string BuildMessage(string language, string currentDate, string content, string transId = "")
     {
         var messageBuilder = new StringBuilder();
         messageBuilder

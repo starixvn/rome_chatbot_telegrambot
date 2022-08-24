@@ -213,4 +213,10 @@
     <value>Sản phẩm. Thắng thua hiện tại | Thắng thua tối đa | Thắng thua hiện tại (%)</value>
     <comment />
   </data>
+  <data name="ThresholdType_1" xml:space="preserve">
+    <value>Chung</value>
+  </data>
+  <data name="ThresholdType_2" xml:space="preserve">
+    <value>Riêng</value>
+  </data>
 </root>

@@ -23,7 +23,8 @@ public static class DIExtensions
             .AddSingleton<IYesterdayWinLossService, YesterdayWinLossService>()
             .AddSingleton<IProblemAccountService, ProblemAccountService>()
             .AddSingleton<IMemberWinLossLimitService, MemberWinLossLimitService>()
-            .AddSingleton<IAnnouncementService, AnnouncementService>();
+            .AddSingleton<IAnnouncementService, AnnouncementService>()
+            .AddSingleton<IMyWatchlistService, MyWatchlistService>();
 
     public static IServiceCollection AddAlphaServicesClient(this IServiceCollection services, IConfiguration configuration)
     {

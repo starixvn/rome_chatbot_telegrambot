@@ -1,4 +1,5 @@
 ﻿using TelegramBot.Infrastructure.Function.Models;
+using TelegramBot.Infrastructure.Shared.Constants;
 
 namespace TelegramBot.Infrastructure.Setting.Models
 {

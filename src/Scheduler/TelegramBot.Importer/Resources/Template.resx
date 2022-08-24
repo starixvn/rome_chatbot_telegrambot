@@ -216,4 +216,19 @@
   <data name="SystemAnnouncement" xml:space="preserve">
     <value>System Announcement</value>
   </data>
+  <data name="MyWatchlistTitle" xml:space="preserve">
+    <value>Member Reached Sportsbook Threshold Alert</value>
+  </data>
+  <data name="MyWatchlistMessage" xml:space="preserve">
+    <value>You have members who reached their win/loss threshold</value>
+  </data>
+  <data name="MyWatchlistHeader" xml:space="preserve">
+    <value>Username | Current Win Loss | Winning Threshold | Losing Threshold | Date Time | Threshold Type Reach</value>
+  </data>
+  <data name="ThresholdType_1" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="ThresholdType_2" xml:space="preserve">
+    <value>Personal</value>
+  </data>
 </root>
