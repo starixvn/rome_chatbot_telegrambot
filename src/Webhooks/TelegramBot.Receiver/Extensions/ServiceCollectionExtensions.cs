@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Fanex.Logging;
 using TelegramBot.Client.Services;
-using TelegramBot.Receiver.Configurations;
 
 namespace TelegramBot.Receiver.DependencyInjection
 {
@@ -10,22 +9,21 @@ namespace TelegramBot.Receiver.DependencyInjection
     {
         public static IServiceCollection AddClient(this IServiceCollection services, IConfiguration configuration)
         {
-            var clientConfiguration = new ClientConfiguration();
-            configuration.GetSection(nameof(ClientConfiguration)).Bind(clientConfiguration);
-            services.AddSingleton(clientConfiguration);
             services.AddSingleton<IBotService, BotService>();
             services.AddSingleton<ISettingService, SettingService>();
             services.AddSingleton<ICommandService, CommandService>();
-            services.AddHttpClient<IBotService, BotService>(httpClient => ConfigureHttpClient(httpClient, clientConfiguration));
-            services.AddHttpClient<ISettingService, SettingService>(httpClient => ConfigureHttpClient(httpClient, clientConfiguration));
-            services.AddHttpClient<ICommandService, CommandService>(httpClient => ConfigureHttpClient(httpClient, clientConfiguration));
-            services.AddHttpClient<INotificationService, NotificationService>(httpClient => ConfigureHttpClient(httpClient, clientConfiguration));
+
+            var chatbotAPIUri = configuration.GetSection("ClientConfiguration:WebApiUri").Get<string>();
+            services.AddHttpClient<IBotService, BotService>(httpClient => ConfigureHttpClient(httpClient, chatbotAPIUri));
+            services.AddHttpClient<ISettingService, SettingService>(httpClient => ConfigureHttpClient(httpClient, chatbotAPIUri));
+            services.AddHttpClient<ICommandService, CommandService>(httpClient => ConfigureHttpClient(httpClient, chatbotAPIUri));
+
             return services;
         }
 
-        private static void ConfigureHttpClient(HttpClient httpClient, ClientConfiguration clientConfiguration)
+        private static void ConfigureHttpClient(HttpClient httpClient, string chatbotAPIUri)
         {
-            httpClient.BaseAddress = new Uri(clientConfiguration.WebApiUri);
+            httpClient.BaseAddress = new Uri(chatbotAPIUri);
             httpClient.Timeout = TimeSpan.FromMinutes(5);
         }
 

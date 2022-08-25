@@ -2,6 +2,7 @@ using System.Text;
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Extensions;
+using TelegramBot.Importer.Models.Customers;
 using TelegramBot.Importer.Models.MyWatchlist;
 using TelegramBot.Importer.Models.SystemSettings;
 using TelegramBot.Importer.Resources;
@@ -11,6 +12,7 @@ namespace TelegramBot.Importer.Jobs;
 
 public sealed class MyWatchlistJob : NotificationBaseJob
 {
+    private const int ChunkSize = 28;
     private readonly IMyWatchlistService myWatchlistService;
 
     public MyWatchlistJob(
@@ -28,7 +30,11 @@ public sealed class MyWatchlistJob : NotificationBaseJob
     {
         var notifications = new List<MyWatchlistNotification>();
 
-        var (maxLogId, lastDataRow, serverName, monitoredPlayers) = await myWatchlistService.GetMonitoredPlayers(systemSetting.MaxLogId, systemSetting.BatchSize);
+        var (maxLogId, lastDataRow, serverName, monitoredPlayers) = await myWatchlistService.GetMonitoredPlayers(
+            systemSetting.MaxLogId,
+            systemSetting.BatchSize,
+            systemSetting.LastDataRow,
+            systemSetting.ServerName);
 
         if (monitoredPlayers.Any())
         {
@@ -44,23 +50,12 @@ public sealed class MyWatchlistJob : NotificationBaseJob
                               select (linkedCustomer, monitoredPlayer))
                              .GroupBy(g => g.linkedCustomer);
 
-                var currentDate = DateTime.Now.ToString("yyyymmdd HH:mm:ss");
+                var currentTime = DateTime.Now.ToString("yyyymmdd HH:mm:ss");
 
                 var index = 1;
                 foreach (var group in groups)
                 {
-                    var customer = group.Key;
-                    var players = group.Select(g => g.monitoredPlayer);
-                    notifications.Add(new MyWatchlistNotification(
-                        index,
-                        customer.UserId,
-                        customer.BotId,
-                        BuildMessage(customer.Language, currentDate, players),
-                        customer.IsRealUser,
-                        job.IsUAT,
-                        players.Select(p => (long)p.LogId)));
-
-                    index++;
+                    notifications.AddRange(BuildNotifications(group.Key, group.Select(g => g.monitoredPlayer), currentTime, job.IsUAT, ref index));
                 }
             }
         }
@@ -73,7 +68,33 @@ public sealed class MyWatchlistJob : NotificationBaseJob
         }
     }
 
-    private static string BuildMessage(string language, string currentDate, IEnumerable<MonitoredPlayer> monitoredPlayers)
+    private static IEnumerable<MyWatchlistNotification> BuildNotifications(
+        LinkedCustomer customer,
+        IEnumerable<MonitoredPlayer> monitoredPlayers,
+        string currentTime,
+        bool isUAT,
+        ref int index)
+    {
+        var notifications = new List<MyWatchlistNotification>();
+        var chunks = monitoredPlayers.Chunk(ChunkSize);
+
+        foreach (var chunk in chunks)
+        {
+            notifications.Add(new MyWatchlistNotification(
+                index,
+                customer.UserId,
+                customer.BotId,
+                BuildMessage(customer.Language, currentTime, chunk),
+                customer.IsRealUser,
+                isUAT,
+                chunk.Select(p => (long)p.LogId)));
+            index++;
+        }
+
+        return notifications;
+    }
+
+    private static string BuildMessage(string language, string currentDate, MonitoredPlayer[] monitoredPlayers)
     {
         var messageBuilder = new StringBuilder();
         messageBuilder

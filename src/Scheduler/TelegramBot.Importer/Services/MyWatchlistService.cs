@@ -7,7 +7,11 @@ namespace TelegramBot.Importer.Services;
 
 public interface IMyWatchlistService
 {
-    Task<(int maxLogId, string lastDataRow, string serverName, IEnumerable<MonitoredPlayer> monitoredPlayers)> GetMonitoredPlayers(int lastLogId, int batchSize);
+    Task<(int maxLogId, string lastDataRow, string serverName, IEnumerable<MonitoredPlayer> monitoredPlayers)> GetMonitoredPlayers(
+        int lastLogId,
+        int batchSize,
+        string lastDataRow,
+        string serverName);
 
     Task<Result> Import(IEnumerable<MyWatchlistNotification> notifications, string environment, string lastDataRow, string serverName, int maxLogId);
 }
@@ -19,9 +23,13 @@ public class MyWatchlistService : NotificationServiceBase, IMyWatchlistService
     {
     }
 
-    public async Task<(int maxLogId, string lastDataRow, string serverName, IEnumerable<MonitoredPlayer> monitoredPlayers)> GetMonitoredPlayers(int lastLogId, int batchSize)
+    public async Task<(int maxLogId, string lastDataRow, string serverName, IEnumerable<MonitoredPlayer> monitoredPlayers)> GetMonitoredPlayers(
+        int lastLogId,
+        int batchSize,
+        string lastDataRow,
+        string serverName)
     {
-        var criteria = new GetMyWatchlistCriteria(lastLogId, batchSize);
+        var criteria = new GetMyWatchlistCriteria(lastLogId, batchSize, lastDataRow, serverName);
 
         var monitoredPlayers = await dynamicRepository.FetchAsync<MonitoredPlayer>(criteria);
 

@@ -4,10 +4,12 @@ namespace TelegramBot.Importer.Criteria.MyWatchlist;
 
 public class GetMyWatchlistCriteria : CriteriaBase
 {
-    public GetMyWatchlistCriteria(int lastLogId, int batchSize)
+    public GetMyWatchlistCriteria(int lastLogId, int batchSize, string lastDataRow, string serverName)
     {
         LastLogId = lastLogId;
         BatchSize = batchSize;
+        LastDataRow = lastDataRow;
+        ServerName = serverName;
     }
 
     public int LastLogId { get; }

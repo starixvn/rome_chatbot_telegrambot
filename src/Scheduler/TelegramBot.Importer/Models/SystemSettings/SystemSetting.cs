@@ -29,6 +29,10 @@ public class SystemSetting
 
     public DateTime LastQueryTime => GetDateTime(nameof(LastQueryTime));
 
+    public string LastDataRow => GetString(nameof(LastDataRow), string.Empty);
+
+    public string ServerName => GetString(nameof(ServerName), string.Empty);
+
     private bool GetBool(string key)
         => "1" == GetString(key, "0");
 
