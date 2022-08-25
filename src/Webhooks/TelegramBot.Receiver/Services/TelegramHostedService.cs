@@ -12,7 +12,11 @@ namespace TelegramBot.Receiver.Services
         private readonly ReceiverConfiguration _receiverConfiguration;
         private readonly IBotService _botService;
 
-        public TelegramHostedService(Fanex.Logging.ILogger logger, IHandleUpdateService handleUpdateService, ReceiverConfiguration receiverConfiguration, IBotService botService)
+        public TelegramHostedService(
+            Fanex.Logging.ILogger logger,
+            IHandleUpdateService handleUpdateService,
+            ReceiverConfiguration receiverConfiguration,
+            IBotService botService)
         {
             _logger = logger;
             _handleUpdateService = handleUpdateService;

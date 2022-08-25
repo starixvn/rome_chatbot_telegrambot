@@ -1,9 +1,11 @@
-﻿using Fanex.Logging;
+﻿using System.Diagnostics.CodeAnalysis;
+using Fanex.Logging;
 using TelegramBot.Client.Services;
 using TelegramBot.Receiver.Configurations;
 
 namespace TelegramBot.Receiver.DependencyInjection
 {
+    [ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddClient(this IServiceCollection services, IConfiguration configuration)
