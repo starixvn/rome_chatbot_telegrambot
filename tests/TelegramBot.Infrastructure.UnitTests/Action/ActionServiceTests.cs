@@ -11,6 +11,7 @@ using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.constants;
+using TelegramBot.Infrastructure.Resource.Models;
 using TelegramBot.Infrastructure.Shared.Caching;
 using TelegramBot.Infrastructure.Shared.Configurations;
 using Xunit;
@@ -43,8 +44,11 @@ public class ActionServiceTests
     }
 
     [Theory, AutoData]
-    public async Task GetActionDescription_Always_CallsGetResource(short actionId, string language)
+    public async Task GetActionDescription_Always_CallsGetResource(short actionId, string language, BotResource resource)
     {
+        // Arrange
+        resourceService.GetResource(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(Task.FromResult(resource));
+
         // Act
         await actionService.GetActionDescription(actionId, language);
 

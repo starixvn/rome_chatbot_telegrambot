@@ -219,4 +219,13 @@
   <data name="ThresholdType_2" xml:space="preserve">
     <value>個人</value>
   </data>
+  <data name="MyWatchlistMessage" xml:space="preserve">
+    <value>您的會員已達到他們的輸贏限額。</value>
+  </data>
+  <data name="MyWatchlistHeader" xml:space="preserve">
+    <value>用戶名 | 目前輸贏| 贏的限額 | 輸的限額 | 日期時間 | 已達限額類別</value>
+  </data>
+  <data name="SystemAnnouncement" xml:space="preserve">
+    <value>系統公告</value>
+  </data>
 </root>

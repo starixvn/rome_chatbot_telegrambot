@@ -2,8 +2,6 @@ namespace TelegramBot.Importer.Models.Announcement;
 
 public class Announcement
 {
-    public bool IsPopup { get; set; }
-
     public string Code { get; set; } = default!;
 
     public IEnumerable<MessageContent> Contents { get; set; } = Enumerable.Empty<MessageContent>();
@@ -25,14 +23,4 @@ public class Announcement
     public DateTime ExpiredDate { get; set; }
 
     public DateTime CreatedDate { get; set; }
-
-    public int CreatorId { get; set; }
-
-    public string CreatorName { get; set; } = default!;
-
-    public DateTime? LastEditDate { get; set; }
-
-    public int? LastEditorId { get; set; }
-
-    public string LastEditorName { get; set; } = default!;
 }

@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Fanex.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace TelegramBot.Importer.Helpers;
 
+[ExcludeFromCodeCoverage]
 public abstract class JsonCreationConverter<T> : JsonConverter
 {
     protected virtual T Create(Type type, JObject obj)

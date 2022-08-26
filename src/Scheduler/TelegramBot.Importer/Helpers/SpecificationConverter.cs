@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
 using TelegramBot.Importer.Models.Announcement;
 
 namespace TelegramBot.Importer.Helpers;
 
+[ExcludeFromCodeCoverage]
 public class SpecificationConverter : JsonCreationConverter<ISpecification<IParam>>
 {
     protected override Type GetTargetType(Type type, JObject obj)

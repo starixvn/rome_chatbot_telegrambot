@@ -56,12 +56,6 @@ public class AnnouncementRepository : IAnnouncementRepository
             ReleasedDate = reader.ToDateTime("FromDate"),
             ExpiredDate = reader.ToDateTime("ToDate"),
             CreatedDate = reader.ToDateTime("CreatedDate"),
-            CreatorId = reader.ToInt("CreatorId"),
-            CreatorName = reader.ToString("CreatorName"),
-            LastEditDate = reader.IsDBNull("LastEditDate") ? (DateTime?)null : reader.ToDateTime("LastEditDate"),
-            LastEditorId = reader.IsDBNull("LastEditorId") ? (int?)null : reader.ToInt("LastEditorId"),
-            LastEditorName = reader.ToString("LastEditorName"),
-            IsPopup = reader["announcementType"].ToString() == "3"
         };
     }
 }

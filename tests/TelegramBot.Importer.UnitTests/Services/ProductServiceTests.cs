@@ -22,12 +22,11 @@ public class ProductServiceTests
     public async Task GetOfferedProductIdsByCustomer_HasNOTProductOffered_ReturnsEmptyOfByte(int custId)
     {
         // Arrange
-        IEnumerable<Product>? products = null;
         cacheService.GetOrSetAsync(
             Arg.Any<string>(),
             Arg.Any<Func<Task<IEnumerable<Product>>>>(),
             Arg.Any<CacheItemOptions>())
-            .Returns(Task.FromResult(products));
+            .Returns(Task.FromResult<IEnumerable<Product>>(null));
         var expected = Enumerable.Empty<byte>();
 
         // Act

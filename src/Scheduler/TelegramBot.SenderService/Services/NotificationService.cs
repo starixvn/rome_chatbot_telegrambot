@@ -1,6 +1,5 @@
 using System.Text;
 using Fanex.Data.Repository;
-using Newtonsoft.Json;
 using TelegramBot.SenderService.Criteria;
 using TelegramBot.SenderService.Models;
 
@@ -10,10 +9,7 @@ public interface INotificationService
 {
     Task<(IEnumerable<Notification>, IEnumerable<LastNotification>)> GetNotifications(string environment);
 
-    Task<Result> UpdateNotificationStatus(
-        IEnumerable<NotificationStatusParam> notifications,
-        IEnumerable<LastNotification> lastNotifications,
-        string environment);
+    Task<Result> UpdateNotificationStatus(IEnumerable<NotificationStatusParam> notifications, IEnumerable<LastNotification> lastNotifications, string environment);
 
     Task<Result> UpdateNotificationStatus(NotificationStatusParam statusParam, string environment);
 }
@@ -21,17 +17,12 @@ public interface INotificationService
 public class NotificationService : INotificationService
 {
     private readonly IDynamicRepository dynamicRepository;
-    private readonly Fanex.Logging.ILogger logger;
 
-    public NotificationService(IDynamicRepository dynamicRepository, Fanex.Logging.ILogger logger)
-    {
-        this.dynamicRepository = dynamicRepository;
-        this.logger = logger;
-    }
+    public NotificationService(IDynamicRepository dynamicRepository)
+        => this.dynamicRepository = dynamicRepository;
 
     public Task<(IEnumerable<Notification>, IEnumerable<LastNotification>)> GetNotifications(string environment)
-        => dynamicRepository.FetchMultipleAsync<Notification, LastNotification>(
-            new GetNotificationCriteria(environment));
+        => dynamicRepository.FetchMultipleAsync<Notification, LastNotification>(new GetNotificationCriteria(environment));
 
     public Task<Result> UpdateNotificationStatus(NotificationStatusParam statusParam, string environment)
         => UpdateNotificationStatus(new List<NotificationStatusParam> { statusParam }, Enumerable.Empty<LastNotification>(), environment);
@@ -45,8 +36,6 @@ public class NotificationService : INotificationService
             BuildXmlData(notifications),
             BuildXmlLastNotification(lastNotifications),
             environment);
-
-        await logger.InfoAsync(JsonConvert.SerializeObject(command));
 
         await dynamicRepository.ExecuteAsync(command);
 

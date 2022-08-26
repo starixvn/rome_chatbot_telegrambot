@@ -126,10 +126,10 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
 
-    private static string GetMessageContentByLanguage(IEnumerable<MessageContent> messages, string languageKey)
+    private static string GetMessageContentByLanguage(IEnumerable<MessageContent> messages, string language)
     {
+        var languageKey = LanguageCode.LanguageMapper.ContainsKey(language) ? LanguageCode.LanguageMapper[language] : language;
         var message = messages.FirstOrDefault(i => i.LanguageKey.Equals(languageKey) && !string.IsNullOrEmpty(i.Text));
-
         message ??= messages.FirstOrDefault(i => i.LanguageKey.Equals(LanguageCode.English) && !string.IsNullOrEmpty(i.Text));
 
         return message == null ? string.Empty : message.Text;

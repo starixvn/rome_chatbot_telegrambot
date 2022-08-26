@@ -25,10 +25,8 @@ namespace TelegramBot.SenderService.Services
             this.retryJobListener = retryJobListener;
         }
 
-        public async Task SendNotification(Notification notification)
-        {
-            await botService.SendMessage(notification.BotId, notification.ChatId, notification.Message);
-        }
+        public Task SendNotification(Notification notification)
+            => botService.SendMessage(notification.BotId, notification.ChatId, notification.Message);
 
         public async Task RetrySendNotification(Notification notification, string environment)
         {

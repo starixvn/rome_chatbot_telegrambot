@@ -219,4 +219,13 @@
   <data name="ThresholdType_2" xml:space="preserve">
     <value>個人</value>
   </data>
+  <data name="MyWatchlistMessage" xml:space="preserve">
+    <value>สมาชิกของคุณถึงขีดจำกัดการชนะ/แพ้แล้ว</value>
+  </data>
+  <data name="MyWatchlistHeader" xml:space="preserve">
+    <value>ชื่อผู้ใช้ | ยอดชนะ/แพ้ปัจจุบัน | ขีดจำกัดการชนะ | ขีดจำกัดการแพ้ | วัน เวลา | ถึงขีดจำกัดประเภทเกณฑ์การชนะ/แพ้</value>
+  </data>
+  <data name="SystemAnnouncement" xml:space="preserve">
+    <value>ประกาศระบบ</value>
+  </data>
 </root>

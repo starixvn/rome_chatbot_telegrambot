@@ -102,7 +102,7 @@ public sealed class NotificationSenderJob : IJob
     private static bool IsStopJob(SystemSetting systemSetting)
         => systemSetting == null || !systemSetting.ServiceFlag;
 
-    public async Task<IEnumerable<CustomerStatus>> GetCustomerStatus(IEnumerable<Notification> notifications)
+    private async Task<IEnumerable<CustomerStatus>> GetCustomerStatus(IEnumerable<Notification> notifications)
     {
         var customerStatusParams = notifications.Select(n => new CustomerStatusParam(n.CustId, n.SubAccId));
         return await customerService.GetCustomerStatus(customerStatusParams);
@@ -153,30 +153,35 @@ public sealed class NotificationSenderJob : IJob
             }
             catch (Exception ex)
             {
-                await loggerService.Error("SendNotifications", environment, ex.Message);
-                if (ex is ApiRequestException apiRequestException)
-                {
-                    if (apiRequestException.ErrorCode == TelegramError.FORBIDDEN)
-                    {
-                        status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.BotBlocked, ex.Message));
-                    }
-                    else if (TelegramError.IgnoredErrorCodes.Contains(apiRequestException.ErrorCode))
-                    {
-                        status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Fail, ex.Message));
-                    }
-                    else
-                    {
-                        await messageSender.RetrySendNotification(item, environment);
-                    }
-                }
-                else
-                {
-                    await messageSender.RetrySendNotification(item, environment);
-                }
+                await HandleException(ex, environment, item, status);
             }
         }
 
         return status;
+    }
+
+    private async Task HandleException(Exception ex, string environment, Notification notification, IList<NotificationStatusParam> status)
+    {
+        await loggerService.Error("SendNotifications", environment, ex.Message);
+        if (ex is ApiRequestException apiRequestException)
+        {
+            if (apiRequestException.ErrorCode == TelegramError.FORBIDDEN)
+            {
+                status.Add(new NotificationStatusParam(notification.NotificationId, NotificationStatus.BotBlocked, ex.Message));
+            }
+            else if (TelegramError.IgnoredErrorCodes.Contains(apiRequestException.ErrorCode))
+            {
+                status.Add(new NotificationStatusParam(notification.NotificationId, NotificationStatus.Fail, ex.Message));
+            }
+            else
+            {
+                await messageSender.RetrySendNotification(notification, environment);
+            }
+        }
+        else
+        {
+            await messageSender.RetrySendNotification(notification, environment);
+        }
     }
 
     private async Task UpdateNotificationStatus(
@@ -196,7 +201,7 @@ public sealed class NotificationSenderJob : IJob
         }
     }
 
-    public static IEnumerable<Notification[]> GetBatches(IEnumerable<Notification> source, int count)
+    private static IEnumerable<Notification[]> GetBatches(IEnumerable<Notification> source, int count)
     {
         var hashset = new HashSet<int>(count);
         var batch = new List<Notification>(count);

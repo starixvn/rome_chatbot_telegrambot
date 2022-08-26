@@ -6,13 +6,6 @@ namespace TelegramBot.Importer.Extensions;
 public static class DataReaderExtension
 {
     [DebuggerStepThrough]
-    public static bool IsDBNull(this IDataReader reader, string name)
-    {
-        return reader.IsDBNull(reader.GetOrdinal(name));
-    }
-
-
-    [DebuggerStepThrough]
     public static string ToString(this IDataReader reader, string name)
     {
         if (reader[name] != DBNull.Value)
