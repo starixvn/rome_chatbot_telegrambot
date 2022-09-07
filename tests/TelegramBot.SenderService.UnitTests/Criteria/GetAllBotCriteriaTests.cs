@@ -15,6 +15,7 @@ public class GetAllBotCriteriaTests
 
         // Assert
         Assert.Equal("BotSelAll", actualResult);
+        Assert.Equal(criteria.IsTest, isTest);
     }
 
     [Theory, AutoData]

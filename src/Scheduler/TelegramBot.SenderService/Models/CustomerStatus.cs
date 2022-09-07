@@ -42,9 +42,7 @@ public record CustomerStatus(
 
         if (IsSubAcc && !string.IsNullOrWhiteSpace(subAccPermission) && !PageAccess.Contains(subAccPermission))
         {
-
             return $"Customer Status: Sub-Account doesn't has {subAccPermission} permission";
-
         }
 
         if (IsLocked)

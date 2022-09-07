@@ -1,3 +1,6 @@
+using System.Data.SqlClient;
+using System.Runtime.Serialization;
+using Fanex.Data;
 using Fanex.Logging;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Services;
@@ -26,8 +29,26 @@ public class LoggerServiceTests
     }
 
     [Theory, AutoData]
-    public async Task ErrorWithException_Always_CallsErrorAsync(Exception exception, ScheduleJob job, string errorMessage)
+    public async Task ErrorWithException_Always_CallsErrorAsync(
+        ScheduleJob job,
+        string errorMessage,
+        string settingKey,
+        string spName,
+        string dbName,
+        string connectionString,
+        int commandTimeout,
+        IDictionary<string, string> columnMaps)
     {
+        // Arrange
+        var exception = new ObjectDbException(
+            FormatterServices.GetUninitializedObject(typeof(SqlException)) as SqlException,
+            settingKey,
+            spName,
+            dbName,
+            connectionString,
+            commandTimeout,
+            columnMaps);
+
         // Act
         await loggerService.Error(exception, job, errorMessage);
 

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using ONEbook.UM.Services;
 using Quartz;
 using Telegram.Bot.Exceptions;
@@ -6,6 +7,7 @@ using TelegramBot.SenderService.Constants;
 using TelegramBot.SenderService.Models;
 using TelegramBot.SenderService.Services;
 
+[assembly: InternalsVisibleTo("TelegramBot.SenderService.UnitTests")]
 namespace TelegramBot.SenderService.Jobs;
 
 [DisallowConcurrentExecution]
@@ -123,10 +125,7 @@ public sealed class NotificationSenderJob : IJob
         return status;
     }
 
-    private async Task<IEnumerable<NotificationStatusParam>> SendNotifications(
-        Notification[] notifications,
-        IEnumerable<CustomerStatus> customerStatus,
-        string environment)
+    internal async Task<IEnumerable<NotificationStatusParam>> SendNotifications(Notification[] notifications, IEnumerable<CustomerStatus> customerStatus, string environment)
     {
         var status = new List<NotificationStatusParam>();
         foreach (var item in notifications)
@@ -135,7 +134,7 @@ public sealed class NotificationSenderJob : IJob
             var custStatus = customerStatus.FirstOrDefault(status => status.CustId == item.CustId && status.SubAccId == item.SubAccId);
             if (custStatus == null)
             {
-                var message = $"Invalid customer status CustId: {item.CustId}, SubAccId: {item.SubAccId}, Id: {item.NotificationId} ";
+                var message = $"Invalid customer status CustId: {item.CustId}, SubAccId: {item.SubAccId}, Id: {item.NotificationId}";
                 status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Invalid, message));
                 continue;
             }
@@ -160,7 +159,7 @@ public sealed class NotificationSenderJob : IJob
         return status;
     }
 
-    private async Task HandleException(Exception ex, string environment, Notification notification, IList<NotificationStatusParam> status)
+    internal async Task HandleException(Exception ex, string environment, Notification notification, IList<NotificationStatusParam> status)
     {
         await loggerService.Error("SendNotifications", environment, ex.Message);
         if (ex is ApiRequestException apiRequestException)
@@ -184,11 +183,7 @@ public sealed class NotificationSenderJob : IJob
         }
     }
 
-    private async Task UpdateNotificationStatus(
-        IEnumerable<NotificationStatusParam> notifications,
-        IEnumerable<LastNotification> lastNotifications,
-        string jobName,
-        string environment)
+    internal async Task UpdateNotificationStatus(IEnumerable<NotificationStatusParam> notifications, IEnumerable<LastNotification> lastNotifications, string jobName, string environment)
     {
         var result = await notificationService.UpdateNotificationStatus(
             notifications,

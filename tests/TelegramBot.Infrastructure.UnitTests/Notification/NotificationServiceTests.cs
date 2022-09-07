@@ -102,22 +102,6 @@ public class NotificationServiceTests
     }
 
     [Theory, AutoData]
-    public async Task NotifyChangeSecurityCode_FunctionNotAvailable_ReturnErrorResult(CustBotMessenger messenger)
-    {
-        // Arrange
-        int custId = 1;
-        int subAccId = 2;
-        var expectResult = Result.CreateErrorResult();
-        settingService.GetCustBotMessenger(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(messenger));
-
-        // Act
-        var result = await notificationService.NotifyChangeSecurityCode(custId, subAccId);
-
-        // Assert
-        Assert.Equal(JsonSerializer.Serialize(expectResult), JsonSerializer.Serialize(result));
-    }
-
-    [Theory, AutoData]
     public async Task NotifyChangeSecurityCode_ValidMessenger_ReturnSuccessfulResult(CustBotMessenger messenger)
     {
         // Arrange

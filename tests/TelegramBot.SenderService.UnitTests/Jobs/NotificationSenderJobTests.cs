@@ -1,7 +1,9 @@
 using ONEbook.UM.Models;
 using ONEbook.UM.Services;
 using Quartz;
+using Telegram.Bot.Exceptions;
 using TelegramBot.SenderService.Configurations;
+using TelegramBot.SenderService.Constants;
 using TelegramBot.SenderService.Jobs;
 using TelegramBot.SenderService.Models;
 using TelegramBot.SenderService.Services;
@@ -26,7 +28,7 @@ public class NotificationSenderJobTests
         systemSettingService = Substitute.For<ISystemSettingService>();
         notificationService = Substitute.For<INotificationService>();
         customerService = Substitute.For<ICustomerService>();
-        appSettings = Substitute.For<AppSettings>();
+        appSettings = new AppSettings() { FunctionPermissions = new Dictionary<string, string> { ["MyWatchlist"] = "[H]" } };
         messageSender = Substitute.For<IMessageSender>();
         notificationSenderJob = new NotificationSenderJob(
             maintenanceService,
@@ -124,5 +126,138 @@ public class NotificationSenderJobTests
 
         // Assert
         await notificationService.Received().GetNotifications("UAT");
+    }
+
+    [Theory, AutoData]
+    public async Task UpdateNotificationStatus_Always_CallsUpdateNotificationStatus(IEnumerable<NotificationStatusParam> notifications, IEnumerable<LastNotification> lastNotifications, string jobName, string environment)
+    {
+        // Arrange
+        notificationService.UpdateNotificationStatus(Arg.Any<IEnumerable<NotificationStatusParam>>(), Arg.Any<IEnumerable<LastNotification>>(), Arg.Any<string>())
+            .Returns(Task.FromResult(new Result(0, "")));
+
+        // Act
+        await notificationSenderJob.UpdateNotificationStatus(notifications, lastNotifications, jobName, environment);
+
+        // Assert
+        await notificationService.Received().UpdateNotificationStatus(Arg.Is(notifications), Arg.Is(lastNotifications), Arg.Is(environment));
+    }
+
+    [Theory, AutoData]
+    public async Task UpdateNotificationStatus_UpdateFailed_CallsLogError(IEnumerable<NotificationStatusParam> notifications, IEnumerable<LastNotification> lastNotifications, string jobName, string environment)
+    {
+        // Arrange
+        notificationService.UpdateNotificationStatus(Arg.Any<IEnumerable<NotificationStatusParam>>(), Arg.Any<IEnumerable<LastNotification>>(), Arg.Any<string>())
+            .Returns(Task.FromResult(new Result(1, "errMessage")));
+
+        // Act
+        await notificationSenderJob.UpdateNotificationStatus(notifications, lastNotifications, jobName, environment);
+
+        // Assert
+        await loggerService.Received().Error(jobName, environment, "errMessage");
+    }
+
+    [Theory, AutoData]
+    public async Task HandleException_IsNOTApiRequestException_CallsRetrySendNotification(string environment, Notification notification, IList<NotificationStatusParam> status)
+    {
+        // Arrange
+        var exception = new Exception();
+
+        // Act
+        await notificationSenderJob.HandleException(exception, environment, notification, status);
+
+        // Assert
+        await messageSender.Received().RetrySendNotification(notification, environment);
+    }
+
+    [Theory, AutoData]
+    public async Task HandleException_IsFORBIDDENException_AddBotBlockedStatusParam(string environment, Notification notification, IList<NotificationStatusParam> status)
+    {
+        // Arrange
+        var exception = new ApiRequestException("", TelegramError.FORBIDDEN);
+        var param = new NotificationStatusParam(notification.NotificationId, NotificationStatus.BotBlocked, exception.Message);
+
+        // Act
+        await notificationSenderJob.HandleException(exception, environment, notification, status);
+
+        // Assert
+        Assert.Contains(param, status);
+    }
+
+    [Theory, AutoData]
+    public async Task HandleException_ErrorCodeIsIgnore_AddFailedStatusParam(string environment, Notification notification, IList<NotificationStatusParam> status)
+    {
+        // Arrange
+        var exception = new ApiRequestException("", 400);
+        var param = new NotificationStatusParam(notification.NotificationId, NotificationStatus.Fail, exception.Message);
+
+        // Act
+        await notificationSenderJob.HandleException(exception, environment, notification, status);
+
+        // Assert
+        Assert.Contains(param, status);
+    }
+
+    [Theory, AutoData]
+    public async Task HandleException_ErrorCodeIsUnHandle_CallsRetrySendNotification(string environment, Notification notification, IList<NotificationStatusParam> status)
+    {
+        // Arrange
+        var exception = new ApiRequestException("", 500);
+
+        // Act
+        await notificationSenderJob.HandleException(exception, environment, notification, status);
+
+        // Assert
+        await messageSender.Received().RetrySendNotification(notification, environment);
+    }
+
+    [Theory, AutoData]
+    public async Task SendNotifications_CouldNotFoundCustomerStatus_AddInvalidStatusParam(string environment)
+    {
+        // Arrange
+        var notifications = new Notification[] { new Notification() { NotificationId = 1, CustId = 1, SubAccId = 1, FunctionKey = "MyWatchlist" } };
+        var customerStatus = Enumerable.Empty<CustomerStatus>();
+        var status = new NotificationStatusParam(1, NotificationStatus.Invalid, "Invalid customer status CustId: 1, SubAccId: 1, Id: 1");
+
+        // Act
+        var actualResult = await notificationSenderJob.SendNotifications(notifications, customerStatus, environment);
+
+        // Assert
+        Assert.Contains(status, actualResult);
+    }
+
+    [Theory, AutoData]
+    public async Task SendNotifications_CustomerStatusIsInvalid_AddInvalidStatusParam(string environment)
+    {
+        // Arrange
+        var notifications = new Notification[] { new Notification() { NotificationId = 1, CustId = 1, SubAccId = 1, FunctionKey = "MyWatchlist" } };
+        IEnumerable<CustomerStatus> customerStatus = new List<CustomerStatus>()
+        {
+            new CustomerStatus(1,1,false,false,false,"[H]")
+        };
+        var status = new NotificationStatusParam(1, NotificationStatus.Invalid, "Customer Status: Disabled or Closed");
+
+        // Act
+        var actualResult = await notificationSenderJob.SendNotifications(notifications, customerStatus, environment);
+
+        // Assert
+        Assert.Contains(status, actualResult);
+    }
+
+    [Theory, AutoData]
+    public async Task SendNotifications_CustomerStatusIsValid_AddCompletedStatusParam(string environment)
+    {
+        // Arrange
+        var notifications = new Notification[] { new Notification() { NotificationId = 1, CustId = 1, SubAccId = 1, FunctionKey = "MyWatchlist" } };
+        IEnumerable<CustomerStatus> customerStatus = new List<CustomerStatus>()
+        {
+            new CustomerStatus(1,1,true,false,false,"[H]")
+        };
+        var status = new NotificationStatusParam(1, NotificationStatus.Completed);
+
+        // Act
+        var actualResult = await notificationSenderJob.SendNotifications(notifications, customerStatus, environment);
+
+        // Assert
+        Assert.Contains(status, actualResult);
     }
 }

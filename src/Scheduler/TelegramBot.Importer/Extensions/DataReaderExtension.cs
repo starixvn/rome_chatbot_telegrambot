@@ -1,8 +1,10 @@
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TelegramBot.Importer.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class DataReaderExtension
 {
     [DebuggerStepThrough]

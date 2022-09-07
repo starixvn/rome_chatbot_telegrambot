@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace TelegramBot.Importer.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class StringExtensions
 {
     private const string HtmlTagPattern = "<.*?>";

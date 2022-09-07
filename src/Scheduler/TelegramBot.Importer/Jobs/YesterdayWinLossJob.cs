@@ -1,4 +1,5 @@
 
+using System.Runtime.CompilerServices;
 using System.Text;
 using Alpha.API.Client.Exceptions;
 using Alpha.API.Client.Models.WinLoss;
@@ -12,6 +13,7 @@ using TelegramBot.Importer.Models.SystemSettings;
 using TelegramBot.Importer.Resources;
 using TelegramBot.Importer.Services;
 
+[assembly: InternalsVisibleTo("TelegramBot.Importer.UnitTests")]
 namespace TelegramBot.Importer.Jobs;
 
 public sealed class YesterdayWinLossJob : NotificationBaseJob
@@ -50,7 +52,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
         while (continueGettingData);
     }
 
-    private async Task<bool> ImportYesterdayWinLossNotification(ScheduleJob job, DateTime winLossDate)
+    internal async Task<bool> ImportYesterdayWinLossNotification(ScheduleJob job, DateTime winLossDate)
     {
         var (linkedCustomers, maxUserId) = await customerService.GetYesterdayWinLossLinkedCustomers(winLossDate, job.Environment);
         var hasLinkedCustomer = linkedCustomers.Any();

@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace TelegramBot.Importer.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class DateTimeExtensions
 {
     private const string SimpleDate = "yyyyMMdd";

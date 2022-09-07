@@ -1,10 +1,12 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Resources;
 using System.Xml.Linq;
 using TelegramBot.Importer.Constants;
 
 namespace TelegramBot.Importer.Resources;
 
+[ExcludeFromCodeCoverage]
 public static class TemplateHelper
 {
     private static readonly ResourceManager resourceManager = new("TelegramBot.Importer.Resources.Template", typeof(TemplateHelper).Assembly);
@@ -29,6 +31,6 @@ public static class TemplateHelper
 
     public static string EncodeXml(string text, bool isAttribute = true, int attrSubStringLength = 5)
         => isAttribute
-        ? new XAttribute("__n",text).ToString().Substring(attrSubStringLength).TrimEnd('\"')
+        ? new XAttribute("__n", text).ToString().Substring(attrSubStringLength).TrimEnd('\"')
         : new XElement("t", text).LastNode.ToString();
 }
