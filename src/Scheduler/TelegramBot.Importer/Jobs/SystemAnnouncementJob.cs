@@ -1,4 +1,6 @@
 using System.Text;
+using Alpha.Announcements.Models;
+using Alpha.Announcements.Specs;
 using Microsoft.Extensions.Configuration;
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;

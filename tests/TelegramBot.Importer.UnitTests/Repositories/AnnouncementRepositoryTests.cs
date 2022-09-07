@@ -1,9 +1,10 @@
 using System.Data;
 using System.Text;
+using Alpha.Announcements.Models;
+using Alpha.Announcements.Specs;
 using Fanex.Data;
 using Newtonsoft.Json;
 using TelegramBot.Importer.Criteria.Announcement;
-using TelegramBot.Importer.Models.Announcement;
 using TelegramBot.Importer.Repositories;
 using TelegramBot.Importer.UnitTests.Helpers;
 

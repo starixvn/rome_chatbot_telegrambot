@@ -1,3 +1,5 @@
+using Alpha.Announcements.Models;
+using Alpha.Announcements.Specs;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using ONEbook.UM.Services;

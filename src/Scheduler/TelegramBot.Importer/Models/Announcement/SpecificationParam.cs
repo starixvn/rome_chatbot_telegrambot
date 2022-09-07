@@ -1,3 +1,4 @@
+using Alpha.Announcements.Models;
 using TelegramBot.Importer.Constants;
 
 namespace TelegramBot.Importer.Models.Announcement;
@@ -52,8 +53,4 @@ public class SpecificationParam : IParam
     public int UserId => customer.CustId;
 
     public string UserName => customer.UserName;
-
-    public bool IsSyncedCasino => throw new NotImplementedException();
-
-    IDictionary<string, object> IParam.DynamicParams => throw new NotImplementedException();
 }

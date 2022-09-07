@@ -1,3 +1,4 @@
+using Alpha.Announcements.Models;
 using Fanex.Data.Repository;
 using TelegramBot.Importer.Criteria.Announcement;
 using TelegramBot.Importer.Models;

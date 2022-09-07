@@ -1,4 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
+using Alpha.Announcements.Models;
+using Alpha.Announcements.Specs;
 using Newtonsoft.Json.Linq;
 using TelegramBot.Importer.Models.Announcement;
 
