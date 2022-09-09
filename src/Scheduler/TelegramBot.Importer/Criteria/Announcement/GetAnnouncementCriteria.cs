@@ -27,5 +27,5 @@ public class GetAnnouncementCriteria : CriteriaBase
 
     public override string GetSettingKey() => "Age_Announcements_Select";
 
-    public override bool IsValid() => FromDate > ToDate;
+    public override bool IsValid() => FromDate <= ToDate;
 }
