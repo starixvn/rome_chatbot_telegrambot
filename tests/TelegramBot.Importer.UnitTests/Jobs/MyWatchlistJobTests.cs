@@ -1,5 +1,7 @@
 using Newtonsoft.Json;
+using ONEbook.UM.Models;
 using ONEbook.UM.Services;
+using Quartz;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Jobs;
 using TelegramBot.Importer.Models;
@@ -102,5 +104,116 @@ public class MyWatchlistJobTests
 
         // Assert
         await customerService.Received().GetLinkedCustomers(job.Name, "1", job.Environment);
+    }
+
+    [Fact]
+    public async Task Execute_IsUM_CallsLogDebug()
+    {
+        // Arrange
+        var context = Substitute.For<IJobExecutionContext>();
+        var jobName = "MyWatchlist";
+        var environment = "UAT";
+        var subAccPermission = "[A]";
+        IDictionary<string, object> keyValuePairs = new Dictionary<string, object> {
+            { "JobName", jobName },
+            { "Environment", environment },
+            { "SubAccPermission", subAccPermission },
+            { "IsGetTestData", "false" }
+        };
+        context.JobDetail.JobDataMap.Returns(new JobDataMap(keyValuePairs));
+        var underMaintenanceTime = new UnderMaintenanceTime(true, "3:00", "4:00");
+        maintenanceService.GetUnderMaintenanceTimeAsync().Returns(Task.FromResult(underMaintenanceTime));
+
+        // Act
+        await myWatchlistJob.Execute(context);
+
+        // Assert
+        await loggerService.Received().Debug(
+            Arg.Is<ScheduleJob>(j => j.Name == jobName && j.SubAccPermission == subAccPermission && j.Environment == environment && !j.IsGetTestData && j.IsActive),
+            "is Under Maintenance.");
+    }
+
+    [Fact]
+    public async Task Execute_SettingIsNull_CallsLogDebug()
+    {
+        // Arrange
+        var context = Substitute.For<IJobExecutionContext>();
+        var jobName = "MyWatchlist";
+        var environment = "UAT";
+        var subAccPermission = "[A]";
+        IDictionary<string, object> keyValuePairs = new Dictionary<string, object> {
+            { "JobName", jobName },
+            { "Environment", environment },
+            { "SubAccPermission", subAccPermission },
+            { "IsGetTestData", "false" }
+        };
+        context.JobDetail.JobDataMap.Returns(new JobDataMap(keyValuePairs));
+        var underMaintenanceTime = new UnderMaintenanceTime(false, "3:00", "4:00");
+        maintenanceService.GetUnderMaintenanceTimeAsync().Returns(Task.FromResult(underMaintenanceTime));
+        systemSettingService.GetSystemSetting(Arg.Any<string>(), Arg.Any<string>()).Returns(Task.FromResult<SystemSetting>(null));
+
+        // Act
+        await myWatchlistJob.Execute(context);
+
+        // Assert
+        await loggerService.Received().Debug(
+            Arg.Is<ScheduleJob>(j => j.Name == jobName && j.SubAccPermission == subAccPermission && j.Environment == environment && !j.IsGetTestData && j.IsActive),
+            "is set stopped from DB.");
+    }
+
+    [Fact]
+    public async Task Execute_ServiceFlagIsFalse_CallsLogDebug()
+    {
+        // Arrange
+        var context = Substitute.For<IJobExecutionContext>();
+        var jobName = "MyWatchlist";
+        var environment = "UAT";
+        var subAccPermission = "[A]";
+        IDictionary<string, object> keyValuePairs = new Dictionary<string, object> {
+            { "JobName", jobName },
+            { "Environment", environment },
+            { "SubAccPermission", subAccPermission },
+            { "IsGetTestData", "false" }
+        };
+        context.JobDetail.JobDataMap.Returns(new JobDataMap(keyValuePairs));
+        var underMaintenanceTime = new UnderMaintenanceTime(false, "3:00", "4:00");
+        maintenanceService.GetUnderMaintenanceTimeAsync().Returns(Task.FromResult(underMaintenanceTime));
+        systemSettingService.GetSystemSetting(Arg.Any<string>(), Arg.Any<string>())
+            .Returns(Task.FromResult(new SystemSetting(new Dictionary<string, string> { ["ServiceFlag"] = "0" }, string.Empty)));
+
+        // Act
+        await myWatchlistJob.Execute(context);
+
+        // Assert
+        await loggerService.Received().Debug(
+            Arg.Is<ScheduleJob>(j => j.Name == jobName && j.SubAccPermission == subAccPermission && j.Environment == environment && !j.IsGetTestData && j.IsActive),
+            "is set stopped from DB.");
+    }
+
+    [Fact]
+    public async Task Execute_ServiceFlagIsTrue_CallsLogDebug()
+    {
+        // Arrange
+        var context = Substitute.For<IJobExecutionContext>();
+        var jobName = "MyWatchlist";
+        var environment = "UAT";
+        var subAccPermission = "[A]";
+        IDictionary<string, object> keyValuePairs = new Dictionary<string, object> {
+            { "JobName", jobName },
+            { "Environment", environment },
+            { "SubAccPermission", subAccPermission },
+            { "IsGetTestData", "false" }
+        };
+        context.JobDetail.JobDataMap.Returns(new JobDataMap(keyValuePairs));
+        var underMaintenanceTime = new UnderMaintenanceTime(false, "3:00", "4:00");
+        maintenanceService.GetUnderMaintenanceTimeAsync().Returns(Task.FromResult(underMaintenanceTime));
+        systemSettingService.GetSystemSetting(Arg.Any<string>(), Arg.Any<string>())
+            .Returns(Task.FromResult(new SystemSetting(new Dictionary<string, string> { ["ServiceFlag"] = "1" }, string.Empty)));
+
+        // Act
+        await myWatchlistJob.Execute(context);
+
+        // Assert
+        await systemSettingService.Received().UpdateJobStatusAndLastRunTime(jobName, environment, "Running", Arg.Any<DateTime>());
     }
 }

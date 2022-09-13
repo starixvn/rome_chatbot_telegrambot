@@ -1,3 +1,4 @@
+using Alpha.API.Client.Models.WinLoss;
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Jobs;
@@ -27,11 +28,21 @@ public class YesterdayWinLossJobTests
     }
 
     [Theory, AutoData]
-    public async Task ImportYesterdayWinLossNotification_Always_CallsImport(ScheduleJob job, DateTime winLossDate, int maxUserId)
+    public async Task ImportYesterdayWinLossNotification_Always_CallsImport(ScheduleJob job, DateTime winLossDate, int maxUserId, WinLossBase winLoss)
     {
         // Arrange
+        IEnumerable<LinkedCustomer> linkedCustomers = new List<LinkedCustomer>
+        {
+            new LinkedCustomer(1,0,"en-US",2,1,true,10)
+        };
+        IEnumerable<CustomerStatus> customerStatus = new List<CustomerStatus>
+        {
+            new CustomerStatus(1,0,true,false,false,string.Empty)
+        };
+        yesterdayWinLossService.GetWinLoss(Arg.Any<int>(), Arg.Any<byte>(), Arg.Any<DateTime>()).Returns(Task.FromResult(winLoss));
         customerService.GetYesterdayWinLossLinkedCustomers(Arg.Any<DateTime>(), Arg.Any<string>())
-            .Returns(Task.FromResult(Tuple.Create(Enumerable.Empty<LinkedCustomer>(), maxUserId)));
+            .Returns(Task.FromResult(Tuple.Create(linkedCustomers, maxUserId)));
+        customerService.GetCustomerStatus(Arg.Any<IEnumerable<CustomerStatusParam>>()).Returns(Task.FromResult(customerStatus));
         yesterdayWinLossService.Import(Arg.Any<IEnumerable<Notification>>(), Arg.Any<DateTime>(), Arg.Any<string>(), Arg.Any<int>())
             .Returns(Task.FromResult(new Result(1, "")));
 
@@ -39,7 +50,7 @@ public class YesterdayWinLossJobTests
         await yesterdayWinLossJob.ImportYesterdayWinLossNotification(job, winLossDate);
 
         // Assert
-        await yesterdayWinLossService.Received().Import(Arg.Is(Enumerable.Empty<Notification>()), Arg.Is(winLossDate), Arg.Is(job.Environment), Arg.Is(maxUserId));
+        await yesterdayWinLossService.Received().Import(Arg.Any<IEnumerable<Notification>>(), Arg.Is(winLossDate), Arg.Is(job.Environment), Arg.Is(maxUserId));
     }
 
     [Theory, AutoData]
@@ -47,10 +58,10 @@ public class YesterdayWinLossJobTests
     {
         // Arrange
         customerService.GetYesterdayWinLossLinkedCustomers(Arg.Any<DateTime>(), Arg.Any<string>())
-            .Returns(Task.FromResult(Tuple.Create(Enumerable.Empty<LinkedCustomer>(), maxUserId)));
+                .Returns(Task.FromResult(Tuple.Create(Enumerable.Empty<LinkedCustomer>(), maxUserId)));
         var ex = new Exception();
         yesterdayWinLossService.Import(Arg.Any<IEnumerable<Notification>>(), Arg.Any<DateTime>(), Arg.Any<string>(), Arg.Any<int>())
-            .Returns(Task.FromException<Result>(ex));
+                .Returns(Task.FromException<Result>(ex));
 
         // Act
         await yesterdayWinLossJob.ImportYesterdayWinLossNotification(job, winLossDate);
