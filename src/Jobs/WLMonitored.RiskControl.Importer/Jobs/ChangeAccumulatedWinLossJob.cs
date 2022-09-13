@@ -29,8 +29,8 @@ public sealed class ChangeAccumulatedWinLossJob : ChangeWinLossBaseJob
             globalSettingService,
             winLossService,
             playerHistoryService)
-        {
-        }
+    {
+    }
 
     public override async Task<bool> ExecuteJob(GlobalSetting globalSetting)
     {
@@ -46,8 +46,7 @@ public sealed class ChangeAccumulatedWinLossJob : ChangeWinLossBaseJob
             custIds,
             globalSetting.CreditSuperUUS,
             scheduleJob.IsUAT);
-        var hasData = winLossThresholds.Any();
-        var reachPlayerHistoryParams = hasData
+        var reachPlayerHistoryParams = winLossThresholds.Any()
             ? BuildReachPlayerHistoryParams(accumulatedWinLossList, winLossThresholds)
             : Enumerable.Empty<ReachPlayerHistoryParam>();
 
@@ -56,7 +55,7 @@ public sealed class ChangeAccumulatedWinLossJob : ChangeWinLossBaseJob
             lastUpdatedTime,
             globalSetting.GetWLMonitoredAccountWithEnvironment());
 
-        return hasData;
+        return true;
     }
 
     private static Tuple<DateTime, string> GetLastUpdatedTimeAndCustIds(IEnumerable<AccumulatedWinLoss> accumulatedWinLossList)
@@ -85,7 +84,7 @@ public sealed class ChangeAccumulatedWinLossJob : ChangeWinLossBaseJob
     )
     {
         IDictionary<int, WinLossThreshold> winLossThresholdDict = new Dictionary<int, WinLossThreshold>();
-       
+
         foreach (var winloss in winLossThresholds)
         {
             winLossThresholdDict[winloss.CustId] = winloss;

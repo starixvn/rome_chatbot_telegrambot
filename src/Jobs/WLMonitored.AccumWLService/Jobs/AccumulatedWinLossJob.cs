@@ -73,7 +73,7 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
             await loggerService.Error(ex, scheduleJob, nameof(winLossService.UpdateAccumulatedWinLoss));
         }
 
-        return accumulatedWinLossParams.Count > 0;
+        return true;
     }
 
     private static string GetSuperUUS(GlobalSetting globalSetting)
@@ -82,7 +82,7 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
         {
             return globalSetting.DepositSuperUUS;
         }
-        
+
         if (string.IsNullOrWhiteSpace(globalSetting.DepositSuperUUS))
         {
             return globalSetting.CreditSuperUUS;
@@ -152,7 +152,7 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
                 creditCustIds.Add(wl.CustId);
             }
         }
-        
+
         return winLossService.GetAccumulatedWinLoss(
             creditCustIds.JoinWithComma(),
             depositCustIds.JoinWithComma(),
