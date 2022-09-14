@@ -6,7 +6,7 @@ public class ImportMyWatchlistCommand : NonQueryCommandBase
         : base(xmlData, environment)
     {
         XmlDataLog = xmlDataLog;
-        LastDataRow = lastDataRow;
+        LastDataRow = lastDataRow ?? string.Empty;
         ServerName = serverName;
         MaxLogId = maxLogId;
     }
