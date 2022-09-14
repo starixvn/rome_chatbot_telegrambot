@@ -35,7 +35,7 @@ public class MemberWinLossLimitJobTests
     {
         // Arrange
         IEnumerable<MemberWinLossLimit> memberWinLossLimits = new List<MemberWinLossLimit>{
-            new MemberWinLossLimit(1,"username",1,1,1,1,2,3,4,"sUsername","mUsername","aUsername",1)
+            new MemberWinLossLimit(1,"username",1,1,1,1,2,3,1,"sUsername","mUsername","aUsername",1)
         };
         memberWinLostLimitService.GetMemberWinLossLimits(Arg.Any<int>(), Arg.Any<long>())
             .Returns(Task.FromResult(Tuple.Create(maxLogId, memberWinLossLimits)));
