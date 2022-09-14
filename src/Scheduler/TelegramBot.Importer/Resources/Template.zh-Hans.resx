@@ -228,4 +228,7 @@
   <data name="SystemAnnouncement" xml:space="preserve">
     <value>系统公告</value>
   </data>
+  <data name="MyWatchlistTitle" xml:space="preserve">
+    <value>会员达到体育博彩限额警惕</value>
+  </data>
 </root>

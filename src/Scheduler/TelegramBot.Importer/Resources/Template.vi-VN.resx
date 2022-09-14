@@ -228,4 +228,7 @@
   <data name="SystemAnnouncement" xml:space="preserve">
     <value>Thông báo hệ thống</value>
   </data>
+  <data name="MyWatchlistTitle" xml:space="preserve">
+    <value>Thông báo Member đã đạt Giới Hạn Sportsbook</value>
+  </data>
 </root>

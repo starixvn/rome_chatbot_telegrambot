@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Resources;
 using System.Xml.Linq;
 using TelegramBot.Importer.Constants;
 
@@ -9,14 +8,12 @@ namespace TelegramBot.Importer.Resources;
 [ExcludeFromCodeCoverage]
 public static class TemplateHelper
 {
-    private static readonly ResourceManager resourceManager = new("TelegramBot.Importer.Resources.Template", typeof(TemplateHelper).Assembly);
-
     public static string Get(string key, string language)
     {
-        var value = resourceManager.GetString(key, CultureInfo.CreateSpecificCulture(language));
+        var value = Template.ResourceManager.GetString(key, CultureInfo.CreateSpecificCulture(language));
 
         return string.IsNullOrWhiteSpace(value)
-            ? resourceManager.GetString(key, CultureInfo.CreateSpecificCulture(LanguageCode.English))
+            ? Template.ResourceManager.GetString(key, CultureInfo.CreateSpecificCulture(LanguageCode.English))
             : value;
     }
 
