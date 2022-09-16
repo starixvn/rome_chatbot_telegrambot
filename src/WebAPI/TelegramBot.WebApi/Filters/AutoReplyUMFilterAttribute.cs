@@ -41,19 +41,12 @@ namespace TelegramBot.WebApi.Filters
                     var bot = await botService.GetAsync(command.MessengerBotId);
                     var message = messageBuilder.BuildUnderMaintenanceMessage(umInfo.From, umInfo.To, bot.System);
                     await messageSender.SendMessage(new Messenger(bot.BotId, command.ChatId), message);
-                    await HandleUnderMaintenance(context.HttpContext, message);
 
                     return;
                 }
             }
 
             await base.OnActionExecutionAsync(context, next);
-        }
-
-        public static Task HandleUnderMaintenance(HttpContext context, string message)
-        {
-            context.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
-            return context.Response.WriteAsync(message);
         }
     }
 }
