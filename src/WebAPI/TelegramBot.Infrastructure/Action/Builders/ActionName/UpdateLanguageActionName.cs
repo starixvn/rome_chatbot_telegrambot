@@ -12,9 +12,7 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
         private readonly IResourceService resourceService;
 
         public UpdateLanguageActionName(IResourceService resourceService)
-        {
-            this.resourceService = resourceService;
-        }
+            => this.resourceService = resourceService;
 
         public async Task<string> BuildActionName(BotAction action, CustBotAccount account)
         {
@@ -28,7 +26,7 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
                 (!string.IsNullOrEmpty(language.EmojiUnicode) ? $" {language.EmojiUnicode}" : string.Empty);
         }
 
-        public static Language GetLanguageCode(int actionId)
+        private static Language GetLanguageCode(int actionId)
         {
             return actionId switch
             {

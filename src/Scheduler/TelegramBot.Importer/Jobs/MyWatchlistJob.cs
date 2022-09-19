@@ -50,7 +50,7 @@ public sealed class MyWatchlistJob : NotificationBaseJob
                               select (linkedCustomer, monitoredPlayer))
                              .GroupBy(g => g.linkedCustomer);
 
-                var currentTime = DateTime.Now.ToString("yyyymmdd HH:mm:ss");
+                var currentTime = DateTime.Now.ToString("yyyyMMdd HH:mm:ss");
 
                 var index = 1;
                 foreach (var group in groups)
