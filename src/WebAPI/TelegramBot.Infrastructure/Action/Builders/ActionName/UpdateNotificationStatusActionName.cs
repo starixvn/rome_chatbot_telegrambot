@@ -11,9 +11,7 @@ namespace TelegramBot.Infrastructure.Action.Builders.ActionName
         private readonly IResourceService resourceService;
 
         public UpdateNotificationStatusActionName(IResourceService resourceService)
-        {
-            this.resourceService = resourceService;
-        }
+            => this.resourceService = resourceService;
 
         public async Task<string> BuildActionName(BotAction action, CustBotAccount account)
         {
