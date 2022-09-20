@@ -12,6 +12,8 @@ public interface ILoggerService
     Task Error(Exception exception, string jobName, string environment, string errorMessage = "");
 
     Task Debug(string message);
+
+    Task Warn(string message);
 }
 
 public class LoggerService : ILoggerService
@@ -82,4 +84,6 @@ public class LoggerService : ILoggerService
         => string.Join(BreakLine, parameters.Select(p => $"{p.Key}={HttpUtility.HtmlEncode(p.Value)}"));
 
     public Task Debug(string message) => logger.DebugAsync(message);
+
+    public Task Warn(string message) => logger.WarnAsync(message);
 }

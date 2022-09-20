@@ -161,24 +161,27 @@ public sealed class NotificationSenderJob : IJob
 
     internal async Task HandleException(Exception ex, string environment, Notification notification, IList<NotificationStatusParam> status)
     {
-        await loggerService.Error("SendNotifications", environment, ex.Message);
         if (ex is ApiRequestException apiRequestException)
         {
             if (apiRequestException.ErrorCode == TelegramError.FORBIDDEN)
             {
+                await loggerService.Warn(string.Join(Environment.NewLine, $"ChatId: {notification.ChatId}", ex.Message));
                 status.Add(new NotificationStatusParam(notification.NotificationId, NotificationStatus.BotBlocked, ex.Message));
             }
             else if (TelegramError.IgnoredErrorCodes.Contains(apiRequestException.ErrorCode))
             {
+                await loggerService.Warn(string.Join(Environment.NewLine, $"ChatId: {notification.ChatId}", ex.Message));
                 status.Add(new NotificationStatusParam(notification.NotificationId, NotificationStatus.Fail, ex.Message));
             }
             else
             {
+                await loggerService.Error("SendNotifications", environment, ex.Message);
                 await messageSender.RetrySendNotification(notification, environment);
             }
         }
         else
         {
+            await loggerService.Error("SendNotifications", environment, ex.Message);
             await messageSender.RetrySendNotification(notification, environment);
         }
     }
