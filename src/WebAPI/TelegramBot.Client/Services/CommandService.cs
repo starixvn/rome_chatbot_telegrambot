@@ -7,8 +7,8 @@ namespace TelegramBot.Client.Services
 {
     public interface ICommandService
     {
-        Task HandleTextMessage(long messengerBotId, long chatId, string message);
-        Task HandleCallbackMessage(long messengerBotId, long chatId, int messageId, string callbackId, string message);
+        Task<Result> HandleTextMessage(long messengerBotId, long chatId, string message);
+        Task<Result> HandleCallbackMessage(long messengerBotId, long chatId, int messageId, string callbackId, string message);
     }
 
     public class CommandService : ICommandService
@@ -20,10 +20,10 @@ namespace TelegramBot.Client.Services
             this.httpClient = httpClient;
         }
 
-        public async Task HandleTextMessage(long messengerBotId, long chatId, string message)
+        public async Task<Result> HandleTextMessage(long messengerBotId, long chatId, string message)
             => await httpClient.PostAsJsonAsync<Result>($"command/handle/text", new { messengerBotId, chatId, message });
 
-        public async Task HandleCallbackMessage(long messengerBotId, long chatId, int messageId, string callbackId, string message)
+        public async Task<Result> HandleCallbackMessage(long messengerBotId, long chatId, int messageId, string callbackId, string message)
             => await httpClient.PostAsJsonAsync<Result>($"command/handle/callback", new { messengerBotId, chatId, messageId, callbackId, message });
     }
 }

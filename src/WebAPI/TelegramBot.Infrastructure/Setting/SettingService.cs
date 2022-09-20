@@ -193,7 +193,7 @@ namespace TelegramBot.Infrastructure.Setting
                 return null;
             }
 
-            custBotMessenger.Functions = await GetAccountFunctions(custId, subAccId, functions);
+            custBotMessenger.Functions = await GetAccountFunctions(custId, subAccId, custBotMessenger.CustomerLevel, functions);
             foreach (var function in custBotMessenger.Functions)
             {
                 function.FunctionName = await _functionService.GetFunctionName(function.FunctionId, language);
@@ -203,9 +203,14 @@ namespace TelegramBot.Infrastructure.Setting
             return custBotMessenger;
         }
 
-        private async Task<IEnumerable<BotFunction>> GetAccountFunctions(int custId, int subAccId, IEnumerable<BotFunction> functions)
+        private async Task<IEnumerable<BotFunction>> GetAccountFunctions(int custId, int subAccId, byte customerLevel, IEnumerable<BotFunction> functions)
         {
             functions = functions.Concat(await _functionService.GetReportAndCommonFunctions());
+
+            if ((CustomerLevel)customerLevel != CustomerLevel.Agent)
+            {
+                functions = functions.Where(f => f.FunctionId != FunctionIds.MyWatchlist);
+            }
 
             if (subAccId > 0)
             {
@@ -214,7 +219,7 @@ namespace TelegramBot.Infrastructure.Setting
                 if (!customerStatus.HasReportPermission)
                 {
                     functions = functions.Where(f =>
-                        f.FunctionId != FunctionIds.Oustanding
+                        f.FunctionId != FunctionIds.Outstanding
                         && f.FunctionId != FunctionIds.TodayWinLoss
                         && f.FunctionId != FunctionIds.YesterdayWinLoss
                         && f.FunctionId != FunctionIds.YesterdayWinLossNotification);
@@ -225,7 +230,8 @@ namespace TelegramBot.Infrastructure.Setting
                     functions = functions.Where(f =>
                         f.FunctionId != FunctionIds.ProblemAccount
                         && f.FunctionId != FunctionIds.MemberWinLossLimit
-                        && f.FunctionId != FunctionIds.BalanceInfo);
+                        && f.FunctionId != FunctionIds.BalanceInfo
+                        && f.FunctionId != FunctionIds.MyWatchlist);
                 }
             }
 
@@ -235,8 +241,7 @@ namespace TelegramBot.Infrastructure.Setting
         private async Task<CustBotMessenger> GetVerifyingMessenger(int custId, int subAccId)
         {
             var criteria = new CustBotMessengerSelCriteria(custId, subAccId, !_webAPIConfiguration.IsProduction, true, false);
-            var (custBotMessengers, functions) = await _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(criteria).ConfigureAwait(false);
-            return custBotMessengers.FirstOrDefault();
+            return (await _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(criteria).ConfigureAwait(false)).firstResultSet.FirstOrDefault();
         }
 
         public async Task<Result> UpdateUserFunction(int userid, int botId, BotFunction function, int creator, string ip)
@@ -255,12 +260,12 @@ namespace TelegramBot.Infrastructure.Setting
 
         public async Task<CustBotAccount> GetCustBotAccount(long chatId, int botId)
         {
-            var criteria = new CustBotUserSelCriteria(chatId, botId);
+            var criteria = new CustBotUserSelCriteria(chatId, botId, !_webAPIConfiguration.IsProduction);
             var (accounts, functions) = await _dynamicRepository.FetchMultipleAsync<CustBotAccount, BotFunction>(criteria);
             var account = accounts.FirstOrDefault();
             if (account != null)
             {
-                account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, functions);
+                account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, account.CustomerLevel, functions);
             }
 
             return account;

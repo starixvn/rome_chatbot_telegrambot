@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Quartz;
 using TelegramBot.SenderService.Configurations;
 using TelegramBot.SenderService.Jobs;
@@ -5,6 +6,7 @@ using TelegramBot.SenderService.Services;
 
 namespace TelegramBot.SenderService.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class DIExtensions
 {
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)

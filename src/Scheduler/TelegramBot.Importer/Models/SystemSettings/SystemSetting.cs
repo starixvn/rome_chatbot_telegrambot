@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace TelegramBot.Importer.Models.SystemSettings;
 
 public class SystemSetting
@@ -15,29 +17,36 @@ public class SystemSetting
         this.environment = environment;
     }
 
-    public bool ServiceFlag => GetBool(settings, nameof(ServiceFlag), environment);
+    public bool ServiceFlag => GetBool(nameof(ServiceFlag));
 
-    public int BatchSize => GetInt(settings, nameof(BatchSize), environment);
+    public int BatchSize => GetInt(nameof(BatchSize));
 
-    public int MaxMsgTargetId => GetInt(settings, nameof(MaxMsgTargetId), environment);
+    public int MaxMsgTargetId => GetInt(nameof(MaxMsgTargetId));
 
-    public int MaxLogId => GetInt(settings, nameof(MaxLogId), environment);
+    public int MaxLogId => GetInt(nameof(MaxLogId));
 
-    public long MaxLogIdLong => GetLong(settings, nameof(MaxLogId), environment);
+    public long MaxLogIdLong => GetLong(nameof(MaxLogId));
 
-    private static bool GetBool(IDictionary<string, string> settings, string key, string environment)
-        => "1" == GetString(settings, key, environment, "0");
+    public DateTime LastQueryTime => GetDateTime(nameof(LastQueryTime));
 
-    private static int GetInt(IDictionary<string, string> settings, string key, string environment)
-        => int.Parse(GetString(settings, key, environment, "0"));
+    public string LastDataRow => GetString(nameof(LastDataRow), string.Empty);
 
-    private static long GetLong(IDictionary<string, string> settings, string key, string environment)
-        => long.Parse(GetString(settings, key, environment, "0"));
+    public string ServerName => GetString(nameof(ServerName), string.Empty);
 
-    private static string GetString(
-        IDictionary<string, string> settings,
+    private bool GetBool(string key)
+        => "1" == GetString(key, "0");
+
+    private int GetInt(string key)
+        => int.Parse(GetString(key, "0"));
+
+    private long GetLong(string key)
+        => long.Parse(GetString(key, "0"));
+
+    private DateTime GetDateTime(string key)
+        => DateTime.Parse(GetString(key, DateTime.Now.ToString(CultureInfo.InvariantCulture)));
+
+    private string GetString(
         string key,
-        string environment,
         string defaultValue)
     {
         if (settings.TryGetValue($"{key}{environment}", out var value))

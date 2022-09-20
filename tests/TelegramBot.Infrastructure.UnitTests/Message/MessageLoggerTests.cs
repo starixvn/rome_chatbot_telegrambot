@@ -29,4 +29,14 @@ public class MessageLoggerTests
         // Assert
         await dynamicRepository.Received().ExecuteAsync(Arg.Any<CustBotMessageInsCriteria>());
     }
+
+    [Theory, AutoData]
+    public async Task LogReplyMarkupMessage_Always_CallsExecuteAsync(int sender, int receiver, Messenger messenger, Infrastructure.Message.Models.Message message, byte status, short functionId)
+    {
+        // Act
+        await messageLogger.LogMessage(sender, receiver, messenger, message, status, functionId);
+
+        // Assert
+        await dynamicRepository.Received().ExecuteAsync(Arg.Any<CustBotMessageInsCriteria>());
+    }
 }

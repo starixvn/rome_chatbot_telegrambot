@@ -19,7 +19,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class SharedResource {
@@ -142,7 +142,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If this wasn&apos;t you, please change password or contact Customer Support Service for support.
+        ///   Looks up a localized string similar to If this wasn&apos;t you, please change password or contact Customer Service Department for support.
         /// </summary>
         public static string AlertMessage {
             get {
@@ -165,6 +165,51 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string BackTo {
             get {
                 return ResourceManager.GetString("BackTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to Outstanding.
+        /// </summary>
+        public static string BackTo_1 {
+            get {
+                return ResourceManager.GetString("BackTo_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to Settings.
+        /// </summary>
+        public static string BackTo_11 {
+            get {
+                return ResourceManager.GetString("BackTo_11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to Balance Info.
+        /// </summary>
+        public static string BackTo_2 {
+            get {
+                return ResourceManager.GetString("BackTo_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to Today Win Loss.
+        /// </summary>
+        public static string BackTo_3 {
+            get {
+                return ResourceManager.GetString("BackTo_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to Yesterday Win Loss.
+        /// </summary>
+        public static string BackTo_4 {
+            get {
+                return ResourceManager.GetString("BackTo_4", resourceCulture);
             }
         }
         
@@ -813,6 +858,24 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string WelcomeMessage {
             get {
                 return ResourceManager.GetString("WelcomeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong Password Alert.
+        /// </summary>
+        public static string WrongPasswordAlert {
+            get {
+                return ResourceManager.GetString("WrongPasswordAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your account password has been entered incorrectly several times..
+        /// </summary>
+        public static string WrongPasswordAlertContent {
+            get {
+                return ResourceManager.GetString("WrongPasswordAlertContent", resourceCulture);
             }
         }
         

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using ONEbook.UM.Services;
 using Quartz;
 using Telegram.Bot.Exceptions;
@@ -6,6 +7,7 @@ using TelegramBot.SenderService.Constants;
 using TelegramBot.SenderService.Models;
 using TelegramBot.SenderService.Services;
 
+[assembly: InternalsVisibleTo("TelegramBot.SenderService.UnitTests")]
 namespace TelegramBot.SenderService.Jobs;
 
 [DisallowConcurrentExecution]
@@ -102,7 +104,7 @@ public sealed class NotificationSenderJob : IJob
     private static bool IsStopJob(SystemSetting systemSetting)
         => systemSetting == null || !systemSetting.ServiceFlag;
 
-    public async Task<IEnumerable<CustomerStatus>> GetCustomerStatus(IEnumerable<Notification> notifications)
+    private async Task<IEnumerable<CustomerStatus>> GetCustomerStatus(IEnumerable<Notification> notifications)
     {
         var customerStatusParams = notifications.Select(n => new CustomerStatusParam(n.CustId, n.SubAccId));
         return await customerService.GetCustomerStatus(customerStatusParams);
@@ -123,10 +125,7 @@ public sealed class NotificationSenderJob : IJob
         return status;
     }
 
-    private async Task<IEnumerable<NotificationStatusParam>> SendNotifications(
-        Notification[] notifications,
-        IEnumerable<CustomerStatus> customerStatus,
-        string environment)
+    internal async Task<IEnumerable<NotificationStatusParam>> SendNotifications(Notification[] notifications, IEnumerable<CustomerStatus> customerStatus, string environment)
     {
         var status = new List<NotificationStatusParam>();
         foreach (var item in notifications)
@@ -135,7 +134,7 @@ public sealed class NotificationSenderJob : IJob
             var custStatus = customerStatus.FirstOrDefault(status => status.CustId == item.CustId && status.SubAccId == item.SubAccId);
             if (custStatus == null)
             {
-                var message = $"Invalid customer status CustId: {item.CustId}, SubAccId: {item.SubAccId}, Id: {item.NotificationId} ";
+                var message = $"Invalid customer status CustId: {item.CustId}, SubAccId: {item.SubAccId}, Id: {item.NotificationId}";
                 status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Invalid, message));
                 continue;
             }
@@ -153,37 +152,38 @@ public sealed class NotificationSenderJob : IJob
             }
             catch (Exception ex)
             {
-                await loggerService.Error("SendNotifications", environment, ex.Message);
-                if (ex is ApiRequestException apiRequestException)
-                {
-                    if (apiRequestException.ErrorCode == TelegramError.FORBIDDEN)
-                    {
-                        status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.BotBlocked, ex.Message));
-                    }
-                    else if (TelegramError.IgnoredErrorCodes.Contains(apiRequestException.ErrorCode))
-                    {
-                        status.Add(new NotificationStatusParam(item.NotificationId, NotificationStatus.Fail, ex.Message));
-                    }
-                    else
-                    {
-                        await messageSender.RetrySendNotification(item, environment);
-                    }
-                }
-                else
-                {
-                    await messageSender.RetrySendNotification(item, environment);
-                }
+                await HandleException(ex, environment, item, status);
             }
         }
 
         return status;
     }
 
-    private async Task UpdateNotificationStatus(
-        IEnumerable<NotificationStatusParam> notifications,
-        IEnumerable<LastNotification> lastNotifications,
-        string jobName,
-        string environment)
+    internal async Task HandleException(Exception ex, string environment, Notification notification, IList<NotificationStatusParam> status)
+    {
+        await loggerService.Error("SendNotifications", environment, ex.Message);
+        if (ex is ApiRequestException apiRequestException)
+        {
+            if (apiRequestException.ErrorCode == TelegramError.FORBIDDEN)
+            {
+                status.Add(new NotificationStatusParam(notification.NotificationId, NotificationStatus.BotBlocked, ex.Message));
+            }
+            else if (TelegramError.IgnoredErrorCodes.Contains(apiRequestException.ErrorCode))
+            {
+                status.Add(new NotificationStatusParam(notification.NotificationId, NotificationStatus.Fail, ex.Message));
+            }
+            else
+            {
+                await messageSender.RetrySendNotification(notification, environment);
+            }
+        }
+        else
+        {
+            await messageSender.RetrySendNotification(notification, environment);
+        }
+    }
+
+    internal async Task UpdateNotificationStatus(IEnumerable<NotificationStatusParam> notifications, IEnumerable<LastNotification> lastNotifications, string jobName, string environment)
     {
         var result = await notificationService.UpdateNotificationStatus(
             notifications,
@@ -196,7 +196,7 @@ public sealed class NotificationSenderJob : IJob
         }
     }
 
-    public static IEnumerable<Notification[]> GetBatches(IEnumerable<Notification> source, int count)
+    private static IEnumerable<Notification[]> GetBatches(IEnumerable<Notification> source, int count)
     {
         var hashset = new HashSet<int>(count);
         var batch = new List<Notification>(count);

@@ -13,6 +13,8 @@ namespace TelegramBot.Infrastructure.Notification
         Task<Result> NotifyChangeSecurityCode(int custId, int subAccId);
 
         Task<Result> NotifyUnlink(int userId, long chatId, int botId, string language);
+
+        Task<Result> NotifyWrongPassword(int custId, int subAccId, string ip);
     }
 
     public class NotificationService : INotificationService
@@ -68,6 +70,21 @@ namespace TelegramBot.Infrastructure.Notification
         {
             var bot = await botService.GetAsync(botId);
             await settingService.SendUnlinkMessage(userId, chatId, botId, bot.DisplayName, language);
+            return Result.CreateSuccessfulResult();
+        }
+
+        public async Task<Result> NotifyWrongPassword(int custId, int subAccId, string ip)
+        {
+            var messenger = await settingService.GetCustBotMessenger(custId, subAccId);
+
+            if (messenger == null || !messenger.IsFunctionAvailable(FunctionIds.WrongPasswordAlert))
+            {
+                return Result.CreateErrorResult();
+            }
+
+            var message = messageBuilder.BuildWrongPasswordAlertMessage(messenger.Language, ip);
+            await messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), message);
+
             return Result.CreateSuccessfulResult();
         }
     }

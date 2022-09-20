@@ -12,6 +12,8 @@ namespace TelegramBot.Client.Services
         Task<Result> NotifyChangeSecurityCode(int custId, int subAccId);
 
         Task<Result> Unlink(int userId, long chatId, int botId, string language);
+
+        Task<Result> NotifyWrongPassword(int custId, int subAccId, string ip);
     }
 
     public class NotificationService : INotificationService
@@ -19,36 +21,19 @@ namespace TelegramBot.Client.Services
         private readonly HttpClient httpClient;
 
         public NotificationService(HttpClient httpClient)
-        {
-            this.httpClient = httpClient;
-        }
+            => this.httpClient = httpClient;
+
 
         public async Task<Result> NotifyChangePassword(int custId, int subAccId)
-            => await httpClient.PostAsJsonAsync<Result>(
-                $"notification/change-password-alert",
-                new
-                {
-                    custId,
-                    subAccId
-                });
+            => await httpClient.PostAsJsonAsync<Result>($"notification/change-password-alert", new { custId, subAccId });
 
         public async Task<Result> NotifyChangeSecurityCode(int custId, int subAccId)
-             => await httpClient.PostAsJsonAsync<Result>(
-                $"notification/change-security-code-alert",
-                new
-                {
-                    custId,
-                    subAccId
-                });
+             => await httpClient.PostAsJsonAsync<Result>($"notification/change-security-code-alert", new { custId, subAccId });
 
         public async Task<Result> Unlink(int userId, long chatId, int botId, string language)
-             => await httpClient.PostAsJsonAsync<Result>(
-                $"notification/{userId}/unlink",
-                new
-                {
-                    chatId,
-                    botId,
-                    language
-                });
+             => await httpClient.PostAsJsonAsync<Result>($"notification/{userId}/unlink", new { chatId, botId, language });
+
+        public async Task<Result> NotifyWrongPassword(int custId, int subAccId, string ip)
+            => await httpClient.PostAsJsonAsync<Result>($"notification/wrong-password-alert", new { custId, subAccId, ip });
     }
 }

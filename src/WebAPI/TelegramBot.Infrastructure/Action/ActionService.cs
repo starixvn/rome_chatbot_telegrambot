@@ -223,10 +223,14 @@ namespace TelegramBot.Infrastructure.Action
             => (await GetAllActions(system)).FirstOrDefault(action => action.Command?.ToLowerInvariant() == command.ToLowerInvariant());
 
         public async Task<IEnumerable<BotAction>> GetChildActions(CustBotAccount account, int parentId, string system)
-            => (await GetAllActions(system)).Where(action => action.ParentId == parentId && account.Functions.Any(f => f.FunctionId == action.FunctionId));
+            => (await GetAllActions(system))
+                .Where(action => action.ParentId == parentId && account.Functions.Any(f => f.FunctionId == action.FunctionId))
+                .OrderBy(action => action.Order);
 
         private async Task<IEnumerable<BotAction>> GetRootActions(CustBotAccount account, string system)
-            => (await GetAllActions(system)).Where(action => action.ParentId == 0 && account.Functions.Any(f => f.FunctionId == action.FunctionId));
+            => (await GetAllActions(system))
+                .Where(action => action.ParentId == 0 && account.Functions.Any(f => f.FunctionId == action.FunctionId))
+                .OrderBy(action => action.Order);
 
         private async Task<IEnumerable<BotAction>> GetAllActions(string system)
         {

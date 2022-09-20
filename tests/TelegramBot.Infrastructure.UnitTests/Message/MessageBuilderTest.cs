@@ -359,4 +359,22 @@ public class MessageBuilderTest
         // Assert
         Assert.Equal(expectedResult.ToString(), result);
     }
+
+    [Fact]
+    public void BuildWrongPasswordAlertMessage_Always_ReturnsCorrectValue()
+    {
+        // Arrange
+        var ip = "127.0.0.1";
+        var expectedResult = new StringBuilder();
+        expectedResult.Append($"[Wrong Password Alert - {DateTime.Now:yyyyMMdd}]\n");
+        expectedResult.Append("Your account password has been entered incorrectly several times.\n");
+        expectedResult.Append($"Requested IP: {ip}\n");
+        expectedResult.Append("If this wasn't you, please contact Customer Service Department for support");
+
+        // Act
+        var result = messageBuilder.BuildWrongPasswordAlertMessage(LanguageCodes.English, ip);
+
+        // Assert
+        Assert.Equal(expectedResult.ToString(), result);
+    }
 }

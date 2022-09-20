@@ -1,16 +1,19 @@
 
+using System.Text;
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Models.Customers;
 using TelegramBot.Importer.Models.ProblemAccounts;
 using TelegramBot.Importer.Models.SystemSettings;
+using TelegramBot.Importer.Resources;
 using TelegramBot.Importer.Services;
 
 namespace TelegramBot.Importer.Jobs;
 
 public sealed class ProblemAccountJob : NotificationBaseJob
 {
+    private const int MaxUsernames = 10;
     private readonly IProblemAccountService problemAccountService;
 
     public ProblemAccountJob(
@@ -22,7 +25,7 @@ public sealed class ProblemAccountJob : NotificationBaseJob
         : base(maintenanceService, loggerService, systemSettingService, customerService)
         => this.problemAccountService = problemAccountService;
 
-    protected override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
+    public override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
         var notifications = Enumerable.Empty<ProblemAccountNotification>();
 
@@ -30,7 +33,7 @@ public sealed class ProblemAccountJob : NotificationBaseJob
 
         if (problemAccounts.Any())
         {
-            var groupProblemAccounts = problemAccountService.BuildGroupProblemAccounts(problemAccounts);
+            var groupProblemAccounts = BuildGroupProblemAccounts(problemAccounts);
 
             var custIds = groupProblemAccounts.Select(pa => pa.CustId).JoinWithComma();
             var linkedCustomers = await GetLinkedCustomers(custIds, job);
@@ -59,7 +62,7 @@ public sealed class ProblemAccountJob : NotificationBaseJob
         }
     }
 
-    private IEnumerable<ProblemAccountNotification> BuildProblemAccountNotifications(
+    private static IEnumerable<ProblemAccountNotification> BuildProblemAccountNotifications(
         ScheduleJob job,
         IEnumerable<GroupProblemAccount> groupProblemAccounts,
         IEnumerable<LinkedCustomer> linkedCustomers,
@@ -78,19 +81,128 @@ public sealed class ProblemAccountJob : NotificationBaseJob
         return notifications.ToList();
     }
 
-    private ProblemAccountNotification BuildProblemAccountNotification(
+    private static ProblemAccountNotification BuildProblemAccountNotification(
         ScheduleJob job,
         int identity,
         GroupProblemAccount groupProblemAccount,
         LinkedCustomer customer)
-        => new (
+        => new(
             identity,
             customer.UserId,
             customer.BotId,
-            problemAccountService.BuildMessage(
-                customer.Language,
-                groupProblemAccount.Usernames),
+            BuildMessage(customer.Language, groupProblemAccount.Usernames),
             customer.IsRealUser,
             job.IsUAT,
             groupProblemAccount.LogIds);
+
+    private static IEnumerable<GroupProblemAccount> BuildGroupProblemAccounts(IEnumerable<ProblemAccount> problemAccounts)
+    {
+        var groupProblemAccounts = new List<GroupProblemAccount>();
+
+        var groupSuperList = problemAccounts
+            .Where(pa => pa.SRecommend != pa.CustId)
+            .GroupBy(pa => pa.SRecommend);
+
+        foreach (var groupSuper in groupSuperList)
+        {
+            var master = GetGroupProblemAccount(
+                groupSuper.Key,
+                groupSuper.Where(pa => pa.MRecommend == pa.CustId));
+            groupProblemAccounts.Add(master);
+
+            var groupMasterList = groupSuper
+                .Where(pa => pa.MRecommend != pa.CustId)
+                .GroupBy(pa => pa.MRecommend);
+
+            foreach (var groupMaster in groupMasterList)
+            {
+                var agent = GetGroupProblemAccount(
+                    groupMaster.Key,
+                    groupMaster.Where(pa => pa.Recommend == pa.CustId));
+                groupProblemAccounts.Add(agent);
+                master.Usernames.AddRange(agent.Usernames);
+                master.LogIds.AddRange(agent.LogIds);
+
+                var groupAgentList = groupMaster
+                    .Where(pa => pa.Recommend != pa.CustId)
+                    .GroupBy(pa => pa.Recommend);
+
+                foreach (var groupAgent in groupAgentList)
+                {
+                    var member = GetGroupProblemAccount(
+                        groupAgent.Key,
+                        groupAgent);
+                    groupProblemAccounts.Add(member);
+                    agent.Usernames.AddRange(member.Usernames);
+                    agent.LogIds.AddRange(member.LogIds);
+                    master.Usernames.AddRange(member.Usernames);
+                    master.LogIds.AddRange(member.LogIds);
+                }
+            }
+        }
+
+        return groupProblemAccounts;
+    }
+
+    private static GroupProblemAccount GetGroupProblemAccount(int custId, IEnumerable<ProblemAccount> problemAccounts)
+    {
+        var usernames = new Dictionary<string, Tuple<string, DateTime>>();
+        var logIds = new List<long>();
+
+        foreach (var item in problemAccounts)
+        {
+            usernames[item.Username] = new Tuple<string, DateTime>(item.Username, item.CreatedDate);
+            logIds.Add(item.LogId);
+        }
+
+        return new GroupProblemAccount(
+            custId,
+            usernames.Values.OrderBy(username => username).ToList(),
+            logIds);
+    }
+
+    private static string BuildMessage(string language, IEnumerable<Tuple<string, DateTime>> usernames)
+    {
+        var usernamesCount = usernames.Count();
+
+        var messageBuilder = new StringBuilder();
+        messageBuilder
+            .AppendLine(TemplateHelper.BuildTitleWithoutStrikeThrough(language, "ProblemAccountAlert", GetDateTimeOnTitle(usernames)));
+
+
+        if (usernamesCount <= MaxUsernames)
+        {
+            messageBuilder
+                .AppendLine(
+                    string.Format(TemplateHelper.Get("NewProblemAccounts", language),
+                    usernames.Select(u => u.Item1).Join(", ")))
+                .Append(TemplateHelper.Get("ProblemAccountShowAllDownlines", language));
+        }
+        else
+        {
+            messageBuilder
+                .Append(string.Format(TemplateHelper.Get("ProblemAccountShowXDownlines", language), usernamesCount));
+        }
+
+        return TemplateHelper.EncodeXml(messageBuilder.ToString());
+    }
+
+    private static string GetDateTimeOnTitle(IEnumerable<Tuple<string, DateTime>> usernames)
+    {
+        var createdDates = usernames.Select(u => u.Item2).ToList();
+        var minCreatedDate = createdDates.Min();
+        var maxCreatedDate = createdDates.Max();
+
+        if (minCreatedDate == maxCreatedDate)
+        {
+            return minCreatedDate.ToLongDateTime24hWithSlash();
+        }
+
+        if (minCreatedDate.Date == maxCreatedDate.Date)
+        {
+            return $"{minCreatedDate.ToLongDateTime24hWithSlash()} - {maxCreatedDate.ToTime24h()}";
+        }
+
+        return $"{minCreatedDate.ToLongDateTime24hWithSlash()} - {maxCreatedDate.ToLongDateTime24hWithSlash()}";
+    }
 }

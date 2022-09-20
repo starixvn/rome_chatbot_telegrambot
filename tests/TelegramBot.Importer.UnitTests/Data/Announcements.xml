@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Announcements>
+    <TableAnnouncement>
+        <Id>1</Id>
+        <Code>72973</Code>
+        <Contents>W3siTGFuZ3VhZ2VLZXkiOiJlbi1VUyIsIlRleHQiOiJhIiwiSXNEaXNwbGF5aW5nQnlVcmwiOmZhbHNlLCJVcmwiOiIifSx7Ikxhbmd1YWdlS2V5IjoidmktVk4iLCJUZXh0IjoiIiwiSXNEaXNwbGF5aW5nQnlVcmwiOmZhbHNlLCJVcmwiOiIifSx7Ikxhbmd1YWdlS2V5IjoiemgtQ04iLCJUZXh0IjoiIiwiSXNEaXNwbGF5aW5nQnlVcmwiOmZhbHNlLCJVcmwiOiIifSx7Ikxhbmd1YWdlS2V5IjoiemgtVFciLCJUZXh0IjoiIiwiSXNEaXNwbGF5aW5nQnlVcmwiOmZhbHNlLCJVcmwiOiIifSx7Ikxhbmd1YWdlS2V5IjoidGgtVEgiLCJUZXh0IjoiIiwiSXNEaXNwbGF5aW5nQnlVcmwiOmZhbHNlLCJVcmwiOiIifSx7Ikxhbmd1YWdlS2V5Ijoia28tS1IiLCJUZXh0IjoiIiwiSXNEaXNwbGF5aW5nQnlVcmwiOmZhbHNlLCJVcmwiOiIifSx7Ikxhbmd1YWdlS2V5IjoiamEtSlAiLCJUZXh0IjoiIiwiSXNEaXNwbGF5aW5nQnlVcmwiOmZhbHNlLCJVcmwiOiIifV0=</Contents>
+        <Environments>Local</Environments>
+        <IsActive>True</IsActive>
+        <Specifications>[]</Specifications>
+        <Systems>IBCBet</Systems>
+        <Title>Add 4 New Sport Type and 5 bettype</Title>
+        <FromDate>2018-08-29 00:00:00.000</FromDate>
+        <ToDate>2018-08-29 00:00:00.000</ToDate>
+        <CreatedDate>2018-08-29 00:00:00.000</CreatedDate>
+    </TableAnnouncement>
+</Announcements>

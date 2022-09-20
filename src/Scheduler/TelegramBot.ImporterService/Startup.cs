@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Builder;
 using Quartz;
 using TelegramBot.ImporterService.Extensions;
 
 namespace TelegramBot.ImporterService;
 
+[ExcludeFromCodeCoverage]
 public sealed class Startup
 {
     public Startup(IConfiguration configuration)
@@ -18,6 +20,7 @@ public sealed class Startup
        .AddFanexCachingMemory()
        .AddRemotingRef(Configuration)
        .AddONEBookUM(Configuration)
+       .AddRepositories()
        .AddServices()
        .AddAlphaServicesClient(Configuration)
        .AddQuartz(quartz =>

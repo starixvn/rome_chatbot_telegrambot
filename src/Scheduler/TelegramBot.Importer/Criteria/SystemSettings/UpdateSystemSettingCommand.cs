@@ -2,9 +2,9 @@ using Fanex.Data.Repository;
 
 namespace TelegramBot.Importer.Criteria.SystemSettings;
 
-public class UpdateSystemSettingCriteria : NonQueryCommand
+public class UpdateSystemSettingCommand : NonQueryCommand
 {
-    public UpdateSystemSettingCriteria(
+    public UpdateSystemSettingCommand(
         string serviceName,
         string environment,
         string setting)

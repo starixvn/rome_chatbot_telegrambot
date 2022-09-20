@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using Fanex.Logging.Extensions.AspNetCore;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace TelegramBot.Receiver.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class ExceptionMiddlewareExtensions
 {
     public static void ConfigureExceptionHandler(this IApplicationBuilder app)

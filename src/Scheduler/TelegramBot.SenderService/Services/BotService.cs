@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Fanex.Caching;
 using Fanex.Data.Repository;
 using Telegram.Bot;
@@ -14,6 +15,7 @@ public interface IBotService
     Task SendMessage(int botId, long chatId, string message);
 }
 
+[ExcludeFromCodeCoverage]
 public class BotService : IBotService
 {
     private readonly string AllBotCacheKey = "TelegramBot.SenderService.Services.AllBot";

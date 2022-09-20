@@ -14,6 +14,10 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
     using TelegramBot.Infrastructure.Function.Constants;
     using TelegramBot.Infrastructure.Resource;
     using TelegramBot.Infrastructure.Resource.Models;
+    using Fanex.Caching;
+    using TelegramBot.Infrastructure.Shared.Caching;
+    using AutoFixture.Xunit2;
+    using System;
 
     public class FunctionServiceTest
     {
@@ -21,13 +25,17 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
         private readonly FunctionService _funcService;
         private readonly WebAPIConfiguration _webAPIConfiguration;
         private readonly IResourceService _resourceService;
+        private readonly ICacheService cacheService;
 
         public FunctionServiceTest()
         {
             _dynamicRepository = Substitute.For<IDynamicRepository>();
             _webAPIConfiguration = Substitute.For<WebAPIConfiguration>();
             _resourceService = Substitute.For<IResourceService>();
-            _funcService = new FunctionService(_dynamicRepository, _webAPIConfiguration, _resourceService);
+            cacheService = Substitute.For<ICacheService>();
+            var cacheServiceFactory = Substitute.For<ICacheServiceFactory>();
+            cacheServiceFactory.Get(Arg.Any<string>()).Returns(cacheService);
+            _funcService = new FunctionService(_dynamicRepository, _webAPIConfiguration, _resourceService, cacheServiceFactory);
         }
 
         [Fact]
@@ -68,6 +76,43 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
             // Assert
             const string expectedResult = "Description";
             Assert.Equal(JsonConvert.SerializeObject(expectedResult), JsonConvert.SerializeObject(result));
+        }
+
+        [Theory, AutoData]
+        public async Task GetAll_Always_ReturnAllFunctions(IEnumerable<BotFunction> functions)
+        {
+            // Arrange
+            cacheService.GetOrSetAsync(
+                        Arg.Any<string>(),
+                        Arg.Any<Func<Task<IEnumerable<BotFunction>>>>(),
+                        Arg.Any<CacheItemOptions>())
+                        .Returns(Task.FromResult(functions));
+
+            // Act
+            var result = await _funcService.GetAll();
+
+            //Assert
+            Assert.Same(functions, result);
+        }
+
+        [Theory, AutoData]
+        public async Task GetReportAndCommonFunctions_Always_CallsGetFunctionFromCache(IEnumerable<BotFunction> functions)
+        {
+            // Arrange
+            cacheService.GetOrSetAsync(
+                        Arg.Any<string>(),
+                        Arg.Any<Func<Task<IEnumerable<BotFunction>>>>(),
+                        Arg.Any<CacheItemOptions>())
+                        .Returns(Task.FromResult(functions));
+
+            // Act
+            await _funcService.GetReportAndCommonFunctions();
+
+            //Assert
+            await cacheService.Received().GetOrSetAsync(
+                "TelegramBot.Infrastructure.Function.FunctionService.AllFunctions",
+                Arg.Any<Func<Task<IEnumerable<BotFunction>>>>(),
+                Arg.Any<CacheItemOptions>());
         }
     }
 }

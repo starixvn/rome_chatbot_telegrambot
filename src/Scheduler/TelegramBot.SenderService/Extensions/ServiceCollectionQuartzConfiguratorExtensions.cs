@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Quartz;
 using TelegramBot.SenderService.Constants;
@@ -5,6 +6,7 @@ using TelegramBot.SenderService.Jobs;
 
 namespace TelegramBot.SenderService.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class ServiceCollectionQuartzConfiguratorExtensions
 {
     public static void AddNotificationSenderJob(

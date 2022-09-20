@@ -1,4 +1,3 @@
-using System;
 using TelegramBot.Infrastructure.Function.Constants;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
@@ -13,29 +12,18 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         private readonly IServiceProvider serviceProvider;
 
         public FunctionHandlerFactory(IServiceProvider serviceProvider)
-        {
-            this.serviceProvider = serviceProvider;
-        }
+            => this.serviceProvider = serviceProvider;
 
         public IFunctionHandler GetHandler(short functionId)
         {
-            switch (functionId)
+            return functionId switch
             {
-                case FunctionIds.Oustanding:
-                    return (IFunctionHandler)serviceProvider.GetService(typeof(OustandingFunctionHandler));
-
-                case FunctionIds.TodayWinLoss:
-                    return (IFunctionHandler)serviceProvider.GetService(typeof(TodayWinLossFunctionHandler));
-                
-                case FunctionIds.BalanceInfo:
-                    return (IFunctionHandler)serviceProvider.GetService(typeof(BalanceInfoFunctionHandler));
-
-                case FunctionIds.YesterdayWinLoss:
-                    return (IFunctionHandler)serviceProvider.GetService(typeof(YesterdayWinLossFunctionHandler));
-
-                default:
-                    throw new NotImplementedException();
-            }
+                FunctionIds.Outstanding => (IFunctionHandler)serviceProvider.GetService(typeof(OutstandingFunctionHandler)),
+                FunctionIds.TodayWinLoss => (IFunctionHandler)serviceProvider.GetService(typeof(TodayWinLossFunctionHandler)),
+                FunctionIds.BalanceInfo => (IFunctionHandler)serviceProvider.GetService(typeof(BalanceInfoFunctionHandler)),
+                FunctionIds.YesterdayWinLoss => (IFunctionHandler)serviceProvider.GetService(typeof(YesterdayWinLossFunctionHandler)),
+                _ => throw new NotImplementedException(),
+            };
         }
     }
 }

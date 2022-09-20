@@ -59,49 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root"
-    xmlns=""
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -122,382 +119,388 @@
   </resheader>
   <data name="Cash" xml:space="preserve">
     <value>現金余額</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YesterdayCash" xml:space="preserve">
     <value>昨天现金余额</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CustLevel_2" xml:space="preserve">
     <value>代理</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
     <value>代理佣金</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentCredit" xml:space="preserve">
     <value>代理信用額度</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentOutStanding" xml:space="preserve">
     <value>代理未結束交易</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentTotal" xml:space="preserve">
     <value>代理總和</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
     <value>代理輸贏</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CustLevel_3" xml:space="preserve">
     <value>總代理</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterComm" xml:space="preserve">
     <value>總代理佣金</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterCredit" xml:space="preserve">
     <value>總代理信用額度</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterOutStanding" xml:space="preserve">
     <value>總代理未結束交易</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterTotal" xml:space="preserve">
     <value>總代理總數</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
     <value>總代理輸贏</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CustLevel_1" xml:space="preserve">
     <value>會員</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Member" xml:space="preserve">
     <value>會員</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
     <value>會員佣金</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberCredit" xml:space="preserve">
     <value>會員信用額度</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberOutStanding" xml:space="preserve">
     <value>會員未結束交易</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">
     <value>會員總數</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
     <value>會員輸贏</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CustLevel_4" xml:space="preserve">
     <value>超級</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperComm" xml:space="preserve">
     <value>超級總代理佣金</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperOutStanding" xml:space="preserve">
     <value>超級總代理未完成交易</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperTotal" xml:space="preserve">
     <value>超級總代理的總數</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
     <value>超級總代輸贏</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CompanyWinLoss" xml:space="preserve">
     <value>公司</value>
-    <comment/>
+    <comment />
   </data>
   <data name="GrossComm" xml:space="preserve">
     <value>總佣金</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Balance" xml:space="preserve">
     <value>餘額資料</value>
-    <comment/>
+    <comment />
   </data>
   <data name="For" xml:space="preserve">
     <value>對於</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Credit" xml:space="preserve">
     <value>信用額度</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Currency" xml:space="preserve">
     <value>貨幣</value>
-    <comment/>
+    <comment />
   </data>
   <data name="GivenCredit" xml:space="preserve">
     <value>信用額度</value>
-    <comment/>
+    <comment />
   </data>
   <data name="InvalidUsername" xml:space="preserve">
     <value>用戶名無效。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NoData" xml:space="preserve">
     <value>沒資料顯示</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NotRecognizeCommandMessage" xml:space="preserve">
     <value>抱歉，我們無法識別您的請求。请问您的選項是？</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Outstanding" xml:space="preserve">
     <value>未完成交易</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Products" xml:space="preserve">
     <value>產品</value>
-    <comment/>
+    <comment />
   </data>
   <data name="TodayWinLoss" xml:space="preserve">
     <value>今日輸贏</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Total" xml:space="preserve">
     <value>總和</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Turnover" xml:space="preserve">
     <value>投注額</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Username" xml:space="preserve">
     <value>用户名</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>昨天</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YesterdayBal" xml:space="preserve">
     <value>昨天餘額</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YesterdayWinLoss" xml:space="preserve">
     <value>昨日輸贏</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YourAccountIsClosed" xml:space="preserve">
     <value>您的賬號已關閉</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Today" xml:space="preserve">
     <value>今日賽事</value>
-    <comment/>
+    <comment />
   </data>
   <data name="UnderMaintenance" xml:space="preserve">
     <value>很抱歉，伺服器正在進行維護，維護時間從{0}至{1} (GMT+8)。請稍候再試。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BetCredit" xml:space="preserve">
     <value>投注額度</value>
-    <comment/>
+    <comment />
   </data>
   <data name="UsedCredit" xml:space="preserve">
     <value>已用額度</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NetPosition" xml:space="preserve">
     <value>最低净赢</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ThirdPartyPendingTransfer" xml:space="preserve">
     <value>第三方待定轉賬</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemMaxCredit" xml:space="preserve">
     <value>會員最高信用額</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberActClosedSus" xml:space="preserve">
     <value>會員們 (活躍/關閉/暂停)</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentActClosedSus" xml:space="preserve">
     <value>代理們 (活躍/關閉/暂停)</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Setting_OTP_Help" xml:space="preserve">
     <value>請在 3 分鐘內輸入一次性密碼 OTP &lt;code&gt;{0}&lt;/code&gt; 到&lt;b&gt;代理網&lt;/b&gt;，以完成Telegram Chatbot的設置。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="InvalidCustName" xml:space="preserve">
     <value>{0}無效，請輸入有效的賬號。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YourAccountIsLocked" xml:space="preserve">
     <value>您的賬號已被鎖</value>
-    <comment/>
+    <comment />
   </data>
   <data name="OpenSettingsMenu" xml:space="preserve">
     <value>打開設置目錄</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo" xml:space="preserve">
     <value>返回</value>
-    <comment/>
+    <comment />
   </data>
   <data name="StopUsingChatbot" xml:space="preserve">
     <value>停止使用Chatbot</value>
-    <comment/>
+    <comment />
   </data>
   <data name="StopUsingChatbotConfirmMessage" xml:space="preserve">
     <value>您即將&lt;b&gt;停止使用Chatbot&lt;/b&gt;。您的 Telegram將未鏈接與{0} ，您將無法再使用 {0}。請問你想繼續嗎？</value>
-    <comment/>
+    <comment />
   </data>
   <data name="UnlinkMessage" xml:space="preserve">
     <value>您的Telegram已經未鏈接與{0}</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AlertChangePasswordMessage" xml:space="preserve">
     <value>如果這不是您，請聯繫客戶服務部門尋求協助</value>
-    <comment/>
+    <comment />
   </data>
   <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
     <value>{0}無效，請輸入有效的數字（最多{1}）。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="TurnOffNotification" xml:space="preserve">
     <value>通告已關閉</value>
-    <comment/>
+    <comment />
   </data>
   <data name="TurnOnNotification" xml:space="preserve">
     <value>通告已開啟</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MainMenu" xml:space="preserve">
     <value>主要目錄</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ApiException" xml:space="preserve">
     <value>我們正在更新此功能以獲得更好的體驗。因此，此功能將暫時關閉（{0} - {1}）。請稍後再試，給您帶來不便,敬請諒解。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackToMainMenu" xml:space="preserve">
     <value>返回主要目錄</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ActionSelected" xml:space="preserve">
     <value>已選擇動作</value>
-    <comment/>
+    <comment />
   </data>
   <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
     <value>您的Telegram已經用另一個賬戶連接Chatbot。如果這不是您的賬戶，請聯繫我們尋求協助。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="HelpCommandIntro" xml:space="preserve">
     <value>您可以使用以下指令運行{0}：</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AccountAlreadyLinked" xml:space="preserve">
     <value>您的Telegram已鏈接另一個賬號。請先取消該相關賬號，然後再重試。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="OpenMainMenu" xml:space="preserve">
     <value>打開{0}的主要目錄</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
     <value>您的保安碼已經更改。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AlertMessage" xml:space="preserve">
     <value>如果這不是您，請更改密碼或聯繫客戶服務部門尋求協助。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ChangeSecurityCodeAlert" xml:space="preserve">
     <value>警惕更換保安碼</value>
-    <comment/>
+    <comment />
   </data>
   <data name="RequestedIP" xml:space="preserve">
     <value>要求IP</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ChangePasswordAlert" xml:space="preserve">
     <value>警惕更換密碼</value>
-    <comment/>
+    <comment />
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
     <value>歡迎{0}。您的Telegram Chatbot設置已完成。您可以通過此Chatbot交互來查看報告，並通過自動通告取得最新資訊。您將在每日下注2:00PM (GMT+8)之後收到昨日的輸贏報告</value>
-    <comment/>
+    <comment />
   </data>
   <data name="IntroductionMessage" xml:space="preserve">
     <value>請登入&lt;b&gt;代理網&lt;/b&gt;，訪問Chatbot功能並按照指示設置Telegram Chatbot</value>
-    <comment/>
+    <comment />
   </data>
   <data name="PleaseSelectAnAction" xml:space="preserve">
     <value>請選擇一個動作</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Unlink" xml:space="preserve">
     <value>取消鏈接</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ListAllCommands" xml:space="preserve">
     <value>列出所有指令</value>
-    <comment/>
+    <comment />
   </data>
   <data name="InvalidNumberOfDownlines" xml:space="preserve">
     <value>下線的數量必須是從 1 至 {0}</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
     <value>您帳戶密碼已更改。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="LanguageUpdated" xml:space="preserve">
     <value>語言已更新。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="No" xml:space="preserve">
     <value>否</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_1" xml:space="preserve">
     <value>返回未完成交易</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_2" xml:space="preserve">
     <value>返回餘額資料</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_3" xml:space="preserve">
     <value>返回今日輸贏</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_4" xml:space="preserve">
     <value>返回昨日輸贏</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_11" xml:space="preserve">
     <value>返回設定</value>
-    <comment/>
+    <comment />
+  </data>
+  <data name="WrongPasswordAlert" xml:space="preserve">
+    <value>密碼錯誤提示</value>
+  </data>
+  <data name="WrongPasswordAlertContent" xml:space="preserve">
+    <value>您的賬號密碼多次輸入錯誤。</value>
   </data>
 </root>

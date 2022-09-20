@@ -51,22 +51,6 @@ public class NotificationServiceTests
     }
 
     [Theory, AutoData]
-    public async Task NotifyChangePassword_FunctionNotAvailable_ReturnErrorResult(CustBotMessenger messenger)
-    {
-        // Arrange
-        int custId = 1;
-        int subAccId = 2;
-        var expectResult = Result.CreateErrorResult();
-        settingService.GetCustBotMessenger(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(messenger));
-
-        // Act
-        var result = await notificationService.NotifyChangePassword(custId, subAccId);
-
-        // Assert
-        Assert.Equal(JsonSerializer.Serialize(expectResult), JsonSerializer.Serialize(result));
-    }
-
-    [Theory, AutoData]
     public async Task NotifyChangePassword_ValidMessenger_ReturnSuccessfulResult(CustBotMessenger messenger)
     {
         // Arrange
@@ -91,22 +75,6 @@ public class NotificationServiceTests
         int custId = 1;
         int subAccId = 2;
         CustBotMessenger messenger = null;
-        var expectResult = Result.CreateErrorResult();
-        settingService.GetCustBotMessenger(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(messenger));
-
-        // Act
-        var result = await notificationService.NotifyChangeSecurityCode(custId, subAccId);
-
-        // Assert
-        Assert.Equal(JsonSerializer.Serialize(expectResult), JsonSerializer.Serialize(result));
-    }
-
-    [Theory, AutoData]
-    public async Task NotifyChangeSecurityCode_FunctionNotAvailable_ReturnErrorResult(CustBotMessenger messenger)
-    {
-        // Arrange
-        int custId = 1;
-        int subAccId = 2;
         var expectResult = Result.CreateErrorResult();
         settingService.GetCustBotMessenger(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(messenger));
 
@@ -147,5 +115,40 @@ public class NotificationServiceTests
         // Assert
         await settingService.Received().SendUnlinkMessage(userId, chatId, botId, bot.DisplayName, language);
         Assert.Equal(JsonSerializer.Serialize(Result.CreateSuccessfulResult()), JsonSerializer.Serialize(result));
+    }
+
+    [Fact]
+    public async Task NotifyWrongPassword_MessengerIsNull_ReturnErrorResult()
+    {
+        // Arrange
+        int custId = 1;
+        int subAccId = 2;
+        CustBotMessenger messenger = null;
+        var expectResult = Result.CreateErrorResult();
+        settingService.GetCustBotMessenger(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(messenger));
+
+        // Act
+        var result = await notificationService.NotifyWrongPassword(custId, subAccId, ":1");
+
+        // Assert
+        Assert.Equal(JsonSerializer.Serialize(expectResult), JsonSerializer.Serialize(result));
+    }
+
+    [Theory, AutoData]
+    public async Task NotifyWrongPassword_ValidMessenger_ReturnSuccessfulResult(CustBotMessenger messenger, string ip)
+    {
+        // Arrange
+        int custId = 1;
+        int subAccId = 2;
+        var expectResult = Result.CreateSuccessfulResult();
+        messenger.Functions = new List<BotFunction> { new BotFunction() { FunctionId = FunctionIds.WrongPasswordAlert } };
+        settingService.GetCustBotMessenger(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(messenger));
+        messageBuilder.BuildChangeSecurityCodeAlertMessage(messenger.Language).Returns("WrongPasswordAlertMessage");
+
+        // Act
+        var result = await notificationService.NotifyWrongPassword(custId, subAccId, ip);
+
+        // Assert
+        Assert.Equal(JsonSerializer.Serialize(expectResult), JsonSerializer.Serialize(result));
     }
 }

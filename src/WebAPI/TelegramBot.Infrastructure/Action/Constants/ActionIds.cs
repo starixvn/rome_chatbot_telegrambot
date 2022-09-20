@@ -17,6 +17,7 @@ namespace TelegramBot.Infrastructure.Action.Constants
         public const short MemberWinLossLimitNotification = 30;
         public const short ChangePasswordAlert = 31;
         public const short ChangeSecurityCodeAlert = 32;
+        public const short WrongPasswordAlert = 33;
         public const short Language = 34;
         public const short English = 35;
         public const short ChineseTraditional = 36;
@@ -24,5 +25,27 @@ namespace TelegramBot.Infrastructure.Action.Constants
         public const short Thai = 38;
         public const short Vietnamese = 39;
         public const short StopUsingChatBot = 40;
+        public const short SystemAnnouncement = 41;
+        public const short MyWatchlist = 42;
+
+        public static readonly short[] NotificationSettingActionIds = new[]{
+            YesterdayWinLossNotification,
+            PersonalMessageNotification,
+            ProblemAccountNotification,
+            MemberWinLossLimitNotification,
+            ChangePasswordAlert,
+            ChangeSecurityCodeAlert,
+            WrongPasswordAlert,
+            SystemAnnouncement,
+            MyWatchlist
+        };
+
+        public static readonly short[] LanguageSettingActionIds = new[]{
+            English,
+            ChineseTraditional,
+            ChineseSimplified,
+            Thai,
+            Vietnamese
+        };
     }
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Fanex.Data;
 using Fanex.Data.Repository;
 using Fanex.Data.SqlServer;
@@ -17,6 +18,7 @@ using Sentry;
 
 namespace TelegramBot.SenderService.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class FanexLibsExtensions
 {
     public static IServiceCollection AddFanexDataWithSqlServer(this IServiceCollection services, IConfiguration configuration)

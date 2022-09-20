@@ -1,9 +1,11 @@
 ﻿
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using Telegram.Bot;
 
 namespace TelegramBot.Utilities;
 
+[ExcludeFromCodeCoverage]
 public static class TelegramBotUtils
 {
     public static ITelegramBotClient InitBotClient(string accessToken, string proxyAddress = "")

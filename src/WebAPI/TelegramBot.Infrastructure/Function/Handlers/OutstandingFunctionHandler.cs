@@ -10,13 +10,13 @@ using TelegramBot.Infrastructure.Shared.Resources;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
 {
-    public class OustandingFunctionHandler : BaseFunctionHandler, IFunctionHandler
+    public class OutstandingFunctionHandler : BaseFunctionHandler, IFunctionHandler
     {
         private readonly IOutstandingService outstandingService;
         private readonly ICustomerService customerService;
         private readonly WebAPIConfiguration webAPIConfiguration;
 
-        public OustandingFunctionHandler(
+        public OutstandingFunctionHandler(
             IMessageBuilder messageBuilder,
             IMessageFormatter messageFormatter,
             IOutstandingService outstandingService,

@@ -5,45 +5,23 @@ namespace TelegramBot.Infrastructure.Setting.Models
 {
     public class CustBotMessenger
     {
-        public CustBotMessenger()
-        {
-        }
+        public int UserId { get; init; }
 
-        public CustBotMessenger(
-            int userId,
-            int botId,
-            long chatId,
-            string botName = "",
-            string system = "",
-            bool enabled = false,
-            bool isVerifyOTP = false,
-            string language = LanguageCodes.English)
-        {
-            UserId = userId;
-            BotId = botId;
-            BotName = botName;
-            System = system;
-            ChatId = chatId;
-            Enabled = enabled;
-            IsVerifyOTP = isVerifyOTP;
-            Language = language;
-        }
+        public int BotId { get; init; }
 
-        public int UserId { get; }
+        public string BotName { get; init; } = string.Empty;
 
-        public int BotId { get; }
+        public string System { get; init; } = string.Empty;
 
-        public string BotName { get; }
+        public long ChatId { get; init; }
 
-        public string System { get; }
+        public bool Enabled { get; init; }
 
-        public long ChatId { get; }
+        public bool IsVerifyOTP { get; init; }
 
-        public bool Enabled { get; }
+        public string Language { get; init; } = LanguageCodes.English;
 
-        public bool IsVerifyOTP { get; }
-
-        public string Language { get; }
+        public byte CustomerLevel { get; init; }
 
         public IEnumerable<BotFunction> Functions { get; set; }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Functions SiteId="105" SiteName="Alpha">
+<Functions>
   <Function Name="ChatBot">
     <Setting Key="Age_Chatbot_BotSystemSetting_Sel" SpName="Age_Chatbot_BotSystemSetting_Sel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
     <Setting Key="Age_Chatbot_BotSystemSetting_Upd" SpName="Age_Chatbot_BotSystemSetting_Upd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
@@ -9,10 +9,28 @@
     <Setting Key="Age_Chatbot_YesterdateWinlostImport" SpName="Age_Chatbot_YesterdateWinlostImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
     <Setting Key="Age_Chatbot_ProblemAccountsImport" SpName="Age_Chatbot_ProblemAccountsImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
     <Setting Key="Age_Chatbot_WinLossLimitNotificationImport" SpName="Age_Chatbot_WinLossLimitNotificationImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet"/>
+    <Setting Key="Age_Chatbot_GetAllLinkedAccountsByFunction" SpName="Age_Chatbot_GetAllLinkedAccountsByFunction" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_AnnouncementNotificationImport" SpName="Age_Chatbot_AnnouncementNotificationImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_MyWatchlist_Sel" SpName="Age_Chatbot_MyWatchlist_Sel" DbName="DBAGE.bodb02.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_MyWatchlistImport" SpName="Age_Chatbot_MyWatchlistImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
   </Function>
 
   <Function Name="Customer">
     <Setting Key="Age_Chatbot_CustomerStatusSel" SpName="Age_Chatbot_CustomerStatusSel" DbName="DBCust.CustDB.BODBDownlineNet" />
+    <Setting Key="Age_GetCustomerInfo" SpName="Age_GetCustomerInfo" DbName="DBAGE.bodb02.BODBDownlineNet">
+      <Mapping DataField="custid" ObjectProperty="CustId" />
+      <Mapping DataField="username" ObjectProperty="UserName" />
+      <Mapping DataField="currency" ObjectProperty="CurrencyId" />
+      <Mapping DataField="recommend" ObjectProperty="ARecommendId" />
+      <Mapping DataField="mrecommend" ObjectProperty="MRecommendId" />
+      <Mapping DataField="srecommend" ObjectProperty="SRecommendId" />
+    </Setting>
+  </Function>
+
+  <Function Name="Product">
+    <Setting Key="Age_GetOfferedProductByCust" SpName="Age_GetOfferedProductByCust" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
+      <Mapping DataField="ProductID" ObjectProperty="id" />
+    </Setting>
   </Function>
 
   <Function Name="Personal Message">
@@ -37,6 +55,13 @@
       <Mapping DataField="super" ObjectProperty="SUsername" />
       <Mapping DataField="master" ObjectProperty="MUsername" />
       <Mapping DataField="agent" ObjectProperty="AUsername" />
+    </Setting>
+  </Function>
+
+  <Function Name="Announcements">
+    <Setting Key="Age_Announcements_Select" SpName="Age_Announcements_Select" DbName="DBMSG.bodb_Message.BODBDownlineNet">
+      <Mapping DataField="FromDate" ObjectProperty="ReleasedDate" />
+      <Mapping DataField="ToDate" ObjectProperty="ExpiredDate" />
     </Setting>
   </Function>
 </Functions>

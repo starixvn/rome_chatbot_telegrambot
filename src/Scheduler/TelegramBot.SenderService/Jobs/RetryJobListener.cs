@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Quartz;
 using TelegramBot.SenderService.Constants;
 namespace TelegramBot.SenderService.Jobs;
 
+[ExcludeFromCodeCoverage]
 public class RetryJobListener : IJobListener
 {
     private readonly Fanex.Logging.ILogger logger;

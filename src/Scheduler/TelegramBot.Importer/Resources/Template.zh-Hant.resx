@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -119,98 +119,116 @@
   </resheader>
   <data name="PersonalMessage" xml:space="preserve">
     <value>個人訊息</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YesterdayWinLoss" xml:space="preserve">
     <value>昨日輸贏</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Turnover" xml:space="preserve">
     <value>投注額</value>
-    <comment/>
+    <comment />
   </data>
   <data name="GrossComm" xml:space="preserve">
     <value>總佣金</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterTotal" xml:space="preserve">
     <value>總代理總數</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
     <value>超級總代輸贏</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperComm" xml:space="preserve">
     <value>超級代理退水</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperTotal" xml:space="preserve">
     <value>超級代理總額</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CompanyWinLoss" xml:space="preserve">
     <value>公司</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
     <value>代理商退水</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentTotal" xml:space="preserve">
     <value>代理總和</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
     <value>代理輸贏</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterComm" xml:space="preserve">
     <value>總代理退水</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
     <value>總代理輸贏</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
     <value>會員退水</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">
     <value>會員總額</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
     <value>會員輸贏</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NewProblemAccounts" xml:space="preserve">
     <value>新的問題賬號：{0}</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ProblemAccountAlert" xml:space="preserve">
     <value>警惕問題賬號</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ProblemAccountShowAllDownlines" xml:space="preserve">
     <value>請告知並審查以下列出的下線。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ProblemAccountShowXDownlines" xml:space="preserve">
     <value>在此通知有{0}個新的問題賬號。詳情可在問題賬號列表查詢。</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberReachWinLossIntro" xml:space="preserve">
     <value>您的會員已達到100%的輸贏限額</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberWinLossLimitAlert" xml:space="preserve">
     <value>警惕輸贏限額</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberWinLossLimitNote" xml:space="preserve">
     <value>產品: 目前輸贏| 最大輸贏 | 目前輸贏 (%)</value>
-    <comment/>
+    <comment />
+  </data>
+  <data name="ThresholdType_1" xml:space="preserve">
+    <value>總體</value>
+  </data>
+  <data name="ThresholdType_2" xml:space="preserve">
+    <value>個人</value>
+  </data>
+  <data name="MyWatchlistMessage" xml:space="preserve">
+    <value>您的會員已達到他們的輸贏限額。</value>
+  </data>
+  <data name="MyWatchlistHeader" xml:space="preserve">
+    <value>用戶名 | 目前輸贏| 贏的限額 | 輸的限額 | 日期時間 | 已達限額類別</value>
+  </data>
+  <data name="SystemAnnouncement" xml:space="preserve">
+    <value>系統公告</value>
+  </data>
+  <data name="MyWatchlistTitle" xml:space="preserve">
+    <value>會員達到體育博彩限額警惕</value>
   </data>
 </root>

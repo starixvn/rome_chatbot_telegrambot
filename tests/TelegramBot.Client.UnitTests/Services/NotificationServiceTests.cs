@@ -52,4 +52,14 @@ public class NotificationServiceTests
         // Assert
         Assert.Equal(Response, JsonConvert.SerializeObject(actualResult));
     }
+
+    [Theory, AutoData]
+    public async Task NotifyWrongPassword_Always_ReturnCorrectResult(int custId, int subAccId, string ip)
+    {
+        // Act
+        var actualResult = await notificationService.NotifyWrongPassword(custId, subAccId, ip);
+
+        // Assert
+        Assert.Equal(Response, JsonConvert.SerializeObject(actualResult));
+    }
 }

@@ -213,4 +213,22 @@
     <value>Sản phẩm. Thắng thua hiện tại | Thắng thua tối đa | Thắng thua hiện tại (%)</value>
     <comment />
   </data>
+  <data name="ThresholdType_1" xml:space="preserve">
+    <value>Chung</value>
+  </data>
+  <data name="ThresholdType_2" xml:space="preserve">
+    <value>Riêng</value>
+  </data>
+  <data name="MyWatchlistMessage" xml:space="preserve">
+    <value>Bạn có Member đạt Giới Hạn Thắng Thua.</value>
+  </data>
+  <data name="MyWatchlistHeader" xml:space="preserve">
+    <value>Tên người dùng | Thắng thua hiện tại | Giới hạn thắng | Giới hạn thua | Ngày Giờ | Loại giới hạn</value>
+  </data>
+  <data name="SystemAnnouncement" xml:space="preserve">
+    <value>Thông báo hệ thống</value>
+  </data>
+  <data name="MyWatchlistTitle" xml:space="preserve">
+    <value>Thông báo Member đã đạt Giới Hạn Sportsbook</value>
+  </data>
 </root>

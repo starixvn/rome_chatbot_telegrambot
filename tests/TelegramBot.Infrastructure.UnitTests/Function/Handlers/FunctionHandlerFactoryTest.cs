@@ -21,17 +21,17 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         }
 
         [Fact]
-        public void GetHandler_FunctionIdOustanding_ReturnOustandingFunctionHandler()
+        public void GetHandler_FunctionIdOutstanding_ReturnOutstandingFunctionHandler()
         {
-            serviceProvider.GetService(typeof(OustandingFunctionHandler))
-                .Returns(new OustandingFunctionHandler(
+            serviceProvider.GetService(typeof(OutstandingFunctionHandler))
+                .Returns(new OutstandingFunctionHandler(
                     Substitute.For<IMessageBuilder>(),
                     Substitute.For<IMessageFormatter>(),
                     Substitute.For<IOutstandingService>(),
                     Substitute.For<ICustomerService>(),
                     Substitute.For<WebAPIConfiguration>()));
-            var result = functionHandlerFactory.GetHandler(FunctionIds.Oustanding);
-            Assert.Equal(typeof(OustandingFunctionHandler), result.GetType());
+            var result = functionHandlerFactory.GetHandler(FunctionIds.Outstanding);
+            Assert.Equal(typeof(OutstandingFunctionHandler), result.GetType());
         }
 
         [Fact]
