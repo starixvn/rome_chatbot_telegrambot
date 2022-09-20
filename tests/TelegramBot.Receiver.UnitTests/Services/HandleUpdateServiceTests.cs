@@ -3,6 +3,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using TelegramBot.Client.Models;
 using TelegramBot.Client.Services;
+using TelegramBot.Receiver.Configurations;
 using TelegramBot.Receiver.Services;
 
 namespace TelegramBot.Receiver.UnitTests.Services;
@@ -10,6 +11,7 @@ namespace TelegramBot.Receiver.UnitTests.Services;
 public class HandleUpdateServiceTests
 {
     private readonly ILogger _logger;
+    private readonly ReceiverConfiguration _botConfiguration;
     private readonly ICommandService _commandService;
     private readonly ISettingService _settingService;
     private readonly HandleUpdateService handleUpdateService;
@@ -18,9 +20,10 @@ public class HandleUpdateServiceTests
     public HandleUpdateServiceTests()
     {
         _logger = Substitute.For<ILogger>();
+        _botConfiguration = Substitute.For<ReceiverConfiguration>();
         _commandService = Substitute.For<ICommandService>();
         _settingService = Substitute.For<ISettingService>();
-        handleUpdateService = new HandleUpdateService(_logger, _commandService, _settingService);
+        handleUpdateService = new HandleUpdateService(_logger, _botConfiguration, _commandService, _settingService);
         botClient = Substitute.For<ITelegramBotClient>();
         botClient.BotId.Returns(1);
     }
