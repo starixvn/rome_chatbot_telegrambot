@@ -3,6 +3,7 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using TelegramBot.Client.Services;
+using TelegramBot.Receiver.Configurations;
 
 namespace TelegramBot.Receiver.Services
 {
@@ -15,6 +16,7 @@ namespace TelegramBot.Receiver.Services
     public class HandleUpdateService : IHandleUpdateService
     {
         private readonly Fanex.Logging.ILogger _logger;
+        private readonly ReceiverConfiguration _botConfiguration;
         private readonly ICommandService _commandService;
         private readonly ISettingService _settingService;
 
@@ -22,16 +24,35 @@ namespace TelegramBot.Receiver.Services
 
         public HandleUpdateService(
             Fanex.Logging.ILogger logger,
+            ReceiverConfiguration botConfiguration,
             ICommandService commandService,
             ISettingService settingService)
         {
             _logger = logger;
+            _botConfiguration = botConfiguration;
             _commandService = commandService;
             _settingService = settingService;
         }
 
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken = default)
         {
+            if (_botConfiguration.IsMaintenance)
+            {
+                try
+                {
+                    await botClient.SendTextMessageAsync(
+                        chatId: update.Message.Chat.Id,
+                        text: "Bot is under maintenance!",
+                        cancellationToken: cancellationToken).ConfigureAwait(false);
+                }
+                catch (Exception exception)
+                {
+                    await HandleErrorAsync(exception).ConfigureAwait(false);
+                }
+
+                return;
+            }
+
             var handler = update.Type switch
             {
                 UpdateType.Message => BotOnMessageReceived(botClient, update.Message!),
