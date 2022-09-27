@@ -49,7 +49,7 @@ namespace TelegramBot.Infrastructure.Message
                         status = MessageSendStatus.Duplicated;
                         await logger.WarnAsync(string.Join(Environment.NewLine, $"ChatId: {messenger.ChatId}", apiException.Message));
                     }
-                    else if (apiException.ErrorCode == TelegramAPIErrors.FORBIDDEN && apiException.Message.Equals(TelegramAPIErrors.BotBlockedMessage, StringComparison.OrdinalIgnoreCase))
+                    else if (apiException.ErrorCode == TelegramAPIErrors.FORBIDDEN)
                     {
                         status = MessageSendStatus.BotBlocked;
                         await logger.WarnAsync(string.Join(Environment.NewLine, $"ChatId: {messenger.ChatId}", apiException.Message));
@@ -90,7 +90,7 @@ namespace TelegramBot.Infrastructure.Message
                         status = MessageSendStatus.Duplicated;
                         await logger.WarnAsync(string.Join(Environment.NewLine, $"ChatId: {messenger.ChatId}", apiException.Message));
                     }
-                    else if (apiException.ErrorCode == TelegramAPIErrors.FORBIDDEN && apiException.Message.Equals(TelegramAPIErrors.BotBlockedMessage, StringComparison.OrdinalIgnoreCase))
+                    else if (apiException.ErrorCode == TelegramAPIErrors.FORBIDDEN)
                     {
                         status = MessageSendStatus.BotBlocked;
                         await logger.WarnAsync(string.Join(Environment.NewLine, $"ChatId: {messenger.ChatId}", apiException.Message));
