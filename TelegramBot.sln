@@ -44,9 +44,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.Client.UnitTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.Importer.UnitTests", "tests\TelegramBot.Importer.UnitTests\TelegramBot.Importer.UnitTests.csproj", "{436BA4A2-39A4-4F40-9FDF-19C86A972156}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jobs", "Jobs", "{2F631FAD-D44C-442D-B4D0-30A29BB446F7}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.SenderService.UnitTests", "tests\TelegramBot.SenderService.UnitTests\TelegramBot.SenderService.UnitTests.csproj", "{7908AFB0-A12A-4FD2-B6B6-159E8C7DF0BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WLMonitored.Shared", "src\Jobs\WLMonitored.Shared\WLMonitored.Shared.csproj", "{7DE0FC77-8451-4D76-B2C5-5CFAE345AFEC}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.Receiver.UnitTests", "tests\TelegramBot.Receiver.UnitTests\TelegramBot.Receiver.UnitTests.csproj", "{5F7A68B1-7FF7-4FD5-9229-6BEA78373DD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WLMonitored.AccumWLService", "src\Jobs\WLMonitored.AccumWLService\WLMonitored.AccumWLService.csproj", "{9FE134D6-A15E-4030-8FC3-73F0B8429C83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WLMonitored.RiskControl.Importer", "src\Jobs\WLMonitored.RiskControl.Importer\WLMonitored.RiskControl.Importer.csproj", "{483B735A-F1E2-4640-9E3F-4BBC46222EA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WLMonitored.AccumWLService.UnitTests", "tests\WLMonitored.AccumWLService.UnitTests\WLMonitored.AccumWLService.UnitTests.csproj", "{36E63EEC-BA22-4B33-98F5-DD8E32135418}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WLMonitored.Shared.UnitTests", "tests\WLMonitored.Shared.UnitTests\WLMonitored.Shared.UnitTests.csproj", "{357D894E-5531-45BA-9269-7902D03F0A62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WLMonitored.RiskControl.Importer.UnitTests", "tests\WLMonitored.RiskControl.Importer.UnitTests\WLMonitored.RiskControl.Importer.UnitTests.csproj", "{F33B22A4-E580-49C5-AF64-A2FE09200A89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,6 +124,30 @@ Global
 		{5F7A68B1-7FF7-4FD5-9229-6BEA78373DD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F7A68B1-7FF7-4FD5-9229-6BEA78373DD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F7A68B1-7FF7-4FD5-9229-6BEA78373DD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DE0FC77-8451-4D76-B2C5-5CFAE345AFEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DE0FC77-8451-4D76-B2C5-5CFAE345AFEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DE0FC77-8451-4D76-B2C5-5CFAE345AFEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DE0FC77-8451-4D76-B2C5-5CFAE345AFEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FE134D6-A15E-4030-8FC3-73F0B8429C83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FE134D6-A15E-4030-8FC3-73F0B8429C83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FE134D6-A15E-4030-8FC3-73F0B8429C83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FE134D6-A15E-4030-8FC3-73F0B8429C83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{483B735A-F1E2-4640-9E3F-4BBC46222EA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{483B735A-F1E2-4640-9E3F-4BBC46222EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{483B735A-F1E2-4640-9E3F-4BBC46222EA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{483B735A-F1E2-4640-9E3F-4BBC46222EA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36E63EEC-BA22-4B33-98F5-DD8E32135418}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36E63EEC-BA22-4B33-98F5-DD8E32135418}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36E63EEC-BA22-4B33-98F5-DD8E32135418}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36E63EEC-BA22-4B33-98F5-DD8E32135418}.Release|Any CPU.Build.0 = Release|Any CPU
+		{357D894E-5531-45BA-9269-7902D03F0A62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{357D894E-5531-45BA-9269-7902D03F0A62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{357D894E-5531-45BA-9269-7902D03F0A62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{357D894E-5531-45BA-9269-7902D03F0A62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F33B22A4-E580-49C5-AF64-A2FE09200A89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F33B22A4-E580-49C5-AF64-A2FE09200A89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F33B22A4-E580-49C5-AF64-A2FE09200A89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F33B22A4-E580-49C5-AF64-A2FE09200A89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +171,13 @@ Global
 		{436BA4A2-39A4-4F40-9FDF-19C86A972156} = {2A06F0E0-BA0A-11EC-8D28-6370064C18B0}
 		{7908AFB0-A12A-4FD2-B6B6-159E8C7DF0BF} = {2A06F0E0-BA0A-11EC-8D28-6370064C18B0}
 		{5F7A68B1-7FF7-4FD5-9229-6BEA78373DD6} = {2A06F0E0-BA0A-11EC-8D28-6370064C18B0}
+		{2F631FAD-D44C-442D-B4D0-30A29BB446F7} = {4E91D995-DA6E-4E55-A2A2-7E95315EB1C2}
+		{7DE0FC77-8451-4D76-B2C5-5CFAE345AFEC} = {2F631FAD-D44C-442D-B4D0-30A29BB446F7}
+		{9FE134D6-A15E-4030-8FC3-73F0B8429C83} = {2F631FAD-D44C-442D-B4D0-30A29BB446F7}
+		{483B735A-F1E2-4640-9E3F-4BBC46222EA0} = {2F631FAD-D44C-442D-B4D0-30A29BB446F7}
+		{36E63EEC-BA22-4B33-98F5-DD8E32135418} = {2A06F0E0-BA0A-11EC-8D28-6370064C18B0}
+		{357D894E-5531-45BA-9269-7902D03F0A62} = {2A06F0E0-BA0A-11EC-8D28-6370064C18B0}
+		{F33B22A4-E580-49C5-AF64-A2FE09200A89} = {2A06F0E0-BA0A-11EC-8D28-6370064C18B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6082CBF6-22B4-4396-ABCC-81B9A4405B16}
