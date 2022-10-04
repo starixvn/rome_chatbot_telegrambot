@@ -56,11 +56,13 @@ namespace TelegramBot.Infrastructure.Message
                     }
                     else
                     {
+                        status = MessageSendStatus.Failure;
                         throw;
                     }
                 }
                 else
                 {
+                    status = MessageSendStatus.Failure;
                     throw;
                 }
 
@@ -97,11 +99,13 @@ namespace TelegramBot.Infrastructure.Message
                     }
                     else
                     {
+                        status = MessageSendStatus.Failure;
                         throw;
                     }
                 }
                 else
                 {
+                    status = MessageSendStatus.Failure;
                     throw;
                 }
 
