@@ -70,12 +70,13 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             var topBalanceReport = await balanceInfoService.GetTopBalance(account.CustId, account.CustomerLevel, topQuery);
             var todayText = ResourceHelper.Get(nameof(SharedResource.Today), account.Language);
+            var usernameText = ResourceHelper.Get(nameof(SharedResource.Username), account.Language);
             var yesterdayText = ResourceHelper.Get(nameof(SharedResource.Yesterday), account.Language);
             var textContainer = new List<string>
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.Balance), account.Language)} - {DateTime.Now:yyyyMMdd}]",
                 "<pre>",
-                $"{todayText,-ColumnsWidth} {yesterdayText,ColumnsWidth}",
+                $"    {todayText,-ColumnsWidth} {yesterdayText,ColumnsWidth}",
                 "_______________________________"
             };
 
@@ -85,10 +86,11 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             }
             else
             {
+                var index = 1;
                 foreach (var item in topBalanceReport)
                 {
-                    textContainer.Add(item.Username);
-                    textContainer.Add($"{item.Balance.ToFormattedNumber(),-ColumnsWidth} {item.YesterdayBalance.ToFormattedNumber(),ColumnsWidth}");
+                    textContainer.Add($"{index++,3} {item.Username}");
+                    textContainer.Add($"    {item.Balance.ToFormattedNumber(),-ColumnsWidth} {item.YesterdayBalance.ToFormattedNumber(),ColumnsWidth}");
                 }
             }
 
