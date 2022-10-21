@@ -89,7 +89,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 var index = 1;
                 foreach (var item in topBalanceReport)
                 {
-                    textContainer.Add($"{index++,3} {item.Username}");
+                    textContainer.Add($"#{index++,-3} {item.Username}");
                     textContainer.Add($"    {item.Balance.ToFormattedNumber(),-ColumnsWidth} {item.YesterdayBalance.ToFormattedNumber(),ColumnsWidth}");
                 }
             }
