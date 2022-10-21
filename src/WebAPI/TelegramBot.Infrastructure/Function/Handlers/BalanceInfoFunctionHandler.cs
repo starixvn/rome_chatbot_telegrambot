@@ -17,7 +17,8 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         private readonly WebAPIConfiguration webAPIConfiguration;
         private readonly IBalanceInfoService balanceInfoService;
         private readonly ICustomerService customerService;
-        private const int ColumnsWidth = 15;
+        private const int NoColumnWidth = 3;
+        private const int ColumnsWidth = 13;
 
         public BalanceInfoFunctionHandler(
             IMessageBuilder messageBuilder,
@@ -70,14 +71,13 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             var topBalanceReport = await balanceInfoService.GetTopBalance(account.CustId, account.CustomerLevel, topQuery);
             var todayText = ResourceHelper.Get(nameof(SharedResource.Today), account.Language);
-            var usernameText = ResourceHelper.Get(nameof(SharedResource.Username), account.Language);
             var yesterdayText = ResourceHelper.Get(nameof(SharedResource.Yesterday), account.Language);
             var textContainer = new List<string>
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.Balance), account.Language)} - {DateTime.Now:yyyyMMdd}]",
                 "<pre>",
-                $"    {todayText,-ColumnsWidth} {yesterdayText,ColumnsWidth}",
-                "_______________________________"
+                $"     {todayText,-ColumnsWidth} {yesterdayText,ColumnsWidth}",
+                "________________________________"
             };
 
             if (topBalanceReport == null || !topBalanceReport.Any())
@@ -89,8 +89,8 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 var index = 1;
                 foreach (var item in topBalanceReport)
                 {
-                    textContainer.Add($"#{index++,-3} {item.Username}");
-                    textContainer.Add($"    {item.Balance.ToFormattedNumber(),-ColumnsWidth} {item.YesterdayBalance.ToFormattedNumber(),ColumnsWidth}");
+                    textContainer.Add($"#{index++,-NoColumnWidth} {item.Username}");
+                    textContainer.Add($"     {item.Balance.ToFormattedNumber(),-ColumnsWidth} {item.YesterdayBalance.ToFormattedNumber(),ColumnsWidth}");
                 }
             }
 
