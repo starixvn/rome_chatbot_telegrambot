@@ -5,6 +5,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 {
     public class BaseFunctionHandler
     {
+        protected const int MaxCharsInLine = 30;
         protected readonly IMessageBuilder messageBuilder;
         protected readonly IMessageFormatter messageFormatter;
 

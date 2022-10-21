@@ -101,28 +101,29 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var lang = account.Language;
             var dict = new Dictionary<string, string>
             {
-                {$"{ResourceHelper.Get(nameof(SharedResource.Currency), lang)}:", bal.CurrencyName},
-                {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}:", bal.CashBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}:", bal.YesterdayCashBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}:", bal.TotalBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}:", bal.YesterdayTotalBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.TodayWinLoss), lang)}:", bal.TodayWinLoss.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayWinLoss), lang)}:", bal.YesterdayWinLoss.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}:", bal.PendingTransfer3rd.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}:", bal.GivenCredit.ToFormattedNumber()},
-                {$"{ResourceHelper.Get($"{(CustomerLevel)account.CustomerLevel - 1}Credit",lang)}:", bal.MemberCredit.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}:", bal.Outstanding.MemberOutstanding.ToFormattedNumber()},
-                {$"{ResourceHelper.Get($"{(CustomerLevel)account.CustomerLevel}OutStanding", lang)}:", GetOutStanding(bal.Outstanding,account.CustomerLevel).ToFormattedNumber()},
+                {ResourceHelper.Get(nameof(SharedResource.Currency), lang), bal.CurrencyName},
+                {ResourceHelper.Get(nameof(SharedResource.Cash), lang), bal.CashBalance.ToFormattedNumber()},
+                {ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang), bal.YesterdayCashBalance.ToFormattedNumber()},
+                {ResourceHelper.Get(nameof(SharedResource.BAL), lang), bal.TotalBalance.ToFormattedNumber()},
+                {ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang), bal.YesterdayTotalBalance.ToFormattedNumber()},
+                {ResourceHelper.Get(nameof(SharedResource.TodayWinLoss), lang), bal.TodayWinLoss.ToFormattedNumber()},
+                {ResourceHelper.Get(nameof(SharedResource.YesterdayWinLoss), lang), bal.YesterdayWinLoss.ToFormattedNumber()},
+                {ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang), bal.PendingTransfer3rd.ToFormattedNumber()},
+                {ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang), bal.GivenCredit.ToFormattedNumber()},
+                {ResourceHelper.Get($"{(CustomerLevel)account.CustomerLevel - 1}Credit",lang), bal.MemberCredit.ToFormattedNumber()},
+                {ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang), bal.Outstanding.MemberOutstanding.ToFormattedNumber()},
+                {ResourceHelper.Get($"{(CustomerLevel)account.CustomerLevel}OutStanding", lang), GetOutStanding(bal.Outstanding,account.CustomerLevel).ToFormattedNumber()},
             };
             var textContainer = new List<string>
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.Balance), lang)} - {DateTime.Now:yyyyMMdd}]"
             };
+            textContainer.Add("<pre>");
             foreach (var keyValuePair in dict)
             {
-                textContainer.Add(messageFormatter.Bold(keyValuePair.Key.ToUpperInvariant()));
-                textContainer.Add($"    {keyValuePair.Value}");
+                textContainer.Add(string.Format("{0,-15}{1,-15}", keyValuePair.Key.ToUpperInvariant(), keyValuePair.Value));
             }
+            textContainer.Add("</pre>");
             var message = string.Join(messageFormatter.NewLine(), textContainer);
             return Result.CreateSuccessfulResult(message);
         }

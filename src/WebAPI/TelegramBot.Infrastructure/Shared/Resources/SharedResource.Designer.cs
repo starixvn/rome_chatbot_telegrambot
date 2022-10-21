@@ -106,7 +106,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AGENT OUTSTANDING.
+        ///   Looks up a localized string similar to AGENT OST..
         /// </summary>
         public static string AgentOutStanding {
             get {
@@ -223,6 +223,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BAL..
+        /// </summary>
+        public static string BAL {
+            get {
+                return ResourceManager.GetString("BAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Balance.
         /// </summary>
         public static string Balance {
@@ -250,7 +259,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CASH.
+        ///   Looks up a localized string similar to Cash.
         /// </summary>
         public static string Cash {
             get {
@@ -484,7 +493,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MASTER OUTSTANDING.
+        ///   Looks up a localized string similar to MASTER OST..
         /// </summary>
         public static string MasterOutStanding {
             get {
@@ -547,7 +556,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEMBER OUTSTANDING.
+        ///   Looks up a localized string similar to MEMBER OST..
         /// </summary>
         public static string MemberOutStanding {
             get {
@@ -709,7 +718,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SUPER OUTSTANDING.
+        ///   Looks up a localized string similar to SUPER OST..
         /// </summary>
         public static string SuperOutStanding {
             get {
@@ -745,7 +754,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 3RD PARTY PENDING TRANSFER.
+        ///   Looks up a localized string similar to 3RD TRANS..
         /// </summary>
         public static string ThirdPartyPendingTransfer {
             get {
@@ -763,7 +772,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Today Win Loss.
+        ///   Looks up a localized string similar to Today WL.
         /// </summary>
         public static string TodayWinLoss {
             get {
@@ -889,7 +898,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to YESTERDAY BALANCE.
+        ///   Looks up a localized string similar to YESTERDAY BAL..
         /// </summary>
         public static string YesterdayBal {
             get {
@@ -898,7 +907,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to YESTERDAY CASH.
+        ///   Looks up a localized string similar to YESTERDAY Cash.
         /// </summary>
         public static string YesterdayCash {
             get {
@@ -907,7 +916,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yesterday Win Loss.
+        ///   Looks up a localized string similar to Yesterday WL.
         /// </summary>
         public static string YesterdayWinLoss {
             get {

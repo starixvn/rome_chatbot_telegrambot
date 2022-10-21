@@ -262,7 +262,7 @@
     <comment />
   </data>
   <data name="TodayWinLoss" xml:space="preserve">
-    <value>Today Win Loss</value>
+    <value>Today WL</value>
     <comment />
   </data>
   <data name="Username" xml:space="preserve">
@@ -270,7 +270,7 @@
     <comment />
   </data>
   <data name="YesterdayWinLoss" xml:space="preserve">
-    <value>Yesterday Win Loss</value>
+    <value>Yesterday WL</value>
     <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
@@ -342,19 +342,19 @@
     <comment />
   </data>
   <data name="Cash" xml:space="preserve">
-    <value>CASH</value>
+    <value>Cash</value>
     <comment />
   </data>
   <data name="YesterdayCash" xml:space="preserve">
-    <value>YESTERDAY CASH</value>
+    <value>YESTERDAY Cash</value>
     <comment />
   </data>
   <data name="YesterdayBal" xml:space="preserve">
-    <value>YESTERDAY BALANCE</value>
+    <value>YESTERDAY BAL.</value>
     <comment />
   </data>
   <data name="ThirdPartyPendingTransfer" xml:space="preserve">
-    <value>3RD PARTY PENDING TRANSFER</value>
+    <value>3RD TRANS.</value>
     <comment />
   </data>
   <data name="GivenCredit" xml:space="preserve">
@@ -366,11 +366,11 @@
     <comment />
   </data>
   <data name="MemberOutStanding" xml:space="preserve">
-    <value>MEMBER OUTSTANDING</value>
+    <value>MEMBER OST.</value>
     <comment />
   </data>
   <data name="MasterOutStanding" xml:space="preserve">
-    <value>MASTER OUTSTANDING</value>
+    <value>MASTER OST.</value>
     <comment />
   </data>
   <data name="UsedCredit" xml:space="preserve">
@@ -386,11 +386,11 @@
     <comment />
   </data>
   <data name="SuperOutStanding" xml:space="preserve">
-    <value>SUPER OUTSTANDING</value>
+    <value>SUPER OST.</value>
     <comment />
   </data>
   <data name="AgentOutStanding" xml:space="preserve">
-    <value>AGENT OUTSTANDING</value>
+    <value>AGENT OST.</value>
     <comment />
   </data>
   <data name="NetPosition" xml:space="preserve">
@@ -502,5 +502,8 @@
   </data>
   <data name="WrongPasswordAlertContent" xml:space="preserve">
     <value>Your account password has been entered incorrectly several times.</value>
+  </data>
+  <data name="BAL" xml:space="preserve">
+    <value>BAL.</value>
   </data>
 </root>
