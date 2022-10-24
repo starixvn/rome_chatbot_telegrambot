@@ -56,7 +56,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         {
             var textContainer = new List<string>();
             AddTitleRow(textContainer, language);
+            textContainer.Add("<pre>");
             AddBodyMessage(textContainer, winLoss, language, custLevel);
+            textContainer.Add("</pre>");
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
@@ -64,9 +66,10 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         {
             var textContainer = new List<string>();
             AddTitleRow(textContainer, language);
-            textContainer.Add($"{messageFormatter.Bold(ResourceHelper.Get(nameof(SharedResource.Username), language).ToUpperInvariant())}:");
-            textContainer.Add($"    {downlineUsername}{messageFormatter.NewLine()}");
+            textContainer.Add("<pre>");
+            textContainer.Add($"{ResourceHelper.Get(nameof(SharedResource.Username), language).ToUpperInvariant(),-ColumnsWidth} {downlineUsername,ColumnsWidth}");
             AddBodyMessage(textContainer, winLoss, language, custLevel);
+            textContainer.Add("</pre>");
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
@@ -145,12 +148,11 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             };
         }
 
-        private void FormatMessages(List<string> textContainer, Dictionary<string, decimal> messages, string language)
+        private static void FormatMessages(List<string> textContainer, Dictionary<string, decimal> messages, string language)
         {
             foreach (var message in messages)
             {
-                textContainer.Add($"{messageFormatter.Bold(ResourceHelper.Get(message.Key, language).ToUpperInvariant())}:");
-                textContainer.Add($"    {message.Value.ToFormattedNumber()}");
+                textContainer.Add($"{ResourceHelper.Get(message.Key, language).ToUpperInvariant(),-ColumnsWidth} {message.Value.ToFormattedNumber(),ColumnsWidth}");
             }
         }
     }

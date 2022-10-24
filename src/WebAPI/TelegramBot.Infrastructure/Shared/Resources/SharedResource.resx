@@ -282,7 +282,7 @@
     <comment />
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
-    <value>Agent Win Loss</value>
+    <value>Agent WL</value>
     <comment />
   </data>
   <data name="CompanyWinLoss" xml:space="preserve">
@@ -302,7 +302,7 @@
     <comment />
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
-    <value>Master Win Loss</value>
+    <value>Master WL</value>
     <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
@@ -314,7 +314,7 @@
     <comment />
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
-    <value>Member Win Loss</value>
+    <value>Member WL</value>
     <comment />
   </data>
   <data name="SuperComm" xml:space="preserve">
@@ -326,11 +326,11 @@
     <comment />
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
-    <value>Super Win Loss</value>
+    <value>Super WL</value>
     <comment />
   </data>
   <data name="Turnover" xml:space="preserve">
-    <value>Turnover</value>
+    <value>TO</value>
     <comment />
   </data>
   <data name="BackTo" xml:space="preserve">
