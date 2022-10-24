@@ -506,11 +506,11 @@
   <data name="BAL" xml:space="preserve">
     <value>BAL.</value>
   </data>
-  <data name="YourBalanceReport" xml:space="preserve">
-    <value>Your Balance Report</value>
+  <data name="YourBalance" xml:space="preserve">
+    <value>Your Balance</value>
   </data>
-  <data name="DownlineBalanceReport" xml:space="preserve">
-    <value>Downline's Balance Report</value>
+  <data name="DownlineBalance" xml:space="preserve">
+    <value>Downline's Balance</value>
   </data>
   <data name="DownlineTopHighestBalance" xml:space="preserve">
     <value>Downline's Top Highest Balance</value>

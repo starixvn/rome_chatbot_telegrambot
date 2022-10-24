@@ -74,25 +74,21 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         private string BuildTopOutstandingMessage(string language, OutstandingReport data, byte custLevel)
         {
-            var headerRow = string.Format(
-                "{0} / {1} {2} {3}",
-                ResourceHelper.Get($"CustLevel_{custLevel - 1}", language),
-                ResourceHelper.Get(nameof(SharedResource.Member), language),
-                messageFormatter.Point(),
-                ResourceHelper.Get($"CustLevel_{custLevel}", language));
-
             var textContainer = new List<string>();
             AddTitleRow(textContainer, language);
-            textContainer.Add($"{headerRow}{messageFormatter.NewLine()}");
-
             if (data == null || !data.Outstandings.Any())
             {
                 textContainer.Add(messageBuilder.BuildNoDataMessage(language));
             }
             else
             {
+                textContainer.Add("<pre>");
+                textContainer.Add($"     {ResourceHelper.Get($"CustLevel_{custLevel - 1}", language),-ColumnsWithNoWidth} {ResourceHelper.Get($"CustLevel_{custLevel}", language),ColumnsWithNoWidth}");
+                textContainer.Add("________________________________");
                 AddTotalRow(textContainer, data.Total, language);
                 AddBodyMessage(textContainer, data.Outstandings);
+                textContainer.Add("</pre>");
+
             }
 
             return string.Join(messageFormatter.NewLine(), textContainer);
@@ -110,15 +106,12 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             }
             else
             {
-                var headerRow = string.Format(
-                    "{0} / {1} {2} {3}",
-                    ResourceHelper.Get(nameof(SharedResource.Products), language),
-                    ResourceHelper.Get(nameof(SharedResource.Member), language),
-                    messageFormatter.Point(),
-                    ResourceHelper.Get($"CustLevel_{custLevel}", language));
-                textContainer.Add($"{headerRow}{messageFormatter.NewLine()}");
+                textContainer.Add("<pre>");
+                textContainer.Add($"     {ResourceHelper.Get($"CustLevel_{custLevel - 1}", language),-ColumnsWithNoWidth}|{ResourceHelper.Get($"CustLevel_{custLevel}", language),ColumnsWithNoWidth}");
+                textContainer.Add("________________________________");
                 AddTotalRow(textContainer, data.Total, language);
                 AddBodyMessage(textContainer, data.Outstandings);
+                textContainer.Add("</pre>");
             }
 
             return string.Join(messageFormatter.NewLine(), textContainer);
@@ -127,19 +120,19 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         private static void AddTitleRow(List<string> textContainer, string language)
             => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.Outstanding), language)}]");
 
-        private void AddTotalRow(List<string> textContainer, OutstandingEntity total, string language)
+        private static void AddTotalRow(List<string> textContainer, OutstandingEntity total, string language)
         {
-            textContainer.Add(messageFormatter.Bold(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant()));
-            textContainer.Add($"    {total.MemberOutstanding.ToFormattedNumber()} {messageFormatter.Point()} {total.Outstanding.ToFormattedNumber()}");
+            textContainer.Add($"     {ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant()}");
+            textContainer.Add($"     {total.MemberOutstanding.ToFormattedNumber(),-ColumnsWithNoWidth}|{total.Outstanding.ToFormattedNumber(),ColumnsWithNoWidth}");
         }
 
-        private void AddBodyMessage(List<string> textContainer, IEnumerable<OutstandingEntity> outstandings)
+        private static void AddBodyMessage(List<string> textContainer, IEnumerable<OutstandingEntity> outstandings)
         {
             var index = 1;
             foreach (var outstanding in outstandings)
             {
-                textContainer.Add(messageFormatter.Bold($"{index}. {outstanding.Name}"));
-                textContainer.Add($"    {outstanding.MemberOutstanding.ToFormattedNumber()} {messageFormatter.Point()} {outstanding.Outstanding.ToFormattedNumber()}");
+                textContainer.Add($"#{index,-NoColumnWidth} {outstanding.Name}");
+                textContainer.Add($"     {outstanding.MemberOutstanding.ToFormattedNumber(),-ColumnsWithNoWidth}|{outstanding.Outstanding.ToFormattedNumber(),ColumnsWithNoWidth}");
                 index++;
             }
         }

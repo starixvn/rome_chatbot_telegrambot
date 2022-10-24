@@ -17,9 +17,6 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         private readonly WebAPIConfiguration webAPIConfiguration;
         private readonly IBalanceInfoService balanceInfoService;
         private readonly ICustomerService customerService;
-        private const int ColumnsWidth = 15;
-        private const int NoColumnWidth = 3;
-        private const int ColumnsWithNoWidth = 13;
 
         public BalanceInfoFunctionHandler(
             IMessageBuilder messageBuilder,
@@ -105,7 +102,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             var textContainer = new List<string>
             {
-                $"[{ResourceHelper.Get(nameof(SharedResource.YourBalanceReport), lang)} - {DateTime.Now:yyyyMMdd}]",
+                $"[{ResourceHelper.Get(nameof(SharedResource.YourBalance), lang)} - {DateTime.Now:yyyyMMdd}]",
                 "<pre>",
                 $"{ResourceHelper.Get(nameof(SharedResource.Currency), lang),-ColumnsWidth} {bal.CurrencyName, ColumnsWidth}"
             };
@@ -145,7 +142,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var downlineBalance = await balanceInfoService.GetDownlineBalance(downlineInfo.CustId, downlineInfo.RoleId);
             var textContainer = new List<string>
             {
-                $"[{ResourceHelper.Get(nameof(SharedResource.DownlineBalanceReport),  account.Language)} - {DateTime.Now:yyyyMMdd}]",
+                $"[{ResourceHelper.Get(nameof(SharedResource.DownlineBalance),  account.Language)} - {DateTime.Now:yyyyMMdd}]",
                 "<pre>",
                 $"{ResourceHelper.Get(nameof(SharedResource.Username), account.Language).ToUpperInvariant(),-ColumnsWidth} {username,ColumnsWidth}",
             };

@@ -367,11 +367,11 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Downline&apos;s Balance Report.
+        ///   Looks up a localized string similar to Downline&apos;s Balance.
         /// </summary>
-        public static string DownlineBalanceReport {
+        public static string DownlineBalance {
             get {
-                return ResourceManager.GetString("DownlineBalanceReport", resourceCulture);
+                return ResourceManager.GetString("DownlineBalance", resourceCulture);
             }
         }
         
@@ -961,11 +961,11 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Balance Report.
+        ///   Looks up a localized string similar to Your Balance.
         /// </summary>
-        public static string YourBalanceReport {
+        public static string YourBalance {
             get {
-                return ResourceManager.GetString("YourBalanceReport", resourceCulture);
+                return ResourceManager.GetString("YourBalance", resourceCulture);
             }
         }
     }
