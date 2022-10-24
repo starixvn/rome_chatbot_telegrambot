@@ -358,7 +358,7 @@
     <comment />
   </data>
   <data name="GivenCredit" xml:space="preserve">
-    <value>GIVEN CREDIT</value>
+    <value>GIVEN CRE.</value>
     <comment />
   </data>
   <data name="Credit" xml:space="preserve">
@@ -374,11 +374,11 @@
     <comment />
   </data>
   <data name="UsedCredit" xml:space="preserve">
-    <value>USED CREDIT</value>
+    <value>USED CRE.</value>
     <comment />
   </data>
   <data name="MemMaxCredit" xml:space="preserve">
-    <value>MEMBER MAX CREDIT</value>
+    <value>MEMBER MAX CRE.</value>
     <comment />
   </data>
   <data name="MemberActClosedSus" xml:space="preserve">
@@ -398,7 +398,7 @@
     <comment />
   </data>
   <data name="BetCredit" xml:space="preserve">
-    <value>BET CREDIT</value>
+    <value>BET CRE.</value>
     <comment />
   </data>
   <data name="AgentActClosedSus" xml:space="preserve">
@@ -406,15 +406,15 @@
     <comment />
   </data>
   <data name="AgentCredit" xml:space="preserve">
-    <value>AGENT CREDIT</value>
+    <value>AGENT CRE.</value>
     <comment />
   </data>
   <data name="MasterCredit" xml:space="preserve">
-    <value>MASTER CREDIT</value>
+    <value>MASTER CRE.</value>
     <comment />
   </data>
   <data name="MemberCredit" xml:space="preserve">
-    <value>MEMBER CREDIT</value>
+    <value>MEMBER CRE.</value>
     <comment />
   </data>
   <data name="Today" xml:space="preserve">
@@ -505,5 +505,14 @@
   </data>
   <data name="BAL" xml:space="preserve">
     <value>BAL.</value>
+  </data>
+  <data name="YourBalanceReport" xml:space="preserve">
+    <value>Your Balance Report</value>
+  </data>
+  <data name="DownlineBalanceReport" xml:space="preserve">
+    <value>Downline's Balance Report</value>
+  </data>
+  <data name="DownlineTopHighestBalance" xml:space="preserve">
+    <value>Downline's Top Highest Balance</value>
   </data>
 </root>

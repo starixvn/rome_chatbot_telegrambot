@@ -97,7 +97,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AGENT CREDIT.
+        ///   Looks up a localized string similar to AGENT CRE..
         /// </summary>
         public static string AgentCredit {
             get {
@@ -241,7 +241,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BET CREDIT.
+        ///   Looks up a localized string similar to BET CRE..
         /// </summary>
         public static string BetCredit {
             get {
@@ -367,6 +367,24 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downline&apos;s Balance Report.
+        /// </summary>
+        public static string DownlineBalanceReport {
+            get {
+                return ResourceManager.GetString("DownlineBalanceReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downline&apos;s Top Highest Balance.
+        /// </summary>
+        public static string DownlineTopHighestBalance {
+            get {
+                return ResourceManager.GetString("DownlineTopHighestBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to For.
         /// </summary>
         public static string For {
@@ -376,7 +394,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GIVEN CREDIT.
+        ///   Looks up a localized string similar to GIVEN CRE..
         /// </summary>
         public static string GivenCredit {
             get {
@@ -484,7 +502,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MASTER CREDIT.
+        ///   Looks up a localized string similar to MASTER CRE..
         /// </summary>
         public static string MasterCredit {
             get {
@@ -547,7 +565,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEMBER CREDIT.
+        ///   Looks up a localized string similar to MEMBER CRE..
         /// </summary>
         public static string MemberCredit {
             get {
@@ -583,7 +601,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEMBER MAX CREDIT.
+        ///   Looks up a localized string similar to MEMBER MAX CRE..
         /// </summary>
         public static string MemMaxCredit {
             get {
@@ -844,7 +862,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to USED CREDIT.
+        ///   Looks up a localized string similar to USED CRE..
         /// </summary>
         public static string UsedCredit {
             get {
@@ -939,6 +957,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string YourAccountIsLocked {
             get {
                 return ResourceManager.GetString("YourAccountIsLocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Balance Report.
+        /// </summary>
+        public static string YourBalanceReport {
+            get {
+                return ResourceManager.GetString("YourBalanceReport", resourceCulture);
             }
         }
     }
