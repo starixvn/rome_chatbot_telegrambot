@@ -124,7 +124,7 @@
     <value>Yesterday Win Loss</value>
   </data>
   <data name="Turnover" xml:space="preserve">
-    <value>TURNOVER</value>
+    <value>TO</value>
   </data>
   <data name="GrossComm" xml:space="preserve">
     <value>GROSS COMM</value>
@@ -133,7 +133,7 @@
     <value>MASTER TOTAL</value>
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
-    <value>SUPER WIN LOSS</value>
+    <value>SUPER WL</value>
   </data>
   <data name="SuperComm" xml:space="preserve">
     <value>SUPER COMM</value>
@@ -148,13 +148,13 @@
     <value>AGENT TOTAL</value>
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
-    <value>MASTER WIN LOSS</value>
+    <value>MASTER WL</value>
   </data>
   <data name="MasterComm" xml:space="preserve">
     <value>MASTER COMM</value>
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
-    <value>MEMBER WIN LOSS</value>
+    <value>MEMBER WL</value>
   </data>
   <data name="MemberComm" xml:space="preserve">
     <value>MEMBER COMM</value>
@@ -163,7 +163,7 @@
     <value>MEMBER TOTAL</value>
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
-    <value>AGENT WIN LOSS</value>
+    <value>AGENT WL</value>
   </data>
   <data name="AgentComm" xml:space="preserve">
     <value>AGENT COMM</value>

@@ -23,8 +23,8 @@ public static class TemplateHelper
     public static string BuildTitleWithoutStrikeThrough(string language, string resourceKey, string date)
         => $"[{Get(resourceKey, language)} {date}]";
 
-    public static string BuildBoldContent(string language, string resourceKey)
-        => $"<b>{Get(resourceKey, language)}:</b>";
+    public static string BuildContent(string language, string resourceKey)
+        => Get(resourceKey, language);
 
     public static string EncodeXml(string text, bool isAttribute = true, int attrSubStringLength = 5)
         => isAttribute

@@ -2,7 +2,6 @@ using Alpha.API.Client.Models.WinLoss;
 using Alpha.API.Client.Services;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Models;
-using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Resources;
 using TelegramBot.Infrastructure.Shared.Extensions;
@@ -95,8 +94,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         }
 
         private static Dictionary<string, decimal> AddWinLossMaster(WinLossMaster winLossMaster)
-        {
-            return new Dictionary<string, decimal>
+            => new()
             {
                 {nameof(winLossMaster.Turnover), winLossMaster.Turnover},
                 {nameof(winLossMaster.GrossComm), winLossMaster.GrossComm},
@@ -106,11 +104,10 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 {nameof(winLossMaster.SuperTotal), winLossMaster.SuperTotal},
                 {nameof(winLossMaster.CompanyWinLoss), winLossMaster.CompanyWinLoss},
             };
-        }
+
 
         private static Dictionary<string, decimal> AddWinLossAgent(WinLossAgent winLossAgent)
-        {
-            return new Dictionary<string, decimal>
+            => new()
             {
                 {nameof(winLossAgent.Turnover), winLossAgent.Turnover},
                 {nameof(winLossAgent.GrossComm), winLossAgent.GrossComm},
@@ -120,11 +117,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 {nameof(winLossAgent.MasterTotal), winLossAgent.MasterTotal},
                 {nameof(winLossAgent.CompanyWinLoss), winLossAgent.CompanyWinLoss},
             };
-        }
 
         private static Dictionary<string, decimal> AddWinLossMember(WinLossMember winLossMember)
-        {
-            return new Dictionary<string, decimal>
+            => new()
             {
                 {nameof(winLossMember.Turnover), winLossMember.Turnover},
                 {nameof(winLossMember.GrossComm), winLossMember.GrossComm},
@@ -136,17 +131,15 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 {nameof(winLossMember.AgentTotal), winLossMember.AgentTotal},
                 {nameof(winLossMember.CompanyWinLoss), winLossMember.CompanyWinLoss}
             };
-        }
+
 
         private static Dictionary<string, decimal> AddWinLossMemberDownline(WinLossMember winLossMember)
-        {
-            return new Dictionary<string, decimal>
+            => new()
             {
                 {nameof(winLossMember.MemberWinLoss), winLossMember.MemberWinLoss},
                 {nameof(winLossMember.MemberComm), winLossMember.MemberComm},
                 {nameof(winLossMember.MemberTotal), winLossMember.MemberTotal}
             };
-        }
 
         private static void FormatMessages(List<string> textContainer, Dictionary<string, decimal> messages, string language)
         {

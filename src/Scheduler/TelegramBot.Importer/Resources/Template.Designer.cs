@@ -79,7 +79,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AGENT WIN LOSS.
+        ///   Looks up a localized string similar to AGENT WL.
         /// </summary>
         public static string AgentWinLoss {
             get {
@@ -124,7 +124,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MASTER WIN LOSS.
+        ///   Looks up a localized string similar to MASTER WL.
         /// </summary>
         public static string MasterWinLoss {
             get {
@@ -160,7 +160,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEMBER WIN LOSS.
+        ///   Looks up a localized string similar to MEMBER WL.
         /// </summary>
         public static string MemberWinLoss {
             get {
@@ -277,7 +277,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SUPER WIN LOSS.
+        ///   Looks up a localized string similar to SUPER WL.
         /// </summary>
         public static string SuperWinLoss {
             get {
@@ -313,7 +313,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TURNOVER.
+        ///   Looks up a localized string similar to TO.
         /// </summary>
         public static string Turnover {
             get {
