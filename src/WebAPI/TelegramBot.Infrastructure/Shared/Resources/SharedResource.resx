@@ -515,4 +515,10 @@
   <data name="DownlineTopHighestBalance" xml:space="preserve">
     <value>Downline's Top Highest Balance</value>
   </data>
+  <data name="DownlineTopHighestOutstanding" xml:space="preserve">
+    <value>Downline's Top Highest Outstanding</value>
+  </data>
+  <data name="DownlineOutstanding" xml:space="preserve">
+    <value>Downline's Outstanding</value>
+  </data>
 </root>

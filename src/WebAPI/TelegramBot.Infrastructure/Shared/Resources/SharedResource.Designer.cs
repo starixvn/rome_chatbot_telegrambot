@@ -376,11 +376,29 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downline&apos;s Outstanding.
+        /// </summary>
+        public static string DownlineOutstanding {
+            get {
+                return ResourceManager.GetString("DownlineOutstanding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Downline&apos;s Top Highest Balance.
         /// </summary>
         public static string DownlineTopHighestBalance {
             get {
                 return ResourceManager.GetString("DownlineTopHighestBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downline&apos;s Top Highest Outstanding.
+        /// </summary>
+        public static string DownlineTopHighestOutstanding {
+            get {
+                return ResourceManager.GetString("DownlineTopHighestOutstanding", resourceCulture);
             }
         }
         

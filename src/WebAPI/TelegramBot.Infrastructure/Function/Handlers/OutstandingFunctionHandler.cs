@@ -74,66 +74,57 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         private string BuildTopOutstandingMessage(string language, OutstandingReport data, byte custLevel)
         {
-            var textContainer = new List<string>();
-            AddTitleRow(textContainer, language);
-            if (data == null || !data.Outstandings.Any())
+            var textContainer = new List<string>
             {
-                textContainer.Add(messageBuilder.BuildNoDataMessage(language));
-            }
-            else
-            {
-                textContainer.Add("<pre>");
-                textContainer.Add($"     {ResourceHelper.Get($"CustLevel_{custLevel - 1}", language),-ColumnsWithNoWidth} {ResourceHelper.Get($"CustLevel_{custLevel}", language),ColumnsWithNoWidth}");
-                textContainer.Add("________________________________");
-                AddTotalRow(textContainer, data.Total, language);
-                AddBodyMessage(textContainer, data.Outstandings);
-                textContainer.Add("</pre>");
-
-            }
+                $"[{ResourceHelper.Get(nameof(SharedResource.DownlineTopHighestOutstanding), language)}]"
+            };
+            AddBodyMessage(textContainer, data, custLevel, language);
 
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
         private string BuildDownlineOutstandingMessage(string language, OutstandingReport data, byte custLevel, string downlineUsername)
         {
-            var textContainer = new List<string>();
-            AddTitleRow(textContainer, language);
-            textContainer.Add($"{ResourceHelper.Get(nameof(SharedResource.For), language)} {downlineUsername}");
+            var textContainer = new List<string>
+            {
+                $"[{ResourceHelper.Get(nameof(SharedResource.DownlineOutstanding), language)}]",
+                $"{ResourceHelper.Get(nameof(SharedResource.For), language)} {downlineUsername}"
+            };
+            AddBodyMessage(textContainer, data, custLevel, language);
 
+            return string.Join(messageFormatter.NewLine(), textContainer);
+        }
+
+        private void AddBodyMessage(List<string> textContainer, OutstandingReport data, byte custLevel, string language)
+        {
             if (data == null || !data.Outstandings.Any())
             {
                 textContainer.Add(messageBuilder.BuildNoDataMessage(language));
             }
             else
             {
+                var downlineLevelText = ResourceHelper.Get($"CustLevel_{custLevel - 1}", language);
+                var custLevelText = ResourceHelper.Get($"CustLevel_{custLevel}", language);
+                var memberText = ResourceHelper.Get(nameof(SharedResource.Member), language);
                 textContainer.Add("<pre>");
-                textContainer.Add($"     {ResourceHelper.Get($"CustLevel_{custLevel - 1}", language),-ColumnsWithNoWidth}|{ResourceHelper.Get($"CustLevel_{custLevel}", language),ColumnsWithNoWidth}");
+                textContainer.Add($"{downlineLevelText,-ColumnsWidth} {ResourceHelper.Get(nameof(SharedResource.Outstanding), language),ColumnsWidth}");
                 textContainer.Add("________________________________");
-                AddTotalRow(textContainer, data.Total, language);
-                AddBodyMessage(textContainer, data.Outstandings);
+
+                var index = 1;
+                foreach (var outstanding in data.Outstandings)
+                {
+                    textContainer.Add($"{outstanding.Name}");
+                    textContainer.Add($"{memberText,-ColumnsWidth} {outstanding.MemberOutstanding.ToFormattedNumber(),ColumnsWidth}");
+                    textContainer.Add($"{custLevelText,-ColumnsWidth} {outstanding.Outstanding.ToFormattedNumber(),ColumnsWidth}");
+                    textContainer.Add(index == data.Outstandings.Count() ? "________________________________" : "--------------------------------");
+                    index++;
+                }
+                textContainer.Add($"{ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant()}");
+                textContainer.Add($"{memberText,-ColumnsWidth} {data.Total.MemberOutstanding.ToFormattedNumber(),ColumnsWidth}");
+                textContainer.Add($"{custLevelText,-ColumnsWidth} {data.Total.Outstanding.ToFormattedNumber(),ColumnsWidth}");
+
+
                 textContainer.Add("</pre>");
-            }
-
-            return string.Join(messageFormatter.NewLine(), textContainer);
-        }
-
-        private static void AddTitleRow(List<string> textContainer, string language)
-            => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.Outstanding), language)}]");
-
-        private static void AddTotalRow(List<string> textContainer, OutstandingEntity total, string language)
-        {
-            textContainer.Add($"     {ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant()}");
-            textContainer.Add($"     {total.MemberOutstanding.ToFormattedNumber(),-ColumnsWithNoWidth}|{total.Outstanding.ToFormattedNumber(),ColumnsWithNoWidth}");
-        }
-
-        private static void AddBodyMessage(List<string> textContainer, IEnumerable<OutstandingEntity> outstandings)
-        {
-            var index = 1;
-            foreach (var outstanding in outstandings)
-            {
-                textContainer.Add($"#{index,-NoColumnWidth} {outstanding.Name}");
-                textContainer.Add($"     {outstanding.MemberOutstanding.ToFormattedNumber(),-ColumnsWithNoWidth}|{outstanding.Outstanding.ToFormattedNumber(),ColumnsWithNoWidth}");
-                index++;
             }
         }
 
