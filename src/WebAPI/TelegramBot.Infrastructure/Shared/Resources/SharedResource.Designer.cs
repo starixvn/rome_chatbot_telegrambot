@@ -385,6 +385,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downline&apos;s Today Win Loss.
+        /// </summary>
+        public static string DownlineTodayWinLoss {
+            get {
+                return ResourceManager.GetString("DownlineTodayWinLoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Downline&apos;s Top Highest Balance.
         /// </summary>
         public static string DownlineTopHighestBalance {
@@ -399,6 +408,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string DownlineTopHighestOutstanding {
             get {
                 return ResourceManager.GetString("DownlineTopHighestOutstanding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downline&apos;s Yesterday Win Loss.
+        /// </summary>
+        public static string DownlineYesterdayWinLoss {
+            get {
+                return ResourceManager.GetString("DownlineYesterdayWinLoss", resourceCulture);
             }
         }
         
@@ -624,6 +642,24 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string MemMaxCredit {
             get {
                 return ResourceManager.GetString("MemMaxCredit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Today Win Loss.
+        /// </summary>
+        public static string MyTodayWinLoss {
+            get {
+                return ResourceManager.GetString("MyTodayWinLoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Yesterday Win Loss.
+        /// </summary>
+        public static string MyYesterdayWinLoss {
+            get {
+                return ResourceManager.GetString("MyYesterdayWinLoss", resourceCulture);
             }
         }
         

@@ -20,10 +20,13 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         public Task<Result> Handle(CustBotAccount account, string[] parameters)
             => HandleWinLoss(account, parameters, DateTime.Today);
 
-        protected override void AddTitleRow(List<string> textContainer, string language)
-            => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.TodayWinLoss), language)} - {DateTime.Today:yyyyMMdd}]");
+        protected override void AddMyWinLossTitleRow(List<string> textContainer, string language)
+            => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.MyTodayWinLoss), language)} - {DateTime.Today:yyyyMMdd}]");
 
         public async Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)
             => await winLossService.GetTopUsername(account.CustId, account.CustomerLevel, DateTime.Today, top);
+
+        protected override void AddDownlineWinLossTitleRow(List<string> textContainer, string language)
+            => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.DownlineTodayWinLoss), language)} - {DateTime.Today:yyyyMMdd}]");
     }
 }

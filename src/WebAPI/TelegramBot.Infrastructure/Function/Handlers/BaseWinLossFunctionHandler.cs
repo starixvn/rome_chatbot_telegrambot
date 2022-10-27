@@ -54,7 +54,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         private string BuildWinLossMessage(string language, WinLossBase winLoss, byte custLevel)
         {
             var textContainer = new List<string>();
-            AddTitleRow(textContainer, language);
+            AddMyWinLossTitleRow(textContainer, language);
             textContainer.Add("<pre>");
             AddBodyMessage(textContainer, winLoss, language, custLevel);
             textContainer.Add("</pre>");
@@ -64,7 +64,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         private string BuildDownlineWinLossMessage(string language, WinLossBase winLoss, string downlineUsername, byte custLevel)
         {
             var textContainer = new List<string>();
-            AddTitleRow(textContainer, language);
+            AddDownlineWinLossTitleRow(textContainer, language);
             textContainer.Add("<pre>");
             textContainer.Add($"{ResourceHelper.Get(nameof(SharedResource.Username), language).ToUpperInvariant(),-ColumnsWidth} {downlineUsername,ColumnsWidth}");
             AddBodyMessage(textContainer, winLoss, language, custLevel);
@@ -72,7 +72,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
-        protected abstract void AddTitleRow(List<string> textContainer, string language);
+        protected abstract void AddMyWinLossTitleRow(List<string> textContainer, string language);
+
+        protected abstract void AddDownlineWinLossTitleRow(List<string> textContainer, string language);
 
         private void AddBodyMessage(List<string> textContainer, WinLossBase winLoss, string language, byte custLevel)
         {
