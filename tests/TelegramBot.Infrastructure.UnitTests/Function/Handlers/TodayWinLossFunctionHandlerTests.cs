@@ -59,19 +59,19 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
                 new CustBotAccount { Language = "en-US", CustId = 123, CustomerLevel = (byte)CustomerLevel.Super },
                 new[] {"m"},
                 new WinLossMaster(10, 1, 1, 1, 1, 1, 1),
-                new[] { $"[Today Win Loss - {today:yyyyMMdd}]", "<b>TURNOVER</b>:\n    10.00", "<b>GROSS COMM</b>:\n    1.00", "<b>MASTER TOTAL</b>:\n    1.00", "<b>SUPER WIN LOSS</b>:\n    1.00","<b>SUPER COMM</b>:\n    1.00", "<b>SUPER TOTAL</b>:\n    1.00", "<b>COMPANY</b>:\n    1.00" }
+                new[] { $"[Today Win Loss - {today:MM/dd/yyyy}]", "<b>TURNOVER</b>:\n    10.00", "<b>GROSS COMM</b>:\n    1.00", "<b>MASTER TOTAL</b>:\n    1.00", "<b>SUPER WIN LOSS</b>:\n    1.00","<b>SUPER COMM</b>:\n    1.00", "<b>SUPER TOTAL</b>:\n    1.00", "<b>COMPANY</b>:\n    1.00" }
             };
             yield return new object[] {
                 new CustBotAccount { Language = "en-US", CustId = 123, CustomerLevel = (byte)CustomerLevel.Master },
                 new[] {"m"},
                 new WinLossAgent(10, 1, 1, 1, 1, 1, 1),
-                new[] { $"[Today Win Loss - {today:yyyyMMdd}]", "<b>TURNOVER</b>:\n    10.00", "<b>GROSS COMM</b>:\n    1.00", "<b>AGENT TOTAL</b>:\n    1.00", "<b>MASTER WIN LOSS</b>:\n    1.00", "<b>MASTER COMM</b>:\n    1.00", "<b>MASTER TOTAL</b>:\n    1.00", "<b>COMPANY</b>:\n    1.00" }
+                new[] { $"[Today Win Loss - {today:MM/dd/yyyy}]", "<b>TURNOVER</b>:\n    10.00", "<b>GROSS COMM</b>:\n    1.00", "<b>AGENT TOTAL</b>:\n    1.00", "<b>MASTER WIN LOSS</b>:\n    1.00", "<b>MASTER COMM</b>:\n    1.00", "<b>MASTER TOTAL</b>:\n    1.00", "<b>COMPANY</b>:\n    1.00" }
             };
             yield return new object[] {
                 new CustBotAccount { Language = "en-US", CustId = 123, CustomerLevel = (byte)CustomerLevel.Agent },
                 new[] {"m"},
                 new WinLossMember(10, 1, 1, 1, 1, 1, 1, 1, 1),
-                new[] { $"[Today Win Loss - {today:yyyyMMdd}]", "<b>TURNOVER</b>:\n    10.00", "<b>GROSS COMM</b>:\n    1.00", "<b>MEMBER WIN LOSS</b>:\n    1.00", "<b>MEMBER COMM</b>:\n    1.00", "<b>MEMBER TOTAL</b>:\n    1.00", "<b>AGENT WIN LOSS</b>:\n    1.00", "<b>AGENT COMM</b>:\n    1.00","<b>AGENT TOTAL</b>:\n    1.00", "<b>COMPANY</b>:\n    1.00" }
+                new[] { $"[Today Win Loss - {today:MM/dd/yyyy}]", "<b>TURNOVER</b>:\n    10.00", "<b>GROSS COMM</b>:\n    1.00", "<b>MEMBER WIN LOSS</b>:\n    1.00", "<b>MEMBER COMM</b>:\n    1.00", "<b>MEMBER TOTAL</b>:\n    1.00", "<b>AGENT WIN LOSS</b>:\n    1.00", "<b>AGENT COMM</b>:\n    1.00","<b>AGENT TOTAL</b>:\n    1.00", "<b>COMPANY</b>:\n    1.00" }
             };
         }
 
@@ -128,7 +128,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
                 new CustBotAccount { Language = "en-US", CustId = 123, CustomerLevel = (byte)CustomerLevel.Agent },
                 new[] {"validDownlineUsername"},
                 new WinLossMember(10, 1, 1, 1, 1, 1, 1, 1, 1),
-                new[] { $"[Today Win Loss - {today:yyyyMMdd}]", "<b>USERNAME</b>:", "    validdownlineusername","\n<b>MEMBER WIN LOSS</b>:\n    1.00", "<b>MEMBER COMM</b>:\n    1.00", "<b>MEMBER TOTAL</b>:\n    1.00"}
+                new[] { $"[Today Win Loss - {today:MM/dd/yyyy}]", "<b>USERNAME</b>:", "    validdownlineusername","\n<b>MEMBER WIN LOSS</b>:\n    1.00", "<b>MEMBER COMM</b>:\n    1.00", "<b>MEMBER TOTAL</b>:\n    1.00"}
             };
         }
 

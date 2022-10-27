@@ -16,6 +16,7 @@ using Alpha.API.Client.Models.BalanceInfo;
 using System;
 using Alpha.API.Client.Models.Customers;
 using System.Linq;
+using TelegramBot.Utilities.Extensions;
 
 namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 {
@@ -132,7 +133,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
                 {$"{ResourceHelper.Get($"{(CustomerLevel)request.CustomerLevel}OutStanding", lang)}:", bal.Outstanding.AgentOutstanding.ToFormattedNumber()},
             };
             var textContainer = new List<string>();
-            textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.Balance), lang)} - {DateTime.Now:yyyyMMdd}]");
+            textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.Balance), lang)} - {DateTime.Now.ToSimpleDate()}]");
             foreach (var keyValuePair in dict)
             {
                 textContainer.Add($"<b>{keyValuePair.Key.ToUpperInvariant()}</b>");
@@ -170,7 +171,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 
             var textContainer = new List<string>()
             {
-                $"[{ResourceHelper.Get(nameof(SharedResource.Balance),  requestAccount.Language)} - {DateTime.Now:yyyyMMdd}]",
+                $"[{ResourceHelper.Get(nameof(SharedResource.Balance),  requestAccount.Language)} - {DateTime.Now.ToSimpleDate()}]",
                 $"<b>{ResourceHelper.Get(nameof(SharedResource.Username), requestAccount.Language).ToUpperInvariant()}</b>:",
                 $"{parameters[0].ToLowerInvariant()}\n"
             };
@@ -247,7 +248,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 
             var textContainer = new List<string>()
             {
-                $"[{ResourceHelper.Get(nameof(SharedResource.Balance), requestAccount.Language)} - {DateTime.Now:yyyyMMdd}]",
+                $"[{ResourceHelper.Get(nameof(SharedResource.Balance), requestAccount.Language)} - {DateTime.Now.ToSimpleDate()}]",
                 ResourceHelper.Get($"CustLevel_{requestAccount.CustomerLevel - 1}", requestAccount.Language),
                 $"{ResourceHelper.Get(nameof(SharedResource.Today), requestAccount.Language)} {telegramFormatter.Point()} {ResourceHelper.Get(nameof(SharedResource.Yesterday), requestAccount.Language)}{telegramFormatter.NewLine()}",
 

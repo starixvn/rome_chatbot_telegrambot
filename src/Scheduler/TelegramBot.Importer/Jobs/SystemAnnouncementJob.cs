@@ -122,7 +122,7 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
         }
 
         messageBuilder
-            .AppendLine(TemplateHelper.BuildTitle(language, "SystemAnnouncement", DateTime.Now.ToString("yyyyMMdd")))
+            .AppendLine(TemplateHelper.BuildTitle(language, "SystemAnnouncement", DateTime.Now.ToString("MM/dd/yyyy")))
             .Append(messageContent.StripHTML().Replace(TabChar, string.Empty));
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());

@@ -9,6 +9,7 @@ using TelegramBot.Infrastructure.Shared.Extensions;
 using TelegramBot.Infrastructure.Shared.Resources;
 using Alpha.API.Client.Models.Customers;
 using Alpha.API.Client.Models.Outstanding;
+using TelegramBot.Utilities.Extensions;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
 {
@@ -70,7 +71,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var todayText = ResourceHelper.Get(nameof(SharedResource.Today), account.Language);
             var textContainer = new List<string>
             {
-                $"[{ResourceHelper.Get(nameof(SharedResource.DownlineTopHighestBalance), account.Language)} - {DateTime.Now:yyyyMMdd}]",
+                $"[{ResourceHelper.Get(nameof(SharedResource.DownlineTopHighestBalance), account.Language)} - {DateTime.Now.ToSimpleDate()}]",
                 "<pre>",
                 $"     {usernameText,-ColumnsWithNoWidth} {todayText,ColumnsWithNoWidth}",
                 "________________________________"
@@ -102,7 +103,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             var textContainer = new List<string>
             {
-                $"[{ResourceHelper.Get(nameof(SharedResource.YourBalance), lang)} - {DateTime.Now:yyyyMMdd}]",
+                $"[{ResourceHelper.Get(nameof(SharedResource.YourBalance), lang)} - {DateTime.Now.ToSimpleDate()}]",
                 "<pre>",
                 $"{ResourceHelper.Get(nameof(SharedResource.Currency), lang),-ColumnsWidth} {bal.CurrencyName, ColumnsWidth}"
             };
@@ -142,7 +143,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var downlineBalance = await balanceInfoService.GetDownlineBalance(downlineInfo.CustId, downlineInfo.RoleId);
             var textContainer = new List<string>
             {
-                $"[{ResourceHelper.Get(nameof(SharedResource.DownlineBalance),  account.Language)} - {DateTime.Now:yyyyMMdd}]",
+                $"[{ResourceHelper.Get(nameof(SharedResource.DownlineBalance),  account.Language)} - {DateTime.Now.ToSimpleDate()}]",
                 "<pre>",
                 $"{ResourceHelper.Get(nameof(SharedResource.Username), account.Language).ToUpperInvariant(),-ColumnsWidth} {username,ColumnsWidth}",
             };

@@ -3,6 +3,7 @@ using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Resources;
+using TelegramBot.Utilities.Extensions;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
 {
@@ -21,12 +22,12 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             => HandleWinLoss(account, parameters, DateTime.Today);
 
         protected override void AddMyWinLossTitleRow(List<string> textContainer, string language)
-            => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.MyTodayWinLoss), language)} - {DateTime.Today:yyyyMMdd}]");
+            => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.MyTodayWinLoss), language)} - {DateTime.Today.ToSimpleDate()}]");
 
         public async Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)
             => await winLossService.GetTopUsername(account.CustId, account.CustomerLevel, DateTime.Today, top);
 
         protected override void AddDownlineWinLossTitleRow(List<string> textContainer, string language)
-            => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.DownlineTodayWinLoss), language)} - {DateTime.Today:yyyyMMdd}]");
+            => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.DownlineTodayWinLoss), language)} - {DateTime.Today.ToSimpleDate()}]");
     }
 }

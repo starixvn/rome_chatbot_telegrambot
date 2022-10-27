@@ -7,6 +7,7 @@ using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.constants;
 using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Resources;
+using TelegramBot.Utilities.Extensions;
 
 namespace TelegramBot.Infrastructure.Message
 {
@@ -104,14 +105,14 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildChangePasswordAlertMessage(string language)
             => string.Join(
                 messageFormatter.NewLine(),
-                $"[{ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlert), language)} - {DateTime.Now:yyyyMMdd}]",
+                $"[{ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlert), language)} - {DateTime.Now.ToSimpleDate()}]",
                 ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlertContent), language),
                 ResourceHelper.Get(nameof(SharedResource.AlertChangePasswordMessage), language));
 
         public string BuildChangeSecurityCodeAlertMessage(string language)
             => string.Join(
                 messageFormatter.NewLine(),
-                $"[{ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlert), language)} - {DateTime.Now:yyyyMMdd}]",
+                $"[{ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlert), language)} - {DateTime.Now.ToSimpleDate()}]",
                 ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlertContent), language),
                 ResourceHelper.Get(nameof(SharedResource.AlertMessage), language));
 
@@ -277,7 +278,7 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildWrongPasswordAlertMessage(string language, string ip)
             => string.Join(
                 messageFormatter.NewLine(),
-                $"[{ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlert), language)} - {DateTime.Now:yyyyMMdd}]",
+                $"[{ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlert), language)} - {DateTime.Now.ToSimpleDate()}]",
                 ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlertContent), language),
                 $"{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}: {ip}",
                 ResourceHelper.Get(nameof(SharedResource.AlertChangePasswordMessage), language));

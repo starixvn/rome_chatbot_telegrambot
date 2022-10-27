@@ -5,7 +5,7 @@ namespace TelegramBot.Importer.Extensions;
 [ExcludeFromCodeCoverage]
 public static class DateTimeExtensions
 {
-    private const string SimpleDate = "yyyyMMdd";
+    private const string SimpleDate = "MM/dd/yyyy";
     private const string LongDateTime24h = "yyyy-MM-dd HH:mm:ss";
     private const string LongDateTime24hWithSlash = "MM/dd/yyyy HH:mm:ss";
     private const string Time24h = "HH:mm:ss";
