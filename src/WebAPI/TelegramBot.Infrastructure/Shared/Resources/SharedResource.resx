@@ -522,13 +522,13 @@
     <value>Downline's Outstanding</value>
   </data>
   <data name="MyTodayWinLoss" xml:space="preserve">
-    <value>My Today Win Loss</value>
+    <value>Your Today Win Loss</value>
   </data>
   <data name="DownlineTodayWinLoss" xml:space="preserve">
     <value>Downline's Today Win Loss</value>
   </data>
   <data name="MyYesterdayWinLoss" xml:space="preserve">
-    <value>My Yesterday Win Loss</value>
+    <value>Your Yesterday Win Loss</value>
   </data>
   <data name="DownlineYesterdayWinLoss" xml:space="preserve">
     <value>Downline's Yesterday Win Loss</value>

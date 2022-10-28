@@ -43,28 +43,20 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 
         }
 
-        private static string BuildTotalACT_CLOSED_SUS(IEnumerable<TotalDownline> totalDownline, CustomerLevel level)
-        {
-            var downline = totalDownline.ToList().Find(e => e.RoleId == (byte)level);
-            return downline == null ? "0/0/0" : $"{downline.TotalActive}/{downline.TotalClosed}/{downline.TotalSuspended}";
-        }
-
         public static Dictionary<string, string> BuildMasterDownLineUsernameMessage(DownlineBalance bal, string lang)
         {
             return new Dictionary<string, string>
             {
-                {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}:", bal.TotalCash?.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}:", bal.YesterdayCash?.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}:", bal.TotalBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}:", bal.YesterdayBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.MasterOutStanding), lang)}:", bal.Outstanding.MasterOutstanding.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}:", bal.PendingTransfer3rd.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.UsedCredit),lang)}:", bal.UsedCredit?.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}:", bal.GivenCredit.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.AgentActClosedSus), lang)}:", $"{BuildTotalACT_CLOSED_SUS(bal.TotalDownlines,CustomerLevel.Agent)}"},
-                {$"{ResourceHelper.Get(nameof(SharedResource.MemberActClosedSus), lang)}:", $"{BuildTotalACT_CLOSED_SUS(bal.TotalDownlines,CustomerLevel.Member)}"},
-                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}:", bal.Outstanding.MemberOutstanding.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.SuperOutStanding), lang)}:", bal.Outstanding.SuperOutstanding.ToFormattedNumber()}
+                {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}", bal.TotalCash?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}", bal.YesterdayCash?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}", bal.TotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}", bal.YesterdayBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MasterOutStanding), lang)}", bal.Outstanding.MasterOutstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}", bal.PendingTransfer3rd.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.UsedCredit),lang)}", bal.UsedCredit?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}", bal.GivenCredit.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}", bal.Outstanding.MemberOutstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.SuperOutStanding), lang)}", bal.Outstanding.SuperOutstanding.ToFormattedNumber()}
             };
         }
 
@@ -72,18 +64,17 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         {
             return new Dictionary<string, string>
             {
-                {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}:", bal.TotalCash?.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}:", bal.YesterdayCash?.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}:", bal.TotalBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}:", bal.YesterdayBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.AgentOutStanding), lang)}:", bal.Outstanding.AgentOutstanding.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}:", bal.PendingTransfer3rd.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.UsedCredit),lang)}:", bal.UsedCredit?.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}:", bal.GivenCredit.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.MemMaxCredit),lang)}:", bal.GivenCredit.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.MemberActClosedSus), lang)}:",$"{BuildTotalACT_CLOSED_SUS(bal.TotalDownlines,CustomerLevel.Member)}"},
-                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}:", bal.Outstanding.MemberOutstanding.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.MasterOutStanding), lang)}:", bal.Outstanding.MasterOutstanding.ToFormattedNumber()}
+                {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}", bal.TotalCash?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}", bal.YesterdayCash?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}", bal.TotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}", bal.YesterdayBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.AgentOutStanding), lang)}", bal.Outstanding.AgentOutstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}", bal.PendingTransfer3rd.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.UsedCredit),lang)}", bal.UsedCredit?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}", bal.GivenCredit.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MemMaxCredit),lang)}", bal.GivenCredit.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}", bal.Outstanding.MemberOutstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MasterOutStanding), lang)}", bal.Outstanding.MasterOutstanding.ToFormattedNumber()}
             };
         }
 
@@ -91,14 +82,14 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         {
             return new Dictionary<string, string>
             {
-                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}:", bal.TotalBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}:", bal.YesterdayBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}:", bal.PendingTransfer3rd.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}:", bal.GivenCredit.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.NetPosition), lang)}:", bal.NetPosition?.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.BetCredit), lang)}:", bal.BetCredit?.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}:", bal.Outstanding.MemberOutstanding.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.AgentOutStanding), lang)}:", bal.Outstanding.AgentOutstanding.ToFormattedNumber()}
+                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}", bal.TotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}", bal.YesterdayBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}", bal.PendingTransfer3rd.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}", bal.GivenCredit.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.NetPosition), lang)}", bal.NetPosition?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.BetCredit), lang)}", bal.BetCredit?.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}", bal.Outstanding.MemberOutstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.AgentOutStanding), lang)}", bal.Outstanding.AgentOutstanding.ToFormattedNumber()}
             };
         }
 
@@ -119,26 +110,29 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 
             var dict = new Dictionary<string, string>
             {
-                {$"{ResourceHelper.Get(nameof(SharedResource.Currency), lang)}:", bal.CurrencyName},
-                {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}:", bal.CashBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}:", bal.YesterdayCashBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}:", bal.TotalBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}:", bal.YesterdayTotalBalance.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.TodayWinLoss), lang)}:", bal.TodayWinLoss.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayWinLoss), lang)}:", bal.YesterdayWinLoss.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}:", bal.PendingTransfer3rd.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}:", bal.GivenCredit.ToFormattedNumber()},
-                {$"{ResourceHelper.Get($"{(CustomerLevel)request.CustomerLevel - 1}Credit",lang)}:", bal.MemberCredit.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}:", bal.Outstanding.MemberOutstanding.ToFormattedNumber()},
-                {$"{ResourceHelper.Get($"{(CustomerLevel)request.CustomerLevel}OutStanding", lang)}:", bal.Outstanding.AgentOutstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.Currency), lang)}", bal.CurrencyName},
+                {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}", bal.CashBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}", bal.YesterdayCashBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.BAL), lang)}", bal.TotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}", bal.YesterdayTotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.TodayWinLoss), lang)}", bal.TodayWinLoss.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayWinLoss), lang)}", bal.YesterdayWinLoss.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}", bal.PendingTransfer3rd.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}", bal.GivenCredit.ToFormattedNumber()},
+                {$"{ResourceHelper.Get($"{(CustomerLevel)request.CustomerLevel - 1}Credit",lang)}", bal.MemberCredit.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.MemberOutStanding), lang)}", bal.Outstanding.MemberOutstanding.ToFormattedNumber()},
+                {$"{ResourceHelper.Get($"{(CustomerLevel)request.CustomerLevel}OutStanding", lang)}", bal.Outstanding.AgentOutstanding.ToFormattedNumber()},
             };
-            var textContainer = new List<string>();
-            textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.Balance), lang)} - {DateTime.Now.ToSimpleDate()}]");
+            var textContainer = new List<string>
+            {
+                $"[{ResourceHelper.Get(nameof(SharedResource.YourBalance), lang)} - {DateTime.Now.ToSimpleDate()}]",
+                "<pre>"
+            };
             foreach (var keyValuePair in dict)
             {
-                textContainer.Add($"<b>{keyValuePair.Key.ToUpperInvariant()}</b>");
-                textContainer.Add($"    {keyValuePair.Value}");
+                textContainer.Add($"{keyValuePair.Key.ToUpperInvariant(),-15} {keyValuePair.Value,15}");
             }
+            textContainer.Add("</pre>");
             var message = string.Join("\n", textContainer);
 
             var expect = new Result(0, message);
@@ -171,9 +165,9 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 
             var textContainer = new List<string>()
             {
-                $"[{ResourceHelper.Get(nameof(SharedResource.Balance),  requestAccount.Language)} - {DateTime.Now.ToSimpleDate()}]",
-                $"<b>{ResourceHelper.Get(nameof(SharedResource.Username), requestAccount.Language).ToUpperInvariant()}</b>:",
-                $"{parameters[0].ToLowerInvariant()}\n"
+                $"[{ResourceHelper.Get(nameof(SharedResource.DownlineBalance),  requestAccount.Language)} - {DateTime.Now.ToSimpleDate()}]",
+                "<pre>",
+                $"{ResourceHelper.Get(nameof(SharedResource.Username), requestAccount.Language).ToUpperInvariant(),-15} {parameters[0].ToLowerInvariant(),15}"
             };
             var dict = (CustomerLevel)downlineInfo.RoleId switch
             {
@@ -185,9 +179,10 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 
             foreach (var keyValuePair in dict)
             {
-                textContainer.Add($"<b>{keyValuePair.Key.ToUpperInvariant()}</b>");
-                textContainer.Add($"    {keyValuePair.Value}");
+                textContainer.Add($"{keyValuePair.Key.ToUpperInvariant(),-15} {keyValuePair.Value,15}");
             }
+
+            textContainer.Add("</pre>");
 
             var message = string.Join("\n", textContainer);
             var expect = new Result(0, message);
@@ -248,17 +243,17 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 
             var textContainer = new List<string>()
             {
-                $"[{ResourceHelper.Get(nameof(SharedResource.Balance), requestAccount.Language)} - {DateTime.Now.ToSimpleDate()}]",
-                ResourceHelper.Get($"CustLevel_{requestAccount.CustomerLevel - 1}", requestAccount.Language),
-                $"{ResourceHelper.Get(nameof(SharedResource.Today), requestAccount.Language)} {telegramFormatter.Point()} {ResourceHelper.Get(nameof(SharedResource.Yesterday), requestAccount.Language)}{telegramFormatter.NewLine()}",
-
+                $"[{ResourceHelper.Get(nameof(SharedResource.DownlineTopHighestBalance), requestAccount.Language)} - {DateTime.Now.ToSimpleDate()}]",
+                "<pre>",
+                $"     {ResourceHelper.Get(nameof(SharedResource.Username), requestAccount.Language),-13} {ResourceHelper.Get(nameof(SharedResource.Today), requestAccount.Language),13}",
+                "________________________________"
             };
             var index = 1;
             foreach (var item in topBalanceReport)
             {
-                textContainer.Add($"{index++}. {item.Username}");
-                textContainer.Add($"    {item.Balance.ToFormattedNumber()} {telegramFormatter.Point()} {item.YesterdayBalance.ToFormattedNumber()}");
+                textContainer.Add($"#{index++,-3} {item.Username,-13} {item.Balance.ToFormattedNumber(),13}");
             }
+            textContainer.Add("</pre>");
 
             var message = string.Join(telegramFormatter.NewLine(), textContainer);
             var expect = new Result(0, message);

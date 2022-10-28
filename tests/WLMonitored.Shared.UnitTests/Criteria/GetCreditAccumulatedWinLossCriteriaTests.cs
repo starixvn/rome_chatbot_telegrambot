@@ -16,17 +16,14 @@ public class GetCreditAccumulatedWinLossCriteriaTests
         Assert.Equal("Acc_WLMonitored_Service_AccumulatedDataSel", criteria.GetSettingKey());
     }
 
-    [Theory]
-    [InlineData("", false)]
-    [InlineData("     ", false)]
-    [InlineData("1176070", true)]
-    public void IsValid_CustIds_ReturnsExpected(string custIds, bool expected)
+    [Fact]
+    public void IsValid_Always_ReturnsTrue()
     {
         // Arrange
-        var criteria = new GetCreditAccumulatedWinLossCriteria(custIds, DateTime.Today);
+        var criteria = new GetCreditAccumulatedWinLossCriteria("", DateTime.Today);
 
         // Act & Assert
-        Assert.Equal(expected, criteria.IsValid());
+        Assert.True(criteria.IsValid());
     }
 
     [Fact]

@@ -59,19 +59,54 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
                 new CustBotAccount { Language = "en-US", CustId = 123, CustomerLevel = (byte)CustomerLevel.Super },
                 new[] {"m"},
                 new WinLossMaster(10, 1, 1, 1, 1, 1, 1),
-                new[] { $"[Yesterday Win Loss - {yesterday:MM/dd/yyyy}]", "<b>TURNOVER</b>:\n    10.00", "<b>GROSS COMM</b>:\n    1.00", "<b>MASTER TOTAL</b>:\n    1.00", "<b>SUPER WIN LOSS</b>:\n    1.00","<b>SUPER COMM</b>:\n    1.00", "<b>SUPER TOTAL</b>:\n    1.00", "<b>COMPANY</b>:\n    1.00" }
+                new[] {
+                    $"[Your Yesterday Win Loss - {yesterday:MM/dd/yyyy}]",
+                    "<pre>",
+                    $"{"TO",-15} {"10.00",15}",
+                    $"{"GROSS COMM",-15} {"1.00",15}",
+                    $"{"MASTER TOTAL",-15} {"1.00",15}",
+                    $"{"SUPER WL",-15} {"1.00",15}",
+                    $"{"SUPER COMM",-15} {"1.00",15}",
+                    $"{"SUPER TOTAL",-15} {"1.00",15}",
+                    $"{"COMPANY",-15} {"1.00",15}",
+                    "</pre>"
+                }
             };
             yield return new object[] {
                 new CustBotAccount { Language = "en-US", CustId = 123, CustomerLevel = (byte)CustomerLevel.Master },
                 new[] {"m"},
                 new WinLossAgent(10, 1, 1, 1, 1, 1, 1),
-                new[] { $"[Yesterday Win Loss - {yesterday:MM/dd/yyyy}]", "<b>TURNOVER</b>:\n    10.00", "<b>GROSS COMM</b>:\n    1.00", "<b>AGENT TOTAL</b>:\n    1.00", "<b>MASTER WIN LOSS</b>:\n    1.00", "<b>MASTER COMM</b>:\n    1.00", "<b>MASTER TOTAL</b>:\n    1.00", "<b>COMPANY</b>:\n    1.00" }
+                new[] {
+                    $"[Your Yesterday Win Loss - {yesterday:MM/dd/yyyy}]",
+                    "<pre>",
+                    $"{"TO",-15} {"10.00",15}",
+                    $"{"GROSS COMM",-15} {"1.00",15}",
+                    $"{"AGENT TOTAL",-15} {"1.00",15}",
+                    $"{"MASTER WL",-15} {"1.00",15}",
+                    $"{"MASTER COMM",-15} {"1.00",15}",
+                    $"{"MASTER TOTAL",-15} {"1.00",15}",
+                    $"{"COMPANY",-15} {"1.00",15}",
+                    "</pre>"
+                },
             };
             yield return new object[] {
                 new CustBotAccount { Language = "en-US", CustId = 123, CustomerLevel = (byte)CustomerLevel.Agent },
                 new[] {"m"},
                 new WinLossMember(10, 1, 1, 1, 1, 1, 1, 1, 1),
-                new[] { $"[Yesterday Win Loss - {yesterday:MM/dd/yyyy}]", "<b>TURNOVER</b>:\n    10.00", "<b>GROSS COMM</b>:\n    1.00", "<b>MEMBER WIN LOSS</b>:\n    1.00", "<b>MEMBER COMM</b>:\n    1.00", "<b>MEMBER TOTAL</b>:\n    1.00", "<b>AGENT WIN LOSS</b>:\n    1.00", "<b>AGENT COMM</b>:\n    1.00","<b>AGENT TOTAL</b>:\n    1.00", "<b>COMPANY</b>:\n    1.00" }
+                new[] {
+                    $"[Your Yesterday Win Loss - {yesterday:MM/dd/yyyy}]",
+                    "<pre>",
+                    $"{"TO",-15} {"10.00",15}",
+                    $"{"GROSS COMM",-15} {"1.00",15}",
+                    $"{"MEMBER WL",-15} {"1.00",15}",
+                    $"{"MEMBER COMM",-15} {"1.00",15}",
+                    $"{"MEMBER TOTAL",-15} {"1.00",15}",
+                    $"{"AGENT WL",-15} {"1.00",15}",
+                    $"{"AGENT COMM",-15} {"1.00",15}",
+                    $"{"AGENT TOTAL",-15} {"1.00",15}",
+                    $"{"COMPANY",-15} {"1.00",15}",
+                    "</pre>"
+                },
             };
         }
 
@@ -80,7 +115,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         public async Task Handle_MyYesterdayWinLoss_ReturnSuccessResult(CustBotAccount account, string[] parameters, WinLossBase winLoss, string[] messages)
         {
             // Arrange
-            var expectedMessage = String.Join(telegramFormatter.NewLine(), messages);
+            var expectedMessage = string.Join(telegramFormatter.NewLine(), messages);
             winLossService.GetWinLoss(account.CustId, account.CustomerLevel, yesterday).Returns(winLoss);
 
             // Act
@@ -128,7 +163,15 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
                 new CustBotAccount { Language = "en-US", CustId = 123, CustomerLevel = (byte)CustomerLevel.Agent },
                 new[] {"validDownlineUsername"},
                 new WinLossMember(10, 1, 1, 1, 1, 1, 1, 1, 1),
-                new[] { $"[Yesterday Win Loss - {yesterday:MM/dd/yyyy}]", "<b>USERNAME</b>:", "    validdownlineusername","\n<b>MEMBER WIN LOSS</b>:\n    1.00", "<b>MEMBER COMM</b>:\n    1.00", "<b>MEMBER TOTAL</b>:\n    1.00"}
+                new[] {
+                    $"[Downline's Yesterday Win Loss - {yesterday:MM/dd/yyyy}]",
+                    "<pre>",
+                    $"{"USERNAME",-15} {"validdownlineusername",15}",
+                    $"{"MEMBER WL",-15} {"1.00",15}",
+                    $"{"MEMBER COMM",-15} {"1.00",15}",
+                    $"{"MEMBER TOTAL",-15} {"1.00",15}",
+                    "</pre>",
+                },
             };
         }
 
@@ -137,7 +180,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         public async Task Handle_ValidDirectDownline_ReturnSuccessResult(CustBotAccount account, string[] parameters, WinLossBase winLoss, string[] messages)
         {
             // Arrange
-            var expectedMessage = String.Join(telegramFormatter.NewLine(), messages);
+            var expectedMessage = string.Join(telegramFormatter.NewLine(), messages);
             customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(new DownlineInfo(111, (byte)(account.CustomerLevel - 1), true)));
             winLossService.GetDownlineWinLoss(account.CustId, account.CustomerLevel, yesterday, 111).Returns(winLoss);
 

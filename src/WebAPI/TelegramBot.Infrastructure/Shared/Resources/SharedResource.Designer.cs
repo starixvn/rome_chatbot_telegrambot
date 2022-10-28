@@ -646,7 +646,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to My Today Win Loss.
+        ///   Looks up a localized string similar to Your Today Win Loss.
         /// </summary>
         public static string MyTodayWinLoss {
             get {
@@ -655,7 +655,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to My Yesterday Win Loss.
+        ///   Looks up a localized string similar to Your Yesterday Win Loss.
         /// </summary>
         public static string MyYesterdayWinLoss {
             get {
