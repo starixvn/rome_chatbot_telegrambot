@@ -475,4 +475,7 @@
   <data name="WrongPasswordAlertContent" xml:space="preserve">
     <value>Mật khẩu tài khoản của bạn đã bị nhập sai nhiều lần.</value>
   </data>
+  <data name="BAL" xml:space="preserve">
+    <value>Tổng số tiền giao dịch</value>
+  </data>
 </root>

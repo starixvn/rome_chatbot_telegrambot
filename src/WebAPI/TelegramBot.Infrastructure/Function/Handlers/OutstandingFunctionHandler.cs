@@ -37,6 +37,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 return Result.CreateErrorResult();
             }
 
+
             var downlineInfo = await customerService.GetDownlineInfo(account.CustId, parameter);
             if (downlineInfo != null && downlineInfo.CustId > 0)
             {

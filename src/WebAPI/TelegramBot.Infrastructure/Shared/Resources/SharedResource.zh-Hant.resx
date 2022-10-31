@@ -503,4 +503,7 @@
   <data name="WrongPasswordAlertContent" xml:space="preserve">
     <value>您的賬號密碼多次輸入錯誤。</value>
   </data>
+  <data name="BAL" xml:space="preserve">
+    <value>余额资料</value>
+  </data>
 </root>

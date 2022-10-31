@@ -10,6 +10,7 @@ using TelegramBot.Infrastructure.Shared.Resources;
 using Alpha.API.Client.Models.Customers;
 using Alpha.API.Client.Models.Outstanding;
 using TelegramBot.Utilities.Extensions;
+using System.Text;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
 {
@@ -73,7 +74,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.DownlineTopHighestBalance), account.Language)} - {DateTime.Now.ToSimpleDate()}]",
                 "<pre>",
-                $"     {usernameText,-ColumnsWithNoWidth} {todayText,ColumnsWithNoWidth}",
+                messageFormatter.FormatHeaderRow(usernameText, todayText, account.Language),
                 "________________________________"
             };
 
@@ -83,10 +84,9 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             }
             else
             {
-                var index = 1;
                 foreach (var item in topBalanceReport)
                 {
-                    textContainer.Add($"#{index++,-NoColumnWidth} {item.Username,-ColumnsWithNoWidth} {item.Balance.ToFormattedNumber(),ColumnsWithNoWidth}");
+                    textContainer.Add(messageFormatter.FormatRow(item.Username, item.Balance.ToFormattedNumber(), LanguageCodes.English));
                 }
             }
 
@@ -105,7 +105,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.YourBalance), lang)} - {DateTime.Now.ToSimpleDate()}]",
                 "<pre>",
-                $"{ResourceHelper.Get(nameof(SharedResource.Currency), lang),-ColumnsWidth} {bal.CurrencyName, ColumnsWidth}"
+                messageFormatter.FormatRow(ResourceHelper.Get(nameof(SharedResource.Currency), lang), bal.CurrencyName, lang)
             };
 
             var dict = new Dictionary<string, decimal?>
@@ -126,7 +126,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 var title = ResourceHelper.Get(item.Key, account.Language).ToUpperInvariant();
                 var value = item.Value?.ToFormattedNumber();
-                textContainer.Add($"{title,-ColumnsWidth} {value,ColumnsWidth}");
+                textContainer.Add(messageFormatter.FormatRow(title, value, account.Language));
             }
             textContainer.Add("</pre>");
             var message = string.Join(messageFormatter.NewLine(), textContainer);
@@ -145,7 +145,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.DownlineBalance),  account.Language)} - {DateTime.Now.ToSimpleDate()}]",
                 "<pre>",
-                $"{ResourceHelper.Get(nameof(SharedResource.Username), account.Language).ToUpperInvariant(),-ColumnsWidth} {username,ColumnsWidth}",
+                 messageFormatter.FormatRow(ResourceHelper.Get(nameof(SharedResource.Username), account.Language), username, account.Language),
             };
 
             var dict = (CustomerLevel)downlineInfo.RoleId switch
@@ -160,7 +160,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 var title = ResourceHelper.Get(item.Key, account.Language).ToUpperInvariant();
                 var value = item.Value?.ToFormattedNumber();
-                textContainer.Add($"{title,-ColumnsWidth} {value,ColumnsWidth}");
+                textContainer.Add(messageFormatter.FormatRow(title, value, account.Language));
             }
 
             textContainer.Add("</pre>");

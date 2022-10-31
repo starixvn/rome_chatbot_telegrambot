@@ -499,4 +499,7 @@
   <data name="WrongPasswordAlertContent" xml:space="preserve">
     <value>ป้อนรหัสผ่านบัญชีของคุณไม่ถูกต้องหลายครั้ง</value>
   </data>
+  <data name="BAL" xml:space="preserve">
+    <value>ข้อมูลยอดเงินคงเหลือ</value>
+  </data>
 </root>
