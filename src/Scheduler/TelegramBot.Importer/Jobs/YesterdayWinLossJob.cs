@@ -18,7 +18,6 @@ namespace TelegramBot.Importer.Jobs;
 
 public sealed class YesterdayWinLossJob : NotificationBaseJob
 {
-    private const int ColumnsWidth = 15;
     private readonly IYesterdayWinLossService yesterdayWinLossService;
 
     public YesterdayWinLossJob(
@@ -204,7 +203,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
 
         foreach (var item in content)
         {
-            messageBuilder.AppendLine($"{TemplateHelper.BuildContent(language, item.Key),-ColumnsWidth} {item.Value.FormatDecimal(),ColumnsWidth}");
+            messageBuilder.AppendLine(TemplateHelper.FormatRow(TemplateHelper.BuildContent(language, item.Key), item.Value.FormatDecimal(), language));
         }
 
         messageBuilder.AppendLine("</pre>");

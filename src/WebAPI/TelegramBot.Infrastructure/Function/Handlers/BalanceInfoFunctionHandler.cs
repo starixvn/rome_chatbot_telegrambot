@@ -58,7 +58,6 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 : Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
         }
 
-
         private async Task<Result> HandleTopXBalance(CustBotAccount account, int topQuery)
         {
             if (topQuery <= 0 || topQuery > webAPIConfiguration.BalanceMaxTopQuery)
@@ -145,7 +144,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.DownlineBalance),  account.Language)} - {DateTime.Now.ToSimpleDate()}]",
                 "<pre>",
-                 messageFormatter.FormatRow(ResourceHelper.Get(nameof(SharedResource.Username), account.Language), username, account.Language),
+                 messageFormatter.FormatRow(ResourceHelper.Get(nameof(SharedResource.Username), account.Language).ToUpperInvariant(), username, account.Language),
             };
 
             var dict = (CustomerLevel)downlineInfo.RoleId switch

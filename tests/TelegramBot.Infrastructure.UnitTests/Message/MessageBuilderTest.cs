@@ -147,7 +147,7 @@ public class MessageBuilderTest
     public void BuildInvalidNumerOfDownlineRange_Always_ReturnInvalidNumerOfDownlineRange()
     {
         const string expect = @"""userResponse"" is invalid, please enter a valid number (max 10)";
-        var result = messageBuilder.BuildInvalidNumerOfDownlineRange("EN", "userResponse", 10);
+        var result = messageBuilder.BuildInvalidNumberOfDownlineRange("EN", "userResponse", 10);
 
         Assert.Equal(expect, result);
     }

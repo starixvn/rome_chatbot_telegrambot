@@ -66,7 +66,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             var textContainer = new List<string>();
             AddDownlineWinLossTitleRow(textContainer, language);
             textContainer.Add("<pre>");
-            textContainer.Add($"{ResourceHelper.Get(nameof(SharedResource.Username), language).ToUpperInvariant(),-ColumnsWidth} {downlineUsername,ColumnsWidth}");
+            textContainer.Add(messageFormatter.FormatRow(ResourceHelper.Get(nameof(SharedResource.Username), language).ToUpperInvariant(), downlineUsername, language));
             AddBodyMessage(textContainer, winLoss, language, custLevel);
             textContainer.Add("</pre>");
             return string.Join(messageFormatter.NewLine(), textContainer);
@@ -143,11 +143,13 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 {nameof(winLossMember.MemberTotal), winLossMember.MemberTotal}
             };
 
-        private static void FormatMessages(List<string> textContainer, Dictionary<string, decimal> messages, string language)
+        private void FormatMessages(List<string> textContainer, Dictionary<string, decimal> messages, string language)
         {
             foreach (var message in messages)
             {
-                textContainer.Add($"{ResourceHelper.Get(message.Key, language).ToUpperInvariant(),-ColumnsWidth} {message.Value.ToFormattedNumber(),ColumnsWidth}");
+                var key = ResourceHelper.Get(message.Key, language).ToUpperInvariant();
+                var value = message.Value.ToFormattedNumber();
+                textContainer.Add(messageFormatter.FormatRow(key, value, language));
             }
         }
     }

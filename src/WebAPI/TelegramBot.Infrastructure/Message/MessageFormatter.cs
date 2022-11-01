@@ -6,8 +6,6 @@ namespace TelegramBot.Infrastructure.Message
     {
         string NewLine();
 
-        string Point();
-
         string Bold(string value);
 
         string FormatRow(string key, string value, string language);
@@ -17,11 +15,9 @@ namespace TelegramBot.Infrastructure.Message
 
     public class TelegramFormatter : IMessageFormatter
     {
-        public const int MaxRowLength = 30;
+        private const int MaxRowLength = 30;
 
         public string NewLine() => "\n";
-
-        public string Point() => "\u2022";
 
         public string Bold(string value) => $"<b>{value}</b>";
 
@@ -29,25 +25,23 @@ namespace TelegramBot.Infrastructure.Message
         {
             var length = language switch
             {
-                LanguageCodes.English => MaxRowLength - value.Length - key.Length,
                 LanguageCodes.ChineseSimplified or LanguageCodes.ChineseTraditional => MaxRowLength - value.Length - key.Length * 2,
                 LanguageCodes.Thai => MaxRowLength - value.Length - ThaiLength(key),
-                _ => 1,
+                _ => MaxRowLength - value.Length - key.Length,
             };
-            return $"{key}{" ".PadLeft(length > 0 ? length : 1)}{value}";
+            return $"{key}{" ".PadLeft(length > 0 ? length : 0)} {value}";
         }
 
         public string FormatHeaderRow(string col1, string col2, string language)
         {
             var length = language switch
             {
-                LanguageCodes.English => MaxRowLength - col1.Length - col2.Length,
                 LanguageCodes.ChineseSimplified or LanguageCodes.ChineseTraditional => MaxRowLength - col1.Length * 2 - col2.Length * 2,
                 LanguageCodes.Thai => MaxRowLength - ThaiLength(col1) - ThaiLength(col2),
-                _ => 1,
+                _ => MaxRowLength - col1.Length - col2.Length,
             };
 
-            return $"{col1}{" ".PadLeft(length > 0 ? length : 1)}{col2}";
+            return $"{col1}{" ".PadLeft(length > 0 ? length : 0)} {col2}";
         }
 
         private static int ThaiLength(string text)

@@ -22,7 +22,7 @@ namespace TelegramBot.Infrastructure.Action.Validators
                 return Task.FromResult(Result.CreateSuccessfulResult());
             }
 
-            return Task.FromResult(Result.CreateErrorResult(messageBuilder.BuildInvalidNumerOfDownlineRange(account.Language, userResponse, maxValue)));
+            return Task.FromResult(Result.CreateErrorResult(messageBuilder.BuildInvalidNumberOfDownlineRange(account.Language, userResponse, maxValue)));
         }
     }
 }

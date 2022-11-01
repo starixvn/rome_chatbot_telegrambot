@@ -37,7 +37,7 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildActionSelectedMessage(string language, string actionName);
 
-        string BuildInvalidNumerOfDownlineRange(string language, string userResponse, int maxTopQuery);
+        string BuildInvalidNumberOfDownlineRange(string language, string userResponse, int maxTopQuery);
 
         string BuildInvalidCustNameMessage(string language, string invalidCustName);
 
@@ -160,7 +160,7 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildActionSelectedMessage(string language, string actionName)
             => $"{ResourceHelper.Get(nameof(SharedResource.ActionSelected), language)}: {actionName}";
 
-        public string BuildInvalidNumerOfDownlineRange(string language, string userResponse, int maxTopQuery)
+        public string BuildInvalidNumberOfDownlineRange(string language, string userResponse, int maxTopQuery)
             => string.Format(ResourceHelper.Get(nameof(SharedResource.InvalidNumberOfDownlinesRange), language), userResponse, maxTopQuery);
 
         public string BuildInvalidCustNameMessage(string language, string invalidCustName)

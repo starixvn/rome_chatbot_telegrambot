@@ -37,7 +37,6 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 return Result.CreateErrorResult();
             }
 
-
             var downlineInfo = await customerService.GetDownlineInfo(account.CustId, parameter);
             if (downlineInfo != null && downlineInfo.CustId > 0)
             {
@@ -108,22 +107,22 @@ namespace TelegramBot.Infrastructure.Function.Handlers
                 var custLevelText = ResourceHelper.Get($"CustLevel_{custLevel}", language);
                 var memberText = ResourceHelper.Get(nameof(SharedResource.Member), language);
                 textContainer.Add("<pre>");
-                textContainer.Add($"{downlineLevelText,-ColumnsWidth} {ResourceHelper.Get(nameof(SharedResource.Outstanding), language),ColumnsWidth}");
+                textContainer.Add(messageFormatter.FormatHeaderRow(downlineLevelText, ResourceHelper.Get(nameof(SharedResource.Outstanding), language), language));
                 textContainer.Add("________________________________");
 
                 var index = 1;
+                var length = data.Outstandings.Count();
                 foreach (var outstanding in data.Outstandings)
                 {
-                    textContainer.Add($"{outstanding.Name}");
-                    textContainer.Add($"{memberText,-ColumnsWidth} {outstanding.MemberOutstanding.ToFormattedNumber(),ColumnsWidth}");
-                    textContainer.Add($"{custLevelText,-ColumnsWidth} {outstanding.Outstanding.ToFormattedNumber(),ColumnsWidth}");
-                    textContainer.Add(index == data.Outstandings.Count() ? "________________________________" : "--------------------------------");
+                    textContainer.Add(outstanding.Name);
+                    textContainer.Add(messageFormatter.FormatRow(memberText, outstanding.MemberOutstanding.ToFormattedNumber(), language));
+                    textContainer.Add(messageFormatter.FormatRow(custLevelText, outstanding.Outstanding.ToFormattedNumber(), language));
+                    textContainer.Add(index == length ? "________________________________" : "--------------------------------");
                     index++;
                 }
-                textContainer.Add($"{ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant()}");
-                textContainer.Add($"{memberText,-ColumnsWidth} {data.Total.MemberOutstanding.ToFormattedNumber(),ColumnsWidth}");
-                textContainer.Add($"{custLevelText,-ColumnsWidth} {data.Total.Outstanding.ToFormattedNumber(),ColumnsWidth}");
-
+                textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant());
+                textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), language));
+                textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), language));
 
                 textContainer.Add("</pre>");
             }

@@ -161,12 +161,12 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         {
             yield return new object[] {
                 new CustBotAccount { Language = "en-US", CustId = 123, CustomerLevel = (byte)CustomerLevel.Agent },
-                new[] {"validDownlineUsername"},
+                new[] {"Username"},
                 new WinLossMember(10, 1, 1, 1, 1, 1, 1, 1, 1),
                 new[] {
                     $"[Downline's Yesterday Win Loss - {yesterday:MM/dd/yyyy}]",
                     "<pre>",
-                    $"{"USERNAME",-15} {"validdownlineusername",15}",
+                    $"{"USERNAME",-15} {"username",15}",
                     $"{"MEMBER WL",-15} {"1.00",15}",
                     $"{"MEMBER COMM",-15} {"1.00",15}",
                     $"{"MEMBER TOTAL",-15} {"1.00",15}",

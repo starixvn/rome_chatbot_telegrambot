@@ -235,8 +235,8 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             // Arrange
             var topBalanceReport = new List<TopBalance>()
             {
-                new TopBalance(  "DirectDownLineUserName", 1, 10 ),
-                new TopBalance(  "DirectDownLineUserName2", 2, 20 )
+                new TopBalance(  "UserName", 1, 10 ),
+                new TopBalance(  "UserName2", 2, 20 )
             };
             balanceInfoService.GetTopBalance(requestAccount.CustId, requestAccount.CustomerLevel, Arg.Any<int>()).Returns(topBalanceReport);
             webAPIConfiguration.BalanceMaxTopQuery = 100;
@@ -245,13 +245,12 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.DownlineTopHighestBalance), requestAccount.Language)} - {DateTime.Now.ToSimpleDate()}]",
                 "<pre>",
-                $"     {ResourceHelper.Get(nameof(SharedResource.Username), requestAccount.Language),-13} {ResourceHelper.Get(nameof(SharedResource.Today), requestAccount.Language),13}",
+                $"{ResourceHelper.Get(nameof(SharedResource.Username), requestAccount.Language),-15} {ResourceHelper.Get(nameof(SharedResource.Today), requestAccount.Language),15}",
                 "________________________________"
             };
-            var index = 1;
             foreach (var item in topBalanceReport)
             {
-                textContainer.Add($"#{index++,-3} {item.Username,-13} {item.Balance.ToFormattedNumber(),13}");
+                textContainer.Add($"{item.Username,-15} {item.Balance.ToFormattedNumber(),15}");
             }
             textContainer.Add("</pre>");
 
@@ -285,7 +284,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             };
             balanceInfoService.GetTopBalance(requestAccount.CustId, requestAccount.CustomerLevel, Arg.Any<int>()).Returns(topBalanceReport);
             webAPIConfiguration.BalanceMaxTopQuery = 100;
-            messageBuilder.BuildInvalidNumerOfDownlineRange(requestAccount.Language, parameters[0], webAPIConfiguration.BalanceMaxTopQuery).Returns("MessageAlert");
+            messageBuilder.BuildInvalidNumberOfDownlineRange(requestAccount.Language, parameters[0], webAPIConfiguration.BalanceMaxTopQuery).Returns("MessageAlert");
 
 
             var expect = new Result(1, "");
