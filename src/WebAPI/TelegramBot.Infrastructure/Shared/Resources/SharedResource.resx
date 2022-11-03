@@ -533,4 +533,7 @@
   <data name="DownlineYesterdayWinLoss" xml:space="preserve">
     <value>Downline's Yesterday Win Loss</value>
   </data>
+  <data name="OTPMessage" xml:space="preserve">
+    <value>Your OTP is &lt;code&gt;{0}&lt;/code&gt; and it will expire in 3 minutes. Do not share this OTP with anyone.</value>
+  </data>
 </root>

@@ -71,7 +71,7 @@ public class MessageBuilderTest
         const string expect =
             @"Please enter this OTP <code>192.168.9.9</code> to <b>the Agency Site</b> within 3 minutes to finish setting up your Telegram Chatbot.";
 
-        var result = messageBuilder.BuildOTPMessage("EN", "192.168.9.9");
+        var result = messageBuilder.BuildSettingOTPMessage("EN", "192.168.9.9");
 
         Assert.Equal(string.Join("\n", expect), result);
     }

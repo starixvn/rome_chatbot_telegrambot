@@ -1,7 +1,9 @@
-﻿using System.Net.Http;
+﻿using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using TelegramBot.Client.Extensions;
 using TelegramBot.Client.Models;
+using TelegramBot.Constants;
 
 namespace TelegramBot.Client.Services
 {
@@ -22,6 +24,8 @@ namespace TelegramBot.Client.Services
         Task<Result> UpdateUserFunction(int userId, int botId, Function function, int creator, string ip = "");
 
         Task<Result> UpdateLanguage(int userId, int botId, string language, int creator, string ip = "");
+
+        Task<bool> IsEnableOTP(int custId, int subAccId);
     }
 
     public class SettingService : ISettingService
@@ -118,5 +122,16 @@ namespace TelegramBot.Client.Services
                     creator,
                     ip
                 });
+
+        public async Task<bool> IsEnableOTP(int custId, int subAccId)
+        {
+            var messenger = await GetCustBotMessengerAsync(custId, subAccId, "en-US");
+            if (messenger != null && messenger.Functions.FirstOrDefault(f => f.FunctionId == FunctionIds.OTP).Enabled)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

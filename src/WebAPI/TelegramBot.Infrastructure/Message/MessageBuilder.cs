@@ -27,7 +27,7 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildTelegramAccountAlreadyLinkedMessage(string language);
 
-        string BuildOTPMessage(string language, string otp);
+        string BuildSettingOTPMessage(string language, string otp);
 
         string BuildMenuMessage(string language);
 
@@ -74,6 +74,8 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildLanguageUpdatedMessage(string language);
 
         public string BuildMinimizeUMMessage(string language, string startTime, string endTime);
+
+        public string BuildOTPMessage(string language, string otp);
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -116,7 +118,7 @@ namespace TelegramBot.Infrastructure.Message
                 ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlertContent), language),
                 ResourceHelper.Get(nameof(SharedResource.AlertMessage), language));
 
-        public string BuildOTPMessage(string language, string otp)
+        public string BuildSettingOTPMessage(string language, string otp)
             => string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help), language), otp);
 
         public string BuildTelegramAccountAlreadyLinkedMessage(string language)
@@ -282,5 +284,8 @@ namespace TelegramBot.Infrastructure.Message
                 ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlertContent), language),
                 $"{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}: {ip}",
                 ResourceHelper.Get(nameof(SharedResource.AlertChangePasswordMessage), language));
+
+        public string BuildOTPMessage(string language, string otp)
+            => string.Format(ResourceHelper.Get(nameof(SharedResource.OTPMessage), language), otp);
     }
 }

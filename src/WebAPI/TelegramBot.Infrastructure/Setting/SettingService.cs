@@ -1,15 +1,13 @@
 ﻿using Alpha.API.Client.Services;
-using Fanex.Caching;
 using Fanex.Data.Repository;
-using TelegramBot.Common.Extensions;
 using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Function.Constants;
 using TelegramBot.Infrastructure.Function.Models;
 using TelegramBot.Infrastructure.Message;
+using TelegramBot.Infrastructure.OTP;
 using TelegramBot.Infrastructure.Setting.Constants;
 using TelegramBot.Infrastructure.Setting.Criteria;
 using TelegramBot.Infrastructure.Setting.Models;
-using TelegramBot.Infrastructure.Shared.Caching;
 using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Models;
@@ -41,31 +39,31 @@ namespace TelegramBot.Infrastructure.Setting
     {
         private readonly WebAPIConfiguration _webAPIConfiguration;
         private readonly IDynamicRepository _dynamicRepository;
-        private readonly ICacheService _cacheService;
         private readonly IMessageSender _messageSender;
         private readonly IMessageBuilder _messageBuilder;
         private readonly IActionService _actionService;
         private readonly ICustomerService _customerService;
         private readonly IFunctionService _functionService;
+        private readonly IOTPService _otpservice;
 
         public SettingService(
             WebAPIConfiguration webAPIConfiguration,
             IDynamicRepository dynamicRepository,
-            ICacheServiceFactory cacheServiceFactory,
             IMessageSender messageSender,
             IMessageBuilder messageBuilder,
             IActionService actionService,
             ICustomerService customerService,
-            IFunctionService functionService)
+            IFunctionService functionService,
+            IOTPService otpservice)
         {
             _webAPIConfiguration = webAPIConfiguration;
             _dynamicRepository = dynamicRepository;
-            _cacheService = cacheServiceFactory.Get(CacheProvider.Redis);
             _messageSender = messageSender;
             _messageBuilder = messageBuilder;
             _actionService = actionService;
             _customerService = customerService;
             _functionService = functionService;
+            _otpservice = otpservice;
         }
 
         public async Task<Result> Start(int botId, long chatId, int custId, int subAccId, string language, string ip)
@@ -90,27 +88,22 @@ namespace TelegramBot.Infrastructure.Setting
                 return new Result(criteria.ErrCode, criteria.ErrMsg);
             }
 
-            var otp = GenerateOtp();
-            var cacheKey = $"otp_value_{custId}_{subAccId}";
-            var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
-            await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
-            var message = _messageBuilder.BuildOTPMessage(language, otp);
+            var otp = await _otpservice.GenerateOTP(custId, subAccId);
+            var message = _messageBuilder.BuildSettingOTPMessage(language, otp);
             await _messageSender.SendMessage(criteria.UserId, messenger, message);
             return Result.CreateSuccessfulResult();
         }
 
         public async Task<Result> ResendOtp(int custId, int subAccId)
         {
-            var otp = GenerateOtp();
-            var cacheKey = $"otp_value_{custId}_{subAccId}";
-            var cacheItemOptions = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(_webAPIConfiguration.OtpExpirationInMinutes));
-            await _cacheService.SetAsync(cacheKey, otp, cacheItemOptions);
             var custBotMessenger = await GetVerifyingMessenger(custId, subAccId);
             if (custBotMessenger == null)
             {
                 return new Result(ErrorCodes.MessengerNotFound, "Messenger not found");
             }
-            var message = _messageBuilder.BuildOTPMessage(custBotMessenger.Language, otp);
+
+            var otp = await _otpservice.GenerateOTP(custId, subAccId);
+            var message = _messageBuilder.BuildSettingOTPMessage(custBotMessenger.Language, otp);
             await _messageSender.SendMessage(custBotMessenger.UserId, new Messenger(custBotMessenger.BotId, custBotMessenger.ChatId), message);
             return Result.CreateSuccessfulResult();
         }
@@ -122,36 +115,16 @@ namespace TelegramBot.Infrastructure.Setting
                 return new Result(ErrorCodes.MessengerNotFound, "Messenger not found");
             }
 
-            var countCacheKey = $"otp_count_{custId}_{subAccId}";
-            var failedCount = await _cacheService.GetAsync<int>(countCacheKey);
-            var valueCacheKey = $"otp_value_{custId}_{subAccId}";
-            var expectedOtp = await _cacheService.GetAsync<string>(valueCacheKey);
-            var isFailed = string.IsNullOrEmpty(expectedOtp) || otp != expectedOtp;
-            if (isFailed)
+            var verifyOTPResult = await _otpservice.VerifyOTP(custId, subAccId, otp);
+            if (verifyOTPResult.IsNotOk)
             {
-                failedCount++;
-                await _cacheService.SetAsync(countCacheKey, failedCount);
-                if (failedCount >= _webAPIConfiguration.OtpMaxFailedTimes)
-                {
-                    return new Result(ErrorCodes.OTP_FailedManyTimes, "OTP failed many times");
-                }
-            }
-
-            if (string.IsNullOrEmpty(expectedOtp))
-            {
-                return new Result(ErrorCodes.OTP_Expired, "OTP is expired");
-            }
-
-            if (otp != expectedOtp)
-            {
-                return new Result(ErrorCodes.OTP_Invalid, "OTP is invalid");
+                return verifyOTPResult;
             }
 
             var criteria = new CustBotAccountStatusUpdCriteria(botId, custId, subAccId, true, true, ip);
             await _dynamicRepository.ExecuteAsync(criteria).ConfigureAwait(false);
             if (criteria.IsSuccess)
             {
-                await _cacheService.RemoveAsync(countCacheKey);
                 await SendWelcomeMessage(custId, subAccId, username);
             }
 
@@ -269,12 +242,6 @@ namespace TelegramBot.Infrastructure.Setting
             }
 
             return account;
-        }
-
-        private static string GenerateOtp()
-        {
-            const int maxValue = 999999;
-            return ThreadSafeRandom.Next(0, maxValue).ToString("D6");
         }
 
         private async Task SendWelcomeMessage(int custId, int subAccId, string username)

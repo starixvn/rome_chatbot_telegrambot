@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1-beta1</Version>
+    <Version>1.0.2-beta0</Version>
     <Authors>@rome</Authors>
     <Company>@starixvn</Company>
   </PropertyGroup>

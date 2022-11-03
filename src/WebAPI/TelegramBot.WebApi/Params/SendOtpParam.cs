@@ -1,6 +1,6 @@
 ﻿namespace TelegramBot.WebApi.Params
 {
-    public class ResendOtpParam
+    public class SendOtpParam
     {
         public int CustId { get; set; }
 
