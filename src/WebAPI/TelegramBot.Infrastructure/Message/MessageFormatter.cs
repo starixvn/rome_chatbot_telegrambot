@@ -15,7 +15,7 @@ namespace TelegramBot.Infrastructure.Message
 
     public class TelegramFormatter : IMessageFormatter
     {
-        private const int MaxRowLength = 30;
+        private const int MaxRowLength = 31;
 
         public string NewLine() => "\n";
 
