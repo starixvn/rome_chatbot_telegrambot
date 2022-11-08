@@ -62,13 +62,13 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
                 new[] {
                     $"[Your Yesterday Win Loss - {yesterday:MM/dd/yyyy}]",
                     "<pre>",
-                    $"{"TO",-15} {"10.00",15}",
-                    $"{"GROSS COMM",-15} {"1.00",15}",
-                    $"{"MASTER TOTAL",-15} {"1.00",15}",
-                    $"{"SUPER WL",-15} {"1.00",15}",
-                    $"{"SUPER COMM",-15} {"1.00",15}",
-                    $"{"SUPER TOTAL",-15} {"1.00",15}",
-                    $"{"COMPANY",-15} {"1.00",15}",
+                    $"{"TO",-15} {"10.00",16}",
+                    $"{"GROSS COMM",-15} {"1.00",16}",
+                    $"{"MASTER TOTAL",-15} {"1.00",16}",
+                    $"{"SUPER WL",-15} {"1.00",16}",
+                    $"{"SUPER COMM",-15} {"1.00",16}",
+                    $"{"SUPER TOTAL",-15} {"1.00",16}",
+                    $"{"COMPANY",-15} {"1.00",16}",
                     "</pre>"
                 }
             };
@@ -79,13 +79,13 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
                 new[] {
                     $"[Your Yesterday Win Loss - {yesterday:MM/dd/yyyy}]",
                     "<pre>",
-                    $"{"TO",-15} {"10.00",15}",
-                    $"{"GROSS COMM",-15} {"1.00",15}",
-                    $"{"AGENT TOTAL",-15} {"1.00",15}",
-                    $"{"MASTER WL",-15} {"1.00",15}",
-                    $"{"MASTER COMM",-15} {"1.00",15}",
-                    $"{"MASTER TOTAL",-15} {"1.00",15}",
-                    $"{"COMPANY",-15} {"1.00",15}",
+                    $"{"TO",-15} {"10.00",16}",
+                    $"{"GROSS COMM",-15} {"1.00",16}",
+                    $"{"AGENT TOTAL",-15} {"1.00",16}",
+                    $"{"MASTER WL",-15} {"1.00",16}",
+                    $"{"MASTER COMM",-15} {"1.00",16}",
+                    $"{"MASTER TOTAL",-15} {"1.00",16}",
+                    $"{"COMPANY",-15} {"1.00",16}",
                     "</pre>"
                 },
             };
@@ -96,15 +96,15 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
                 new[] {
                     $"[Your Yesterday Win Loss - {yesterday:MM/dd/yyyy}]",
                     "<pre>",
-                    $"{"TO",-15} {"10.00",15}",
-                    $"{"GROSS COMM",-15} {"1.00",15}",
-                    $"{"MEMBER WL",-15} {"1.00",15}",
-                    $"{"MEMBER COMM",-15} {"1.00",15}",
-                    $"{"MEMBER TOTAL",-15} {"1.00",15}",
-                    $"{"AGENT WL",-15} {"1.00",15}",
-                    $"{"AGENT COMM",-15} {"1.00",15}",
-                    $"{"AGENT TOTAL",-15} {"1.00",15}",
-                    $"{"COMPANY",-15} {"1.00",15}",
+                    $"{"TO",-15} {"10.00",16}",
+                    $"{"GROSS COMM",-15} {"1.00",16}",
+                    $"{"MEMBER WL",-15} {"1.00",16}",
+                    $"{"MEMBER COMM",-15} {"1.00",16}",
+                    $"{"MEMBER TOTAL",-15} {"1.00",16}",
+                    $"{"AGENT WL",-15} {"1.00",16}",
+                    $"{"AGENT COMM",-15} {"1.00",16}",
+                    $"{"AGENT TOTAL",-15} {"1.00",16}",
+                    $"{"COMPANY",-15} {"1.00",16}",
                     "</pre>"
                 },
             };
@@ -166,10 +166,10 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
                 new[] {
                     $"[Downline's Yesterday Win Loss - {yesterday:MM/dd/yyyy}]",
                     "<pre>",
-                    $"{"USERNAME",-15} {"username",15}",
-                    $"{"MEMBER WL",-15} {"1.00",15}",
-                    $"{"MEMBER COMM",-15} {"1.00",15}",
-                    $"{"MEMBER TOTAL",-15} {"1.00",15}",
+                    $"{"USERNAME",-15} {"username",16}",
+                    $"{"MEMBER WL",-15} {"1.00",16}",
+                    $"{"MEMBER COMM",-15} {"1.00",16}",
+                    $"{"MEMBER TOTAL",-15} {"1.00",16}",
                     "</pre>",
                 },
             };

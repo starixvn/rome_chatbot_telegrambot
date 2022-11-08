@@ -8,7 +8,7 @@ namespace TelegramBot.Importer.Resources;
 [ExcludeFromCodeCoverage]
 public static class TemplateHelper
 {
-    private const int MaxRowLength = 30;
+    private const int MaxRowLength = 31;
 
     public static string Get(string key, string language)
     {
