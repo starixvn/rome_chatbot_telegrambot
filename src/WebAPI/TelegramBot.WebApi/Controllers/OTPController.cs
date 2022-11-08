@@ -18,6 +18,7 @@ public class OTPController : ControllerBase
     private readonly ISettingService settingService;
     private readonly IMessageSender messageSender;
     private readonly IMessageBuilder messageBuilder;
+    private const int MaxFailedTimes = 5;
 
     public OTPController(
         IOTPService otpService,
@@ -62,7 +63,7 @@ public class OTPController : ControllerBase
             return BadRequest();
         }
 
-        var result = await otpService.VerifyOTP(param.CustId, param.SubAccId, param.OTP);
+        var result = await otpService.VerifyOTP(param.CustId, param.SubAccId, param.OTP, MaxFailedTimes);
         return Ok(result);
     }
 

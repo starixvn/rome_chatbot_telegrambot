@@ -44,7 +44,7 @@ namespace TelegramBot.Infrastructure.Setting
         private readonly IActionService _actionService;
         private readonly ICustomerService _customerService;
         private readonly IFunctionService _functionService;
-        private readonly IOTPService _otpservice;
+        private readonly IOTPService _otpService;
 
         public SettingService(
             WebAPIConfiguration webAPIConfiguration,
@@ -54,7 +54,7 @@ namespace TelegramBot.Infrastructure.Setting
             IActionService actionService,
             ICustomerService customerService,
             IFunctionService functionService,
-            IOTPService otpservice)
+            IOTPService otpService)
         {
             _webAPIConfiguration = webAPIConfiguration;
             _dynamicRepository = dynamicRepository;
@@ -63,7 +63,7 @@ namespace TelegramBot.Infrastructure.Setting
             _actionService = actionService;
             _customerService = customerService;
             _functionService = functionService;
-            _otpservice = otpservice;
+            _otpService = otpService;
         }
 
         public async Task<Result> Start(int botId, long chatId, int custId, int subAccId, string language, string ip)
@@ -88,7 +88,7 @@ namespace TelegramBot.Infrastructure.Setting
                 return new Result(criteria.ErrCode, criteria.ErrMsg);
             }
 
-            var otp = await _otpservice.GenerateOTP(custId, subAccId);
+            var otp = await _otpService.GenerateOTP(custId, subAccId);
             var message = _messageBuilder.BuildSettingOTPMessage(language, otp);
             await _messageSender.SendMessage(criteria.UserId, messenger, message);
             return Result.CreateSuccessfulResult();
@@ -102,7 +102,7 @@ namespace TelegramBot.Infrastructure.Setting
                 return new Result(ErrorCodes.MessengerNotFound, "Messenger not found");
             }
 
-            var otp = await _otpservice.GenerateOTP(custId, subAccId);
+            var otp = await _otpService.GenerateOTP(custId, subAccId);
             var message = _messageBuilder.BuildSettingOTPMessage(custBotMessenger.Language, otp);
             await _messageSender.SendMessage(custBotMessenger.UserId, new Messenger(custBotMessenger.BotId, custBotMessenger.ChatId), message);
             return Result.CreateSuccessfulResult();
@@ -115,7 +115,7 @@ namespace TelegramBot.Infrastructure.Setting
                 return new Result(ErrorCodes.MessengerNotFound, "Messenger not found");
             }
 
-            var verifyOTPResult = await _otpservice.VerifyOTP(custId, subAccId, otp);
+            var verifyOTPResult = await _otpService.VerifyOTP(custId, subAccId, otp, _webAPIConfiguration.OtpMaxFailedTimes);
             if (verifyOTPResult.IsNotOk)
             {
                 return verifyOTPResult;

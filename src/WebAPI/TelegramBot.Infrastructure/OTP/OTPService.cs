@@ -11,7 +11,7 @@ public interface IOTPService
 {
     Task<string> GenerateOTP(int custId, int subAccId);
 
-    Task<Result> VerifyOTP(int custId, int subAccId, string otp);
+    Task<Result> VerifyOTP(int custId, int subAccId, string otp, int maxFailedTimes);
 }
 
 public class OTPService : IOTPService
@@ -38,7 +38,7 @@ public class OTPService : IOTPService
         return otp;
     }
 
-    public async Task<Result> VerifyOTP(int custId, int subAccId, string otp)
+    public async Task<Result> VerifyOTP(int custId, int subAccId, string otp, int maxFailedTimes)
     {
         var countCacheKey = $"otp_count_{custId}_{subAccId}";
         var failedCount = await cacheService.GetAsync<int>(countCacheKey);
@@ -49,7 +49,7 @@ public class OTPService : IOTPService
         {
             failedCount++;
             await cacheService.SetAsync(countCacheKey, failedCount);
-            if (failedCount >= configuration.OtpMaxFailedTimes)
+            if (failedCount >= maxFailedTimes)
             {
                 return new Result(ErrorCodes.OTP_FailedManyTimes, "OTP failed many times");
             }
