@@ -134,11 +134,11 @@
     <comment />
   </data>
   <data name="AgentCredit" xml:space="preserve">
-    <value>代理信用額度</value>
+    <value>代理額度</value>
     <comment />
   </data>
   <data name="AgentOutStanding" xml:space="preserve">
-    <value>代理未結束交易</value>
+    <value>代理未結算</value>
     <comment />
   </data>
   <data name="AgentTotal" xml:space="preserve">
@@ -158,11 +158,11 @@
     <comment />
   </data>
   <data name="MasterCredit" xml:space="preserve">
-    <value>總代理信用額度</value>
+    <value>總代理額度</value>
     <comment />
   </data>
   <data name="MasterOutStanding" xml:space="preserve">
-    <value>總代理未結束交易</value>
+    <value>總代理未結算</value>
     <comment />
   </data>
   <data name="MasterTotal" xml:space="preserve">
@@ -186,11 +186,11 @@
     <comment />
   </data>
   <data name="MemberCredit" xml:space="preserve">
-    <value>會員信用額度</value>
+    <value>會員額度</value>
     <comment />
   </data>
   <data name="MemberOutStanding" xml:space="preserve">
-    <value>會員未結束交易</value>
+    <value>會員未結算</value>
     <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">
@@ -210,7 +210,7 @@
     <comment />
   </data>
   <data name="SuperOutStanding" xml:space="preserve">
-    <value>超級總代理未完成交易</value>
+    <value>超級未結算</value>
     <comment />
   </data>
   <data name="SuperTotal" xml:space="preserve">
@@ -290,7 +290,7 @@
     <comment />
   </data>
   <data name="YesterdayBal" xml:space="preserve">
-    <value>昨天餘額</value>
+    <value>作日餘額</value>
     <comment />
   </data>
   <data name="YesterdayWinLoss" xml:space="preserve">
@@ -326,11 +326,11 @@
     <comment />
   </data>
   <data name="ThirdPartyPendingTransfer" xml:space="preserve">
-    <value>第三方待定轉賬</value>
+    <value>第三方交易</value>
     <comment />
   </data>
   <data name="MemMaxCredit" xml:space="preserve">
-    <value>會員最高信用額</value>
+    <value>會員最高大的額度</value>
     <comment />
   </data>
   <data name="MemberActClosedSus" xml:space="preserve">
@@ -504,6 +504,33 @@
     <value>您的賬號密碼多次輸入錯誤。</value>
   </data>
   <data name="BAL" xml:space="preserve">
-    <value>余额资料</value>
+    <value>餘額</value>
+  </data>
+  <data name="DownlineYesterdayWinLoss" xml:space="preserve">
+    <value>下線的昨日輸贏</value>
+  </data>
+  <data name="DownlineTopHighestOutstanding" xml:space="preserve">
+    <value>最高未結束交易的下線</value>
+  </data>
+  <data name="DownlineTopHighestBalance" xml:space="preserve">
+    <value>最高餘額的下線</value>
+  </data>
+  <data name="DownlineTodayWinLoss" xml:space="preserve">
+    <value>下線的今日輸贏</value>
+  </data>
+  <data name="DownlineOutstanding" xml:space="preserve">
+    <value>下線的未結束交易</value>
+  </data>
+  <data name="DownlineBalance" xml:space="preserve">
+    <value>下線的餘額</value>
+  </data>
+  <data name="MyTodayWinLoss" xml:space="preserve">
+    <value>您的今日輸贏</value>
+  </data>
+  <data name="MyYesterdayWinLoss" xml:space="preserve">
+    <value>您的昨日輸贏</value>
+  </data>
+  <data name="YourBalance" xml:space="preserve">
+    <value>您的餘額</value>
   </data>
 </root>

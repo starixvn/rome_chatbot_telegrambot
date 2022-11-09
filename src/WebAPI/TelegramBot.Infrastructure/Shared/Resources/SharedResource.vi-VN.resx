@@ -126,79 +126,79 @@
     <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
-    <value>Hoa hồng của Agent</value>
+    <value>Hoa Hồng Agent</value>
     <comment />
   </data>
   <data name="AgentCredit" xml:space="preserve">
-    <value>Hạn mức tín dụng của Agent</value>
+    <value>Hạn mức Agent</value>
     <comment />
   </data>
   <data name="AgentOutStanding" xml:space="preserve">
-    <value>Số tiền chưa xử lý của Agent</value>
+    <value>Chưa Xử Lý Agent</value>
     <comment />
   </data>
   <data name="AgentTotal" xml:space="preserve">
-    <value>Tổng giao dịch của Agent</value>
+    <value>Tổng Tiền Agent</value>
     <comment />
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
-    <value>Thắng thua của Agent</value>
+    <value>Thắng Thua Agent</value>
     <comment />
   </data>
   <data name="MasterComm" xml:space="preserve">
-    <value>Hoa hồng của Master</value>
+    <value>Hoa Hồng Master</value>
     <comment />
   </data>
   <data name="MasterCredit" xml:space="preserve">
-    <value>Hạn mức tín dụng của Master</value>
+    <value>Hạn mức Master</value>
     <comment />
   </data>
   <data name="MasterOutStanding" xml:space="preserve">
-    <value>Số tiền chưa xử lý của Master</value>
+    <value>Chưa Xử Lý Master</value>
     <comment />
   </data>
   <data name="MasterTotal" xml:space="preserve">
-    <value>Tổng giao dịch của Master</value>
+    <value>Tổng Tiền Master</value>
     <comment />
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
-    <value>Thắng thua của Master</value>
+    <value>Thắng Thua Master</value>
     <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
-    <value>Hoa hồng của Member</value>
+    <value>Hoa Hồng Member</value>
     <comment />
   </data>
   <data name="MemberCredit" xml:space="preserve">
-    <value>Mức tín dụng của Member</value>
+    <value>Hạn Mức Member</value>
     <comment />
   </data>
   <data name="MemberOutStanding" xml:space="preserve">
-    <value>Số tiền chưa xử lý của Member</value>
+    <value>Chưa Xử Lý Member</value>
     <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">
-    <value>Tổng số tiền giao dịch của Member</value>
+    <value>Tổng Tiền Member</value>
     <comment />
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
-    <value>Thắng thua của Member</value>
+    <value>Thắng Thua Member</value>
     <comment />
   </data>
   <data name="SuperComm" xml:space="preserve">
-    <value>Hoa hồng của Super</value>
+    <value>Hoa Hồng Super</value>
     <comment />
   </data>
   <data name="SuperOutStanding" xml:space="preserve">
-    <value>Số tiền chưa xử lý của Super</value>
+    <value>Chưa Xử Lý Super</value>
     <comment />
   </data>
   <data name="SuperTotal" xml:space="preserve">
-    <value>Tổng giao dịch của Super</value>
+    <value>Tổng Tiền Super</value>
     <comment />
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
-    <value>Thắng thua của Super</value>
+    <value>Thắng Thua Super</value>
     <comment />
   </data>
   <data name="GrossComm" xml:space="preserve">
@@ -246,7 +246,7 @@
     <comment />
   </data>
   <data name="TodayWinLoss" xml:space="preserve">
-    <value>Thắng thua trong ngày</value>
+    <value>Thắng Thua Hôm Nay</value>
     <comment />
   </data>
   <data name="Total" xml:space="preserve">
@@ -266,11 +266,11 @@
     <comment />
   </data>
   <data name="YesterdayBal" xml:space="preserve">
-    <value>Số dư đến hết hôm qua</value>
+    <value>Số Dư Hôm Qua</value>
     <comment />
   </data>
   <data name="YesterdayWinLoss" xml:space="preserve">
-    <value>Thắng thua hôm qua</value>
+    <value>Thắng Thua Hôm Qua</value>
     <comment />
   </data>
   <data name="YourAccountIsClosed" xml:space="preserve">
@@ -286,7 +286,7 @@
     <comment />
   </data>
   <data name="UsedCredit" xml:space="preserve">
-    <value>Hạn mức tín dụng đã dùng</value>
+    <value>Hạn Mức Đã Dùng</value>
     <comment />
   </data>
   <data name="Cancel" xml:space="preserve">
@@ -294,11 +294,11 @@
     <comment />
   </data>
   <data name="ThirdPartyPendingTransfer" xml:space="preserve">
-    <value>Tiền Chưa Chuyển Về Từ Trò Chơi</value>
+    <value>Tiền Chưa Chuyển Về</value>
     <comment />
   </data>
   <data name="MemMaxCredit" xml:space="preserve">
-    <value>Hạn mức tín dụng tối đa của Member</value>
+    <value>H.Mức Tối Đa Member</value>
     <comment />
   </data>
   <data name="MemberActClosedSus" xml:space="preserve">
@@ -476,6 +476,33 @@
     <value>Mật khẩu tài khoản của bạn đã bị nhập sai nhiều lần.</value>
   </data>
   <data name="BAL" xml:space="preserve">
-    <value>Tổng số tiền giao dịch</value>
+    <value>Số Dư</value>
+  </data>
+  <data name="DownlineYesterdayWinLoss" xml:space="preserve">
+    <value>Thắng Thua Hôm Qua Cấp Dưới</value>
+  </data>
+  <data name="DownlineTopHighestOutstanding" xml:space="preserve">
+    <value>Cấp Dưới Có Tiền Chưa Xử Lý Cao Nhất</value>
+  </data>
+  <data name="DownlineTopHighestBalance" xml:space="preserve">
+    <value>Cấp Dưới Có Số Dư Cao Nhất</value>
+  </data>
+  <data name="DownlineTodayWinLoss" xml:space="preserve">
+    <value>Thắng Thua Hôm Nay Cấp Dưới</value>
+  </data>
+  <data name="DownlineOutstanding" xml:space="preserve">
+    <value>Tiền Chưa Xử Lý Cấp Dưới</value>
+  </data>
+  <data name="DownlineBalance" xml:space="preserve">
+    <value>Số Dư Cấp Dưới</value>
+  </data>
+  <data name="MyTodayWinLoss" xml:space="preserve">
+    <value>Thắng Thua Hôm Nay Của Bạn</value>
+  </data>
+  <data name="MyYesterdayWinLoss" xml:space="preserve">
+    <value>Thắng Thua Hôm Qua Của Bạn</value>
+  </data>
+  <data name="YourBalance" xml:space="preserve">
+    <value>Số Dư Của Bạn</value>
   </data>
 </root>
