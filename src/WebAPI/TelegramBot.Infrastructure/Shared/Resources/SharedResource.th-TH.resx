@@ -122,7 +122,7 @@
     <comment />
   </data>
   <data name="YesterdayCash" xml:space="preserve">
-    <value>ยอดเงินสดคงเหลือของเมื่อวาน</value>
+    <value>ยอดเมื่อวาน</value>
     <comment />
   </data>
   <data name="CustLevel_2" xml:space="preserve">
@@ -130,7 +130,7 @@
     <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
-    <value>คอมมิชชั่นของ Agent</value>
+    <value>ค่าคอม AGENT</value>
     <comment />
   </data>
   <data name="AgentCredit" xml:space="preserve">
@@ -154,7 +154,7 @@
     <comment />
   </data>
   <data name="MasterComm" xml:space="preserve">
-    <value>คอมมิชชั่นของ Master</value>
+    <value>ค่าคอม MASTER</value>
     <comment />
   </data>
   <data name="MasterCredit" xml:space="preserve">
@@ -182,7 +182,7 @@
     <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
-    <value>คอมมิชชั่นของสมาชิก</value>
+    <value>ค่าคอม MEMBER</value>
     <comment />
   </data>
   <data name="MemberCredit" xml:space="preserve">
@@ -194,7 +194,7 @@
     <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">
-    <value>จำนวนทั้งหมดของสมาชิก</value>
+    <value>สมาชิกทั้งหมด</value>
     <comment />
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
@@ -206,7 +206,7 @@
     <comment />
   </data>
   <data name="SuperComm" xml:space="preserve">
-    <value>คอมมิชั่นของซุปเปอร์</value>
+    <value>ค่าคอม SUPER</value>
     <comment />
   </data>
   <data name="SuperOutStanding" xml:space="preserve">
@@ -226,7 +226,7 @@
     <comment />
   </data>
   <data name="GrossComm" xml:space="preserve">
-    <value>ยอดรวมของคอมมิชชั่น</value>
+    <value>ยอดรวมค่าคอม</value>
     <comment />
   </data>
   <data name="Balance" xml:space="preserve">

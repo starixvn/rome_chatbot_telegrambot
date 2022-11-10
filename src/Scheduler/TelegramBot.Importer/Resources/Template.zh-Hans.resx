@@ -154,7 +154,7 @@
     <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
-    <value>代理商退水</value>
+    <value>代理佣金</value>
     <comment />
   </data>
   <data name="AgentTotal" xml:space="preserve">
@@ -174,7 +174,7 @@
     <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
-    <value>会员退水</value>
+    <value>会员佣金</value>
     <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">

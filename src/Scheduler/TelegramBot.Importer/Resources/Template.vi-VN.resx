@@ -134,19 +134,19 @@
     <comment />
   </data>
   <data name="MasterTotal" xml:space="preserve">
-    <value>TỔNG GIAO DỊCH CỦA MASTER</value>
+    <value>TỔNG TIỀN MASTER</value>
     <comment />
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
-    <value>THẮNG THUA CỦA SUPER</value>
+    <value>THẮNG THUA SUPER</value>
     <comment />
   </data>
   <data name="SuperComm" xml:space="preserve">
-    <value>HOA HỒNG CỦA SUPER</value>
+    <value>HOA HỒNG SUPER</value>
     <comment />
   </data>
   <data name="SuperTotal" xml:space="preserve">
-    <value>TỔNG CỘNG CỦA SUPER</value>
+    <value>TỔNG TIỀN SUPER</value>
     <comment />
   </data>
   <data name="CompanyWinLoss" xml:space="preserve">
@@ -154,35 +154,35 @@
     <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
-    <value>HOA HỒNG CỦA AGENT</value>
+    <value>HOA HỒNG AGENT</value>
     <comment />
   </data>
   <data name="AgentTotal" xml:space="preserve">
-    <value>TỔNG GIAO DỊCH CỦA AGENT</value>
+    <value>TỔNG TIỀN AGENT</value>
     <comment />
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
-    <value>THẮNG THUA CỦA AGENT</value>
+    <value>THẮNG THUA AGENT</value>
     <comment />
   </data>
   <data name="MasterComm" xml:space="preserve">
-    <value>HOA HỒNG CỦA MASTER</value>
+    <value>HOA HỒNG MASTER</value>
     <comment />
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
-    <value>THẮNG THUA CỦA MASTER</value>
+    <value>THẮNG THUA MASTER</value>
     <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
-    <value>HOA HỒNG CỦA MEMBER</value>
+    <value>HOA HỒNG MEMBER</value>
     <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">
-    <value>TỔNG CỘNG CỦA MEMBER</value>
+    <value>TỔNG CỘNG MEMBER</value>
     <comment />
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
-    <value>THẮNG THUA CỦA MEMBER</value>
+    <value>THẮNG THUA MEMBER</value>
     <comment />
   </data>
   <data name="NewProblemAccounts" xml:space="preserve">
