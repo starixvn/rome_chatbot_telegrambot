@@ -173,7 +173,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 {nameof(SharedResource.Cash), bal.TotalCash},
                 {nameof(SharedResource.YesterdayCash), bal.YesterdayCash},
-                {nameof(SharedResource.Balance), bal.TotalBalance},
+                {nameof(SharedResource.BAL), bal.TotalBalance},
                 {nameof(SharedResource.YesterdayBal), bal.YesterdayBalance},
                 {nameof(SharedResource.MasterOutStanding), bal.Outstanding.MasterOutstanding},
                 {nameof(SharedResource.ThirdPartyPendingTransfer), bal.PendingTransfer3rd},
@@ -188,7 +188,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 {nameof(SharedResource.Cash), bal.TotalCash},
                 {nameof(SharedResource.YesterdayCash), bal.YesterdayCash},
-                {nameof(SharedResource.Balance), bal.TotalBalance},
+                {nameof(SharedResource.BAL), bal.TotalBalance},
                 {nameof(SharedResource.YesterdayBal), bal.YesterdayBalance},
                 {nameof(SharedResource.AgentOutStanding), bal.Outstanding.AgentOutstanding},
                 {nameof(SharedResource.ThirdPartyPendingTransfer), bal.PendingTransfer3rd},
@@ -202,7 +202,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         public static Dictionary<string, decimal?> BuildMemberDownLineUsernameMessage(DownlineBalance bal)
             => new()
             {
-                {nameof(SharedResource.Balance), bal.TotalBalance},
+                {nameof(SharedResource.BAL), bal.TotalBalance},
                 {nameof(SharedResource.YesterdayBal), bal.YesterdayBalance},
                 {nameof(SharedResource.ThirdPartyPendingTransfer), bal.PendingTransfer3rd},
                 {nameof(SharedResource.GivenCredit), bal.GivenCredit},

@@ -138,11 +138,11 @@
     <comment />
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
-    <value>THẮNG THUA SUPER</value>
+    <value>T.THUA SUPER</value>
     <comment />
   </data>
   <data name="SuperComm" xml:space="preserve">
-    <value>HOA HỒNG SUPER</value>
+    <value>H.HỒNG SUPER</value>
     <comment />
   </data>
   <data name="SuperTotal" xml:space="preserve">
@@ -154,7 +154,7 @@
     <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
-    <value>HOA HỒNG AGENT</value>
+    <value>H.HỒNG AGENT</value>
     <comment />
   </data>
   <data name="AgentTotal" xml:space="preserve">
@@ -162,19 +162,19 @@
     <comment />
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
-    <value>THẮNG THUA AGENT</value>
+    <value>T.THUA AGENT</value>
     <comment />
   </data>
   <data name="MasterComm" xml:space="preserve">
-    <value>HOA HỒNG MASTER</value>
+    <value>H.HỒNG MASTER</value>
     <comment />
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
-    <value>THẮNG THUA MASTER</value>
+    <value>T.THUA MASTER</value>
     <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
-    <value>HOA HỒNG MEMBER</value>
+    <value>H.HỒNG MEMBER</value>
     <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">
@@ -182,7 +182,7 @@
     <comment />
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
-    <value>THẮNG THUA MEMBER</value>
+    <value>T.THUA MEMBER</value>
     <comment />
   </data>
   <data name="NewProblemAccounts" xml:space="preserve">

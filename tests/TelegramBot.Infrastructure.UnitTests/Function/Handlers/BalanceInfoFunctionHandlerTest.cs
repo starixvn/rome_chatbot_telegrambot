@@ -49,7 +49,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             {
                 {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}", bal.TotalCash?.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}", bal.YesterdayCash?.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}", bal.TotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.BAL), lang)}", bal.TotalBalance.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}", bal.YesterdayBalance.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.MasterOutStanding), lang)}", bal.Outstanding.MasterOutstanding.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}", bal.PendingTransfer3rd.ToFormattedNumber()},
@@ -66,7 +66,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             {
                 {$"{ResourceHelper.Get(nameof(SharedResource.Cash), lang)}", bal.TotalCash?.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayCash), lang)}", bal.YesterdayCash?.ToFormattedNumber()},
-                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}", bal.TotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.BAL), lang)}", bal.TotalBalance.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}", bal.YesterdayBalance.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.AgentOutStanding), lang)}", bal.Outstanding.AgentOutstanding.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}", bal.PendingTransfer3rd.ToFormattedNumber()},
@@ -82,7 +82,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
         {
             return new Dictionary<string, string>
             {
-                {$"{ResourceHelper.Get(nameof(SharedResource.Balance), lang)}", bal.TotalBalance.ToFormattedNumber()},
+                {$"{ResourceHelper.Get(nameof(SharedResource.BAL), lang)}", bal.TotalBalance.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.YesterdayBal), lang)}", bal.YesterdayBalance.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.ThirdPartyPendingTransfer), lang)}", bal.PendingTransfer3rd.ToFormattedNumber()},
                 {$"{ResourceHelper.Get(nameof(SharedResource.GivenCredit),lang)}", bal.GivenCredit.ToFormattedNumber()},
