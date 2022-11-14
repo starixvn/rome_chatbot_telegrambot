@@ -338,7 +338,7 @@
     <comment />
   </data>
   <data name="Currency" xml:space="preserve">
-    <value>CURRENCY</value>
+    <value>Currency</value>
     <comment />
   </data>
   <data name="Cash" xml:space="preserve">
@@ -346,11 +346,11 @@
     <comment />
   </data>
   <data name="YesterdayCash" xml:space="preserve">
-    <value>YESTERDAY Cash</value>
+    <value>Yesterday Cash</value>
     <comment />
   </data>
   <data name="YesterdayBal" xml:space="preserve">
-    <value>YESTERDAY BAL.</value>
+    <value>Yesterday BAL.</value>
     <comment />
   </data>
   <data name="ThirdPartyPendingTransfer" xml:space="preserve">
@@ -358,7 +358,7 @@
     <comment />
   </data>
   <data name="GivenCredit" xml:space="preserve">
-    <value>GIVEN CRE.</value>
+    <value>Given CRE.</value>
     <comment />
   </data>
   <data name="Credit" xml:space="preserve">
@@ -366,19 +366,19 @@
     <comment />
   </data>
   <data name="MemberOutStanding" xml:space="preserve">
-    <value>MEMBER OST.</value>
+    <value>Member OST.</value>
     <comment />
   </data>
   <data name="MasterOutStanding" xml:space="preserve">
-    <value>MASTER OST.</value>
+    <value>Master OST.</value>
     <comment />
   </data>
   <data name="UsedCredit" xml:space="preserve">
-    <value>USED CRE.</value>
+    <value>Used CRE.</value>
     <comment />
   </data>
   <data name="MemMaxCredit" xml:space="preserve">
-    <value>MEMBER MAX CRE.</value>
+    <value>Member Max CRE.</value>
     <comment />
   </data>
   <data name="MemberActClosedSus" xml:space="preserve">
@@ -386,11 +386,11 @@
     <comment />
   </data>
   <data name="SuperOutStanding" xml:space="preserve">
-    <value>SUPER OST.</value>
+    <value>Super OST.</value>
     <comment />
   </data>
   <data name="AgentOutStanding" xml:space="preserve">
-    <value>AGENT OST.</value>
+    <value>Agent OST.</value>
     <comment />
   </data>
   <data name="NetPosition" xml:space="preserve">
@@ -398,7 +398,7 @@
     <comment />
   </data>
   <data name="BetCredit" xml:space="preserve">
-    <value>BET CRE.</value>
+    <value>Bet CRE.</value>
     <comment />
   </data>
   <data name="AgentActClosedSus" xml:space="preserve">
@@ -406,15 +406,15 @@
     <comment />
   </data>
   <data name="AgentCredit" xml:space="preserve">
-    <value>AGENT CRE.</value>
+    <value>Agent CRE.</value>
     <comment />
   </data>
   <data name="MasterCredit" xml:space="preserve">
-    <value>MASTER CRE.</value>
+    <value>Master CRE.</value>
     <comment />
   </data>
   <data name="MemberCredit" xml:space="preserve">
-    <value>MEMBER CRE.</value>
+    <value>Member CRE.</value>
     <comment />
   </data>
   <data name="Today" xml:space="preserve">

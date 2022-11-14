@@ -63,7 +63,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
                     $"[Your Yesterday Win Loss - {yesterday:MM/dd/yyyy}]",
                     "<pre>",
                     $"{"TO",-15} {"10",16}",
-                    $"{"GROSS COMM",-15} {"1",16}",
+                    $"{"Gross Comm",-15} {"1",16}",
                     $"{"MASTER TOTAL",-15} {"1",16}",
                     $"{"SUPER WL",-15} {"1",16}",
                     $"{"SUPER COMM",-15} {"1",16}",

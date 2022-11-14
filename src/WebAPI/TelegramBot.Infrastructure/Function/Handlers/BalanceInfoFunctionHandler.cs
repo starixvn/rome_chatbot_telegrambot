@@ -123,7 +123,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             };
             foreach (var item in dict)
             {
-                var title = ResourceHelper.Get(item.Key, account.Language).ToUpperInvariant();
+                var title = ResourceHelper.Get(item.Key, account.Language);
                 var value = item.Value?.ToFormattedNumber();
                 textContainer.Add(messageFormatter.FormatRow(title, value, account.Language));
             }
@@ -144,7 +144,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.DownlineBalance),  account.Language)} - {DateTime.Now.ToSimpleDate()}]",
                 "<pre>",
-                 messageFormatter.FormatRow(ResourceHelper.Get(nameof(SharedResource.Username), account.Language).ToUpperInvariant(), username, account.Language),
+                 messageFormatter.FormatRow(ResourceHelper.Get(nameof(SharedResource.Username), account.Language), username, account.Language),
             };
 
             var dict = (CustomerLevel)downlineInfo.RoleId switch
@@ -157,7 +157,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             foreach (var item in dict)
             {
-                var title = ResourceHelper.Get(item.Key, account.Language).ToUpperInvariant();
+                var title = ResourceHelper.Get(item.Key, account.Language);
                 var value = item.Value?.ToFormattedNumber();
                 textContainer.Add(messageFormatter.FormatRow(title, value, account.Language));
             }

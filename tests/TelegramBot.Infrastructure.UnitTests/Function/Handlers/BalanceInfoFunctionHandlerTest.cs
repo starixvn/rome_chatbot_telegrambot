@@ -130,7 +130,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             };
             foreach (var keyValuePair in dict)
             {
-                textContainer.Add($"{keyValuePair.Key.ToUpperInvariant(),-15} {keyValuePair.Value,16}");
+                textContainer.Add($"{keyValuePair.Key,-15} {keyValuePair.Value,16}");
             }
             textContainer.Add("</pre>");
             var message = string.Join("\n", textContainer);
@@ -167,7 +167,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.DownlineBalance), requestAccount.Language)} - {DateTime.Now.ToSimpleDate()}]",
                 "<pre>",
-                $"{ResourceHelper.Get(nameof(SharedResource.Username), requestAccount.Language).ToUpperInvariant(),-15} {parameters[0].ToLowerInvariant(),16}"
+                $"{ResourceHelper.Get(nameof(SharedResource.Username), requestAccount.Language),-15} {parameters[0].ToLowerInvariant(),16}"
             };
             var dict = (CustomerLevel)downlineInfo.RoleId switch
             {
@@ -179,7 +179,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
 
             foreach (var keyValuePair in dict)
             {
-                textContainer.Add($"{keyValuePair.Key.ToUpperInvariant(),-15} {keyValuePair.Value,16}");
+                textContainer.Add($"{keyValuePair.Key,-15} {keyValuePair.Value,16}");
             }
 
             textContainer.Add("</pre>");

@@ -97,7 +97,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AGENT CRE..
+        ///   Looks up a localized string similar to Agent CRE..
         /// </summary>
         public static string AgentCredit {
             get {
@@ -106,7 +106,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AGENT OST..
+        ///   Looks up a localized string similar to Agent OST..
         /// </summary>
         public static string AgentOutStanding {
             get {
@@ -241,7 +241,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BET CRE..
+        ///   Looks up a localized string similar to Bet CRE..
         /// </summary>
         public static string BetCredit {
             get {
@@ -322,7 +322,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CURRENCY.
+        ///   Looks up a localized string similar to Currency.
         /// </summary>
         public static string Currency {
             get {
@@ -430,7 +430,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GIVEN CRE..
+        ///   Looks up a localized string similar to Given CRE..
         /// </summary>
         public static string GivenCredit {
             get {
@@ -538,7 +538,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MASTER CRE..
+        ///   Looks up a localized string similar to Master CRE..
         /// </summary>
         public static string MasterCredit {
             get {
@@ -547,7 +547,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MASTER OST..
+        ///   Looks up a localized string similar to Master OST..
         /// </summary>
         public static string MasterOutStanding {
             get {
@@ -601,7 +601,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEMBER CRE..
+        ///   Looks up a localized string similar to Member CRE..
         /// </summary>
         public static string MemberCredit {
             get {
@@ -610,7 +610,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEMBER OST..
+        ///   Looks up a localized string similar to Member OST..
         /// </summary>
         public static string MemberOutStanding {
             get {
@@ -637,7 +637,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEMBER MAX CRE..
+        ///   Looks up a localized string similar to Member Max CRE..
         /// </summary>
         public static string MemMaxCredit {
             get {
@@ -790,7 +790,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SUPER OST..
+        ///   Looks up a localized string similar to Super OST..
         /// </summary>
         public static string SuperOutStanding {
             get {
@@ -916,7 +916,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to USED CRE..
+        ///   Looks up a localized string similar to Used CRE..
         /// </summary>
         public static string UsedCredit {
             get {
@@ -970,7 +970,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to YESTERDAY BAL..
+        ///   Looks up a localized string similar to Yesterday BAL..
         /// </summary>
         public static string YesterdayBal {
             get {
@@ -979,7 +979,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to YESTERDAY Cash.
+        ///   Looks up a localized string similar to Yesterday Cash.
         /// </summary>
         public static string YesterdayCash {
             get {
