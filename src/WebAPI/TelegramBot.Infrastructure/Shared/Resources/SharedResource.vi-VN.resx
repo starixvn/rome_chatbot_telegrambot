@@ -202,7 +202,7 @@
     <comment />
   </data>
   <data name="GrossComm" xml:space="preserve">
-    <value>Tổng hoa hồng</value>
+    <value>Tổng Hoa Hồng</value>
     <comment />
   </data>
   <data name="Balance" xml:space="preserve">
@@ -218,11 +218,11 @@
     <comment />
   </data>
   <data name="Currency" xml:space="preserve">
-    <value>Tiền tệ</value>
+    <value>Tiền Tệ</value>
     <comment />
   </data>
   <data name="GivenCredit" xml:space="preserve">
-    <value>H.Mức được cấp</value>
+    <value>H.Mức Được Cấp</value>
     <comment />
   </data>
   <data name="InvalidUsername" xml:space="preserve">
@@ -250,7 +250,7 @@
     <comment />
   </data>
   <data name="Total" xml:space="preserve">
-    <value>Tổng cộng</value>
+    <value>Tổng Cộng</value>
     <comment />
   </data>
   <data name="Turnover" xml:space="preserve">
@@ -258,11 +258,11 @@
     <comment />
   </data>
   <data name="Username" xml:space="preserve">
-    <value>Tài khoản</value>
+    <value>Tài Khoản</value>
     <comment />
   </data>
   <data name="Yesterday" xml:space="preserve">
-    <value>Hôm qua</value>
+    <value>Hôm Qua</value>
     <comment />
   </data>
   <data name="YesterdayBal" xml:space="preserve">
@@ -278,7 +278,7 @@
     <comment />
   </data>
   <data name="Today" xml:space="preserve">
-    <value>Hôm nay</value>
+    <value>Hôm Nay</value>
     <comment />
   </data>
   <data name="BetCredit" xml:space="preserve">
