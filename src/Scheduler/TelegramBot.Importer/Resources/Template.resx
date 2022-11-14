@@ -127,46 +127,46 @@
     <value>TO</value>
   </data>
   <data name="GrossComm" xml:space="preserve">
-    <value>GROSS COMM</value>
+    <value>Gross Comm</value>
   </data>
   <data name="MasterTotal" xml:space="preserve">
-    <value>MASTER TOTAL</value>
+    <value>Master Total</value>
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
-    <value>SUPER WL</value>
+    <value>Super WL</value>
   </data>
   <data name="SuperComm" xml:space="preserve">
-    <value>SUPER COMM</value>
+    <value>Super Comm</value>
   </data>
   <data name="SuperTotal" xml:space="preserve">
-    <value>SUPER TOTAL</value>
+    <value>Super Total</value>
   </data>
   <data name="CompanyWinLoss" xml:space="preserve">
-    <value>COMPANY</value>
+    <value>Company</value>
   </data>
   <data name="AgentTotal" xml:space="preserve">
-    <value>AGENT TOTAL</value>
+    <value>Agent Total</value>
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
-    <value>MASTER WL</value>
+    <value>Master WL</value>
   </data>
   <data name="MasterComm" xml:space="preserve">
-    <value>MASTER COMM</value>
+    <value>Master Comm</value>
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
-    <value>MEMBER WL</value>
+    <value>Member WL</value>
   </data>
   <data name="MemberComm" xml:space="preserve">
-    <value>MEMBER COMM</value>
+    <value>Member Comm</value>
   </data>
   <data name="MemberTotal" xml:space="preserve">
-    <value>MEMBER TOTAL</value>
+    <value>Member Total</value>
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
-    <value>AGENT WL</value>
+    <value>Agent WL</value>
   </data>
   <data name="AgentComm" xml:space="preserve">
-    <value>AGENT COMM</value>
+    <value>Agent Comm</value>
   </data>
   <data name="MemberReachWinLossIntro" xml:space="preserve">
     <value>You have Members who have reached 100% of their Win Loss Limit</value>

@@ -61,7 +61,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AGENT COMM.
+        ///   Looks up a localized string similar to Agent Comm.
         /// </summary>
         public static string AgentComm {
             get {
@@ -70,7 +70,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AGENT TOTAL.
+        ///   Looks up a localized string similar to Agent Total.
         /// </summary>
         public static string AgentTotal {
             get {
@@ -79,7 +79,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AGENT WL.
+        ///   Looks up a localized string similar to Agent WL.
         /// </summary>
         public static string AgentWinLoss {
             get {
@@ -88,7 +88,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to COMPANY.
+        ///   Looks up a localized string similar to Company.
         /// </summary>
         public static string CompanyWinLoss {
             get {
@@ -97,7 +97,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GROSS COMM.
+        ///   Looks up a localized string similar to Gross Comm.
         /// </summary>
         public static string GrossComm {
             get {
@@ -106,7 +106,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MASTER COMM.
+        ///   Looks up a localized string similar to Master Comm.
         /// </summary>
         public static string MasterComm {
             get {
@@ -115,7 +115,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MASTER TOTAL.
+        ///   Looks up a localized string similar to Master Total.
         /// </summary>
         public static string MasterTotal {
             get {
@@ -124,7 +124,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MASTER WL.
+        ///   Looks up a localized string similar to Master WL.
         /// </summary>
         public static string MasterWinLoss {
             get {
@@ -133,7 +133,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEMBER COMM.
+        ///   Looks up a localized string similar to Member Comm.
         /// </summary>
         public static string MemberComm {
             get {
@@ -151,7 +151,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEMBER TOTAL.
+        ///   Looks up a localized string similar to Member Total.
         /// </summary>
         public static string MemberTotal {
             get {
@@ -160,7 +160,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEMBER WL.
+        ///   Looks up a localized string similar to Member WL.
         /// </summary>
         public static string MemberWinLoss {
             get {
@@ -259,7 +259,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SUPER COMM.
+        ///   Looks up a localized string similar to Super Comm.
         /// </summary>
         public static string SuperComm {
             get {
@@ -268,7 +268,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SUPER TOTAL.
+        ///   Looks up a localized string similar to Super Total.
         /// </summary>
         public static string SuperTotal {
             get {
@@ -277,7 +277,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SUPER WL.
+        ///   Looks up a localized string similar to Super WL.
         /// </summary>
         public static string SuperWinLoss {
             get {

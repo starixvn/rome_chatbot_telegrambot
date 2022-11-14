@@ -505,4 +505,7 @@
   <data name="YourBalance" xml:space="preserve">
     <value>Số Dư Của Bạn</value>
   </data>
+  <data name="CompanyWinLoss" xml:space="preserve">
+    <value>Công Ty</value>
+  </data>
 </root>

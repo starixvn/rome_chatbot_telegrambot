@@ -664,7 +664,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NET POSITION.
+        ///   Looks up a localized string similar to Net Position.
         /// </summary>
         public static string NetPosition {
             get {
