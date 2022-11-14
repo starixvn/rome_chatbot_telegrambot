@@ -66,7 +66,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
                     $"{"Gross Comm",-15} {"1",16}",
                     $"{"Master Total",-15} {"1",16}",
                     $"{"Super WL",-15} {"1",16}",
-                    $"{"Super COMM",-15} {"1",16}",
+                    $"{"Super Comm",-15} {"1",16}",
                     $"{"Super Total",-15} {"1",16}",
                     $"{"Company",-15} {"1",16}",
                     "</pre>"
