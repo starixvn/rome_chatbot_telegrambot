@@ -536,4 +536,13 @@
   <data name="OTPMessage" xml:space="preserve">
     <value>Your OTP is &lt;code&gt;{0}&lt;/code&gt; and it will expire in 3 minutes. Do not share this OTP with anyone.</value>
   </data>
+  <data name="YesterdayNonEnteredMatches" xml:space="preserve">
+    <value>Yesterday Non-Entered Matches</value>
+  </data>
+  <data name="NonEnteredMatches" xml:space="preserve">
+    <value>Non-entered matches</value>
+  </data>
+  <data name="EnteredMatches" xml:space="preserve">
+    <value>Entered matches</value>
+  </data>
 </root>

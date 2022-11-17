@@ -421,6 +421,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entered matches.
+        /// </summary>
+        public static string EnteredMatches {
+            get {
+                return ResourceManager.GetString("EnteredMatches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to For.
         /// </summary>
         public static string For {
@@ -687,6 +696,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string NoData {
             get {
                 return ResourceManager.GetString("NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non-entered matches.
+        /// </summary>
+        public static string NonEnteredMatches {
+            get {
+                return ResourceManager.GetString("NonEnteredMatches", resourceCulture);
             }
         }
         
@@ -993,6 +1011,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string YesterdayCash {
             get {
                 return ResourceManager.GetString("YesterdayCash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yesterday Non-Entered Matches.
+        /// </summary>
+        public static string YesterdayNonEnteredMatches {
+            get {
+                return ResourceManager.GetString("YesterdayNonEnteredMatches", resourceCulture);
             }
         }
         
