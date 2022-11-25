@@ -207,4 +207,13 @@
   <data name="ThresholdType_2" xml:space="preserve">
     <value>Personal</value>
   </data>
+  <data name="NonEnteredMatchNotification" xml:space="preserve">
+    <value>Non-entered match notification</value>
+  </data>
+  <data name="EnteredMatches" xml:space="preserve">
+    <value>Entered matches</value>
+  </data>
+  <data name="NonEnteredMatches" xml:space="preserve">
+    <value>Non-entered matches</value>
+  </data>
 </root>

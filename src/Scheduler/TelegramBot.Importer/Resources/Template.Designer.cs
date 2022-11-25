@@ -97,6 +97,15 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entered matches.
+        /// </summary>
+        public static string EnteredMatches {
+            get {
+                return ResourceManager.GetString("EnteredMatches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gross Comm.
         /// </summary>
         public static string GrossComm {
@@ -219,6 +228,24 @@ namespace TelegramBot.Importer.Resources {
         public static string NewProblemAccounts {
             get {
                 return ResourceManager.GetString("NewProblemAccounts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non-entered matches.
+        /// </summary>
+        public static string NonEnteredMatches {
+            get {
+                return ResourceManager.GetString("NonEnteredMatches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non-entered match notification.
+        /// </summary>
+        public static string NonEnteredMatchNotification {
+            get {
+                return ResourceManager.GetString("NonEnteredMatchNotification", resourceCulture);
             }
         }
         

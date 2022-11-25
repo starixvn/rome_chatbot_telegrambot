@@ -10,9 +10,12 @@ public interface IYesterdayWinLossService
 {
     Task<WinLossBase> GetWinLoss(int custId, byte custLevel, DateTime winLossDate);
 
+    Task<EnteredResult> GetEnteredResult();
+
     Task<Result> Import(
         IEnumerable<Notification> notifications,
         DateTime winLossDate,
+        string serviceName,
         string environment,
         int maxUserId);
 }
@@ -29,14 +32,19 @@ public class YesterdayWinLossService : NotificationServiceBase, IYesterdayWinLos
     public Task<WinLossBase> GetWinLoss(int custId, byte custLevel, DateTime winLossDate)
         => winLossService.GetWinLoss(custId, custLevel, winLossDate);
 
+    public Task<EnteredResult> GetEnteredResult()
+        => winLossService.GetYesterdayEnteredResult();
+
     public Task<Result> Import(
         IEnumerable<Notification> notifications,
         DateTime winLossDate,
+        string serviceName,
         string environment,
         int maxUserId)
         => ExecuteNonQuery(new ImportYesterdayWinLossCommand(
             BuildXmlData(notifications),
             winLossDate,
+            serviceName,
             environment,
             maxUserId));
 }

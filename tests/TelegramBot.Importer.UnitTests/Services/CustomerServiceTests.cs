@@ -19,15 +19,15 @@ public class CustomerServiceTests
     }
 
     [Theory, AutoData]
-    public async Task GetYesterdayWinLossLinkedCustomers_Always_ReturnsCorrectData(DateTime winLossDate, string environment, IEnumerable<LinkedCustomer> customers)
+    public async Task GetYesterdayWinLossLinkedCustomers_Always_ReturnsCorrectData(DateTime winLossDate, string serviceName, string environment, IEnumerable<LinkedCustomer> customers)
     {
         // Arrange
-        var command = new GetYesterdayWinLossLinkedCustomerCommand(winLossDate, environment);
+        var command = new GetYesterdayWinLossLinkedCustomerCommand(winLossDate, serviceName, environment);
         dynamicRepository.FetchAsync<LinkedCustomer>(Arg.Any<GetYesterdayWinLossLinkedCustomerCommand>()).Returns(Task.FromResult(customers));
         var expectedResult = new Tuple<IEnumerable<LinkedCustomer>, int>(customers, command.MaxUserId);
 
         // Act
-        var result = await customerService.GetYesterdayWinLossLinkedCustomers(winLossDate, environment);
+        var result = await customerService.GetYesterdayWinLossLinkedCustomers(winLossDate, serviceName, environment);
 
         // Assert
         Assert.True(expectedResult.Item1.Equals(result.Item1) && result.Item2.Equals(expectedResult.Item2));

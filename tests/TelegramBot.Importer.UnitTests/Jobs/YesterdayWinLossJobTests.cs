@@ -40,27 +40,27 @@ public class YesterdayWinLossJobTests
             new CustomerStatus(1,0,true,false,false,string.Empty)
         };
         yesterdayWinLossService.GetWinLoss(Arg.Any<int>(), Arg.Any<byte>(), Arg.Any<DateTime>()).Returns(Task.FromResult((WinLossBase)winLoss));
-        customerService.GetYesterdayWinLossLinkedCustomers(Arg.Any<DateTime>(), Arg.Any<string>())
+        customerService.GetYesterdayWinLossLinkedCustomers(Arg.Any<DateTime>(), Arg.Any<string>(), Arg.Any<string>())
             .Returns(Task.FromResult(Tuple.Create(linkedCustomers, maxUserId)));
         customerService.GetCustomerStatus(Arg.Any<IEnumerable<CustomerStatusParam>>()).Returns(Task.FromResult(customerStatus));
-        yesterdayWinLossService.Import(Arg.Any<IEnumerable<Notification>>(), Arg.Any<DateTime>(), Arg.Any<string>(), Arg.Any<int>())
+        yesterdayWinLossService.Import(Arg.Any<IEnumerable<Notification>>(), Arg.Any<DateTime>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<int>())
             .Returns(Task.FromResult(new Result(1, "")));
 
         // Act
         await yesterdayWinLossJob.ImportYesterdayWinLossNotification(job, winLossDate);
 
         // Assert
-        await yesterdayWinLossService.Received().Import(Arg.Any<IEnumerable<Notification>>(), Arg.Is(winLossDate), Arg.Is(job.Environment), Arg.Is(maxUserId));
+        await yesterdayWinLossService.Received().Import(Arg.Any<IEnumerable<Notification>>(), Arg.Is(winLossDate), Arg.Is(job.Name), Arg.Is(job.Environment), Arg.Is(maxUserId));
     }
 
     [Theory, AutoData]
     public async Task ImportYesterdayWinLossNotification_HasException_CallsLogError(ScheduleJob job, DateTime winLossDate, int maxUserId)
     {
         // Arrange
-        customerService.GetYesterdayWinLossLinkedCustomers(Arg.Any<DateTime>(), Arg.Any<string>())
+        customerService.GetYesterdayWinLossLinkedCustomers(Arg.Any<DateTime>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(Task.FromResult(Tuple.Create(Enumerable.Empty<LinkedCustomer>(), maxUserId)));
         var ex = new Exception();
-        yesterdayWinLossService.Import(Arg.Any<IEnumerable<Notification>>(), Arg.Any<DateTime>(), Arg.Any<string>(), Arg.Any<int>())
+        yesterdayWinLossService.Import(Arg.Any<IEnumerable<Notification>>(), Arg.Any<DateTime>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<int>())
                 .Returns(Task.FromException<Result>(ex));
 
         // Act

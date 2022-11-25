@@ -54,7 +54,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
 
     internal async Task<bool> ImportYesterdayWinLossNotification(ScheduleJob job, DateTime winLossDate)
     {
-        var (linkedCustomers, maxUserId) = await customerService.GetYesterdayWinLossLinkedCustomers(winLossDate, job.Environment);
+        var (linkedCustomers, maxUserId) = await customerService.GetYesterdayWinLossLinkedCustomers(winLossDate, job.Name, job.Environment);
         var hasLinkedCustomer = linkedCustomers.Any();
 
         try
@@ -64,7 +64,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
                 : Enumerable.Empty<Notification>();
 
             // In case of NoData, call Import to update JobStatus=Completed and LastRuntime.
-            var result = await yesterdayWinLossService.Import(notifications, winLossDate, job.Environment, maxUserId);
+            var result = await yesterdayWinLossService.Import(notifications, winLossDate, job.Name, job.Environment, maxUserId);
 
             if (result.IsFailed)
             {
