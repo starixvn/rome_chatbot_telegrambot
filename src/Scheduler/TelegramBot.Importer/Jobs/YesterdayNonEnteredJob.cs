@@ -139,6 +139,10 @@ public sealed class YesterdayNonEnteredJob : NotificationBaseJob
         messageBuilder.AppendLine("<pre>");
         messageBuilder.AppendLine(TemplateHelper.FormatRow(TemplateHelper.BuildContent(language, "NonEnteredMatches"), enteredResult.NonEntered.ToString(), language));
         messageBuilder.AppendLine(TemplateHelper.FormatRow(TemplateHelper.BuildContent(language, "EnteredMatches"), enteredResult.Entered.ToString(), language));
+        if (enteredResult.NonEntered == 0)
+        {
+            messageBuilder.AppendLine(TemplateHelper.BuildContent(language, "NonEnteredMatchNote"));
+        }
         messageBuilder.AppendLine("</pre>");
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
