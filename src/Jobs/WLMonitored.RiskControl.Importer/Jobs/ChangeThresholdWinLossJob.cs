@@ -51,21 +51,17 @@ public sealed class ChangeThresholdWinLossJob : ChangeWinLossBaseJob
             agentIds.JoinWithComma(),
             DateTime.Today);
 
-        if (!accumulatedWinLossList.Any())
-        {
-            return false;
-        }
+        var hasData = accumulatedWinLossList.Any();
+        var reachPlayerHistoryParams = hasData
+            ? BuildReachPlayerHistoryParams(accumulatedWinLossList, winLossThresholdDict, lastScanSettingDate)
+            : Enumerable.Empty<ReachPlayerHistoryParam>();
 
-        var reachPlayerHistoryParams = BuildReachPlayerHistoryParams(
-            accumulatedWinLossList,
-            winLossThresholdDict,
-            lastScanSettingDate);
         await InsertPlayerHistoryInCaseOfChangeSetting(
             reachPlayerHistoryParams,
             DateTime.Now,
             globalSetting.GetWLMonitoredAccountWithEnvironment());
 
-        return true;
+        return hasData;
     }
 
     private static Tuple<IEnumerable<int>, IEnumerable<int>, IDictionary<int, WinLossThreshold>> GetMemberAndAgentCustIds(
