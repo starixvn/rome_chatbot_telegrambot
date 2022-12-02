@@ -46,7 +46,7 @@ public class OTPController : ControllerBase
 
         var otp = await otpService.GenerateOTP(param.CustId, param.SubAccId);
         var message = messageBuilder.BuildOTPMessage(messenger.Language, otp);
-        await messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), message);
+        await messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), message, FunctionIds.OTP);
 
         return Ok();
     }
