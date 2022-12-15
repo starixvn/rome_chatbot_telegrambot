@@ -533,4 +533,16 @@
   <data name="YourBalance" xml:space="preserve">
     <value>您的余额</value>
   </data>
+  <data name="EnteredMatches" xml:space="preserve">
+    <value>已完成赛事</value>
+  </data>
+  <data name="YesterdayNonEnteredMatches" xml:space="preserve">
+    <value>昨天未完成赛事</value>
+  </data>
+  <data name="OTPMessage" xml:space="preserve">
+    <value>您的OTP是 &lt;code&gt;{0}&lt;/code&gt;，有效期为 3 分钟。 不要与任何人共享此 OTP。</value>
+  </data>
+  <data name="NonEnteredMatches" xml:space="preserve">
+    <value>未完成赛事</value>
+  </data>
 </root>

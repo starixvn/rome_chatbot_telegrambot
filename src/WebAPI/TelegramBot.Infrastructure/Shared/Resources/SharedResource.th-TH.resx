@@ -529,4 +529,16 @@
   <data name="YourBalance" xml:space="preserve">
     <value>ยอดเงินคงเหลือของคุณ</value>
   </data>
+  <data name="EnteredMatches" xml:space="preserve">
+    <value>คู่การแข่งขันที่จบแล้ว</value>
+  </data>
+  <data name="YesterdayNonEnteredMatches" xml:space="preserve">
+    <value>คู่การแข่งขันของเมื่อวานที่ยังไม่จบ</value>
+  </data>
+  <data name="OTPMessage" xml:space="preserve">
+    <value>รหัสผ่าน OTP ของคุณคือ &lt;code&gt;{0}&lt;/code&gt; และจะหมดอายุภายใน 3 นาที โปรดอย่าเผยแพร่รหัส OTP แก่ผู้อื่น</value>
+  </data>
+  <data name="NonEnteredMatches" xml:space="preserve">
+    <value>คู่การแข่งขันที่ยังไม่จบ</value>
+  </data>
 </root>

@@ -508,4 +508,16 @@
   <data name="CompanyWinLoss" xml:space="preserve">
     <value>Công Ty</value>
   </data>
+  <data name="EnteredMatches" xml:space="preserve">
+    <value>Trận đã kết thúc</value>
+  </data>
+  <data name="YesterdayNonEnteredMatches" xml:space="preserve">
+    <value>Trận chưa có kết quả hôm qua</value>
+  </data>
+  <data name="OTPMessage" xml:space="preserve">
+    <value>OTP của bạn là &lt;code&gt;{0}&lt;/code&gt; và có hiệu lực trong 3 phút. Vui lòng không chia sẻ OTP với bất kỳ ai.</value>
+  </data>
+  <data name="NonEnteredMatches" xml:space="preserve">
+    <value>Trận chưa có kết quả</value>
+  </data>
 </root>

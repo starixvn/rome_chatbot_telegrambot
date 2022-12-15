@@ -736,7 +736,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your OTP is &lt;code&gt;{0}&lt;/code&gt; and it will expire in 3 minutes. Do not share this OTP with anyone..
+        ///   Looks up a localized string similar to Your OTP is &lt;code&gt;{0}&lt;/code&gt; and is valid for 3 minutes. Do not share this OTP with anyone..
         /// </summary>
         public static string OTPMessage {
             get {

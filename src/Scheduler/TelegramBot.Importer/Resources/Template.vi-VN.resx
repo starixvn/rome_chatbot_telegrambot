@@ -231,4 +231,16 @@
   <data name="MyWatchlistTitle" xml:space="preserve">
     <value>Thông báo Member đã đạt Giới Hạn Sportsbook</value>
   </data>
+  <data name="NonEnteredMatchNote" xml:space="preserve">
+    <value>Tất cả trận đấu hôm qua đã được kết toán và nhập vào hệ thống. Bạn có thể tiến hành các bước tiếp theo với cấp dưới của bạn.</value>
+  </data>
+  <data name="NonEnteredMatches" xml:space="preserve">
+    <value>Trận chưa có kết quả</value>
+  </data>
+  <data name="EnteredMatches" xml:space="preserve">
+    <value>Trận đã kết thúc</value>
+  </data>
+  <data name="NonEnteredMatchNotification" xml:space="preserve">
+    <value>Thông báo trận chưa có kết quả</value>
+  </data>
 </root>

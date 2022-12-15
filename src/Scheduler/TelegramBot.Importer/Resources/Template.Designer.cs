@@ -241,7 +241,16 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Non-entered match notification.
+        ///   Looks up a localized string similar to All of yesterday&apos;s matches have been settled and entered into the system. You can proceed with further business operations with your downlines..
+        /// </summary>
+        public static string NonEnteredMatchNote {
+            get {
+                return ResourceManager.GetString("NonEnteredMatchNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non-entered matches notification.
         /// </summary>
         public static string NonEnteredMatchNotification {
             get {

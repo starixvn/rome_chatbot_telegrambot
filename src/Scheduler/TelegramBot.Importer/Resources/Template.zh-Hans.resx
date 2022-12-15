@@ -231,4 +231,16 @@
   <data name="MyWatchlistTitle" xml:space="preserve">
     <value>会员达到体育博彩限额警惕</value>
   </data>
+  <data name="NonEnteredMatchNote" xml:space="preserve">
+    <value>昨天赛事已经全部结算并录入系统。您可以进一步与您的下线进行业务运营。</value>
+  </data>
+  <data name="NonEnteredMatches" xml:space="preserve">
+    <value>未完成赛事</value>
+  </data>
+  <data name="EnteredMatches" xml:space="preserve">
+    <value>已完成赛事</value>
+  </data>
+  <data name="NonEnteredMatchNotification" xml:space="preserve">
+    <value>未完成赛事通知</value>
+  </data>
 </root>
