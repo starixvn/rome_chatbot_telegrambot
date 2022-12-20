@@ -2,21 +2,19 @@
 using Alpha.API.Client.Services;
 using AutoFixture;
 using AutoFixture.Xunit2;
-using Fanex.Caching;
 using Fanex.Data.Repository;
 using NSubstitute;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TelegramBot.Infrastructure.Action;
 using TelegramBot.Infrastructure.Function.Models;
 using TelegramBot.Infrastructure.Message;
+using TelegramBot.Infrastructure.OTP;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Setting.Constants;
 using TelegramBot.Infrastructure.Setting.Criteria;
 using TelegramBot.Infrastructure.Setting.Models;
-using TelegramBot.Infrastructure.Shared.Caching;
 using TelegramBot.Infrastructure.Shared.Configurations;
 using TelegramBot.Infrastructure.Shared.Models;
 using Xunit;
@@ -33,7 +31,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
         private readonly IActionService _actionService;
         private readonly ICustomerService _customerService;
         private readonly IFunctionService _functionService;
-        private readonly ICacheService _cacheService;
+        private readonly IOTPService _otpService;
 
         public SettingServiceTests()
         {
@@ -45,18 +43,16 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
             _actionService = Substitute.For<IActionService>();
             _customerService = Substitute.For<ICustomerService>();
             _functionService = Substitute.For<IFunctionService>();
-            _cacheService = Substitute.For<ICacheService>();
-            var cacheServiceFactory = Substitute.For<ICacheServiceFactory>();
-            cacheServiceFactory.Get(Arg.Any<string>()).Returns(_cacheService);
+            _otpService = Substitute.For<IOTPService>();
             _settingService = new SettingService(
                 _webAPIConfiguration,
                 _dynamicRepository,
-                cacheServiceFactory,
                 _messageSender,
                 _messageBuilder,
                 _actionService,
                 _customerService,
-                _functionService);
+                _functionService,
+                _otpService);
         }
 
         [Theory, AutoData]
@@ -143,17 +139,14 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
             Assert.True(result.Code == ErrorCodes.MessengerNotFound && result.Message == "Messenger not found");
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        public async Task Link_ExpectedOtpIsNullOrEmpty_ReturnsOTPExpiredResult(string expectedOtp)
+        [Fact]
+        public async Task Link_ExpectedOtpIsNullOrEmpty_ReturnsOTPExpiredResult()
         {
             // Assert
             var fixture = new Fixture();
             _webAPIConfiguration.OtpMaxFailedTimes = 3;
             _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(Arg.Any<CustBotMessengerSelCriteria>()).Returns(Task.FromResult((fixture.Create<IEnumerable<CustBotMessenger>>(), Enumerable.Empty<BotFunction>())));
-            _cacheService.GetAsync<string>(Arg.Any<string>()).Returns(Task.FromResult(expectedOtp));
-
+            _otpService.VerifyOTP(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>()).Returns(Task.FromResult(new Result(ErrorCodes.OTP_Expired, "OTP is expired")));
             // Act
             var result = await _settingService.Link(fixture.Create<int>(), fixture.Create<int>(), fixture.Create<int>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
 
@@ -161,38 +154,33 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
             Assert.True(result.Code == ErrorCodes.OTP_Expired && result.Message == "OTP is expired");
         }
 
-        [Theory, AutoData]
-        public async Task Link_InvalidOtp_ReturnsOTPInvalidResult(int botId, int custId, int subAccId, string username, string ip)
+        [Fact]
+        public async Task Link_InvalidOtp_ReturnsOTPInvalidResult()
         {
             // Assert
             var fixture = new Fixture();
             _webAPIConfiguration.OtpMaxFailedTimes = 3;
-            var otp = "123";
-            var expectedOtp = "456";
             _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(Arg.Any<CustBotMessengerSelCriteria>()).Returns(Task.FromResult((fixture.Create<IEnumerable<CustBotMessenger>>(), Enumerable.Empty<BotFunction>())));
-            _cacheService.GetAsync<string>(Arg.Any<string>()).Returns(Task.FromResult(expectedOtp));
+            _otpService.VerifyOTP(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>()).Returns(Task.FromResult(new Result(ErrorCodes.OTP_Invalid, "OTP is invalid")));
 
             // Act
-            var result = await _settingService.Link(botId, custId, subAccId, otp, username, ip);
+            var result = await _settingService.Link(fixture.Create<int>(), fixture.Create<int>(), fixture.Create<int>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
 
             // Act
             Assert.True(result.Code == ErrorCodes.OTP_Invalid && result.Message == "OTP is invalid");
         }
 
-        [Theory, AutoData]
-        public async Task Link_OTPFailedManyTimes_ReturnsOTPExpiredResult(int botId, int custId, int subAccId, string username, string ip)
+        [Fact]
+        public async Task Link_OTPFailedManyTimes_ReturnsOTPExpiredResult()
         {
             // Assert
             var fixture = new Fixture();
             _webAPIConfiguration.OtpMaxFailedTimes = 3;
-            var otp = "123";
-            var expectedOtp = "456";
             _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(Arg.Any<CustBotMessengerSelCriteria>()).Returns(Task.FromResult((fixture.Create<IEnumerable<CustBotMessenger>>(), Enumerable.Empty<BotFunction>())));
-            _cacheService.GetAsync<string>(Arg.Any<string>()).Returns(Task.FromResult(expectedOtp));
-            _cacheService.GetAsync<int>(Arg.Any<string>()).Returns(Task.FromResult(2));
+            _otpService.VerifyOTP(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>()).Returns(Task.FromResult(new Result(ErrorCodes.OTP_FailedManyTimes, "OTP failed many times")));
 
             // Act
-            var result = await _settingService.Link(botId, custId, subAccId, otp, username, ip);
+            var result = await _settingService.Link(fixture.Create<int>(), fixture.Create<int>(), fixture.Create<int>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
 
             // Act
             Assert.True(result.Code == ErrorCodes.OTP_FailedManyTimes && result.Message == "OTP failed many times");
@@ -204,16 +192,12 @@ namespace TelegramBot.Infrastructure.UnitTests.Setting
             // Assert
             var fixture = new Fixture();
             _webAPIConfiguration.OtpMaxFailedTimes = 3;
-            var otp = "123";
-            var expectedOtp = "123";
             _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(Arg.Any<CustBotMessengerSelCriteria>()).Returns(Task.FromResult((fixture.Create<IEnumerable<CustBotMessenger>>(), Enumerable.Empty<BotFunction>())));
-            _cacheService.GetAsync<string>(Arg.Any<string>()).Returns(Task.FromResult(expectedOtp));
-            _cacheService.GetAsync<int>(Arg.Any<string>()).Returns(Task.FromResult(0));
             _customerService.GetCustomerStatus(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(status));
             _dynamicRepository.FetchMultipleAsync<CustBotAccount, BotFunction>(Arg.Any<CustBotUserSelCriteria>()).Returns(Task.FromResult((fixture.Create<IEnumerable<CustBotAccount>>(), Enumerable.Empty<BotFunction>())));
-
+            _otpService.VerifyOTP(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>()).Returns(Task.FromResult(Result.CreateSuccessfulResult()));
             // Act
-            await _settingService.Link(botId, custId, subAccId, otp, username, ip);
+            await _settingService.Link(botId, custId, subAccId, fixture.Create<string>(), username, ip);
 
             // Act
             await _dynamicRepository.Received().ExecuteAsync(Arg.Is<CustBotAccountStatusUpdCriteria>(c =>

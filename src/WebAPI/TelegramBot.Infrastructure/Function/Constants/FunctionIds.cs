@@ -14,5 +14,6 @@ namespace TelegramBot.Infrastructure.Function.Constants
         public const short WrongPasswordAlert = 11;
         public const short Settings = 12;
         public const short MyWatchlist = 14;
+        public const short OTP = 15;
     }
 }

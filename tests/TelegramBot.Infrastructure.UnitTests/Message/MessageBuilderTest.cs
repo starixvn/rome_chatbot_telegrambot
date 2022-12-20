@@ -40,7 +40,7 @@ public class MessageBuilderTest
     {
         var expect = new List<string>
         {
-            $"[Change Password Alert - {DateTime.Now:yyyyMMdd}]",
+            $"[Change Password Alert - {DateTime.Now:MM/dd/yyyy}]",
             "Your account password has been changed.",
             "If this wasn't you, please contact Customer Service Department for support",
         };
@@ -55,7 +55,7 @@ public class MessageBuilderTest
     {
         var expect = new List<string>
         {
-            $"[Change Security Code Alert - {DateTime.Now:yyyyMMdd}]",
+            $"[Change Security Code Alert - {DateTime.Now:MM/dd/yyyy}]",
             "Your Security Code has been changed.",
             "If this wasn't you, please change password or contact Customer Service Department for support",
         };
@@ -71,7 +71,7 @@ public class MessageBuilderTest
         const string expect =
             @"Please enter this OTP <code>192.168.9.9</code> to <b>the Agency Site</b> within 3 minutes to finish setting up your Telegram Chatbot.";
 
-        var result = messageBuilder.BuildOTPMessage("EN", "192.168.9.9");
+        var result = messageBuilder.BuildSettingOTPMessage("EN", "192.168.9.9");
 
         Assert.Equal(string.Join("\n", expect), result);
     }
@@ -147,7 +147,7 @@ public class MessageBuilderTest
     public void BuildInvalidNumerOfDownlineRange_Always_ReturnInvalidNumerOfDownlineRange()
     {
         const string expect = @"""userResponse"" is invalid, please enter a valid number (max 10)";
-        var result = messageBuilder.BuildInvalidNumerOfDownlineRange("EN", "userResponse", 10);
+        var result = messageBuilder.BuildInvalidNumberOfDownlineRange("EN", "userResponse", 10);
 
         Assert.Equal(expect, result);
     }
@@ -366,7 +366,7 @@ public class MessageBuilderTest
         // Arrange
         var ip = "127.0.0.1";
         var expectedResult = new StringBuilder();
-        expectedResult.Append($"[Wrong Password Alert - {DateTime.Now:yyyyMMdd}]\n");
+        expectedResult.Append($"[Wrong Password Alert - {DateTime.Now:MM/dd/yyyy}]\n");
         expectedResult.Append("Your account password has been entered incorrectly several times.\n");
         expectedResult.Append($"Requested IP: {ip}\n");
         expectedResult.Append("If this wasn't you, please contact Customer Service Department for support");

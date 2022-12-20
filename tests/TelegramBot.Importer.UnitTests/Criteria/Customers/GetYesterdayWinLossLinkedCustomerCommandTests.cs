@@ -5,10 +5,10 @@ namespace TelegramBot.Importer.UnitTests.Criteria.Customers;
 public class GetYesterdayWinLossLinkedCustomerCommandTests
 {
     [Theory, AutoData]
-    public void GetSettingKey_Always_ReturnsCorrectKey(DateTime winLostDate, string environment)
+    public void GetSettingKey_Always_ReturnsCorrectKey(DateTime winLostDate, string serviceName, string environment)
     {
         // Arrange
-        var criteria = new GetYesterdayWinLossLinkedCustomerCommand(winLostDate, environment);
+        var criteria = new GetYesterdayWinLossLinkedCustomerCommand(winLostDate, serviceName, environment);
 
         // Act
         var actualResult = criteria.GetSettingKey();
@@ -18,10 +18,10 @@ public class GetYesterdayWinLossLinkedCustomerCommandTests
     }
 
     [Theory, AutoData]
-    public void IsValid_Always_ReturnsTrue(DateTime winLostDate, string environment)
+    public void IsValid_Always_ReturnsTrue(DateTime winLostDate, string serviceName, string environment)
     {
         // Arrange
-        var criteria = new GetYesterdayWinLossLinkedCustomerCommand(winLostDate, environment);
+        var criteria = new GetYesterdayWinLossLinkedCustomerCommand(winLostDate, serviceName, environment);
 
         // Act
         var actualResult = criteria.IsValid();

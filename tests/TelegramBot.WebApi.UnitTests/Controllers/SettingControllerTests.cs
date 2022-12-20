@@ -85,7 +85,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
         }
 
         [Theory, AutoData]
-        public async Task ResendOtp_Always_CallsSettingServiceResendOtp(ResendOtpParam param)
+        public async Task ResendOtp_Always_CallsSettingServiceResendOtp(SendOtpParam param)
         {
             // Act
             await _settingController.ResendOtp(param).ConfigureAwait(false);

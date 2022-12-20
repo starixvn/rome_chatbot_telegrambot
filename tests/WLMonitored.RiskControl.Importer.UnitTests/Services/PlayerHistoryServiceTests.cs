@@ -29,7 +29,7 @@ public class PlayerHistoryServiceTests
             new(23003140, 100, 0, 1, 200, 300, 2)
         };
         byte notificationType = 1;
-        var expected = "<CustIds><Cust CustId=\"23003140\" AccumWL=\"100\" SettingType=\"1\" Winningthreshold=\"200\" Losingthreshold=\"300\" ReachType=\"2\"/></CustIds>";
+        var expected = "<CustIds><Cust CustId=\"23003140\" AccumWL=\"100\" SportType=\"0\" SettingType=\"1\" WinningThreshold=\"200\" LosingThreshold=\"300\" ReachType=\"2\"/></CustIds>";
 
         // Act
         await playerHistoryService.Insert(reachPlayerHistoryParams, notificationType, null, null, "WLMonitoredAccount");

@@ -74,73 +74,57 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
         private string BuildTopOutstandingMessage(string language, OutstandingReport data, byte custLevel)
         {
-            var headerRow = string.Format(
-                "{0} / {1} {2} {3}",
-                ResourceHelper.Get($"CustLevel_{custLevel - 1}", language),
-                ResourceHelper.Get(nameof(SharedResource.Member), language),
-                messageFormatter.Point(),
-                ResourceHelper.Get($"CustLevel_{custLevel}", language));
-
-            var textContainer = new List<string>();
-            AddTitleRow(textContainer, language);
-            textContainer.Add($"{headerRow}{messageFormatter.NewLine()}");
-
-            if (data == null || !data.Outstandings.Any())
+            var textContainer = new List<string>
             {
-                textContainer.Add(messageBuilder.BuildNoDataMessage(language));
-            }
-            else
-            {
-                AddTotalRow(textContainer, data.Total, language);
-                AddBodyMessage(textContainer, data.Outstandings);
-            }
+                $"[{ResourceHelper.Get(nameof(SharedResource.DownlineTopHighestOutstanding), language)}]"
+            };
+            AddBodyMessage(textContainer, data, custLevel, language);
 
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
         private string BuildDownlineOutstandingMessage(string language, OutstandingReport data, byte custLevel, string downlineUsername)
         {
-            var textContainer = new List<string>();
-            AddTitleRow(textContainer, language);
-            textContainer.Add($"{ResourceHelper.Get(nameof(SharedResource.For), language)} {downlineUsername}");
+            var textContainer = new List<string>
+            {
+                $"[{ResourceHelper.Get(nameof(SharedResource.DownlineOutstanding), language)}]",
+                $"{ResourceHelper.Get(nameof(SharedResource.For), language)} {downlineUsername}"
+            };
+            AddBodyMessage(textContainer, data, custLevel, language);
 
+            return string.Join(messageFormatter.NewLine(), textContainer);
+        }
+
+        private void AddBodyMessage(List<string> textContainer, OutstandingReport data, byte custLevel, string language)
+        {
             if (data == null || !data.Outstandings.Any())
             {
                 textContainer.Add(messageBuilder.BuildNoDataMessage(language));
             }
             else
             {
-                var headerRow = string.Format(
-                    "{0} / {1} {2} {3}",
-                    ResourceHelper.Get(nameof(SharedResource.Products), language),
-                    ResourceHelper.Get(nameof(SharedResource.Member), language),
-                    messageFormatter.Point(),
-                    ResourceHelper.Get($"CustLevel_{custLevel}", language));
-                textContainer.Add($"{headerRow}{messageFormatter.NewLine()}");
-                AddTotalRow(textContainer, data.Total, language);
-                AddBodyMessage(textContainer, data.Outstandings);
-            }
+                var downlineLevelText = ResourceHelper.Get($"CustLevel_{custLevel - 1}", language);
+                var custLevelText = ResourceHelper.Get($"CustLevel_{custLevel}", language);
+                var memberText = ResourceHelper.Get(nameof(SharedResource.Member), language);
+                textContainer.Add("<pre>");
+                textContainer.Add(messageFormatter.FormatHeaderRow(downlineLevelText, ResourceHelper.Get(nameof(SharedResource.Outstanding), language), language));
+                textContainer.Add("________________________________");
 
-            return string.Join(messageFormatter.NewLine(), textContainer);
-        }
+                var index = 1;
+                var length = data.Outstandings.Count();
+                foreach (var outstanding in data.Outstandings)
+                {
+                    textContainer.Add(outstanding.Name);
+                    textContainer.Add(messageFormatter.FormatRow(memberText, outstanding.MemberOutstanding.ToFormattedNumber(), language));
+                    textContainer.Add(messageFormatter.FormatRow(custLevelText, outstanding.Outstanding.ToFormattedNumber(), language));
+                    textContainer.Add(index == length ? "________________________________" : "--------------------------------");
+                    index++;
+                }
+                textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant());
+                textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), language));
+                textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), language));
 
-        private static void AddTitleRow(List<string> textContainer, string language)
-            => textContainer.Add($"[{ResourceHelper.Get(nameof(SharedResource.Outstanding), language)}]");
-
-        private void AddTotalRow(List<string> textContainer, OutstandingEntity total, string language)
-        {
-            textContainer.Add(messageFormatter.Bold(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant()));
-            textContainer.Add($"    {total.MemberOutstanding.ToFormattedNumber()} {messageFormatter.Point()} {total.Outstanding.ToFormattedNumber()}");
-        }
-
-        private void AddBodyMessage(List<string> textContainer, IEnumerable<OutstandingEntity> outstandings)
-        {
-            var index = 1;
-            foreach (var outstanding in outstandings)
-            {
-                textContainer.Add(messageFormatter.Bold($"{index}. {outstanding.Name}"));
-                textContainer.Add($"    {outstanding.MemberOutstanding.ToFormattedNumber()} {messageFormatter.Point()} {outstanding.Outstanding.ToFormattedNumber()}");
-                index++;
+                textContainer.Add("</pre>");
             }
         }
 

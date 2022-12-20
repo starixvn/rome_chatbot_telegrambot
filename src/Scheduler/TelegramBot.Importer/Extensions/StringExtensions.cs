@@ -15,7 +15,7 @@ public static class StringExtensions
         => text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
     public static string FormatDecimal(this decimal value)
-        => value.ToString("N2");
+        => value.ToString("#,##0.##");
 
     public static string FormatDecimalUptoTwoDigit(this decimal value)
         => value.ToString("0.##");

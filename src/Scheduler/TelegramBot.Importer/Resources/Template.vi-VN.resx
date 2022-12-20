@@ -126,63 +126,63 @@
     <comment />
   </data>
   <data name="Turnover" xml:space="preserve">
-    <value>TIỀN CƯỢC</value>
+    <value>Tiền Cược</value>
     <comment />
   </data>
   <data name="GrossComm" xml:space="preserve">
-    <value>TỔNG HOA HỒNG</value>
+    <value>Tổng Hoa Hồng</value>
     <comment />
   </data>
   <data name="MasterTotal" xml:space="preserve">
-    <value>TỔNG GIAO DỊCH CỦA MASTER</value>
+    <value>Tổng Tiền Master</value>
     <comment />
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
-    <value>THẮNG THUA CỦA SUPER</value>
+    <value>T.Thua Super</value>
     <comment />
   </data>
   <data name="SuperComm" xml:space="preserve">
-    <value>HOA HỒNG CỦA SUPER</value>
+    <value>H.Hồng Super</value>
     <comment />
   </data>
   <data name="SuperTotal" xml:space="preserve">
-    <value>TỔNG CỘNG CỦA SUPER</value>
+    <value>Tổng Tiền Super</value>
     <comment />
   </data>
   <data name="CompanyWinLoss" xml:space="preserve">
-    <value>CÔNG TY</value>
+    <value>Công Ty</value>
     <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
-    <value>HOA HỒNG CỦA AGENT</value>
+    <value>H.Hồng Agent</value>
     <comment />
   </data>
   <data name="AgentTotal" xml:space="preserve">
-    <value>TỔNG GIAO DỊCH CỦA AGENT</value>
+    <value>Tổng Tiền Agent</value>
     <comment />
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
-    <value>THẮNG THUA CỦA AGENT</value>
+    <value>T.Thua Agent</value>
     <comment />
   </data>
   <data name="MasterComm" xml:space="preserve">
-    <value>HOA HỒNG CỦA MASTER</value>
+    <value>H.Hồng Master</value>
     <comment />
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
-    <value>THẮNG THUA CỦA MASTER</value>
+    <value>T.Thua Master</value>
     <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
-    <value>HOA HỒNG CỦA MEMBER</value>
+    <value>H.Hồng Member</value>
     <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">
-    <value>TỔNG CỘNG CỦA MEMBER</value>
+    <value>Tổng Tiền Member</value>
     <comment />
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
-    <value>THẮNG THUA CỦA MEMBER</value>
+    <value>T.Thua Member</value>
     <comment />
   </data>
   <data name="NewProblemAccounts" xml:space="preserve">
@@ -230,5 +230,17 @@
   </data>
   <data name="MyWatchlistTitle" xml:space="preserve">
     <value>Thông báo Member đã đạt Giới Hạn Sportsbook</value>
+  </data>
+  <data name="NonEnteredMatchNote" xml:space="preserve">
+    <value>Tất cả trận đấu hôm qua đã được kết toán và nhập vào hệ thống. Bạn có thể tiến hành các bước tiếp theo với cấp dưới của bạn.</value>
+  </data>
+  <data name="NonEnteredMatches" xml:space="preserve">
+    <value>Trận chưa có kết quả</value>
+  </data>
+  <data name="EnteredMatches" xml:space="preserve">
+    <value>Trận đã kết thúc</value>
+  </data>
+  <data name="NonEnteredMatchNotification" xml:space="preserve">
+    <value>Thông báo trận chưa có kết quả</value>
   </data>
 </root>

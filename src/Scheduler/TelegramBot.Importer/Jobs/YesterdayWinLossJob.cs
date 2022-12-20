@@ -54,7 +54,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
 
     internal async Task<bool> ImportYesterdayWinLossNotification(ScheduleJob job, DateTime winLossDate)
     {
-        var (linkedCustomers, maxUserId) = await customerService.GetYesterdayWinLossLinkedCustomers(winLossDate, job.Environment);
+        var (linkedCustomers, maxUserId) = await customerService.GetYesterdayWinLossLinkedCustomers(winLossDate, job.Name, job.Environment);
         var hasLinkedCustomer = linkedCustomers.Any();
 
         try
@@ -64,7 +64,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
                 : Enumerable.Empty<Notification>();
 
             // In case of NoData, call Import to update JobStatus=Completed and LastRuntime.
-            var result = await yesterdayWinLossService.Import(notifications, winLossDate, job.Environment, maxUserId);
+            var result = await yesterdayWinLossService.Import(notifications, winLossDate, job.Name, job.Environment, maxUserId);
 
             if (result.IsFailed)
             {
@@ -145,84 +145,67 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
         messageBuilder
             .AppendLine(TemplateHelper.BuildTitle(language, "YesterdayWinLoss", winLossDate));
 
-        switch (custLevel)
+        var content = custLevel switch
         {
-            case CustomerLevel.Super:
-                AddMasterWinLossContent(messageBuilder, language, (WinLossMaster)winloss);
-                break;
+            CustomerLevel.Super => AddMasterWinLossContent((WinLossMaster)winloss),
+            CustomerLevel.Master => AddAgentWinLossContent((WinLossAgent)winloss),
+            CustomerLevel.Agent => AddMemberWinLossContent((WinLossMember)winloss),
+            _ => throw new ArgumentOutOfRangeException(nameof(custLevel), $"Not expected {nameof(custLevel)} value: {custLevel}")
+        };
 
-            case CustomerLevel.Master:
-                AddAgentWinLossContent(messageBuilder, language, (WinLossAgent)winloss);
-                break;
-
-            case CustomerLevel.Agent:
-                AddMemberWinLossContent(messageBuilder, language, (WinLossMember)winloss);
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException(
-                    nameof(custLevel),
-                    $"Not expected {nameof(custLevel)} value: {custLevel}");
-        }
+        FormatMessageContent(messageBuilder, content, language);
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
 
-    private static void AddMasterWinLossContent(StringBuilder messageBuilder, string language, WinLossMaster winloss)
-        => messageBuilder
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.Turnover)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.Turnover))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.GrossComm)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.GrossComm))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MasterTotal)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.MasterTotal))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.SuperWinLoss)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.SuperWinLoss))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.SuperComm)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.SuperComm))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.SuperTotal)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.SuperTotal))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.CompanyWinLoss)))
-        .Append(FormatDecimalWithPadLeft(winloss.CompanyWinLoss));
 
-    private static void AddAgentWinLossContent(StringBuilder messageBuilder, string language, WinLossAgent winloss)
-        => messageBuilder
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.Turnover)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.Turnover))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.GrossComm)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.GrossComm))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.AgentTotal)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.AgentTotal))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MasterWinLoss)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.MasterWinLoss))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MasterComm)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.MasterComm))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MasterTotal)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.MasterTotal))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.CompanyWinLoss)))
-        .Append(FormatDecimalWithPadLeft(winloss.CompanyWinLoss));
+    private static Dictionary<string, decimal> AddMasterWinLossContent(WinLossMaster winloss)
+        => new()
+        {
+            {nameof(winloss.Turnover),winloss.Turnover},
+            {nameof(winloss.GrossComm),winloss.GrossComm},
+            {nameof(winloss.MasterTotal),winloss.MasterTotal},
+            {nameof(winloss.SuperWinLoss),winloss.SuperWinLoss},
+            {nameof(winloss.SuperComm),winloss.SuperComm},
+            {nameof(winloss.SuperTotal),winloss.SuperTotal},
+            {nameof(winloss.CompanyWinLoss),winloss.CompanyWinLoss}
+        };
 
-    private static void AddMemberWinLossContent(StringBuilder messageBuilder, string language, WinLossMember winloss)
-        => messageBuilder
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.Turnover)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.Turnover))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.GrossComm)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.GrossComm))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MemberWinLoss)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.MemberWinLoss))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MemberComm)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.MemberComm))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.MemberTotal)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.MemberTotal))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.AgentWinLoss)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.AgentWinLoss))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.AgentComm)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.AgentComm))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.AgentTotal)))
-        .AppendLine(FormatDecimalWithPadLeft(winloss.AgentTotal))
-        .AppendLine(TemplateHelper.BuildBoldContent(language, nameof(winloss.CompanyWinLoss)))
-        .Append(FormatDecimalWithPadLeft(winloss.CompanyWinLoss));
+    private static Dictionary<string, decimal> AddAgentWinLossContent(WinLossAgent winloss)
+        => new()
+        {
+            {nameof(winloss.Turnover),winloss.Turnover},
+            {nameof(winloss.GrossComm),winloss.GrossComm},
+            {nameof(winloss.AgentTotal),winloss.AgentTotal},
+            {nameof(winloss.MasterWinLoss),winloss.MasterWinLoss},
+            {nameof(winloss.MasterComm),winloss.MasterComm},
+            {nameof(winloss.MasterTotal),winloss.MasterTotal},
+            {nameof(winloss.CompanyWinLoss),winloss.CompanyWinLoss}
+        };
 
-    private static string FormatDecimalWithPadLeft(decimal value)
-        => $"    {value.FormatDecimal()}";
+    private static Dictionary<string, decimal> AddMemberWinLossContent(WinLossMember winloss)
+        => new()
+        {
+            {nameof(winloss.Turnover),winloss.Turnover},
+            {nameof(winloss.GrossComm),winloss.GrossComm},
+            {nameof(winloss.MemberWinLoss),winloss.MemberWinLoss},
+            {nameof(winloss.MemberComm),winloss.MemberComm},
+            {nameof(winloss.MemberTotal),winloss.MemberTotal},
+            {nameof(winloss.AgentWinLoss),winloss.AgentWinLoss},
+            {nameof(winloss.AgentComm),winloss.AgentComm},
+            {nameof(winloss.AgentTotal),winloss.AgentTotal},
+            {nameof(winloss.CompanyWinLoss),winloss.CompanyWinLoss}
+        };
+
+    private static void FormatMessageContent(StringBuilder messageBuilder, Dictionary<string, decimal> content, string language)
+    {
+        messageBuilder.AppendLine("<pre>");
+
+        foreach (var item in content)
+        {
+            messageBuilder.AppendLine(TemplateHelper.FormatRow(TemplateHelper.BuildContent(language, item.Key), item.Value.FormatDecimal(), language));
+        }
+
+        messageBuilder.AppendLine("</pre>");
+    }
 }

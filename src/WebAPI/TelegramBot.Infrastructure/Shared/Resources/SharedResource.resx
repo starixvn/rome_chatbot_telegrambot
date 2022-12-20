@@ -262,7 +262,7 @@
     <comment />
   </data>
   <data name="TodayWinLoss" xml:space="preserve">
-    <value>Today Win Loss</value>
+    <value>Today WL</value>
     <comment />
   </data>
   <data name="Username" xml:space="preserve">
@@ -270,7 +270,7 @@
     <comment />
   </data>
   <data name="YesterdayWinLoss" xml:space="preserve">
-    <value>Yesterday Win Loss</value>
+    <value>Yesterday WL</value>
     <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
@@ -282,7 +282,7 @@
     <comment />
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
-    <value>Agent Win Loss</value>
+    <value>Agent WL</value>
     <comment />
   </data>
   <data name="CompanyWinLoss" xml:space="preserve">
@@ -302,7 +302,7 @@
     <comment />
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
-    <value>Master Win Loss</value>
+    <value>Master WL</value>
     <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
@@ -314,7 +314,7 @@
     <comment />
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
-    <value>Member Win Loss</value>
+    <value>Member WL</value>
     <comment />
   </data>
   <data name="SuperComm" xml:space="preserve">
@@ -326,11 +326,11 @@
     <comment />
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
-    <value>Super Win Loss</value>
+    <value>Super WL</value>
     <comment />
   </data>
   <data name="Turnover" xml:space="preserve">
-    <value>Turnover</value>
+    <value>TO</value>
     <comment />
   </data>
   <data name="BackTo" xml:space="preserve">
@@ -338,27 +338,27 @@
     <comment />
   </data>
   <data name="Currency" xml:space="preserve">
-    <value>CURRENCY</value>
+    <value>Currency</value>
     <comment />
   </data>
   <data name="Cash" xml:space="preserve">
-    <value>CASH</value>
+    <value>Cash</value>
     <comment />
   </data>
   <data name="YesterdayCash" xml:space="preserve">
-    <value>YESTERDAY CASH</value>
+    <value>Yesterday Cash</value>
     <comment />
   </data>
   <data name="YesterdayBal" xml:space="preserve">
-    <value>YESTERDAY BALANCE</value>
+    <value>Yesterday BAL.</value>
     <comment />
   </data>
   <data name="ThirdPartyPendingTransfer" xml:space="preserve">
-    <value>3RD PARTY PENDING TRANSFER</value>
+    <value>3RD TRANS.</value>
     <comment />
   </data>
   <data name="GivenCredit" xml:space="preserve">
-    <value>GIVEN CREDIT</value>
+    <value>Given CRE.</value>
     <comment />
   </data>
   <data name="Credit" xml:space="preserve">
@@ -366,19 +366,19 @@
     <comment />
   </data>
   <data name="MemberOutStanding" xml:space="preserve">
-    <value>MEMBER OUTSTANDING</value>
+    <value>Member OST.</value>
     <comment />
   </data>
   <data name="MasterOutStanding" xml:space="preserve">
-    <value>MASTER OUTSTANDING</value>
+    <value>Master OST.</value>
     <comment />
   </data>
   <data name="UsedCredit" xml:space="preserve">
-    <value>USED CREDIT</value>
+    <value>Used CRE.</value>
     <comment />
   </data>
   <data name="MemMaxCredit" xml:space="preserve">
-    <value>MEMBER MAX CREDIT</value>
+    <value>Member Max CRE.</value>
     <comment />
   </data>
   <data name="MemberActClosedSus" xml:space="preserve">
@@ -386,19 +386,19 @@
     <comment />
   </data>
   <data name="SuperOutStanding" xml:space="preserve">
-    <value>SUPER OUTSTANDING</value>
+    <value>Super OST.</value>
     <comment />
   </data>
   <data name="AgentOutStanding" xml:space="preserve">
-    <value>AGENT OUTSTANDING</value>
+    <value>Agent OST.</value>
     <comment />
   </data>
   <data name="NetPosition" xml:space="preserve">
-    <value>NET POSITION</value>
+    <value>Net Position</value>
     <comment />
   </data>
   <data name="BetCredit" xml:space="preserve">
-    <value>BET CREDIT</value>
+    <value>Bet CRE.</value>
     <comment />
   </data>
   <data name="AgentActClosedSus" xml:space="preserve">
@@ -406,15 +406,15 @@
     <comment />
   </data>
   <data name="AgentCredit" xml:space="preserve">
-    <value>AGENT CREDIT</value>
+    <value>Agent CRE.</value>
     <comment />
   </data>
   <data name="MasterCredit" xml:space="preserve">
-    <value>MASTER CREDIT</value>
+    <value>Master CRE.</value>
     <comment />
   </data>
   <data name="MemberCredit" xml:space="preserve">
-    <value>MEMBER CREDIT</value>
+    <value>Member CRE.</value>
     <comment />
   </data>
   <data name="Today" xml:space="preserve">
@@ -502,5 +502,47 @@
   </data>
   <data name="WrongPasswordAlertContent" xml:space="preserve">
     <value>Your account password has been entered incorrectly several times.</value>
+  </data>
+  <data name="BAL" xml:space="preserve">
+    <value>BAL.</value>
+  </data>
+  <data name="YourBalance" xml:space="preserve">
+    <value>Your Balance</value>
+  </data>
+  <data name="DownlineBalance" xml:space="preserve">
+    <value>Downline's Balance</value>
+  </data>
+  <data name="DownlineTopHighestBalance" xml:space="preserve">
+    <value>Downline's Top Highest Balance</value>
+  </data>
+  <data name="DownlineTopHighestOutstanding" xml:space="preserve">
+    <value>Downline's Top Highest Outstanding</value>
+  </data>
+  <data name="DownlineOutstanding" xml:space="preserve">
+    <value>Downline's Outstanding</value>
+  </data>
+  <data name="MyTodayWinLoss" xml:space="preserve">
+    <value>Your Today Win Loss</value>
+  </data>
+  <data name="DownlineTodayWinLoss" xml:space="preserve">
+    <value>Downline's Today Win Loss</value>
+  </data>
+  <data name="MyYesterdayWinLoss" xml:space="preserve">
+    <value>Your Yesterday Win Loss</value>
+  </data>
+  <data name="DownlineYesterdayWinLoss" xml:space="preserve">
+    <value>Downline's Yesterday Win Loss</value>
+  </data>
+  <data name="OTPMessage" xml:space="preserve">
+    <value>Your OTP is &lt;code&gt;{0}&lt;/code&gt; and is valid for 3 minutes. Do not share this OTP with anyone.</value>
+  </data>
+  <data name="YesterdayNonEnteredMatches" xml:space="preserve">
+    <value>Yesterday Non-Entered Matches</value>
+  </data>
+  <data name="NonEnteredMatches" xml:space="preserve">
+    <value>Non-entered matches</value>
+  </data>
+  <data name="EnteredMatches" xml:space="preserve">
+    <value>Entered matches</value>
   </data>
 </root>

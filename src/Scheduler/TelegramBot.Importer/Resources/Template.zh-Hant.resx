@@ -154,7 +154,7 @@
     <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
-    <value>代理商退水</value>
+    <value>代理佣金</value>
     <comment />
   </data>
   <data name="AgentTotal" xml:space="preserve">
@@ -174,7 +174,7 @@
     <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
-    <value>會員退水</value>
+    <value>會員佣金</value>
     <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">
@@ -230,5 +230,17 @@
   </data>
   <data name="MyWatchlistTitle" xml:space="preserve">
     <value>會員達到體育博彩限額警惕</value>
+  </data>
+  <data name="NonEnteredMatchNote" xml:space="preserve">
+    <value>昨天賽事已經全部結算並錄入系統。您可以進一步與您的下線進行業務運營。</value>
+  </data>
+  <data name="NonEnteredMatches" xml:space="preserve">
+    <value>未完成賽事</value>
+  </data>
+  <data name="EnteredMatches" xml:space="preserve">
+    <value>已完成賽事</value>
+  </data>
+  <data name="NonEnteredMatchNotification" xml:space="preserve">
+    <value>未完成賽事通知</value>
   </data>
 </root>

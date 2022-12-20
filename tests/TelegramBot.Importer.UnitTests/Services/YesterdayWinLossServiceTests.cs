@@ -30,10 +30,10 @@ public class YesterdayWinLossServiceTests
     }
 
     [Theory, AutoData]
-    public async Task Import_Always_CallsExecuteAsync(IEnumerable<Notification> notifications, DateTime winLossDate, string environment, int maxUserId)
+    public async Task Import_Always_CallsExecuteAsync(IEnumerable<Notification> notifications, DateTime winLossDate, string serviceName, string environment, int maxUserId)
     {
         // Act
-        await yesterdayWinLossService.Import(notifications, winLossDate, environment, maxUserId);
+        await yesterdayWinLossService.Import(notifications, winLossDate, serviceName, environment, maxUserId);
 
         // Assert
         await dynamicRepository.Received().ExecuteAsync(Arg.Is<ImportYesterdayWinLossCommand>(c => c.Environment == environment && c.WinLostDate == winLossDate && c.MaxUserId == maxUserId));

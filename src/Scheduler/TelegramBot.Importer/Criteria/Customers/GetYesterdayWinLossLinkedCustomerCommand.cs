@@ -6,13 +6,17 @@ public class GetYesterdayWinLossLinkedCustomerCommand : NonQueryCommand
 {
     public GetYesterdayWinLossLinkedCustomerCommand(
         DateTime winLostDate,
+        string serviceName,
         string environment)
     {
         WinLostDate = winLostDate;
+        ServiceName = serviceName;
         Environment = environment;
     }
 
     public DateTime WinLostDate { get; }
+
+    public string ServiceName { get; }
 
     public string Environment { get; }
 

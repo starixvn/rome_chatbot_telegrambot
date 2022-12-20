@@ -122,7 +122,7 @@
     <comment />
   </data>
   <data name="YesterdayCash" xml:space="preserve">
-    <value>ยอดเงินสดคงเหลือของเมื่อวาน</value>
+    <value>ยอดเมื่อวาน</value>
     <comment />
   </data>
   <data name="CustLevel_2" xml:space="preserve">
@@ -130,15 +130,15 @@
     <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
-    <value>คอมมิชชั่นของ Agent</value>
+    <value>ค่าคอม AGENT</value>
     <comment />
   </data>
   <data name="AgentCredit" xml:space="preserve">
-    <value>เครดิตเอเย่น</value>
+    <value>เครดิตตัวแทน</value>
     <comment />
   </data>
   <data name="AgentOutStanding" xml:space="preserve">
-    <value>เอเย่นต์ยอดคงค้าง</value>
+    <value>ตัวแทนยอดคงค้าง</value>
     <comment />
   </data>
   <data name="AgentTotal" xml:space="preserve">
@@ -154,15 +154,15 @@
     <comment />
   </data>
   <data name="MasterComm" xml:space="preserve">
-    <value>คอมมิชชั่นของ Master</value>
+    <value>ค่าคอม MASTER</value>
     <comment />
   </data>
   <data name="MasterCredit" xml:space="preserve">
-    <value>เครดิตมาสเตอร์</value>
+    <value>เครดิตตัวแทนหลัก</value>
     <comment />
   </data>
   <data name="MasterOutStanding" xml:space="preserve">
-    <value>การเดิมพันที่ยังไม่สิ้นสุดของ ตัวแทนหลัก</value>
+    <value>ตัวแทนหลักยอดคงค้าง</value>
     <comment />
   </data>
   <data name="MasterTotal" xml:space="preserve">
@@ -182,19 +182,19 @@
     <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
-    <value>คอมมิชชั่นของสมาชิก</value>
+    <value>ค่าคอม MEMBER</value>
     <comment />
   </data>
   <data name="MemberCredit" xml:space="preserve">
-    <value>เครดิตเมมเบอร์</value>
+    <value>เครดิตสมาชิก</value>
     <comment />
   </data>
   <data name="MemberOutStanding" xml:space="preserve">
-    <value>การเดิมพันที่ยังไม่สิ้นสุดของ สมาชิก</value>
+    <value>ยอดคงค้างสมาชิก</value>
     <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">
-    <value>จำนวนทั้งหมดของสมาชิก</value>
+    <value>สมาชิกทั้งหมด</value>
     <comment />
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
@@ -206,11 +206,11 @@
     <comment />
   </data>
   <data name="SuperComm" xml:space="preserve">
-    <value>คอมมิชั่นของซุปเปอร์</value>
+    <value>ค่าคอม SUPER</value>
     <comment />
   </data>
   <data name="SuperOutStanding" xml:space="preserve">
-    <value>ยอดคงค้างของซุปเปอร์</value>
+    <value>สูงสุดยอดคงค้าง</value>
     <comment />
   </data>
   <data name="SuperTotal" xml:space="preserve">
@@ -226,7 +226,7 @@
     <comment />
   </data>
   <data name="GrossComm" xml:space="preserve">
-    <value>ยอดรวมของคอมมิชชั่น</value>
+    <value>ยอดรวมค่าคอม</value>
     <comment />
   </data>
   <data name="Balance" xml:space="preserve">
@@ -246,7 +246,7 @@
     <comment />
   </data>
   <data name="GivenCredit" xml:space="preserve">
-    <value>เครดิตทั้งหมด</value>
+    <value>เครดิตที่ให้</value>
     <comment />
   </data>
   <data name="InvalidUsername" xml:space="preserve">
@@ -278,7 +278,7 @@
     <comment />
   </data>
   <data name="Turnover" xml:space="preserve">
-    <value>เงินหมุนเวียน</value>
+    <value>ยอดหมุนเวียน</value>
     <comment />
   </data>
   <data name="Username" xml:space="preserve">
@@ -290,7 +290,7 @@
     <comment />
   </data>
   <data name="YesterdayBal" xml:space="preserve">
-    <value>ยอดคงเหลือเมื่อวาน</value>
+    <value>ยอดเงินคงเหลือเมื่อวาน</value>
     <comment />
   </data>
   <data name="YesterdayWinLoss" xml:space="preserve">
@@ -326,7 +326,7 @@
     <comment />
   </data>
   <data name="MemMaxCredit" xml:space="preserve">
-    <value>เครดิตโอนเงินสูงสุดของสมาชิก</value>
+    <value>เครดิตสูงสุดสมาชิก</value>
     <comment />
   </data>
   <data name="MemberActClosedSus" xml:space="preserve">
@@ -498,5 +498,47 @@
   </data>
   <data name="WrongPasswordAlertContent" xml:space="preserve">
     <value>ป้อนรหัสผ่านบัญชีของคุณไม่ถูกต้องหลายครั้ง</value>
+  </data>
+  <data name="BAL" xml:space="preserve">
+    <value>ยอดเงินคงเหลือ</value>
+  </data>
+  <data name="DownlineYesterdayWinLoss" xml:space="preserve">
+    <value>ยอดได้เสียเมื่อวานของดาวน์ไลน์</value>
+  </data>
+  <data name="DownlineTopHighestOutstanding" xml:space="preserve">
+    <value>ยอดคงค้างสูงที่สุดของดาวน์ไลน์</value>
+  </data>
+  <data name="DownlineTopHighestBalance" xml:space="preserve">
+    <value>ดาวน์ไลน์ที่มียอดเงินคงเหลือสูงสุด</value>
+  </data>
+  <data name="DownlineTodayWinLoss" xml:space="preserve">
+    <value>ยอดได้เสียวันนี้ของดาวน์ไลน์</value>
+  </data>
+  <data name="DownlineOutstanding" xml:space="preserve">
+    <value>ยอดคงค้างของดาวน์ไลน์</value>
+  </data>
+  <data name="DownlineBalance" xml:space="preserve">
+    <value>ยอดเงินคงเหลือของดาวน์ไลน์</value>
+  </data>
+  <data name="MyTodayWinLoss" xml:space="preserve">
+    <value>ยอดได้เสียวันนี้ของคุณ</value>
+  </data>
+  <data name="MyYesterdayWinLoss" xml:space="preserve">
+    <value>ยอดได้เสียเมื่อวานของคุณ</value>
+  </data>
+  <data name="YourBalance" xml:space="preserve">
+    <value>ยอดเงินคงเหลือของคุณ</value>
+  </data>
+  <data name="EnteredMatches" xml:space="preserve">
+    <value>คู่การแข่งขันที่จบแล้ว</value>
+  </data>
+  <data name="YesterdayNonEnteredMatches" xml:space="preserve">
+    <value>คู่การแข่งขันของเมื่อวานที่ยังไม่จบ</value>
+  </data>
+  <data name="OTPMessage" xml:space="preserve">
+    <value>รหัสผ่าน OTP ของคุณคือ &lt;code&gt;{0}&lt;/code&gt; และจะหมดอายุภายใน 3 นาที โปรดอย่าเผยแพร่รหัส OTP แก่ผู้อื่น</value>
+  </data>
+  <data name="NonEnteredMatches" xml:space="preserve">
+    <value>คู่การแข่งขันที่ยังไม่จบ</value>
   </data>
 </root>

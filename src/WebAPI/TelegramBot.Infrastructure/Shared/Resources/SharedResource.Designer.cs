@@ -97,7 +97,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AGENT CREDIT.
+        ///   Looks up a localized string similar to Agent CRE..
         /// </summary>
         public static string AgentCredit {
             get {
@@ -106,7 +106,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AGENT OUTSTANDING.
+        ///   Looks up a localized string similar to Agent OST..
         /// </summary>
         public static string AgentOutStanding {
             get {
@@ -124,7 +124,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Agent Win Loss.
+        ///   Looks up a localized string similar to Agent WL.
         /// </summary>
         public static string AgentWinLoss {
             get {
@@ -223,6 +223,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BAL..
+        /// </summary>
+        public static string BAL {
+            get {
+                return ResourceManager.GetString("BAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Balance.
         /// </summary>
         public static string Balance {
@@ -232,7 +241,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BET CREDIT.
+        ///   Looks up a localized string similar to Bet CRE..
         /// </summary>
         public static string BetCredit {
             get {
@@ -250,7 +259,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CASH.
+        ///   Looks up a localized string similar to Cash.
         /// </summary>
         public static string Cash {
             get {
@@ -313,7 +322,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CURRENCY.
+        ///   Looks up a localized string similar to Currency.
         /// </summary>
         public static string Currency {
             get {
@@ -358,6 +367,69 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downline&apos;s Balance.
+        /// </summary>
+        public static string DownlineBalance {
+            get {
+                return ResourceManager.GetString("DownlineBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downline&apos;s Outstanding.
+        /// </summary>
+        public static string DownlineOutstanding {
+            get {
+                return ResourceManager.GetString("DownlineOutstanding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downline&apos;s Today Win Loss.
+        /// </summary>
+        public static string DownlineTodayWinLoss {
+            get {
+                return ResourceManager.GetString("DownlineTodayWinLoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downline&apos;s Top Highest Balance.
+        /// </summary>
+        public static string DownlineTopHighestBalance {
+            get {
+                return ResourceManager.GetString("DownlineTopHighestBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downline&apos;s Top Highest Outstanding.
+        /// </summary>
+        public static string DownlineTopHighestOutstanding {
+            get {
+                return ResourceManager.GetString("DownlineTopHighestOutstanding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downline&apos;s Yesterday Win Loss.
+        /// </summary>
+        public static string DownlineYesterdayWinLoss {
+            get {
+                return ResourceManager.GetString("DownlineYesterdayWinLoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entered matches.
+        /// </summary>
+        public static string EnteredMatches {
+            get {
+                return ResourceManager.GetString("EnteredMatches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to For.
         /// </summary>
         public static string For {
@@ -367,7 +439,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GIVEN CREDIT.
+        ///   Looks up a localized string similar to Given CRE..
         /// </summary>
         public static string GivenCredit {
             get {
@@ -475,7 +547,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MASTER CREDIT.
+        ///   Looks up a localized string similar to Master CRE..
         /// </summary>
         public static string MasterCredit {
             get {
@@ -484,7 +556,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MASTER OUTSTANDING.
+        ///   Looks up a localized string similar to Master OST..
         /// </summary>
         public static string MasterOutStanding {
             get {
@@ -502,7 +574,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Master Win Loss.
+        ///   Looks up a localized string similar to Master WL.
         /// </summary>
         public static string MasterWinLoss {
             get {
@@ -538,7 +610,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEMBER CREDIT.
+        ///   Looks up a localized string similar to Member CRE..
         /// </summary>
         public static string MemberCredit {
             get {
@@ -547,7 +619,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEMBER OUTSTANDING.
+        ///   Looks up a localized string similar to Member OST..
         /// </summary>
         public static string MemberOutStanding {
             get {
@@ -565,7 +637,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Member Win Loss.
+        ///   Looks up a localized string similar to Member WL.
         /// </summary>
         public static string MemberWinLoss {
             get {
@@ -574,7 +646,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEMBER MAX CREDIT.
+        ///   Looks up a localized string similar to Member Max CRE..
         /// </summary>
         public static string MemMaxCredit {
             get {
@@ -583,7 +655,25 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NET POSITION.
+        ///   Looks up a localized string similar to Your Today Win Loss.
+        /// </summary>
+        public static string MyTodayWinLoss {
+            get {
+                return ResourceManager.GetString("MyTodayWinLoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Yesterday Win Loss.
+        /// </summary>
+        public static string MyYesterdayWinLoss {
+            get {
+                return ResourceManager.GetString("MyYesterdayWinLoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Net Position.
         /// </summary>
         public static string NetPosition {
             get {
@@ -606,6 +696,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string NoData {
             get {
                 return ResourceManager.GetString("NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non-entered matches.
+        /// </summary>
+        public static string NonEnteredMatches {
+            get {
+                return ResourceManager.GetString("NonEnteredMatches", resourceCulture);
             }
         }
         
@@ -633,6 +732,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string OpenSettingsMenu {
             get {
                 return ResourceManager.GetString("OpenSettingsMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your OTP is &lt;code&gt;{0}&lt;/code&gt; and is valid for 3 minutes. Do not share this OTP with anyone..
+        /// </summary>
+        public static string OTPMessage {
+            get {
+                return ResourceManager.GetString("OTPMessage", resourceCulture);
             }
         }
         
@@ -709,7 +817,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SUPER OUTSTANDING.
+        ///   Looks up a localized string similar to Super OST..
         /// </summary>
         public static string SuperOutStanding {
             get {
@@ -727,7 +835,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Super Win Loss.
+        ///   Looks up a localized string similar to Super WL.
         /// </summary>
         public static string SuperWinLoss {
             get {
@@ -745,7 +853,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 3RD PARTY PENDING TRANSFER.
+        ///   Looks up a localized string similar to 3RD TRANS..
         /// </summary>
         public static string ThirdPartyPendingTransfer {
             get {
@@ -763,7 +871,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Today Win Loss.
+        ///   Looks up a localized string similar to Today WL.
         /// </summary>
         public static string TodayWinLoss {
             get {
@@ -799,7 +907,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Turnover.
+        ///   Looks up a localized string similar to TO.
         /// </summary>
         public static string Turnover {
             get {
@@ -835,7 +943,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to USED CREDIT.
+        ///   Looks up a localized string similar to Used CRE..
         /// </summary>
         public static string UsedCredit {
             get {
@@ -889,7 +997,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to YESTERDAY BALANCE.
+        ///   Looks up a localized string similar to Yesterday BAL..
         /// </summary>
         public static string YesterdayBal {
             get {
@@ -898,7 +1006,7 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to YESTERDAY CASH.
+        ///   Looks up a localized string similar to Yesterday Cash.
         /// </summary>
         public static string YesterdayCash {
             get {
@@ -907,7 +1015,16 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yesterday Win Loss.
+        ///   Looks up a localized string similar to Yesterday Non-Entered Matches.
+        /// </summary>
+        public static string YesterdayNonEnteredMatches {
+            get {
+                return ResourceManager.GetString("YesterdayNonEnteredMatches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yesterday WL.
         /// </summary>
         public static string YesterdayWinLoss {
             get {
@@ -930,6 +1047,15 @@ namespace TelegramBot.Infrastructure.Shared.Resources {
         public static string YourAccountIsLocked {
             get {
                 return ResourceManager.GetString("YourAccountIsLocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Balance.
+        /// </summary>
+        public static string YourBalance {
+            get {
+                return ResourceManager.GetString("YourBalance", resourceCulture);
             }
         }
     }

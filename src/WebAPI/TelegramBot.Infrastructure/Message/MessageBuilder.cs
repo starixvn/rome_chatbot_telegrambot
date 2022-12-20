@@ -7,6 +7,7 @@ using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Resource.constants;
 using TelegramBot.Infrastructure.Shared.Constants;
 using TelegramBot.Infrastructure.Shared.Resources;
+using TelegramBot.Utilities.Extensions;
 
 namespace TelegramBot.Infrastructure.Message
 {
@@ -26,7 +27,7 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildTelegramAccountAlreadyLinkedMessage(string language);
 
-        string BuildOTPMessage(string language, string otp);
+        string BuildSettingOTPMessage(string language, string otp);
 
         string BuildMenuMessage(string language);
 
@@ -36,7 +37,7 @@ namespace TelegramBot.Infrastructure.Message
 
         string BuildActionSelectedMessage(string language, string actionName);
 
-        string BuildInvalidNumerOfDownlineRange(string language, string userResponse, int maxTopQuery);
+        string BuildInvalidNumberOfDownlineRange(string language, string userResponse, int maxTopQuery);
 
         string BuildInvalidCustNameMessage(string language, string invalidCustName);
 
@@ -73,6 +74,8 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildLanguageUpdatedMessage(string language);
 
         public string BuildMinimizeUMMessage(string language, string startTime, string endTime);
+
+        public string BuildOTPMessage(string language, string otp);
     }
 
     public class MessageBuilder : IMessageBuilder
@@ -104,18 +107,18 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildChangePasswordAlertMessage(string language)
             => string.Join(
                 messageFormatter.NewLine(),
-                $"[{ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlert), language)} - {DateTime.Now:yyyyMMdd}]",
+                $"[{ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlert), language)} - {DateTime.Now.ToSimpleDate()}]",
                 ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlertContent), language),
                 ResourceHelper.Get(nameof(SharedResource.AlertChangePasswordMessage), language));
 
         public string BuildChangeSecurityCodeAlertMessage(string language)
             => string.Join(
                 messageFormatter.NewLine(),
-                $"[{ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlert), language)} - {DateTime.Now:yyyyMMdd}]",
+                $"[{ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlert), language)} - {DateTime.Now.ToSimpleDate()}]",
                 ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlertContent), language),
                 ResourceHelper.Get(nameof(SharedResource.AlertMessage), language));
 
-        public string BuildOTPMessage(string language, string otp)
+        public string BuildSettingOTPMessage(string language, string otp)
             => string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help), language), otp);
 
         public string BuildTelegramAccountAlreadyLinkedMessage(string language)
@@ -159,7 +162,7 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildActionSelectedMessage(string language, string actionName)
             => $"{ResourceHelper.Get(nameof(SharedResource.ActionSelected), language)}: {actionName}";
 
-        public string BuildInvalidNumerOfDownlineRange(string language, string userResponse, int maxTopQuery)
+        public string BuildInvalidNumberOfDownlineRange(string language, string userResponse, int maxTopQuery)
             => string.Format(ResourceHelper.Get(nameof(SharedResource.InvalidNumberOfDownlinesRange), language), userResponse, maxTopQuery);
 
         public string BuildInvalidCustNameMessage(string language, string invalidCustName)
@@ -277,9 +280,12 @@ namespace TelegramBot.Infrastructure.Message
         public string BuildWrongPasswordAlertMessage(string language, string ip)
             => string.Join(
                 messageFormatter.NewLine(),
-                $"[{ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlert), language)} - {DateTime.Now:yyyyMMdd}]",
+                $"[{ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlert), language)} - {DateTime.Now.ToSimpleDate()}]",
                 ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlertContent), language),
                 $"{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}: {ip}",
                 ResourceHelper.Get(nameof(SharedResource.AlertChangePasswordMessage), language));
+
+        public string BuildOTPMessage(string language, string otp)
+            => string.Format(ResourceHelper.Get(nameof(SharedResource.OTPMessage), language), otp);
     }
 }

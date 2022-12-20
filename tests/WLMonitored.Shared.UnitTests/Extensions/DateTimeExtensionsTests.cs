@@ -13,6 +13,6 @@ public class DateTimeExtensionsTests
         var date = new DateTime(2022, 6, 10, 10, 28, 55);
 
         // Act & Assert
-        Assert.Equal("20220610", date.ToSimpleDate());
+        Assert.Equal("06/10/2022", date.ToSimpleDate());
     }
 }

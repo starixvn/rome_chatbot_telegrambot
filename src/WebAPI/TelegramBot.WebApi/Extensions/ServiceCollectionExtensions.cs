@@ -23,6 +23,7 @@ using TelegramBot.Infrastructure.Command;
 using TelegramBot.Infrastructure.Function.Handlers;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Notification;
+using TelegramBot.Infrastructure.OTP;
 using TelegramBot.Infrastructure.Resource;
 using TelegramBot.Infrastructure.Setting;
 using TelegramBot.Infrastructure.Shared.Caching;
@@ -50,6 +51,7 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<IResourceService, ResourceService>();
             services.AddSingleton<IActionValidatorFactory, ActionValidatorFactory>();
             services.AddSingleton<IActionNameBuilderFactory, ActionNameBuilderFactory>();
+            services.AddSingleton<IOTPService, OTPService>();
             services.AddFunctionHandlers();
 
             return services;
