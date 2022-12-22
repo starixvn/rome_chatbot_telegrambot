@@ -45,10 +45,11 @@ public sealed class ChangeThresholdWinLossJob : ChangeWinLossBaseJob
             return false;
         }
 
-        var (custIds, agentIds, winLossThresholdDict) = GetMemberAndAgentCustIds(winLossThresholds);
+        var (custIds, agentIds, smaIds, winLossThresholdDict) = GetSMAMemberAndAgentCustIds(winLossThresholds);
         var accumulatedWinLossList = await winLossService.GetAccumulatedWinLoss(
             custIds.JoinWithComma(),
             agentIds.JoinWithComma(),
+            smaIds.JoinWithComma(),
             DateTime.Today);
 
         var hasData = accumulatedWinLossList.Any();
@@ -64,14 +65,16 @@ public sealed class ChangeThresholdWinLossJob : ChangeWinLossBaseJob
         return hasData;
     }
 
-    private static Tuple<IEnumerable<int>, IEnumerable<int>, IDictionary<int, WinLossThreshold>> GetMemberAndAgentCustIds(
+    private static Tuple<IEnumerable<int>, IEnumerable<int>, IEnumerable<int>, IDictionary<int, WinLossThreshold>> GetSMAMemberAndAgentCustIds(
         IEnumerable<WinLossThreshold> winLossThresholds)
     {
         const byte GlobalThreshold = 1;
         const byte PersonalThreshold = 2;
+        const byte SMAThreshold = 3;
 
         IList<int> members = new List<int>();
         IList<int> agents = new List<int>();
+        IList<int> smaList = new List<int>();
         IDictionary<int, WinLossThreshold> winLossThresholdDict = new Dictionary<int, WinLossThreshold>();
 
         foreach (var winloss in winLossThresholds)
@@ -84,10 +87,15 @@ public sealed class ChangeThresholdWinLossJob : ChangeWinLossBaseJob
             {
                 members.Add(winloss.CustId);
             }
+            else if (winloss.SettingType == SMAThreshold)
+            {
+                smaList.Add(winloss.CustId);
+            }
 
             winLossThresholdDict[winloss.CustId] = winloss;
         }
 
-        return Tuple.Create<IEnumerable<int>, IEnumerable<int>, IDictionary<int, WinLossThreshold>>(members, agents, winLossThresholdDict);
+        return Tuple.Create<IEnumerable<int>, IEnumerable<int>, IEnumerable<int>, IDictionary<int, WinLossThreshold>>(
+            members, agents, smaList, winLossThresholdDict);
     }
 }

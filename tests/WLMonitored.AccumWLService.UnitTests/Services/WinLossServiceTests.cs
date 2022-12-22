@@ -48,7 +48,7 @@ public class WinLossServiceTests
         var today = DateTime.Today;
 
         // Act
-        await winLossService.GetAccumulatedWinLoss(creditCustIds, depositCustIds, today);
+        await winLossService.GetAccumulatedWinLoss(creditCustIds, string.Empty, depositCustIds, today);
 
         // Assert
         await dynamicRepository.Received().FetchAsync<AccumulatedWinLoss>(Arg.Is<GetCreditAccumulatedWinLossCriteria>(
@@ -66,7 +66,7 @@ public class WinLossServiceTests
         var today = DateTime.Today;
 
         // Act
-        await winLossService.GetAccumulatedWinLoss(creditCustIds, depositCustIds, today);
+        await winLossService.GetAccumulatedWinLoss(creditCustIds, string.Empty, depositCustIds, today);
 
         // Assert
         await dynamicRepository.Received().FetchAsync<AccumulatedWinLoss>(Arg.Is<GetDepositAccumulatedWinLossCriteria>(
@@ -84,7 +84,7 @@ public class WinLossServiceTests
         var today = DateTime.Today;
 
         // Act
-        await winLossService.GetAccumulatedWinLoss(creditCustIds, depositCustIds, today);
+        await winLossService.GetAccumulatedWinLoss(creditCustIds, string.Empty, depositCustIds, today);
 
         // Assert
         await dynamicRepository.Received().FetchAsync<AccumulatedWinLoss>(Arg.Is<GetCreditAccumulatedWinLossCriteria>(
@@ -104,8 +104,8 @@ public class WinLossServiceTests
         var now = DateTime.Now;
         var accumulatedWinLossParams = new List<AccumulatedWinLossParam>
         {
-            new AccumulatedWinLossParam(1, false, 10, now, string.Empty),
-            new AccumulatedWinLossParam(2, true, 20, now, "i")
+            new AccumulatedWinLossParam(1, false, 10, now, string.Empty, 1),
+            new AccumulatedWinLossParam(2, true, 20, now, "i", 1)
         };
         const long lastId = 1001;
 
@@ -114,7 +114,7 @@ public class WinLossServiceTests
 
         // Assert
         await dynamicRepository.Received().ExecuteAsync(Arg.Is<UpdateAccumulateWinLossCommand>(
-            criteria => $"<CustIds><Cust CustId=\"1\" AccumWL=\"10\" Type=\"c\" SettlementDate=\"{now.ToSimpleDate()}\" Action=\"\"/><Cust CustId=\"2\" AccumWL=\"20\" Type=\"d\" SettlementDate=\"{now.ToSimpleDate()}\" Action=\"i\"/></CustIds>" == criteria.CustWinlost
+            criteria => $"<CustIds><Cust CustId=\"1\" AccumWL=\"10\" Type=\"c\" SettlementDate=\"{now.ToSimpleDate()}\" Action=\"\" RoleId=\"1\"/><Cust CustId=\"2\" AccumWL=\"20\" Type=\"d\" SettlementDate=\"{now.ToSimpleDate()}\" Action=\"i\" RoleId=\"1\"/></CustIds>" == criteria.CustWinlost
             && lastId == criteria.LastId
         ));
     }

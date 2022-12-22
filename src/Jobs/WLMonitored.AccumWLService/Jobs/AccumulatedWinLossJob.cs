@@ -138,7 +138,9 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
         IEnumerable<WinLossSetting> winLossSettings,
         DateTime settlementDate)
     {
+        const byte MemberRoleId = 1;
         var creditCustIds = new List<int>();
+        var creditSMAIds = new List<int>();
         var depositCustIds = new List<int>();
 
         foreach (var wl in winLossSettings)
@@ -149,12 +151,20 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
             }
             else
             {
-                creditCustIds.Add(wl.CustId);
+                if (wl.RoleId == MemberRoleId)
+                {
+                    creditCustIds.Add(wl.CustId);
+                }
+                else
+                {
+                    creditSMAIds.Add(wl.SettingCustId);
+                }
             }
         }
 
         return winLossService.GetAccumulatedWinLoss(
             creditCustIds.JoinWithComma(),
+            creditSMAIds.JoinWithComma(),
             depositCustIds.JoinWithComma(),
             settlementDate);
     }
@@ -173,12 +183,13 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
         var offeredBetTypes = winLossSetting.IsDeposit ? depositBetTypes : creditBetTypes;
 
         return new AccumulatedWinLossParam(
-            winLossSetting.CustId,
+            winLossSetting.SettingCustId,
             winLossSetting.IsDeposit,
             ticketDetails
                 .Where(t => t.SettlementTime >= winLossSetting.InitSettingTime && offeredBetTypes.ContainsKey(t.BetType))
                 .Sum(t => t.WinLoss - t.ActualStake),
             settlementDate,
-            accumulatedWinLossType);
+            accumulatedWinLossType,
+            winLossSetting.RoleId);
     }
 }
