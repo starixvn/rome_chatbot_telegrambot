@@ -78,20 +78,18 @@ public sealed class MemberWinLossLimitJob : NotificationBaseJob
                                 where status.IsValid(job.SubAccPermission)
                                 select customer;
 
-        var currentDate = DateTime.Today.ToSimpleDate();
         foreach (var customer in verifiedCustomers)
         {
-            notifications.Add(BuildMemberWinLossLimitNotification(job, memberWinLossLimits, customer, currentDate));
+            notifications.AddRange(BuildMemberWinLossLimitNotification(job, memberWinLossLimits, customer));
         }
 
         return notifications;
     }
 
-    private MemberWinLossLimitNotification BuildMemberWinLossLimitNotification(
+    private IEnumerable<MemberWinLossLimitNotification> BuildMemberWinLossLimitNotification(
         ScheduleJob job,
         IEnumerable<MemberWinLossLimit> memberWinLossLimits,
-        LinkedCustomer customer,
-        string currentDate)
+        LinkedCustomer customer)
     {
         var membersWithLinkedUser = memberWinLossLimits
                                     .Where(m => m.ACustId == customer.CustId || m.MCustId == customer.CustId || m.SCustId == customer.CustId);
@@ -117,31 +115,31 @@ public sealed class MemberWinLossLimitJob : NotificationBaseJob
                                     );
         var logIds = membersWithLinkedUser.Select(m => m.LogId);
 
-        return new MemberWinLossLimitNotification(
-           customer.UserId,
-           customer.BotId,
-           BuildMessage(winLossLimitMessages, customer.Language, customer.CustomerLevel, currentDate),
-           customer.IsRealUser,
-           job.IsUAT,
-           logIds
-       );
+        foreach (var winLossLimitMessage in winLossLimitMessages)
+        {
+            yield return new MemberWinLossLimitNotification(
+                customer.UserId,
+                customer.BotId,
+                BuildMessage(winLossLimitMessage, customer.Language, customer.CustomerLevel),
+                customer.IsRealUser,
+                job.IsUAT,
+                logIds
+            );
+        }
     }
 
-    private static string BuildMessage(IEnumerable<WinLossLimitMessage> winLossLimitMessages, string language, byte custLevel, string currentDate)
+    private static string BuildMessage(WinLossLimitMessage winLossLimitMessage, string language, byte custLevel)
     {
         var messageBuilder = new StringBuilder();
         messageBuilder
-            .AppendLine(TemplateHelper.BuildTitle(language, "MemberWinLossLimitAlert", currentDate))
-            .AppendLine(TemplateHelper.Get("MemberReachWinLossIntro", language))
-            .AppendLine($"<b>{TemplateHelper.Get("MemberWinLossLimitNote", language)}</b>");
+            .AppendLine($"[{TemplateHelper.Get("MemberWinLossLimitAlert", language)}]")
+            .AppendLine();
 
-        var sortedWinLossLimitMessage = winLossLimitMessages.OrderBy(w => w.Username);
-        foreach (var memberMessage in sortedWinLossLimitMessage)
-        {
-            BuildUsernames(messageBuilder, memberMessage, custLevel);
-            BuildWinProducts(messageBuilder, memberMessage.Products.Where(p => p.CurrentWinLoss > 0).OrderBy(p => p.ProductName));
-            BuildLossProducts(messageBuilder, memberMessage.Products.Where(p => p.CurrentWinLoss < 0).OrderBy(p => p.ProductName));
-        }
+        BuildUsernames(messageBuilder, winLossLimitMessage, custLevel);
+        messageBuilder.Append("<pre>");
+        BuildWinProducts(messageBuilder, winLossLimitMessage.Products.Where(p => p.CurrentWinLoss > 0).OrderBy(p => p.ProductName), language);
+        BuildLossProducts(messageBuilder, winLossLimitMessage.Products.Where(p => p.CurrentWinLoss < 0).OrderBy(p => p.ProductName), language);
+        messageBuilder.AppendLine("</pre>");
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
@@ -160,31 +158,28 @@ public sealed class MemberWinLossLimitJob : NotificationBaseJob
 
         messageBuilder.AppendLine($"<b>{usernames}</b>");
     }
-    private static void BuildWinProducts(StringBuilder messageBuilder, IEnumerable<ProductWinLossLimitMessage> products)
+
+    private static void BuildWinProducts(StringBuilder messageBuilder, IEnumerable<ProductWinLossLimitMessage> products, string language)
     {
         foreach (var product in products)
         {
-            messageBuilder.AppendLine(
-                string.Format(
-                    "{0}. {1} | {2}X | {3}%",
-                    product.ProductName,
-                    product.CurrentWinLoss.FormatDecimal(),
-                    product.MaximumWinLoss.FormatDecimalToInt(),
-                    product.CurrentWinLossPercentage.FormatDecimalUptoTwoDigit()));
+            messageBuilder.AppendLine();
+            messageBuilder.AppendLine(product.ProductName);
+            messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.CurrentWinLoss), product.CurrentWinLoss.FormatDecimal(), language));
+            messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.MaximumWinLoss), $"{product.MaximumWinLoss.FormatDecimalToInt()}X", language));
+            messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.CurrentWinLossPercent), $"{product.CurrentWinLossPercentage.FormatDecimalUptoTwoDigit()}%", language));
         }
     }
 
-    private static void BuildLossProducts(StringBuilder messageBuilder, IEnumerable<ProductWinLossLimitMessage> products)
+    private static void BuildLossProducts(StringBuilder messageBuilder, IEnumerable<ProductWinLossLimitMessage> products, string language)
     {
         foreach (var product in products)
         {
-            messageBuilder.AppendLine(
-                string.Format(
-                    "{0}. {1} | {2} | {3}%",
-                    product.ProductName,
-                    product.CurrentWinLoss.FormatDecimal(),
-                    product.MaximumWinLoss.FormatDecimal(),
-                    product.CurrentWinLossPercentage.FormatDecimalUptoTwoDigit()));
+            messageBuilder.AppendLine();
+            messageBuilder.AppendLine(product.ProductName);
+            messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.CurrentWinLoss), product.CurrentWinLoss.FormatDecimal(), language));
+            messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.MaximumWinLoss), product.MaximumWinLoss.FormatDecimal(), language));
+            messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.CurrentWinLossPercent), $"{product.CurrentWinLossPercentage.FormatDecimalUptoTwoDigit()}%", language));
         }
     }
 

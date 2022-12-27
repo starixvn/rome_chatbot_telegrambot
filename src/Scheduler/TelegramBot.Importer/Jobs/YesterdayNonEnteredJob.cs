@@ -134,14 +134,14 @@ public sealed class YesterdayNonEnteredJob : NotificationBaseJob
     {
         var messageBuilder = new StringBuilder();
         messageBuilder
-            .AppendLine(TemplateHelper.BuildTitle(language, "NonEnteredMatchNotification", winLossDate));
+            .AppendLine(TemplateHelper.BuildTitle(language, nameof(Template.NonEnteredMatchNotification), winLossDate));
 
         messageBuilder.AppendLine("<pre>");
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(TemplateHelper.BuildContent(language, "NonEnteredMatches"), enteredResult.NonEntered.ToString(), language));
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(TemplateHelper.BuildContent(language, "EnteredMatches"), enteredResult.Entered.ToString(), language));
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.NonEnteredMatches), enteredResult.NonEntered.ToString(), language));
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.EnteredMatches), enteredResult.Entered.ToString(), language));
         if (enteredResult.NonEntered == 0)
         {
-            messageBuilder.AppendLine(TemplateHelper.BuildContent(language, "NonEnteredMatchNote"));
+            messageBuilder.AppendLine(TemplateHelper.Get(nameof(Template.NonEnteredMatchNote), language));
         }
         messageBuilder.AppendLine("</pre>");
 

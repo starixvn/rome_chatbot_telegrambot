@@ -12,7 +12,6 @@ namespace TelegramBot.Importer.Jobs;
 
 public sealed class MyWatchlistJob : NotificationBaseJob
 {
-    private const int ChunkSize = 28;
     private readonly IMyWatchlistService myWatchlistService;
 
     public MyWatchlistJob(
@@ -50,12 +49,10 @@ public sealed class MyWatchlistJob : NotificationBaseJob
                               select (linkedCustomer, monitoredPlayer))
                              .GroupBy(g => g.linkedCustomer);
 
-                var currentTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
-
                 var index = 1;
                 foreach (var group in groups)
                 {
-                    notifications.AddRange(BuildNotifications(group.Key, group.Select(g => g.monitoredPlayer), currentTime, job.IsUAT, ref index));
+                    notifications.AddRange(BuildNotifications(group.Key, group.Select(g => g.monitoredPlayer), job.IsUAT, ref index));
                 }
             }
         }
@@ -71,48 +68,41 @@ public sealed class MyWatchlistJob : NotificationBaseJob
     private static IEnumerable<MyWatchlistNotification> BuildNotifications(
         LinkedCustomer customer,
         IEnumerable<MonitoredPlayer> monitoredPlayers,
-        string currentTime,
         bool isUAT,
         ref int index)
     {
         var notifications = new List<MyWatchlistNotification>();
-        var chunks = monitoredPlayers.Chunk(ChunkSize);
-
-        foreach (var chunk in chunks)
+        foreach (var monitoredPlayer in monitoredPlayers)
         {
             notifications.Add(new MyWatchlistNotification(
-                index,
-                customer.UserId,
-                customer.BotId,
-                BuildMessage(customer.Language, currentTime, chunk),
-                customer.IsRealUser,
-                isUAT,
-                chunk.Select(p => (long)p.LogId)));
+                            index,
+                            customer.UserId,
+                            customer.BotId,
+                            BuildMessage(customer.Language, monitoredPlayer),
+                            customer.IsRealUser,
+                            isUAT,
+                            new List<long> { monitoredPlayer.LogId }));
             index++;
         }
 
         return notifications;
     }
 
-    private static string BuildMessage(string language, string currentDate, MonitoredPlayer[] monitoredPlayers)
+    private static string BuildMessage(string language, MonitoredPlayer monitoredPlayer)
     {
         var messageBuilder = new StringBuilder();
         messageBuilder
-            .AppendLine(TemplateHelper.BuildTitle(language, "MyWatchlistTitle", currentDate))
-            .AppendLine(TemplateHelper.Get("MyWatchlistMessage", language))
-            .AppendLine($"<b>{TemplateHelper.Get("MyWatchlistHeader", language)}</b>");
+            .AppendLine($"[{TemplateHelper.Get("MyWatchlistTitle", language)}]");
 
-        foreach (var monitoredPlayer in monitoredPlayers)
-        {
-            messageBuilder.AppendLine(string.Format(
-                "{0} | {1} | {2} | {3} | {4} | {5}",
-                monitoredPlayer.Username,
-                monitoredPlayer.AccumWL.FormatDecimal(),
-                monitoredPlayer.WinningThreshold.FormatDecimal(),
-                monitoredPlayer.LosingThreshold.FormatDecimal(),
-                monitoredPlayer.CreatedDate.ToString("dd-MM-yyyy HH:mm:ss"),
-                TemplateHelper.Get($"ThresholdType_{monitoredPlayer.SettingType}", language)));
-        }
+        messageBuilder.AppendLine("<pre>");
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.Username), monitoredPlayer.Username, language));
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.CurrentWinLoss), monitoredPlayer.AccumWL.FormatDecimal(), language));
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.WinningThreshold), monitoredPlayer.WinningThreshold.FormatDecimal(), language));
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.LosingThreshold), monitoredPlayer.LosingThreshold.FormatDecimal(), language));
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.DateTime), monitoredPlayer.CreatedDate.ToString("dd-MM-yyyy HH:mm:ss"), language));
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.ThresholdType), TemplateHelper.Get($"ThresholdType_{monitoredPlayer.SettingType}", language), language));
+        messageBuilder.AppendLine("</pre>");
+
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }

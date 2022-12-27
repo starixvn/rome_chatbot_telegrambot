@@ -243,4 +243,28 @@
   <data name="NonEnteredMatchNotification" xml:space="preserve">
     <value>未完成赛事通知</value>
   </data>
+  <data name="CurrentWinLoss" xml:space="preserve">
+    <value>目前输赢</value>
+  </data>
+  <data name="MaximumWinLoss" xml:space="preserve">
+    <value>最大输赢</value>
+  </data>
+  <data name="CurrentWinLossPercent" xml:space="preserve">
+    <value>目前输赢 (%)</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>用户名</value>
+  </data>
+  <data name="WinningThreshold" xml:space="preserve">
+    <value>赢的限额</value>
+  </data>
+  <data name="LosingThreshold" xml:space="preserve">
+    <value>输的限额</value>
+  </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>日期时间</value>
+  </data>
+  <data name="ThresholdType" xml:space="preserve">
+    <value>已达限额类别</value>
+  </data>
 </root>

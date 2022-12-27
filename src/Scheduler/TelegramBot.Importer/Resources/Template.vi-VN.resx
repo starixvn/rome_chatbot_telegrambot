@@ -243,4 +243,28 @@
   <data name="NonEnteredMatchNotification" xml:space="preserve">
     <value>Thông báo trận chưa có kết quả</value>
   </data>
+  <data name="CurrentWinLoss" xml:space="preserve">
+    <value>Thắng thua hiện tại</value>
+  </data>
+  <data name="MaximumWinLoss" xml:space="preserve">
+    <value>Thắng thua tối đa</value>
+  </data>
+  <data name="CurrentWinLossPercent" xml:space="preserve">
+    <value>Thắng thua hiện tại (%)</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Tên người dùng</value>
+  </data>
+  <data name="WinningThreshold" xml:space="preserve">
+    <value>Giới hạn thắng</value>
+  </data>
+  <data name="LosingThreshold" xml:space="preserve">
+    <value>Giới hạn thua</value>
+  </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>Ngày Giờ</value>
+  </data>
+  <data name="ThresholdType" xml:space="preserve">
+    <value>Loại giới hạn</value>
+  </data>
 </root>

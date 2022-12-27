@@ -97,6 +97,33 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Win Loss.
+        /// </summary>
+        public static string CurrentWinLoss {
+            get {
+                return ResourceManager.GetString("CurrentWinLoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Win Loss (%).
+        /// </summary>
+        public static string CurrentWinLossPercent {
+            get {
+                return ResourceManager.GetString("CurrentWinLossPercent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date Time.
+        /// </summary>
+        public static string DateTime {
+            get {
+                return ResourceManager.GetString("DateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Entered matches.
         /// </summary>
         public static string EnteredMatches {
@@ -111,6 +138,15 @@ namespace TelegramBot.Importer.Resources {
         public static string GrossComm {
             get {
                 return ResourceManager.GetString("GrossComm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Losing Threshold .
+        /// </summary>
+        public static string LosingThreshold {
+            get {
+                return ResourceManager.GetString("LosingThreshold", resourceCulture);
             }
         }
         
@@ -138,6 +174,15 @@ namespace TelegramBot.Importer.Resources {
         public static string MasterWinLoss {
             get {
                 return ResourceManager.GetString("MasterWinLoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum Win Loss.
+        /// </summary>
+        public static string MaximumWinLoss {
+            get {
+                return ResourceManager.GetString("MaximumWinLoss", resourceCulture);
             }
         }
         
@@ -331,6 +376,15 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Threshold Type.
+        /// </summary>
+        public static string ThresholdType {
+            get {
+                return ResourceManager.GetString("ThresholdType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Global.
         /// </summary>
         public static string ThresholdType_1 {
@@ -354,6 +408,24 @@ namespace TelegramBot.Importer.Resources {
         public static string Turnover {
             get {
                 return ResourceManager.GetString("Turnover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        public static string Username {
+            get {
+                return ResourceManager.GetString("Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Winning Threshold.
+        /// </summary>
+        public static string WinningThreshold {
+            get {
+                return ResourceManager.GetString("WinningThreshold", resourceCulture);
             }
         }
         
