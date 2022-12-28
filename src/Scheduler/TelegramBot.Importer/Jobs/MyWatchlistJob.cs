@@ -1,6 +1,7 @@
 using System.Text;
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
+using TelegramBot.Importer.Constants;
 using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Models.Customers;
 using TelegramBot.Importer.Models.MyWatchlist;
@@ -38,7 +39,7 @@ public sealed class MyWatchlistJob : NotificationBaseJob
         if (monitoredPlayers.Any())
         {
             var custIds = monitoredPlayers.Select(p => p.Recommend).Distinct().JoinWithComma();
-            var linkedCustomers = await GetLinkedCustomers(custIds, job);
+            var linkedCustomers = await customerService.GetLinkedCustomers(FunctionKey.RiskAlert, custIds, job.Environment);
             if (linkedCustomers.Any())
             {
                 var customerStatus = await GetCustomerStatus(linkedCustomers);
@@ -99,8 +100,8 @@ public sealed class MyWatchlistJob : NotificationBaseJob
         messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.CurrentWinLoss), monitoredPlayer.AccumWL.FormatDecimal(), language));
         messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.WinningThreshold), monitoredPlayer.WinningThreshold.FormatDecimal(), language));
         messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.LosingThreshold), monitoredPlayer.LosingThreshold.FormatDecimal(), language));
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.DateTime), monitoredPlayer.CreatedDate.ToString("dd-MM-yyyy HH:mm:ss"), language));
         messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.ThresholdType), TemplateHelper.Get($"ThresholdType_{monitoredPlayer.SettingType}", language), language));
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.DateTime), monitoredPlayer.CreatedDate.ToString("dd-MM-yyyy HH:mm:ss"), language));
         messageBuilder.AppendLine("</pre>");
 
 

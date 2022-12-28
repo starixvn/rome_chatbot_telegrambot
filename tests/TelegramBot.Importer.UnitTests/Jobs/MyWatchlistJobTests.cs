@@ -3,6 +3,7 @@ using ONEbook.UM.Models;
 using ONEbook.UM.Services;
 using Quartz;
 using TelegramBot.Importer.Configuration;
+using TelegramBot.Importer.Constants;
 using TelegramBot.Importer.Jobs;
 using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Models.Customers;
@@ -103,7 +104,7 @@ public class MyWatchlistJobTests
         await myWatchlistJob.Execute(job, systemSetting);
 
         // Assert
-        await customerService.Received().GetLinkedCustomers(job.Name, "1", job.Environment);
+        await customerService.Received().GetLinkedCustomers(FunctionKey.RiskAlert, "1", job.Environment);
     }
 
     [Fact]

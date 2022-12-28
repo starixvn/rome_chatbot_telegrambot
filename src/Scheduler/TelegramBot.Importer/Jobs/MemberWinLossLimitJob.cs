@@ -15,6 +15,7 @@ public sealed class MemberWinLossLimitJob : NotificationBaseJob
 {
     private readonly IMemberWinLossLimitService memberWinLostLimitService;
     private readonly ICacheRefService cacheRefService;
+    private const int ChunkSize = 20;
 
     public MemberWinLossLimitJob(
         IMaintenanceService maintenanceService,
@@ -42,7 +43,7 @@ public sealed class MemberWinLossLimitJob : NotificationBaseJob
         {
             var custIds = memberWinLossLimits.SelectMany(m => new[] { m.ACustId, m.MCustId, m.SCustId }).Distinct().ToList();
             var strCustIds = custIds.JoinWithComma();
-            var linkedCustomers = await GetLinkedCustomers(strCustIds, job);
+            var linkedCustomers = await customerService.GetLinkedCustomers(FunctionKey.RiskAlert, strCustIds, job.Environment);
 
             if (linkedCustomers.Any())
             {
@@ -117,34 +118,40 @@ public sealed class MemberWinLossLimitJob : NotificationBaseJob
 
         foreach (var winLossLimitMessage in winLossLimitMessages)
         {
-            yield return new MemberWinLossLimitNotification(
-                customer.UserId,
-                customer.BotId,
-                BuildMessage(winLossLimitMessage, customer.Language, customer.CustomerLevel),
-                customer.IsRealUser,
-                job.IsUAT,
-                logIds
-            );
+            var usernames = BuildUsernames(winLossLimitMessage, customer.CustomerLevel);
+            var products = winLossLimitMessage.Products.OrderBy(p => p.ProductName).ThenByDescending(p => p.CurrentWinLoss > 0);
+            var chunks = products.Chunk(ChunkSize);
+            foreach (var chunk in chunks)
+            {
+                yield return new MemberWinLossLimitNotification(
+                    customer.UserId,
+                    customer.BotId,
+                    BuildMessage(chunk, customer.Language, usernames),
+                    customer.IsRealUser,
+                    job.IsUAT,
+                    logIds
+                );
+            }
+
         }
     }
 
-    private static string BuildMessage(WinLossLimitMessage winLossLimitMessage, string language, byte custLevel)
+    private static string BuildMessage(ProductWinLossLimitMessage[] products, string language, string usernames)
     {
         var messageBuilder = new StringBuilder();
         messageBuilder
             .AppendLine($"[{TemplateHelper.Get("MemberWinLossLimitAlert", language)}]")
-            .AppendLine();
+            .AppendLine()
+            .AppendLine($"<b>{usernames}</b>");
 
-        BuildUsernames(messageBuilder, winLossLimitMessage, custLevel);
         messageBuilder.Append("<pre>");
-        BuildWinProducts(messageBuilder, winLossLimitMessage.Products.Where(p => p.CurrentWinLoss > 0).OrderBy(p => p.ProductName), language);
-        BuildLossProducts(messageBuilder, winLossLimitMessage.Products.Where(p => p.CurrentWinLoss < 0).OrderBy(p => p.ProductName), language);
+        BuildProducts(messageBuilder, products, language);
         messageBuilder.AppendLine("</pre>");
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
 
-    private static void BuildUsernames(StringBuilder messageBuilder, WinLossLimitMessage memberMessage, byte custLevel)
+    private static string BuildUsernames(WinLossLimitMessage memberMessage, byte custLevel)
     {
         var usernames = custLevel switch
         {
@@ -156,31 +163,19 @@ public sealed class MemberWinLossLimitJob : NotificationBaseJob
                 $"Not expected {nameof(custLevel)} value: {custLevel}")
         };
 
-        messageBuilder.AppendLine($"<b>{usernames}</b>");
+        return usernames;
     }
 
-    private static void BuildWinProducts(StringBuilder messageBuilder, IEnumerable<ProductWinLossLimitMessage> products, string language)
+    private static void BuildProducts(StringBuilder messageBuilder, IEnumerable<ProductWinLossLimitMessage> products, string language)
     {
         foreach (var product in products)
         {
             messageBuilder.AppendLine();
             messageBuilder.AppendLine(product.ProductName);
             messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.CurrentWinLoss), product.CurrentWinLoss.FormatDecimal(), language));
-            messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.MaximumWinLoss), $"{product.MaximumWinLoss.FormatDecimalToInt()}X", language));
+            var X = product.CurrentWinLoss > 0 ? "X" : string.Empty;
+            messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.MaximumWinLoss), $"{product.MaximumWinLoss.FormatDecimalToInt()}{X}", language));
             messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.CurrentWinLossPercent), $"{product.CurrentWinLossPercentage.FormatDecimalUptoTwoDigit()}%", language));
         }
     }
-
-    private static void BuildLossProducts(StringBuilder messageBuilder, IEnumerable<ProductWinLossLimitMessage> products, string language)
-    {
-        foreach (var product in products)
-        {
-            messageBuilder.AppendLine();
-            messageBuilder.AppendLine(product.ProductName);
-            messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.CurrentWinLoss), product.CurrentWinLoss.FormatDecimal(), language));
-            messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.MaximumWinLoss), product.MaximumWinLoss.FormatDecimal(), language));
-            messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.CurrentWinLossPercent), $"{product.CurrentWinLossPercentage.FormatDecimalUptoTwoDigit()}%", language));
-        }
-    }
-
 }
