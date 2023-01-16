@@ -340,6 +340,24 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reached Time.
+        /// </summary>
+        public static string ReachedTime {
+            get {
+                return ResourceManager.GetString("ReachedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Win Loss Reached Sportsbook Threshold Alert.
+        /// </summary>
+        public static string SMAThresholdAlertTitle {
+            get {
+                return ResourceManager.GetString("SMAThresholdAlertTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Super Comm.
         /// </summary>
         public static string SuperComm {

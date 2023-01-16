@@ -14,6 +14,7 @@ namespace TelegramBot.Importer.Jobs;
 public sealed class MyWatchlistJob : NotificationBaseJob
 {
     private readonly IMyWatchlistService myWatchlistService;
+    private const byte SMAThresholds = 3;
 
     public MyWatchlistJob(
         IMyWatchlistService myWatchlistService,
@@ -38,22 +39,24 @@ public sealed class MyWatchlistJob : NotificationBaseJob
 
         if (monitoredPlayers.Any())
         {
-            var custIds = monitoredPlayers.Select(p => p.Recommend).Distinct().JoinWithComma();
+            var custIds = monitoredPlayers.SelectMany(p => new[] { p.Recommend, p.MRecommend, p.SRecommend }).Distinct().JoinWithComma();
             var linkedCustomers = await customerService.GetLinkedCustomers(FunctionKey.RiskAlert, custIds, job.Environment);
             if (linkedCustomers.Any())
             {
                 var customerStatus = await GetCustomerStatus(linkedCustomers);
-                var groups = (from monitoredPlayer in monitoredPlayers
-                              join linkedCustomer in linkedCustomers on monitoredPlayer.Recommend equals linkedCustomer.CustId
-                              join status in customerStatus on new { linkedCustomer.CustId, linkedCustomer.SubAccId } equals new { status.CustId, status.SubAccId }
-                              where status.IsValid(job.SubAccPermission)
-                              select (linkedCustomer, monitoredPlayer))
-                             .GroupBy(g => g.linkedCustomer);
+                var validCustomers = from linkedCustomer in linkedCustomers
+                                     join status in customerStatus
+                                     on new { linkedCustomer.CustId, linkedCustomer.SubAccId } equals new { status.CustId, status.SubAccId }
+                                     select linkedCustomer;
 
                 var index = 1;
-                foreach (var group in groups)
+                foreach (var customer in validCustomers)
                 {
-                    notifications.AddRange(BuildNotifications(group.Key, group.Select(g => g.monitoredPlayer), job.IsUAT, ref index));
+                    notifications.AddRange(BuildNotifications(
+                        customer,
+                        monitoredPlayers.Where(p => p.Recommend == customer.CustId || p.MRecommend == customer.CustId || p.SRecommend == customer.CustId),
+                        job.IsUAT,
+                        ref index));
                 }
             }
         }
@@ -79,7 +82,9 @@ public sealed class MyWatchlistJob : NotificationBaseJob
                             index,
                             customer.UserId,
                             customer.BotId,
-                            BuildMessage(customer.Language, monitoredPlayer),
+                            monitoredPlayer.SettingType == SMAThresholds
+                                ? BuildSMAThresholdMessage(customer.Language, monitoredPlayer)
+                                : BuildMessage(customer.Language, monitoredPlayer),
                             customer.IsRealUser,
                             isUAT,
                             new List<long> { monitoredPlayer.LogId }));
@@ -93,7 +98,7 @@ public sealed class MyWatchlistJob : NotificationBaseJob
     {
         var messageBuilder = new StringBuilder();
         messageBuilder
-            .AppendLine($"[{TemplateHelper.Get("MyWatchlistTitle", language)}]");
+            .AppendLine($"[{TemplateHelper.Get(nameof(Template.MyWatchlistTitle), language)}]");
 
         messageBuilder.AppendLine("<pre>");
         messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.Username), monitoredPlayer.Username, language));
@@ -101,9 +106,24 @@ public sealed class MyWatchlistJob : NotificationBaseJob
         messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.WinningThreshold), monitoredPlayer.WinningThreshold.FormatDecimal(), language));
         messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.LosingThreshold), monitoredPlayer.LosingThreshold.FormatDecimal(), language));
         messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.ThresholdType), TemplateHelper.Get($"ThresholdType_{monitoredPlayer.SettingType}", language), language));
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.DateTime), monitoredPlayer.CreatedDate.ToString("dd-MM-yyyy HH:mm:ss"), language));
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.ReachedTime), monitoredPlayer.CreatedDate.ToString("MM-dd-yyyy HH:mm"), language));
         messageBuilder.AppendLine("</pre>");
 
+        return TemplateHelper.EncodeXml(messageBuilder.ToString());
+    }
+
+    private static string BuildSMAThresholdMessage(string language, MonitoredPlayer monitoredPlayer)
+    {
+        var messageBuilder = new StringBuilder();
+        messageBuilder
+            .AppendLine($"[{TemplateHelper.Get(nameof(Template.SMAThresholdAlertTitle), language)}]");
+
+        messageBuilder.AppendLine("<pre>");
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.CurrentWinLoss), monitoredPlayer.AccumWL.FormatDecimal(), language));
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.WinningThreshold), monitoredPlayer.WinningThreshold.FormatDecimal(), language));
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.LosingThreshold), monitoredPlayer.LosingThreshold.FormatDecimal(), language));
+        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.ReachedTime), monitoredPlayer.CreatedDate.ToString("MM-dd-yyyy HH:mm"), language));
+        messageBuilder.AppendLine("</pre>");
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
