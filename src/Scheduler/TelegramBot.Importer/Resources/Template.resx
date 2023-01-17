@@ -254,13 +254,13 @@
     <comment />
   </data>
   <data name="CurrentWinLoss" xml:space="preserve">
-    <value>Current Win Loss</value>
+    <value>Current WL</value>
   </data>
   <data name="MaximumWinLoss" xml:space="preserve">
-    <value>Maximum Win Loss</value>
+    <value>Maximum WL</value>
   </data>
   <data name="CurrentWinLossPercent" xml:space="preserve">
-    <value>Current Win Loss (%)</value>
+    <value>Current WL (%)</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>

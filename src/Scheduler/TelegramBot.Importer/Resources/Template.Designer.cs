@@ -97,7 +97,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Current Win Loss.
+        ///   Looks up a localized string similar to Current WL.
         /// </summary>
         public static string CurrentWinLoss {
             get {
@@ -106,7 +106,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Current Win Loss (%).
+        ///   Looks up a localized string similar to Current WL (%).
         /// </summary>
         public static string CurrentWinLossPercent {
             get {
@@ -178,7 +178,7 @@ namespace TelegramBot.Importer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maximum Win Loss.
+        ///   Looks up a localized string similar to Maximum WL.
         /// </summary>
         public static string MaximumWinLoss {
             get {
