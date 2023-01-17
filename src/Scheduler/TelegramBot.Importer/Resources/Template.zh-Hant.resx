@@ -267,4 +267,10 @@
   <data name="ThresholdType" xml:space="preserve">
     <value>已達限額類別</value>
   </data>
+  <data name="ReachedTime" xml:space="preserve">
+    <value>達到時間</value>
+  </data>
+  <data name="SMAThresholdAlertTitle" xml:space="preserve">
+    <value>您的輸贏達到體育博彩限額提醒</value>
+  </data>
 </root>

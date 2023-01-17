@@ -267,4 +267,10 @@
   <data name="ThresholdType" xml:space="preserve">
     <value>ถึงขีดจำกัดประเภทเกณฑ์การชนะ/แพ้</value>
   </data>
+  <data name="ReachedTime" xml:space="preserve">
+    <value>เวลาถึง</value>
+  </data>
+  <data name="SMAThresholdAlertTitle" xml:space="preserve">
+    <value>แจ้งเตือนการแพ้ชนะของคุณเมื่อการแพ้ชนะของกีฬาถึงขีดจำกัด</value>
+  </data>
 </root>

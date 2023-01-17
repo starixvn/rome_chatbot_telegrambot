@@ -267,4 +267,10 @@
   <data name="ThresholdType" xml:space="preserve">
     <value>Loại giới hạn</value>
   </data>
+  <data name="ReachedTime" xml:space="preserve">
+    <value>Thời Điểm Đạt Giới Hạn</value>
+  </data>
+  <data name="SMAThresholdAlertTitle" xml:space="preserve">
+    <value>Thông báo Thắng Thua Của Bạn đã đạt Giới Hạn Sportsbook</value>
+  </data>
 </root>
