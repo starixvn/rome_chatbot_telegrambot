@@ -104,7 +104,7 @@ public class MyWatchlistJobTests
         await myWatchlistJob.Execute(job, systemSetting);
 
         // Assert
-        await customerService.Received().GetLinkedCustomers(FunctionKey.RiskAlert, "1", job.Environment);
+        await customerService.Received().GetLinkedCustomers(FunctionKey.RiskAlert, "1,2,3", job.Environment);
     }
 
     [Fact]
