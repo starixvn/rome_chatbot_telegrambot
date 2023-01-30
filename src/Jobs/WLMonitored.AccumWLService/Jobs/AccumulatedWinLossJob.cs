@@ -110,7 +110,7 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
             return
                 from tickets in ticketDetailsGroupByCustId
                 join wlSetting in winLossSettings on tickets.Key equals wlSetting.CustId
-                join accumWL in accumulatedWinLossList on wlSetting.CustId equals accumWL.CustId into leftJoinAccumulatedWinLoss
+                join accumWL in accumulatedWinLossList on wlSetting.SettingCustId equals accumWL.CustId into leftJoinAccumulatedWinLoss
                 from accumulatedWL in leftJoinAccumulatedWinLoss.DefaultIfEmpty()
                 select BuildAccumulatedWinLossParam(
                     tickets,

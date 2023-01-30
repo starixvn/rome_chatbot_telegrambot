@@ -41,7 +41,7 @@ public sealed class WinLossService : IWinLossService
     {
         var accumulatedWinLoss = new List<AccumulatedWinLoss>();
 
-        if (!string.IsNullOrWhiteSpace(creditCustIds))
+        if (!string.IsNullOrWhiteSpace(creditCustIds) || !string.IsNullOrWhiteSpace(creditSMAIds))
         {
             accumulatedWinLoss.AddRange(await dynamicRepository.FetchAsync<AccumulatedWinLoss>(
                 new GetCreditAccumulatedWinLossCriteria(creditCustIds, creditSMAIds, currentDate)));
