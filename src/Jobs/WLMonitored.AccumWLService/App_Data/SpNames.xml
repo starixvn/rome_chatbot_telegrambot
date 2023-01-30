@@ -5,6 +5,9 @@
     <Setting Key="Acc_WLMonitored_Service_TicketDetailSel" SpName="Acc_WLMonitored_Service_TicketDetailSel" DbName="DBAGE.bodb02.BODBDownlineNet">
       <Mapping DataField="Actual_Stake" ObjectProperty="ActualStake" />
       <Mapping DataField="Winlost" ObjectProperty="WinLoss" />
+      <Mapping DataField="aWinlost" ObjectProperty="AgentWinLoss" />
+      <Mapping DataField="mWinlost" ObjectProperty="MasterWinLoss" />
+      <Mapping DataField="sWinlost" ObjectProperty="SuperWinLoss" />
     </Setting>
     <Setting Key="Acc_WLMonitored_Service_AccumulatedDataSel" SpName="Acc_WLMonitored_Service_AccumulatedDataSel" DbName="DBAGE.bodb02.BODBDownlineNet" />
     <Setting Key="Acc_Dep_WLMonitored_Service_AccumulatedDataSel" SpName="Acc_Dep_WLMonitored_Service_AccumulatedDataSel" DbName="DBAGE.bodb02.BODBDownlineNet" />

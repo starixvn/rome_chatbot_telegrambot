@@ -4,6 +4,7 @@ using ONEbook.UM.Services;
 using WLMonitored.AccumWLService.Models;
 using WLMonitored.AccumWLService.Services;
 using WLMonitored.Shared.Configuration;
+using WLMonitored.Shared.Constants;
 using WLMonitored.Shared.Extensions;
 using WLMonitored.Shared.Jobs;
 using WLMonitored.Shared.Models;
@@ -138,7 +139,6 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
         IEnumerable<WinLossSetting> winLossSettings,
         DateTime settlementDate)
     {
-        const byte MemberRoleId = 1;
         var creditCustIds = new List<int>();
         var creditSMAIds = new List<int>();
         var depositCustIds = new List<int>();
@@ -151,7 +151,7 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
             }
             else
             {
-                if (wl.RoleId == MemberRoleId)
+                if (wl.RoleId == RoleId.Member)
                 {
                     creditCustIds.Add(wl.CustId);
                 }
@@ -185,11 +185,27 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
         return new AccumulatedWinLossParam(
             winLossSetting.SettingCustId,
             winLossSetting.IsDeposit,
-            ticketDetails
-                .Where(t => t.SettlementTime >= winLossSetting.InitSettingTime && offeredBetTypes.ContainsKey(t.BetType))
-                .Sum(t => t.WinLoss - t.ActualStake),
+            SumWinLoss(offeredBetTypes, ticketDetails, winLossSetting),
             settlementDate,
             accumulatedWinLossType,
             winLossSetting.RoleId);
+    }
+
+    private static decimal SumWinLoss(
+        IDictionary<short, bool> offeredBetTypes,
+        IEnumerable<TicketDetail> ticketDetails,
+        WinLossSetting winLossSetting)
+    {
+        var validTicketDetails = ticketDetails
+            .Where(t => t.SettlementTime >= winLossSetting.InitSettingTime && offeredBetTypes.ContainsKey(t.BetType));
+
+        return winLossSetting.RoleId switch
+        {
+            RoleId.Member => validTicketDetails.Sum(t => t.WinLoss - t.ActualStake),
+            RoleId.Agent => validTicketDetails.Sum(t => t.AgentWinLoss),
+            RoleId.Master => validTicketDetails.Sum(t => t.MasterWinLoss),
+            RoleId.Super => validTicketDetails.Sum(t => t.SuperWinLoss),
+            _ => throw new ArgumentOutOfRangeException(nameof(winLossSetting.RoleId), $"Not expected RoleId value: {winLossSetting.RoleId}"),
+        };
     }
 }
