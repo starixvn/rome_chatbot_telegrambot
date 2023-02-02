@@ -78,16 +78,32 @@ public sealed class MyWatchlistJob : NotificationBaseJob
         var notifications = new List<MyWatchlistNotification>();
         foreach (var monitoredPlayer in monitoredPlayers)
         {
-            notifications.Add(new MyWatchlistNotification(
-                            index,
-                            customer.UserId,
-                            customer.BotId,
-                            monitoredPlayer.SettingType == SMAThresholds
-                                ? BuildSMAThresholdMessage(customer.Language, monitoredPlayer)
-                                : BuildMessage(customer.Language, monitoredPlayer),
-                            customer.IsRealUser,
-                            isUAT,
-                            new List<long> { monitoredPlayer.LogId }));
+            if (monitoredPlayer.SettingType == SMAThresholds && customer.CustId == monitoredPlayer.CustId)
+            {
+                notifications.Add(new MyWatchlistNotification(
+                    index,
+                    customer.UserId,
+                    customer.BotId,
+                    BuildSMAThresholdMessage(customer.Language, monitoredPlayer),
+                    customer.IsRealUser,
+                    isUAT,
+                    new List<long> { monitoredPlayer.LogId }));
+            }
+            else
+            {
+                if (monitoredPlayer.Recommend == customer.CustId)
+                {
+                    notifications.Add(new MyWatchlistNotification(
+                        index,
+                        customer.UserId,
+                        customer.BotId,
+                        BuildMessage(customer.Language, monitoredPlayer),
+                        customer.IsRealUser,
+                        isUAT,
+                        new List<long> { monitoredPlayer.LogId }));
+                }
+            }
+
             index++;
         }
 
