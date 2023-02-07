@@ -8,7 +8,8 @@ public record AccumulatedWinLossParam(
     bool IsDeposit,
     decimal AccumWL,
     DateTime SettlementDate,
-    string Action
+    string Action,
+    byte RoleId
 )
 {
     private const char Credit = 'c';
@@ -26,5 +27,7 @@ public record AccumulatedWinLossParam(
         .Append(SettlementDate.ToSimpleDate())
         .Append("\" Action=\"")
         .Append(Action)
+        .Append("\" RoleId=\"")
+        .Append(RoleId)
         .Append("\"/>");
 }

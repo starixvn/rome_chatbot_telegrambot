@@ -203,7 +203,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
 
         foreach (var item in content)
         {
-            messageBuilder.AppendLine(TemplateHelper.FormatRow(TemplateHelper.BuildContent(language, item.Key), item.Value.FormatDecimal(), language));
+            messageBuilder.AppendLine(TemplateHelper.FormatRow(item.Key, item.Value.FormatDecimal(), language));
         }
 
         messageBuilder.AppendLine("</pre>");

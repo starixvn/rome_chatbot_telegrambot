@@ -13,6 +13,7 @@ public interface IWinLossService
 
     Task<IEnumerable<AccumulatedWinLoss>> GetAccumulatedWinLoss(
         string creditCustIds,
+        string creditSMAIds,
         string depositCustIds,
         DateTime currentDate);
 
@@ -34,15 +35,16 @@ public sealed class WinLossService : IWinLossService
 
     public async Task<IEnumerable<AccumulatedWinLoss>> GetAccumulatedWinLoss(
         string creditCustIds,
+        string creditSMAIds,
         string depositCustIds,
         DateTime currentDate)
     {
         var accumulatedWinLoss = new List<AccumulatedWinLoss>();
 
-        if (!string.IsNullOrWhiteSpace(creditCustIds))
+        if (!string.IsNullOrWhiteSpace(creditCustIds) || !string.IsNullOrWhiteSpace(creditSMAIds))
         {
             accumulatedWinLoss.AddRange(await dynamicRepository.FetchAsync<AccumulatedWinLoss>(
-                new GetCreditAccumulatedWinLossCriteria(creditCustIds, currentDate)));
+                new GetCreditAccumulatedWinLossCriteria(creditCustIds, creditSMAIds, currentDate)));
         }
 
         if (!string.IsNullOrWhiteSpace(depositCustIds))

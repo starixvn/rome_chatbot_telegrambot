@@ -4,6 +4,7 @@ using ONEbook.UM.Services;
 using WLMonitored.AccumWLService.Models;
 using WLMonitored.AccumWLService.Services;
 using WLMonitored.Shared.Configuration;
+using WLMonitored.Shared.Constants;
 using WLMonitored.Shared.Extensions;
 using WLMonitored.Shared.Jobs;
 using WLMonitored.Shared.Models;
@@ -109,7 +110,7 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
             return
                 from tickets in ticketDetailsGroupByCustId
                 join wlSetting in winLossSettings on tickets.Key equals wlSetting.CustId
-                join accumWL in accumulatedWinLossList on wlSetting.CustId equals accumWL.CustId into leftJoinAccumulatedWinLoss
+                join accumWL in accumulatedWinLossList on wlSetting.SettingCustId equals accumWL.CustId into leftJoinAccumulatedWinLoss
                 from accumulatedWL in leftJoinAccumulatedWinLoss.DefaultIfEmpty()
                 select BuildAccumulatedWinLossParam(
                     tickets,
@@ -139,6 +140,7 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
         DateTime settlementDate)
     {
         var creditCustIds = new List<int>();
+        var creditSMAIds = new List<int>();
         var depositCustIds = new List<int>();
 
         foreach (var wl in winLossSettings)
@@ -149,12 +151,20 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
             }
             else
             {
-                creditCustIds.Add(wl.CustId);
+                if (wl.RoleId == RoleId.Member)
+                {
+                    creditCustIds.Add(wl.CustId);
+                }
+                else
+                {
+                    creditSMAIds.Add(wl.SettingCustId);
+                }
             }
         }
 
         return winLossService.GetAccumulatedWinLoss(
             creditCustIds.JoinWithComma(),
+            creditSMAIds.JoinWithComma(),
             depositCustIds.JoinWithComma(),
             settlementDate);
     }
@@ -173,12 +183,29 @@ public sealed class AccumulateWinLossJob : IntervalBackgroundService
         var offeredBetTypes = winLossSetting.IsDeposit ? depositBetTypes : creditBetTypes;
 
         return new AccumulatedWinLossParam(
-            winLossSetting.CustId,
+            winLossSetting.SettingCustId,
             winLossSetting.IsDeposit,
-            ticketDetails
-                .Where(t => t.SettlementTime >= winLossSetting.InitSettingTime && offeredBetTypes.ContainsKey(t.BetType))
-                .Sum(t => t.WinLoss - t.ActualStake),
+            SumWinLoss(offeredBetTypes, ticketDetails, winLossSetting),
             settlementDate,
-            accumulatedWinLossType);
+            accumulatedWinLossType,
+            winLossSetting.RoleId);
+    }
+
+    private static decimal SumWinLoss(
+        IDictionary<short, bool> offeredBetTypes,
+        IEnumerable<TicketDetail> ticketDetails,
+        WinLossSetting winLossSetting)
+    {
+        var validTicketDetails = ticketDetails
+            .Where(t => t.SettlementTime >= winLossSetting.InitSettingTime && offeredBetTypes.ContainsKey(t.BetType));
+
+        return winLossSetting.RoleId switch
+        {
+            RoleId.Member => validTicketDetails.Sum(t => t.WinLoss - t.ActualStake),
+            RoleId.Agent => validTicketDetails.Sum(t => t.AgentWinLoss),
+            RoleId.Master => validTicketDetails.Sum(t => t.MasterWinLoss),
+            RoleId.Super => validTicketDetails.Sum(t => t.SuperWinLoss),
+            _ => throw new ArgumentOutOfRangeException(nameof(winLossSetting.RoleId), $"Not expected RoleId value: {winLossSetting.RoleId}"),
+        };
     }
 }

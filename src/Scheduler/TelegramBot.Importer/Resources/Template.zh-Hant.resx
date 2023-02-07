@@ -243,4 +243,34 @@
   <data name="NonEnteredMatchNotification" xml:space="preserve">
     <value>未完成賽事通知</value>
   </data>
+  <data name="CurrentWinLoss" xml:space="preserve">
+    <value>目前輸贏</value>
+  </data>
+  <data name="MaximumWinLoss" xml:space="preserve">
+    <value>最大輸贏</value>
+  </data>
+  <data name="CurrentWinLossPercent" xml:space="preserve">
+    <value>目前輸贏 (%)</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>用戶名</value>
+  </data>
+  <data name="WinningThreshold" xml:space="preserve">
+    <value>贏的限額</value>
+  </data>
+  <data name="LosingThreshold" xml:space="preserve">
+    <value>輸的限額</value>
+  </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>日期時間</value>
+  </data>
+  <data name="ThresholdType" xml:space="preserve">
+    <value>已達限額類別</value>
+  </data>
+  <data name="ReachedTime" xml:space="preserve">
+    <value>達到時間</value>
+  </data>
+  <data name="SMAThresholdAlertTitle" xml:space="preserve">
+    <value>您的輸贏達到體育博彩限額提醒</value>
+  </data>
 </root>

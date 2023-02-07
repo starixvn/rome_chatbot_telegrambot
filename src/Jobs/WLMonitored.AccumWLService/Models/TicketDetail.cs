@@ -7,5 +7,8 @@ public record TicketDetail(
     short BetType,
     decimal ActualStake,
     decimal WinLoss,
+    decimal AgentWinLoss,
+    decimal MasterWinLoss,
+    decimal SuperWinLoss,
     DateTime SettlementTime
 );

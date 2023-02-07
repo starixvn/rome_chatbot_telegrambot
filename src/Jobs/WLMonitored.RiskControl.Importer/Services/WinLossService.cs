@@ -14,7 +14,7 @@ public interface IWinLossService
 
     Task<IEnumerable<WinLossThreshold>> GetChangedWinLossThresholds(string superUUS, bool isTest, DateTime lastScanDate);
 
-    Task<IEnumerable<AccumulatedWinLoss>> GetAccumulatedWinLoss(string custIds, string recommends, DateTime currentDate);
+    Task<IEnumerable<AccumulatedWinLoss>> GetAccumulatedWinLoss(string custIds, string recommends, string smaIds, DateTime currentDate);
 }
 
 public sealed class WinLossService : IWinLossService
@@ -33,7 +33,7 @@ public sealed class WinLossService : IWinLossService
     public Task<IEnumerable<WinLossThreshold>> GetChangedWinLossThresholds(string superUUS, bool isTest, DateTime lastScanDate)
         => dynamicRepository.FetchAsync<WinLossThreshold>(new GetChangedWinLossThresholdCriteria(superUUS, isTest, lastScanDate));
 
-    public Task<IEnumerable<AccumulatedWinLoss>> GetAccumulatedWinLoss(string custIds, string recommends, DateTime currentDate)
+    public Task<IEnumerable<AccumulatedWinLoss>> GetAccumulatedWinLoss(string custIds, string recommends, string smaIds, DateTime currentDate)
         => dynamicRepository.FetchAsync<AccumulatedWinLoss>(
-            new GetCreditAccumulatedWinLossCriteria(custIds, currentDate, recommends));
+            new GetCreditAccumulatedWinLossCriteria(custIds, smaIds, currentDate, recommends));
 }

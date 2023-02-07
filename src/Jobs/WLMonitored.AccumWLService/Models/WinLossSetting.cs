@@ -4,5 +4,7 @@ public record WinLossSetting(
     int CustId,
     DateTime InitSettingTime,
     bool IsDeposit,
-    int SRecommend
+    int SRecommend,
+    int SettingCustId,
+    byte RoleId
 );

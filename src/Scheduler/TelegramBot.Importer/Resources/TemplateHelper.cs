@@ -25,11 +25,9 @@ public static class TemplateHelper
     public static string BuildTitleWithoutStrikeThrough(string language, string resourceKey, string date)
         => $"[{Get(resourceKey, language)} {date}]";
 
-    public static string BuildContent(string language, string resourceKey)
-        => Get(resourceKey, language);
-
-    public static string FormatRow(string key, string value, string language)
+    public static string FormatRow(string resourceKey, string value, string language)
     {
+        var key = Get(resourceKey, language);
         var length = language switch
         {
             LanguageCode.ChineseSimplified or LanguageCode.ChineseTraditional => MaxRowLength - value.Length - key.Length * 2,
