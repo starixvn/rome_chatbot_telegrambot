@@ -88,10 +88,8 @@ namespace TelegramBot.Infrastructure.Command
                     {
                         "/help" => HandleHelpCommand(account, messenger, bot.DisplayName),
                         "/menu" => SendMainMenuMessage(account, messenger),
-                        "/stop" => HandleStopCommand(account, messenger, bot.DisplayName),
                         "/unlink" => HandleStopCommand(account, messenger, bot.DisplayName),
                         "/settings" => HandleSettingsCommand(account, messenger),
-                        "/setting" => HandleSettingsCommand(account, messenger),
                         _ => HandleOtherCommand(account, messenger, userResponse)
                     };
 
