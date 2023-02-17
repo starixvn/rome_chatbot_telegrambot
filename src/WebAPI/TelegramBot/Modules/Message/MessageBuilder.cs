@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Modules.Action.Constants;
+using TelegramBot.Modules.Message.Extensions;
 using TelegramBot.Modules.Message.Models;
 using TelegramBot.Modules.Resource;
 using TelegramBot.Modules.Resource.constants;
@@ -204,26 +205,27 @@ namespace TelegramBot.Modules.Message
                         buttonRows[i] = new[]
                         {
                             InlineKeyboardButton.WithCallbackData(backToAction, JsonConvert.SerializeObject(new { Id = backToActionId })),
-                            InlineKeyboardButton.WithCallbackData(mainMenuButton.Text, mainMenuButton.CallBackData),
+                            mainMenuButton.ToInlineButton()
                         };
                     }
                     else
                     {
                         buttonRows[i] = new[]
                         {
-                            InlineKeyboardButton.WithCallbackData(mainMenuButton.Text, mainMenuButton.CallBackData),
+                            mainMenuButton.ToInlineButton()
                         };
                     }
                 }
                 else
                 {
                     var actionIndex = i * NumberButtonInRow;
+
                     buttonRows[i] = actionIndex == buttons.Count - 1
-                        ? new[] { InlineKeyboardButton.WithCallbackData(buttons[actionIndex].Text, buttons[actionIndex].CallBackData) }
+                        ? new[] { buttons[actionIndex].ToInlineButton() }
                         : new[]
                         {
-                        InlineKeyboardButton.WithCallbackData(buttons[actionIndex].Text, buttons[actionIndex].CallBackData),
-                        InlineKeyboardButton.WithCallbackData(buttons[actionIndex + 1].Text, buttons[actionIndex + 1].CallBackData)
+                            buttons[actionIndex].ToInlineButton(),
+                            buttons[actionIndex + 1].ToInlineButton()
                         };
                 }
             }

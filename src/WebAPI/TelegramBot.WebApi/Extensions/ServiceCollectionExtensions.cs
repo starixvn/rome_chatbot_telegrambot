@@ -17,6 +17,7 @@ using Sentry;
 using StackExchange.Redis;
 using TelegramBot.Modules.Action;
 using TelegramBot.Modules.Action.Builders.ActionName;
+using TelegramBot.Modules.Action.Builders.WebApp;
 using TelegramBot.Modules.Action.Validators;
 using TelegramBot.Modules.Bot;
 using TelegramBot.Modules.Command;
@@ -51,6 +52,7 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<IResourceService, ResourceService>();
             services.AddSingleton<IActionValidatorFactory, ActionValidatorFactory>();
             services.AddSingleton<IActionNameBuilderFactory, ActionNameBuilderFactory>();
+            services.AddSingleton<IWebAppBuilderFactory, WebAppBuilderFactory>();
             services.AddSingleton<IOTPService, OTPService>();
             services.AddFunctionHandlers();
 

@@ -29,6 +29,7 @@ namespace TelegramBot.Modules.Action.Constants
         public const short MyWatchlist = 42;
         public const short OTP = 43;
         public const short RiskAlert = 45;
+        public const short NewCustomers = 47;
 
         public static readonly short[] NotificationSettingActionIds = new[]{
             YesterdayWinLossNotification,

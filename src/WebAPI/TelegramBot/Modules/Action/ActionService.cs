@@ -3,6 +3,7 @@ using Fanex.Caching;
 using Fanex.Data.Repository;
 using Newtonsoft.Json;
 using TelegramBot.Modules.Action.Builders.ActionName;
+using TelegramBot.Modules.Action.Builders.WebApp;
 using TelegramBot.Modules.Action.Constants;
 using TelegramBot.Modules.Action.Criteria;
 using TelegramBot.Modules.Action.Models;
@@ -58,6 +59,7 @@ namespace TelegramBot.Modules.Action
         private readonly IActionNameBuilderFactory actionNameBuilderFactory;
         private readonly ICacheService cacheService;
         private readonly IResourceService resourceService;
+        private readonly IWebAppBuilderFactory webAppBuilderFactory;
 
         public ActionService(
             IDynamicRepository dynamicRepository,
@@ -65,6 +67,7 @@ namespace TelegramBot.Modules.Action
             IMessageBuilder messageBuilder,
             IFunctionHandlerFactory functionHandlerFactory,
             IActionNameBuilderFactory actionNameBuilderFactory,
+            IWebAppBuilderFactory webAppBuilderFactory,
             ICacheServiceFactory cacheServiceFactory,
             IResourceService resourceService)
         {
@@ -73,6 +76,7 @@ namespace TelegramBot.Modules.Action
             this.messageBuilder = messageBuilder;
             this.functionHandlerFactory = functionHandlerFactory;
             this.actionNameBuilderFactory = actionNameBuilderFactory;
+            this.webAppBuilderFactory = webAppBuilderFactory;
             cacheService = cacheServiceFactory.Get();
             this.resourceService = resourceService;
         }
@@ -120,31 +124,38 @@ namespace TelegramBot.Modules.Action
             {
                 var nextUserAction = new CustBotAction(long.MaxValue, account.UserId, action.ActionId, string.Empty, string.Empty, DateTime.Now);
                 var nextUserActions = userActions.Concat(new List<CustBotAction> { nextUserAction }).ToList();
-                if (action.Type == ActionTypes.Downline)
+                switch (action.Type)
                 {
-                    var usernames = await functionHandlerFactory.GetHandler(action.FunctionId).GetTopDownlineUsername(account);
-                    foreach (var username in usernames)
-                    {
+                    case ActionTypes.Downline:
+                        var usernames = await functionHandlerFactory.GetHandler(action.FunctionId).GetTopDownlineUsername(account);
+                        foreach (var username in usernames)
+                        {
 
+                            buttons.Add(new MessageButton(
+                                username,
+                                JsonConvert.SerializeObject(new
+                                {
+                                    Id = action.ActionId,
+                                    Cmd = await CompileCommand(nextUserActions, username, system)
+                                })));
+                        }
+                        break;
+
+                    case ActionTypes.WebApp:
+                        var builder = webAppBuilderFactory.GetBuilder(action.ActionId);
+                        buttons.Add(new MessageButton(text: await GetActionName(action, account), webAppInfo: builder.BuildWebAppInfo(system)));
+                        break;
+
+                    default:
                         buttons.Add(new MessageButton(
-                            username,
+                            await GetActionName(action, account),
                             JsonConvert.SerializeObject(new
                             {
                                 Id = action.ActionId,
-                                Cmd = await CompileCommand(nextUserActions, username, system)
+                                Cmd = action.IsEndAction ? await CompileCommand(nextUserActions, action.Command, system) : string.Empty
                             })));
-                    }
-                }
-                else
-                {
-                    var actionName = await GetActionName(action, account);
-                    buttons.Add(new MessageButton(
-                        actionName,
-                        JsonConvert.SerializeObject(new
-                        {
-                            Id = action.ActionId,
-                            Cmd = action.IsEndAction ? await CompileCommand(nextUserActions, action.Command, system) : string.Empty
-                        })));
+                        break;
+
                 }
             }
 
@@ -163,9 +174,12 @@ namespace TelegramBot.Modules.Action
                 foreach (var action in actionChain)
                 {
                     var userAction = userActions.FirstOrDefault(x => x.ActionId == action.ActionId);
-                    var actionCommand = action.Type == ActionTypes.Button
-                        ? action.Command
-                        : (userAction?.UserResponse ?? throw new InvalidOperationException($"Cannot found response of action {action.ActionId}"));
+                    var actionCommand = action.Type switch
+                    {
+                        ActionTypes.Button => action.Command,
+                        ActionTypes.WebApp => string.Empty,
+                        _ => userAction?.UserResponse ?? throw new InvalidOperationException($"Cannot found response of action {action.ActionId}")
+                    };
 
                     if (!string.IsNullOrEmpty(actionCommand) && !actionCommand!.StartsWith("&lt;"))
                     {
@@ -249,25 +263,21 @@ namespace TelegramBot.Modules.Action
             => action.Type == ActionTypes.Message;
 
         public async Task<IList<CustBotAction>> GetUserActions(int userId)
-        {
-            return (await dynamicRepository.FetchAsync<CustBotAction>(new CustBotActionInChainSelCriteria(userId)).ConfigureAwait(false))
+            => (await dynamicRepository.FetchAsync<CustBotAction>(new CustBotActionInChainSelCriteria(userId)).ConfigureAwait(false))
                 .DistinctBy(userAction => userAction.ActionId)
                 .ToList();
-        }
+
 
         public async Task InsertUserAction(int userId, short actionId, string userResponse, string compiledCommand = "")
-        {
-            await dynamicRepository.ExecuteAsync(new CustBotActionInsCriteria(userId, actionId, userResponse, compiledCommand)).ConfigureAwait(false);
-        }
+            => await dynamicRepository.ExecuteAsync(new CustBotActionInsCriteria(userId, actionId, userResponse, compiledCommand)).ConfigureAwait(false);
+
 
         public async Task UpdateUserAction(long id, string userResponse, string compiledCommand = "")
-        {
-            await dynamicRepository.ExecuteAsync(new CustBotActionCommandUpdCriteria(id, userResponse, compiledCommand)).ConfigureAwait(false);
-        }
+            => await dynamicRepository.ExecuteAsync(new CustBotActionCommandUpdCriteria(id, userResponse, compiledCommand)).ConfigureAwait(false);
+
 
         public async Task ResetUserActions(int userId)
-        {
-            await dynamicRepository.ExecuteAsync(new CustBotActionStatusUpdCriteria(userId)).ConfigureAwait(false);
-        }
+            => await dynamicRepository.ExecuteAsync(new CustBotActionStatusUpdCriteria(userId)).ConfigureAwait(false);
+
     }
 }
