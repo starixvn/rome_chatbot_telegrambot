@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using ONEbook.UM.Services;
 using System.Net;
-using TelegramBot.Infrastructure.Bot;
-using TelegramBot.Infrastructure.Message;
-using TelegramBot.Infrastructure.Shared.Models;
+using TelegramBot.Modules.Bot;
+using TelegramBot.Modules.Message;
+using TelegramBot.Shared.Models;
 using TelegramBot.WebApi.Params;
 
 namespace TelegramBot.WebApi.Filters

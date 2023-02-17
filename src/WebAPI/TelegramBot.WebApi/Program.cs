@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Prometheus;
 using System.Reflection;
-using TelegramBot.Infrastructure.Shared;
-using TelegramBot.Infrastructure.Shared.Configurations;
+using TelegramBot.Shared;
+using TelegramBot.Shared.Configurations;
 using TelegramBot.WebApi.Extensions;
 using TelegramBot.WebApi.Middlewares;
 

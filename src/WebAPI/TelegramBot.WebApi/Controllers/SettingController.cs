@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TelegramBot.Infrastructure.Bot;
-using TelegramBot.Infrastructure.Command;
-using TelegramBot.Infrastructure.Message;
-using TelegramBot.Infrastructure.Setting;
-using TelegramBot.Infrastructure.Setting.Models;
-using TelegramBot.Infrastructure.Shared;
-using TelegramBot.Infrastructure.Shared.Constants;
-using TelegramBot.Infrastructure.Shared.Models;
+using TelegramBot.Modules.Bot;
+using TelegramBot.Modules.Command;
+using TelegramBot.Modules.Message;
+using TelegramBot.Modules.Setting;
+using TelegramBot.Modules.Setting.Models;
+using TelegramBot.Shared;
+using TelegramBot.Shared.Constants;
+using TelegramBot.Shared.Models;
 using TelegramBot.WebApi.Filters;
 using TelegramBot.WebApi.Params;
 

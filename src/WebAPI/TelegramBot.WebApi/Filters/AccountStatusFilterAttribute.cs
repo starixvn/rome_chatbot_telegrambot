@@ -1,10 +1,10 @@
 using Alpha.API.Client.Services;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
-using TelegramBot.Infrastructure.Bot;
-using TelegramBot.Infrastructure.Message;
-using TelegramBot.Infrastructure.Setting;
-using TelegramBot.Infrastructure.Shared.Models;
+using TelegramBot.Modules.Bot;
+using TelegramBot.Modules.Message;
+using TelegramBot.Modules.Setting;
+using TelegramBot.Shared.Models;
 using TelegramBot.WebApi.Params;
 
 namespace TelegramBot.WebApi.Filters
