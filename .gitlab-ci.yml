@@ -1,24 +1,4 @@
 include:
-  - project: "ci/repos-ci/rome_telegrambot_receiver"
-    ref: master
-    file: "gitlab-ci.yml"
-
-  - project: "ci/repos-ci/rome_telegrambot_api"
-    ref: master
-    file: "gitlab-ci-mixing.yml"
-
-  - project: "ci/repos-ci/rome_telegrambot_importer"
-    ref: master
-    file: "gitlab-ci-mixing.yml"
-
-  - project: "ci/repos-ci/rome_telegrambot_notification"
-    ref: master
-    file: "gitlab-ci-mixing.yml"
-
-  - project: "ci/repos-ci/rome_alpha_accumwl"
-    ref: master
-    file: "gitlab-ci-mixing.yml"
-
-  - project: "ci/repos-ci/rome_alpha_wlmonitor"
-    ref: master
-    file: "gitlab-ci-mixing.yml"
+  - project: ci/core-cicd
+    ref: main
+    file: nexcel.gitlab-ci.yml
