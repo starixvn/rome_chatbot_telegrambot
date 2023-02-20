@@ -6,6 +6,8 @@ namespace TelegramBot.Modules.Function.Models
 
         public string FunctionName { get; set; }
 
+        public string FunctionKey { get; set; }
+
         public string Description { get; set; }
 
         public byte Type { get; set; }

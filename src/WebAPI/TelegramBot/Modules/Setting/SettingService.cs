@@ -1,7 +1,6 @@
 ﻿using Alpha.API.Client.Services;
 using Fanex.Data.Repository;
 using TelegramBot.Modules.Action;
-using TelegramBot.Modules.Function.Constants;
 using TelegramBot.Modules.Function.Models;
 using TelegramBot.Modules.Message;
 using TelegramBot.Modules.OTP;
@@ -166,7 +165,7 @@ namespace TelegramBot.Modules.Setting
                 return null;
             }
 
-            custBotMessenger.Functions = await GetAccountFunctions(custId, subAccId, custBotMessenger.CustomerLevel, functions);
+            custBotMessenger.Functions = await GetAccountFunctions(custId, subAccId, functions);
             foreach (var function in custBotMessenger.Functions)
             {
                 function.FunctionName = await _functionService.GetFunctionName(function.FunctionId, language);
@@ -176,36 +175,17 @@ namespace TelegramBot.Modules.Setting
             return custBotMessenger;
         }
 
-        private async Task<IEnumerable<BotFunction>> GetAccountFunctions(int custId, int subAccId, byte customerLevel, IEnumerable<BotFunction> functions)
+        private async Task<IEnumerable<BotFunction>> GetAccountFunctions(int custId, int subAccId, IEnumerable<BotFunction> functions)
         {
             functions = functions.Concat(await _functionService.GetReportAndCommonFunctions());
-
-            if ((CustomerLevel)customerLevel != CustomerLevel.Agent)
-            {
-                functions = functions.Where(f => f.FunctionId != FunctionIds.MyWatchlist);
-            }
 
             if (subAccId > 0)
             {
                 var customerStatus = await _customerService.GetCustomerStatus(custId, subAccId);
-
-                if (!customerStatus.HasReportPermission)
-                {
-                    functions = functions.Where(f =>
-                        f.FunctionId != FunctionIds.Outstanding
-                        && f.FunctionId != FunctionIds.TodayWinLoss
-                        && f.FunctionId != FunctionIds.YesterdayWinLoss
-                        && f.FunctionId != FunctionIds.YesterdayWinLossNotification);
-                }
-
-                if (!customerStatus.HasMemberInformationPermission)
-                {
-                    functions = functions.Where(f =>
-                        f.FunctionId != FunctionIds.ProblemAccount
-                        && f.FunctionId != FunctionIds.MemberWinLossLimit
-                        && f.FunctionId != FunctionIds.BalanceInfo
-                        && f.FunctionId != FunctionIds.MyWatchlist);
-                }
+                var functionPermissions = _webAPIConfiguration.FunctionPermissions;
+                functions = functions.Where(f =>
+                    !functionPermissions.ContainsKey(f.FunctionKey)
+                    || customerStatus.PageAccess.Contains(functionPermissions[f.FunctionKey]));
             }
 
             return functions;
@@ -238,7 +218,7 @@ namespace TelegramBot.Modules.Setting
             var account = accounts.FirstOrDefault();
             if (account != null)
             {
-                account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, account.CustomerLevel, functions);
+                account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, functions);
             }
 
             return account;

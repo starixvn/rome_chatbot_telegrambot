@@ -134,7 +134,7 @@ public class AccountStatusFilterAttributeTests
         var next = StubActionExecutionDelegate(context);
         botService.GetAsync(param.MessengerBotId).Returns(Task.FromResult(bot));
         settingService.GetCustBotAccount(param.ChatId, bot.BotId).Returns(Task.FromResult(account));
-        CustomerStatus accountStatus = new(1, 1, true, true, false, false, false, false);
+        CustomerStatus accountStatus = new(1, 1, true, true, false, "", false, false, false);
         customerService.GetCustomerStatus(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(accountStatus));
 
         // Act
@@ -152,7 +152,7 @@ public class AccountStatusFilterAttributeTests
         var next = StubActionExecutionDelegate(context);
         botService.GetAsync(param.MessengerBotId).Returns(Task.FromResult(bot));
         settingService.GetCustBotAccount(param.ChatId, bot.BotId).Returns(Task.FromResult(account));
-        CustomerStatus accountStatus = new(1, 1, true, false, true, false, false, false);
+        CustomerStatus accountStatus = new(1, 1, true, false, true, "", false, false, false);
         customerService.GetCustomerStatus(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(accountStatus));
         messageBuilder.BuildAccountLockedMessage(Arg.Any<string>()).Returns("YourAccountIsLocked");
 
@@ -171,7 +171,7 @@ public class AccountStatusFilterAttributeTests
         var next = StubActionExecutionDelegate(context);
         botService.GetAsync(param.MessengerBotId).Returns(Task.FromResult(bot));
         settingService.GetCustBotAccount(param.ChatId, bot.BotId).Returns(Task.FromResult(account));
-        CustomerStatus accountStatus = new(1, 1, false, false, false, false, false, false);
+        CustomerStatus accountStatus = new(1, 1, false, false, false, "", false, false, false);
         customerService.GetCustomerStatus(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(accountStatus));
         messageBuilder.BuildAccountClosedMessage(Arg.Any<string>()).Returns("YourAccountIsClosed");
 
@@ -190,7 +190,7 @@ public class AccountStatusFilterAttributeTests
         var next = StubActionExecutionDelegate(context);
         botService.GetAsync(param.MessengerBotId).Returns(Task.FromResult(bot));
         settingService.GetCustBotAccount(param.ChatId, bot.BotId).Returns(Task.FromResult(account));
-        CustomerStatus accountStatus = new(1, 1, true, false, false, false, false, false);
+        CustomerStatus accountStatus = new(1, 1, true, false, false, "", false, false, false);
         customerService.GetCustomerStatus(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(accountStatus));
         messageBuilder.BuildAccountClosedMessage(Arg.Any<string>()).Returns("YourAccountIsClosed");
 

@@ -89,7 +89,6 @@ namespace TelegramBot.Modules.Command
                         "/help" => HandleHelpCommand(account, messenger, bot.DisplayName),
                         "/menu" => SendMainMenuMessage(account, messenger),
                         "/unlink" => HandleStopCommand(account, messenger, bot.DisplayName),
-                        "/settings" => HandleSettingsCommand(account, messenger),
                         _ => HandleOtherCommand(account, messenger, userResponse, bot)
                     };
 
@@ -128,14 +127,6 @@ namespace TelegramBot.Modules.Command
             }
 
             await HandleCommand(account, messenger, command, function.FunctionId, bot);
-        }
-
-        private async Task HandleSettingsCommand(CustBotAccount account, Messenger messenger)
-        {
-            var settingsAction = await actionService.GetActionById(ActionIds.Settings, messenger.System);
-            await Task.WhenAll(
-                actionService.InsertUserAction(account.UserId, settingsAction.ActionId, string.Empty),
-                SendNextActionsMessage(account, messenger, settingsAction));
         }
 
         private async Task HandleHelpCommand(CustBotAccount account, Messenger messenger, string botName)

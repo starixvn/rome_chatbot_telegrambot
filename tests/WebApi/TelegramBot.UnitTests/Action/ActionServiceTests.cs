@@ -5,6 +5,7 @@ using Fanex.Data.Repository;
 using NSubstitute;
 using TelegramBot.Modules.Action;
 using TelegramBot.Modules.Action.Builders.ActionName;
+using TelegramBot.Modules.Action.Builders.WebApp;
 using TelegramBot.Modules.Action.Criteria;
 using TelegramBot.Modules.Action.Models;
 using TelegramBot.Modules.Function.Handlers;
@@ -25,6 +26,7 @@ public class ActionServiceTests
     private readonly IMessageBuilder messageBuilder;
     private readonly IFunctionHandlerFactory functionHandlerFactory;
     private readonly IActionNameBuilderFactory actionNameBuilderFactory;
+    private readonly IWebAppBuilderFactory webAppBuilderFactory;
     private readonly ICacheService cacheService;
     private readonly IResourceService resourceService;
     private readonly ActionService actionService;
@@ -36,11 +38,12 @@ public class ActionServiceTests
         messageBuilder = Substitute.For<IMessageBuilder>();
         functionHandlerFactory = Substitute.For<IFunctionHandlerFactory>();
         actionNameBuilderFactory = Substitute.For<IActionNameBuilderFactory>();
+        webAppBuilderFactory = Substitute.For<IWebAppBuilderFactory>();
         cacheService = Substitute.For<ICacheService>();
         resourceService = Substitute.For<IResourceService>();
         var cacheServiceFactory = Substitute.For<ICacheServiceFactory>();
         cacheServiceFactory.Get(Arg.Any<string>()).Returns(cacheService);
-        actionService = new ActionService(dynamicRepository, webAPIConfiguration, messageBuilder, functionHandlerFactory, actionNameBuilderFactory, cacheServiceFactory, resourceService);
+        actionService = new ActionService(dynamicRepository, webAPIConfiguration, messageBuilder, functionHandlerFactory, actionNameBuilderFactory, webAppBuilderFactory, cacheServiceFactory, resourceService);
     }
 
     [Theory, AutoData]

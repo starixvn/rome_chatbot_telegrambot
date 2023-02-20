@@ -19,8 +19,9 @@ var configuration = builder.Configuration;
 var webAPIConfiguration = new WebAPIConfiguration();
 configuration.GetSection(nameof(WebAPIConfiguration)).Bind(webAPIConfiguration);
 webAPIConfiguration.HiddenActionsBySystem = configuration.GetSection("HiddenActionsBySystems")
-                .Get<HiddenActionsBySystem[]>()
-                .ToDictionary(kvp => kvp.SiteName, kvp => kvp.ActionIds);
+    .Get<HiddenActionsBySystem[]>()
+    .ToDictionary(kvp => kvp.SiteName, kvp => kvp.ActionIds);
+webAPIConfiguration.FunctionPermissions = configuration.GetSection("FunctionPermissions").GetChildren().ToDictionary(c => c.Key, c => c.Value);
 
 builder.Services
     .AddSingleton(webAPIConfiguration)

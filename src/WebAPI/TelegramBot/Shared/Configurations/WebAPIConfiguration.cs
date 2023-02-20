@@ -14,7 +14,7 @@ public class WebAPIConfiguration
 
     public string ProxyAddress { get; set; }
 
-    public bool IsUseProxy => !string.IsNullOrEmpty(ProxyAddress);
-
     public IDictionary<string, short[]> HiddenActionsBySystem { get; set; }
+
+    public IDictionary<string, string> FunctionPermissions { get; set; }
 }

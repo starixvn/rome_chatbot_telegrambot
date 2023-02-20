@@ -7,13 +7,10 @@ namespace TelegramBot.Modules.Function.Constants
         public const short TodayWinLoss = 3;
         public const short YesterdayWinLoss = 4;
         public const short YesterdayWinLossNotification = 5;
-        public const short ProblemAccount = 7;
-        public const short MemberWinLossLimit = 8;
         public const short ChangePasswordAlert = 9;
         public const short ChangeSecurityCodeAlert = 10;
         public const short WrongPasswordAlert = 11;
         public const short Settings = 12;
-        public const short MyWatchlist = 14;
         public const short OTP = 15;
         public const short AvailableDomains = 19;
     }
