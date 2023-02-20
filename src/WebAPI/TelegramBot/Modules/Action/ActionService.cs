@@ -34,8 +34,6 @@ namespace TelegramBot.Modules.Action
 
         Task<IList<CustBotAction>> GetUserActions(int userId);
 
-        bool IsMessageAction(BotAction action);
-
         Task UpdateUserAction(long id, string userResponse, string compiledCommand = "");
 
         Task InsertUserAction(int userId, short actionId, string userResponse, string compiledCommand = "");
@@ -258,26 +256,21 @@ namespace TelegramBot.Modules.Action
             return actions.Where(action => !hiddenActions.Contains(action.ActionId));
         }
 
-
-        public bool IsMessageAction(BotAction action)
-            => action.Type == ActionTypes.Message;
-
         public async Task<IList<CustBotAction>> GetUserActions(int userId)
             => (await dynamicRepository.FetchAsync<CustBotAction>(new CustBotActionInChainSelCriteria(userId)).ConfigureAwait(false))
                 .DistinctBy(userAction => userAction.ActionId)
                 .ToList();
 
-
         public async Task InsertUserAction(int userId, short actionId, string userResponse, string compiledCommand = "")
             => await dynamicRepository.ExecuteAsync(new CustBotActionInsCriteria(userId, actionId, userResponse, compiledCommand)).ConfigureAwait(false);
-
 
         public async Task UpdateUserAction(long id, string userResponse, string compiledCommand = "")
             => await dynamicRepository.ExecuteAsync(new CustBotActionCommandUpdCriteria(id, userResponse, compiledCommand)).ConfigureAwait(false);
 
-
         public async Task ResetUserActions(int userId)
             => await dynamicRepository.ExecuteAsync(new CustBotActionStatusUpdCriteria(userId)).ConfigureAwait(false);
 
+        private static bool IsMessageAction(BotAction action)
+            => action.Type == ActionTypes.Message;
     }
 }

@@ -10,6 +10,7 @@ using TelegramBot.Modules.Bot.Models;
 using TelegramBot.Modules.Command.Models;
 using TelegramBot.Modules.Function.Constants;
 using TelegramBot.Modules.Function.Handlers;
+using TelegramBot.Modules.Function.Models;
 using TelegramBot.Modules.Message;
 using TelegramBot.Modules.Message.Constants;
 using TelegramBot.Modules.Message.Models;
@@ -164,7 +165,7 @@ namespace TelegramBot.Modules.Command
             return false;
         }
 
-        private static Function.Models.BotFunction GetCommandFunction(CustBotAccount account, string command)
+        private static BotFunction GetCommandFunction(CustBotAccount account, string command)
             => account.Functions.FirstOrDefault(f =>
                 !string.IsNullOrEmpty(command)
                 && !string.IsNullOrEmpty(f.Command)
@@ -336,29 +337,39 @@ namespace TelegramBot.Modules.Command
                     return;
                 }
 
-                function.Enabled = !function.Enabled;
-                var action = await actionService.GetActionById(ActionIds.Notifications, messenger.System);
-                await Task.WhenAll(
-                    settingService.UpdateUserFunction(account.UserId, messenger.BotId, function, account.CustId, string.Empty),
-                    InsertSettingUserAction(account, action),
-                    SendNextActionsMessage(account, messenger, action, messageId),
-                    messageSender.Alert(messenger, messageBuilder.BuildUpdateNotificationSettingMessage(account.Language, function.Enabled), callbackId));
+                await UpdateNotificationFunctionStatus(function, account, messenger, messageId, callbackId);
             }
 
             if (LanguageCodes.SupportLanguages.Contains(parameter))
             {
-                if (!string.Equals(account.Language, parameter))
-                {
-                    await settingService.UpdateUserLanguage(account.UserId, messenger.BotId, parameter, account.CustId, string.Empty);
-                }
-
-                account.Language = parameter;
-                var action = await actionService.GetActionById(ActionIds.Language, messenger.System);
-                await Task.WhenAll(
-                    InsertSettingUserAction(account, action),
-                    SendNextActionsMessage(account, messenger, action, messageId),
-                    messageSender.Alert(messenger, messageBuilder.BuildLanguageUpdatedMessage(account.Language), callbackId));
+                await UpdateLanguage(parameter, account, messenger, messageId, callbackId);
             }
+        }
+
+        private async Task UpdateNotificationFunctionStatus(BotFunction function, CustBotAccount account, Messenger messenger, int messageId, string callbackId)
+        {
+            function.Enabled = !function.Enabled;
+            var action = await actionService.GetActionById(ActionIds.Notifications, messenger.System);
+            await Task.WhenAll(
+               settingService.UpdateUserFunction(account.UserId, messenger.BotId, function, account.CustId, string.Empty),
+               InsertSettingUserAction(account, action),
+               SendNextActionsMessage(account, messenger, action, messageId),
+               messageSender.Alert(messenger, messageBuilder.BuildUpdateNotificationSettingMessage(account.Language, function.Enabled), callbackId));
+        }
+
+        private async Task UpdateLanguage(string language, CustBotAccount account, Messenger messenger, int messageId, string callbackId)
+        {
+            if (!string.Equals(account.Language, language))
+            {
+                await settingService.UpdateUserLanguage(account.UserId, messenger.BotId, language, account.CustId, string.Empty);
+            }
+
+            account.Language = language;
+            var action = await actionService.GetActionById(ActionIds.Language, messenger.System);
+            await Task.WhenAll(
+                InsertSettingUserAction(account, action),
+                SendNextActionsMessage(account, messenger, action, messageId),
+                messageSender.Alert(messenger, messageBuilder.BuildLanguageUpdatedMessage(account.Language), callbackId));
         }
 
         private async Task InsertSettingUserAction(CustBotAccount account, BotAction action)
