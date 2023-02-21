@@ -47,7 +47,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
             string[] parameters = { "" };
 
             // Act
-            var result = await todayWinLossFunctionHandler.Handle(account, parameters);
+            var result = await todayWinLossFunctionHandler.Handle(account, parameters, null);
 
             // Assert
             Assert.Equal(JsonConvert.SerializeObject(new Result(1)), JsonConvert.SerializeObject(result));
@@ -119,7 +119,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
             winLossService.GetWinLoss(account.CustId, account.CustomerLevel, today).Returns(winLoss);
 
             // Act
-            var result = await todayWinLossFunctionHandler.Handle(account, parameters);
+            var result = await todayWinLossFunctionHandler.Handle(account, parameters, null);
 
             // Assert
             Assert.Equal(0, result.Code);
@@ -134,7 +134,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
             string[] parameters = { "downlineInfo" };
 
             // Act
-            await todayWinLossFunctionHandler.Handle(account, parameters);
+            await todayWinLossFunctionHandler.Handle(account, parameters, null);
 
             // Assert
             await customerService.ReceivedWithAnyArgs().GetDownlineInfo(account.CustId, "downlineInfo");
@@ -151,7 +151,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
             var expectedMessage = messageBuilder.BuildInvalidCustNameMessage(account.Language, "invalidDownlineUsername");
 
             // Act
-            var result = await todayWinLossFunctionHandler.Handle(account, parameters);
+            var result = await todayWinLossFunctionHandler.Handle(account, parameters, null);
 
             // Assert
             Assert.Equal(JsonConvert.SerializeObject(new Result(1, expectedMessage)), JsonConvert.SerializeObject(result));
@@ -186,7 +186,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function
             winLossService.GetDownlineWinLoss(account.CustId, account.CustomerLevel, today, 111).Returns(winLoss);
 
             // Act
-            var result = await todayWinLossFunctionHandler.Handle(account, parameters);
+            var result = await todayWinLossFunctionHandler.Handle(account, parameters, null);
 
             // Assert
             Assert.Equal(0, result.Code);

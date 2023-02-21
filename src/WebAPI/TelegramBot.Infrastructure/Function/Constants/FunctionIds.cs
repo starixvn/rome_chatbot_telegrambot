@@ -15,5 +15,6 @@ namespace TelegramBot.Infrastructure.Function.Constants
         public const short Settings = 12;
         public const short MyWatchlist = 14;
         public const short OTP = 15;
+        public const short AvailableDomains = 19;
     }
 }

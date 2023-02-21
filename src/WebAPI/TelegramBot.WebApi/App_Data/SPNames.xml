@@ -34,4 +34,7 @@
 		<Setting Key="CustBotActionStatusUpd" SpName="Age_Chatbot_CustBotActionStatusUpd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 		<Setting Key="CustBotActionCommandUpd" SpName="Age_Chatbot_CustBotActionCommandUpd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
 	</Function>
+	<Function Name="Backup Domains">
+		<Setting Key="Age_DomainListSel" SpName="Age_DomainListSel" DbName="DBCUST.CustDB.BODBDownlineNet" />
+	</Function>
 </Functions>

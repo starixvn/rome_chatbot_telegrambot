@@ -90,7 +90,7 @@ namespace TelegramBot.Infrastructure.Command
                         "/menu" => SendMainMenuMessage(account, messenger),
                         "/unlink" => HandleStopCommand(account, messenger, bot.DisplayName),
                         "/settings" => HandleSettingsCommand(account, messenger),
-                        _ => HandleOtherCommand(account, messenger, userResponse)
+                        _ => HandleOtherCommand(account, messenger, userResponse, bot)
                     };
 
                     await Task.WhenAll(
@@ -99,7 +99,7 @@ namespace TelegramBot.Infrastructure.Command
                 }
                 else
                 {
-                    await HandleOtherResponse(account, messenger, userResponse);
+                    await HandleOtherResponse(account, messenger, userResponse, bot);
                 }
             }
             catch (MinimizeUMException ex)
@@ -108,7 +108,7 @@ namespace TelegramBot.Infrastructure.Command
             }
         }
 
-        private async Task HandleOtherCommand(CustBotAccount account, Messenger messenger, string command)
+        private async Task HandleOtherCommand(CustBotAccount account, Messenger messenger, string command, BotEntity bot)
         {
             var function = GetCommandFunction(account, command.Split(' ')[0]);
 
@@ -127,7 +127,7 @@ namespace TelegramBot.Infrastructure.Command
                 return;
             }
 
-            await HandleCommand(account, messenger, command, function.FunctionId);
+            await HandleCommand(account, messenger, command, function.FunctionId, bot);
         }
 
         private async Task HandleSettingsCommand(CustBotAccount account, Messenger messenger)
@@ -179,7 +179,7 @@ namespace TelegramBot.Infrastructure.Command
                 && !string.IsNullOrEmpty(f.Command)
                 && command.ToLowerInvariant().Equals(f.Command.ToLowerInvariant(), StringComparison.OrdinalIgnoreCase));
 
-        private async Task HandleOtherResponse(CustBotAccount account, Messenger messenger, string userResponse)
+        private async Task HandleOtherResponse(CustBotAccount account, Messenger messenger, string userResponse, BotEntity bot)
         {
             var userActions = await actionService.GetUserActions(account.UserId);
             var lastUserAction = userActions.LastOrDefault();
@@ -217,7 +217,7 @@ namespace TelegramBot.Infrastructure.Command
             if (currentAction.IsEndAction)
             {
                 var compiledCommand = await actionService.CompileCommand(userActions, userResponse, messenger.System);
-                await HandleCommand(account, messenger, compiledCommand, currentAction.FunctionId);
+                await HandleCommand(account, messenger, compiledCommand, currentAction.FunctionId, bot);
             }
             else
             {
@@ -278,7 +278,7 @@ namespace TelegramBot.Infrastructure.Command
                         messageLogger.LogMessage(account.UserId, CommonId.BotUserId, messenger, userResponse, MessageSendStatus.Success, functionId: functionId),
                         functionId == FunctionIds.Settings
                             ? HandleSettingsCommand(bot, account, messenger, callbackData.Cmd, messageId, callbackId)
-                            : HandleCommand(account, messenger, callbackData.Cmd, currentAction.FunctionId, messageId));
+                            : HandleCommand(account, messenger, callbackData.Cmd, currentAction.FunctionId, bot, messageId));
                 }
                 else
                 {
@@ -316,11 +316,11 @@ namespace TelegramBot.Infrastructure.Command
             return (commandName, commandParam);
         }
 
-        private async Task HandleCommand(CustBotAccount account, Messenger messenger, string command, short functionId, int messageId = 0)
+        private async Task HandleCommand(CustBotAccount account, Messenger messenger, string command, short functionId, BotEntity bot, int messageId = 0)
         {
             var splittedCommand = SplitCommand(command);
             var rootAction = await actionService.GetRootActionByFunctionId(account, functionId, messenger.System);
-            var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2);
+            var result = await functionHandlerFactory.GetHandler(functionId).Handle(account, splittedCommand.Item2, bot);
             var message = messageBuilder.BuildMessageWithBackButton(result.Message, new List<MessageButton>(), rootAction.ActionId, account.Language, true);
             await Task.WhenAll(
                 actionService.ResetUserActions(account.UserId),

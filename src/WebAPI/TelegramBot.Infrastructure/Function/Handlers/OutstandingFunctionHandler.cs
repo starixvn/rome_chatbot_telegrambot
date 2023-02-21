@@ -1,6 +1,7 @@
 using Alpha.API.Client.Models.Customers;
 using Alpha.API.Client.Models.Outstanding;
 using Alpha.API.Client.Services;
+using TelegramBot.Infrastructure.Bot.Models;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Configurations;
@@ -29,7 +30,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             this.webAPIConfiguration = webAPIConfiguration;
         }
 
-        public async Task<Result> Handle(CustBotAccount account, string[] parameters)
+        public async Task<Result> Handle(CustBotAccount account, string[] parameters, BotEntity bot)
         {
             var parameter = parameters[0]?.ToLowerInvariant();
             if (string.IsNullOrWhiteSpace(parameter))
