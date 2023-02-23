@@ -1,4 +1,5 @@
 using Fanex.Data.Repository;
+using Microsoft.Extensions.Configuration;
 using TelegramBot.Importer.Criteria.MemberWinLossLimits;
 using TelegramBot.Importer.Models.MemberWinLossLimits;
 using TelegramBot.Importer.Services;
@@ -9,11 +10,13 @@ public class MemberWinLossLimitServiceTests
 {
     private readonly IDynamicRepository dynamicRepository;
     private readonly MemberWinLossLimitService memberWinLossLimitService;
+    private readonly IConfiguration configuration;
 
     public MemberWinLossLimitServiceTests()
     {
         dynamicRepository = Substitute.For<IDynamicRepository>();
-        memberWinLossLimitService = new MemberWinLossLimitService(dynamicRepository);
+        configuration = Substitute.For<IConfiguration>();
+        memberWinLossLimitService = new MemberWinLossLimitService(dynamicRepository, configuration);
     }
 
     [Theory, AutoData]
