@@ -289,7 +289,7 @@ namespace TelegramBot.Modules.Command
             => await messageSender.SendMessage(
                 account.UserId,
                 messenger,
-                await actionService.BuildNextActionsMessage(account, currentAction, messenger.System),
+                await actionService.BuildNextActionsMessage(account, currentAction, messenger),
                 functionId: currentAction.FunctionId,
                 messageId: messageId);
 

@@ -1,8 +1,9 @@
 using Telegram.Bot.Types;
+using TelegramBot.Shared.Models;
 
 namespace TelegramBot.Modules.Action.Builders.WebApp;
 
 public interface IWebAppBuilder
 {
-    WebAppInfo BuildWebAppInfo(string system);
+    WebAppInfo BuildWebAppInfo(Messenger messenger);
 }

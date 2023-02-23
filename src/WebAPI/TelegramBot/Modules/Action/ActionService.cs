@@ -15,6 +15,7 @@ using TelegramBot.Modules.Resource.constants;
 using TelegramBot.Modules.Setting.Models;
 using TelegramBot.Shared.Caching;
 using TelegramBot.Shared.Configurations;
+using TelegramBot.Shared.Models;
 
 namespace TelegramBot.Modules.Action
 {
@@ -22,7 +23,7 @@ namespace TelegramBot.Modules.Action
     {
         Task<IList<MessageButton>> BuildRootActionButtons(CustBotAccount account, string system);
 
-        Task<Message.Models.Message> BuildNextActionsMessage(CustBotAccount account, BotAction currentAction, string system);
+        Task<Message.Models.Message> BuildNextActionsMessage(CustBotAccount account, BotAction currentAction, Messenger messenger);
 
         Task<BotAction> GetActionById(int id, string system);
 
@@ -85,9 +86,9 @@ namespace TelegramBot.Modules.Action
         public async Task<BotAction> GetRootActionByFunctionId(CustBotAccount account, short functionId, string system)
             => (await GetRootActions(account, system)).FirstOrDefault(a => a.FunctionId == functionId);
 
-        public async Task<Message.Models.Message> BuildNextActionsMessage(CustBotAccount account, BotAction currentAction, string system)
+        public async Task<Message.Models.Message> BuildNextActionsMessage(CustBotAccount account, BotAction currentAction, Messenger messenger)
         {
-            var nextActions = await GetChildActions(account, currentAction.ActionId, system);
+            var nextActions = await GetChildActions(account, currentAction.ActionId, messenger.System);
             IList<MessageButton> buttons = new List<MessageButton>();
 
             string text;
@@ -101,7 +102,7 @@ namespace TelegramBot.Modules.Action
             {
                 var actionName = await GetActionName(currentAction, account);
                 text = messageBuilder.BuildActionSelectedMessage(account.Language, actionName);
-                buttons = await BuildActionButtons(account, nextActions, system);
+                buttons = await BuildActionButtons(account, nextActions, messenger);
             }
 
             return messageBuilder.BuildMessageWithBackButton(text, buttons, currentAction.ParentId, account.Language);
@@ -113,7 +114,7 @@ namespace TelegramBot.Modules.Action
             return await builder.BuildActionName(action, account);
         }
 
-        private async Task<IList<MessageButton>> BuildActionButtons(CustBotAccount account, IEnumerable<BotAction> actions, string system)
+        private async Task<IList<MessageButton>> BuildActionButtons(CustBotAccount account, IEnumerable<BotAction> actions, Messenger messenger)
         {
             var buttons = new List<MessageButton>();
             var userActions = await GetUserActions(account.UserId);
@@ -134,14 +135,14 @@ namespace TelegramBot.Modules.Action
                                 JsonConvert.SerializeObject(new
                                 {
                                     Id = action.ActionId,
-                                    Cmd = await CompileCommand(nextUserActions, username, system)
+                                    Cmd = await CompileCommand(nextUserActions, username, messenger.System)
                                 })));
                         }
                         break;
 
                     case ActionTypes.WebApp:
                         var builder = webAppBuilderFactory.GetBuilder(action.ActionId);
-                        buttons.Add(new MessageButton(text: await GetActionName(action, account), webAppInfo: builder.BuildWebAppInfo(system)));
+                        buttons.Add(new MessageButton(text: await GetActionName(action, account), webAppInfo: builder.BuildWebAppInfo(messenger)));
                         break;
 
                     default:
@@ -150,10 +151,9 @@ namespace TelegramBot.Modules.Action
                             JsonConvert.SerializeObject(new
                             {
                                 Id = action.ActionId,
-                                Cmd = action.IsEndAction ? await CompileCommand(nextUserActions, action.Command, system) : string.Empty
+                                Cmd = action.IsEndAction ? await CompileCommand(nextUserActions, action.Command, messenger.System) : string.Empty
                             })));
                         break;
-
                 }
             }
 
