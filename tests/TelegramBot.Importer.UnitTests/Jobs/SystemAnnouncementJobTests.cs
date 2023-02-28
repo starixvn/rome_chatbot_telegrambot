@@ -113,7 +113,7 @@ public class SystemAnnouncementJobTests
             new CustomerStatus(1,0,true,false,false,"")
         };
         customerService.GetCustomerStatus(Arg.Any<IEnumerable<CustomerStatusParam>>()).Returns(Task.FromResult(customerStatus));
-        var custInfo = new Customer { CustId = 1, SiteCode = 1 };
+        var custInfo = new Customer { CustId = 1, SiteCode = 1, SiteLabel = "Nova88" };
         customerService.GetCustomerInfo(Arg.Any<int>()).Returns(Task.FromResult(custInfo));
 
         // Act
