@@ -37,7 +37,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
             return new Result(0, string.Join(messageFormatter.NewLine(), textContainer));
         }
 
-        public async Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)
-            => Enumerable.Empty<string>();
+        public Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)
+            => Task.FromResult(Enumerable.Empty<string>());
     }
 }
