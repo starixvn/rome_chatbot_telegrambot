@@ -8,7 +8,7 @@ public class GetMemberWinLossLimitCommandTests
     public void GetSettingKey_Always_ReturnsCorrectKey(int batchSize, long lastLogId)
     {
         // Arrange
-        var criteria = new GetMemberWinLossLimitCommand(batchSize, lastLogId);
+        var criteria = new GetMemberWinLossLimitCommand(batchSize, lastLogId, 0);
 
         // Act & Assert
         Assert.Equal("Age_Chatbot_CustWinLossReachLimitSel", criteria.GetSettingKey());
@@ -20,7 +20,7 @@ public class GetMemberWinLossLimitCommandTests
     public void IsValid_InvalidBatchSize_ReturnsFalse(int batchSize)
     {
         // Arrange
-        var criteria = new GetMemberWinLossLimitCommand(batchSize, 1);
+        var criteria = new GetMemberWinLossLimitCommand(batchSize, 1, 0);
 
         // Act & Assert
         Assert.False(criteria.IsValid());
@@ -30,7 +30,7 @@ public class GetMemberWinLossLimitCommandTests
     public void IsValid_InvalidBatchSize_ReturnsTrue(int batchSize, long lastLogId)
     {
         // Arrange
-        var criteria = new GetMemberWinLossLimitCommand(batchSize, lastLogId);
+        var criteria = new GetMemberWinLossLimitCommand(batchSize, lastLogId, 0);
 
         // Act & Assert
         Assert.True(criteria.IsValid());

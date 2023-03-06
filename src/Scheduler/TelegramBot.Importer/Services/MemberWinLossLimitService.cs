@@ -2,6 +2,7 @@ using Fanex.Data.Repository;
 using TelegramBot.Importer.Criteria.MemberWinLossLimits;
 using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Models.MemberWinLossLimits;
+using Microsoft.Extensions.Configuration;
 
 namespace TelegramBot.Importer.Services;
 
@@ -17,14 +18,17 @@ public interface IMemberWinLossLimitService
 
 public class MemberWinLossLimitService : NotificationServiceBase, IMemberWinLossLimitService
 {
-    public MemberWinLossLimitService(IDynamicRepository dynamicRepository)
+    private readonly IConfiguration Configuration;
+
+    public MemberWinLossLimitService(IDynamicRepository dynamicRepository, IConfiguration configuration)
         : base(dynamicRepository)
     {
+        Configuration = configuration;
     }
 
     public async Task<Tuple<long, IEnumerable<MemberWinLossLimit>>> GetMemberWinLossLimits(int batchSize, long lastLogId)
     {
-        var command = new GetMemberWinLossLimitCommand(batchSize, lastLogId);
+        var command = new GetMemberWinLossLimitCommand(batchSize, lastLogId, Configuration.GetValue<byte>("SettingStatus", 0));
         var memberWinLossLimits = await dynamicRepository.FetchAsync<MemberWinLossLimit>(command);
 
         return new Tuple<long, IEnumerable<MemberWinLossLimit>>(command.MaxLogId, memberWinLossLimits);
