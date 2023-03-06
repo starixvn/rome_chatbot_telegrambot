@@ -17,7 +17,7 @@ public class GetMemberWinLossLimitCommand : NonQueryCommand
 
     public long MaxLogId { get; set; }
 
-    public byte SettingStatus { get; set; }
+    public byte SettingStatus { get; }
 
     public override string GetSettingKey() => "Age_Chatbot_CustWinLossReachLimitSel";
 
