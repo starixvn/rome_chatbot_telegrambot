@@ -18,7 +18,7 @@ public interface IMemberWinLossLimitService
 
 public class MemberWinLossLimitService : NotificationServiceBase, IMemberWinLossLimitService
 {
-    private IConfiguration Configuration { get; }
+    private readonly IConfiguration Configuration;
 
     public MemberWinLossLimitService(IDynamicRepository dynamicRepository, IConfiguration configuration)
         : base(dynamicRepository)
