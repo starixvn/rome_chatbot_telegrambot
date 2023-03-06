@@ -7,11 +7,11 @@ using TelegramBot.Infrastructure.Function.Criteria;
 using TelegramBot.Infrastructure.Bot.Models;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
-{ 
+{
     public class AvailableDomainsFunctionHandler : BaseFunctionHandler, IFunctionHandler
     {
         private readonly IDynamicRepository dynamicRepository;
-        
+
         public AvailableDomainsFunctionHandler(
             IMessageBuilder messageBuilder,
             IMessageFormatter messageFormatter,
@@ -22,7 +22,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         }
 
         public async Task<Result> Handle(CustBotAccount account, string[] parameters, BotEntity bot)
-        {   
+        {
             var siteLabel = bot.System;
             var criteria = new GetGetBackupDomainsCriteria(siteLabel);
             var data = await dynamicRepository.FetchAsync<BackupDomainModel>(criteria);
@@ -31,7 +31,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             foreach (var d in data)
             {
-                textContainer.Add(d.Url);
+                textContainer.Add(d.Domain);
             }
 
             return new Result(0, string.Join(messageFormatter.NewLine(), textContainer));

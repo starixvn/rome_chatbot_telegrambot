@@ -123,7 +123,7 @@ namespace TelegramBot.Infrastructure.Command
             {
                 await Task.WhenAll(
                     actionService.InsertUserAction(account.UserId, action.ActionId, string.Empty),
-                    SendNextActionsMessage(account, messenger, action));
+                    action.IsEndAction ? HandleCommand(account, messenger, command, function.FunctionId, bot) : SendNextActionsMessage(account, messenger, action));
                 return;
             }
 
