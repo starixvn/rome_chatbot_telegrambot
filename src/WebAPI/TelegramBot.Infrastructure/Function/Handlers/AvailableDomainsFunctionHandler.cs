@@ -29,9 +29,16 @@ namespace TelegramBot.Infrastructure.Function.Handlers
 
             var textContainer = new List<string>();
 
-            foreach (var d in data)
+            if (data != null && data.Any())
             {
-                textContainer.Add(d.Domain);
+                foreach (var d in data)
+                {
+                    textContainer.Add(d.Domain);
+                }
+            }
+            else
+            {
+                textContainer.Add(messageBuilder.BuildNoDataMessage(account.Language));
             }
 
             return new Result(0, string.Join(messageFormatter.NewLine(), textContainer));
