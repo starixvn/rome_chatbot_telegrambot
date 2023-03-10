@@ -5,7 +5,7 @@ using TelegramBot.Shared.Models;
 using TelegramBot.Shared.Resources;
 using TelegramBot.Utilities.Extensions;
 using Alpha.API.Client.Models.WinLoss;
-using TelegramBot.Infrastructure.Bot.Models;
+using TelegramBot.Modules.Bot.Models;
 
 namespace TelegramBot.Modules.Function.Handlers
 {

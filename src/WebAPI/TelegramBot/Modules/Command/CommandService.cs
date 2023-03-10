@@ -141,7 +141,7 @@ namespace TelegramBot.Modules.Command
                 builder.Append($"{formatter.NewLine()}{formatter.Bold(await functionService.GetFunctionName(report.FunctionId, account.Language))}");
                 var rootAction = await actionService.GetRootActionByFunctionId(account, report.FunctionId, messenger.System);
                 builder.Append($"{formatter.NewLine()}{rootAction.Command} - {await actionService.GetActionDescription(rootAction.ActionId, account.Language)}");
-                var childActions = (await actionService.GetChildActions(account, rootAction.ActionId, messenger.System)).Where(a => a.Type != ActionTypes.Downline);
+                var childActions = (await actionService.GetChildActions(account, rootAction.ActionId, messenger.System)).Where(a => a.Type != ActionTypes.Downline && a.Type != ActionTypes.WebApp);
                 foreach (var childAction in childActions)
                 {
                     builder.Append($"{formatter.NewLine()}{rootAction.Command} {childAction.Command} - {await actionService.GetActionDescription(childAction.ActionId, account.Language)}");

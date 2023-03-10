@@ -19,6 +19,6 @@ namespace TelegramBot.Modules.Setting.Criteria
 
         public override string GetSettingKey() => "CustBotUserSel";
 
-        public override bool IsValid() => ChatId > 0 && BotId > 0;
+        public override bool IsValid() => ChatId > 0;
     }
 }

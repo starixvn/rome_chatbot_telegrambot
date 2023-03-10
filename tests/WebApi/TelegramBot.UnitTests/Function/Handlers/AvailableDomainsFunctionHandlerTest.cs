@@ -1,18 +1,18 @@
-using TelegramBot.Infrastructure.Message;
 using System.Threading.Tasks;
 using Xunit;
 using NSubstitute;
 using Fanex.Data.Repository;
-using TelegramBot.Infrastructure.Function.Handlers;
-using TelegramBot.Infrastructure.Shared.Constants;
-using TelegramBot.Infrastructure.Setting.Models;
-using TelegramBot.Infrastructure.Function.Models;
-using TelegramBot.Infrastructure.Function.Criteria;
 using System.Collections.Generic;
-using TelegramBot.Infrastructure.Shared.Models;
-using TelegramBot.Infrastructure.Bot.Models;
+using TelegramBot.Modules.Function.Handlers;
+using TelegramBot.Modules.Message;
+using TelegramBot.Modules.Bot.Models;
+using TelegramBot.Modules.Setting.Models;
+using TelegramBot.Shared.Constants;
+using TelegramBot.Shared.Models;
+using TelegramBot.Modules.Function.Criteria;
+using TelegramBot.Modules.Function.Models;
 
-namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
+namespace TelegramBot.Modules.UnitTests.Function.Handlers
 {
     public class AvailableDomainsFunctionHandlerTest
     {
@@ -47,7 +47,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             // Act
             var actualValue = await handler.GetTopDownlineUsername(requestAccount);
 
-            
+
             // Assert
             Assert.Empty(actualValue);
         }
@@ -63,9 +63,9 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
                 Language = "CN"
             };
 
-            var param = new[] { "SiteLabel" } ;
+            var param = new[] { "SiteLabel" };
             var expect = new Result(0, "");
-            dynamicRepository.FetchAsync<BackupDomainModel>(Arg.Any<GetGetBackupDomainsCriteria>()).Returns(new List<BackupDomainModel>{});
+            dynamicRepository.FetchAsync<BackupDomainModel>(Arg.Any<GetGetBackupDomainsCriteria>()).Returns(new List<BackupDomainModel> { });
 
             // Act
             var result = await handler.Handle(requestAccount, param, bot);

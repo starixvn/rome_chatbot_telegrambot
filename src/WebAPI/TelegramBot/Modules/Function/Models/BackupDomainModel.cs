@@ -1,4 +1,4 @@
-namespace TelegramBot.Infrastructure.Function.Models
+namespace TelegramBot.Modules.Function.Models
 {
     public class BackupDomainModel
     {

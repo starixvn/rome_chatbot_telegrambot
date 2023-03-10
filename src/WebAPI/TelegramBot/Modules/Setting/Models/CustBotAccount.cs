@@ -14,6 +14,12 @@ namespace TelegramBot.Modules.Setting.Models
 
         public string Language { get; set; }
 
+        public int BotId { get; set; }
+
+        public string System { get; set; }
+
+        public string Username { get; set; }
+
         public IEnumerable<BotFunction> Functions { get; set; }
     }
 }

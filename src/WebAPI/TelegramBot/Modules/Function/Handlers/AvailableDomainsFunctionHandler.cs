@@ -1,12 +1,12 @@
-using TelegramBot.Infrastructure.Message;
-using TelegramBot.Infrastructure.Setting.Models;
-using TelegramBot.Infrastructure.Shared.Models;
-using TelegramBot.Infrastructure.Function.Models;
 using Fanex.Data.Repository;
-using TelegramBot.Infrastructure.Function.Criteria;
-using TelegramBot.Infrastructure.Bot.Models;
+using TelegramBot.Modules.Bot.Models;
+using TelegramBot.Shared.Models;
+using TelegramBot.Modules.Setting.Models;
+using TelegramBot.Modules.Message;
+using TelegramBot.Modules.Function.Criteria;
+using TelegramBot.Modules.Function.Models;
 
-namespace TelegramBot.Infrastructure.Function.Handlers
+namespace TelegramBot.Modules.Function.Handlers
 {
     public class AvailableDomainsFunctionHandler : BaseFunctionHandler, IFunctionHandler
     {

@@ -1,6 +1,6 @@
 using Fanex.Data.Repository;
 
-namespace TelegramBot.Infrastructure.Function.Criteria
+namespace TelegramBot.Modules.Function.Criteria
 {
     public class GetGetBackupDomainsCriteria : CriteriaBase
     {

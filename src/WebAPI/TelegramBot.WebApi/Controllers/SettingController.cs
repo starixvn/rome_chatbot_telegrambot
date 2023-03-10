@@ -37,7 +37,7 @@ namespace TelegramBot.WebApi.Controllers
             _messageSender = messageSender;
             _commandService = commandService;
             _messageBuilder = messageBuilder;
-        } 
+        }
 
         [Route("start-uri"), HttpPost]
         public async Task<string> GenerateStartUri([FromBody] GenerateStartUriParam param)
@@ -123,5 +123,9 @@ namespace TelegramBot.WebApi.Controllers
         [HttpPost("{userId}/language")]
         public async Task<Result> UpdateLanguage(int userId, [FromBody] UpdateLanguageParam param)
             => await _settingService.UpdateUserLanguage(userId, param.BotId, LanguageCodes.MapLanguage(param.Language), param.Creator, param.IP);
+
+        [HttpGet("{chatId}")]
+        public async Task<CustBotAccount> GetCustBotAccount(long chatId)
+            => await _settingService.GetCustBotAccount(chatId, 0);
     }
 }

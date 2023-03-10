@@ -10,8 +10,7 @@ using TelegramBot.Shared.Resources;
 using Alpha.API.Client.Models.Customers;
 using Alpha.API.Client.Models.Outstanding;
 using TelegramBot.Utilities.Extensions;
-using System.Text;
-using TelegramBot.Infrastructure.Bot.Models;
+using TelegramBot.Modules.Bot.Models;
 
 namespace TelegramBot.Modules.Function.Handlers
 {

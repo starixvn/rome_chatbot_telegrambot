@@ -23,7 +23,7 @@ namespace TelegramBot.Modules.Function.Handlers
                 FunctionIds.BalanceInfo => (IFunctionHandler)serviceProvider.GetService(typeof(BalanceInfoFunctionHandler)),
                 FunctionIds.YesterdayWinLoss => (IFunctionHandler)serviceProvider.GetService(typeof(YesterdayWinLossFunctionHandler)),
                 FunctionIds.AvailableDomains => (IFunctionHandler)serviceProvider.GetService(typeof(AvailableDomainsFunctionHandler)),
-             _ => throw new NotImplementedException(),
+                _ => throw new NotImplementedException(),
             };
         }
     }

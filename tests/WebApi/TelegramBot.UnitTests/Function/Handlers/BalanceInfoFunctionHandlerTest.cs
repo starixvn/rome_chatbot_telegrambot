@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using Alpha.API.Client.Models.BalanceInfo;
 using System;
 using Alpha.API.Client.Models.Customers;
-using System.Linq;
 using TelegramBot.Utilities.Extensions;
 
 namespace TelegramBot.Modules.UnitTests.Function.Handlers

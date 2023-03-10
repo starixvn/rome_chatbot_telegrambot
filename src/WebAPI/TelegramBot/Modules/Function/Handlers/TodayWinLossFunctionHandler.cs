@@ -4,6 +4,7 @@ using TelegramBot.Modules.Setting.Models;
 using TelegramBot.Shared.Models;
 using TelegramBot.Shared.Resources;
 using TelegramBot.Utilities.Extensions;
+using TelegramBot.Modules.Bot.Models;
 
 namespace TelegramBot.Modules.Function.Handlers
 {
