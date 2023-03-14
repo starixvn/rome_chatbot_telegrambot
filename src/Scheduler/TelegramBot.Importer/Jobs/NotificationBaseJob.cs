@@ -119,4 +119,19 @@ public abstract class NotificationBaseJob : IJob
     }
 
     public abstract Task Execute(ScheduleJob job, SystemSetting systemSetting);
+
+    public Task UpdateJobStatusToCompleted(ScheduleJob job, long maxLogId)
+    {
+        var jobStatus = JobStatusConstants.Completed;
+        var lastRunTime = DateTime.Now;
+
+        try
+        {
+            return systemSettingService.UpdateJobStatus(job.Name, job.Environment, jobStatus, lastRunTime, maxLogId);
+        }
+        catch (Exception ex)
+        {
+            return loggerService.Error(ex, job, $"Could not update job status to {jobStatus} and LastRunTime = {lastRunTime}.");
+        }
+    }
 }

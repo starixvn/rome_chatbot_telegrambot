@@ -10,7 +10,6 @@ public class ImportMyWatchlistCommand : NonQueryCommandBase
         ServerName = serverName;
         MaxLogId = maxLogId;
     }
-
     public string XmlDataLog { get; }
 
     public string LastDataRow { get; }

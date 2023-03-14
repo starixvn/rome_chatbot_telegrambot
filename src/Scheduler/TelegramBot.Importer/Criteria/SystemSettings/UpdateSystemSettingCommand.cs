@@ -12,6 +12,7 @@ public class UpdateSystemSettingCommand : NonQueryCommand
         ServiceName = serviceName;
         Environment = environment;
         Setting = setting;
+        IncludeEnvironment = true;
     }
 
     public string ServiceName { get; }
@@ -19,6 +20,8 @@ public class UpdateSystemSettingCommand : NonQueryCommand
     public string Environment { get; }
 
     public string Setting { get; }
+
+    public bool IncludeEnvironment { get; }
 
     public override string GetSettingKey()
         => "Age_Chatbot_BotSystemSetting_Upd";
