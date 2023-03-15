@@ -40,7 +40,7 @@ public class OutstandingFunctionHandlerTests
         var expectedResult = Result.CreateErrorResult();
 
         // Act
-        var actualResult = await outstandingFunctionHandler.Handle(account, parameters);
+        var actualResult = await outstandingFunctionHandler.Handle(account, parameters, null);
 
         // Assert
         Assert.True(actualResult.Code == expectedResult.Code && actualResult.Message == expectedResult.Message);
@@ -57,7 +57,7 @@ public class OutstandingFunctionHandlerTests
         customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(new DownlineInfo(2, 1, false)));
 
         // Act
-        var actualResult = await outstandingFunctionHandler.Handle(account, parameters);
+        var actualResult = await outstandingFunctionHandler.Handle(account, parameters, null);
 
         // Assert
         Assert.True(actualResult.Code == expectedResult.Code && actualResult.Message == expectedResult.Message);
@@ -73,7 +73,7 @@ public class OutstandingFunctionHandlerTests
         outstandingService.GetDownlineOutstanding(Arg.Any<int>(), Arg.Any<byte>(), Arg.Any<int>()).Returns(Task.FromResult(outstanding));
 
         // Act
-        await outstandingFunctionHandler.Handle(account, parameters);
+        await outstandingFunctionHandler.Handle(account, parameters, null);
 
         // Assert
         await outstandingService.Received().GetDownlineOutstanding(1, 3, 2);
@@ -90,7 +90,7 @@ public class OutstandingFunctionHandlerTests
         outstandingService.GetTopOutstanding(Arg.Any<int>(), Arg.Any<byte>(), Arg.Any<int>()).Returns(Task.FromResult(outstanding));
 
         // Act
-        await outstandingFunctionHandler.Handle(account, parameters);
+        await outstandingFunctionHandler.Handle(account, parameters, null);
 
         // Assert
         await outstandingService.Received().GetTopOutstanding(1, 3, 10);
@@ -111,7 +111,7 @@ public class OutstandingFunctionHandlerTests
         customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult<DownlineInfo>(null));
 
         // Act
-        var actualResult = await outstandingFunctionHandler.Handle(account, parameters);
+        var actualResult = await outstandingFunctionHandler.Handle(account, parameters, null);
 
         // Assert
         Assert.True(actualResult.Code == expectedResult.Code && actualResult.Message == expectedResult.Message);

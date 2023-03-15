@@ -1,4 +1,5 @@
 using Alpha.API.Client.Services;
+using TelegramBot.Infrastructure.Bot.Models;
 using TelegramBot.Infrastructure.Message;
 using TelegramBot.Infrastructure.Setting.Models;
 using TelegramBot.Infrastructure.Shared.Models;
@@ -18,7 +19,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         {
         }
 
-        public Task<Result> Handle(CustBotAccount account, string[] parameters)
+        public Task<Result> Handle(CustBotAccount account, string[] parameters, BotEntity bot)
             => HandleWinLoss(account, parameters, DateTime.Today);
 
         protected override void AddMyWinLossTitleRow(List<string> textContainer, string language)

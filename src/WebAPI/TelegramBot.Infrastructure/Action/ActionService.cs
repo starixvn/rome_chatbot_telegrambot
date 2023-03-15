@@ -188,7 +188,7 @@ namespace TelegramBot.Infrastructure.Action
             {
                 var builder = actionNameBuilderFactory.GetBuilder(action.ActionId);
                 var actionName = await builder.BuildActionName(action, account);
-                buttons.Add(new MessageButton(actionName, JsonConvert.SerializeObject(new { Id = action.ActionId })));
+                buttons.Add(new MessageButton(actionName, JsonConvert.SerializeObject(new { Id = action.ActionId, cmd = action.IsEndAction ? action.Command : string.Empty })));
             }
 
             return buttons;

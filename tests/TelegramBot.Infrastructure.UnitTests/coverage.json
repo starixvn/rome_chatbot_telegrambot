@@ -3067,7 +3067,7 @@
         }
       }
     },
-    "d:\\Git\\chatbot\\telegrambot\\src\\WebAPI\\TelegramBot.Infrastructure\\Message\\Criteria\\CustBotMessageInsCriteria.cs": {
+    "d:\\Git\\chatbot\\telegrambot\\src\\WebAPI\\TelegramBot.Infrastructure\\Message\\criteria\\CustBotMessageInsCriteria.cs": {
       "TelegramBot.Infrastructure.Message.Criteria.CustBotMessageInsCriteria": {
         "System.Int32 TelegramBot.Infrastructure.Message.Criteria.CustBotMessageInsCriteria::get_Sender()": {
           "Lines": {
@@ -4444,6 +4444,16 @@
         }
       }
     },
+    "d:\\Git\\chatbot\\telegrambot\\src\\WebAPI\\TelegramBot.Infrastructure\\Function\\Models\\BackupDomainModel.cs": {
+      "TelegramBot.Infrastructure.Function.Models.BackupDomainModel": {
+        "System.String TelegramBot.Infrastructure.Function.Models.BackupDomainModel::get_Domain()": {
+          "Lines": {
+            "5": 0
+          },
+          "Branches": []
+        }
+      }
+    },
     "d:\\Git\\chatbot\\telegrambot\\src\\WebAPI\\TelegramBot.Infrastructure\\Function\\Models\\BotFunction.cs": {
       "TelegramBot.Infrastructure.Function.Models.BotFunction": {
         "System.Int16 TelegramBot.Infrastructure.Function.Models.BotFunction::get_FunctionId()": {
@@ -4490,11 +4500,64 @@
         }
       }
     },
+    "d:\\Git\\chatbot\\telegrambot\\src\\WebAPI\\TelegramBot.Infrastructure\\Function\\Handlers\\AvailableDomainsFunctionHandler.cs": {
+      "TelegramBot.Infrastructure.Function.Handlers.AvailableDomainsFunctionHandler": {
+        "System.Threading.Tasks.Task`1<System.Collections.Generic.IEnumerable`1<System.String>> TelegramBot.Infrastructure.Function.Handlers.AvailableDomainsFunctionHandler::GetTopDownlineUsername(TelegramBot.Infrastructure.Setting.Models.CustBotAccount,System.Int32)": {
+          "Lines": {
+            "41": 0
+          },
+          "Branches": []
+        },
+        "System.Void TelegramBot.Infrastructure.Function.Handlers.AvailableDomainsFunctionHandler::.ctor(TelegramBot.Infrastructure.Message.IMessageBuilder,TelegramBot.Infrastructure.Message.IMessageFormatter,Fanex.Data.Repository.IDynamicRepository)": {
+          "Lines": {
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0
+          },
+          "Branches": []
+        }
+      },
+      "TelegramBot.Infrastructure.Function.Handlers.AvailableDomainsFunctionHandler/<Handle>d__2": {
+        "System.Void TelegramBot.Infrastructure.Function.Handlers.AvailableDomainsFunctionHandler/<Handle>d__2::MoveNext()": {
+          "Lines": {
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "30": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "37": 0,
+            "38": 0
+          },
+          "Branches": [
+            {
+              "Line": 32,
+              "Offset": 276,
+              "EndOffset": 216,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 32,
+              "Offset": 276,
+              "EndOffset": 278,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
     "d:\\Git\\chatbot\\telegrambot\\src\\WebAPI\\TelegramBot.Infrastructure\\Function\\Handlers\\BalanceInfoFunctionHandler.cs": {
       "TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler": {
         "System.Collections.Generic.Dictionary`2<System.String,System.Nullable`1<System.Decimal>> TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler::BuildMasterDownLineUsernameMessage(Alpha.API.Client.Models.BalanceInfo.DownlineBalance)": {
           "Lines": {
-            "172": 0,
             "173": 0,
             "174": 0,
             "175": 0,
@@ -4506,13 +4569,13 @@
             "181": 0,
             "182": 0,
             "183": 0,
-            "184": 0
+            "184": 0,
+            "185": 0
           },
           "Branches": []
         },
         "System.Collections.Generic.Dictionary`2<System.String,System.Nullable`1<System.Decimal>> TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler::BuildAgentDownLineUsernameMessage(Alpha.API.Client.Models.BalanceInfo.DownlineBalance)": {
           "Lines": {
-            "187": 0,
             "188": 0,
             "189": 0,
             "190": 0,
@@ -4525,13 +4588,13 @@
             "197": 0,
             "198": 0,
             "199": 0,
-            "200": 0
+            "200": 0,
+            "201": 0
           },
           "Branches": []
         },
         "System.Collections.Generic.Dictionary`2<System.String,System.Nullable`1<System.Decimal>> TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler::BuildMemberDownLineUsernameMessage(Alpha.API.Client.Models.BalanceInfo.DownlineBalance)": {
           "Lines": {
-            "203": 0,
             "204": 0,
             "205": 0,
             "206": 0,
@@ -4541,24 +4604,25 @@
             "210": 0,
             "211": 0,
             "212": 0,
-            "213": 0
+            "213": 0,
+            "214": 0
           },
           "Branches": []
         },
         "System.Decimal TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler::GetOutStanding(Alpha.API.Client.Models.Outstanding.CustomerOutstanding,System.Byte)": {
           "Lines": {
-            "219": 0,
             "220": 0,
             "221": 0,
             "222": 0,
             "223": 0,
             "224": 0,
             "225": 0,
-            "226": 0
+            "226": 0,
+            "227": 0
           },
           "Branches": [
             {
-              "Line": 219,
+              "Line": 220,
               "Offset": 9,
               "EndOffset": 32,
               "Path": 1,
@@ -4566,7 +4630,7 @@
               "Hits": 0
             },
             {
-              "Line": 219,
+              "Line": 220,
               "Offset": 9,
               "EndOffset": 41,
               "Path": 2,
@@ -4574,7 +4638,7 @@
               "Hits": 0
             },
             {
-              "Line": 219,
+              "Line": 220,
               "Offset": 9,
               "EndOffset": 50,
               "Path": 3,
@@ -4582,7 +4646,7 @@
               "Hits": 0
             },
             {
-              "Line": 219,
+              "Line": 220,
               "Offset": 9,
               "EndOffset": 59,
               "Path": 4,
@@ -4590,7 +4654,7 @@
               "Hits": 0
             },
             {
-              "Line": 219,
+              "Line": 220,
               "Offset": 9,
               "EndOffset": 68,
               "Path": 0,
@@ -4601,12 +4665,12 @@
         },
         "System.Void TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler::.ctor(TelegramBot.Infrastructure.Message.IMessageBuilder,TelegramBot.Infrastructure.Message.IMessageFormatter,Alpha.API.Client.Services.ICustomerService,Alpha.API.Client.Services.IBalanceInfoService,TelegramBot.Infrastructure.Shared.Configurations.WebAPIConfiguration)": {
           "Lines": {
-            "30": 0,
             "31": 0,
             "32": 0,
             "33": 0,
             "34": 0,
-            "35": 0
+            "35": 0,
+            "36": 0
           },
           "Branches": []
         }
@@ -4614,7 +4678,7 @@
       "TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler/<GetTopDownlineUsername>d__11": {
         "System.Void TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler/<GetTopDownlineUsername>d__11::MoveNext()": {
           "Lines": {
-            "216": 0
+            "217": 0
           },
           "Branches": []
         }
@@ -4622,26 +4686,26 @@
       "TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler/<Handle>d__4": {
         "System.Void TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler/<Handle>d__4::MoveNext()": {
           "Lines": {
-            "38": 0,
             "39": 0,
             "40": 0,
             "41": 0,
             "42": 0,
-            "45": 0,
+            "43": 0,
             "46": 0,
             "47": 0,
-            "50": 0,
+            "48": 0,
             "51": 0,
             "52": 0,
             "53": 0,
-            "56": 0,
+            "54": 0,
             "57": 0,
             "58": 0,
-            "59": 0
+            "59": 0,
+            "60": 0
           },
           "Branches": [
             {
-              "Line": 39,
+              "Line": 40,
               "Offset": 62,
               "EndOffset": 64,
               "Path": 0,
@@ -4649,7 +4713,7 @@
               "Hits": 0
             },
             {
-              "Line": 39,
+              "Line": 40,
               "Offset": 62,
               "EndOffset": 68,
               "Path": 1,
@@ -4657,7 +4721,7 @@
               "Hits": 0
             },
             {
-              "Line": 40,
+              "Line": 41,
               "Offset": 91,
               "EndOffset": 93,
               "Path": 0,
@@ -4665,7 +4729,7 @@
               "Hits": 0
             },
             {
-              "Line": 40,
+              "Line": 41,
               "Offset": 91,
               "EndOffset": 110,
               "Path": 1,
@@ -4673,7 +4737,7 @@
               "Hits": 0
             },
             {
-              "Line": 45,
+              "Line": 46,
               "Offset": 128,
               "EndOffset": 133,
               "Path": 0,
@@ -4681,7 +4745,7 @@
               "Hits": 0
             },
             {
-              "Line": 45,
+              "Line": 46,
               "Offset": 128,
               "EndOffset": 262,
               "Path": 1,
@@ -4689,7 +4753,7 @@
               "Hits": 0
             },
             {
-              "Line": 51,
+              "Line": 52,
               "Offset": 425,
               "EndOffset": 427,
               "Path": 0,
@@ -4697,7 +4761,7 @@
               "Hits": 0
             },
             {
-              "Line": 51,
+              "Line": 52,
               "Offset": 425,
               "EndOffset": 443,
               "Path": 1,
@@ -4705,7 +4769,7 @@
               "Hits": 0
             },
             {
-              "Line": 51,
+              "Line": 52,
               "Offset": 448,
               "EndOffset": 453,
               "Path": 0,
@@ -4713,7 +4777,7 @@
               "Hits": 0
             },
             {
-              "Line": 51,
+              "Line": 52,
               "Offset": 448,
               "EndOffset": 594,
               "Path": 1,
@@ -4721,7 +4785,7 @@
               "Hits": 0
             },
             {
-              "Line": 56,
+              "Line": 57,
               "Offset": 611,
               "EndOffset": 616,
               "Path": 0,
@@ -4729,7 +4793,7 @@
               "Hits": 0
             },
             {
-              "Line": 56,
+              "Line": 57,
               "Offset": 611,
               "EndOffset": 759,
               "Path": 1,
@@ -4742,38 +4806,38 @@
       "TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler/<HandleBalanceDownLineUsername>d__7": {
         "System.Void TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler/<HandleBalanceDownLineUsername>d__7::MoveNext()": {
           "Lines": {
-            "136": 0,
             "137": 0,
             "138": 0,
             "139": 0,
-            "142": 0,
+            "140": 0,
             "143": 0,
             "144": 0,
             "145": 0,
             "146": 0,
             "147": 0,
             "148": 0,
-            "150": 0,
+            "149": 0,
             "151": 0,
             "152": 0,
             "153": 0,
             "154": 0,
             "155": 0,
             "156": 0,
-            "158": 0,
+            "157": 0,
             "159": 0,
             "160": 0,
             "161": 0,
             "162": 0,
             "163": 0,
-            "165": 0,
-            "167": 0,
+            "164": 0,
+            "166": 0,
             "168": 0,
-            "169": 0
+            "169": 0,
+            "170": 0
           },
           "Branches": [
             {
-              "Line": 137,
+              "Line": 138,
               "Offset": 45,
               "EndOffset": 47,
               "Path": 0,
@@ -4781,7 +4845,7 @@
               "Hits": 0
             },
             {
-              "Line": 137,
+              "Line": 138,
               "Offset": 45,
               "EndOffset": 86,
               "Path": 1,
@@ -4789,7 +4853,7 @@
               "Hits": 0
             },
             {
-              "Line": 150,
+              "Line": 151,
               "Offset": 465,
               "EndOffset": 484,
               "Path": 1,
@@ -4797,7 +4861,7 @@
               "Hits": 0
             },
             {
-              "Line": 150,
+              "Line": 151,
               "Offset": 465,
               "EndOffset": 499,
               "Path": 2,
@@ -4805,7 +4869,7 @@
               "Hits": 0
             },
             {
-              "Line": 150,
+              "Line": 151,
               "Offset": 465,
               "EndOffset": 514,
               "Path": 3,
@@ -4813,7 +4877,7 @@
               "Hits": 0
             },
             {
-              "Line": 150,
+              "Line": 151,
               "Offset": 465,
               "EndOffset": 529,
               "Path": 0,
@@ -4821,7 +4885,7 @@
               "Hits": 0
             },
             {
-              "Line": 158,
+              "Line": 159,
               "Offset": 756,
               "EndOffset": 573,
               "Path": 1,
@@ -4829,7 +4893,7 @@
               "Hits": 0
             },
             {
-              "Line": 161,
+              "Line": 162,
               "Offset": 646,
               "EndOffset": 648,
               "Path": 0,
@@ -4837,7 +4901,7 @@
               "Hits": 0
             },
             {
-              "Line": 161,
+              "Line": 162,
               "Offset": 646,
               "EndOffset": 652,
               "Path": 1,
@@ -4845,7 +4909,7 @@
               "Hits": 0
             },
             {
-              "Line": 158,
+              "Line": 159,
               "Offset": 756,
               "EndOffset": 761,
               "Path": 0,
@@ -4858,16 +4922,15 @@
       "TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler/<HandleMyBalance>d__6": {
         "System.Void TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler/<HandleMyBalance>d__6::MoveNext()": {
           "Lines": {
-            "99": 0,
             "100": 0,
             "101": 0,
-            "103": 0,
+            "102": 0,
             "104": 0,
             "105": 0,
             "106": 0,
             "107": 0,
             "108": 0,
-            "110": 0,
+            "109": 0,
             "111": 0,
             "112": 0,
             "113": 0,
@@ -4890,11 +4953,12 @@
             "130": 0,
             "131": 0,
             "132": 0,
-            "133": 0
+            "133": 0,
+            "134": 0
           },
           "Branches": [
             {
-              "Line": 124,
+              "Line": 125,
               "Offset": 1002,
               "EndOffset": 819,
               "Path": 1,
@@ -4902,7 +4966,7 @@
               "Hits": 0
             },
             {
-              "Line": 127,
+              "Line": 128,
               "Offset": 892,
               "EndOffset": 894,
               "Path": 0,
@@ -4910,7 +4974,7 @@
               "Hits": 0
             },
             {
-              "Line": 127,
+              "Line": 128,
               "Offset": 892,
               "EndOffset": 898,
               "Path": 1,
@@ -4918,7 +4982,7 @@
               "Hits": 0
             },
             {
-              "Line": 124,
+              "Line": 125,
               "Offset": 1002,
               "EndOffset": 1007,
               "Path": 0,
@@ -4931,12 +4995,11 @@
       "TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler/<HandleTopXBalance>d__5": {
         "System.Void TelegramBot.Infrastructure.Function.Handlers.BalanceInfoFunctionHandler/<HandleTopXBalance>d__5::MoveNext()": {
           "Lines": {
-            "62": 0,
             "63": 0,
             "64": 0,
             "65": 0,
             "66": 0,
-            "69": 0,
+            "67": 0,
             "70": 0,
             "71": 0,
             "72": 0,
@@ -4946,24 +5009,25 @@
             "76": 0,
             "77": 0,
             "78": 0,
-            "80": 0,
+            "79": 0,
             "81": 0,
             "82": 0,
             "83": 0,
-            "85": 0,
+            "84": 0,
             "86": 0,
             "87": 0,
             "88": 0,
             "89": 0,
             "90": 0,
-            "92": 0,
-            "94": 0,
+            "91": 0,
+            "93": 0,
             "95": 0,
-            "96": 0
+            "96": 0,
+            "97": 0
           },
           "Branches": [
             {
-              "Line": 63,
+              "Line": 64,
               "Offset": 25,
               "EndOffset": 27,
               "Path": 0,
@@ -4971,7 +5035,7 @@
               "Hits": 0
             },
             {
-              "Line": 63,
+              "Line": 64,
               "Offset": 25,
               "EndOffset": 53,
               "Path": 1,
@@ -4979,7 +5043,7 @@
               "Hits": 0
             },
             {
-              "Line": 63,
+              "Line": 64,
               "Offset": 56,
               "EndOffset": 58,
               "Path": 0,
@@ -4987,7 +5051,7 @@
               "Hits": 0
             },
             {
-              "Line": 63,
+              "Line": 64,
               "Offset": 56,
               "EndOffset": 125,
               "Path": 1,
@@ -4995,7 +5059,7 @@
               "Hits": 0
             },
             {
-              "Line": 80,
+              "Line": 81,
               "Offset": 534,
               "EndOffset": 536,
               "Path": 0,
@@ -5003,7 +5067,7 @@
               "Hits": 0
             },
             {
-              "Line": 80,
+              "Line": 81,
               "Offset": 534,
               "EndOffset": 552,
               "Path": 1,
@@ -5011,7 +5075,7 @@
               "Hits": 0
             },
             {
-              "Line": 80,
+              "Line": 81,
               "Offset": 557,
               "EndOffset": 559,
               "Path": 0,
@@ -5019,7 +5083,7 @@
               "Hits": 0
             },
             {
-              "Line": 80,
+              "Line": 81,
               "Offset": 557,
               "EndOffset": 605,
               "Path": 1,
@@ -5027,7 +5091,7 @@
               "Hits": 0
             },
             {
-              "Line": 86,
+              "Line": 87,
               "Offset": 723,
               "EndOffset": 626,
               "Path": 1,
@@ -5035,7 +5099,7 @@
               "Hits": 0
             },
             {
-              "Line": 86,
+              "Line": 87,
               "Offset": 723,
               "EndOffset": 725,
               "Path": 0,
@@ -5406,13 +5470,22 @@
             "24": 0,
             "25": 0,
             "26": 0,
-            "27": 0
+            "27": 0,
+            "28": 0
           },
           "Branches": [
             {
               "Line": 19,
               "Offset": 8,
               "EndOffset": 31,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 19,
+              "Offset": 8,
+              "EndOffset": 41,
               "Path": 1,
               "Ordinal": 1,
               "Hits": 0
@@ -5420,7 +5493,7 @@
             {
               "Line": 19,
               "Offset": 8,
-              "EndOffset": 60,
+              "EndOffset": 70,
               "Path": 3,
               "Ordinal": 3,
               "Hits": 0
@@ -5428,7 +5501,7 @@
             {
               "Line": 19,
               "Offset": 8,
-              "EndOffset": 89,
+              "EndOffset": 99,
               "Path": 2,
               "Ordinal": 2,
               "Hits": 0
@@ -5436,17 +5509,25 @@
             {
               "Line": 19,
               "Offset": 8,
-              "EndOffset": 118,
+              "EndOffset": 128,
               "Path": 4,
               "Ordinal": 4,
               "Hits": 0
             },
             {
               "Line": 19,
-              "Offset": 8,
-              "EndOffset": 147,
+              "Offset": 34,
+              "EndOffset": 157,
+              "Path": 1,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 19,
+              "Offset": 34,
+              "EndOffset": 186,
               "Path": 0,
-              "Ordinal": 0,
+              "Ordinal": 5,
               "Hits": 0
             }
           ]
@@ -5464,46 +5545,45 @@
       "TelegramBot.Infrastructure.Function.Handlers.OutstandingFunctionHandler": {
         "System.String TelegramBot.Infrastructure.Function.Handlers.OutstandingFunctionHandler::BuildTopOutstandingMessage(System.String,Alpha.API.Client.Models.Outstanding.OutstandingReport,System.Byte)": {
           "Lines": {
-            "76": 0,
             "77": 0,
             "78": 0,
             "79": 0,
             "80": 0,
             "81": 0,
-            "83": 0,
-            "84": 0
+            "82": 0,
+            "84": 0,
+            "85": 0
           },
           "Branches": []
         },
         "System.String TelegramBot.Infrastructure.Function.Handlers.OutstandingFunctionHandler::BuildDownlineOutstandingMessage(System.String,Alpha.API.Client.Models.Outstanding.OutstandingReport,System.Byte,System.String)": {
           "Lines": {
-            "87": 0,
             "88": 0,
             "89": 0,
             "90": 0,
             "91": 0,
             "92": 0,
             "93": 0,
-            "95": 0,
-            "96": 0
+            "94": 0,
+            "96": 0,
+            "97": 0
           },
           "Branches": []
         },
         "System.Void TelegramBot.Infrastructure.Function.Handlers.OutstandingFunctionHandler::AddBodyMessage(System.Collections.Generic.List`1<System.String>,Alpha.API.Client.Models.Outstanding.OutstandingReport,System.Byte,System.String)": {
           "Lines": {
-            "99": 0,
             "100": 0,
             "101": 0,
             "102": 0,
             "103": 0,
-            "105": 0,
+            "104": 0,
             "106": 0,
             "107": 0,
             "108": 0,
             "109": 0,
             "110": 0,
             "111": 0,
-            "113": 0,
+            "112": 0,
             "114": 0,
             "115": 0,
             "116": 0,
@@ -5516,13 +5596,14 @@
             "123": 0,
             "124": 0,
             "125": 0,
-            "127": 0,
+            "126": 0,
             "128": 0,
-            "129": 0
+            "129": 0,
+            "130": 0
           },
           "Branches": [
             {
-              "Line": 100,
+              "Line": 101,
               "Offset": 8,
               "EndOffset": 10,
               "Path": 0,
@@ -5530,7 +5611,7 @@
               "Hits": 0
             },
             {
-              "Line": 100,
+              "Line": 101,
               "Offset": 8,
               "EndOffset": 26,
               "Path": 1,
@@ -5538,7 +5619,7 @@
               "Hits": 0
             },
             {
-              "Line": 100,
+              "Line": 101,
               "Offset": 29,
               "EndOffset": 31,
               "Path": 0,
@@ -5546,7 +5627,7 @@
               "Hits": 0
             },
             {
-              "Line": 100,
+              "Line": 101,
               "Offset": 29,
               "EndOffset": 58,
               "Path": 1,
@@ -5554,7 +5635,7 @@
               "Hits": 0
             },
             {
-              "Line": 115,
+              "Line": 116,
               "Offset": 386,
               "EndOffset": 257,
               "Path": 1,
@@ -5562,7 +5643,7 @@
               "Hits": 0
             },
             {
-              "Line": 120,
+              "Line": 121,
               "Offset": 352,
               "EndOffset": 354,
               "Path": 0,
@@ -5570,7 +5651,7 @@
               "Hits": 0
             },
             {
-              "Line": 120,
+              "Line": 121,
               "Offset": 352,
               "EndOffset": 361,
               "Path": 1,
@@ -5578,7 +5659,7 @@
               "Hits": 0
             },
             {
-              "Line": 115,
+              "Line": 116,
               "Offset": 386,
               "EndOffset": 391,
               "Path": 0,
@@ -5589,12 +5670,12 @@
         },
         "System.Void TelegramBot.Infrastructure.Function.Handlers.OutstandingFunctionHandler::.ctor(TelegramBot.Infrastructure.Message.IMessageBuilder,TelegramBot.Infrastructure.Message.IMessageFormatter,Alpha.API.Client.Services.IOutstandingService,Alpha.API.Client.Services.ICustomerService,TelegramBot.Infrastructure.Shared.Configurations.WebAPIConfiguration)": {
           "Lines": {
-            "25": 0,
             "26": 0,
             "27": 0,
             "28": 0,
             "29": 0,
-            "30": 0
+            "30": 0,
+            "31": 0
           },
           "Branches": []
         }
@@ -5602,7 +5683,7 @@
       "TelegramBot.Infrastructure.Function.Handlers.OutstandingFunctionHandler/<GetTopDownlineUsername>d__10": {
         "System.Void TelegramBot.Infrastructure.Function.Handlers.OutstandingFunctionHandler/<GetTopDownlineUsername>d__10::MoveNext()": {
           "Lines": {
-            "132": 0
+            "133": 0
           },
           "Branches": []
         }
@@ -5610,23 +5691,23 @@
       "TelegramBot.Infrastructure.Function.Handlers.OutstandingFunctionHandler/<Handle>d__4": {
         "System.Void TelegramBot.Infrastructure.Function.Handlers.OutstandingFunctionHandler/<Handle>d__4::MoveNext()": {
           "Lines": {
-            "33": 0,
             "34": 0,
             "35": 0,
             "36": 0,
             "37": 0,
-            "40": 0,
+            "38": 0,
             "41": 0,
             "42": 0,
             "43": 0,
-            "46": 0,
+            "44": 0,
             "47": 0,
             "48": 0,
-            "49": 0
+            "49": 0,
+            "50": 0
           },
           "Branches": [
             {
-              "Line": 34,
+              "Line": 35,
               "Offset": 53,
               "EndOffset": 55,
               "Path": 0,
@@ -5634,7 +5715,7 @@
               "Hits": 0
             },
             {
-              "Line": 34,
+              "Line": 35,
               "Offset": 53,
               "EndOffset": 59,
               "Path": 1,
@@ -5642,7 +5723,7 @@
               "Hits": 0
             },
             {
-              "Line": 35,
+              "Line": 36,
               "Offset": 82,
               "EndOffset": 84,
               "Path": 0,
@@ -5650,7 +5731,7 @@
               "Hits": 0
             },
             {
-              "Line": 35,
+              "Line": 36,
               "Offset": 82,
               "EndOffset": 101,
               "Path": 1,
@@ -5658,7 +5739,7 @@
               "Hits": 0
             },
             {
-              "Line": 41,
+              "Line": 42,
               "Offset": 261,
               "EndOffset": 263,
               "Path": 0,
@@ -5666,7 +5747,7 @@
               "Hits": 0
             },
             {
-              "Line": 41,
+              "Line": 42,
               "Offset": 261,
               "EndOffset": 279,
               "Path": 1,
@@ -5674,7 +5755,7 @@
               "Hits": 0
             },
             {
-              "Line": 41,
+              "Line": 42,
               "Offset": 284,
               "EndOffset": 289,
               "Path": 0,
@@ -5682,7 +5763,7 @@
               "Hits": 0
             },
             {
-              "Line": 41,
+              "Line": 42,
               "Offset": 284,
               "EndOffset": 430,
               "Path": 1,
@@ -5690,7 +5771,7 @@
               "Hits": 0
             },
             {
-              "Line": 46,
+              "Line": 47,
               "Offset": 447,
               "EndOffset": 452,
               "Path": 0,
@@ -5698,7 +5779,7 @@
               "Hits": 0
             },
             {
-              "Line": 46,
+              "Line": 47,
               "Offset": 447,
               "EndOffset": 595,
               "Path": 1,
@@ -5711,18 +5792,18 @@
       "TelegramBot.Infrastructure.Function.Handlers.OutstandingFunctionHandler/<HandleDownlineOutstanding>d__5": {
         "System.Void TelegramBot.Infrastructure.Function.Handlers.OutstandingFunctionHandler/<HandleDownlineOutstanding>d__5::MoveNext()": {
           "Lines": {
-            "52": 0,
             "53": 0,
             "54": 0,
             "55": 0,
-            "58": 0,
+            "56": 0,
             "59": 0,
             "60": 0,
-            "61": 0
+            "61": 0,
+            "62": 0
           },
           "Branches": [
             {
-              "Line": 53,
+              "Line": 54,
               "Offset": 45,
               "EndOffset": 47,
               "Path": 0,
@@ -5730,7 +5811,7 @@
               "Hits": 0
             },
             {
-              "Line": 53,
+              "Line": 54,
               "Offset": 45,
               "EndOffset": 86,
               "Path": 1,
@@ -5743,18 +5824,18 @@
       "TelegramBot.Infrastructure.Function.Handlers.OutstandingFunctionHandler/<HandleTopOutstanding>d__6": {
         "System.Void TelegramBot.Infrastructure.Function.Handlers.OutstandingFunctionHandler/<HandleTopOutstanding>d__6::MoveNext()": {
           "Lines": {
-            "64": 0,
             "65": 0,
             "66": 0,
             "67": 0,
-            "70": 0,
+            "68": 0,
             "71": 0,
             "72": 0,
-            "73": 0
+            "73": 0,
+            "74": 0
           },
           "Branches": [
             {
-              "Line": 65,
+              "Line": 66,
               "Offset": 25,
               "EndOffset": 27,
               "Path": 0,
@@ -5762,7 +5843,7 @@
               "Hits": 0
             },
             {
-              "Line": 65,
+              "Line": 66,
               "Offset": 25,
               "EndOffset": 53,
               "Path": 1,
@@ -5770,7 +5851,7 @@
               "Hits": 0
             },
             {
-              "Line": 65,
+              "Line": 66,
               "Offset": 56,
               "EndOffset": 58,
               "Path": 0,
@@ -5778,7 +5859,7 @@
               "Hits": 0
             },
             {
-              "Line": 65,
+              "Line": 66,
               "Offset": 56,
               "EndOffset": 113,
               "Path": 1,
@@ -5791,29 +5872,29 @@
     },
     "d:\\Git\\chatbot\\telegrambot\\src\\WebAPI\\TelegramBot.Infrastructure\\Function\\Handlers\\TodayWinLossFunctionHandler.cs": {
       "TelegramBot.Infrastructure.Function.Handlers.TodayWinLossFunctionHandler": {
-        "System.Threading.Tasks.Task`1<TelegramBot.Infrastructure.Shared.Models.Result> TelegramBot.Infrastructure.Function.Handlers.TodayWinLossFunctionHandler::Handle(TelegramBot.Infrastructure.Setting.Models.CustBotAccount,System.String[])": {
+        "System.Threading.Tasks.Task`1<TelegramBot.Infrastructure.Shared.Models.Result> TelegramBot.Infrastructure.Function.Handlers.TodayWinLossFunctionHandler::Handle(TelegramBot.Infrastructure.Setting.Models.CustBotAccount,System.String[],TelegramBot.Infrastructure.Bot.Models.BotEntity)": {
           "Lines": {
-            "22": 0
+            "23": 0
           },
           "Branches": []
         },
         "System.Void TelegramBot.Infrastructure.Function.Handlers.TodayWinLossFunctionHandler::AddMyWinLossTitleRow(System.Collections.Generic.List`1<System.String>,System.String)": {
           "Lines": {
-            "25": 0
+            "26": 0
           },
           "Branches": []
         },
         "System.Void TelegramBot.Infrastructure.Function.Handlers.TodayWinLossFunctionHandler::AddDownlineWinLossTitleRow(System.Collections.Generic.List`1<System.String>,System.String)": {
           "Lines": {
-            "31": 0
+            "32": 0
           },
           "Branches": []
         },
         "System.Void TelegramBot.Infrastructure.Function.Handlers.TodayWinLossFunctionHandler::.ctor(TelegramBot.Infrastructure.Message.IMessageBuilder,TelegramBot.Infrastructure.Message.IMessageFormatter,Alpha.API.Client.Services.IWinLossService,Alpha.API.Client.Services.ICustomerService)": {
           "Lines": {
-            "17": 0,
             "18": 0,
-            "19": 0
+            "19": 0,
+            "20": 0
           },
           "Branches": []
         }
@@ -5821,7 +5902,7 @@
       "TelegramBot.Infrastructure.Function.Handlers.TodayWinLossFunctionHandler/<GetTopDownlineUsername>d__3": {
         "System.Void TelegramBot.Infrastructure.Function.Handlers.TodayWinLossFunctionHandler/<GetTopDownlineUsername>d__3::MoveNext()": {
           "Lines": {
-            "28": 0
+            "29": 0
           },
           "Branches": []
         }
@@ -5831,19 +5912,18 @@
       "TelegramBot.Infrastructure.Function.Handlers.YesterdayWinLossFunctionHandler": {
         "System.Void TelegramBot.Infrastructure.Function.Handlers.YesterdayWinLossFunctionHandler::AddMyWinLossTitleRow(System.Collections.Generic.List`1<System.String>,System.String)": {
           "Lines": {
-            "42": 0
+            "43": 0
           },
           "Branches": []
         },
         "System.Void TelegramBot.Infrastructure.Function.Handlers.YesterdayWinLossFunctionHandler::AddDownlineWinLossTitleRow(System.Collections.Generic.List`1<System.String>,System.String)": {
           "Lines": {
-            "48": 0
+            "49": 0
           },
           "Branches": []
         },
         "System.String TelegramBot.Infrastructure.Function.Handlers.YesterdayWinLossFunctionHandler::BuildYesterdayNonEnteredMatchesMessage(System.String,Alpha.API.Client.Models.WinLoss.EnteredResult)": {
           "Lines": {
-            "51": 0,
             "52": 0,
             "53": 0,
             "54": 0,
@@ -5852,16 +5932,17 @@
             "57": 0,
             "58": 0,
             "59": 0,
-            "61": 0,
-            "62": 0
+            "60": 0,
+            "62": 0,
+            "63": 0
           },
           "Branches": []
         },
         "System.Void TelegramBot.Infrastructure.Function.Handlers.YesterdayWinLossFunctionHandler::.ctor(TelegramBot.Infrastructure.Message.IMessageBuilder,TelegramBot.Infrastructure.Message.IMessageFormatter,Alpha.API.Client.Services.IWinLossService,Alpha.API.Client.Services.ICustomerService)": {
           "Lines": {
-            "18": 0,
             "19": 0,
-            "20": 0
+            "20": 0,
+            "21": 0
           },
           "Branches": []
         }
@@ -5869,7 +5950,7 @@
       "TelegramBot.Infrastructure.Function.Handlers.YesterdayWinLossFunctionHandler/<GetTopDownlineUsername>d__3": {
         "System.Void TelegramBot.Infrastructure.Function.Handlers.YesterdayWinLossFunctionHandler/<GetTopDownlineUsername>d__3::MoveNext()": {
           "Lines": {
-            "45": 0
+            "46": 0
           },
           "Branches": []
         }
@@ -5877,22 +5958,22 @@
       "TelegramBot.Infrastructure.Function.Handlers.YesterdayWinLossFunctionHandler/<Handle>d__1": {
         "System.Void TelegramBot.Infrastructure.Function.Handlers.YesterdayWinLossFunctionHandler/<Handle>d__1::MoveNext()": {
           "Lines": {
-            "23": 0,
             "24": 0,
             "25": 0,
             "26": 0,
             "27": 0,
-            "30": 0,
+            "28": 0,
             "31": 0,
             "32": 0,
             "33": 0,
-            "36": 0,
+            "34": 0,
             "37": 0,
-            "39": 0
+            "38": 0,
+            "40": 0
           },
           "Branches": [
             {
-              "Line": 24,
+              "Line": 25,
               "Offset": 39,
               "EndOffset": 41,
               "Path": 0,
@@ -5900,7 +5981,7 @@
               "Hits": 0
             },
             {
-              "Line": 24,
+              "Line": 25,
               "Offset": 39,
               "EndOffset": 45,
               "Path": 1,
@@ -5908,7 +5989,7 @@
               "Hits": 0
             },
             {
-              "Line": 25,
+              "Line": 26,
               "Offset": 68,
               "EndOffset": 70,
               "Path": 0,
@@ -5916,7 +5997,7 @@
               "Hits": 0
             },
             {
-              "Line": 25,
+              "Line": 26,
               "Offset": 68,
               "EndOffset": 87,
               "Path": 1,
@@ -5924,7 +6005,7 @@
               "Hits": 0
             },
             {
-              "Line": 30,
+              "Line": 31,
               "Offset": 105,
               "EndOffset": 110,
               "Path": 0,
@@ -5932,7 +6013,7 @@
               "Hits": 0
             },
             {
-              "Line": 30,
+              "Line": 31,
               "Offset": 105,
               "EndOffset": 284,
               "Path": 1,
@@ -5974,27 +6055,58 @@
         }
       }
     },
+    "d:\\Git\\chatbot\\telegrambot\\src\\WebAPI\\TelegramBot.Infrastructure\\Function\\Criteria\\GetGetBackupDomainsCriteria.cs": {
+      "TelegramBot.Infrastructure.Function.Criteria.GetGetBackupDomainsCriteria": {
+        "System.String TelegramBot.Infrastructure.Function.Criteria.GetGetBackupDomainsCriteria::get_SiteLabel()": {
+          "Lines": {
+            "12": 0
+          },
+          "Branches": []
+        },
+        "System.String TelegramBot.Infrastructure.Function.Criteria.GetGetBackupDomainsCriteria::GetSettingKey()": {
+          "Lines": {
+            "15": 0
+          },
+          "Branches": []
+        },
+        "System.Boolean TelegramBot.Infrastructure.Function.Criteria.GetGetBackupDomainsCriteria::IsValid()": {
+          "Lines": {
+            "18": 0
+          },
+          "Branches": []
+        },
+        "System.Void TelegramBot.Infrastructure.Function.Criteria.GetGetBackupDomainsCriteria::.ctor(System.String)": {
+          "Lines": {
+            "7": 0,
+            "8": 0,
+            "9": 0,
+            "10": 0
+          },
+          "Branches": []
+        }
+      }
+    },
     "d:\\Git\\chatbot\\telegrambot\\src\\WebAPI\\TelegramBot.Infrastructure\\Command\\CommandService.cs": {
       "TelegramBot.Infrastructure.Command.CommandService": {
         "System.Boolean TelegramBot.Infrastructure.Command.CommandService::IsCommand(System.String)": {
           "Lines": {
-            "165": 0
+            "163": 0
           },
           "Branches": []
         },
         "System.Boolean TelegramBot.Infrastructure.Command.CommandService::IsAccountInvalid(TelegramBot.Infrastructure.Setting.Models.CustBotAccount,System.Int64)": {
           "Lines": {
+            "166": 0,
+            "167": 0,
             "168": 0,
             "169": 0,
             "170": 0,
-            "171": 0,
-            "172": 0,
-            "175": 0,
-            "176": 0
+            "173": 0,
+            "174": 0
           },
           "Branches": [
             {
-              "Line": 169,
+              "Line": 167,
               "Offset": 7,
               "EndOffset": 9,
               "Path": 0,
@@ -6002,7 +6114,7 @@
               "Hits": 0
             },
             {
-              "Line": 169,
+              "Line": 167,
               "Offset": 7,
               "EndOffset": 78,
               "Path": 1,
@@ -6013,14 +6125,14 @@
         },
         "TelegramBot.Infrastructure.Function.Models.BotFunction TelegramBot.Infrastructure.Command.CommandService::GetCommandFunction(TelegramBot.Infrastructure.Setting.Models.CustBotAccount,System.String)": {
           "Lines": {
+            "177": 0,
+            "178": 0,
             "179": 0,
-            "180": 0,
-            "181": 0,
-            "182": 0
+            "180": 0
           },
           "Branches": [
             {
-              "Line": 180,
+              "Line": 178,
               "Offset": 11,
               "EndOffset": 13,
               "Path": 0,
@@ -6028,7 +6140,7 @@
               "Hits": 0
             },
             {
-              "Line": 180,
+              "Line": 178,
               "Offset": 24,
               "EndOffset": 26,
               "Path": 0,
@@ -6036,7 +6148,7 @@
               "Hits": 0
             },
             {
-              "Line": 180,
+              "Line": 178,
               "Offset": 11,
               "EndOffset": 56,
               "Path": 1,
@@ -6044,7 +6156,7 @@
               "Hits": 0
             },
             {
-              "Line": 180,
+              "Line": 178,
               "Offset": 24,
               "EndOffset": 56,
               "Path": 1,
@@ -6055,19 +6167,19 @@
         },
         "System.ValueTuple`2<System.String,System.String[]> TelegramBot.Infrastructure.Command.CommandService::SplitCommand(System.String)": {
           "Lines": {
-            "307": 0,
+            "305": 0,
+            "306": 0,
             "308": 0,
+            "309": 0,
             "310": 0,
-            "311": 0,
-            "312": 0,
-            "315": 0,
+            "313": 0,
+            "314": 0,
             "316": 0,
-            "318": 0,
-            "319": 0
+            "317": 0
           },
           "Branches": [
             {
-              "Line": 310,
+              "Line": 308,
               "Offset": 20,
               "EndOffset": 22,
               "Path": 0,
@@ -6075,7 +6187,7 @@
               "Hits": 0
             },
             {
-              "Line": 310,
+              "Line": 308,
               "Offset": 20,
               "EndOffset": 39,
               "Path": 1,
@@ -6086,11 +6198,11 @@
         },
         "System.Boolean TelegramBot.Infrastructure.Command.CommandService::IsValidAction(TelegramBot.Infrastructure.Setting.Models.CustBotAccount,TelegramBot.Infrastructure.Action.Models.BotAction)": {
           "Lines": {
-            "389": 0
+            "387": 0
           },
           "Branches": [
             {
-              "Line": 389,
+              "Line": 387,
               "Offset": 25,
               "EndOffset": 27,
               "Path": 0,
@@ -6098,7 +6210,7 @@
               "Hits": 0
             },
             {
-              "Line": 389,
+              "Line": 387,
               "Offset": 25,
               "EndOffset": 52,
               "Path": 1,
@@ -6137,13 +6249,13 @@
       "TelegramBot.Infrastructure.Command.CommandService/<>c": {
         "System.Boolean TelegramBot.Infrastructure.Command.CommandService/<>c::<HandleHelpCommand>b__13_0(TelegramBot.Infrastructure.Function.Models.BotFunction)": {
           "Lines": {
-            "148": 0
+            "146": 0
           },
           "Branches": []
         },
         "System.Boolean TelegramBot.Infrastructure.Command.CommandService/<>c::<HandleHelpCommand>b__13_1(TelegramBot.Infrastructure.Action.Models.BotAction)": {
           "Lines": {
-            "154": 0
+            "152": 0
           },
           "Branches": []
         }
@@ -6151,7 +6263,7 @@
       "TelegramBot.Infrastructure.Command.CommandService/<>c__DisplayClass17_0": {
         "System.Threading.Tasks.Task TelegramBot.Infrastructure.Command.CommandService/<>c__DisplayClass17_0::<HandleOtherResponse>b__0()": {
           "Lines": {
-            "197": 0
+            "195": 0
           },
           "Branches": []
         }
@@ -6159,7 +6271,7 @@
       "TelegramBot.Infrastructure.Command.CommandService/<>c__DisplayClass22_0": {
         "System.Boolean TelegramBot.Infrastructure.Command.CommandService/<>c__DisplayClass22_0::<HandleSettingsCommand>b__0(TelegramBot.Infrastructure.Function.Models.BotFunction)": {
           "Lines": {
-            "344": 0
+            "342": 0
           },
           "Branches": []
         }
@@ -6167,42 +6279,59 @@
       "TelegramBot.Infrastructure.Command.CommandService/<HandleCommand>d__21": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<HandleCommand>d__21::MoveNext()": {
           "Lines": {
+            "320": 0,
+            "321": 0,
             "322": 0,
             "323": 0,
             "324": 0,
             "325": 0,
             "326": 0,
             "327": 0,
-            "328": 0,
-            "329": 0,
-            "330": 0
+            "328": 0
           },
-          "Branches": []
+          "Branches": [
+            {
+              "Line": 324,
+              "Offset": 413,
+              "EndOffset": 415,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 324,
+              "Offset": 413,
+              "EndOffset": 428,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
         }
       },
       "TelegramBot.Infrastructure.Command.CommandService/<HandleHelpCommand>d__13": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<HandleHelpCommand>d__13::MoveNext()": {
           "Lines": {
+            "142": 0,
+            "143": 0,
             "144": 0,
             "145": 0,
-            "146": 0,
             "147": 0,
+            "148": 0,
             "149": 0,
             "150": 0,
             "151": 0,
-            "152": 0,
             "153": 0,
+            "154": 0,
             "155": 0,
             "156": 0,
             "157": 0,
-            "158": 0,
             "159": 0,
-            "161": 0,
-            "162": 0
+            "160": 0
           },
           "Branches": [
             {
-              "Line": 148,
+              "Line": 146,
               "Offset": 1726,
               "EndOffset": 226,
               "Path": 1,
@@ -6210,7 +6339,7 @@
               "Hits": 0
             },
             {
-              "Line": 155,
+              "Line": 153,
               "Offset": 1654,
               "EndOffset": 1266,
               "Path": 1,
@@ -6218,7 +6347,7 @@
               "Hits": 0
             },
             {
-              "Line": 155,
+              "Line": 153,
               "Offset": 1654,
               "EndOffset": 1659,
               "Path": 0,
@@ -6226,7 +6355,7 @@
               "Hits": 0
             },
             {
-              "Line": 148,
+              "Line": 146,
               "Offset": 1726,
               "EndOffset": 1731,
               "Path": 0,
@@ -6239,25 +6368,25 @@
       "TelegramBot.Infrastructure.Command.CommandService/<HandleOtherCommand>d__11": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<HandleOtherCommand>d__11::MoveNext()": {
           "Lines": {
-            "114": 0,
+            "112": 0,
+            "113": 0,
             "115": 0,
+            "116": 0,
             "117": 0,
             "118": 0,
-            "119": 0,
-            "120": 0,
+            "121": 0,
+            "122": 0,
             "123": 0,
             "124": 0,
             "125": 0,
             "126": 0,
             "127": 0,
-            "128": 0,
-            "129": 0,
-            "132": 0,
-            "133": 0
+            "130": 0,
+            "131": 0
           },
           "Branches": [
             {
-              "Line": 117,
+              "Line": 115,
               "Offset": 96,
               "EndOffset": 98,
               "Path": 0,
@@ -6265,7 +6394,7 @@
               "Hits": 0
             },
             {
-              "Line": 117,
+              "Line": 115,
               "Offset": 96,
               "EndOffset": 218,
               "Path": 1,
@@ -6273,7 +6402,7 @@
               "Hits": 0
             },
             {
-              "Line": 124,
+              "Line": 122,
               "Offset": 384,
               "EndOffset": 389,
               "Path": 0,
@@ -6282,8 +6411,24 @@
             },
             {
               "Line": 124,
+              "Offset": 460,
+              "EndOffset": 462,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 124,
+              "Offset": 460,
+              "EndOffset": 494,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 122,
               "Offset": 384,
-              "EndOffset": 583,
+              "EndOffset": 645,
               "Path": 1,
               "Ordinal": 3,
               "Hits": 0
@@ -6294,6 +6439,8 @@
       "TelegramBot.Infrastructure.Command.CommandService/<HandleOtherResponse>d__17": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<HandleOtherResponse>d__17::MoveNext()": {
           "Lines": {
+            "183": 0,
+            "184": 0,
             "185": 0,
             "186": 0,
             "187": 0,
@@ -6302,8 +6449,8 @@
             "190": 0,
             "191": 0,
             "192": 0,
-            "193": 0,
-            "194": 0,
+            "197": 0,
+            "198": 0,
             "199": 0,
             "200": 0,
             "201": 0,
@@ -6318,23 +6465,21 @@
             "210": 0,
             "211": 0,
             "212": 0,
-            "213": 0,
             "214": 0,
-            "216": 0,
+            "215": 0,
             "217": 0,
+            "218": 0,
             "219": 0,
             "220": 0,
             "221": 0,
-            "222": 0,
             "223": 0,
+            "224": 0,
             "225": 0,
-            "226": 0,
-            "227": 0,
-            "228": 0
+            "226": 0
           },
           "Branches": [
             {
-              "Line": 188,
+              "Line": 186,
               "Offset": 363,
               "EndOffset": 368,
               "Path": 0,
@@ -6342,7 +6487,7 @@
               "Hits": 0
             },
             {
-              "Line": 188,
+              "Line": 186,
               "Offset": 363,
               "EndOffset": 527,
               "Path": 1,
@@ -6350,7 +6495,7 @@
               "Hits": 0
             },
             {
-              "Line": 189,
+              "Line": 187,
               "Offset": 564,
               "EndOffset": 566,
               "Path": 0,
@@ -6358,7 +6503,7 @@
               "Hits": 0
             },
             {
-              "Line": 189,
+              "Line": 187,
               "Offset": 564,
               "EndOffset": 585,
               "Path": 1,
@@ -6366,7 +6511,7 @@
               "Hits": 0
             },
             {
-              "Line": 189,
+              "Line": 187,
               "Offset": 590,
               "EndOffset": 595,
               "Path": 0,
@@ -6374,7 +6519,7 @@
               "Hits": 0
             },
             {
-              "Line": 189,
+              "Line": 187,
               "Offset": 590,
               "EndOffset": 802,
               "Path": 1,
@@ -6382,7 +6527,7 @@
               "Hits": 0
             },
             {
-              "Line": 199,
+              "Line": 197,
               "Offset": 940,
               "EndOffset": 945,
               "Path": 0,
@@ -6390,7 +6535,7 @@
               "Hits": 0
             },
             {
-              "Line": 203,
+              "Line": 201,
               "Offset": 1133,
               "EndOffset": 1138,
               "Path": 0,
@@ -6398,7 +6543,7 @@
               "Hits": 0
             },
             {
-              "Line": 206,
+              "Line": 204,
               "Offset": 1304,
               "EndOffset": 1309,
               "Path": 0,
@@ -6406,7 +6551,7 @@
               "Hits": 0
             },
             {
-              "Line": 206,
+              "Line": 204,
               "Offset": 1304,
               "EndOffset": 1694,
               "Path": 1,
@@ -6414,7 +6559,7 @@
               "Hits": 0
             },
             {
-              "Line": 203,
+              "Line": 201,
               "Offset": 1133,
               "EndOffset": 1702,
               "Path": 1,
@@ -6422,7 +6567,7 @@
               "Hits": 0
             },
             {
-              "Line": 199,
+              "Line": 197,
               "Offset": 940,
               "EndOffset": 1710,
               "Path": 1,
@@ -6430,7 +6575,7 @@
               "Hits": 0
             },
             {
-              "Line": 219,
+              "Line": 217,
               "Offset": 1730,
               "EndOffset": 1735,
               "Path": 0,
@@ -6438,9 +6583,9 @@
               "Hits": 0
             },
             {
-              "Line": 219,
+              "Line": 217,
               "Offset": 1730,
-              "EndOffset": 2065,
+              "EndOffset": 2071,
               "Path": 1,
               "Ordinal": 13,
               "Hits": 0
@@ -6451,12 +6596,12 @@
       "TelegramBot.Infrastructure.Command.CommandService/<HandleSettingsCommand>d__12": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<HandleSettingsCommand>d__12::MoveNext()": {
           "Lines": {
+            "134": 0,
+            "135": 0,
             "136": 0,
             "137": 0,
             "138": 0,
-            "139": 0,
-            "140": 0,
-            "141": 0
+            "139": 0
           },
           "Branches": []
         }
@@ -6464,44 +6609,44 @@
       "TelegramBot.Infrastructure.Command.CommandService/<HandleSettingsCommand>d__22": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<HandleSettingsCommand>d__22::MoveNext()": {
           "Lines": {
+            "331": 0,
+            "332": 0,
             "333": 0,
             "334": 0,
             "335": 0,
             "336": 0,
             "337": 0,
-            "338": 0,
-            "339": 0,
-            "342": 0,
+            "340": 0,
+            "341": 0,
             "343": 0,
+            "344": 0,
             "345": 0,
-            "346": 0,
-            "347": 0,
+            "348": 0,
+            "349": 0,
             "350": 0,
             "351": 0,
             "352": 0,
             "353": 0,
             "354": 0,
             "355": 0,
-            "356": 0,
             "357": 0,
+            "358": 0,
             "359": 0,
             "360": 0,
             "361": 0,
             "362": 0,
-            "363": 0,
             "364": 0,
+            "365": 0,
             "366": 0,
             "367": 0,
             "368": 0,
             "369": 0,
             "370": 0,
-            "371": 0,
-            "372": 0,
-            "373": 0
+            "371": 0
           },
           "Branches": [
             {
-              "Line": 335,
+              "Line": 333,
               "Offset": 111,
               "EndOffset": 113,
               "Path": 0,
@@ -6509,7 +6654,7 @@
               "Hits": 0
             },
             {
-              "Line": 335,
+              "Line": 333,
               "Offset": 111,
               "EndOffset": 117,
               "Path": 1,
@@ -6517,7 +6662,7 @@
               "Hits": 0
             },
             {
-              "Line": 336,
+              "Line": 334,
               "Offset": 142,
               "EndOffset": 147,
               "Path": 0,
@@ -6525,7 +6670,7 @@
               "Hits": 0
             },
             {
-              "Line": 336,
+              "Line": 334,
               "Offset": 142,
               "EndOffset": 283,
               "Path": 1,
@@ -6533,7 +6678,7 @@
               "Hits": 0
             },
             {
-              "Line": 342,
+              "Line": 340,
               "Offset": 309,
               "EndOffset": 314,
               "Path": 0,
@@ -6541,7 +6686,7 @@
               "Hits": 0
             },
             {
-              "Line": 345,
+              "Line": 343,
               "Offset": 367,
               "EndOffset": 369,
               "Path": 0,
@@ -6549,7 +6694,7 @@
               "Hits": 0
             },
             {
-              "Line": 345,
+              "Line": 343,
               "Offset": 367,
               "EndOffset": 375,
               "Path": 1,
@@ -6557,7 +6702,7 @@
               "Hits": 0
             },
             {
-              "Line": 342,
+              "Line": 340,
               "Offset": 309,
               "EndOffset": 862,
               "Path": 1,
@@ -6565,7 +6710,7 @@
               "Hits": 0
             },
             {
-              "Line": 359,
+              "Line": 357,
               "Offset": 882,
               "EndOffset": 887,
               "Path": 0,
@@ -6573,7 +6718,7 @@
               "Hits": 0
             },
             {
-              "Line": 361,
+              "Line": 359,
               "Offset": 917,
               "EndOffset": 922,
               "Path": 0,
@@ -6581,7 +6726,7 @@
               "Hits": 0
             },
             {
-              "Line": 361,
+              "Line": 359,
               "Offset": 917,
               "EndOffset": 1077,
               "Path": 1,
@@ -6589,7 +6734,7 @@
               "Hits": 0
             },
             {
-              "Line": 359,
+              "Line": 357,
               "Offset": 882,
               "EndOffset": 1475,
               "Path": 1,
@@ -6602,11 +6747,11 @@
       "TelegramBot.Infrastructure.Command.CommandService/<HandleStopCommand>d__24": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<HandleStopCommand>d__24::MoveNext()": {
           "Lines": {
+            "380": 0,
+            "381": 0,
             "382": 0,
             "383": 0,
-            "384": 0,
-            "385": 0,
-            "386": 0
+            "384": 0
           },
           "Branches": []
         }
@@ -6614,38 +6759,40 @@
       "TelegramBot.Infrastructure.Command.CommandService/<HandleUserReplyByButton>d__18": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<HandleUserReplyByButton>d__18::MoveNext()": {
           "Lines": {
+            "229": 0,
+            "230": 0,
             "231": 0,
             "232": 0,
             "233": 0,
-            "234": 0,
-            "235": 0,
+            "236": 0,
+            "237": 0,
             "238": 0,
             "239": 0,
             "240": 0,
             "241": 0,
             "242": 0,
-            "243": 0,
-            "244": 0,
+            "245": 0,
+            "246": 0,
             "247": 0,
             "248": 0,
             "249": 0,
             "250": 0,
-            "251": 0,
-            "252": 0,
+            "253": 0,
+            "254": 0,
             "255": 0,
             "256": 0,
             "257": 0,
             "258": 0,
-            "259": 0,
-            "260": 0,
+            "261": 0,
+            "262": 0,
             "263": 0,
             "264": 0,
             "265": 0,
-            "266": 0,
-            "267": 0,
+            "269": 0,
+            "270": 0,
             "271": 0,
-            "272": 0,
             "273": 0,
+            "274": 0,
             "275": 0,
             "276": 0,
             "277": 0,
@@ -6654,8 +6801,8 @@
             "280": 0,
             "281": 0,
             "282": 0,
-            "283": 0,
             "284": 0,
+            "285": 0,
             "286": 0,
             "287": 0,
             "288": 0,
@@ -6664,13 +6811,11 @@
             "291": 0,
             "292": 0,
             "293": 0,
-            "294": 0,
-            "295": 0,
-            "296": 0
+            "294": 0
           },
           "Branches": [
             {
-              "Line": 233,
+              "Line": 231,
               "Offset": 273,
               "EndOffset": 275,
               "Path": 0,
@@ -6678,7 +6823,7 @@
               "Hits": 0
             },
             {
-              "Line": 233,
+              "Line": 231,
               "Offset": 273,
               "EndOffset": 281,
               "Path": 1,
@@ -6686,7 +6831,7 @@
               "Hits": 0
             },
             {
-              "Line": 239,
+              "Line": 237,
               "Offset": 335,
               "EndOffset": 340,
               "Path": 0,
@@ -6694,7 +6839,7 @@
               "Hits": 0
             },
             {
-              "Line": 239,
+              "Line": 237,
               "Offset": 335,
               "EndOffset": 562,
               "Path": 1,
@@ -6702,7 +6847,7 @@
               "Hits": 0
             },
             {
-              "Line": 247,
+              "Line": 245,
               "Offset": 577,
               "EndOffset": 582,
               "Path": 0,
@@ -6710,7 +6855,7 @@
               "Hits": 0
             },
             {
-              "Line": 247,
+              "Line": 245,
               "Offset": 577,
               "EndOffset": 785,
               "Path": 1,
@@ -6718,7 +6863,7 @@
               "Hits": 0
             },
             {
-              "Line": 255,
+              "Line": 253,
               "Offset": 803,
               "EndOffset": 808,
               "Path": 0,
@@ -6726,7 +6871,7 @@
               "Hits": 0
             },
             {
-              "Line": 255,
+              "Line": 253,
               "Offset": 803,
               "EndOffset": 1016,
               "Path": 1,
@@ -6734,7 +6879,7 @@
               "Hits": 0
             },
             {
-              "Line": 264,
+              "Line": 262,
               "Offset": 1195,
               "EndOffset": 1200,
               "Path": 0,
@@ -6742,7 +6887,7 @@
               "Hits": 0
             },
             {
-              "Line": 264,
+              "Line": 262,
               "Offset": 1195,
               "EndOffset": 1328,
               "Path": 1,
@@ -6750,7 +6895,7 @@
               "Hits": 0
             },
             {
-              "Line": 272,
+              "Line": 270,
               "Offset": 1404,
               "EndOffset": 1406,
               "Path": 0,
@@ -6758,7 +6903,7 @@
               "Hits": 0
             },
             {
-              "Line": 272,
+              "Line": 270,
               "Offset": 1429,
               "EndOffset": 1431,
               "Path": 0,
@@ -6766,7 +6911,7 @@
               "Hits": 0
             },
             {
-              "Line": 272,
+              "Line": 270,
               "Offset": 1429,
               "EndOffset": 1435,
               "Path": 1,
@@ -6774,7 +6919,7 @@
               "Hits": 0
             },
             {
-              "Line": 272,
+              "Line": 270,
               "Offset": 1404,
               "EndOffset": 1447,
               "Path": 1,
@@ -6782,7 +6927,7 @@
               "Hits": 0
             },
             {
-              "Line": 275,
+              "Line": 273,
               "Offset": 1764,
               "EndOffset": 1766,
               "Path": 0,
@@ -6790,7 +6935,7 @@
               "Hits": 0
             },
             {
-              "Line": 275,
+              "Line": 273,
               "Offset": 1764,
               "EndOffset": 1787,
               "Path": 1,
@@ -6798,7 +6943,7 @@
               "Hits": 0
             },
             {
-              "Line": 275,
+              "Line": 273,
               "Offset": 1792,
               "EndOffset": 1797,
               "Path": 0,
@@ -6806,7 +6951,7 @@
               "Hits": 0
             },
             {
-              "Line": 278,
+              "Line": 276,
               "Offset": 1966,
               "EndOffset": 1968,
               "Path": 0,
@@ -6814,7 +6959,7 @@
               "Hits": 0
             },
             {
-              "Line": 278,
+              "Line": 276,
               "Offset": 1966,
               "EndOffset": 1981,
               "Path": 1,
@@ -6822,7 +6967,7 @@
               "Hits": 0
             },
             {
-              "Line": 279,
+              "Line": 277,
               "Offset": 2063,
               "EndOffset": 2065,
               "Path": 0,
@@ -6830,17 +6975,17 @@
               "Hits": 0
             },
             {
-              "Line": 279,
+              "Line": 277,
               "Offset": 2063,
-              "EndOffset": 2118,
+              "EndOffset": 2124,
               "Path": 1,
               "Ordinal": 21,
               "Hits": 0
             },
             {
-              "Line": 275,
+              "Line": 273,
               "Offset": 1792,
-              "EndOffset": 2283,
+              "EndOffset": 2289,
               "Path": 1,
               "Ordinal": 17,
               "Hits": 0
@@ -6875,21 +7020,19 @@
             "92": 0,
             "93": 0,
             "94": 0,
-            "95": 0,
             "96": 0,
+            "97": 0,
             "98": 0,
             "99": 0,
-            "100": 0,
             "101": 0,
+            "102": 0,
             "103": 0,
             "104": 0,
             "105": 0,
             "106": 0,
             "107": 0,
             "108": 0,
-            "109": 0,
-            "110": 0,
-            "111": 0
+            "109": 0
           },
           "Branches": [
             {
@@ -6935,31 +7078,15 @@
             {
               "Line": 87,
               "Offset": 454,
-              "EndOffset": 459,
+              "EndOffset": 456,
               "Path": 0,
               "Ordinal": 8,
               "Hits": 0
             },
             {
               "Line": 87,
-              "Offset": 471,
-              "EndOffset": 476,
-              "Path": 0,
-              "Ordinal": 10,
-              "Hits": 0
-            },
-            {
-              "Line": 87,
-              "Offset": 488,
-              "EndOffset": 493,
-              "Path": 0,
-              "Ordinal": 12,
-              "Hits": 0
-            },
-            {
-              "Line": 87,
               "Offset": 426,
-              "EndOffset": 515,
+              "EndOffset": 475,
               "Path": 1,
               "Ordinal": 5,
               "Hits": 0
@@ -6967,7 +7094,7 @@
             {
               "Line": 87,
               "Offset": 440,
-              "EndOffset": 556,
+              "EndOffset": 516,
               "Path": 1,
               "Ordinal": 7,
               "Hits": 0
@@ -6975,63 +7102,47 @@
             {
               "Line": 87,
               "Offset": 454,
-              "EndOffset": 587,
+              "EndOffset": 544,
               "Path": 1,
               "Ordinal": 9,
               "Hits": 0
             },
             {
               "Line": 87,
-              "Offset": 471,
-              "EndOffset": 626,
+              "Offset": 468,
+              "EndOffset": 583,
               "Path": 1,
               "Ordinal": 11,
               "Hits": 0
             },
             {
               "Line": 87,
-              "Offset": 488,
-              "EndOffset": 665,
+              "Offset": 468,
+              "EndOffset": 610,
+              "Path": 0,
+              "Ordinal": 10,
+              "Hits": 0
+            },
+            {
+              "Line": 96,
+              "Offset": 718,
+              "EndOffset": 720,
+              "Path": 0,
+              "Ordinal": 12,
+              "Hits": 0
+            },
+            {
+              "Line": 96,
+              "Offset": 718,
+              "EndOffset": 723,
               "Path": 1,
               "Ordinal": 13,
               "Hits": 0
             },
             {
-              "Line": 87,
-              "Offset": 505,
-              "EndOffset": 692,
-              "Path": 1,
-              "Ordinal": 15,
-              "Hits": 0
-            },
-            {
-              "Line": 87,
-              "Offset": 505,
-              "EndOffset": 719,
-              "Path": 0,
-              "Ordinal": 14,
-              "Hits": 0
-            },
-            {
-              "Line": 98,
-              "Offset": 821,
-              "EndOffset": 823,
-              "Path": 0,
-              "Ordinal": 16,
-              "Hits": 0
-            },
-            {
-              "Line": 98,
-              "Offset": 821,
-              "EndOffset": 826,
-              "Path": 1,
-              "Ordinal": 17,
-              "Hits": 0
-            },
-            {
               "Line": 84,
               "Offset": 346,
-              "EndOffset": 967,
+              "EndOffset": 867,
               "Path": 1,
               "Ordinal": 3,
               "Hits": 0
@@ -7042,10 +7153,10 @@
       "TelegramBot.Infrastructure.Command.CommandService/<InsertSettingUserAction>d__23": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<InsertSettingUserAction>d__23::MoveNext()": {
           "Lines": {
+            "374": 0,
+            "375": 0,
             "376": 0,
-            "377": 0,
-            "378": 0,
-            "379": 0
+            "377": 0
           },
           "Branches": []
         }
@@ -7053,9 +7164,9 @@
       "TelegramBot.Infrastructure.Command.CommandService/<SendMainMenuMessage>d__26": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<SendMainMenuMessage>d__26::MoveNext()": {
           "Lines": {
-            "392": 0,
-            "393": 0,
-            "394": 0
+            "390": 0,
+            "391": 0,
+            "392": 0
           },
           "Branches": []
         }
@@ -7063,11 +7174,11 @@
       "TelegramBot.Infrastructure.Command.CommandService/<SendMessageWithRootActions>d__28": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<SendMessageWithRootActions>d__28::MoveNext()": {
           "Lines": {
+            "398": 0,
+            "399": 0,
             "400": 0,
             "401": 0,
-            "402": 0,
-            "403": 0,
-            "404": 0
+            "402": 0
           },
           "Branches": []
         }
@@ -7075,7 +7186,7 @@
       "TelegramBot.Infrastructure.Command.CommandService/<SendMinimizeUMMessage>d__29": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<SendMinimizeUMMessage>d__29::MoveNext()": {
           "Lines": {
-            "407": 0
+            "405": 0
           },
           "Branches": []
         }
@@ -7083,12 +7194,12 @@
       "TelegramBot.Infrastructure.Command.CommandService/<SendNextActionsMessage>d__19": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<SendNextActionsMessage>d__19::MoveNext()": {
           "Lines": {
+            "297": 0,
+            "298": 0,
             "299": 0,
             "300": 0,
             "301": 0,
-            "302": 0,
-            "303": 0,
-            "304": 0
+            "302": 0
           },
           "Branches": []
         }
@@ -7096,7 +7207,7 @@
       "TelegramBot.Infrastructure.Command.CommandService/<SendNotRecognizedCommandMessage>d__27": {
         "System.Void TelegramBot.Infrastructure.Command.CommandService/<SendNotRecognizedCommandMessage>d__27::MoveNext()": {
           "Lines": {
-            "397": 0
+            "395": 0
           },
           "Branches": []
         }
@@ -7714,18 +7825,34 @@
           "Branches": [
             {
               "Line": 187,
-              "Offset": 477,
+              "Offset": 508,
               "EndOffset": 209,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 191,
+              "Offset": 434,
+              "EndOffset": 436,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 191,
+              "Offset": 434,
+              "EndOffset": 443,
               "Path": 1,
               "Ordinal": 1,
               "Hits": 0
             },
             {
               "Line": 187,
-              "Offset": 477,
-              "EndOffset": 482,
+              "Offset": 508,
+              "EndOffset": 513,
               "Path": 0,
-              "Ordinal": 0,
+              "Ordinal": 2,
               "Hits": 0
             }
           ]

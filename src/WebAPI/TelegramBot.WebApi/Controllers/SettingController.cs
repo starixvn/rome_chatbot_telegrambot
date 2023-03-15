@@ -37,7 +37,7 @@ namespace TelegramBot.WebApi.Controllers
             _messageSender = messageSender;
             _commandService = commandService;
             _messageBuilder = messageBuilder;
-        }
+        } 
 
         [Route("start-uri"), HttpPost]
         public async Task<string> GenerateStartUri([FromBody] GenerateStartUriParam param)

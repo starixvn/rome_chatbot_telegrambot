@@ -1,5 +1,6 @@
 using System;
 using Alpha.API.Client.Services;
+using Fanex.Data.Repository;
 using NSubstitute;
 using TelegramBot.Infrastructure.Function.Constants;
 using TelegramBot.Infrastructure.Function.Handlers;
@@ -72,6 +73,18 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
                     Substitute.For<ICustomerService>()));
             var result = functionHandlerFactory.GetHandler(FunctionIds.YesterdayWinLoss);
             Assert.Equal(typeof(YesterdayWinLossFunctionHandler), result.GetType());
+        }
+
+        [Fact]
+        public void GetHandler_FunctionAvailableDomains_ReturnAvailableDomainsFunctionHandler()
+        {
+            serviceProvider.GetService(typeof(AvailableDomainsFunctionHandler))
+                .Returns(new AvailableDomainsFunctionHandler(
+                    Substitute.For<IMessageBuilder>(),
+                    Substitute.For<IMessageFormatter>(),
+                    Substitute.For<IDynamicRepository>()));
+            var result = functionHandlerFactory.GetHandler(FunctionIds.AvailableDomains);
+            Assert.Equal(typeof(AvailableDomainsFunctionHandler), result.GetType());
         }
 
         [Fact]

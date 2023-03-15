@@ -138,7 +138,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             var expect = new Result(0, message);
 
             // Act
-            var result = await handler.Handle(request, parameters);
+            var result = await handler.Handle(request, parameters, null);
 
             // Assert
             Assert.Equal(expect.Code, result.Code);
@@ -188,7 +188,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             var expect = new Result(0, message);
 
             // Act
-            var result = await handler.Handle(requestAccount, parameters);
+            var result = await handler.Handle(requestAccount, parameters, null);
 
 
             // Assert
@@ -216,7 +216,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             balanceInfoService.GetDownlineBalance(Arg.Any<int>(), Arg.Any<byte>()).Returns(downlineBalance);
 
             // Act
-            var result = await handler.Handle(requestAccount, new[] { "Username" });
+            var result = await handler.Handle(requestAccount, new[] { "Username" }, null);
 
             // Assert
             Assert.Equal(1, result.Code);
@@ -258,7 +258,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             var expect = new Result(0, message);
 
             // Act
-            var result = await handler.Handle(requestAccount, parameters);
+            var result = await handler.Handle(requestAccount, parameters, null);
 
             // Assert
             Assert.Equal(expect.Code, result.Code);
@@ -290,7 +290,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             var expect = new Result(1, "");
 
             // Act
-            var result = await handler.Handle(requestAccount, parameters);
+            var result = await handler.Handle(requestAccount, parameters, null);
 
             // Assert
             Assert.Equal(expect.Code, result.Code);
@@ -306,7 +306,7 @@ namespace TelegramBot.Infrastructure.UnitTests.Function.Handlers
             string[] parameters = { "" };
 
             // Act
-            var result = await handler.Handle(account, parameters);
+            var result = await handler.Handle(account, parameters, null);
 
             // Assert
             Assert.Equal(1, result.Code);

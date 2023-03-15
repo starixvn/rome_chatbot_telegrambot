@@ -5,6 +5,7 @@ using TelegramBot.Infrastructure.Shared.Models;
 using TelegramBot.Infrastructure.Shared.Resources;
 using TelegramBot.Utilities.Extensions;
 using Alpha.API.Client.Models.WinLoss;
+using TelegramBot.Infrastructure.Bot.Models;
 
 namespace TelegramBot.Infrastructure.Function.Handlers
 {
@@ -19,7 +20,7 @@ namespace TelegramBot.Infrastructure.Function.Handlers
         {
         }
 
-        public async Task<Result> Handle(CustBotAccount account, string[] parameters)
+        public async Task<Result> Handle(CustBotAccount account, string[] parameters, BotEntity bot)
         {
             var parameter = parameters[0]?.ToLowerInvariant();
             if (string.IsNullOrEmpty(parameter))
