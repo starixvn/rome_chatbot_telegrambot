@@ -12,7 +12,7 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
   const { t } = useTranslation("common");
   const [securityCodeShown, setSecurityCodeShown] = useState(false);
   const [securityCode, setSecurityCode] = useState("");
-  const [error, setError] = useState("Wrong Security Code. Please try again.");
+  const [error, setError] = useState("");
 
   const handleShowSecurityCode = () => {
     setSecurityCodeShown(!securityCodeShown);
@@ -41,7 +41,9 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
 
   return (
     <form className={styles["security-code"]} onSubmit={handleSubmit}>
-      <label className={styles["form-lable"]} htmlFor="SecurityCode">{t("SecurityCode")}</label>
+      <label className={styles["form-lable"]} htmlFor="SecurityCode">
+        {t("SecurityCode")}
+      </label>
       {error && <Message message={error} />}
       <p className={styles["form-name"]}>
         {t("Hi")} {username},

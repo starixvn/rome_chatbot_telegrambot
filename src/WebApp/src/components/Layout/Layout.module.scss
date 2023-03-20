@@ -11,15 +11,15 @@
   line-height: 20px;
   color: #ededed;
 
-  .agent {
+  &.agent {
     background-color: #1c5334;
   }
 
-  .master {
+  &.master {
     background-color: #36587d;
   }
 
-  .super {
+  &.super {
     background-color: #5d1219;
   }
 }
