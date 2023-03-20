@@ -3,15 +3,15 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY src/Web/customer-setting-app/package.json ./
-COPY src/Web/customer-setting-app/yarn.lock ./
+COPY src/WebApp/package.json ./
+COPY src/WebApp/yarn.lock ./
 RUN yarn --frozen-lockfile
 
 # 2. Rebuild the source code only when needed
 FROM hub.nexdev.net/base/node:17.9-alpine3.14 AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY src/Web/customer-setting-app .
+COPY src/WebApp .
 
 # Register TRANSFORM_CONFIG argument for transforming by environment
 # ARG TRANSFORM_CONFIG
@@ -21,7 +21,7 @@ COPY src/Web/customer-setting-app .
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
-# COPY "src/Web/customer-setting-app/.env.$TRANSFORM_CONFIG" .env.production
+# COPY "src/WebApp/.env.$TRANSFORM_CONFIG" .env.production
 RUN yarn build
 
 # If using npm comment out above and use below instead
