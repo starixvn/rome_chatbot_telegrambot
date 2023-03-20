@@ -6,15 +6,15 @@ namespace TelegramBot.Modules.Action.Builders.WebApp;
 
 public class NewCustomersWebAppBuilder : IWebAppBuilder
 {
-    private readonly string webAppUrl;
+    private readonly IDictionary<string, string> webAppUrls;
 
-    public NewCustomersWebAppBuilder(string webAppUrl)
+    public NewCustomersWebAppBuilder(IDictionary<string, string> webAppUrls)
     {
-        this.webAppUrl = webAppUrl;
+        this.webAppUrls = webAppUrls;
     }
 
     public WebAppInfo BuildWebAppInfo(CustBotAccount account)
     {
-        return new WebAppInfo() { Url = $"{webAppUrl}/{LanguageCodes.MapWebAppLanguage(account.Language)}/newcustomer" };
+        return new WebAppInfo() { Url = $"{webAppUrls[account.System]}/{LanguageCodes.MapWebAppLanguage(account.Language)}/newcustomer" };
     }
 }
