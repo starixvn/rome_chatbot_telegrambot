@@ -1,0 +1,29 @@
+.container {
+  height: 100%;
+  min-height: 100vh;
+  background-color: white;
+}
+
+.header {
+  font-weight: 500;
+  padding: 10px 16px;
+  font-size: 16px;
+  line-height: 20px;
+  color: #ededed;
+
+  .agent {
+    background-color: #1c5334;
+  }
+
+  .master {
+    background-color: #36587d;
+  }
+
+  .super {
+    background-color: #5d1219;
+  }
+}
+
+.main {
+  padding: 17px 16px;
+}

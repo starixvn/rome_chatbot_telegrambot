@@ -1,0 +1,32 @@
+{
+    "header": "Create new Customer",
+    "formError": {
+        "existAccount": "Exist Account",
+        "noOfAccounts": "No of Accounts",
+        "username": "Username",
+        "credit": "Credit",
+        "memberMaxCredit": "Member Max Credit",
+        "password": "Password"
+    },
+    "result": {
+        "success": "The following accounts have been created successful:",
+        "usernames": "Usernames: ",
+        "credit": "Credit: {{credit}} (per account)",
+        "fail": "{{failAccounts}} accounts have been created failed.",
+        "failReason": "Failed reason: {{message}}",
+        "createMore": "Create More"
+    },
+    "note": "*Note: Settings will remain the same as the Source account setting for all accounts",
+    "copySettings": "Copy Settings",
+    "searchNote": "Search existing account to copy the same settings",
+    "noOfAccounts": "No. Of Accounts",
+    "noAccountsNote": "Choose the number of accounts you want to create (Max={{max}})",
+    "accountDetail": "Account Details",
+    "accountDetailNote": " Choose an available username as as starter and the remaining accounts will follow",
+    "username": "Username",
+    "credit": "Credit",
+    "perAccount": "(per account)",
+    "creditNote": " =< New Given Credit =< ",
+    "memberMaxCredit": "Member Max Credit",
+    "password": "Password"
+}

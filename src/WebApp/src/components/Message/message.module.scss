@@ -1,0 +1,19 @@
+.msg {
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2px;
+  box-sizing: border-box;
+  padding: 8px;
+  position: relative;
+  margin: 12px 0;
+}
+
+.msg-error {
+  background-color: #fadddd;
+  border-color: #ef2d2d;
+  color: #fe0000;
+}
+
+.msg-content {
+  padding-left: 5px;
+}

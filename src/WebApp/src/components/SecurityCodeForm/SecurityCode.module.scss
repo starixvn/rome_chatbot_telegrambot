@@ -1,0 +1,56 @@
+.security-code {
+  padding: 5px;
+
+  label {
+    display: block;
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 3px;
+  }
+
+  .form-group {
+    display: flex;
+    margin-bottom: 5px;
+  }
+
+  .form-control {
+    appearance: none;
+    padding-left: 5px;
+    border: 1px solid #d1d1d1;
+    height: 26px;
+    outline: none;
+    width: 100%;
+    max-width: 336px;
+    margin-right: 16px;
+  }
+
+  input[type="submit"] {
+    font-weight: 500;
+    font-size: 12px;
+    background: #18965b;
+    margin: 0;
+    padding: 2px 28px;
+    color: #ededed;
+    outline: none;
+    border: 0;
+  }
+
+  .show-code {
+    display: flex;
+
+    input {
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    span {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 22px;
+      cursor: pointer;
+      color: var(--secondary-color);
+    }
+  }
+}

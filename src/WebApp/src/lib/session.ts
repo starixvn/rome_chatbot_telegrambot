@@ -1,0 +1,25 @@
+import type { IronSessionOptions } from "iron-session";
+
+export type User = {
+  isLoggedIn: boolean;
+  custId: number;
+  subAccId: number;
+  customerLevel: number;
+  username: string;
+  language: string;
+};
+
+export const sessionOptions: IronSessionOptions = {
+  password: "2gyZ3GDw3LHZQKDhPmPDL3sjREVRXPr8",
+  cookieName: "iron-session/examples/next.js",
+  cookieOptions: {
+    secure: process.env.NODE_ENV === "production",
+  },
+};
+
+// This is where we specify the typings of req.session.*
+declare module "iron-session" {
+  interface IronSessionData {
+    user?: User;
+  }
+}
