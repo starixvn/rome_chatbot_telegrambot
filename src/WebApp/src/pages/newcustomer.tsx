@@ -3,7 +3,7 @@ import { withIronSessionSsr } from "iron-session/next";
 import { sessionOptions, User } from "src/lib/session";
 import Layout from "@components/Layout";
 import useTranslation from "next-translate/useTranslation";
-import { CreateNewCustomer } from "@features/new-customer/CreateNewCustomer";
+import { CopyCustomer } from "@features/CopyCustomer/CopyCustomer";
 import SecurityCodeForm from "@components/SecurityCodeForm/Index";
 
 interface Props {
@@ -23,7 +23,7 @@ const NewCustomer = (props: Props) => {
   return (
     <Layout title={t("header")} roleId={props.user.customerLevel}>
       {isSecurityCodeVerified ? (
-        <CreateNewCustomer props={props} />
+        <CopyCustomer {...props} />
       ) : (
         <SecurityCodeForm username={props.actorName} onVerifySuccess={onVerifySecurityCodeSuccess} />
       )}

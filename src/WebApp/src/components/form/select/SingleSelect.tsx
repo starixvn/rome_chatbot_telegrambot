@@ -8,7 +8,7 @@ export type SelectData = {
 type Props = SelectHTMLAttributes<HTMLSelectElement> & {
   options: SelectData[];
   selectedValue: string;
-  handleChange: (e: any) => void;
+  handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export const SingleSelect = ({

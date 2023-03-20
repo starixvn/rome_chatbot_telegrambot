@@ -1,3 +1,3 @@
 export interface CustomWindow extends Window {
-  Telegram: any;
+  Telegram: object;
 }

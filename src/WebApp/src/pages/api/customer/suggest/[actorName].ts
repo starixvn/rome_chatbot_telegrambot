@@ -13,7 +13,7 @@ async function suggestRouter(req: NextApiRequest, res: NextApiResponse) {
       custId: user?.custId,
       roleId: user?.customerLevel,
     };
-    const url = `${process.env.CUSTOMER_API}/customer/suggest-username`;
+    const url = `${process.env.CUSTOMER_API}/suggest-username`;
     const result = await fetch(url, {
       method: "POST",
       headers: {

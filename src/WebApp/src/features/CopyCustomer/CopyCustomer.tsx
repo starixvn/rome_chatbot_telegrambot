@@ -5,22 +5,27 @@ import { Controller, FieldErrors, useForm } from "react-hook-form";
 import styles from "./NewCustomer.module.scss";
 import {
   InformationIcon,
-} from "@components/icons/Icons";
+} from "@components/Icons/Icons";
+import Message from "@components/Message";
+import { User } from "src/lib/session";
+import { SingleSelect } from "@components/Form/Select/SingleSelect";
+import { numberAccounts } from "src/constants/number-accounts";
 
 const NewAccountName = dynamic(
-  () => import("@components/customer").then((mod) => mod.NewAccountName),
+  () => import("@components/Customer").then((mod) => mod.NewAccountName),
   {
     ssr: false,
   }
 );
 
 const SearchCustomerExists = dynamic(
-  () => import("@components/customer").then((mod) => mod.SearchCustomerExists),
+  () => import("@components/Customer").then((mod) => mod.SearchCustomerExists),
   {
     ssr: false,
   }
 );
-interface IFormInputs {
+
+type IFormInputs = {
   existAccount: string;
   noOfAccounts: number;
   username: string;
@@ -38,8 +43,16 @@ type Result = {
   failAccounts?: number
 }
 
-export const CreateNewCustomer = ({ props }: any) => {
-  const methods = useForm<IFormInputs>({ shouldFocusError: false });
+type Props =  {
+  user: User;
+  minCredit: number;
+  maxAccounts: number;
+  actorName: string;
+  isMasterLevel: boolean;
+}
+
+export const CopyCustomer = ({...props}: Props) => {
+  const methods = useForm<IFormInputs>({ defaultValues: {noOfAccounts: 1}, shouldFocusError: false });
   const { t } = useTranslation("newcustomer");
   const { register, handleSubmit, control, reset, formState: {errors}, resetField } = methods;
 
@@ -48,7 +61,7 @@ export const CreateNewCustomer = ({ props }: any) => {
   const [maxMemberCredit, setMaxMemberCredit] = useState(0);
 
   const onSubmit = handleSubmit(async (formData) => {
-    const url = `${process.env.NEXT_PUBLIC_CUSTOMER_SETTING_APP}/customer/copy`;
+    const url = `/api/customer/copy`;
     const result = await fetch(url, {
       method: "POST",
       headers: {
@@ -71,7 +84,7 @@ export const CreateNewCustomer = ({ props }: any) => {
     setMaxCredit(value);
   };
 
-  const handleOnBlur = (e: any) => {
+  const handleOnBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (Number(e.target.value) !== maxMemberCredit) {
       setMaxMemberCredit(Number(e.target.value));
     }
@@ -109,7 +122,7 @@ export const CreateNewCustomer = ({ props }: any) => {
   }
 
   const renderErrors = (errors: FieldErrors) => {
-    const errorKeys = ["existAccount", "noOfAccounts", "username", "credit", "memberMaxCredit", "password"];
+    const errorKeys = ["existAccount", "username", "credit", "memberMaxCredit", "password"];
     let firstErr = "";
     for (const key of errorKeys) {
       if (errors[key]) {
@@ -118,8 +131,14 @@ export const CreateNewCustomer = ({ props }: any) => {
       }
     }
     if (firstErr !== "") {
-      const message = t(`formError.${firstErr}`);
-      return <div className="error">{message}</div>
+      let message;
+      if (firstErr === "credit") {
+        message = t(`formError.${firstErr}`, {max: maxCredit.toFixed(2)});
+      } else {
+        message = t(`formError.${firstErr}`);
+      }
+
+      return <Message message={message}></Message>
     }
   }
 
@@ -149,14 +168,17 @@ export const CreateNewCustomer = ({ props }: any) => {
           <label className={styles.text}>{ t("noOfAccounts")}</label>
           <p className={styles.text}>{t("noAccountsNote", {max: props.maxAccounts})}</p>
           <div className={styles.formcontrol}>
-            <input
-              type="number"
-              className={styles.control}
-              {...register("noOfAccounts", {
-                required: true,
-                min: 1,
-                max: props.maxAccounts,
-              })}
+            <Controller
+              name="noOfAccounts"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <SingleSelect
+                    options={numberAccounts}
+                    selectedValue={"1"}
+                    handleChange={onChange}
+                  />
+                )}
+              rules={{ required: true }}
             />
           </div>
             <label className={styles.text}>{ t("accountDetail")}</label>

@@ -1,12 +1,12 @@
 {
     "header": "Create new Customer",
     "formError": {
-        "existAccount": "Exist Account",
-        "noOfAccounts": "No of Accounts",
-        "username": "Username",
-        "credit": "Credit",
-        "memberMaxCredit": "Member Max Credit",
-        "password": "Password"
+        "existAccount": "This user does not exist",
+        "username": "This username is not available",
+        "credit": "Given Credit must be between 0 and {{max}}",
+        "memberMaxCredit": "Incorrect Member Max Credit",
+        "password": 
+        "Password must be at least 8 characters without white-space and contain at least 3 of the following:\nUppercase letter [A-Z], Lowercase letter [a-z], Numeric [0-9], Special character (!,@,#,etc..).\nFor example: 59D7!4$h, 493abcDE.\nNotes: your password is cAsE sEnSiTiVe"
     },
     "result": {
         "success": "The following accounts have been created successful:",

@@ -1,16 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { SingleSelect } from "@components/form";
 import { characters } from "src/constants/characters";
-import { CheckMarkIcon } from "@components/icons/Icons";
+import { CheckMarkIcon } from "@components/Icons/Icons";
+import { SingleSelect } from "@components/Form/Select/SingleSelect";
 
 export const getSuggestAccountName = async (actorName: string) => {
-  const url = `${process.env.NEXT_PUBLIC_CUSTOMER_SETTING_APP}/customer/suggest/${actorName}`;
+  const url = `/api/customer/suggest/${actorName}`;
   const res = await fetch(url);
   return await res.json();
 }
 
 export const checkExistAccountName = async (username: string) => {
-  const url = `${process.env.NEXT_PUBLIC_CUSTOMER_SETTING_APP}/customer/exist/${username}`;
+  const url = `/api/customer/exist/${username}`;
   const res = await fetch(url);
   return await res.json();
 }
@@ -52,7 +53,7 @@ export const NewAccountName = ({ actorName, onChange }: Props) =>
     }
   };
 
-  const handleSelectChange = (e: any, index: number) => {
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>, index: number) => {
     const result = suggestName.split("");
     result[index] = e.target.value;
     setSuggestName(result.join(""));
@@ -67,7 +68,7 @@ export const NewAccountName = ({ actorName, onChange }: Props) =>
     return Array.from(suggestName).map((item, index) => {
       return (
         <SingleSelect
-          key={`${item}`}
+          key={`${item}-${index}`}
           handleChange={(e) => handleSelectChange(e, index)}
           options={characters}
           selectedValue={item.toString()}
@@ -76,7 +77,6 @@ export const NewAccountName = ({ actorName, onChange }: Props) =>
     });
   };
 
-  console.log("render check username exist");
   return (
     <>
       <span>{actorName}</span>

@@ -1,3 +1,4 @@
+import { getClientIP } from './../../../helpers/ip-helper';
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "src/lib/session";
@@ -5,12 +6,23 @@ import { User } from "./../../../lib/session";
 
 export default withIronSessionApiRoute(copyRouter, sessionOptions);
 
+type CopyCustomerData = {
+  username: string,
+  password: string,
+  credit: number,
+  memberMaxCredit: number,
+  sourceCustId: number,
+  sourceUserName: string,
+  numberOfAccounts: number,
+  ip: string,
+}
+
 async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user;
   if (user?.isLoggedIn) {
     const { credit, numberOfAccounts, sourceUserName } = req.body;
     const sourceInfo = await getDownLineInfo(user, sourceUserName);
-    const data = await copyCustomer(user, { ...req.body, sourceCustId: sourceInfo.custId });
+    const data = await copyCustomer(user, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) });
     res.status(200).json({ ...data, credit: credit, failAccounts: numberOfAccounts - data.usernames.length });
   } else {
     res.status(500).json({});
@@ -18,13 +30,13 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
 }
 
 const getDownLineInfo = async (user: User, sourceUserName: string) => {
-  const url = `${process.env.CUSTOMER_API}/customer/${user.custId}/${user.subAccId}/downlines/${sourceUserName}`;
+  const url = `${process.env.CUSTOMER_API}/${user.custId}/${user.subAccId}/downlines/${sourceUserName}`;
   const result = await fetch(url);
   return await result.json();
 };
 
-const copyCustomer = async (user: User, data: any) => {
-  const url = `${process.env.CUSTOMER_API}/customer/copy`;
+const copyCustomer = async (user: User, data: CopyCustomerData) => {
+  const url = `${process.env.CUSTOMER_API}/copy`;
   const reqData = {
     actorId: user.custId,
     actorSubAccId: user.subAccId,
@@ -38,7 +50,7 @@ const copyCustomer = async (user: User, data: any) => {
     sourceUsername: data.sourceUserName,
     numberOfAccounts: data.numberOfAccounts,
     language: user.language,
-    ip: "127.0.0.1",
+    ip: data.ip,
     systemId: 10,
   };
 
