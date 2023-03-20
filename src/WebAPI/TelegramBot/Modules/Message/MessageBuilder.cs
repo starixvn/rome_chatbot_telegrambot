@@ -139,8 +139,8 @@ namespace TelegramBot.Modules.Message
                 messageFormatter.NewLine(),
                 $"/menu - {string.Format(ResourceHelper.Get(nameof(SharedResource.OpenMainMenu), language), botName)}",
                 $"/help - {ResourceHelper.Get(nameof(SharedResource.ListAllCommands), language)}",
-                $"/settings, /setting - {ResourceHelper.Get(nameof(SharedResource.OpenSettingsMenu), language)}",
-                $"/stop, /unlink - {ResourceHelper.Get(nameof(SharedResource.Unlink), language)} {botName}");
+                $"/settings - {ResourceHelper.Get(nameof(SharedResource.OpenSettingsMenu), language)}",
+                $"/unlink - {ResourceHelper.Get(nameof(SharedResource.Unlink), language)} {botName}");
 
             var stringBuilder = new StringBuilder($"{string.Format(ResourceHelper.Get(nameof(SharedResource.HelpCommandIntro), language), botName)}");
             stringBuilder

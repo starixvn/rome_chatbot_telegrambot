@@ -6,6 +6,8 @@ namespace TelegramBot.Modules.Setting.Models
     {
         public int UserId { get; set; }
 
+        public long ChatId { get; set; }
+
         public int CustId { get; set; }
 
         public int SubAccId { get; set; }

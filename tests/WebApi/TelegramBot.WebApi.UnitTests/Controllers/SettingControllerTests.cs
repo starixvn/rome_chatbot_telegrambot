@@ -161,7 +161,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             await _settingController.Start(param);
 
             // Assert
-            await _commandService.Received().SendMainMenuMessage(Arg.Is(account), Arg.Is<Messenger>(m => m.BotId == bot.BotId && m.ChatId == param.ChatId && m.System == bot.System));
+            await _commandService.Received().SendMainMenuMessage(Arg.Is(account));
         }
 
         [Theory, AutoData]
@@ -178,7 +178,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             await _settingController.Start(param);
 
             // Assert
-            await _messageSender.Received().SendMessage(Arg.Is<Messenger>(m => m.BotId == bot.BotId && m.ChatId == param.ChatId && m.System == bot.System), "IntroMessage");
+            await _messageSender.Received().SendMessage(Arg.Is<Messenger>(m => m.BotId == bot.BotId && m.ChatId == param.ChatId), "IntroMessage");
         }
 
         [Theory, AutoData]
@@ -195,7 +195,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             await _settingController.Start(param);
 
             // Assert
-            await _messageSender.Received().SendMessage(Arg.Is<Messenger>(m => m.BotId == bot.BotId && m.ChatId == param.ChatId && m.System == bot.System), "IntroMessage");
+            await _messageSender.Received().SendMessage(Arg.Is<Messenger>(m => m.BotId == bot.BotId && m.ChatId == param.ChatId), "IntroMessage");
         }
 
         [Theory, AutoData]
@@ -213,7 +213,7 @@ namespace TelegramBot.WebApi.UnitTests.Controllers
             await _settingController.Start(param);
 
             // Assert
-            await _messageSender.Received().SendMessage(Arg.Is<Messenger>(m => m.BotId == bot.BotId && m.ChatId == param.ChatId && m.System == bot.System), "IntroMessage");
+            await _messageSender.Received().SendMessage(Arg.Is<Messenger>(m => m.BotId == bot.BotId && m.ChatId == param.ChatId), "IntroMessage");
         }
 
         [Theory, AutoData]

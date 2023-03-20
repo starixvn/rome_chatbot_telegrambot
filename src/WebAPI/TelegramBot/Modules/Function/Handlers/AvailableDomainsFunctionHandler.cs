@@ -1,5 +1,4 @@
 using Fanex.Data.Repository;
-using TelegramBot.Modules.Bot.Models;
 using TelegramBot.Shared.Models;
 using TelegramBot.Modules.Setting.Models;
 using TelegramBot.Modules.Message;
@@ -21,9 +20,9 @@ namespace TelegramBot.Modules.Function.Handlers
             this.dynamicRepository = dynamicRepository;
         }
 
-        public async Task<Result> Handle(CustBotAccount account, string[] parameters, BotEntity bot)
+        public async Task<Result> Handle(CustBotAccount account, string[] parameters)
         {
-            var siteLabel = bot.System;
+            var siteLabel = account.System;
             var criteria = new GetGetBackupDomainsCriteria(siteLabel);
             var data = await dynamicRepository.FetchAsync<BackupDomainModel>(criteria);
 

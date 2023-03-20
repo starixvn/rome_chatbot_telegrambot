@@ -4,6 +4,7 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Modules.Message.Constants;
+using TelegramBot.Modules.Setting.Models;
 using TelegramBot.Shared.Constants;
 using TelegramBot.Shared.Models;
 
@@ -11,13 +12,17 @@ namespace TelegramBot.Modules.Message
 {
     public interface IMessageSender
     {
+        Task SendMessage(CustBotAccount account, string message, short functionId = 0, bool logToDatabase = true);
+
         Task SendMessage(int userId, Messenger messenger, string message, short functionId = 0, bool logToDatabase = true);
+
+        Task SendMessage(CustBotAccount account, Models.Message message, int messageId = 0, short functionId = 0, bool logToDatabase = true);
 
         Task SendMessage(int userId, Messenger messenger, Models.Message message, int messageId = 0, short functionId = 0, bool logToDatabase = true);
 
         Task SendMessage(Messenger messenger, string message, InlineKeyboardMarkup replyMarkup = null, int messageId = 0);
 
-        Task Alert(Messenger messenger, string message, string callbackId);
+        Task Alert(int botId, string message, string callbackId);
     }
 
     public class MessageSender : IMessageSender
@@ -32,6 +37,9 @@ namespace TelegramBot.Modules.Message
             this.messageLogger = messageLogger;
             this.logger = logger;
         }
+
+        public Task SendMessage(CustBotAccount account, string message, short functionId = 0, bool logToDatabase = true)
+            => SendMessage(account.UserId, new Messenger(account.BotId, account.ChatId), message, functionId, logToDatabase);
 
         public async Task SendMessage(int userId, Messenger messenger, string message, short functionId = 0, bool logToDatabase = true)
         {
@@ -75,6 +83,9 @@ namespace TelegramBot.Modules.Message
                 }
             }
         }
+
+        public Task SendMessage(CustBotAccount account, Models.Message message, int messageId = 0, short functionId = 0, bool logToDatabase = true)
+            => SendMessage(account.UserId, new Messenger(account.BotId, account.ChatId), message, messageId, functionId, logToDatabase);
 
         public async Task SendMessage(int userId, Messenger messenger, Models.Message message, int messageId = 0, short functionId = 0, bool logToDatabase = true)
         {
@@ -142,9 +153,9 @@ namespace TelegramBot.Modules.Message
             }
         }
 
-        public async Task Alert(Messenger messenger, string message, string callbackId)
+        public async Task Alert(int botId, string message, string callbackId)
         {
-            var botClient = await botClientFactory.GetOrCreate(messenger.BotId);
+            var botClient = await botClientFactory.GetOrCreate(botId);
             await botClient.AnswerCallbackQueryAsync(callbackId, message);
         }
     }

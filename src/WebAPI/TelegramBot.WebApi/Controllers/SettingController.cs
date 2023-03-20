@@ -54,7 +54,7 @@ namespace TelegramBot.WebApi.Controllers
         public async Task<Result> Start(StartParam param)
         {
             var bot = await _botService.GetAsync(param.MessengerBotId);
-            var messenger = new Messenger(bot.BotId, param.ChatId, bot.System);
+            var messenger = new Messenger(bot.BotId, param.ChatId);
 
             var words = param.Message.Split(' ');
             var introMessage = _messageBuilder.BuildIntroductionMessage(bot.System);
@@ -63,7 +63,7 @@ namespace TelegramBot.WebApi.Controllers
                 var account = await _settingService.GetCustBotAccount(param.ChatId, bot.BotId);
                 if (account != null)
                 {
-                    await _commandService.SendMainMenuMessage(account, messenger);
+                    await _commandService.SendMainMenuMessage(account);
                     return Result.CreateSuccessfulResult();
                 }
                 else

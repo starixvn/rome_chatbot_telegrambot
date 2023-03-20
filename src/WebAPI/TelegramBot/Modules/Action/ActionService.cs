@@ -15,21 +15,20 @@ using TelegramBot.Modules.Resource.constants;
 using TelegramBot.Modules.Setting.Models;
 using TelegramBot.Shared.Caching;
 using TelegramBot.Shared.Configurations;
-using TelegramBot.Shared.Models;
 
 namespace TelegramBot.Modules.Action
 {
     public interface IActionService
     {
-        Task<IList<MessageButton>> BuildRootActionButtons(CustBotAccount account, string system);
+        Task<IList<MessageButton>> BuildRootActionButtons(CustBotAccount account);
 
-        Task<Message.Models.Message> BuildNextActionsMessage(CustBotAccount account, BotAction currentAction, Messenger messenger);
+        Task<Message.Models.Message> BuildNextActionsMessage(CustBotAccount account, BotAction currentAction);
 
         Task<BotAction> GetActionById(int id, string system);
 
-        Task<BotAction> GetRootActionByFunctionId(CustBotAccount account, short functionId, string system);
+        Task<BotAction> GetRootActionByFunctionId(CustBotAccount account, short functionId);
 
-        Task<IEnumerable<BotAction>> GetChildActions(CustBotAccount account, int parentId, string system);
+        Task<IEnumerable<BotAction>> GetChildActions(CustBotAccount account, int parentId);
 
         Task<BotAction> GetActionByCommand(string command, string system);
 
@@ -83,12 +82,12 @@ namespace TelegramBot.Modules.Action
         public async Task<string> GetActionDescription(short actionId, string language)
             => (await resourceService.GetResource(actionId.ToString(), ResourceType.ActionDescription, language))?.Value;
 
-        public async Task<BotAction> GetRootActionByFunctionId(CustBotAccount account, short functionId, string system)
-            => (await GetRootActions(account, system)).FirstOrDefault(a => a.FunctionId == functionId);
+        public async Task<BotAction> GetRootActionByFunctionId(CustBotAccount account, short functionId)
+            => (await GetRootActions(account)).FirstOrDefault(a => a.FunctionId == functionId);
 
-        public async Task<Message.Models.Message> BuildNextActionsMessage(CustBotAccount account, BotAction currentAction, Messenger messenger)
+        public async Task<Message.Models.Message> BuildNextActionsMessage(CustBotAccount account, BotAction currentAction)
         {
-            var nextActions = await GetChildActions(account, currentAction.ActionId, messenger.System);
+            var nextActions = await GetChildActions(account, currentAction.ActionId);
             IList<MessageButton> buttons = new List<MessageButton>();
 
             string text;
@@ -102,7 +101,7 @@ namespace TelegramBot.Modules.Action
             {
                 var actionName = await GetActionName(currentAction, account);
                 text = messageBuilder.BuildActionSelectedMessage(account.Language, actionName);
-                buttons = await BuildActionButtons(account, nextActions, messenger);
+                buttons = await BuildActionButtons(account, nextActions);
             }
 
             return messageBuilder.BuildMessageWithBackButton(text, buttons, currentAction.ParentId, account.Language);
@@ -114,7 +113,7 @@ namespace TelegramBot.Modules.Action
             return await builder.BuildActionName(action, account);
         }
 
-        private async Task<IList<MessageButton>> BuildActionButtons(CustBotAccount account, IEnumerable<BotAction> actions, Messenger messenger)
+        private async Task<IList<MessageButton>> BuildActionButtons(CustBotAccount account, IEnumerable<BotAction> actions)
         {
             var buttons = new List<MessageButton>();
             var userActions = await GetUserActions(account.UserId);
@@ -135,14 +134,14 @@ namespace TelegramBot.Modules.Action
                                 JsonConvert.SerializeObject(new
                                 {
                                     Id = action.ActionId,
-                                    Cmd = await CompileCommand(nextUserActions, username, messenger.System)
+                                    Cmd = await CompileCommand(nextUserActions, username, account.System)
                                 })));
                         }
                         break;
 
                     case ActionTypes.WebApp:
                         var builder = webAppBuilderFactory.GetBuilder(action.ActionId);
-                        buttons.Add(new MessageButton(text: await GetActionName(action, account), webAppInfo: builder.BuildWebAppInfo(messenger)));
+                        buttons.Add(new MessageButton(text: await GetActionName(action, account), webAppInfo: builder.BuildWebAppInfo(account)));
                         break;
 
                     default:
@@ -151,7 +150,7 @@ namespace TelegramBot.Modules.Action
                             JsonConvert.SerializeObject(new
                             {
                                 Id = action.ActionId,
-                                Cmd = action.IsEndAction ? await CompileCommand(nextUserActions, action.Command, messenger.System) : string.Empty
+                                Cmd = action.IsEndAction ? await CompileCommand(nextUserActions, action.Command, account.System) : string.Empty
                             })));
                         break;
                 }
@@ -191,9 +190,9 @@ namespace TelegramBot.Modules.Action
             return string.Empty;
         }
 
-        public async Task<IList<MessageButton>> BuildRootActionButtons(CustBotAccount account, string system)
+        public async Task<IList<MessageButton>> BuildRootActionButtons(CustBotAccount account)
         {
-            var rootActions = await GetRootActions(account, system);
+            var rootActions = await GetRootActions(account);
             var buttons = new List<MessageButton>();
 
             foreach (var action in rootActions)
@@ -234,19 +233,21 @@ namespace TelegramBot.Modules.Action
         public async Task<BotAction> GetActionByCommand(string command, string system)
             => (await GetAllActions(system)).FirstOrDefault(action => action.Command?.ToLowerInvariant() == command.ToLowerInvariant());
 
-        public async Task<IEnumerable<BotAction>> GetChildActions(CustBotAccount account, int parentId, string system)
-            => (await GetAllActions(system))
+        public async Task<IEnumerable<BotAction>> GetChildActions(CustBotAccount account, int parentId)
+            => (await GetAllActions(account.System))
                 .Where(action => action.ParentId == parentId && account.Functions.Any(f => f.FunctionId == action.FunctionId))
                 .OrderBy(action => action.Order);
 
-        private async Task<IEnumerable<BotAction>> GetRootActions(CustBotAccount account, string system)
-            => (await GetAllActions(system))
+        private async Task<IEnumerable<BotAction>> GetRootActions(CustBotAccount account)
+            => (await GetAllActions(account.System))
                 .Where(action => action.ParentId == 0 && account.Functions.Any(f => f.FunctionId == action.FunctionId))
                 .OrderBy(action => action.Order);
 
         private async Task<IEnumerable<BotAction>> GetAllActions(string system)
         {
-            var hiddenActions = webAPIConfiguration.HiddenActionsBySystem.ContainsKey(system) ? webAPIConfiguration.HiddenActionsBySystem[system] : Array.Empty<short>();
+            var hiddenActions = webAPIConfiguration.HiddenActionsBySystem.ContainsKey(system)
+                ? webAPIConfiguration.HiddenActionsBySystem[system]
+                : Array.Empty<short>();
 
             var actions = await cacheService.GetOrSetAsync(
                 AllActionsCacheKey,

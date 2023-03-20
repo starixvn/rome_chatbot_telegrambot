@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Telegram.Bot.Types;
-using TelegramBot.Shared.Models;
+using TelegramBot.Modules.Setting.Models;
 
 namespace TelegramBot.Modules.Action.Builders.WebApp;
 
@@ -13,9 +13,9 @@ public class NewCustomersWebAppBuilder : IWebAppBuilder
         this.configuration = configuration;
     }
 
-    public WebAppInfo BuildWebAppInfo(Messenger messenger)
+    public WebAppInfo BuildWebAppInfo(CustBotAccount account)
     {
-        var url = configuration.GetValue<string>($"NewCustomerUrl:{messenger.System}");
-        return new WebAppInfo() { Url = $"{url}?botId={messenger.BotId}" };
+        var url = configuration.GetValue<string>($"NewCustomerUrl:{account.System}");
+        return new WebAppInfo() { Url = $"{url}" };
     }
 }

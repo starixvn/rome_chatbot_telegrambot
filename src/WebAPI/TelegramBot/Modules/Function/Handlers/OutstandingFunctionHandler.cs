@@ -7,7 +7,6 @@ using TelegramBot.Shared.Configurations;
 using TelegramBot.Shared.Extensions;
 using TelegramBot.Shared.Models;
 using TelegramBot.Shared.Resources;
-using TelegramBot.Modules.Bot.Models;
 
 namespace TelegramBot.Modules.Function.Handlers
 {
@@ -30,7 +29,7 @@ namespace TelegramBot.Modules.Function.Handlers
             this.webAPIConfiguration = webAPIConfiguration;
         }
 
-        public async Task<Result> Handle(CustBotAccount account, string[] parameters, BotEntity bot)
+        public async Task<Result> Handle(CustBotAccount account, string[] parameters)
         {
             var parameter = parameters[0]?.ToLowerInvariant();
             if (string.IsNullOrWhiteSpace(parameter))

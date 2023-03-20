@@ -4,7 +4,6 @@ using TelegramBot.Modules.Setting.Models;
 using TelegramBot.Shared.Models;
 using TelegramBot.Shared.Resources;
 using TelegramBot.Utilities.Extensions;
-using TelegramBot.Modules.Bot.Models;
 
 namespace TelegramBot.Modules.Function.Handlers
 {
@@ -19,7 +18,7 @@ namespace TelegramBot.Modules.Function.Handlers
         {
         }
 
-        public Task<Result> Handle(CustBotAccount account, string[] parameters, BotEntity bot)
+        public Task<Result> Handle(CustBotAccount account, string[] parameters)
             => HandleWinLoss(account, parameters, DateTime.Today);
 
         protected override void AddMyWinLossTitleRow(List<string> textContainer, string language)

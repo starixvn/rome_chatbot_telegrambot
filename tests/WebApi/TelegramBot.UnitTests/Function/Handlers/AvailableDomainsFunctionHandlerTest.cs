@@ -68,7 +68,7 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
             dynamicRepository.FetchAsync<BackupDomainModel>(Arg.Any<GetGetBackupDomainsCriteria>()).Returns(new List<BackupDomainModel> { });
 
             // Act
-            var result = await handler.Handle(requestAccount, param, bot);
+            var result = await handler.Handle(requestAccount, param);
 
             // Assert
             Assert.Equal(expect.Code, result.Code);
