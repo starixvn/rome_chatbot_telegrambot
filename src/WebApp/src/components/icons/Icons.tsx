@@ -48,9 +48,9 @@ export const EyeIcon = ({ width, height }: IconProps) => {
 
 export const ErrorIcon = ({ width = 20, height = 20 }: IconProps) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width={width} height={height} viewBox="0 0 48 48">
-      <path fill="#F44336" d="M21.5 4.5H26.501V43.5H21.5z" transform="rotate(45.001 24 24)"></path>
-      <path fill="#F44336" d="M21.5 4.5H26.5V43.501H21.5z" transform="rotate(135.008 24 24)"></path>
+    <svg width={width} height={height} viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M0.666016 8.99984C0.666016 4.3915 4.39102 0.666504 8.99935 0.666504C13.6077 0.666504 17.3327 4.3915 17.3327 8.99984C17.3327 13.6082 13.6077 17.3332 8.99935 17.3332C4.39102 17.3332 0.666016 13.6082 0.666016 8.99984ZM11.991 13.1665L13.166 11.9915L10.1743 8.99984L13.166 6.00817L11.991 4.83317L8.99935 7.82484L6.00768 4.83317L4.83268 6.00817L7.82435 8.99984L4.83268 11.9915L6.00768 13.1665L8.99935 10.1748L11.991 13.1665Z" fill="#FE0000"/>
     </svg>
+    
   );
 };

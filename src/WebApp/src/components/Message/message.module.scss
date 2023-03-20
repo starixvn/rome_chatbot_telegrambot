@@ -3,15 +3,25 @@
   border-style: solid;
   border-radius: 2px;
   box-sizing: border-box;
-  padding: 8px;
+  padding: 10px 9px 9px;
   position: relative;
   margin: 12px 0;
+  display: flex;
+  align-items: flex-start;
+  svg{
+    position: relative;
+    top: -1px;
+    margin-right: 1px;
+  }
+  span{
+    flex: 1;
+  }
 }
 
 .msg-error {
-  background-color: #fadddd;
-  border-color: #ef2d2d;
-  color: #fe0000;
+  background-color: #FADDDD;
+  border-color: #FE0000;
+  color: #FE0000;
 }
 
 .msg-content {

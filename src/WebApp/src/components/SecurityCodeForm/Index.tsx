@@ -41,12 +41,12 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
 
   return (
     <form className={styles["security-code"]} onSubmit={handleSubmit}>
-      <label htmlFor="SecurityCode">{t("SecurityCode")}</label>
+      <label className={styles["form-lable"]} htmlFor="SecurityCode">{t("SecurityCode")}</label>
       {error && <Message message={error} />}
-      <p>
+      <p className={styles["form-name"]}>
         {t("Hi")} {username},
       </p>
-      <p>{t("SCNote")}</p>
+      <p className={styles["form-note"]}>{t("SCNote")}</p>
       <div className={styles["form-group"]}>
         <input
           className={styles["form-control"]}
@@ -62,8 +62,10 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
         <input type="submit" value={t("Verify")} />
       </div>
       <div className={styles["form-group"]}>
-        <input type="checkbox" id="checkbox" checked={securityCodeShown} onChange={handleShowSecurityCode} />
-        <label htmlFor="checkbox">{t("ShowSecurityCode")}</label>
+        <label htmlFor="checkbox" className={styles["has-checkbox"]}>
+          <input type="checkbox" id="checkbox" checked={securityCodeShown} onChange={handleShowSecurityCode} />
+          {t("ShowSecurityCode")}
+        </label>
       </div>
     </form>
   );
