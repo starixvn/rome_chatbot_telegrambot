@@ -1,21 +1,20 @@
-using Microsoft.Extensions.Configuration;
 using Telegram.Bot.Types;
 using TelegramBot.Modules.Setting.Models;
+using TelegramBot.Shared.Constants;
 
 namespace TelegramBot.Modules.Action.Builders.WebApp;
 
 public class NewCustomersWebAppBuilder : IWebAppBuilder
 {
-    private readonly IConfiguration configuration;
+    private readonly string webAppUrl;
 
-    public NewCustomersWebAppBuilder(IConfiguration configuration)
+    public NewCustomersWebAppBuilder(string webAppUrl)
     {
-        this.configuration = configuration;
+        this.webAppUrl = webAppUrl;
     }
 
     public WebAppInfo BuildWebAppInfo(CustBotAccount account)
     {
-        var url = configuration.GetValue<string>($"NewCustomerUrl:{account.System}");
-        return new WebAppInfo() { Url = $"{url}" };
+        return new WebAppInfo() { Url = $"{webAppUrl}/{LanguageCodes.MapWebAppLanguage(account.Language)}/newcustomer" };
     }
 }

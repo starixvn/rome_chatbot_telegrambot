@@ -15,11 +15,27 @@
             ["zh-TW"] = ChineseTraditional
         };
 
+        private static readonly IDictionary<string, string> WebAppLanguageCodeMapper = new Dictionary<string, string>
+        {
+            [ChineseSimplified] = "zh-CN",
+            [ChineseTraditional] = "zh-TW"
+        };
+
         public static string MapLanguage(string language)
         {
             if (LanguageCodeMapper.ContainsKey(language))
             {
                 return LanguageCodeMapper[language];
+            }
+
+            return SupportLanguages.Contains(language) ? language : English;
+        }
+
+        public static string MapWebAppLanguage(string language)
+        {
+            if (WebAppLanguageCodeMapper.ContainsKey(language))
+            {
+                return WebAppLanguageCodeMapper[language];
             }
 
             return SupportLanguages.Contains(language) ? language : English;

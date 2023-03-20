@@ -10,18 +10,18 @@ public interface IWebAppBuilderFactory
 
 public class WebAppBuilderFactory : IWebAppBuilderFactory
 {
-    private readonly IConfiguration configuration;
+    private readonly string webAppUrl;
 
     public WebAppBuilderFactory(IConfiguration configuration)
     {
-        this.configuration = configuration;
+        webAppUrl = configuration.GetValue<string>("WebAppUrl");
     }
 
     public IWebAppBuilder GetBuilder(short actionId)
     {
         if (actionId == ActionIds.NewCustomers)
         {
-            return new NewCustomersWebAppBuilder(configuration);
+            return new NewCustomersWebAppBuilder(webAppUrl);
         }
 
         throw new InvalidOperationException($"ActionId: {actionId}");
