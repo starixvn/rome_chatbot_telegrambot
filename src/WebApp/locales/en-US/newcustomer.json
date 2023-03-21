@@ -27,5 +27,6 @@
     "perAccount": "(per account)",
     "creditNote": " =< New Given Credit =< ",
     "memberMaxCredit": "Member Max Credit",
-    "password": "Password"
+    "password": "Password",
+    "submit": "Submit"
 }

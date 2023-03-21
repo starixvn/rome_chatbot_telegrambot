@@ -266,7 +266,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
               </span>
             </div>
             <button className={styles["button-submit"]} type="submit">
-              Submit
+              {t("submit")}
             </button>
           </form>
         </div>
