@@ -9,6 +9,7 @@ import { User } from "src/lib/session";
 import { numberAccounts } from "src/constants/number-accounts";
 import { SingleSelect } from "@components/Form/Select";
 import { Label } from "@components/Form/Label";
+import BlockUI from "@components/BlockUI";
 
 const NewAccountName = dynamic(() => import("@components/Customer/NewAccount").then((mod) => mod.NewAccountName), {
   ssr: false,
@@ -69,7 +70,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
     handleSubmit,
     control,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     resetField,
   } = methods;
 
@@ -114,6 +115,8 @@ export const CopyCustomer = ({ ...props }: Props) => {
 
   const handleContinue = () => {
     setData({});
+    setMaxCredit(0);
+    setMaxMemberCredit(0);
     resetField("credit");
     reset();
   };
@@ -174,6 +177,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
   console.log("create new customer");
   return (
     <>
+      {isSubmitting && <BlockUI />}
       {JSON.stringify(data) !== "{}" ? (
         renderResult(data)
       ) : (

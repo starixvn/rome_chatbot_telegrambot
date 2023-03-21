@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { CheckMarkIcon } from "@components/Icons";
+import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
 import { components, GroupBase, OptionProps, SingleValue, StylesConfig } from "react-select";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import Select from "react-select/dist/declarations/src/Select";
 import { checkExistAccountName } from "../NewAccount";
+import styles from "./SearchCustomer.module.scss";
 
 export type CustomerInfoOption = {
   userName: string;
@@ -13,6 +14,12 @@ export type CustomerInfoOption = {
   userName2: string;
   value: string;
 };
+
+enum ErrorMode {
+  Init = 1,
+  InCorrect,
+  Correct,
+}
 
 const getExistCustomers = async (query: string) => {
   const url = `/api/customer/search?query=${query}`;
@@ -57,20 +64,20 @@ type Props = {
 
 export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
   let selectInputRef: Select<CustomerInfoOption, boolean, GroupBase<CustomerInfoOption>> | null = null;
-  const [isCorrectName, setIsCorrectName] = useState(false);
+  const [isCorrectName, setIsCorrectName] = useState<ErrorMode>(ErrorMode.Init);
 
   useEffect(() => {
-    setIsCorrectName(false);
+    setIsCorrectName(ErrorMode.Init);
     clearSingleValue();
   }, []);
 
   const checkExistUserName = async (username: string) => {
     const data = await checkExistAccountName(username);
     if (data.isExist) {
-      setIsCorrectName(true);
+      setIsCorrectName(ErrorMode.Correct);
     } else {
       onChange("");
-      setIsCorrectName(false);
+      setIsCorrectName(ErrorMode.InCorrect);
     }
   };
 
@@ -89,7 +96,7 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
 
   console.log("render search");
   return (
-    <div>
+    <div className={styles.search}>
       <AsyncCreatableSelect
         ref={(ref) => {
           selectInputRef = ref;
@@ -103,7 +110,8 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
           return option.userName ? option.userName : option["value"];
         }}
       />
-      {isCorrectName ? <CheckMarkIcon height={16} width={16} /> : null}
+      {isCorrectName === ErrorMode.Correct && <CheckMarkIcon height={16} width={16} />}
+      {isCorrectName === ErrorMode.InCorrect && <ErrorIcon height={16} width={16} />}
     </div>
   );
 };
@@ -117,7 +125,7 @@ const customerStyles: StylesConfig<CustomerInfoOption> = {
     display: "inline-block",
     paddingLeft: "3px",
   }),
-  
+
   container: (provided) => ({
     ...provided,
     display: "inline-block",

@@ -11,8 +11,8 @@ export const Label = ({ title, subLabel, description, required }: Props) => {
   return (
     <>
       <label className={subLabel ? styles["sub-label"] : ""}>{title}</label>
-      {description ? <p>{description}</p> : null}
-      {required ? <span className={styles.require}>*</span> : null}
+      {description && <p>{description}</p>}
+      {required && <span className={styles.require}>*</span>}
     </>
   );
 };
