@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { characters } from "src/constants/characters";
 import { CheckMarkIcon } from "@components/Icons";
-import { SingleSelect } from "@components/form";
+import { SingleSelect } from "@components/Form/Select";
 
 export const getSuggestAccountName = async (actorName: string) => {
   const url = `/api/customer/suggest/${actorName}`;

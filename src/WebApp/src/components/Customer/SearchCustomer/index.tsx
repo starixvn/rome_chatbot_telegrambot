@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { CheckMarkIcon } from "@components/Icons";
-import { components, GroupBase, OptionProps, SingleValue } from "react-select";
+import { components, GroupBase, OptionProps, SingleValue, StylesConfig } from "react-select";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import Select from "react-select/dist/declarations/src/Select";
-import { checkExistAccountName } from "../NewAccount/NewAccountName";
-import { customerStyles } from "./CustomStyle";
+import { checkExistAccountName } from "../NewAccount";
 
 export type CustomerInfoOption = {
   userName: string;
@@ -107,4 +106,40 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
       {isCorrectName ? <CheckMarkIcon height={16} width={16} /> : null}
     </div>
   );
+};
+
+const customerStyles: StylesConfig<CustomerInfoOption> = {
+  control: (baseStyles) => ({
+    ...baseStyles,
+    minHeight: "30px",
+    height: "30px",
+    width: "320px",
+    display: "inline-block",
+    paddingLeft: "3px",
+  }),
+  
+  container: (provided) => ({
+    ...provided,
+    display: "inline-block",
+  }),
+
+  valueContainer: (provided) => ({
+    ...provided,
+    height: "30px",
+    padding: "0 6px",
+  }),
+
+  input: (provided) => ({
+    ...provided,
+    margin: "0px 2px",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+
+  indicatorsContainer: (provided) => ({
+    ...provided,
+    display: "none",
+  }),
 };

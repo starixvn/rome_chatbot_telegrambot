@@ -1,3 +1,7 @@
 export interface CustomWindow extends Window {
-  Telegram: object;
+  Telegram: {
+    WebApp: {
+      initData: string
+    }
+  };
 }

@@ -3,8 +3,8 @@ import { withIronSessionSsr } from "iron-session/next";
 import { sessionOptions, User } from "src/lib/session";
 import Layout from "@components/Layout";
 import useTranslation from "next-translate/useTranslation";
-import { CopyCustomer } from "@features/CopyCustomer/CopyCustomer";
-import SecurityCodeForm from "@components/SecurityCodeForm/Index";
+import { CopyCustomer } from "@features/CopyCustomer";
+import SecurityCodeForm from "@components/SecurityCodeForm";
 
 interface Props {
   user: User;

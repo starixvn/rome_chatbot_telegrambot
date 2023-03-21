@@ -1,4 +1,4 @@
-import { SelectData } from "@components/form";
+import { SelectData } from "@components/Form/Select";
 
 const charactersList = [
   0,

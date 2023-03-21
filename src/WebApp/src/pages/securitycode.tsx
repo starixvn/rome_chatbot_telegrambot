@@ -1,5 +1,6 @@
-import SecurityCodeForm from "@components/SecurityCodeForm/Index";
 import { useState } from "react";
+import SecurityCodeForm from "@components/SecurityCodeForm";
+
 
 export default function SecurityCode() {
   const [isSecurityCodeVerified, setIsSecurityCodeVerified] = useState(false);

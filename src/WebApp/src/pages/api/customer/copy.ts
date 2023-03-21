@@ -30,13 +30,13 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
 }
 
 const getDownLineInfo = async (user: User, sourceUserName: string) => {
-  const url = `${process.env.CUSTOMER_API}/${user.custId}/${user.subAccId}/downlines/${sourceUserName}`;
+  const url = `${process.env.CUSTOMER_API}/customer/${user.custId}/${user.subAccId}/downlines/${sourceUserName}`;
   const result = await fetch(url);
   return await result.json();
 };
 
 const copyCustomer = async (user: User, data: CopyCustomerData) => {
-  const url = `${process.env.CUSTOMER_API}/copy`;
+  const url = `${process.env.CUSTOMER_API}/customer/copy`;
   const reqData = {
     actorId: user.custId,
     actorSubAccId: user.subAccId,

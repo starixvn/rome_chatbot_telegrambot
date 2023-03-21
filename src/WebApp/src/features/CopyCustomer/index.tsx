@@ -7,13 +7,13 @@ import { InformationIcon } from "@components/Icons";
 import Message from "@components/Message";
 import { User } from "src/lib/session";
 import { numberAccounts } from "src/constants/number-accounts";
-import { SingleSelect } from "@components/form";
+import { SingleSelect } from "@components/Form/Select";
 
-const NewAccountName = dynamic(() => import("@components/customer").then((mod) => mod.NewAccountName), {
+const NewAccountName = dynamic(() => import("@components/Customer/NewAccount").then((mod) => mod.NewAccountName), {
   ssr: false,
 });
 
-const SearchCustomerExists = dynamic(() => import("@components/customer").then((mod) => mod.SearchCustomerExists), {
+const SearchCustomerExists = dynamic(() => import("@components/Customer/SearchCustomer").then((mod) => mod.SearchCustomerExists), {
   ssr: false,
 });
 
