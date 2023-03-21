@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 import { Controller, FieldErrors, useForm } from "react-hook-form";
 import styles from "./NewCustomer.module.scss";
-import { InformationIcon, EyeIcon } from "@components/Icons";
+import { InformationIcon, EyeIcon, EyeCloseIcon } from "@components/Icons";
 import Message from "@components/Message";
 import { User } from "src/lib/session";
 import { numberAccounts } from "src/constants/number-accounts";
@@ -76,6 +76,11 @@ export const CopyCustomer = ({ ...props }: Props) => {
   const [data, setData] = useState<Result>({});
   const [maxCredit, setMaxCredit] = useState(0);
   const [maxMemberCredit, setMaxMemberCredit] = useState(0);
+  const [passwordShown, setPasswordShown] = useState(false);
+
+  const handleShowPassword = () => {
+    setPasswordShown(!passwordShown);
+  };
 
   const onSubmit = handleSubmit(async (formData) => {
     const url = `/api/customer/copy`;
@@ -243,7 +248,9 @@ export const CopyCustomer = ({ ...props }: Props) => {
             ) : null}
             <div>
               <Label title={t("password")} subLabel={true} required={true} />
-              <InformationIcon height={16} width={16} />
+              <span title={t("formError.password")}>
+                <InformationIcon height={16} width={16} />
+              </span>
             </div>
             <div className={styles.relative}>
               <input
@@ -252,10 +259,10 @@ export const CopyCustomer = ({ ...props }: Props) => {
                   required: true,
                   validate: validatePassword,
                 })}
-                type="password"
+                type={passwordShown ? "text" : "password"}
               />
-              <span className={styles.showpassword}>
-                <EyeIcon height={16} width={16} />
+              <span className={styles.showpassword} onClick={handleShowPassword}>
+                {passwordShown ? <EyeIcon /> : <EyeCloseIcon />}
               </span>
             </div>
             <button className={styles["button-submit"]} type="submit">
