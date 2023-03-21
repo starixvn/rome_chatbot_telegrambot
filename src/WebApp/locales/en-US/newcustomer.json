@@ -1,28 +1,27 @@
 {
-    "header": "Create new Customer",
+    "header": "New Customer",
     "formError": {
         "existAccount": "This user does not exist",
         "username": "This username is not available",
         "credit": "Given Credit must be between 0 and {{max}}",
         "memberMaxCredit": "Incorrect Member Max Credit",
-        "password": 
-        "Password must be at least 8 characters without white-space and contain at least 3 of the following:\nUppercase letter [A-Z], Lowercase letter [a-z], Numeric [0-9], Special character (!,@,#,etc..).\nFor example: 59D7!4$h, 493abcDE.\nNotes: your password is cAsE sEnSiTiVe"
+        "password": "Password must be at least 8 characters without white-space and contain at least 3 of the following:\n\n• Uppercase letter [A-Z]\n• Lowercase letter [a-z]\n• Numeric [0-9]\n• Special character (!,@,#,etc..)\n\nFor example: 59D7!4$h, 493abcDE\nNotes: your password is cAsE sEnSiTiVe"
     },
     "result": {
         "success": "The following accounts have been created successful:",
-        "usernames": "Usernames: ",
+        "usernames": "Usernames:",
         "credit": "Credit: {{credit}} (per account)",
-        "fail": "{{failAccounts}} accounts have been created failed.",
-        "failReason": "Failed reason: {{message}}",
+        "fail": "System failed to create {{failAccounts}} accounts.",
+        "failReason": "Failure Reason: {{message}}",
         "createMore": "Create More"
     },
-    "note": "*Note: Settings will remain the same as the Source account setting for all accounts",
+    "note": "*Note: Settings will be the same as the Source account",
     "copySettings": "Copy Settings",
-    "searchNote": "Search existing account to copy the same settings",
+    "searchNote": "Search for an existing account to copy settings",
     "noOfAccounts": "No. Of Accounts",
-    "noAccountsNote": "Choose the number of accounts you want to create (Max={{max}})",
+    "noAccountsNote": "Choose the number of accounts you want to create (Max = {{max}})",
     "accountDetail": "Account Details",
-    "accountDetailNote": " Choose an available username as as starter and the remaining accounts will follow",
+    "accountDetailNote": "Choose the first available username and the remaining accounts will follow the system's suggestion.",
     "username": "Username",
     "credit": "Credit",
     "perAccount": "(per account)",
