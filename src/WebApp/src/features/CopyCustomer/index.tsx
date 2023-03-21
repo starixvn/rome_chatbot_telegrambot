@@ -8,6 +8,7 @@ import Message from "@components/Message";
 import { User } from "src/lib/session";
 import { numberAccounts } from "src/constants/number-accounts";
 import { SingleSelect } from "@components/Form/Select";
+import { Label } from "@components/Form/Label";
 
 const NewAccountName = dynamic(() => import("@components/Customer/NewAccount").then((mod) => mod.NewAccountName), {
   ssr: false,
@@ -175,8 +176,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
           <p className={styles.note + " " + styles.notetop}>{t("note")}</p>
           <form onSubmit={onSubmit}>
             {renderErrors(errors)}
-            <label className={styles.text}>{t("copySettings")}</label>
-            <p className={styles.text}> {t("searchNote")}</p>
+            <Label title={t("copySettings")} description={t("searchNote")} />
             <div className={styles.formcontrolSetting}>
               <Controller
                 name="existAccount"
@@ -185,8 +185,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
                 rules={{ minLength: 1, required: true }}
               />
             </div>
-            <label className={styles.text}>{t("noOfAccounts")}</label>
-            <p className={styles.text}>{t("noAccountsNote", { max: props.maxAccounts })}</p>
+            <Label title={t("noOfAccounts")} description={t("noAccountsNote", { max: props.maxAccounts })} />
             <div className={styles.formcontrolSelectFull}>
               <Controller
                 name="noOfAccounts"
@@ -195,12 +194,8 @@ export const CopyCustomer = ({ ...props }: Props) => {
                 rules={{ required: true }}
               />
             </div>
-            <label className={styles.text}>{t("accountDetail")}</label>
-            <p className={styles.text}> {t("accountDetailNote")}</p>
-            <label className={styles.sublabel}>
-              {t("username")}
-              <span className={styles.require}>*</span>
-            </label>
+            <Label title={t("accountDetail")} description={t("accountDetailNote")} />
+            <Label title={t("username")} required={true} />
             <div className={styles.agent}>
               <Controller
                 name="username"
@@ -209,10 +204,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
                 rules={{ minLength: 1, required: true }}
               />
             </div>
-            <label className={styles.sublabel}>
-              {t("credit")}
-              <span className={styles.require}>*</span>
-            </label>
+            <Label title={t("credit")} subLabel={true} required={true} />
             <div className={styles.peraccount}>
               <input
                 type="number"
@@ -233,10 +225,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
             </div>
             {props.isMasterLevel ? (
               <div>
-                <label className={styles.sublabel}>
-                  {t("memberMaxCredit")}
-                  <span className={styles.require}>*</span>
-                </label>
+                <Label title={t("memberMaxCredit")} subLabel={true} required={true} />
                 <div className={styles.peraccount}>
                   <input
                     type="number"
@@ -252,11 +241,10 @@ export const CopyCustomer = ({ ...props }: Props) => {
                 </div>
               </div>
             ) : null}
-            <label className={styles.sublabel}>
-              {t("password")}
-              <span className={styles.require}>*</span>
+            <div>
+              <Label title={t("password")} subLabel={true} required={true} />
               <InformationIcon height={16} width={16} />
-            </label>
+            </div>
             <div className={styles.relative}>
               <input
                 className={styles.control + " " + styles.full}
