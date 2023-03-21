@@ -16,17 +16,13 @@ interface Props {
 
 const NewCustomer = (props: Props) => {
   const { t } = useTranslation("newcustomer");
-  const [isSecurityCodeVerified, setIsSecurityCodeVerified] = useState(false);
+  const [isSecurityCodeVerified, setIsSecurityCodeVerified] = useState(true);
   const onVerifySecurityCodeSuccess = () => {
     setIsSecurityCodeVerified(true);
   };
   return (
     <Layout title={t("header")} roleId={props.user.customerLevel}>
-      {isSecurityCodeVerified ? (
-        <CopyCustomer {...props} />
-      ) : (
-        <SecurityCodeForm username={props.actorName} onVerifySuccess={onVerifySecurityCodeSuccess} />
-      )}
+      {isSecurityCodeVerified ? <CopyCustomer {...props} /> : <SecurityCodeForm username={props.actorName} onVerifySuccess={onVerifySecurityCodeSuccess} />}
     </Layout>
   );
 };

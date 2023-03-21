@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 import { Controller, FieldErrors, useForm } from "react-hook-form";
 import styles from "./NewCustomer.module.scss";
-import { InformationIcon } from "@components/Icons";
+import { InformationIcon, EyeIcon } from "@components/Icons";
 import Message from "@components/Message";
 import { User } from "src/lib/session";
 import { numberAccounts } from "src/constants/number-accounts";
@@ -158,7 +158,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
             {renderErrors(errors)}
             <label className={styles.text}>{t("copySettings")}</label>
             <p className={styles.text}> {t("searchNote")}</p>
-            <div className={styles.formcontrol}>
+            <div className={styles.formcontrolSetting}>
               <Controller
                 name="existAccount"
                 control={control}
@@ -168,7 +168,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
             </div>
             <label className={styles.text}>{t("noOfAccounts")}</label>
             <p className={styles.text}>{t("noAccountsNote", { max: props.maxAccounts })}</p>
-            <div className={styles.formcontrol}>
+            <div className={styles.formcontrolSelectFull}>
               <Controller
                 name="noOfAccounts"
                 control={control}
@@ -194,7 +194,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
               {t("credit")}
               <span className={styles.require}>*</span>
             </label>
-            <div className={styles.formcontrol}>
+            <div className={styles.peraccount}>
               <input
                 type="number"
                 className={styles.control + " " + styles.full}
@@ -218,14 +218,16 @@ export const CopyCustomer = ({ ...props }: Props) => {
                   {t("memberMaxCredit")}
                   <span className={styles.require}>*</span>
                 </label>
-                <input
-                  type="number"
-                  {...register("memberMaxCredit", {
-                    required: true,
-                    max: maxMemberCredit,
-                  })}
-                />
-                <span>{t("perAccount")}</span>
+                <div className={styles.peraccount}>
+                  <input
+                    type="number"
+                    {...register("memberMaxCredit", {
+                      required: true,
+                      max: maxMemberCredit,
+                    })}
+                  />
+                  <span>{t("perAccount")}</span>
+                </div>
                 <div className={styles.credit}>
                   <span>=&lt; {maxMemberCredit.toFixed(2)}</span>
                 </div>
@@ -244,9 +246,13 @@ export const CopyCustomer = ({ ...props }: Props) => {
                 })}
                 type="password"
               />
-              <span className={styles.showpassword}></span>
+              <span className={styles.showpassword}>
+                <EyeIcon height={16} width={16} />
+              </span>
             </div>
-            <input className={styles.button + " " + styles.submit} type="submit" />
+            <button className={styles.button + " " + styles.submit} type="submit">
+              Submit
+            </button>
           </form>
         </div>
       )}
