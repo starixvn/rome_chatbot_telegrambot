@@ -21,6 +21,13 @@
     width: 320px;
     border: 1px solid #d1d1d1;
     padding: 0 10px;
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
+      &:focus,
+      &:active {
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+      }
+    }
     &:focus {
       outline: none;
     }
@@ -71,7 +78,7 @@
   }
   .button.submit {
     padding: 3px 15px;
-    margin: 16px 0 0 5px;
+    margin: 16px 0 0 0;
     background: #0b589c;
     color: #ededed;
     outline: none;
@@ -101,6 +108,9 @@
   .peraccount {
     display: flex;
     align-items: center;
+    input {
+      width: 320px;
+    }
     span {
       flex: 1;
       white-space: nowrap;
@@ -108,10 +118,32 @@
     }
   }
 }
+.button-submit {
+  padding: 0 15px;
+  margin: 10px 0 0 0;
+  background: #0b589c;
+  color: #ededed;
+  outline: none;
+  border: 0;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 35px;
+  text-transform: uppercase;
+  width: 100%;
+}
+.message {
+  font-size: 16px;
+  line-height: 22px;
+  margin-bottom: 3px;
+}
+.infor {
+  font-size: 16px;
+  margin-bottom: 3px;
+}
 
 .main .button {
   display: block;
-  margin-left: 0px !important;
+  margin-left: 0 !important;
   width: 100%;
   margin-top: 25px;
   font-family: var(--font-roboto);
@@ -119,7 +151,6 @@
 
 .main button {
   width: 100%;
-  height: 30px;
 }
 .formcontrol {
   display: flex;
@@ -185,11 +216,12 @@ input.full {
 }
 .relative {
   position: relative;
+  max-width: 360px !important;
 }
 .showpassword {
   position: absolute;
-  top: 5px;
-  left: 336px;
+  top: 7px;
+  right: 5px;
   cursor: pointer;
 }
 .agent {

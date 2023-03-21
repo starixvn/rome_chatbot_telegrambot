@@ -31,8 +31,8 @@ const validatePassword = (password: string) => {
   const case3 = password.search(regex3) != -1 ? 1 : 0;
   const case4 = password.search(regex4) != -1 ? 1 : 0;
 
-  return (case1 + case2 + case3 + case4 >= 3) && whiteSpaceCase;
-}
+  return case1 + case2 + case3 + case4 >= 3 && whiteSpaceCase;
+};
 
 type IFormInputs = {
   existAccount: string;
@@ -117,27 +117,29 @@ export const CopyCustomer = ({ ...props }: Props) => {
       <>
         {data?.usernames && data?.usernames.length > 0 ? (
           <>
-            <div>{t("result.success")}</div>
-            <div>
-              <span>{t("result.usernames")}</span>
+            <div className={styles["message"]}>{t("result.success")}</div>
+            <div className={styles["infor"]}>
+              <span>{t("result.usernames")} </span>
               {data.usernames?.map((item) => (
-                <span key={item}>{item}, </span>
+                <b key={item}>{item}, </b>
               ))}
             </div>
-            <div>
+            <div className={styles["infor"]}>
               <span>{t("result.credit", { credit: data.credit })}</span>
             </div>
           </>
         ) : null}
         {data?.failAccounts && data.failAccounts > 0 ? (
           <>
-            <div>{t("result.fail", { failAccounts: data.failAccounts })}</div>
-            <div>
+            <div className={styles["message"]}>{t("result.fail", { failAccounts: data.failAccounts })}</div>
+            <div className={styles["infor"]}>
               <span>{t("result.failReason", { message: data.message })}</span>
             </div>
           </>
         ) : null}
-        <button onClick={handleContinue}>{t("result.createMore")}</button>
+        <button className={styles["button-submit"]} onClick={handleContinue}>
+          {t("result.createMore")}
+        </button>
       </>
     );
   };
@@ -260,7 +262,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
                 className={styles.control + " " + styles.full}
                 {...register("password", {
                   required: true,
-                  validate: validatePassword
+                  validate: validatePassword,
                 })}
                 type="password"
               />
@@ -268,7 +270,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
                 <EyeIcon height={16} width={16} />
               </span>
             </div>
-            <button className={styles.button + " " + styles.submit} type="submit">
+            <button className={styles["button-submit"]} type="submit">
               Submit
             </button>
           </form>
