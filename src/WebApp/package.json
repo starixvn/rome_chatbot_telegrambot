@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sentry/nextjs": "^7.44.1",
     "crypto-js": "^4.1.1",
     "iron-session": "^6.3.1",
     "next": "13.1.6",
