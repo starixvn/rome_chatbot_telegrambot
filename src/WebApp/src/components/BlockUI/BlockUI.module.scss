@@ -1,0 +1,13 @@
+.block-ui {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(221, 221, 221, 0.6);
+  opacity: 0.9;
+}
