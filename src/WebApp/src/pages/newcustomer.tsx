@@ -16,7 +16,7 @@ interface Props {
 
 const NewCustomer = (props: Props) => {
   const { t } = useTranslation("newcustomer");
-  const [isSecurityCodeVerified, setIsSecurityCodeVerified] = useState(true);
+  const [isSecurityCodeVerified, setIsSecurityCodeVerified] = useState(false);
   const onVerifySecurityCodeSuccess = () => {
     setIsSecurityCodeVerified(true);
   };
