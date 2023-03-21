@@ -1,2 +1,2 @@
-export { SearchCustomerExists } from "./SearchCustomer/SearchCustomerExists";
-export { NewAccountName } from "./NewAccount/NewAccountName";
+export * from "./SearchCustomer/SearchCustomerExists";
+export * from "./NewAccount/NewAccountName";

@@ -11,15 +11,11 @@ type Props = SelectHTMLAttributes<HTMLSelectElement> & {
   handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-export const SingleSelect = ({
-  options,
-  selectedValue,
-  handleChange,
-}: Props) => {
+export const SingleSelect = ({ options, selectedValue, handleChange }: Props) => {
   return (
     <>
       <select defaultValue={selectedValue} onChange={handleChange}>
-        {options.map((item) => (
+        {options.map((item: SelectData) => (
           <option key={item.value} value={item.value}>
             {item.displayName}
           </option>

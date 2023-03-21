@@ -1,4 +1,4 @@
-import { ErrorIcon } from "@components/Icons/Icons";
+import { ErrorIcon } from "@components/Icons";
 import React from "react";
 import styles from "./message.module.scss";
 

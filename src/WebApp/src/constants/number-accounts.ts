@@ -1,9 +1,8 @@
-import { SelectData } from '@components/Form/Select/SingleSelect';
+import { SelectData } from "@components/form";
 
-const noAccounts = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const noAccounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export const numberAccounts: SelectData[] = noAccounts.map((number) => ({
-    value: number,
-    displayName: number.toString(),
-  }));
-  
+  value: number,
+  displayName: number.toString(),
+}));

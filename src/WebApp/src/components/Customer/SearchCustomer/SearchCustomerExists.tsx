@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { CheckMarkIcon } from "@components/Icons/Icons";
-import { components, GroupBase, OptionProps, SingleValue} from "react-select";
+import { CheckMarkIcon } from "@components/Icons";
+import { components, GroupBase, OptionProps, SingleValue } from "react-select";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import Select from "react-select/dist/declarations/src/Select";
 import { checkExistAccountName } from "../NewAccount/NewAccountName";
 import { customerStyles } from "./CustomStyle";
 
 export type CustomerInfoOption = {
-  userName: string,
-  firstName: string,
-  lastName: string,
-  userName2: string
-  value: string,
-}
+  userName: string;
+  firstName: string;
+  lastName: string;
+  userName2: string;
+  value: string;
+};
 
 const getExistCustomers = async (query: string) => {
   const url = `/api/customer/search?query=${query}`;
@@ -37,7 +37,7 @@ export const customPromiseOptions = async (inputValue: string) => {
   });
 };
 
-const CustomOption = (props:  OptionProps<CustomerInfoOption, false>) => {
+const CustomOption = (props: OptionProps<CustomerInfoOption, false>) => {
   return (
     <components.Option {...props}>
       {props.data.userName ? (
@@ -52,9 +52,9 @@ const CustomOption = (props:  OptionProps<CustomerInfoOption, false>) => {
 };
 
 type Props = {
-  onChange: (existAccountName: string) => void,
-  changeMaxCredit: (maxCredit: number) => void
-}
+  onChange: (existAccountName: string) => void;
+  changeMaxCredit: (maxCredit: number) => void;
+};
 
 export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
   let selectInputRef: Select<CustomerInfoOption, boolean, GroupBase<CustomerInfoOption>> | null = null;
@@ -79,7 +79,7 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
     if (option) {
       const data = await getCustomerMaxCredit(option.value);
       onChange(option.value);
-      await checkExistUserName(option.value)
+      await checkExistUserName(option.value);
       changeMaxCredit(data.maxCredit);
     }
   };
@@ -104,7 +104,7 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
           return option.userName ? option.userName : option["value"];
         }}
       />
-       {isCorrectName ? <CheckMarkIcon height={16} width={16} /> : null}
+      {isCorrectName ? <CheckMarkIcon height={16} width={16} /> : null}
     </div>
   );
 };
