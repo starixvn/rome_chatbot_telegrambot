@@ -10,6 +10,7 @@ import { numberAccounts } from "src/constants/number-accounts";
 import { SingleSelect } from "@components/Form/Select";
 import { Label } from "@components/Form/Label";
 import BlockUI from "@components/BlockUI";
+import Result from "./Result";
 
 const NewAccountName = dynamic(() => import("@components/Customer/NewAccount").then((mod) => mod.NewAccountName), {
   ssr: false,
@@ -121,38 +122,6 @@ export const CopyCustomer = ({ ...props }: Props) => {
     reset();
   };
 
-  const renderResult = (data: Result) => {
-    return (
-      <>
-        {data?.usernames && data?.usernames.length > 0 ? (
-          <>
-            <div className={styles["message"]}>{t("result.success")}</div>
-            <div className={styles["infor"]}>
-              <span>{t("result.usernames")} </span>
-              {data.usernames?.map((item) => (
-                <b key={item}>{item}, </b>
-              ))}
-            </div>
-            <div className={styles["infor"]}>
-              <span>{t("result.credit", { credit: data.credit })}</span>
-            </div>
-          </>
-        ) : null}
-        {data?.failAccounts && data.failAccounts > 0 ? (
-          <>
-            <div className={styles["message"]}>{t("result.fail", { failAccounts: data.failAccounts })}</div>
-            <div className={styles["infor"]}>
-              <span>{t("result.failReason", { message: data.message })}</span>
-            </div>
-          </>
-        ) : null}
-        <button className={styles["button-submit"]} onClick={handleContinue}>
-          {t("result.createMore")}
-        </button>
-      </>
-    );
-  };
-
   const renderErrors = (errors: FieldErrors) => {
     const errorKeys = ["existAccount", "username", "credit", "memberMaxCredit", "password"];
     let firstErr = "";
@@ -174,12 +143,11 @@ export const CopyCustomer = ({ ...props }: Props) => {
     }
   };
 
-  console.log("create new customer");
   return (
     <>
       {isSubmitting && <BlockUI />}
       {JSON.stringify(data) !== "{}" ? (
-        renderResult(data)
+        <Result {...data} handleContinue={handleContinue} />
       ) : (
         <div className={styles.main}>
           <p className={styles.note + " " + styles.notetop}>{t("note")}</p>
@@ -232,7 +200,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
               {t("creditNote")}
               <span>{maxCredit.toFixed(2)}</span>
             </div>
-            {props.isMasterLevel ? (
+            {props.isMasterLevel && (
               <div>
                 <Label title={t("memberMaxCredit")} subLabel={true} required={true} />
                 <div className={styles.peraccount}>
@@ -249,7 +217,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
                   <span>=&lt; {maxMemberCredit.toFixed(2)}</span>
                 </div>
               </div>
-            ) : null}
+            )}
             <div>
               <Label title={t("password")} subLabel={true} required={true} />
               <span title={t("formError.password")}>
