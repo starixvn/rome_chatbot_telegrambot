@@ -18,7 +18,7 @@
     height: 30px;
     appearance: none;
     border-radius: 0;
-    width: 320px;
+    width: 100%;
     border: 1px solid #d1d1d1;
     padding: 0 10px;
     &:-webkit-autofill {
@@ -109,7 +109,8 @@
     display: flex;
     align-items: center;
     input {
-      width: 320px;
+      width: 100%;
+      max-width: 320px;
     }
     span {
       flex: 1;
@@ -118,6 +119,17 @@
       font-style: italic;
     }
   }
+  .has-info {
+    svg {
+      margin-left: 5px;
+      position: relative;
+      top: 2px;
+    }
+  }
+}
+.w-320 {
+  width: 100%;
+  max-width: 320px;
 }
 .button-submit {
   padding: 0 15px;
@@ -197,9 +209,19 @@
     }
   }
 }
-input.full {
-  max-width: 360px !important;
-  width: 100%;
+.d-flex {
+  display: flex;
+  align-items: center;
+  margin-top: 1px;
+  .icon {
+    width: 26px;
+  }
+  svg {
+    margin-left: 10px;
+  }
+}
+.align-items-center {
+  align-items: center;
 }
 
 .require {
@@ -208,7 +230,6 @@ input.full {
 }
 .relative {
   position: relative;
-  max-width: 360px !important;
 }
 .showpassword {
   position: absolute;

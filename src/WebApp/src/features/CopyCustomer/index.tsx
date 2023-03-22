@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 import { Controller, FieldErrors, useForm } from "react-hook-form";
 import styles from "./NewCustomer.module.scss";
-import { InformationIcon, EyeIcon, EyeCloseIcon } from "@components/Icons";
+import { InformationIcon, EyeIcon, EyeCloseIcon, CheckMarkIcon } from "@components/Icons";
 import Message from "@components/Message";
 import { User } from "src/lib/session";
 import { numberAccounts } from "src/constants/number-accounts";
@@ -218,24 +218,29 @@ export const CopyCustomer = ({ ...props }: Props) => {
                 </div>
               </div>
             )}
-            <div>
+            <div className={styles["has-info"]}>
               <Label title={t("password")} subLabel={true} required={true} />
               <span title={t("formError.password")}>
                 <InformationIcon height={16} width={16} />
               </span>
             </div>
-            <div className={styles.relative}>
-              <input
-                className={styles.control + " " + styles.full}
-                {...register("password", {
-                  required: true,
-                  validate: validatePassword,
-                })}
-                type={passwordShown ? "text" : "password"}
-              />
-              <span className={styles.showpassword} onClick={handleShowPassword}>
-                {passwordShown ? <EyeIcon /> : <EyeCloseIcon />}
-              </span>
+            <div className={styles["d-flex"] + " " + styles["align-items-center"]}>
+              <div className={styles["relative"] + " " + styles["w-320"]}>
+                <input
+                  className={styles.control + " " + styles.full}
+                  {...register("password", {
+                    required: true,
+                    validate: validatePassword,
+                  })}
+                  type={passwordShown ? "text" : "password"}
+                />
+                <span className={styles.showpassword} onClick={handleShowPassword}>
+                  {passwordShown ? <EyeIcon /> : <EyeCloseIcon />}
+                </span>
+              </div>
+              <div className={styles["icon"]}>
+                <CheckMarkIcon height={16} width={16} />
+              </div>
             </div>
             <button className={styles["button-submit"]} type="submit">
               {t("submit")}
