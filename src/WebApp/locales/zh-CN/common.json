@@ -4,5 +4,6 @@
   "Hi": "您好",
   "SCNote": "为了您的安全，请在继续之前输入您的保安码！",
   "ShowSecurityCode": "保安码显示",
-  "RequiredMessage": "必填栏"
+  "RequiredMessage": "必填栏",
+  "WrongSCMessage": "保安码不正确。请再重试。"
 }
