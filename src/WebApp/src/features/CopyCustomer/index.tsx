@@ -149,104 +149,102 @@ export const CopyCustomer = ({ ...props }: Props) => {
       {JSON.stringify(data) !== "{}" ? (
         <Result {...data} handleContinue={handleContinue} />
       ) : (
-        <div className={styles.main}>
-          <p className={styles.note + " " + styles.notetop}>{t("note")}</p>
-          <form onSubmit={onSubmit}>
-            {renderErrors(errors)}
-            <Label title={t("copySettings")} description={t("searchNote")} />
-            <div className={styles.formcontrolSetting}>
-              <Controller
-                name="existAccount"
-                control={control}
-                render={({ field: { onChange } }) => <SearchCustomerExists onChange={onChange} changeMaxCredit={handleChangeMaxCredit} />}
-                rules={{ minLength: 1, required: true }}
-              />
-            </div>
-            <Label title={t("noOfAccounts")} description={t("noAccountsNote", { max: props.maxAccounts })} />
-            <div className={styles.formcontrolSelectFull}>
-              <Controller
-                name="noOfAccounts"
-                control={control}
-                render={({ field: { onChange } }) => <SingleSelect options={numberAccounts} selectedValue={"1"} handleChange={onChange} />}
-                rules={{ required: true }}
-              />
-            </div>
-            <Label title={t("accountDetail")} description={t("accountDetailNote")} />
-            <Label title={t("username")} required={true} />
-            <div className={styles.agent}>
-              <Controller
-                name="username"
-                control={control}
-                render={({ field: { onChange } }) => <NewAccountName actorName={props.actorName} onChange={onChange} />}
-                rules={{ minLength: 1, required: true }}
-              />
-            </div>
-            <Label title={t("credit")} subLabel={true} required={true} />
-            <div className={styles.peraccount}>
-              <input
-                type="number"
-                className={styles.control + " " + styles.full}
-                {...register("credit", {
-                  min: 0,
-                  max: maxCredit,
-                  required: true,
-                })}
-                onBlur={handleOnBlur}
-              />
-              <span>{t("perAccount")}</span>
-            </div>
-            <div className={styles.credit}>
-              <span>{props.minCredit.toFixed(2)}</span>
-              {t("creditNote")}
-              <span>{maxCredit.toFixed(2)}</span>
-            </div>
-            {props.isMasterLevel && (
-              <div>
-                <Label title={t("memberMaxCredit")} subLabel={true} required={true} />
-                <div className={styles.peraccount}>
-                  <input
-                    type="number"
-                    {...register("memberMaxCredit", {
-                      required: true,
-                      max: maxMemberCredit,
-                    })}
-                  />
-                  <span>{t("perAccount")}</span>
-                </div>
-                <div className={styles.credit}>
-                  <span>=&lt; {maxMemberCredit.toFixed(2)}</span>
-                </div>
+        <form className={styles["form-new-customer"]} onSubmit={onSubmit}>
+          <p className={styles.note}>{t("note")}</p>
+          {renderErrors(errors)}
+          <Label title={t("copySettings")} description={t("searchNote")} />
+          <div className={styles.formcontrolSetting}>
+            <Controller
+              name="existAccount"
+              control={control}
+              render={({ field: { onChange } }) => <SearchCustomerExists onChange={onChange} changeMaxCredit={handleChangeMaxCredit} />}
+              rules={{ minLength: 1, required: true }}
+            />
+          </div>
+          <Label title={t("noOfAccounts")} description={t("noAccountsNote", { max: props.maxAccounts })} />
+          <div className={styles.formcontrolSelectFull}>
+            <Controller
+              name="noOfAccounts"
+              control={control}
+              render={({ field: { onChange } }) => <SingleSelect options={numberAccounts} selectedValue={"1"} handleChange={onChange} />}
+              rules={{ required: true }}
+            />
+          </div>
+          <Label title={t("accountDetail")} description={t("accountDetailNote")} />
+          <Label title={t("username")} required={true} />
+          <div className={styles.agent}>
+            <Controller
+              name="username"
+              control={control}
+              render={({ field: { onChange } }) => <NewAccountName actorName={props.actorName} onChange={onChange} />}
+              rules={{ minLength: 1, required: true }}
+            />
+          </div>
+          <Label title={t("credit")} subLabel={true} required={true} />
+          <div className={styles.peraccount}>
+            <input
+              type="number"
+              className={styles.control + " " + styles.full}
+              {...register("credit", {
+                min: 0,
+                max: maxCredit,
+                required: true,
+              })}
+              onBlur={handleOnBlur}
+            />
+            <span>{t("perAccount")}</span>
+          </div>
+          <div className={styles.credit}>
+            <span>{props.minCredit.toFixed(2)}</span>
+            {t("creditNote")}
+            <span>{maxCredit.toFixed(2)}</span>
+          </div>
+          {props.isMasterLevel && (
+            <div>
+              <Label title={t("memberMaxCredit")} subLabel={true} required={true} />
+              <div className={styles.peraccount}>
+                <input
+                  type="number"
+                  {...register("memberMaxCredit", {
+                    required: true,
+                    max: maxMemberCredit,
+                  })}
+                />
+                <span>{t("perAccount")}</span>
               </div>
-            )}
-            <div className={styles["has-info"]}>
-              <Label title={t("password")} subLabel={true} required={true} />
-              <span title={t("formError.password")}>
-                <InformationIcon height={16} width={16} />
+              <div className={styles.credit}>
+                <span>=&lt; {maxMemberCredit.toFixed(2)}</span>
+              </div>
+            </div>
+          )}
+          <div className={styles["has-info"]}>
+            <Label title={t("password")} subLabel={true} required={true} />
+            <span title={t("formError.password")}>
+              <InformationIcon height={16} width={16} />
+            </span>
+          </div>
+          <div className={styles["d-flex"] + " " + styles["align-items-center"]}>
+            <div className={styles["relative"] + " " + styles["w-320"]}>
+              <input
+                className={styles.control + " " + styles.full}
+                {...register("password", {
+                  required: true,
+                  validate: validatePassword,
+                })}
+                type={passwordShown ? "text" : "password"}
+              />
+              <span className={styles.showpassword} onClick={handleShowPassword}>
+                {passwordShown ? <EyeIcon /> : <EyeCloseIcon />}
               </span>
             </div>
-            <div className={styles["d-flex"] + " " + styles["align-items-center"]}>
-              <div className={styles["relative"] + " " + styles["w-320"]}>
-                <input
-                  className={styles.control + " " + styles.full}
-                  {...register("password", {
-                    required: true,
-                    validate: validatePassword,
-                  })}
-                  type={passwordShown ? "text" : "password"}
-                />
-                <span className={styles.showpassword} onClick={handleShowPassword}>
-                  {passwordShown ? <EyeIcon /> : <EyeCloseIcon />}
-                </span>
-              </div>
-              <div className={styles["icon"]}>
-                <CheckMarkIcon height={16} width={16} />
-              </div>
+            <div className={styles["icon"]}>
+              <CheckMarkIcon height={16} width={16} />
             </div>
-            <button className={styles["button-submit"]} type="submit">
-              {t("submit")}
-            </button>
-          </form>
-        </div>
+          </div>
+          <button className={styles["button-submit"]} type="submit">
+            {t("submit")}
+          </button>
+        </form>
       )}
     </>
   );
