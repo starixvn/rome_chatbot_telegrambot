@@ -22,6 +22,10 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (securityCode === "") {
+      setError(t("RequiredMessage"));
+      return;
+    }
     setBlockUI(true);
 
     const formData = new URLSearchParams();
@@ -46,9 +50,7 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
   return (
     <>
       <form className={styles["security-code"]} onSubmit={handleSubmit}>
-        <label className={styles["form-lable"]} htmlFor="SecurityCode">
-          {t("SecurityCode")}
-        </label>
+        <label htmlFor="SecurityCode">{t("SecurityCode")}</label>
         {error && <Message message={error} />}
         <p className={styles["form-name"]}>
           {t("Hi")} {username},
@@ -66,7 +68,7 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
             value={securityCode}
             onChange={(e) => setSecurityCode(e.target.value)}
           />
-          <input type="submit" value={t("Verify")} />
+          <input type="submit" value={t("Verify")} className={styles["btn-verify"]} />
         </div>
         <div className={styles["form-group"]}>
           <label htmlFor="checkbox" className={styles["has-checkbox"]}>

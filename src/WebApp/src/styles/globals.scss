@@ -86,13 +86,12 @@ p {
 
 input,
 select {
-  background-color: white !important;
+  background-color: white;
   color: black;
 }
 
 input {
   height: 30px;
-  appearance: none;
   border-radius: 0;
   border: 1px solid #d1d1d1;
 }

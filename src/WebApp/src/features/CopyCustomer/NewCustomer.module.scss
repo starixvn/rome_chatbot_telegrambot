@@ -1,5 +1,6 @@
 .form-new-customer {
   input {
+    appearance: none;
     width: 100%;
     padding: 0 10px;
     &:-webkit-autofill {

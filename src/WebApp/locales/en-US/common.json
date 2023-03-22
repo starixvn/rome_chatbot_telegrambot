@@ -3,5 +3,6 @@
   "Verify": "Verify",
   "Hi": "Hi",
   "SCNote": "For your protection, please input your Security Code before proceeding!",
-  "ShowSecurityCode": "Show security code"
+  "ShowSecurityCode": "Show security code",
+  "RequiredMessage": "This field is required."
 }
