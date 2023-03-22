@@ -1,4 +1,5 @@
 .msg {
+  white-space: pre-wrap;
   border-width: 1px;
   border-style: solid;
   border-radius: 2px;
@@ -8,20 +9,20 @@
   margin: 12px 0;
   display: flex;
   align-items: flex-start;
-  svg{
+  svg {
     position: relative;
     top: -1px;
     margin-right: 1px;
   }
-  span{
+  span {
     flex: 1;
   }
 }
 
 .msg-error {
-  background-color: #FADDDD;
-  border-color: #FE0000;
-  color: #FE0000;
+  background-color: #fadddd;
+  border-color: #fe0000;
+  color: #fe0000;
 }
 
 .msg-content {

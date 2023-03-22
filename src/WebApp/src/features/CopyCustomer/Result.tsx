@@ -24,7 +24,9 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
             ))}
           </div>
           <div className={styles.info}>
-            <span>{t("result.credit", { credit: credit })}</span>
+            <span>{t("credit")}</span>
+            <span>{credit}</span>
+            <span>{t("perAccount")}</span>
           </div>
         </>
       )}

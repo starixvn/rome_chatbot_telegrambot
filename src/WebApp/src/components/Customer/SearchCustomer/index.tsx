@@ -106,6 +106,7 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
         styles={customerStyles}
         loadOptions={customPromiseOptions}
         onChange={handleOnChange}
+        noOptionsMessage={() => null}
         formatOptionLabel={(option) => {
           return option.userName ? option.userName : option["value"];
         }}

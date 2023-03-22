@@ -18,7 +18,8 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.1",
     "react-loading": "^2.0.3",
-    "react-select": "^5.7.0"
+    "react-select": "^5.7.0",
+    "react-tooltip": "^5.10.0"
   },
   "devDependencies": {
     "@next/font": "13.1.6",
