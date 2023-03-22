@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 import { Controller, FieldErrors, useForm } from "react-hook-form";
 import styles from "./NewCustomer.module.scss";
-import { InformationIcon, EyeIcon, EyeCloseIcon, CheckMarkIcon } from "@components/Icons";
+import { InformationIcon, EyeIcon, EyeCloseIcon, CheckMarkIcon, ErrorIcon } from "@components/Icons";
 import Message from "@components/Message";
 import { User } from "src/lib/session";
 import { numberAccounts } from "src/constants/number-accounts";
@@ -73,15 +73,23 @@ export const CopyCustomer = ({ ...props }: Props) => {
     reset,
     formState: { errors, isSubmitting },
     resetField,
+    getValues,
   } = methods;
 
   const [data, setData] = useState<Result>({});
   const [maxCredit, setMaxCredit] = useState(0);
   const [maxMemberCredit, setMaxMemberCredit] = useState(0);
   const [passwordShown, setPasswordShown] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState<boolean | undefined>(undefined);
 
   const handleShowPassword = () => {
     setPasswordShown(!passwordShown);
+  };
+
+  const handlePasswordKeyup = () => {
+    const password = getValues("password");
+    const isValid = validatePassword(password);
+    setIsPasswordValid(isValid);
   };
 
   const onSubmit = handleSubmit(async (formData) => {
@@ -232,11 +240,15 @@ export const CopyCustomer = ({ ...props }: Props) => {
                   validate: validatePassword,
                 })}
                 type={passwordShown ? "text" : "password"}
+                onKeyUp={handlePasswordKeyup}
               />
               <span className={styles.showpassword} onClick={handleShowPassword}>
                 {passwordShown ? <EyeIcon /> : <EyeCloseIcon />}
               </span>
             </div>
+            {isPasswordValid !== undefined && (
+              <div className={styles["icon"]}>{isPasswordValid ? <CheckMarkIcon height={16} width={16} /> : <ErrorIcon height={16} width={16} />}</div>
+            )}
           </div>
           <button className="btn-submit" type="submit">
             {t("submit")}
