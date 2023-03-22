@@ -1,12 +1,6 @@
 .form-new-customer {
   input {
-    background-color: white !important;
-    color: black;
-    height: 30px;
-    appearance: none;
-    border-radius: 0;
     width: 100%;
-    border: 1px solid #d1d1d1;
     padding: 0 10px;
     &:-webkit-autofill {
       -webkit-box-shadow: 0 0 0 30px white inset !important;
@@ -19,10 +13,7 @@
       outline: none;
     }
   }
-  select {
-    background-color: white;
-    color: black;
-  }
+
   .note {
     color: var(--secondary-color);
     margin-bottom: 16px;
@@ -35,45 +26,7 @@
     line-height: 24px;
     margin-bottom: 2px;
   }
-  .sublabel {
-    font-size: 14px;
-    line-height: 22px;
-    svg {
-      position: relative;
-      top: 4px;
-      left: 6px;
-    }
-  }
 
-  .button.submit {
-    padding: 3px 15px;
-    margin: 16px 0 0 0;
-    background: #0b589c;
-    color: #ededed;
-    outline: none;
-    border: 0;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 22px;
-    text-transform: uppercase;
-    height: 40px !important;
-  }
-  .showcode {
-    display: flex;
-    input {
-      width: 18px;
-      height: 18px;
-      margin-right: 8px;
-      cursor: pointer;
-    }
-    span {
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 22px;
-      cursor: pointer;
-      color: var(--secondary-color);
-    }
-  }
   .peraccount {
     display: flex;
     align-items: center;
@@ -100,40 +53,11 @@
   width: 100%;
   max-width: 320px;
 }
-.button-submit {
-  padding: 0 15px;
-  margin: 10px 0 0 0;
-  background: #0b589c;
-  color: #ededed;
-  outline: none;
-  border: 0;
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 35px;
-  text-transform: uppercase;
-  width: 100%;
-}
-
-.form-new-customer .button {
-  display: block;
-  margin-left: 0 !important;
-  width: 100%;
-  margin-top: 25px;
-  font-family: var(--font-roboto);
-}
 
 .form-new-customer button {
   width: 100%;
 }
-.formcontrol {
-  display: flex;
-  align-items: center;
-  margin-bottom: 14px;
-  svg {
-    margin-left: 8px;
-    fill: #18965b;
-  }
-}
+
 .formcontrolSelectFull {
   width: 100%;
   margin-bottom: 17px;
@@ -193,10 +117,6 @@
   align-items: center;
 }
 
-.require {
-  color: #a11515;
-  margin-left: 3px;
-}
 .relative {
   position: relative;
 }

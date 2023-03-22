@@ -84,6 +84,33 @@ p {
   color: var(--secondary-color);
 }
 
+input,
+select {
+  background-color: white !important;
+  color: black;
+}
+
+input {
+  height: 30px;
+  appearance: none;
+  border-radius: 0;
+  border: 1px solid #d1d1d1;
+}
+
+.btn-submit {
+  padding: 0 15px;
+  margin: 10px 0 0 0;
+  background: #0b589c;
+  color: #ededed;
+  outline: none;
+  border: 0;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 35px;
+  text-transform: uppercase;
+  width: 100%;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

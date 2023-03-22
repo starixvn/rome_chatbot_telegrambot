@@ -241,7 +241,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
               <CheckMarkIcon height={16} width={16} />
             </div>
           </div>
-          <button className={styles["button-submit"]} type="submit">
+          <button className="btn-submit" type="submit">
             {t("submit")}
           </button>
         </form>

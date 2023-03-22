@@ -36,7 +36,7 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
           </div>
         </>
       )}
-      <button className={styles["button-submit"]} onClick={handleContinue}>
+      <button className="btn-submit" onClick={handleContinue}>
         {t("result.createMore")}
       </button>
     </>
