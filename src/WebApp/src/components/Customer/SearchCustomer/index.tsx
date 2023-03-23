@@ -33,6 +33,12 @@ const getCustomerMaxCredit = async (username: string) => {
   return await result.json();
 };
 
+const checkIsDownLineUser = async (username: string) => {
+  const url = `api/customer/downline/${username}`;
+  const result = await fetch(url);
+  return await result.json();
+};
+
 export const customPromiseOptions = async (inputValue: string) => {
   const data = await getExistCustomers(inputValue);
   return data.map((item: CustomerInfoOption) => {
@@ -71,22 +77,18 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
     clearSingleValue();
   }, []);
 
-  const checkExistUserName = async (username: string) => {
-    const data = await checkExistAccountName(username);
-    if (data.isExist) {
-      setIsCorrectName(ErrorMode.Correct);
-    } else {
-      onChange("");
-      setIsCorrectName(ErrorMode.InCorrect);
-    }
-  };
-
   const handleOnChange = async (option: SingleValue<CustomerInfoOption>) => {
     if (option) {
-      const data = await getCustomerMaxCredit(option.value);
-      onChange(option.value);
-      await checkExistUserName(option.value);
-      changeMaxCredit(data.maxCredit);
+      const data = await checkIsDownLineUser(option.value);
+      if (data.isDownLineUser) {
+        onChange(option.value);
+        setIsCorrectName(ErrorMode.Correct);
+        const data = await getCustomerMaxCredit(option.value);
+        changeMaxCredit(data.maxCredit);
+      } else {
+        onChange("");
+        setIsCorrectName(ErrorMode.InCorrect);
+      }
     }
   };
 
@@ -94,7 +96,6 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
     selectInputRef?.clearValue();
   };
 
-  console.log("render search");
   return (
     <div className={styles.search}>
       <AsyncCreatableSelect

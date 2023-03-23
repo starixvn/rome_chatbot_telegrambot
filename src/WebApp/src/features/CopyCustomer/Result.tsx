@@ -14,7 +14,7 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
   const { t } = useTranslation("newcustomer");
   return (
     <>
-      {usernames && usernames.length > 0 && (
+      {usernames && usernames.length > 0 ? (
         <>
           <div className={styles.message}>{t("result.success")}</div>
           <div className={styles.info}>
@@ -24,20 +24,20 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
             ))}
           </div>
           <div className={styles.info}>
-            <span>{t("credit")}</span>
+            <span>{t("credit")}: </span>
             <span>{credit}</span>
-            <span>{t("perAccount")}</span>
+            <span> {t("perAccount")}</span>
           </div>
         </>
-      )}
-      {failAccounts && failAccounts > 0 && (
+      ) : null}
+      {failAccounts && failAccounts > 0 ? (
         <>
           <div className={styles.message}>{t("result.fail", { failAccounts: failAccounts })}</div>
           <div className={styles.info}>
             <span>{t("result.failReason", { message: message })}</span>
           </div>
         </>
-      )}
+      ) : null}
       <button className="btn-submit" onClick={handleContinue}>
         {t("result.createMore")}
       </button>
