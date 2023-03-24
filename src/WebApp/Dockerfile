@@ -14,14 +14,14 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY src/WebApp .
 
 # Register TRANSFORM_CONFIG argument for transforming by environment
-# ARG TRANSFORM_CONFIG
-# RUN echo $TRANSFORM_CONFIG
+ARG TRANSFORM_CONFIG
+RUN echo $TRANSFORM_CONFIG
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
-# COPY "src/WebApp/.env.$TRANSFORM_CONFIG" .env.production
+COPY "src/WebApp/.env.$TRANSFORM_CONFIG" .env.production
 RUN yarn build
 
 # If using npm comment out above and use below instead

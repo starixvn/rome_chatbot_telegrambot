@@ -1,21 +1,22 @@
-import { getClientIP } from './../../../helpers/ip-helper';
+import { getClientIP } from "./../../../helpers/ip-helper";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "src/lib/session";
 import { User } from "./../../../lib/session";
+import * as Sentry from "@sentry/nextjs";
 
 export default withIronSessionApiRoute(copyRouter, sessionOptions);
 
 type CopyCustomerData = {
-  username: string,
-  password: string,
-  credit: number,
-  memberMaxCredit: number,
-  sourceCustId: number,
-  sourceUserName: string,
-  numberOfAccounts: number,
-  ip: string,
-}
+  username: string;
+  password: string;
+  credit: number;
+  memberMaxCredit: number;
+  sourceCustId: number;
+  sourceUserName: string;
+  numberOfAccounts: number;
+  ip: string;
+};
 
 async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user;
@@ -54,13 +55,16 @@ const copyCustomer = async (user: User, data: CopyCustomerData) => {
     systemId: 10,
   };
 
-  const result = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(reqData),
-  });
-
-  return await result.json();
+  try {
+    const result = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reqData),
+    });
+    return await result.json();
+  } catch (error) {
+    Sentry.captureException(error);
+  }
 };

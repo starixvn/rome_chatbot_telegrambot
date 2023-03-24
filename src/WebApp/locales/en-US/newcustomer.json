@@ -16,8 +16,9 @@
     "failReason": "Failure Reason: {{message}}",
     "createMore": "Create More"
   },
-  "note": "*Note: Settings will be the same as the Source account",
+  "note": "*Note: Settings will remain the same as the Source account settings for all account",
   "copySettings": "Copy Settings",
+  "sourceAccount": "Source account",
   "searchNote": "Search for an existing account to copy settings",
   "noOfAccounts": "No. Of Accounts",
   "noAccountsNote": "Choose the number of accounts you want to create (Max = {{max}})",
@@ -26,7 +27,7 @@
   "username": "Username",
   "credit": "Credit",
   "perAccount": "(per account)",
-  "creditNote": " =< New Given Credit =< ",
+  "creditNote": "Available Given Credit: ",
   "memberMaxCredit": "Member Max Credit",
   "password": "Password",
   "submit": "Submit"

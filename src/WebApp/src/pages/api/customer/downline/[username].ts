@@ -6,7 +6,6 @@ export default withIronSessionApiRoute(downLineRouter, sessionOptions);
 
 async function downLineRouter(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user;
-  console.log(user);
   if (user) {
     const username = req.query["username"];
     const url = `${process.env.CUSTOMER_API}/customer/${user.custId}/${user.subAccId}/downlines/${username}`;
