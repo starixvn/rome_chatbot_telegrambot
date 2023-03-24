@@ -1,7 +1,8 @@
 import type { AppProps } from "next/app";
-import "@styles/globals.scss";
 import { useEffect } from "react";
 import { CustomWindow } from "src/types/custom.window";
+import * as Sentry from "@sentry/nextjs";
+import "@styles/globals.scss";
 
 declare let window: CustomWindow;
 
@@ -16,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
     const handlePopupClosed = () => {
       fetch("/api/logout", { method: "POST" });
-
+      Sentry.captureMessage("close popup");
       return true;
     };
 
