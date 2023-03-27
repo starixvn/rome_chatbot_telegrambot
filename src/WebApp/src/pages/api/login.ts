@@ -34,8 +34,10 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
       };
       req.session.user = data;
       await req.session.save();
+      res.json(req.session.user);
+    } else {
+      res.json({ isLoggedIn: false });
     }
-    res.json(req.session.user);
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
@@ -57,6 +59,7 @@ const getAccount = async (chatId: number) => {
 
 const verifyWebAppOpenByTelegram = async (botToken: string, initData: URLSearchParams) => {
   const dataCheckString: string[] = [];
+  const authDate = Number(initData.get("auth_date"));
   initData.sort();
 
   initData.forEach((value, key) => {
@@ -66,5 +69,5 @@ const verifyWebAppOpenByTelegram = async (botToken: string, initData: URLSearchP
   const secret = CryptoJS.HmacSHA256(botToken, "WebAppData");
   const checkHash = CryptoJS.HmacSHA256(dataCheckString.join("\n"), secret).toString(CryptoJS.enc.Hex);
 
-  return initData.get("hash") === checkHash;
+  return initData.get("hash") === checkHash && Date.now() / 1000 - authDate <= Number(process.env.EXPIRE_AUTH_DATE_TIME);
 };
