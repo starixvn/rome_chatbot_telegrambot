@@ -11,8 +11,9 @@ export type User = {
 
 export const sessionOptions: IronSessionOptions = {
   password: "2gyZ3GDw3LHZQKDhPmPDL3sjREVRXPr8",
-  cookieName: "iron-session/examples/next.js",
+  cookieName: "telegram-bot-webapp",
   cookieOptions: {
+    maxAge: undefined,
     secure: process.env.NODE_ENV === "production",
   },
 };
