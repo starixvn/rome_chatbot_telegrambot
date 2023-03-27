@@ -42,7 +42,7 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
     if (result.isSuccessful) {
       onVerifySuccess();
     } else {
-      setError(result.code == 200 ? result.message : t("WrongSCMessage"));
+      setError(t("WrongSCMessage"));
     }
     setBlockUI(false);
   };
