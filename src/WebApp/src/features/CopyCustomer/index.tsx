@@ -6,7 +6,7 @@ import styles from "./NewCustomer.module.scss";
 import { InformationIcon } from "@components/Icons";
 import Message from "@components/Message";
 import { User } from "src/lib/session";
-import { numberAccounts } from "src/constants/number-accounts";
+import { numberAccounts as MAX_ACCOUNTS } from "src/constants/number-accounts";
 import { SingleSelect } from "@components/Form/Select";
 import { Label } from "@components/Form/Label";
 import BlockUI from "@components/BlockUI";
@@ -27,8 +27,8 @@ type IFormInputs = {
   existAccount: string;
   noOfAccounts: number;
   username: string;
-  credit: string;
-  memberMaxCredit?: string;
+  credit: number;
+  memberMaxCredit?: number;
   password: string;
 };
 
@@ -51,15 +51,20 @@ type Props = {
 
 export const CopyCustomer = ({ ...props }: Props) => {
   const { t } = useTranslation("newcustomer");
-  const methods = useForm<IFormInputs>({ mode: "onChange", defaultValues: { noOfAccounts: 1 }, shouldFocusError: false });
+  const methods = useForm<IFormInputs>({
+    mode: "onSubmit",
+    defaultValues: { noOfAccounts: 1, credit: 0, memberMaxCredit: props.isMasterLevel ? 0 : undefined },
+    shouldFocusError: false,
+  });
   const { handleSubmit, control, reset, formState } = methods;
 
   const [data, setData] = useState<Result>({});
+  const [errorMessage, setErrorMessage] = useState("");
+  const [numberAccounts, setNumberAccounts] = useState(1);
   const [maxCredit, setMaxCredit] = useState(0);
   const [maxMemberCredit, setMaxMemberCredit] = useState(0);
 
   const onSubmit = handleSubmit(async (formData) => {
-    console.log(formData);
     const url = `/api/customer/copy`;
     const result = await fetch(url, {
       method: "POST",
@@ -69,14 +74,18 @@ export const CopyCustomer = ({ ...props }: Props) => {
       body: JSON.stringify({
         username: formData.username,
         password: formData.password,
-        credit: getNumberOfCommaString(formData.credit),
-        maxCredit: formData.memberMaxCredit && getNumberOfCommaString(formData.memberMaxCredit),
+        credit: getNumberOfCommaString(formData.credit.toString()),
+        maxCredit: formData.memberMaxCredit && getNumberOfCommaString(formData.memberMaxCredit.toString()),
         sourceUserName: formData.existAccount,
         numberOfAccounts: Number(formData.noOfAccounts),
       }),
     });
     const data = await result.json();
-    setData(data);
+    if (data.usernames.length > 0) {
+      setData(data);
+    } else {
+      setErrorMessage(data.message);
+    }
   });
 
   const handleChangeMaxCredit = (value: number) => {
@@ -96,28 +105,6 @@ export const CopyCustomer = ({ ...props }: Props) => {
     reset();
   };
 
-  // const renderErrors = (errors: FieldErrors) => {
-  //   const errorKeys = ["existAccount", "username", "credit", "memberMaxCredit", "password"];
-  //   let firstErr = "";
-  //   for (const key of errorKeys) {
-  //     if (errors[key]) {
-  //       firstErr = key;
-  //       break;
-  //     }
-  //   }
-  //   if (firstErr !== "") {
-  //     let message;
-  //     if (firstErr === "credit") {
-  //       message = t(`formError.${firstErr}`, { max: maxCredit.toFixed(2) });
-  //     } else {
-  //       message = t(`formError.${firstErr}`);
-  //     }
-
-  //     return <Message message={message}></Message>;
-  //   }
-  // };
-
-  console.log("render copy customer");
   return (
     <>
       {formState.isSubmitting && <BlockUI />}
@@ -127,7 +114,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
         <form className={styles["form-new-customer"]} onSubmit={onSubmit}>
           <p className={styles.note}>{t("note")}</p>
 
-          {/* {renderErrors(formState.errors)} */}
+          {errorMessage && <Message message={errorMessage}></Message>}
 
           <Label title={t("sourceAccount")} required />
           <Controller
@@ -161,7 +148,16 @@ export const CopyCustomer = ({ ...props }: Props) => {
           <Controller
             name="noOfAccounts"
             control={control}
-            render={({ field: { onChange } }) => <SingleSelect options={numberAccounts} selectedValue={"1"} handleChange={onChange} />}
+            render={({ field: { onChange } }) => (
+              <SingleSelect
+                options={MAX_ACCOUNTS}
+                selectedValue={"1"}
+                handleChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                  setNumberAccounts(Number(e.target.value));
+                  onChange(e);
+                }}
+              />
+            )}
             rules={{ required: true }}
           />
 
@@ -169,8 +165,8 @@ export const CopyCustomer = ({ ...props }: Props) => {
           <Controller
             name="credit"
             control={control}
-            render={({ field }) => <NumberInputField onChange={field.onChange} onBlur={handleOnBlur} />}
-            rules={{ min: 0, max: maxCredit, required: true }}
+            render={({ field }) => <NumberInputField onChange={field.onChange} onBlur={handleOnBlur} max={maxCredit / numberAccounts} />}
+            rules={{ min: 0, max: maxCredit / numberAccounts, required: true }}
           />
           <div className={styles.credit}>
             {t("creditNote")}
@@ -183,7 +179,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
               <Controller
                 name="memberMaxCredit"
                 control={control}
-                render={({ field }) => <NumberInputField onChange={field.onChange} />}
+                render={({ field }) => <NumberInputField onChange={field.onChange} max={maxMemberCredit} />}
                 rules={{ min: 0, max: maxMemberCredit, required: true }}
               />
               <div className={styles.credit}>

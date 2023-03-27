@@ -4,7 +4,6 @@ import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
 import { components, GroupBase, OptionProps, SingleValue, StylesConfig } from "react-select";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import Select from "react-select/dist/declarations/src/Select";
-import { checkExistAccountName } from "../NewAccount";
 import styles from "./SearchCustomer.module.scss";
 
 export type CustomerInfoOption = {
@@ -53,9 +52,14 @@ const CustomOption = (props: OptionProps<CustomerInfoOption, false>) => {
   return (
     <components.Option {...props}>
       {props.data.userName ? (
-        <span>
-          {props.data.userName}: {props.data.userName2}
-        </span>
+        <>
+          <div>
+            {props.data.userName} {props.data.userName2 && `(${props.data.userName2})`}
+          </div>
+          <div>
+            {props.data.firstName} {props.data.lastName}
+          </div>
+        </>
       ) : (
         <span>{props.data.value}</span>
       )}
