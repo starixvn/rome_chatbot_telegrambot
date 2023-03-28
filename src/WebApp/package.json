@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@sentry/nextjs": "^6.10.0",
+    "classnames": "^2.3.2",
     "crypto-js": "^4.1.1",
     "iron-session": "^6.3.1",
     "next": "13.1.6",

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { characters } from "src/constants/characters";
 import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
 import { SingleSelect } from "@components/Form/Select";
+import styles from "./NewAccount.module.scss";
 
 export const getSuggestAccountName = async (actorName: string) => {
   const url = `/api/customer/suggest/${actorName}`;
@@ -65,15 +66,19 @@ export const NewAccountName = ({ actorName, onChange }: Props) => {
 
   const renderSelect = (suggestName: string) => {
     return Array.from(suggestName).map((item, index) => {
-      return <SingleSelect key={`${item}-${index}`} handleChange={(e) => handleSelectChange(e, index)} options={characters} selectedValue={item.toString()} />;
+      return (
+        <div className={styles.item} key={`${item}-${index}`}>
+          <SingleSelect handleChange={(e) => handleSelectChange(e, index)} options={characters} selectedValue={item.toString()} />
+        </div>
+      );
     });
   };
 
   return (
-    <>
-      <span>{actorName}</span>
+    <div className={styles.account}>
+      <div className={styles.name}>{actorName}</div>
       {suggestName ? renderSelect(suggestName) : ""}
-      {isCorrectName ? <CheckMarkIcon height={16} width={16} /> : <ErrorIcon height={16} width={16} />}
-    </>
+      <div className={styles.icon}>{isCorrectName ? <CheckMarkIcon height={16} width={16} /> : <ErrorIcon height={16} width={16} />}</div>
+    </div>
   );
 };

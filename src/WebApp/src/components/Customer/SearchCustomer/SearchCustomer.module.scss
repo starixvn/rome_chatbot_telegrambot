@@ -1,4 +1,10 @@
 .search {
   display: flex;
   align-items: center;
+
+  .icon {
+    margin-left: 5px;
+    height: 16px;
+    width: 16px;
+  }
 }

@@ -1,0 +1,24 @@
+.account {
+  display: inline-flex;
+  align-items: center;
+
+  .name {
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
+    width: 200px;
+    border: 1px solid;
+    border-color: #d6d6d6;
+    background-color: #b6b4b4;
+  }
+
+  .icon {
+    display: inline-block;
+    margin-left: 5px;
+  }
+}
+
+.item {
+  display: inline-block;
+  width: 60px;
+}

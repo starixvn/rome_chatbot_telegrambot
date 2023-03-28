@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 import { Controller, useForm } from "react-hook-form";
 import styles from "./NewCustomer.module.scss";
-import { InformationIcon } from "@components/Icons";
 import Message from "@components/Message";
 import { User } from "src/lib/session";
 import { numberAccounts as MAX_ACCOUNTS } from "src/constants/number-accounts";
@@ -125,7 +124,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
           />
 
           <Label title={t("accountDetail")} description={t("accountDetailNote")} />
-          <Label title={t("username")} />
+          <Label title={t("username")} subLabel />
           <Controller
             name="username"
             control={control}
@@ -133,10 +132,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
             rules={{ minLength: 1, required: true }}
           />
 
-          <Label title={t("password")} subLabel={true} />
-          <span title={t("formError.password")}>
-            <InformationIcon height={16} width={16} />
-          </span>
+          <Label title={t("password")} subLabel info />
           <Controller
             name="password"
             control={control}
@@ -144,24 +140,26 @@ export const CopyCustomer = ({ ...props }: Props) => {
             rules={{ minLength: 1, required: true }}
           />
 
-          <Label title={t("noOfAccounts")} description={t("noAccountsNote", { max: props.maxAccounts })} />
+          <Label title={t("noOfAccounts")} subLabel />
           <Controller
             name="noOfAccounts"
             control={control}
             render={({ field: { onChange } }) => (
-              <SingleSelect
-                options={MAX_ACCOUNTS}
-                selectedValue={"1"}
-                handleChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                  setNumberAccounts(Number(e.target.value));
-                  onChange(e);
-                }}
-              />
+              <div className={styles.noAcc}>
+                <SingleSelect
+                  options={MAX_ACCOUNTS}
+                  selectedValue={"1"}
+                  handleChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                    setNumberAccounts(Number(e.target.value));
+                    onChange(e);
+                  }}
+                />
+              </div>
             )}
             rules={{ required: true }}
           />
 
-          <Label title={`${t("credit")} ${t("perAccount")}`} subLabel={true} />
+          <Label title={`${t("credit")} ${t("perAccount")}`} subLabel />
           <Controller
             name="credit"
             control={control}
@@ -175,7 +173,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
 
           {props.isMasterLevel && (
             <>
-              <Label title={`${t("memberMaxCredit")} ${t("perAccount")}`} subLabel={true} />
+              <Label title={`${t("memberMaxCredit")} ${t("perAccount")}`} subLabel />
               <Controller
                 name="memberMaxCredit"
                 control={control}
@@ -183,10 +181,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
                 rules={{ min: 0, max: maxMemberCredit, required: true }}
               />
               <div className={styles.credit}>
-                <span>
-                  =&lt;
-                  {formatThousandNumber(maxMemberCredit)}
-                </span>
+                &lt;= <span>{formatThousandNumber(maxMemberCredit)}</span>
               </div>
             </>
           )}

@@ -1,0 +1,21 @@
+.numberField {
+  display: flex;
+  align-items: center;
+}
+
+.password {
+  display: flex;
+  position: relative;
+  align-items: center;
+
+  .eye {
+    position: absolute;
+    right: 30px;
+  }
+}
+
+.icon {
+  margin-left: 5px;
+  height: 16px;
+  width: 16px;
+}

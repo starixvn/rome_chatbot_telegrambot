@@ -116,8 +116,10 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
           return option.userName ? option.userName : option["value"];
         }}
       />
-      {isCorrectName === ErrorMode.Correct && <CheckMarkIcon height={16} width={16} />}
-      {isCorrectName === ErrorMode.InCorrect && <ErrorIcon height={16} width={16} />}
+      <div className={styles.icon}>
+        {isCorrectName === ErrorMode.Correct && <CheckMarkIcon height={16} width={16} />}
+        {isCorrectName === ErrorMode.InCorrect && <ErrorIcon height={16} width={16} />}
+      </div>
     </div>
   );
 };
@@ -125,9 +127,10 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
 const customerStyles: StylesConfig<CustomerInfoOption> = {
   control: (baseStyles) => ({
     ...baseStyles,
+    borderRadius: "0px",
     minHeight: "30px",
     height: "30px",
-    width: "320px",
+    width: "100%",
     display: "inline-block",
     paddingLeft: "3px",
   }),
@@ -135,6 +138,7 @@ const customerStyles: StylesConfig<CustomerInfoOption> = {
   container: (provided) => ({
     ...provided,
     display: "inline-block",
+    width: "100%",
   }),
 
   valueContainer: (provided) => ({

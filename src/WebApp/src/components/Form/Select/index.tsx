@@ -1,4 +1,5 @@
 import { SelectHTMLAttributes } from "react";
+import styles from "./Select.module.scss";
 
 export type SelectData = {
   value: number | string;
@@ -14,7 +15,7 @@ type Props = SelectHTMLAttributes<HTMLSelectElement> & {
 export const SingleSelect = ({ options, selectedValue, handleChange }: Props) => {
   return (
     <>
-      <select defaultValue={selectedValue} onChange={handleChange}>
+      <select className={styles.select} defaultValue={selectedValue} onChange={handleChange}>
         {options.map((item: SelectData) => (
           <option key={item.value} value={item.value}>
             {item.displayName}

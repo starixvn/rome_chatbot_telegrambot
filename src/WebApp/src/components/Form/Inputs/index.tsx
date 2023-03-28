@@ -3,6 +3,7 @@ import { CheckMarkIcon, ErrorIcon, EyeCloseIcon, EyeIcon } from "@components/Ico
 import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import { getNumberOfCommaString } from "src/lib/number";
+import styles from "./Inputs.module.scss";
 
 type InputFieldProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -44,13 +45,15 @@ export const NumberInputField = forwardRef<HTMLInputElement, NumberInputProps>(f
   };
 
   return (
-    <>
+    <div className={styles.numberField}>
       <NumericFormat {...props} onChange={handleOnChange} defaultValue={0} thousandSeparator="," decimalScale={2} />
-      {typeof min === "number" &&
-        typeof max === "number" &&
-        isValidValue !== undefined &&
-        (isValidValue ? <CheckMarkIcon height={16} width={16} /> : <ErrorIcon height={16} width={16} />)}
-    </>
+      <div className={styles.icon}>
+        {typeof min === "number" &&
+          typeof max === "number" &&
+          isValidValue !== undefined &&
+          (isValidValue ? <CheckMarkIcon height={16} width={16} /> : <ErrorIcon height={16} width={16} />)}
+      </div>
+    </div>
   );
 });
 
@@ -74,10 +77,14 @@ export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(fu
   };
 
   return (
-    <>
+    <div className={styles.password}>
       <input type={displayPassword ? "text" : "password"} {...props} onChange={handleOnChange} onKeyUp={handleOnKeyUp} />
-      <span onClick={handleDisplayPassword}>{displayPassword ? <EyeIcon /> : <EyeCloseIcon />}</span>
-      {isValidPassword !== undefined && (isValidPassword ? <CheckMarkIcon height={16} width={16} /> : <ErrorIcon height={16} width={16} />)}
-    </>
+      <div className={styles.eye} onClick={handleDisplayPassword}>
+        {displayPassword ? <EyeIcon /> : <EyeCloseIcon />}
+      </div>
+      <div className={styles.icon}>
+        {isValidPassword !== undefined && (isValidPassword ? <CheckMarkIcon height={16} width={16} /> : <ErrorIcon height={16} width={16} />)}
+      </div>
+    </div>
   );
 });
