@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/nextjs";
 import { NextPageContext } from "next";
 import NextErrorComponent, { ErrorProps } from "next/error";
 

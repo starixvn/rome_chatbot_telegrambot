@@ -1,9 +1,9 @@
+import { fetchWrapper } from "./../../../lib/fetch-wrapper";
 import { getClientIP } from "./../../../helpers/ip-helper";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "src/lib/session";
 import { User } from "./../../../lib/session";
-import * as Sentry from "@sentry/nextjs";
 
 export default withIronSessionApiRoute(copyRouter, sessionOptions);
 
@@ -22,7 +22,7 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user;
   if (user?.isLoggedIn) {
     const { credit, numberOfAccounts, sourceUserName } = req.body;
-    const sourceInfo = await getDownLineInfo(user, sourceUserName);
+    const sourceInfo = await fetchWrapper.get(`${process.env.CUSTOMER_API}/customer/${user.custId}/${user.subAccId}/downlines/${sourceUserName}`);
     const data = await copyCustomer(user, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) });
     res.status(200).json({ ...data, credit: credit, failAccounts: numberOfAccounts - data.usernames.length });
   } else {
@@ -30,15 +30,9 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-const getDownLineInfo = async (user: User, sourceUserName: string) => {
-  const url = `${process.env.CUSTOMER_API}/customer/${user.custId}/${user.subAccId}/downlines/${sourceUserName}`;
-  const result = await fetch(url);
-  return await result.json();
-};
-
 const copyCustomer = async (user: User, data: CopyCustomerData) => {
   const url = `${process.env.CUSTOMER_API}/customer/copy`;
-  const reqData = {
+  const body = {
     actorId: user.custId,
     actorSubAccId: user.subAccId,
     actorSubAccName: "",
@@ -54,17 +48,5 @@ const copyCustomer = async (user: User, data: CopyCustomerData) => {
     ip: data.ip,
     systemId: 10,
   };
-
-  try {
-    const result = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(reqData),
-    });
-    return await result.json();
-  } catch (error) {
-    Sentry.captureException(error);
-  }
+  return await fetchWrapper.post(url, body);
 };

@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { fetchWrapper } from "src/lib/fetch-wrapper";
 import { CustomWindow } from "src/types/custom.window";
 
 declare let window: CustomWindow;
@@ -11,21 +12,13 @@ export default function Login() {
   useEffect(() => {
     const signIn = async () => {
       const telegramInitData = window.Telegram.WebApp.initData || null;
-      
+
       if (!telegramInitData) {
         router.push("/unauthorized");
       }
 
       const { returnUrl } = router.query;
-
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ telegramInitData }),
-      });
-      const authData = await res.json();
+      const authData = await fetchWrapper.post("/api/login", { telegramInitData });
       if (authData.isLoggedIn) {
         router.push(returnUrl as string);
       } else {

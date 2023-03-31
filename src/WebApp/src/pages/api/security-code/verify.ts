@@ -1,3 +1,4 @@
+import { fetchWrapper } from "src/lib/fetch-wrapper";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getClientIP } from "src/helpers/ip-helper";
@@ -26,13 +27,6 @@ async function verifyRout(req: NextApiRequest, res: NextApiResponse) {
     ip: getClientIP(req),
   };
   const url = `${process.env.CUSTOMER_API}/security-code/verify`;
-  const result = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  res.json(await result.json());
+  const result = await fetchWrapper.post(url, data);
+  res.json(result);
 }

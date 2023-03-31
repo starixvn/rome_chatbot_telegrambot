@@ -4,7 +4,6 @@ import useTranslation from "next-translate/useTranslation";
 import { Controller, useForm } from "react-hook-form";
 import styles from "./NewCustomer.module.scss";
 import Message from "@components/Message";
-import { User } from "src/lib/session";
 import { numberAccounts as MAX_ACCOUNTS } from "src/constants/number-accounts";
 import { SingleSelect } from "@components/Form/Select";
 import { Label } from "@components/Form/Label";
@@ -13,6 +12,7 @@ import Result from "./Result";
 import { NumberInputField, PasswordField } from "@components/Form/Inputs";
 import { formatThousandNumber, getNumberOfCommaString } from "src/lib/number";
 import { validatePassword } from "src/lib/password";
+import { fetchWrapper } from "src/lib/fetch-wrapper";
 
 const NewAccountName = dynamic(() => import("@components/Customer/NewAccount").then((mod) => mod.NewAccountName), {
   ssr: false,
@@ -41,7 +41,6 @@ type Result = {
 };
 
 type Props = {
-  user: User;
   minCredit: number;
   maxAccounts: number;
   actorName: string;
@@ -65,21 +64,15 @@ export const CopyCustomer = ({ ...props }: Props) => {
 
   const onSubmit = handleSubmit(async (formData) => {
     const url = `/api/customer/copy`;
-    const result = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: formData.username,
-        password: formData.password,
-        credit: getNumberOfCommaString(formData.credit.toString()),
-        maxCredit: formData.memberMaxCredit && getNumberOfCommaString(formData.memberMaxCredit.toString()),
-        sourceUserName: formData.existAccount,
-        numberOfAccounts: Number(formData.noOfAccounts),
-      }),
-    });
-    const data = await result.json();
+    const body = {
+      username: formData.username,
+      password: formData.password,
+      credit: getNumberOfCommaString(formData.credit.toString()),
+      maxCredit: formData.memberMaxCredit && getNumberOfCommaString(formData.memberMaxCredit.toString()),
+      sourceUserName: formData.existAccount,
+      numberOfAccounts: Number(formData.noOfAccounts),
+    };
+    const data = await fetchWrapper.post(url, body);
     if (data.usernames.length > 0) {
       setData(data);
     } else {
@@ -145,7 +138,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
             name="noOfAccounts"
             control={control}
             render={({ field: { onChange } }) => (
-              <div className={styles.noAcc}>
+              <div className={styles.row}>
                 <SingleSelect
                   options={MAX_ACCOUNTS}
                   selectedValue={"1"}
@@ -185,9 +178,11 @@ export const CopyCustomer = ({ ...props }: Props) => {
               </div>
             </>
           )}
-          <button className="btn-submit" type="submit" disabled={!formState.isValid}>
-            {t("submit")}
-          </button>
+          <div className={styles.row}>
+            <button className="btn-submit" type="submit" disabled={!formState.isValid}>
+              {t("submit")}
+            </button>
+          </div>
         </form>
       )}
     </>

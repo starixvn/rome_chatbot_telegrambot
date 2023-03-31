@@ -9,6 +9,8 @@
   align-items: center;
 
   .eye {
+    display: flex;
+    align-items: center;
     position: absolute;
     right: 30px;
   }

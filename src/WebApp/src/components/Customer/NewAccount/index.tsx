@@ -4,22 +4,15 @@ import { characters } from "src/constants/characters";
 import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
 import { SingleSelect } from "@components/Form/Select";
 import styles from "./NewAccount.module.scss";
-
-export const getSuggestAccountName = async (actorName: string) => {
-  const url = `/api/customer/suggest/${actorName}`;
-  const res = await fetch(url);
-  return await res.json();
-};
-
-export const checkExistAccountName = async (username: string) => {
-  const url = `/api/customer/exist/${username}`;
-  const res = await fetch(url);
-  return await res.json();
-};
+import { fetchWrapper } from "src/lib/fetch-wrapper";
 
 type Props = {
   actorName: string;
   onChange: (newAccountName: string) => void;
+};
+
+type SuggestUserName = {
+  suggestName: string;
 };
 
 export const NewAccountName = ({ actorName, onChange }: Props) => {
@@ -37,14 +30,14 @@ export const NewAccountName = ({ actorName, onChange }: Props) => {
   }, [suggestName]);
 
   const handleGetSuggestName = async (actorName: string) => {
-    const data = await getSuggestAccountName(actorName);
+    const data = await fetchWrapper.get(`/api/customer/suggest/${actorName}`);
     setSuggestName(data.suggestName);
     handleOnChange(data.suggestName);
   };
 
   const handleCheckExistName = async () => {
     const username = actorName.concat(suggestName);
-    const data = await checkExistAccountName(username);
+    const data = await fetchWrapper.get(`/api/customer/exist/${username}`);
     if (!data.isExist) {
       setIsCorrectName(true);
     } else {

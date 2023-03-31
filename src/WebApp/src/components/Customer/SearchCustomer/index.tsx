@@ -5,6 +5,7 @@ import { components, GroupBase, OptionProps, SingleValue, StylesConfig } from "r
 import AsyncCreatableSelect from "react-select/async-creatable";
 import Select from "react-select/dist/declarations/src/Select";
 import styles from "./SearchCustomer.module.scss";
+import { fetchWrapper } from "src/lib/fetch-wrapper";
 
 export type CustomerInfoOption = {
   userName: string;
@@ -20,26 +21,8 @@ enum ErrorMode {
   Correct,
 }
 
-const getExistCustomers = async (query: string) => {
-  const url = `/api/customer/search?query=${query}`;
-  const res = await fetch(url);
-  return await res.json();
-};
-
-const getCustomerMaxCredit = async (username: string) => {
-  const url = `/api/customer/credit/${username}`;
-  const result = await fetch(url);
-  return await result.json();
-};
-
-const checkIsDownLineUser = async (username: string) => {
-  const url = `api/customer/downline/${username}`;
-  const result = await fetch(url);
-  return await result.json();
-};
-
 export const customPromiseOptions = async (inputValue: string) => {
-  const data = await getExistCustomers(inputValue);
+  const data = await fetchWrapper.get(`/api/customer/search?query=${inputValue}`);
   return data.map((item: CustomerInfoOption) => {
     return {
       ...item,
@@ -83,11 +66,11 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
 
   const handleOnChange = async (option: SingleValue<CustomerInfoOption>) => {
     if (option) {
-      const data = await checkIsDownLineUser(option.value);
+      const data = await fetchWrapper.get(`api/customer/downline/${option.value}`);
       if (data.isDownLineUser) {
         onChange(option.value);
         setIsCorrectName(ErrorMode.Correct);
-        const data = await getCustomerMaxCredit(option.value);
+        const data = await fetchWrapper.get(`/api/customer/credit/${option.value}`);
         changeMaxCredit(data.maxCredit);
       } else {
         onChange("");

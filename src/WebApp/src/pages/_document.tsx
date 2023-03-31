@@ -1,9 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
-// const themeInitializerScript = `(function () {
-//   document.body.dataset.theme = "light";
-// })();`;
-
 export default function Document() {
   return (
     <Html lang="en">
@@ -14,7 +10,6 @@ export default function Document() {
         <div id="main" />
         <Main />
         <NextScript />
-        {/* <script dangerouslySetInnerHTML={{ __html: themeInitializerScript }} /> */}
       </body>
     </Html>
   );

@@ -1,9 +1,9 @@
+import { fetchWrapper } from "./../../lib/fetch-wrapper";
 import { NextApiRequest, NextApiResponse } from "next";
 import CryptoJS from "crypto-js";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "../../lib/session";
 import * as Sentry from "@sentry/nextjs";
-import { env } from "process";
 
 type TelegramBot = {
   botId: number;
@@ -19,7 +19,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   try {
     const initData = new URLSearchParams(telegramInitData);
     const user = JSON.parse(initData.get("user") || "");
-    const account = await getAccount(user.id);
+    const account = await fetchWrapper.get(`${process.env.TELEGRAM_API_URL}/Setting/${user.id}`);
     const botToken = await getBotToken(Number(account.botId));
     const isVerified = await verifyWebAppOpenByTelegram(botToken, initData);
 
@@ -44,17 +44,9 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
 }
 
 const getBotToken = async (botId: number) => {
-  const url = `${process.env.TELEGRAM_API_URL}/Bot`;
-  const res = await fetch(url);
-  const bots = await res.json();
+  const bots = await fetchWrapper.get(`${process.env.TELEGRAM_API_URL}/Bot`);
   const bot: TelegramBot = bots.find((b: TelegramBot) => b.botId == botId);
   return bot.accessToken;
-};
-
-const getAccount = async (chatId: number) => {
-  const url = `${process.env.TELEGRAM_API_URL}/Setting/${chatId}`;
-  const res = await fetch(url);
-  return await res.json();
 };
 
 const verifyWebAppOpenByTelegram = async (botToken: string, initData: URLSearchParams) => {
