@@ -7,6 +7,8 @@ import { CopyCustomer } from "@features/CopyCustomer";
 import SecurityCodeForm from "@components/SecurityCodeForm";
 import VerifyOtp from "@components/OtpForm";
 import { fetchWrapper } from "src/lib/fetch-wrapper";
+import { Master } from "src/constants/role-id";
+import * as Sentry from "@sentry/nextjs";
 
 type CustomerOtpSetting = {
   isEnableSophosOtp: boolean;
@@ -52,6 +54,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
   const user = req.session.user;
 
   if (user === undefined) {
+    Sentry.captureMessage("User undefined -> Unauthorized");
     res.setHeader("location", "/unauthorized");
     res.statusCode = 302;
     res.end();
@@ -79,7 +82,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
       maxAccounts: process.env.MAX_ACCOUNTS,
       actorName: user.username,
       customerLevel: user.customerLevel,
-      isMasterLevel: user.customerLevel === 3,
+      isMasterLevel: user.customerLevel === Master,
     },
   };
 }, sessionOptions);
