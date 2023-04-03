@@ -19,10 +19,16 @@
   }
 }
 
-.msg-error {
+.msgError {
   background-color: #fadddd;
   border-color: #fe0000;
   color: #fe0000;
+}
+
+.msgSuccess {
+  background-color: #cbf0c8;
+  border-color: #298420;
+  color: #298420;
 }
 
 .msg-content {

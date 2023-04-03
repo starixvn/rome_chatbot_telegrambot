@@ -5,5 +5,7 @@
   "SCNote": "For your protection, please input your Security Code before proceeding!",
   "ShowSecurityCode": "Show security code",
   "RequiredMessage": "This field is required.",
-  "WrongSCMessage": "Wrong Security Code. Please try again."
+  "WrongSCMessage": "Wrong Security Code. Please try again.",
+  "Otp": "OTP",
+  "EnterOtp": "Please enter your OTP before proceeding!"
 }

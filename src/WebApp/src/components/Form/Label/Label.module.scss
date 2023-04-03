@@ -1,11 +1,11 @@
 .label {
   margin-top: 10px;
-  margin-bottom: 2px;
+  margin-bottom: 8px;
 
   .title {
     display: flex;
     font-size: 18px;
-    color: black;
+    color: rgb(13, 113, 201);
     align-items: center;
 
     svg {
@@ -17,6 +17,7 @@
 .subLabel {
   font-size: 16px;
   line-height: 22px;
+  color: rgb(0, 0, 0);
 }
 
 .require {

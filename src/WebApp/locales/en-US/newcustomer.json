@@ -9,11 +9,11 @@
     "password2": "Password must be at least 8 characters without white-space<br/>and contain at least 3 of the following:<br/><br/>• Uppercase letter [A-Z]<br/>• Lowercase letter [a-z]<br/>• Numeric [0-9]<br/>• Special character (!,@,#,etc..)<br/><br/>For example: 59D7!4$h, 493abcDE<br/>Notes: your password is cAsE sEnSiTiVe"
   },
   "result": {
-    "success": "The following accounts have been created successful:",
+    "success": "accounts have been created successful",
     "usernames": "Usernames:",
-    "credit": "Credit: {{credit}} (per account)",
-    "fail": "System failed to create {{failAccounts}} accounts.",
-    "failReason": "Failure Reason: {{message}}",
+    "credit": "Given Credit per Account",
+    "fail": "accounts failed to be created.",
+    "failReason": "Failure Reason",
     "createMore": "Create More"
   },
   "note": "*Note: Settings will remain the same as the Source account settings for all account",
@@ -30,5 +30,6 @@
   "creditNote": "Available Given Credit: ",
   "memberMaxCredit": "Member Max Credit",
   "password": "Password",
-  "submit": "Submit"
+  "submit": "Submit",
+  "sourceInputPlaceholder": "Username or First/Last Name"
 }

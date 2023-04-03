@@ -3,6 +3,11 @@
     padding-right: 21px;
   }
 
+  hr {
+    margin-top: 20px;
+    border: 1px solid #c1baba;
+  }
+
   .note {
     color: var(--secondary-color);
     margin-bottom: 10px;
@@ -16,7 +21,7 @@
   line-height: 20px;
   margin-top: 2px;
   span {
-    color: var(--primari-color);
+    color: var(--primary-color);
     font-weight: 700;
   }
 }

@@ -115,6 +115,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
             render={({ field }) => <SearchCustomerExists onChange={field.onChange} changeMaxCredit={handleChangeMaxCredit} />}
             rules={{ minLength: 1, required: true }}
           />
+          <hr />
 
           <Label title={t("accountDetail")} description={t("accountDetailNote")} />
           <Label title={t("username")} subLabel />

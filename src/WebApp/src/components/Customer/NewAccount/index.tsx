@@ -11,10 +11,6 @@ type Props = {
   onChange: (newAccountName: string) => void;
 };
 
-type SuggestUserName = {
-  suggestName: string;
-};
-
 export const NewAccountName = ({ actorName, onChange }: Props) => {
   const [suggestName, setSuggestName] = useState("");
   const [isCorrectName, setIsCorrectName] = useState(false);

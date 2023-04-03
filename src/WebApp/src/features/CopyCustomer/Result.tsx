@@ -1,3 +1,4 @@
+import Message from "@components/Message";
 import useTranslation from "next-translate/useTranslation";
 import React from "react";
 import styles from "./Result.module.scss";
@@ -16,26 +17,25 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
     <>
       {usernames && usernames.length > 0 ? (
         <>
-          <div className={styles.message}>{t("result.success")}</div>
+          <Message message={`${usernames.length} ${t("result.success")}`} isError={false} />
+          <p>{t("result.usernames")}</p>
           <div className={styles.info}>
-            <span>{t("result.usernames")} </span>
-            {usernames?.map((item) => (
-              <b key={item}>{item}, </b>
-            ))}
+            {usernames?.map((item, index) => {
+              if (index === usernames.length - 1) {
+                return <b key={item}>{item}</b>;
+              }
+              return <b key={item}>{item}, </b>;
+            })}
           </div>
-          <div className={styles.info}>
-            <span>{t("credit")}: </span>
-            <span>{credit}</span>
-            <span> {t("perAccount")}</span>
-          </div>
+          <p>{t("result.credit")}</p>
+          <input type="text" value={credit} />
         </>
       ) : null}
       {failAccounts && failAccounts > 0 ? (
         <>
-          <div className={styles.message}>{t("result.fail", { failAccounts: failAccounts })}</div>
-          <div className={styles.info}>
-            <span>{t("result.failReason", { message: message })}</span>
-          </div>
+          <Message message={`${failAccounts} ${t("result.fail")}`} isError />
+          <span>{t("result.failReason")}: </span>
+          <span className={styles.fail}>{message}</span>
         </>
       ) : null}
       <button className="btn-submit" onClick={handleContinue}>
