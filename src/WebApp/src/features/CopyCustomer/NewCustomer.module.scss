@@ -3,25 +3,26 @@
     padding-right: 21px;
   }
 
-  hr {
-    margin-top: 20px;
-    border: 1px solid #c1baba;
+  .note {
+    color: var(--description-color);
+    font-style: italic;
+    margin-top: 4px;
   }
 
-  .note {
-    color: var(--secondary-color);
-    margin-bottom: 10px;
-    font-style: italic;
+  hr {
+    margin-top: 12px;
+    border: 1px solid #e0e0e0;
   }
 }
 
 .credit {
-  color: var(--secondary-color);
-  font-size: 13px;
+  color: var(--note-color);
+  font-size: 12px;
   line-height: 20px;
-  margin-top: 2px;
+  margin-top: 4px;
+
   span {
-    color: var(--primary-color);
+    color: var(--note-color);
     font-weight: 700;
   }
 }

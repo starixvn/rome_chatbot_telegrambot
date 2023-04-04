@@ -12,18 +12,18 @@
   color: #ededed;
 
   &.agent {
-    background-color: #36587d;
+    background-color: var(--bg-agent);
   }
 
   &.master {
-    background-color: #1c5334;
+    background-color: var(--bg-master);
   }
 
   &.super {
-    background-color: #5d1219;
+    background-color: var(--bg-super);
   }
 }
 
 .main {
-  padding: 17px 16px;
+  padding: 10px 16px;
 }

@@ -1,26 +1,33 @@
 .label {
-  margin-top: 10px;
-  margin-bottom: 8px;
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
 
   .title {
     display: flex;
-    font-size: 18px;
-    color: rgb(13, 113, 201);
+    color: var(--label-color) !important;
     align-items: center;
 
     svg {
       margin-left: 5px;
     }
   }
+
+  p {
+    color: var(--description-color);
+    margin-top: 10px;
+  }
 }
 
 .subLabel {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 22px;
-  color: rgb(0, 0, 0);
+  font-weight: 400;
+  color: var(--sub-label-color);
 }
 
 .require {
-  color: #c91414;
+  color: #fe0000;
   margin-left: 3px;
 }

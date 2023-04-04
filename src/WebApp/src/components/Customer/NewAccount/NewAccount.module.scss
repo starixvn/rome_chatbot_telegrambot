@@ -2,22 +2,23 @@
   display: inline-flex;
   align-items: center;
   width: 100%;
+  margin-top: 4px;
 
   .name {
     display: inline-flex;
     align-items: center;
-    height: 30px;
+    height: 32px;
     width: 100%;
-    font-weight: bold;
-    font-size: 90%;
+    font-size: 13px;
+    font-weight: 600;
     padding-left: 5px;
     border: 1px solid;
-    border-color: #d6d6d6;
-    background-color: #dbd6d6;
+    border-color: var(--border-color);
+    background-color: var(--bg-color);
   }
 
   .item {
-    min-width: 60px !important;
+    min-width: 52px !important;
   }
 
   .icon {

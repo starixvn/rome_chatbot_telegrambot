@@ -23,7 +23,7 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
         <Message message={`${usernames?.length} ${t("result.success")}`} isError={false} />
         <p>{t("result.usernames")}</p>
         <div className={styles.copy}>
-          <textarea rows={3} readOnly defaultValue={`${successAccounts}.`}></textarea>
+          <textarea rows={3} readOnly defaultValue={successAccounts}></textarea>
           <CopyToClipboard text={successAccounts || ""}>
             <div className={styles.icon}>
               <CheckMarkIcon width={16} height={16} />
@@ -35,6 +35,7 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
       </>
       {failAccounts && failAccounts > 0 ? (
         <>
+          <hr />
           <Message message={`${failAccounts} ${t("result.fail")}`} isError />
           <div className={styles.row}>
             <p>{t("result.failReason")}: </p>

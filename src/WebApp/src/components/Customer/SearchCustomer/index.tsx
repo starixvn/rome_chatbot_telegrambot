@@ -138,13 +138,17 @@ const customerStyles: StylesConfig<CustomerInfoOption> = {
     ...provided,
     display: "inline-block",
     width: "100%",
+    height: "32px",
+    fontSize: "14px",
+    fontWeight: "400",
+    lineHeight: "22px",
   }),
 
   control: (baseStyles) => ({
     ...baseStyles,
     borderRadius: "0px",
-    minHeight: "30px",
-    height: "30px",
+    minHeight: "32px",
+    height: "32px",
     width: "100%",
     display: "inline-block",
     border: "1px solid #d1d1d1",
@@ -156,7 +160,7 @@ const customerStyles: StylesConfig<CustomerInfoOption> = {
 
   valueContainer: (provided) => ({
     ...provided,
-    height: "30px",
+    height: "32px",
     padding: 0,
     minWidth: "100%",
   }),

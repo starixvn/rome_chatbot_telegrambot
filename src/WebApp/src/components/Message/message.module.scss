@@ -2,33 +2,34 @@
   white-space: pre-wrap;
   border-width: 1px;
   border-style: solid;
-  border-radius: 2px;
   box-sizing: border-box;
-  padding: 10px 9px 9px;
+  padding: 10px 6px 6px;
   position: relative;
-  margin: 12px 0;
+  min-height: 36px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+
   svg {
     position: relative;
     top: -1px;
     margin-right: 1px;
   }
+
   span {
     flex: 1;
   }
 }
 
 .msgError {
-  background-color: #fadddd;
+  background-color: #fff2f2;
   border-color: #fe0000;
   color: #fe0000;
 }
 
 .msgSuccess {
-  background-color: #cbf0c8;
-  border-color: #298420;
-  color: #298420;
+  background-color: #e2fff2;
+  border-color: #137849;
+  color: #137849;
 }
 
 .msg-content {

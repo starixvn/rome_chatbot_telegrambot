@@ -1,12 +1,18 @@
 .otp {
   label {
     display: block;
-    margin-top: 10px;
-    margin-bottom: 6px;
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--sub-label-color);
+
+    input {
+      margin-top: 4px;
+    }
   }
 
   span {
-    color: black;
+    font-weight: 500;
   }
 
   .buttons {
@@ -15,7 +21,6 @@
 
     button {
       width: fit-content;
-      font-weight: 200;
     }
   }
 }
