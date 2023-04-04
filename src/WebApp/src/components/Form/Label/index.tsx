@@ -1,6 +1,6 @@
-import { InformationIcon } from "@components/Icons";
 import cn from "classnames";
 import styles from "./Label.module.scss";
+import { Tooltip } from "@components/Tooltip";
 
 type Props = {
   title: string;
@@ -16,7 +16,7 @@ export const Label = ({ title, subLabel, description, required, info }: Props) =
       <div className={styles.title}>
         <label className={cn({ [styles.subLabel]: subLabel })}>{title}</label>
         {required && <span className={styles.require}>*</span>}
-        {info && <InformationIcon height={16} width={16} />}
+        {info && <Tooltip />}
       </div>
       {description && <p>{description}</p>}
     </div>
