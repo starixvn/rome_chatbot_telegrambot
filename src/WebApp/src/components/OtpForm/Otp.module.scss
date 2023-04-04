@@ -1,0 +1,21 @@
+.otp {
+  label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 6px;
+  }
+
+  span {
+    color: black;
+  }
+
+  .buttons {
+    display: flex;
+    column-gap: 10px;
+
+    button {
+      width: fit-content;
+      font-weight: 200;
+    }
+  }
+}

@@ -4,6 +4,7 @@ import useTranslation from "next-translate/useTranslation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetchWrapper } from "src/lib/fetch-wrapper";
+import styles from "./Otp.module.scss";
 
 type Props = {
   actorName: string;
@@ -32,25 +33,29 @@ const VerifyOtp = (props: Props) => {
   };
 
   return (
-    <>
+    <div className={styles.otp}>
       {formState.isSubmitting && <BlockUI />}
       <form onSubmit={onSubmit}>
-        <div>
-          {t("Hi")} {props.actorName}
-        </div>
-        <div>{t("EnterOtp")}</div>
+        <p>
+          {t("Hi")} <span>{props.actorName}</span>
+        </p>
+        <p>{t("EnterOtp")}</p>
 
         <label>{t("Otp")}</label>
-        <input {...register("otp")} />
-        {props.isEnableTelegramOtp && (
-          <button type="button" onClick={handleGenerateOTP} disabled={countdown}>
-            Generate OTP
-            {countdown && <Countdown time={180} onFinishCount={() => setCountdown(false)} />}
+        <input {...register("otp", { required: true })} type="number" />
+        <div className={styles.buttons}>
+          {props.isEnableTelegramOtp && (
+            <button className="btn-submit" type="button" onClick={handleGenerateOTP} disabled={countdown}>
+              {`${t("GenerateOTP")} `}
+              {countdown && <Countdown time={180} onFinishCount={() => setCountdown(false)} />}
+            </button>
+          )}
+          <button className="btn-submit" type="submit">
+            Submit
           </button>
-        )}
-        <button type="submit">Submit</button>
+        </div>
       </form>
-    </>
+    </div>
   );
 };
 

@@ -7,5 +7,6 @@
   "RequiredMessage": "This field is required.",
   "WrongSCMessage": "Wrong Security Code. Please try again.",
   "Otp": "OTP",
-  "EnterOtp": "Please enter your OTP before proceeding!"
+  "EnterOtp": "Please enter your OTP before proceeding!",
+  "GenerateOTP": "Generate OTP"
 }
