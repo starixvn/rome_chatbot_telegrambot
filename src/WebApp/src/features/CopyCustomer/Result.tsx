@@ -2,7 +2,7 @@ import { CheckMarkIcon } from "@components/Icons";
 import Message from "@components/Message";
 import useTranslation from "next-translate/useTranslation";
 import React from "react";
-import { NumericFormat } from "react-number-format";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import styles from "./Result.module.scss";
 
 type Props = {
@@ -23,15 +23,15 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
         <Message message={`${usernames?.length} ${t("result.success")}`} isError={false} />
         <p>{t("result.usernames")}</p>
         <div className={styles.copy}>
-          <textarea rows={3} readOnly>
-            {`${successAccounts}.`}
-          </textarea>
-          <div className={styles.icon}>
-            <CheckMarkIcon width={16} height={16} />
-          </div>
+          <textarea rows={3} readOnly defaultValue={`${successAccounts}.`}></textarea>
+          <CopyToClipboard text={successAccounts || ""}>
+            <div className={styles.icon}>
+              <CheckMarkIcon width={16} height={16} />
+            </div>
+          </CopyToClipboard>
         </div>
         <p>{t("result.credit")}</p>
-        <input value={credit?.toFixed(2)} />
+        <input value={credit?.toFixed(2)} readOnly />
       </>
       {failAccounts && failAccounts > 0 ? (
         <>
