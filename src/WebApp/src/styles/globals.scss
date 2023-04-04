@@ -83,10 +83,13 @@ p {
   color: var(--secondary-color);
 }
 
-input,
 select {
   background-color: white;
   color: black;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 input {
@@ -95,6 +98,8 @@ input {
   border: 1px solid #d1d1d1;
   appearance: none;
   width: 100%;
+  background-color: white;
+  color: black;
   padding: 0 5px;
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset !important;

@@ -1,14 +1,42 @@
-.message {
-  font-size: 16px;
-  line-height: 22px;
-  margin-bottom: 3px;
-}
+.result {
+  input {
+    width: 50%;
+  }
 
-.info {
-  font-size: 16px;
-  margin-bottom: 3px;
-}
+  textarea {
+    padding: 5px;
+    color: black;
+    font-weight: bold;
+    border-color: #d1d1d1;
+    width: 100%;
+  }
 
-.fail {
-  color: red;
+  p {
+    color: black;
+    margin-top: 10px;
+    margin-bottom: 6px;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-left: 5px;
+    }
+  }
+
+  .copy {
+    position: relative;
+
+    .icon {
+      position: absolute;
+      right: 4px;
+      top: 4px;
+    }
+  }
+
+  .fail {
+    color: red;
+  }
 }

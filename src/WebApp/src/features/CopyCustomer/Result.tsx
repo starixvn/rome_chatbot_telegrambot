@@ -1,6 +1,8 @@
+import { CheckMarkIcon } from "@components/Icons";
 import Message from "@components/Message";
 import useTranslation from "next-translate/useTranslation";
 import React from "react";
+import { NumericFormat } from "react-number-format";
 import styles from "./Result.module.scss";
 
 type Props = {
@@ -13,35 +15,37 @@ type Props = {
 
 const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, handleContinue }) => {
   const { t } = useTranslation("newcustomer");
+  const successAccounts = usernames?.join(", ");
+
   return (
-    <>
-      {usernames && usernames.length > 0 ? (
-        <>
-          <Message message={`${usernames.length} ${t("result.success")}`} isError={false} />
-          <p>{t("result.usernames")}</p>
-          <div className={styles.info}>
-            {usernames?.map((item, index) => {
-              if (index === usernames.length - 1) {
-                return <b key={item}>{item}</b>;
-              }
-              return <b key={item}>{item}, </b>;
-            })}
+    <div className={styles.result}>
+      <>
+        <Message message={`${usernames?.length} ${t("result.success")}`} isError={false} />
+        <p>{t("result.usernames")}</p>
+        <div className={styles.copy}>
+          <textarea rows={3} readOnly>
+            {`${successAccounts}.`}
+          </textarea>
+          <div className={styles.icon}>
+            <CheckMarkIcon width={16} height={16} />
           </div>
-          <p>{t("result.credit")}</p>
-          <input type="text" value={credit} />
-        </>
-      ) : null}
+        </div>
+        <p>{t("result.credit")}</p>
+        <input value={credit?.toFixed(2)} />
+      </>
       {failAccounts && failAccounts > 0 ? (
         <>
           <Message message={`${failAccounts} ${t("result.fail")}`} isError />
-          <span>{t("result.failReason")}: </span>
-          <span className={styles.fail}>{message}</span>
+          <div className={styles.row}>
+            <p>{t("result.failReason")}: </p>
+            <span className={styles.fail}>{message}</span>
+          </div>
         </>
       ) : null}
       <button className="btn-submit" onClick={handleContinue}>
         {t("result.createMore")}
       </button>
-    </>
+    </div>
   );
 };
 
