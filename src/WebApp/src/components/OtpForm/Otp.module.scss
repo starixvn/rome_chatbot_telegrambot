@@ -1,23 +1,32 @@
 .otp {
-  label {
-    display: block;
-    margin-top: 12px;
-    font-size: 14px;
-    line-height: 22px;
-    color: var(--sub-label-color);
+  .title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--label-color);
+    margin-bottom: 12px;
+  }
 
-    input {
-      margin-top: 4px;
-    }
+  .mes {
+    margin-bottom: 12px;
   }
 
   span {
     font-weight: 500;
   }
 
+  input {
+    margin-top: 12px;
+  }
+
   .buttons {
     display: flex;
     column-gap: 10px;
+
+    .btn-genOtp {
+      background: #18965b;
+    }
 
     button {
       width: fit-content;

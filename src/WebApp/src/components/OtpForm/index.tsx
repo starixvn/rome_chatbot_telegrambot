@@ -1,9 +1,11 @@
-import BlockUI from "@components/BlockUI";
-import { Countdown } from "@components/Countdown";
-import useTranslation from "next-translate/useTranslation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import useTranslation from "next-translate/useTranslation";
+import cn from "classnames";
 import { fetchWrapper } from "src/lib/fetch-wrapper";
+import Message from "@components/Message";
+import BlockUI from "@components/BlockUI";
+import { Countdown } from "@components/Countdown";
 import styles from "./Otp.module.scss";
 
 type Props = {
@@ -15,15 +17,17 @@ type Props = {
 
 const VerifyOtp = (props: Props) => {
   const { t } = useTranslation("common");
-  const methods = useForm({ mode: "onSubmit", shouldFocusError: false });
-  const { handleSubmit, register, formState } = methods;
+  const { handleSubmit, register, formState } = useForm({ mode: "onSubmit", shouldFocusError: false });
 
   const [countdown, setCountdown] = useState(false);
+  const [error, setError] = useState("");
 
   const onSubmit = handleSubmit(async (formData) => {
     const result = await fetchWrapper.post("/api/otp/verify", { otp: formData.otp, isEnableTelegramOtp: props.isEnableTelegramOtp });
     if (result.isSuccessful) {
       props.onVerifySuccess();
+    } else {
+      setError(t("WrongOTPMessage"));
     }
   });
 
@@ -36,22 +40,26 @@ const VerifyOtp = (props: Props) => {
     <div className={styles.otp}>
       {formState.isSubmitting && <BlockUI />}
       <form onSubmit={onSubmit}>
+        {error && (
+          <div className={styles.mes}>
+            <Message message={error} isError />
+          </div>
+        )}
+        <p className={styles.title}>{t("OTPValidation")}</p>
         <p>
           {t("Hi")} <span>{props.actorName}</span>
         </p>
-        <p>{t("EnterOtp")}</p>
-
-        <label>{t("Otp")}</label>
-        <input {...register("otp", { required: true })} type="number" />
+        <p>{t("OtpNote")}</p>
+        <input {...register("otp", { required: true })} pattern="[0-9]*" autoComplete="off" maxLength={6} />
         <div className={styles.buttons}>
           {props.isEnableTelegramOtp && (
-            <button className="btn-submit" type="button" onClick={handleGenerateOTP} disabled={countdown}>
+            <button className={cn("btn-submit", styles["btn-genOtp"])} type="button" onClick={handleGenerateOTP} disabled={countdown}>
               {`${t("GenerateOTP")} `}
               {countdown && <Countdown time={180} onFinishCount={() => setCountdown(false)} />}
             </button>
           )}
           <button className="btn-submit" type="submit">
-            Submit
+            {t("Verify")}
           </button>
         </div>
       </form>

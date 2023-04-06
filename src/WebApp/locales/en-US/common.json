@@ -1,12 +1,14 @@
 {
   "SecurityCode": "Security Code",
+  "OTPValidation": "OTP Validation",
   "Verify": "Verify",
   "Hi": "Hi",
   "SCNote": "For your protection, please input your Security Code before proceeding!",
   "ShowSecurityCode": "Show security code",
   "RequiredMessage": "This field is required.",
   "WrongSCMessage": "Wrong Security Code. Please try again.",
+  "WrongOTPMessage": "Your OTP is invalid or expired",
   "Otp": "OTP",
-  "EnterOtp": "Please enter your OTP before proceeding!",
+  "OtpNote": "Please enter your OTP before proceeding!",
   "GenerateOTP": "Generate OTP"
 }

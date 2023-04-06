@@ -46,17 +46,9 @@
     bottom: 100%;
     margin-bottom: 6px;
   }
-  [data-tooltip-position="right"]:before {
-    left: 100%;
-    margin-left: 6px;
-  }
   [data-tooltip-position="bottom"]:before {
     top: 100%;
     margin-top: 6px;
-  }
-  [data-tooltip-position="left"]:before {
-    right: 100%;
-    margin-right: 6px;
   }
 
   /* Tooltip arrow styling/placement */
@@ -88,20 +80,10 @@
     border-width: 6px 6px 0;
     border-top-color: rgb(32, 127, 178);
   }
-  [data-tooltip-position="right"]:after {
-    left: 100%;
-    border-width: 6px 6px 6px 0;
-    border-right-color: rgb(32, 127, 178);
-  }
   [data-tooltip-position="bottom"]:after {
     top: 100%;
     border-width: 0 6px 6px;
     border-bottom-color: rgb(32, 127, 178);
-  }
-  [data-tooltip-position="left"]:after {
-    right: 100%;
-    border-width: 6px 0 6px 6px;
-    border-left-color: rgb(32, 127, 178);
   }
 
   /* Show the tooltip when hovering */

@@ -46,6 +46,12 @@ input {
   background-color: white;
   color: black;
   padding: 0 5px;
+  font-family: var(--font-roboto);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
     &:focus,
@@ -80,9 +86,9 @@ textarea {
   outline: none;
   border: 0;
   font-weight: 500;
-  font-size: 15px;
-  line-height: 35px;
-  height: 36px;
+  font-size: 13px;
+  line-height: 15px;
+  padding: 8px 16px;
   text-transform: uppercase;
   width: 100%;
 }

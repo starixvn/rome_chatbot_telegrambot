@@ -13,16 +13,20 @@
     margin-top: 12px;
     border: 1px solid #e0e0e0;
   }
-}
 
-.credit {
-  color: var(--note-color);
-  font-size: 12px;
-  line-height: 20px;
-  margin-top: 4px;
+  button {
+    padding: 9px 10px;
+  }
 
-  span {
+  .credit {
     color: var(--note-color);
-    font-weight: 700;
+    font-size: 12px;
+    line-height: 20px;
+    margin-top: 4px;
+
+    span {
+      color: var(--note-color);
+      font-weight: 700;
+    }
   }
 }
