@@ -1,82 +1,44 @@
-.security-code {
-  label {
+.sc {
+  .title {
+    font-style: normal;
+    font-weight: 500;
     font-size: 16px;
     line-height: 24px;
-    color: #333333;
-    display: block;
-    margin-bottom: 3px;
+    color: var(--label-color);
+    margin-bottom: 12px;
   }
 
-  .form-name {
+  span {
+    font-weight: 500;
+  }
+
+  button {
+    padding: 8px 16px;
+    width: fit-content;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+  }
+
+  .mes {
+    margin-bottom: 12px;
+  }
+
+  .row {
+    margin-top: 12px;
+    position: relative;
+    font-style: normal;
+    font-weight: 400;
     font-size: 14px;
     line-height: 22px;
-    color: #333333;
-    margin-bottom: 0;
-  }
 
-  .form-note {
-    font-size: 13px;
-    line-height: 20px;
-    margin-bottom: 5px;
-  }
-
-  .has-checkbox {
-    display: flex;
-    align-items: center;
-    font-size: 13px;
-    line-height: 20px;
-
-    input[type="checkbox"] {
-      margin-right: 6px;
-      width: 16px;
-      height: 16px;
-    }
-  }
-
-  .form-group {
-    display: flex;
-    margin-bottom: 8px;
-  }
-
-  .form-control {
-    appearance: none;
-    padding-left: 5px;
-    border: 1px solid #d1d1d1;
-    height: 30px;
-    outline: none;
-    width: 100%;
-    max-width: 336px;
-    margin-right: 16px;
-  }
-
-  .btn-verify {
-    font-weight: 500;
-    font-size: 12px;
-    width: auto;
-    background: #18965b;
-    margin: 0;
-    padding: 2px 28px;
-    color: #ededed;
-    outline: none;
-    border: 0;
-  }
-
-  .show-code {
-    display: flex;
-
-    input {
-      width: 18px;
-      height: 18px;
-      margin-right: 8px;
-      cursor: pointer;
-    }
-
-    span {
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 22px;
-      cursor: pointer;
-      color: var(--secondary-color);
+    .eye {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      right: 10px;
+      top: 0;
+      position: absolute;
     }
   }
 }

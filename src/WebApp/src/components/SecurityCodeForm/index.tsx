@@ -1,7 +1,10 @@
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import useTranslation from "next-translate/useTranslation";
+import { fetchWrapper } from "src/lib/fetch-wrapper";
 import BlockUI from "@components/BlockUI";
 import Message from "@components/Message";
-import useTranslation from "next-translate/useTranslation";
-import React, { FormEvent, useState } from "react";
+import { EyeCloseIcon, EyeIcon } from "@components/Icons";
 import styles from "./SecurityCode.module.scss";
 
 type Props = {
@@ -11,74 +14,55 @@ type Props = {
 
 const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
   const { t } = useTranslation("common");
+  const { handleSubmit, register, formState } = useForm({ mode: "onSubmit", shouldFocusError: false });
+
   const [securityCodeShown, setSecurityCodeShown] = useState(false);
-  const [securityCode, setSecurityCode] = useState("");
   const [error, setError] = useState("");
-  const [blockUI, setBlockUI] = useState(false);
 
   const handleShowSecurityCode = () => {
     setSecurityCodeShown(!securityCodeShown);
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (securityCode === "") {
-      setError(t("RequiredMessage"));
-      return;
-    }
-    setBlockUI(true);
-
-    const formData = new URLSearchParams();
-    formData.append("securityCode", securityCode);
-    const response = await fetch("/api/security-code/verify", {
-      method: "POST",
-      body: formData.toString(),
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-      },
-    });
-
-    const result = await response.json();
+  const onSubmit = handleSubmit(async (formData) => {
+    const result = await fetchWrapper.post("/api/security-code/verify", formData);
     if (result.isSuccessful) {
       onVerifySuccess();
     } else {
       setError(t("WrongSCMessage"));
     }
-    setBlockUI(false);
-  };
+  });
 
   return (
-    <>
-      <form className={styles["security-code"]} onSubmit={handleSubmit}>
-        <label htmlFor="SecurityCode">{t("SecurityCode")}</label>
-        {error && <Message message={error} />}
-        <p className={styles["form-name"]}>
-          {t("Hi")} {username},
+    <div className={styles.sc}>
+      {formState.isSubmitting && <BlockUI />}
+      <form onSubmit={onSubmit}>
+        {error && (
+          <div className={styles.mes}>
+            <Message message={error} isError />
+          </div>
+        )}
+        <p className={styles.title}>{t("SecurityCode")}</p>
+        <p>
+          {t("Hi")} <span>{username}</span>
         </p>
-        <p className={styles["form-note"]}>{t("SCNote")}</p>
-        <div className={styles["form-group"]}>
+        <p>{t("SCNote")}</p>
+        <div className={styles.row}>
           <input
-            className={styles["form-control"]}
-            id="SecurityCode"
-            name="SecurityCode"
-            type={securityCodeShown ? "text" : "password"}
+            {...register("securityCode", { required: true })}
             pattern="[0-9]*"
             autoComplete="off"
             maxLength={6}
-            value={securityCode}
-            onChange={(e) => setSecurityCode(e.target.value)}
+            type={securityCodeShown ? "text" : "password"}
           />
-          <input type="submit" value={t("Verify")} className={styles["btn-verify"]} />
+          <div className={styles.eye} onClick={handleShowSecurityCode}>
+            {securityCodeShown ? <EyeIcon height={16} width={16} /> : <EyeCloseIcon height={16} width={16} />}
+          </div>
         </div>
-        <div className={styles["form-group"]}>
-          <label htmlFor="checkbox" className={styles["has-checkbox"]}>
-            <input type="checkbox" id="checkbox" checked={securityCodeShown} onChange={handleShowSecurityCode} />
-            {t("ShowSecurityCode")}
-          </label>
-        </div>
+        <button className="btn-submit" type="submit">
+          {t("Verify")}
+        </button>
       </form>
-      {blockUI && <BlockUI />}
-    </>
+    </div>
   );
 };
 
