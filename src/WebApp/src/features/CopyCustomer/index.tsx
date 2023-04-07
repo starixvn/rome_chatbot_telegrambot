@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 import { Controller, useForm } from "react-hook-form";
-import styles from "./NewCustomer.module.scss";
 import Message from "@components/Message";
 import { numberAccounts as MAX_ACCOUNTS } from "src/constants/number-accounts";
 import { SingleSelect } from "@components/Form/Select";
@@ -13,6 +12,9 @@ import { NumberInputField, PasswordField } from "@components/Form/Inputs";
 import { formatThousandNumber, getNumberOfCommaString } from "src/lib/number";
 import { validatePassword } from "src/lib/password";
 import { fetchWrapper } from "src/lib/fetch-wrapper";
+import { User } from "src/lib/session";
+import { Master } from "src/constants/role-id";
+import styles from "./NewCustomer.module.scss";
 
 const NewAccountName = dynamic(() => import("@components/Customer/NewAccount").then((mod) => mod.NewAccountName), {
   ssr: false,
@@ -43,15 +45,14 @@ type Result = {
 type Props = {
   minCredit: number;
   maxAccounts: number;
-  actorName: string;
-  isMasterLevel: boolean;
+  user: User;
 };
 
-export const CopyCustomer = ({ ...props }: Props) => {
+export const CopyCustomer = ({ user, ...props }: Props) => {
   const { t } = useTranslation("newcustomer");
   const methods = useForm<IFormInputs>({
     mode: "onSubmit",
-    defaultValues: { noOfAccounts: 1, credit: 0, memberMaxCredit: props.isMasterLevel ? 0 : undefined },
+    defaultValues: { noOfAccounts: 1, credit: 0, memberMaxCredit: user.customerLevel === Master ? 0 : undefined },
     shouldFocusError: false,
   });
   const { handleSubmit, control, reset, formState } = methods;
@@ -122,7 +123,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
           <Controller
             name="username"
             control={control}
-            render={({ field }) => <NewAccountName actorName={props.actorName} onChange={field.onChange} />}
+            render={({ field }) => <NewAccountName actorName={user.username} onChange={field.onChange} />}
             rules={{ minLength: 1, required: true }}
           />
 
@@ -165,7 +166,7 @@ export const CopyCustomer = ({ ...props }: Props) => {
             <span>{formatThousandNumber(maxCredit)}</span>
           </div>
 
-          {props.isMasterLevel && (
+          {user.customerLevel === Master && (
             <>
               <Label title={`${t("memberMaxCredit")} ${t("perAccount")}`} subLabel />
               <Controller

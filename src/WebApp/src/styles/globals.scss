@@ -22,35 +22,26 @@ body {
 p {
   font-style: normal;
   font-size: 14px;
-  font-weight: 400;
   line-height: 22px;
+  font-weight: 400;
+  font-family: var(--font-roboto);
   color: var(--sub-label-color);
 }
 
-select {
-  height: 32px;
-  background-color: white;
-  color: black;
-
-  &:focus {
-    outline: none;
-  }
-}
-
 input {
-  height: 32px;
-  border-radius: 0;
-  border: 1px solid var(--border-color);
-  appearance: none;
   width: 100%;
-  background-color: white;
-  color: black;
+  height: 32px;
   padding: 0 5px;
-  font-family: var(--font-roboto);
+  border: 1px solid var(--border-color);
+  border-radius: 0;
+  color: var(--sub-label-color);
+  background-color: white;
   font-style: normal;
-  font-weight: 400;
   font-size: 14px;
   line-height: 22px;
+  font-weight: 400;
+  font-family: var(--font-roboto);
+  appearance: none;
 
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
@@ -64,13 +55,30 @@ input {
   }
 }
 
+select {
+  height: 32px;
+  color: var(--sub-label-color);
+  background-color: white;
+  border-color: var(--border-color);
+  font-style: normal;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  font-family: var(--font-roboto);
+
+  &:focus {
+    outline: none;
+  }
+}
+
 textarea {
   width: 100%;
   padding: 5px;
-  font-size: 14px;
   font-style: normal;
-  font-weight: 600;
+  font-size: 14px;
   line-height: 22px;
+  font-weight: 600;
+  font-family: var(--font-roboto);
   color: var(--description-color);
   border-color: var(--border-color);
 
@@ -80,19 +88,19 @@ textarea {
 }
 
 .btn-submit {
+  width: 100%;
   margin-top: 12px;
-  background: #0b589c;
+  padding: 8px 16px;
   color: #ededed;
-  outline: none;
+  background: #0b589c;
   border: 0;
-  font-weight: 500;
   font-size: 13px;
   line-height: 15px;
-  padding: 8px 16px;
+  font-weight: 500;
   text-transform: uppercase;
-  width: 100%;
+  outline: none;
 }
 
 .btn-submit:disabled {
-  opacity: 0.5;
+  opacity: 0.7;
 }

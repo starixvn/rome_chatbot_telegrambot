@@ -9,7 +9,7 @@ import { Countdown } from "@components/Countdown";
 import styles from "./Otp.module.scss";
 
 type Props = {
-  actorName: string;
+  username: string;
   isEnableSophosOtp: boolean;
   isEnableTelegramOtp: boolean;
   onVerifySuccess: () => void;
@@ -41,13 +41,13 @@ const VerifyOtp = (props: Props) => {
       {formState.isSubmitting && <BlockUI />}
       <form onSubmit={onSubmit}>
         {error && (
-          <div className={styles.mes}>
+          <div className={styles.mess}>
             <Message message={error} isError />
           </div>
         )}
         <p className={styles.title}>{t("OTPValidation")}</p>
         <p>
-          {t("Hi")} <span>{props.actorName}</span>
+          {t("Hi")} <span>{props.username}</span>
         </p>
         <p>{t("OtpNote")}</p>
         <input {...register("otp", { required: true })} pattern="[0-9]*" autoComplete="off" maxLength={6} />

@@ -8,17 +8,21 @@
 *::after {
   box-sizing: border-box;
 }
+
 * {
   margin: 0;
 }
+
 html,
 body {
   height: 100%;
 }
+
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
+
 img,
 picture,
 video,
@@ -27,11 +31,10 @@ svg {
   display: block;
 }
 
-button,
-textarea,
-select {
+button {
   font: inherit;
 }
+
 p,
 h1,
 h2,

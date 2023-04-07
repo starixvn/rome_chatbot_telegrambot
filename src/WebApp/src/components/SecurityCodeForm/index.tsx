@@ -37,7 +37,7 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
       {formState.isSubmitting && <BlockUI />}
       <form onSubmit={onSubmit}>
         {error && (
-          <div className={styles.mes}>
+          <div className={styles.mess}>
             <Message message={error} isError />
           </div>
         )}

@@ -5,8 +5,7 @@
     "username": "This username is not available",
     "credit": "Given Credit must be between 0 and {{max}}",
     "memberMaxCredit": "Incorrect Member Max Credit",
-    "password": "Password must be at least 8 characters without white-space and contain at least 3 of the following:\n\n• Uppercase letter [A-Z]\n• Lowercase letter [a-z]\n• Numeric [0-9]\n• Special character (!,@,#,etc..)\n\nFor example: 59D7!4$h, 493abcDE\nNotes: your password is cAsE sEnSiTiVe",
-    "password2": "Password must be at least 8 characters without white-space<br/>and contain at least 3 of the following:<br/><br/>• Uppercase letter [A-Z]<br/>• Lowercase letter [a-z]<br/>• Numeric [0-9]<br/>• Special character (!,@,#,etc..)<br/><br/>For example: 59D7!4$h, 493abcDE<br/>Notes: your password is cAsE sEnSiTiVe"
+    "password": "Password must be at least 8 characters without white-space and contain at least 3 of the following:\n\n• Uppercase letter [A-Z]\n• Lowercase letter [a-z]\n• Numeric [0-9]\n• Special character (!,@,#,etc..)\n\nFor example: 59D7!4$h, 493abcDE\nNotes: your password is cAsE sEnSiTiVe"
   },
   "result": {
     "success": "accounts have been created successful",
