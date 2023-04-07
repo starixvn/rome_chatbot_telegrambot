@@ -1,8 +1,8 @@
-import { CheckMarkIcon } from "@components/Icons";
-import Message from "@components/Message";
-import useTranslation from "next-translate/useTranslation";
 import React from "react";
+import useTranslation from "next-translate/useTranslation";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { CopyICon } from "@components/Icons";
+import Message from "@components/Message";
 import styles from "./Result.module.scss";
 
 type Props = {
@@ -26,7 +26,7 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
           <textarea rows={3} readOnly defaultValue={successAccounts}></textarea>
           <CopyToClipboard text={successAccounts || ""}>
             <div className={styles.icon}>
-              <CheckMarkIcon width={16} height={16} />
+              <CopyICon width={16} height={16} />
             </div>
           </CopyToClipboard>
         </div>
