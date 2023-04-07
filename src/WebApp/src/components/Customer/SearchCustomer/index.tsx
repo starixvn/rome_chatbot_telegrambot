@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
-import { components, GroupBase, InputActionMeta, OptionProps, SingleValue, StylesConfig } from "react-select";
-import AsyncSelect from "react-select/async";
-import Select from "react-select/dist/declarations/src/Select";
-import styles from "./SearchCustomer.module.scss";
-import { fetchWrapper } from "src/lib/fetch-wrapper";
 import useTranslation from "next-translate/useTranslation";
+import AsyncSelect from "react-select/async";
+import { components, GroupBase, InputActionMeta, OptionProps, SingleValue, StylesConfig } from "react-select";
+import { fetchWrapper } from "src/lib/fetch-wrapper";
+import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
+import Select from "react-select/dist/declarations/src/Select";
+import Message from "@components/Message";
+import styles from "./SearchCustomer.module.scss";
 
 export type CustomerInfoOption = {
   userName: string;
@@ -36,14 +37,14 @@ const CustomOption = (props: OptionProps<CustomerInfoOption, false>) => {
   return (
     <components.Option {...props}>
       {props.data.userName ? (
-        <>
+        <div className={styles.item}>
           <div>
             {props.data.userName} {props.data.userName2 && `(${props.data.userName2})`}
           </div>
           <div>
             {props.data.firstName} {props.data.lastName}
           </div>
-        </>
+        </div>
       ) : (
         <span>{props.data.value}</span>
       )}
@@ -63,6 +64,7 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
   let selectInputRef: Select<CustomerInfoOption, boolean, GroupBase<CustomerInfoOption>> | null = null;
   const [isCorrectName, setIsCorrectName] = useState<ErrorMode>(ErrorMode.Init);
   const [value, setValue] = useState("");
+  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     setIsCorrectName(ErrorMode.Init);
@@ -88,11 +90,13 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
     if (data.isDownLineUser) {
       onChange(username);
       setIsCorrectName(ErrorMode.Correct);
+      setShowError(false);
       const data = await fetchWrapper.get(`/api/customer/credit/${username}`);
       changeMaxCredit(data.maxCredit);
     } else {
       onChange("");
       setIsCorrectName(ErrorMode.InCorrect);
+      setShowError(true);
     }
   };
 
@@ -106,29 +110,47 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
   };
 
   return (
-    <div className={styles.search}>
-      <AsyncSelect
-        ref={(ref) => {
-          selectInputRef = ref;
-        }}
-        inputValue={value}
-        onInputChange={onInputChange}
-        components={{ Option: CustomOption, Input: Input, SingleValue: () => null }}
-        placeholder={t("sourceInputPlaceholder")}
-        styles={customerStyles}
-        loadOptions={customPromiseOptions}
-        onChange={handleOnChange}
-        onFocus={onFocus}
-        noOptionsMessage={() => null}
-        controlShouldRenderValue={false}
-        formatOptionLabel={(option) => {
-          return option.userName ? option.userName : option["value"];
-        }}
-      />
-      <div className={styles.icon}>
-        {isCorrectName === ErrorMode.Correct && <CheckMarkIcon height={16} width={16} />}
-        {isCorrectName === ErrorMode.InCorrect && <ErrorIcon height={16} width={16} />}
+    <div className={styles.container}>
+      <div className={styles.search}>
+        <AsyncSelect
+          ref={(ref) => {
+            selectInputRef = ref;
+          }}
+          inputValue={value}
+          onInputChange={onInputChange}
+          components={{ Option: CustomOption, Input: Input, SingleValue: () => null }}
+          placeholder={t("sourceInputPlaceholder")}
+          styles={{
+            valueContainer: (provided) => ({
+              ...provided,
+              height: "32px",
+              padding: 0,
+              minWidth: "100%",
+              border: isCorrectName === ErrorMode.InCorrect ? "1px solid red" : "",
+            }),
+            ...customerStyles,
+          }}
+          loadOptions={customPromiseOptions}
+          onChange={handleOnChange}
+          onFocus={onFocus}
+          onBlur={() => setShowError(false)}
+          noOptionsMessage={() => null}
+          controlShouldRenderValue={false}
+          formatOptionLabel={(option) => {
+            return option.userName ? option.userName : option["value"];
+          }}
+          menuIsOpen={true}
+        />
+        <div className={styles.icon}>
+          {isCorrectName === ErrorMode.Correct && <CheckMarkIcon height={16} width={16} />}
+          {isCorrectName === ErrorMode.InCorrect && <ErrorIcon height={16} width={16} />}
+        </div>
       </div>
+      {showError && (
+        <div className={styles.row}>
+          <Message message={t("formError.existAccount")} isError />
+        </div>
+      )}
     </div>
   );
 };
@@ -158,11 +180,11 @@ const customerStyles: StylesConfig<CustomerInfoOption> = {
     },
   }),
 
-  valueContainer: (provided) => ({
+  menu: (provided) => ({
     ...provided,
-    height: "32px",
-    padding: 0,
-    minWidth: "100%",
+    zIndex: 2,
+    borderRadius: "none",
+    marginTop: "1px",
   }),
 
   input: (provided) => ({

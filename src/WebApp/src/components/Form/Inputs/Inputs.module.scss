@@ -23,3 +23,37 @@
   height: 16px;
   width: 16px;
 }
+
+.container {
+  position: relative;
+
+  .error {
+    input {
+      border-color: #fe0000 !important;
+    }
+  }
+
+  .row {
+    width: 100%;
+    margin-top: 1px;
+    padding-right: 21px;
+    position: absolute;
+    z-index: 2;
+
+    div {
+      border: none;
+      background-color: #ffe3e3;
+      font-size: 13px;
+      line-height: 16px;
+      font-weight: 400;
+    }
+
+    svg {
+      display: none;
+    }
+
+    span {
+      padding: 0;
+    }
+  }
+}

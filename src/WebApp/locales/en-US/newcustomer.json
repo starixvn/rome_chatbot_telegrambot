@@ -2,25 +2,21 @@
   "header": "New Customer",
   "formError": {
     "existAccount": "This user does not exist",
-    "username": "This username is not available",
-    "credit": "Given Credit must be between 0 and {{max}}",
-    "memberMaxCredit": "Incorrect Member Max Credit",
-    "password": "Password must be at least 8 characters without white-space and contain at least 3 of the following:\n\n• Uppercase letter [A-Z]\n• Lowercase letter [a-z]\n• Numeric [0-9]\n• Special character (!,@,#,etc..)\n\nFor example: 59D7!4$h, 493abcDE\nNotes: your password is cAsE sEnSiTiVe"
+    "credit": "Max Given Credit per Account limit: {{max}} or lower.",
+    "memberMaxCredit": "Member Max Credit must be between {{min}} and {{max}}",
+    "password": "Invalid Password format!"
   },
   "result": {
     "success": "accounts have been created successful",
-    "usernames": "Usernames:",
+    "usernames": "Usernames",
     "credit": "Given Credit per Account",
     "fail": "accounts failed to be created.",
     "failReason": "Failure Reason",
     "createMore": "Create More"
   },
   "note": "*Note: Settings will remain the same as the Source account settings for all account",
-  "copySettings": "Copy Settings",
   "sourceAccount": "Source account",
-  "searchNote": "Search for an existing account to copy settings",
   "noOfAccounts": "No. of Accounts",
-  "noAccountsNote": "Choose the number of accounts you want to create (Max = {{max}})",
   "accountDetail": "Account Details",
   "accountDetailNote": "Choose the first available username and the remaining accounts will follow the system's suggestion.",
   "username": "Username",
@@ -30,5 +26,6 @@
   "memberMaxCredit": "Member Max Credit",
   "password": "Password",
   "submit": "Submit",
-  "sourceInputPlaceholder": "Username or First/Last Name"
+  "sourceInputPlaceholder": "Username or First/Last Name",
+  "passwordRule": "Password must be at least 8 characters without white-space and contain at least 3 of the following:\n\n• Uppercase letter [A-Z]\n• Lowercase letter [a-z]\n• Numeric [0-9]\n• Special character (!,@,#,etc..)\n\nFor example: 59D7!4$h, 493abcDE\nNotes: your password is cAsE sEnSiTiVe"
 }

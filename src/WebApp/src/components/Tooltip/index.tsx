@@ -7,7 +7,7 @@ export const Tooltip = () => {
   const { t } = useTranslation("newcustomer");
   return (
     <div className={styles.tooltip}>
-      <span data-tooltip={t("formError.password")} data-tooltip-position="bottom">
+      <span data-tooltip={t("passwordRule")} data-tooltip-position="bottom">
         <InformationIcon height={16} width={16} />
       </span>
     </div>

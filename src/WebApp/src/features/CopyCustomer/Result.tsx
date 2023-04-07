@@ -21,7 +21,7 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
     <div className={styles.result}>
       <>
         <Message message={`${usernames?.length} ${t("result.success")}`} isError={false} />
-        <p>{t("result.usernames")}</p>
+        <p>{t("result.usernames")}:</p>
         <div className={styles.copy}>
           <textarea rows={3} readOnly defaultValue={successAccounts}></textarea>
           <CopyToClipboard text={successAccounts || ""}>

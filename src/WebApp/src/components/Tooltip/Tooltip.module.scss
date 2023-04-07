@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   white-space: pre-wrap;
-  font-weight: 100;
+  font-weight: 500;
 
   [data-tooltip] {
     display: inline-block;
@@ -14,11 +14,11 @@
     content: attr(data-tooltip);
     display: none;
     position: absolute;
-    background: rgb(32, 127, 178);
+    background: #2e2e2e;
     color: #fff;
     padding: 4px 8px;
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 14px;
     min-width: 300px;
     border-radius: 4px;
   }
@@ -78,12 +78,12 @@
   [data-tooltip-position="top"]:after {
     bottom: 100%;
     border-width: 6px 6px 0;
-    border-top-color: rgb(32, 127, 178);
+    border-top-color: #2e2e2e;
   }
   [data-tooltip-position="bottom"]:after {
     top: 100%;
     border-width: 0 6px 6px;
-    border-bottom-color: rgb(32, 127, 178);
+    border-bottom-color: #2e2e2e;
   }
 
   /* Show the tooltip when hovering */

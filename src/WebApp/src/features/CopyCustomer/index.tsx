@@ -131,8 +131,8 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
           <Controller
             name="password"
             control={control}
-            render={({ field }) => <PasswordField onChange={field.onChange} validate={validatePassword} />}
-            rules={{ minLength: 1, required: true }}
+            render={({ field }) => <PasswordField onChange={field.onChange} validate={validatePassword} messError={t("formError.password")} />}
+            rules={{ minLength: 1, required: true, validate: (value) => validatePassword(value) }}
           />
 
           <Label title={t("noOfAccounts")} subLabel />
@@ -158,7 +158,14 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
           <Controller
             name="credit"
             control={control}
-            render={({ field }) => <NumberInputField onChange={field.onChange} onBlur={handleOnBlur} max={maxCredit / numberAccounts} />}
+            render={({ field }) => (
+              <NumberInputField
+                onChange={field.onChange}
+                onBlur={handleOnBlur}
+                max={maxCredit / numberAccounts}
+                messError={t("formError.credit", { max: (maxCredit / numberAccounts).toFixed(2) })}
+              />
+            )}
             rules={{ min: 0, max: maxCredit / numberAccounts, required: true }}
           />
           <div className={styles.credit}>
@@ -172,7 +179,13 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
               <Controller
                 name="memberMaxCredit"
                 control={control}
-                render={({ field }) => <NumberInputField onChange={field.onChange} max={maxMemberCredit} />}
+                render={({ field }) => (
+                  <NumberInputField
+                    onChange={field.onChange}
+                    max={maxMemberCredit}
+                    messError={t("formError.memberMaxCredit", { min: 0, max: maxMemberCredit })}
+                  />
+                )}
                 rules={{ min: 0, max: maxMemberCredit, required: true }}
               />
               <div className={styles.credit}>
