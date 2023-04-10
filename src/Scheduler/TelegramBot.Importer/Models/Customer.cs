@@ -18,6 +18,8 @@ public class Customer
 
     public string Site { get; init; }
 
+    public string SiteLabel { get; init; }
+
     public bool IsIMBC => Site.Equals("IMBC");
 
     public bool IsAllDayBalTransfer { get; init; }

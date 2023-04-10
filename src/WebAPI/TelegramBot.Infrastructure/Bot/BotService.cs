@@ -45,7 +45,7 @@ namespace TelegramBot.Infrastructure.Bot
         public async Task<BotEntity> GetAsync(string system)
         {
             var botEntities = await GetAllAsync();
-            return botEntities.FirstOrDefault(x => x.System == system);
+            return botEntities.FirstOrDefault(x => x.System.Equals(system, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public async Task<BotEntity> GetAsync(long messengerBotId)

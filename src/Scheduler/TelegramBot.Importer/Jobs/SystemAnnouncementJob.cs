@@ -19,11 +19,11 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
     private const string TabChar = "\t";
     private static readonly string[] NewLineHtmlTags = { "<br>", "<br />" };
     private static readonly string[] ParagraphHtmlTags = { "</p>", "</ p>", "< /p>" };
-    private static readonly IDictionary<int, string> SystemMapper = new Dictionary<int, string>
+    private static readonly IDictionary<string, string> SystemMapper = new Dictionary<string, string>
     {
-        [1] = "B-IBCBet",
-        [7] = "B-789Y",
-        [11] = "B-IBCIndo"
+        ["IBC"] = "Bot-IBC",
+        ["789y"] = "Bot-789Y",
+        ["Nova88"] = "Bot-Nova88"
     };
     private readonly IAnnouncementService announcementService;
     private readonly IProductService productService;
@@ -82,26 +82,30 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
 
     private async Task<IEnumerable<SystemNotification>> FilterAnnouncementsByCustomer(LinkedCustomer customer, IEnumerable<Announcement> announcements, string language, bool isUAT)
     {
-        var custInfo = await customerService.GetCustomerInfo(customer.CustId);
-        var system = SystemMapper[custInfo.SiteCode];
-        var offeredProductIds = await productService.GetOfferedProductIdsByCustomer(customer.CustId);
-        var specificationParam = new SpecificationParam(custInfo, customer.SubAccId > 0, offeredProductIds);
         var result = new List<SystemNotification>();
-
-        foreach (var announcement in announcements.Where(a => a.Systems.Contains(system, StringComparer.OrdinalIgnoreCase)))
+        var custInfo = await customerService.GetCustomerInfo(customer.CustId);
+        if(!string.IsNullOrEmpty(custInfo.SiteLabel))
         {
-            if (announcement.Specifications == null
-                || !announcement.Specifications.Any()
-                || IsSatisfied(announcement.Specifications, specificationParam))
+            var system = SystemMapper[custInfo.SiteLabel];
+            var offeredProductIds = await productService.GetOfferedProductIdsByCustomer(customer.CustId);
+            var specificationParam = new SpecificationParam(custInfo, customer.SubAccId > 0, offeredProductIds);
+            
+
+            foreach (var announcement in announcements.Where(a => a.Systems.Contains(system, StringComparer.OrdinalIgnoreCase)))
             {
-                result.Add(new SystemNotification(
-                    announcement.Id,
-                    customer.UserId,
-                    customer.BotId,
-                    BuildMessage(language, announcement.Contents),
-                    customer.IsRealUser,
-                    isUAT));
-            }
+                if (announcement.Specifications == null
+                    || !announcement.Specifications.Any()
+                    || IsSatisfied(announcement.Specifications, specificationParam))
+                {
+                    result.Add(new SystemNotification(
+                        announcement.Id,
+                        customer.UserId,
+                        customer.BotId,
+                        BuildMessage(language, announcement.Contents),
+                        customer.IsRealUser,
+                        isUAT));
+                }
+            }            
         }
 
         return result;
