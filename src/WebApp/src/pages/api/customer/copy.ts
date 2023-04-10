@@ -32,13 +32,15 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
 
 const copyCustomer = async (user: User, data: CopyCustomerData) => {
   const url = `${process.env.CUSTOMER_API}/customer/copy`;
+  const hashedPassword = await hashPassword(data.password);
+
   const body = {
     actorId: user.custId,
     actorSubAccId: user.subAccId,
     actorSubAccName: "",
     actorUserLevel: user.customerLevel,
     userName: data.username,
-    password: data.password,
+    password: hashedPassword,
     credit: data.credit,
     maxCredit: data.memberMaxCredit,
     sourceCustId: data.sourceCustId,
@@ -49,4 +51,13 @@ const copyCustomer = async (user: User, data: CopyCustomerData) => {
     systemId: 10,
   };
   return await fetchWrapper.post(url, body);
+};
+
+const hashPassword = async (password: string): Promise<string> => {
+  const url = `${process.env.HASH_PASSWORD_URL}`;
+  const body = {
+    password: password,
+  };
+
+  return await fetchWrapper.post<string>(url, body);
 };
