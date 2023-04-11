@@ -1,13 +1,18 @@
 import React from "react";
 import { InformationIcon } from "@components/Icons";
 import styles from "./Tooltip.module.scss";
-import useTranslation from "next-translate/useTranslation";
 
-export const Tooltip = () => {
-  const { t } = useTranslation("newcustomer");
+type Position = "top" | "bottom";
+
+type Props = {
+  position: Position;
+  message?: string;
+};
+
+export const Tooltip = ({ position, message = "" }: Props) => {
   return (
     <div className={styles.tooltip}>
-      <span data-tooltip={t("passwordRule")} data-tooltip-position="bottom">
+      <span data-tooltip={message} data-tooltip-position={position}>
         <InformationIcon height={16} width={16} />
       </span>
     </div>

@@ -8,15 +8,16 @@ type Props = {
   description?: string;
   required?: boolean;
   info?: boolean;
+  tooltipMessage?: string;
 };
 
-export const Label = ({ title, subLabel, description, required, info }: Props) => {
+export const Label = ({ title, subLabel, description, required, info, tooltipMessage }: Props) => {
   return (
     <div className={styles.label}>
       <div className={styles.title}>
         <label className={cn({ [styles.subLabel]: subLabel })}>{title}</label>
         {required && <span className={styles.require}>*</span>}
-        {info && <Tooltip />}
+        {info && <Tooltip message={tooltipMessage} position="bottom" />}
       </div>
       {description && <p>{description}</p>}
     </div>

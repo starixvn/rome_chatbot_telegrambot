@@ -127,7 +127,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
             rules={{ minLength: 1, required: true }}
           />
 
-          <Label title={t("password")} subLabel info />
+          <Label title={t("password")} subLabel info tooltipMessage={t("passwordRule")} />
           <Controller
             name="password"
             control={control}
