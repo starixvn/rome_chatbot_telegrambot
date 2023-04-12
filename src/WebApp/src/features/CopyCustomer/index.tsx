@@ -131,7 +131,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
           <Controller
             name="password"
             control={control}
-            render={({ field }) => <PasswordField onChange={field.onChange} validate={validatePassword} messError={t("formError.password")} />}
+            render={({ field }) => <PasswordField onChange={field.onChange} validate={validatePassword} />}
             rules={{ minLength: 1, required: true, validate: (value) => validatePassword(value) }}
           />
 

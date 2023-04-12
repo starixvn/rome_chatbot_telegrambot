@@ -2,10 +2,10 @@
 import { CheckMarkIcon, ErrorIcon, EyeCloseIcon, EyeIcon } from "@components/Icons";
 import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { NumericFormat } from "react-number-format";
+import cn from "classnames";
 import { getNumberOfCommaString } from "src/lib/number";
 import styles from "./Inputs.module.scss";
 import Message from "@components/Message";
-import cn from "classnames";
 
 type InputFieldProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;

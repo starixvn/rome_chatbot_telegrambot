@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
+import cn from "classnames";
+import { fetchWrapper } from "src/lib/fetch-wrapper";
 import { characters } from "src/constants/characters";
 import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
 import { SingleSelect } from "@components/Form/Select";
 import styles from "./NewAccount.module.scss";
-import { fetchWrapper } from "src/lib/fetch-wrapper";
 
 type Props = {
   actorName: string;
@@ -64,7 +65,7 @@ export const NewAccountName = ({ actorName, onChange }: Props) => {
   };
 
   return (
-    <div className={styles.account}>
+    <div className={cn(styles.account, { [styles.error]: !isCorrectName })}>
       <div className={styles.name}>{actorName}</div>
       {suggestName ? renderSelect(suggestName) : ""}
       <div className={styles.icon}>{isCorrectName ? <CheckMarkIcon height={16} width={16} /> : <ErrorIcon height={16} width={16} />}</div>

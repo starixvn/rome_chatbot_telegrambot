@@ -26,3 +26,14 @@
     margin-left: 5px;
   }
 }
+
+.error {
+  .name {
+    border: 1px solid #fe0000;
+  }
+
+  select {
+    border: 1px solid #fe0000;
+    border-left: none;
+  }
+}
