@@ -10,5 +10,6 @@
   "WrongOTPMessage": "Your OTP is invalid or expired",
   "Otp": "OTP",
   "OtpNote": "Please enter your OTP before proceeding!",
-  "GenerateOTP": "Generate OTP"
+  "GenerateOTP": "Generate OTP",
+  "Loading": "Loading"
 }
