@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { fetchWrapper } from "src/lib/fetch-wrapper";
 import { CustomWindow } from "src/types/custom.window";
-import * as Sentry from "@sentry/nextjs";
 import Loading from "@components/Loading";
 
 declare let window: CustomWindow;

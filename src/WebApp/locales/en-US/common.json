@@ -11,5 +11,13 @@
   "Otp": "OTP",
   "OtpNote": "Please enter your OTP before proceeding!",
   "GenerateOTP": "Generate OTP",
-  "Loading": "Loading"
+  "Loading": "Loading",
+  "UnderMaintenance": "Under Maintenance",
+  "UmMess1": "We are having regular server maintenance.",
+  "UmMess2": "The website is currently unavailable from 3:00 until 4:00 (GMT +8)",
+  "UmMess3": "Please come back later.",
+  "UmMessDefault1": "本公司將於 3:00 至 4:00 (GMT +8) 對服務器進行例行維護。",
+  "UmMessDefault2": "期間所有的網頁將無法登入。",
+  "UmMessDefault3": "請您稍候再來。",
+  "ErrorPageMess": "Sorry, there was an unexpected issue on the server. Please seek help from our customer support."
 }
