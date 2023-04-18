@@ -11,7 +11,6 @@ async function suggestRouter(req: NextApiRequest, res: NextApiResponse) {
     const actorName = req.query["actorName"];
     const body = {
       actorName: actorName,
-      custId: user?.custId,
       roleId: user?.customerLevel,
     };
     const url = `${process.env.CUSTOMER_API}/customer/suggest-username`;

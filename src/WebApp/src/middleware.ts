@@ -9,7 +9,7 @@ export const middleware = async (req: NextRequest) => {
     const umInfo = await getUmInfo();
     if (umInfo.isUnderMaintenanceTime) {
       const { locale } = req.nextUrl;
-      const newUrl = new URL(`${locale}/um?from=${umInfo.from}&to=${umInfo.to}`, req.url);
+      const newUrl = new URL(`${locale}/um?from=${umInfo.from}&to=${umInfo.to}&`, req.url);
       return NextResponse.redirect(newUrl);
     }
   }
