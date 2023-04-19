@@ -25,7 +25,7 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
 
   const onSubmit = handleSubmit(async (formData) => {
     if (formData.securityCode === "") {
-      setError(t("RequiredField"));
+      setError(t("RequiredMessage"));
       return;
     }
 

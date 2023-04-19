@@ -24,7 +24,7 @@ const VerifyOtp = (props: Props) => {
 
   const onSubmit = handleSubmit(async (formData) => {
     if (formData.otp === "") {
-      setError(t("RequiredField"));
+      setError(t("RequiredMessage"));
       return;
     }
     const result = await fetchWrapper.post("/api/otp/verify", { otp: formData.otp, isEnableTelegramOtp: props.isEnableTelegramOtp });
