@@ -20,7 +20,7 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
   return (
     <div className={styles.result}>
       <>
-        <Message message={`${usernames?.length} ${t("result.success")}`} isError={false} />
+        <Message message={`${t("result.success", { no: usernames?.length })}`} isError={false} />
         <p>{t("result.usernames")}:</p>
         <div className={styles.copy}>
           <textarea rows={3} readOnly defaultValue={successAccounts}></textarea>
@@ -30,13 +30,13 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
             </div>
           </CopyToClipboard>
         </div>
-        <p>{t("result.credit")}</p>
+        <p>{t("givenCreditPerAccount")}</p>
         <input value={credit?.toFixed(2)} readOnly />
       </>
       {failAccounts && failAccounts > 0 ? (
         <>
           <hr />
-          <Message message={`${failAccounts} ${t("result.fail")}`} isError />
+          <Message message={`${t("result.fail", { failAccounts: failAccounts })}`} isError />
           <div className={styles.row}>
             <p>{t("result.failReason")}: </p>
             <span className={styles.fail}>{message}</span>

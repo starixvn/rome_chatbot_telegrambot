@@ -3,16 +3,15 @@
     "formError": {
         "existAccount": "該賬號不存在",
         "username": "此帳號無效",
-        "credit": "信用額必須在 0 和 {{max}} 之間",
-        "memberMaxCredit": "会员最高信用额度不正确",
+        "credit": "每個賬號最高信用額度: {{max}} 或是降低。",
+        "memberMaxCredit": "會員信用額應在{{min}}和{{max}}之間",
         "password": "密码必须至少 8 个字符没有空格和包含至少 3个 以下：\n\n• 大写字母 [A-Z]\n• 小写字母 [a-z]\n• 数字 [0-9]\n• 特殊字符 （!、 @、 # 等。。)\n\n例如： 59D7!4$h, 493abcDE\n注意： 您的密码需有大小写"
     },
     "result": {
-        "success": "以下賬號已創建成功：",
+        "success": "{{no}} 賬號已經創建成功。",
         "usernames": "用戶名：",
-        "credit": "信用額度：{{credit}} (每個賬號)",
         "fail": "{{failAccounts}} 賬號創建失敗",
-        "failReason": "失敗原因: {{message}}",
+        "failReason": "失敗原因",
         "createMore": "創建更多"
     },
     "note": "注意：設定將與原始賬號保持相同",
@@ -23,9 +22,6 @@
     "accountDetail": "賬號的詳細資料",
     "accountDetailNote": "選擇第一個可用的用戶名，其餘的賬號將根據系統的建議。",
     "username": "用戶名",
-    "credit": "信用額度",
-    "perAccount": "(每個賬號)",
-    "creditNote": " =< 新信用額度 =< ",
-    "memberMaxCredit": "會員最高信用額",
+    "creditNote": "可用信用額度：",
     "password": "密碼"
 }

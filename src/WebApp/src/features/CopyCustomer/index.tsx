@@ -156,7 +156,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
             rules={{ required: true }}
           />
 
-          <Label title={`${t("credit")} ${t("perAccount")}`} subLabel />
+          <Label title={`${t("givenCreditPerAccount")}`} subLabel />
           <Controller
             name="credit"
             control={control}
@@ -177,7 +177,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
 
           {user.customerLevel === Master && (
             <>
-              <Label title={`${t("memberMaxCredit")} ${t("perAccount")}`} subLabel />
+              <Label title={`${t("maxCreditPerMember")}`} subLabel />
               <Controller
                 name="memberMaxCredit"
                 control={control}
@@ -197,7 +197,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
           )}
           <div className={styles.row}>
             <button className="btn-submit" type="submit" disabled={!formState.isValid}>
-              {t("submit")}
+              {t("createAccount")}
             </button>
           </div>
         </form>
