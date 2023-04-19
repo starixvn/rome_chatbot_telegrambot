@@ -16,7 +16,7 @@
         "createMore": "创建更多"
     },
     "note": "*注意：设定将与原始账号保持相同",
-    "copySettings": "复制设定",
+    "sourceAccount": "账号来源。",
     "searchNote": "搜索现有账号以复制设定",
     "noOfAccounts": "账号数量",
     "noAccountsNote": "选择您要创建的账号数量 (最多 = {{max}})",

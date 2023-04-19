@@ -16,7 +16,7 @@
         "createMore": "創建更多"
     },
     "note": "*注意：設定將與原始賬號保持相同",
-    "copySettings": "複製設定",
+    "sourceAccount": "賬號來源。",
     "searchNote": "搜索現有賬號以復制設定",
     "noOfAccounts": "賬號數量",
     "noAccountsNote": "選擇您要創建的賬號數量 (最多 = {{max}})",
