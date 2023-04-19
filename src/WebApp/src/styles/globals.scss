@@ -55,6 +55,11 @@ input {
   }
 }
 
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
 select {
   height: 32px;
   color: var(--sub-label-color);
