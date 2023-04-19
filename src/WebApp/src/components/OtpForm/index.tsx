@@ -23,6 +23,10 @@ const VerifyOtp = (props: Props) => {
   const [error, setError] = useState("");
 
   const onSubmit = handleSubmit(async (formData) => {
+    if (formData.otp === "") {
+      setError(t("RequiredField"));
+      return;
+    }
     const result = await fetchWrapper.post("/api/otp/verify", { otp: formData.otp, isEnableTelegramOtp: props.isEnableTelegramOtp });
     if (result.isSuccessful) {
       props.onVerifySuccess();
@@ -50,7 +54,7 @@ const VerifyOtp = (props: Props) => {
           {t("Hi")} <span>{props.username}</span>
         </p>
         <p>{t("OtpNote")}</p>
-        <input {...register("otp", { required: true })} pattern="[0-9]*" autoComplete="off" maxLength={6} />
+        <input {...register("otp")} pattern="[0-9]*" autoComplete="off" maxLength={6} />
         <div className={styles.buttons}>
           {props.isEnableTelegramOtp && (
             <button className={cn("btn-submit", styles["btn-genOtp"])} type="button" onClick={handleGenerateOTP} disabled={countdown}>

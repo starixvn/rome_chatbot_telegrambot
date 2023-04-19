@@ -24,6 +24,11 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
   };
 
   const onSubmit = handleSubmit(async (formData) => {
+    if (formData.securityCode === "") {
+      setError(t("RequiredField"));
+      return;
+    }
+
     const result = await fetchWrapper.post("/api/security-code/verify", formData);
     if (result.isSuccessful) {
       onVerifySuccess();
@@ -47,13 +52,7 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
         </p>
         <p>{t("SCNote")}</p>
         <div className={styles.row}>
-          <input
-            {...register("securityCode", { required: true })}
-            pattern="[0-9]*"
-            autoComplete="off"
-            maxLength={6}
-            type={securityCodeShown ? "text" : "password"}
-          />
+          <input {...register("securityCode")} pattern="[0-9]*" autoComplete="off" maxLength={6} type={securityCodeShown ? "text" : "password"} />
           <div className={styles.eye} onClick={handleShowSecurityCode}>
             {securityCodeShown ? <EyeIcon height={16} width={16} /> : <EyeCloseIcon height={16} width={16} />}
           </div>

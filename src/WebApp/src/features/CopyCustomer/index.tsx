@@ -105,7 +105,9 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
         <Result {...data} handleContinue={handleContinue} />
       ) : (
         <form className={styles["form-new-customer"]} onSubmit={onSubmit}>
-          <p className={styles.note}>{t("note")}</p>
+          <p className={styles.note}>
+            <span>*</span> {t("note")}
+          </p>
 
           {errorMessage && <Message message={errorMessage}></Message>}
 

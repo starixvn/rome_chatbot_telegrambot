@@ -1,31 +1,31 @@
 {
-    "header": "Tạo Tài Khoản",
-    "formError": {
-        "existAccount": "Người dùng này không tồn tại",
-        "username": "Tên tài khoản đã được dùng",
-        "credit": "Hạn mức tín dụng phải trong khoảng từ 0 đến {{max}}",
-        "memberMaxCredit": "Hạn mức tín dụng lớn nhất của thành viên không đúng",
-        "password": "Mật khẩu phải gồm ít nhất 8 ký tự, không có khoảng trắng và phải có ít nhất 3 ký tự sau đây:\n\n- Ký tự viết hoa [A-Z]\n- Ký tự viết thường [a-z]\n- Ký tự số [0-9]\n- Ký tự đặc biệt (!,@,#,...)\n\nVí dụ : 59D7!4$h, 493abcDE\nLưu ý : Mật khẩu có phân biệt chữ hoa và chữ thường."
-    },
-    "result": {
-        "success": "Các tài khoản sau đây đã được tạo thành công:",
-        "usernames": "Tên người dùng:",
-        "credit": "Hạn mức: {{credit}} (mỗi tài khoản)",
-        "fail": "{{failAccounts}} tài khoản tạo không thành công",
-        "failReason": "Lý do thất bại: {{message}}",
-        "createMore": "Tạo thêm"
-    },
-    "note": "*Lưu ý: Cài đặt sẽ giống như của tài khoản sao chép",
-    "sourceAccount": "Tài khoản sao chép",
-    "searchNote": "Tìm tài khoản có sẵn để sao chép cài đặt",
-    "noOfAccounts": "Số tài khoản",
-    "noAccountsNote": "Chọn số lượng tài khoản mà bạn muốn tạo (Tối đa = {{max}})",
-    "accountDetail": "Chi Tiết Tài Khoản",
-    "accountDetailNote": "Hãy chọn tên tài khoản khả dụng trước và hệ thống sẽ đề xuất tên cho các tài khoản còn lại.",
-    "username": "Tên đăng nhập",
-    "credit": "Hạn mức tín dụng",
-    "perAccount": "(mỗi tài khoản)",
-    "creditNote": " =< Hạn mức tín dụng mới =< ",
-    "memberMaxCredit": "Hạn mức tín dụng tối đa của Member",
-    "password": "Mật Khẩu"
+  "header": "Tạo Tài Khoản",
+  "formError": {
+    "existAccount": "Người dùng này không tồn tại",
+    "username": "Tên tài khoản đã được dùng",
+    "credit": "Hạn mức tín dụng phải trong khoảng từ 0 đến {{max}}",
+    "memberMaxCredit": "Hạn mức tín dụng lớn nhất của thành viên không đúng",
+    "password": "Mật khẩu phải gồm ít nhất 8 ký tự, không có khoảng trắng và phải có ít nhất 3 ký tự sau đây:\n\n- Ký tự viết hoa [A-Z]\n- Ký tự viết thường [a-z]\n- Ký tự số [0-9]\n- Ký tự đặc biệt (!,@,#,...)\n\nVí dụ : 59D7!4$h, 493abcDE\nLưu ý : Mật khẩu có phân biệt chữ hoa và chữ thường."
+  },
+  "result": {
+    "success": "Các tài khoản sau đây đã được tạo thành công:",
+    "usernames": "Tên người dùng:",
+    "credit": "Hạn mức: {{credit}} (mỗi tài khoản)",
+    "fail": "{{failAccounts}} tài khoản tạo không thành công",
+    "failReason": "Lý do thất bại: {{message}}",
+    "createMore": "Tạo thêm"
+  },
+  "note": "Lưu ý: Cài đặt sẽ giống như của tài khoản sao chép",
+  "sourceAccount": "Tài khoản sao chép",
+  "searchNote": "Tìm tài khoản có sẵn để sao chép cài đặt",
+  "noOfAccounts": "Số tài khoản",
+  "noAccountsNote": "Chọn số lượng tài khoản mà bạn muốn tạo (Tối đa = {{max}})",
+  "accountDetail": "Chi Tiết Tài Khoản",
+  "accountDetailNote": "Hãy chọn tên tài khoản khả dụng trước và hệ thống sẽ đề xuất tên cho các tài khoản còn lại.",
+  "username": "Tên đăng nhập",
+  "credit": "Hạn mức tín dụng",
+  "perAccount": "(mỗi tài khoản)",
+  "creditNote": " =< Hạn mức tín dụng mới =< ",
+  "memberMaxCredit": "Hạn mức tín dụng tối đa của Member",
+  "password": "Mật Khẩu"
 }

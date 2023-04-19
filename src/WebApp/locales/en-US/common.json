@@ -18,5 +18,6 @@
   "UmMessDefault1": "本公司將於 {{from}} 至 {{to}} (GMT +8) 對服務器進行例行維護。",
   "UmMessDefault2": "期間所有的網頁將無法登入。",
   "UmMessDefault3": "請您稍候再來。",
-  "ErrorPageMess": "Sorry, there was an unexpected issue on the server. Please seek help from our customer support."
+  "ErrorPageMess": "Sorry, there was an unexpected issue on the server. Please seek help from our customer support.",
+  "RequiredField": "This field is required."
 }

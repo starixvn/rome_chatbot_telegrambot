@@ -7,6 +7,10 @@
     color: var(--description-color);
     font-style: italic;
     margin-top: 4px;
+
+    span {
+      color: #fe0000;
+    }
   }
 
   hr {
