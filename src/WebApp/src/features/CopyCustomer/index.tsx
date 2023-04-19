@@ -190,9 +190,6 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
                 )}
                 rules={{ min: 0, max: maxMemberCredit, required: true }}
               />
-              <div className={styles.credit}>
-                &lt;= <span>{formatThousandNumber(maxMemberCredit)}</span>
-              </div>
             </>
           )}
           <div className={styles.row}>
