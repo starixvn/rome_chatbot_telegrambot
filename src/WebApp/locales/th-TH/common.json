@@ -4,5 +4,18 @@
   "Hi": "สวัสดี",
   "SCNote": "เพื่อความปลอดภัยสำหรับการดำเนินการขั้นต่อไป, กรุณาใส่รหัสความปลอดภัยสำหรับเวปเอเย่นท์ของตัวท่าน",
   "RequiredMessage": "จำเป็นต้องใส่ข้อมูลนี้",
-  "WrongSCMessage": "รหัสรักษาความปลอดภัยไม่ถูกต้อง โปรดลองใหม่อีกครั้ง"
+  "WrongSCMessage": "รหัสรักษาความปลอดภัยไม่ถูกต้อง โปรดลองใหม่อีกครั้ง",
+  "WrongOTPMessage": "OTP ไม่ถูกต้องหรือหมดอายุแล้ว",
+  "Otp": "OTP",
+  "OtpNote": "โปรดใส่ OTP ก่อนดำเนินการ",
+  "GenerateOTP": "สร้างรหัสผ่านครั้งเดียว (OTP)",
+  "Loading": "Loading",
+  "UnderMaintenance": "Under Maintenance",
+  "UmMess1": "We are having regular server maintenance.",
+  "UmMess2": "The website is currently unavailable from {{from}} until {{to}} (GMT +8)",
+  "UmMess3": "Please come back later.",
+  "UmMessDefault1": "本公司將於 {{from}} 至 {{to}} (GMT +8) 對服務器進行例行維護。",
+  "UmMessDefault2": "期間所有的網頁將無法登入。",
+  "UmMessDefault3": "請您稍候再來。",
+  "ErrorPageMess": "มีปัญหาที่ไม่คาดคิดเกิดขึ้น โปรดติดต่อฝ่ายสนับสนุนลูกค้าหากท่านต้องการความช่วยเหลือ"
 }

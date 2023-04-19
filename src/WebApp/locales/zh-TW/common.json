@@ -4,5 +4,18 @@
   "Hi": "您好",
   "SCNote": "為了您的安全，請在繼續之前輸入您的保安碼！",
   "RequiredMessage": "必填欄",
-  "WrongSCMessage": "保安碼不正確。請再重試。"
+  "WrongSCMessage": "保安碼不正確。請再重試。",
+  "WrongOTPMessage": "您的OTP無效或已過期。",
+  "Otp": "一次性密碼",
+  "OtpNote": "請輸入您的一次性密碼以便繼續。",
+  "GenerateOTP": "產生一次性密碼",
+  "Loading": "Loading",
+  "UnderMaintenance": "Under Maintenance",
+  "UmMess1": "We are having regular server maintenance.",
+  "UmMess2": "The website is currently unavailable from {{from}} until {{to}} (GMT +8)",
+  "UmMess3": "Please come back later.",
+  "UmMessDefault1": "本公司將於 {{from}} 至 {{to}} (GMT +8) 對服務器進行例行維護。",
+  "UmMessDefault2": "期間所有的網頁將無法登入。",
+  "UmMessDefault3": "請您稍候再來。",
+  "ErrorPageMess": "很抱歉，伺服器發生意外錯誤，請聯繫我們的客服協助處理。"
 }
