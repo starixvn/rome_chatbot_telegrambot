@@ -22,5 +22,6 @@ module.exports = withSentryConfig(
       disableServerWebpackPlugin: true,
       disableClientWebpackPlugin: true,
     },
+    assetPrefix: process.env.ASSET_PREFIX ?? undefined,
   })
 );
