@@ -6,9 +6,10 @@ import { fetchWrapper } from "./lib/fetch-wrapper";
 
 export const middleware = async (req: NextRequest) => {
   const umInfo = await getUmInfo();
+  const assetPrefix = process.env.ASSET_PREFIX ?? "";
   if (umInfo.isUnderMaintenanceTime) {
     const { locale } = req.nextUrl;
-    const newUrl = new URL(`${locale}/um?from=${umInfo.from}&to=${umInfo.to}&`, req.url);
+    const newUrl = new URL(`${locale}${assetPrefix}/um?from=${umInfo.from}&to=${umInfo.to}&`, req.url);
     return NextResponse.redirect(newUrl);
   }
 
@@ -17,7 +18,7 @@ export const middleware = async (req: NextRequest) => {
   const { user } = session;
   if (user === undefined) {
     const { pathname, searchParams, locale } = req.nextUrl;
-    return NextResponse.redirect(new URL(`${locale}/login?returnUrl=${pathname}${searchParams}`, req.url)); // redirect to /unauthorized page
+    return NextResponse.redirect(new URL(`${locale}${assetPrefix}/login?returnUrl=${assetPrefix}${pathname}${searchParams}`, req.url)); // redirect to /unauthorized page
   }
 
   return res;
