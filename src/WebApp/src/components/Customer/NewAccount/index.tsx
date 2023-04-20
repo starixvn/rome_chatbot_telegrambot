@@ -14,7 +14,7 @@ type Props = {
 
 export const NewAccountName = ({ actorName, onChange }: Props) => {
   const [suggestName, setSuggestName] = useState("");
-  const [isCorrectName, setIsCorrectName] = useState(false);
+  const [isCorrectName, setIsCorrectName] = useState(true);
 
   useEffect(() => {
     handleGetSuggestName(actorName);

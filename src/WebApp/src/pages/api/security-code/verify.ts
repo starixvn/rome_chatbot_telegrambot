@@ -28,5 +28,7 @@ async function verifyRout(req: NextApiRequest, res: NextApiResponse) {
   };
   const url = `${process.env.CUSTOMER_API}/security-code/verify`;
   const result = await fetchWrapper.post(url, data);
+  req.session.user && (req.session.user.isVerifyOtpOrSC = result.isSuccessful);
+  await req.session.save();
   res.json(result);
 }

@@ -31,6 +31,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
         customerLevel: account.customerLevel,
         username: account.username,
         language: account.language,
+        isVerifyOtpOrSC: false,
       };
       req.session.user = data;
       await req.session.save();

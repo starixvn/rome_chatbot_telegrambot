@@ -22,7 +22,7 @@ type Props = {
 
 const NewCustomer = ({ user, customerOtpSetting, ...props }: Props) => {
   const { t } = useTranslation("newcustomer");
-  const [isSecurityCodeVerified, setIsSecurityCodeVerified] = useState(false);
+  const [isSecurityCodeVerified, setIsSecurityCodeVerified] = useState(user.isVerifyOtpOrSC);
   const onVerifySecurityCodeSuccess = () => {
     setIsSecurityCodeVerified(true);
   };

@@ -7,6 +7,7 @@ export type User = {
   customerLevel: number;
   username: string;
   language: string;
+  isVerifyOtpOrSC: boolean;
 };
 
 export const sessionOptions: IronSessionOptions = {

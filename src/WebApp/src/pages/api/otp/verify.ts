@@ -30,5 +30,8 @@ async function verifyRouter(req: NextApiRequest, res: NextApiResponse) {
   const url = `${process.env.CUSTOMER_API}/customer/otp/verify`;
   const result = await fetchWrapper.post(url, body);
 
+  req.session.user && (req.session.user.isVerifyOtpOrSC = result.isSuccessful);
+  await req.session.save();
+
   res.status(200).json({ isSuccessful: result.isSuccessful });
 }
