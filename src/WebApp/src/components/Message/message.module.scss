@@ -8,10 +8,8 @@
   min-height: 36px;
   display: flex;
   align-items: center;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 22px;
+  font-size: var(--font-14);
+  font-family: var(--font-500);
 
   svg {
     position: relative;

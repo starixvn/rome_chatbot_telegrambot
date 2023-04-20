@@ -12,7 +12,7 @@
     "failReason": "Failure Reason",
     "createMore": "Create More"
   },
-  "note": "*Note: Settings will be the same as the Source account",
+  "note": "Note: Settings will be the same as the Source account",
   "sourceAccount": "Source account",
   "noOfAccounts": "No. of Accounts",
   "accountDetail": "Account Details",

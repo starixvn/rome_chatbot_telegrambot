@@ -5,10 +5,9 @@
 }
 
 .header {
-  font-weight: 500;
   padding: 16px 16px;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: --var(--font-16);
+  font-family: var(--font-500);
   color: #ededed;
 
   &.agent {

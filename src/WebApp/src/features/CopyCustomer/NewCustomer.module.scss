@@ -24,13 +24,13 @@
 
   .credit {
     color: var(--note-color);
-    font-size: 12px;
-    line-height: 20px;
+    font: var(--font-12);
+    font-family: var(--font-400);
     margin-top: 4px;
 
     span {
       color: var(--note-color);
-      font-weight: 700;
+      font-family: var(--font-700);
     }
   }
 }

@@ -13,7 +13,7 @@
         "failReason": "Lý do thất bại",
         "createMore": "Tạo thêm"
     },
-    "note": "*Lưu ý: Cài đặt sẽ giống như của tài khoản sao chép",
+    "note": "Lưu ý: Cài đặt sẽ giống như của tài khoản sao chép",
     "sourceAccount": "Tài khoản sao chép",
     "noOfAccounts": "Số tài khoản",
     "accountDetail": "Chi Tiết Tài Khoản",

@@ -1,6 +1,36 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400&display=swap");
+@font-face {
+  font-family: "Roboto400";
+  src: url("/fonts/Roboto-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Roboto500";
+  src: url("/fonts/Roboto-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Roboto600";
+  src: url("/fonts/Roboto-Medium.ttf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Roboto700";
+  src: url("/fonts/Roboto-Bold.ttf");
+  font-weight: 700;
+}
+
 :root {
-  --font-roboto: "Roboto", sans-serif;
+  --font-12: 12px;
+  --font-14: 14px;
+  --font-16: 16px;
+
+  --font-400: "Roboto400", sans-serif;
+  --font-500: "Roboto500", sans-serif;
+  --font-600: "Roboto600", sans-serif;
+  --font-700: "Roboto700", sans-serif;
 
   --bg-super: #5d1219;
   --bg-master: #1c5334;
@@ -16,15 +46,13 @@
 }
 
 body {
-  font-family: var(--font-roboto);
+  font-family: var(--font-400);
+  font-size: var(--font-14);
 }
 
 p {
-  font-style: normal;
-  font-size: 14px;
-  line-height: 22px;
-  font-weight: 400;
-  font-family: var(--font-roboto);
+  font-size: var(--font-14);
+  font-family: var(--font-400);
   color: var(--sub-label-color);
 }
 
@@ -34,13 +62,10 @@ input {
   padding: 0 5px;
   border: 1px solid var(--border-color);
   border-radius: 0;
+  font-family: var(--font-400);
+  font-size: var(--font-14);
   color: var(--sub-label-color);
   background-color: white;
-  font-style: normal;
-  font-size: 14px;
-  line-height: 22px;
-  font-weight: 400;
-  font-family: var(--font-roboto);
   appearance: none;
 
   &:-webkit-autofill {
@@ -65,11 +90,8 @@ select {
   color: var(--sub-label-color);
   background-color: white;
   border-color: var(--border-color);
-  font-style: normal;
-  font-size: 14px;
-  line-height: 22px;
-  font-weight: 400;
-  font-family: var(--font-roboto);
+  font-family: var(--font-400);
+  font-size: var(--font-14);
 
   &:focus {
     outline: none;
@@ -79,11 +101,8 @@ select {
 textarea {
   width: 100%;
   padding: 5px;
-  font-style: normal;
-  font-size: 14px;
-  line-height: 22px;
-  font-weight: 600;
-  font-family: var(--font-roboto);
+  font-size: var(--font-14);
+  font-family: var(--font-600);
   color: var(--description-color);
   border-color: var(--border-color);
 
@@ -100,8 +119,8 @@ textarea {
   background: #0b589c;
   border: 0;
   font-size: 13px;
-  line-height: 15px;
-  font-weight: 500;
+
+  font-family: var(--font-500);
   text-transform: uppercase;
   outline: none;
 }
