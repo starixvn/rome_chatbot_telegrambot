@@ -48,25 +48,23 @@
 body {
   font-family: var(--font-400);
   font-size: var(--font-14);
+  overflow: auto;
 }
 
-::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: #efefef;
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
-  background: #ababab;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #888;
+*::-webkit-scrollbar-thumb {
+  background: #717171 !important;
+  background-color: #717171 !important;
+  color: #717171 !important;
 }
 
 p {
