@@ -23,20 +23,21 @@ type Props = {
 const NewCustomer = ({ user, customerOtpSetting, ...props }: Props) => {
   const { t } = useTranslation("newcustomer");
   const [isSecurityCodeVerified, setIsSecurityCodeVerified] = useState(user.isVerifyOtpOrSC);
+  const isSpecialSite = user.system == "789Y";
   const onVerifySecurityCodeSuccess = () => {
     setIsSecurityCodeVerified(true);
   };
 
   if (isSecurityCodeVerified) {
     return (
-      <Layout title={t("header")} roleId={user.customerLevel}>
+      <Layout title={t("header")} roleId={user.customerLevel} isSpecialSite={isSpecialSite}>
         <CopyCustomer user={user} {...props} />
       </Layout>
     );
   }
 
   return (
-    <Layout title={t("header")} roleId={user.customerLevel}>
+    <Layout title={t("header")} roleId={user.customerLevel} isSpecialSite={isSpecialSite}>
       {customerOtpSetting.isEnableSophosOtp || customerOtpSetting.isEnableTelegramOtp ? (
         <VerifyOtp {...customerOtpSetting} username={user.username} onVerifySuccess={onVerifySecurityCodeSuccess} />
       ) : (

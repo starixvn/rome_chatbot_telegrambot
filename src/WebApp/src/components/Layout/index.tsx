@@ -6,6 +6,7 @@ type Props = {
   children: React.ReactNode;
   title: string;
   roleId: number;
+  isSpecialSite: boolean;
 };
 
 const classNameByRoleMapper: { [roleId: number]: string } = {
@@ -14,10 +15,10 @@ const classNameByRoleMapper: { [roleId: number]: string } = {
   [Super]: "super",
 };
 
-const Layout: React.FC<Props> = ({ children, title, roleId }) => {
+const Layout: React.FC<Props> = ({ children, title, roleId, isSpecialSite }) => {
   const className = classNameByRoleMapper[roleId];
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${isSpecialSite ? styles["special-site"] : ""}`}>
       <div className={`${styles.header} ${styles[className]}`}>{title}</div>
       <div className={styles.main}>{children}</div>
     </div>

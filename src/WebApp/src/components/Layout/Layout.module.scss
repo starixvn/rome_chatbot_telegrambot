@@ -23,6 +23,22 @@
   }
 }
 
+.special-site {
+  .header {
+    &.agent {
+      background-color: var(--bg-special-agent);
+    }
+
+    &.master {
+      background-color: var(--bg-special-master);
+    }
+
+    &.super {
+      background-color: var(--bg-special-super);
+    }
+  }
+}
+
 .main {
   padding: 10px 16px;
   position: relative;

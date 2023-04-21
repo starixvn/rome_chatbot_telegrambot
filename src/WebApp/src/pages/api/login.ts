@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import CryptoJS from "crypto-js";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "../../lib/session";
-import * as Sentry from "@sentry/nextjs";
 
 type TelegramBot = {
   botId: number;
@@ -14,8 +13,6 @@ export default withIronSessionApiRoute(loginRoute, sessionOptions);
 
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   const { telegramInitData } = req.body;
-  console.log(process.env.SENTRY_DSN);
-  Sentry.captureMessage("Login");
   try {
     const initData = new URLSearchParams(telegramInitData);
     const user = JSON.parse(initData.get("user") || "");
@@ -31,6 +28,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
         customerLevel: account.customerLevel,
         username: account.username,
         language: account.language,
+        system: account.system,
         isVerifyOtpOrSC: false,
       };
       req.session.user = data;

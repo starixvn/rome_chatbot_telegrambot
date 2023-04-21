@@ -20,11 +20,9 @@ type CopyCustomerData = {
 
 async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user;
-  console.log(user);
   if (user?.isLoggedIn) {
     const { credit, numberOfAccounts, sourceUserName } = req.body;
     const sourceInfo = await fetchWrapper.get(`${process.env.CUSTOMER_API}/customer/${user.custId}/${user.subAccId}/downlines/${sourceUserName}`);
-    console.log(sourceInfo);
     const data = await copyCustomer(user, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) });
     res.status(200).json({ ...data, credit: credit, failAccounts: numberOfAccounts - data.usernames.length });
   } else {
@@ -52,7 +50,6 @@ const copyCustomer = async (user: User, data: CopyCustomerData) => {
     ip: data.ip,
     systemId: 10,
   };
-  console.log(body);
   return await fetchWrapper.post(url, body);
 };
 
