@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { CopyICon } from "@components/Icons";
+import cn from "classnames";
+import { CopiedICon, CopyICon } from "@components/Icons";
 import Message from "@components/Message";
 import styles from "./Result.module.scss";
+import { Tooltip } from "@components/Tooltip";
 
 type Props = {
   usernames?: string[];
@@ -16,6 +18,14 @@ type Props = {
 const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, handleContinue }) => {
   const { t } = useTranslation("newcustomer");
   const successAccounts = usernames?.join(", ");
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleAllAccounts = () => {
+    if (!isCopied) {
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 3000);
+    }
+  };
 
   return (
     <div className={styles.result}>
@@ -25,8 +35,9 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
         <div className={styles.copy}>
           <textarea rows={3} readOnly defaultValue={successAccounts}></textarea>
           <CopyToClipboard text={successAccounts || ""}>
-            <div className={styles.icon}>
-              <CopyICon width={16} height={16} />
+            <div className={cn(styles.icon, { [styles.show]: isCopied })} onClick={handleAllAccounts}>
+              <div className={styles["icon-copy"]}>{isCopied ? <CopiedICon width={16} height={16} /> : <CopyICon width={16} height={16} />}</div>
+              <Tooltip message={t("copied")} position="top" />
             </div>
           </CopyToClipboard>
         </div>

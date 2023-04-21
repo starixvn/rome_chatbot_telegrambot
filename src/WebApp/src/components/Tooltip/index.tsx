@@ -12,9 +12,7 @@ type Props = {
 export const Tooltip = ({ position, message = "" }: Props) => {
   return (
     <div className={styles.tooltip}>
-      <span data-tooltip={message} data-tooltip-position={position}>
-        <InformationIcon height={16} width={16} />
-      </span>
+      <span data-tooltip={message} data-tooltip-position={position}></span>
     </div>
   );
 };

@@ -109,7 +109,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
             <span>*</span> {t("note")}
           </p>
 
-          {errorMessage && <Message message={errorMessage}></Message>}
+          {errorMessage && <Message message={errorMessage} isError></Message>}
 
           <Label title={t("sourceAccount")} required />
           <Controller

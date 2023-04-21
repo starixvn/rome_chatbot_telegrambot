@@ -81,9 +81,22 @@ export const CopyICon = ({ width = 16, height = 16 }: IconProps) => {
   return (
     <svg width={width} height={height} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM8 21H19V7H8V21Z"
+        fill="#0B599C"
+      />
+    </svg>
+  );
+};
+
+export const CopiedICon = ({ width = 16, height = 16 }: IconProps) => {
+  return (
+    <svg width={width} height={height} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H12V21H8V7H19V12H21V7C21 5.9 20.1 5 19 5ZM19 14C16.24 14 14 16.24 14 19C14 21.76 16.24 24 19 24C21.76 24 24 21.76 24 19C24 16.24 21.76 14 19 14ZM18 21.5L15.5 19L16.205 18.295L18 20.085L21.795 16.29L22.5 17L18 21.5Z"
         fill="#0B599C"
       />
     </svg>

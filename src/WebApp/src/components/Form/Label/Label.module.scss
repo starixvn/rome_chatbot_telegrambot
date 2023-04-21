@@ -7,6 +7,15 @@
     display: flex;
     color: var(--label-color);
     align-items: center;
+
+    .info {
+      position: relative;
+      margin-left: 5px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 
   p {
