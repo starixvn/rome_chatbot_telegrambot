@@ -11,5 +11,7 @@
   "OtpNote": "Please enter your OTP before proceeding!",
   "GenerateOTP": "Generate OTP",
   "Loading": "Loading",
-  "ErrorPageMess": "Sorry, there was an unexpected issue on the server. Please seek help from our customer support."
+  "ErrorPageMess": "Sorry, there was an unexpected issue on the server. Please seek help from our customer support.",
+  "UnauthorizedMessage": "Sorry, You don't have permission to access this page.",
+  "AccessDenied": "Access denied"
 }

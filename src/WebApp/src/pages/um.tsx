@@ -1,5 +1,5 @@
 import { withIronSessionSsr } from "iron-session/next";
-import { UMInfo, sessionOptions } from "src/lib/session";
+import { sessionOptions } from "src/lib/session";
 import { InferGetServerSidePropsType } from "next";
 import styles from "../styles/UM.module.scss";
 import Image from "next/image";
@@ -32,7 +32,6 @@ const UMPage = ({ umInfo, isSpecialSite }: InferGetServerSidePropsType<typeof ge
 };
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
-  console.log(req.session);
   const { umInfo, isSpecialSite } = req.session;
   return {
     props: { umInfo: umInfo, isSpecialSite: isSpecialSite ?? false },

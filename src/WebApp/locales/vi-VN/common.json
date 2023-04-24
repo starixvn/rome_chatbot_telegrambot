@@ -10,5 +10,7 @@
   "OtpNote": "Xin nhập mã OTP để tiến hành.",
   "GenerateOTP": "Tạo OTP",
   "Loading": "Đang tải",
-  "ErrorPageMess": "Rất tiếc, đã xảy ra lỗi không mong muốn với máy chủ. Vui lòng liên hệ với bộ phận chăm sóc khách hàng của chúng tôi để được hỗ trợ."
+  "ErrorPageMess": "Rất tiếc, đã xảy ra lỗi không mong muốn với máy chủ. Vui lòng liên hệ với bộ phận chăm sóc khách hàng của chúng tôi để được hỗ trợ.",
+  "UnauthorizedMessage": "Xin lỗi, bạn không được phép truy cập vào trang này",
+  "AccessDenied": "Truy câp bi chặn"
 }

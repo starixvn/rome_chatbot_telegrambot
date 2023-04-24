@@ -10,5 +10,7 @@
   "OtpNote": "請輸入您的一次性密碼以便繼續。",
   "GenerateOTP": "產生一次性密碼",
   "Loading": "Loading",
-  "ErrorPageMess": "很抱歉，伺服器發生意外錯誤，請聯繫我們的客服協助處理。"
+  "ErrorPageMess": "很抱歉，伺服器發生意外錯誤，請聯繫我們的客服協助處理。",
+  "UnauthorizedMessage": "對不起, 您不被允許進入此網頁.",
+  "AccessDenied": "不被允許登入"
 }
