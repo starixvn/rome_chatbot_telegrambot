@@ -15,6 +15,9 @@ public class NewCustomersWebAppBuilder : IWebAppBuilder
 
     public WebAppInfo BuildWebAppInfo(CustBotAccount account)
     {
-        return new WebAppInfo() { Url = $"{webAppUrls[account.System]}/{LanguageCodes.MapWebAppLanguage(account.Language)}/newcustomer" };
+        return new WebAppInfo()
+        {
+            Url = $"{webAppUrls[account.System]}/{LanguageCodes.MapWebAppLanguage(account.Language)}/newcustomer?system=${account.System}"
+        };
     }
 }

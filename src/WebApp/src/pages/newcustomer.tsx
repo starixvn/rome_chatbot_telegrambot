@@ -18,12 +18,12 @@ type Props = {
   maxAccounts: number;
   user: User;
   customerOtpSetting: CustomerOtpSetting;
+  isSpecialSite: boolean;
 };
 
-const NewCustomer = ({ user, customerOtpSetting, ...props }: Props) => {
+const NewCustomer = ({ user, customerOtpSetting, isSpecialSite, ...props }: Props) => {
   const { t } = useTranslation("newcustomer");
   const [isSecurityCodeVerified, setIsSecurityCodeVerified] = useState(user.isVerifyOtpOrSC);
-  const isSpecialSite = user.system == "789Y";
   const onVerifySecurityCodeSuccess = () => {
     setIsSecurityCodeVerified(true);
   };
@@ -50,27 +50,14 @@ const NewCustomer = ({ user, customerOtpSetting, ...props }: Props) => {
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
   const user = req.session.user;
 
-  if (user === undefined) {
-    res.setHeader("location", "/unauthorized");
-    res.statusCode = 302;
-    res.end();
-    return {
-      props: {
-        minCredit: 0,
-        maxAccounts: process.env.MAX_ACCOUNTS,
-        user: {},
-        customerOtpSetting: {},
-      },
-    };
-  }
-
-  const customerOtpSetting = await fetchWrapper.get<CustomerOtpSetting>(`${process.env.CUSTOMER_API}/customer/otp/${user.custId}/${user.subAccId}`);
+  const customerOtpSetting = await fetchWrapper.get<CustomerOtpSetting>(`${process.env.CUSTOMER_API}/customer/otp/${user?.custId}/${user?.subAccId}`);
   return {
     props: {
       minCredit: 0,
       maxAccounts: process.env.MAX_ACCOUNTS,
       user: user,
       customerOtpSetting: customerOtpSetting,
+      isSpecialSite: req.session.isSpecialSite,
     },
   };
 }, sessionOptions);

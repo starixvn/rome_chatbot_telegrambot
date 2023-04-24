@@ -28,9 +28,9 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
         customerLevel: account.customerLevel,
         username: account.username,
         language: account.language,
-        system: account.system,
         isVerifyOtpOrSC: false,
       };
+      req.session.isSpecialSite = account.system.toLowerCase() == "789Y".toLowerCase();
       req.session.user = data;
       await req.session.save();
       res.json(req.session.user);

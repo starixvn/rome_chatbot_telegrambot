@@ -7,8 +7,13 @@ export type User = {
   customerLevel: number;
   username: string;
   language: string;
-  system: string;
   isVerifyOtpOrSC: boolean;
+};
+
+export type UMInfo = {
+  isUnderMaintenanceTime: boolean;
+  from: string;
+  to: string;
 };
 
 export const sessionOptions: IronSessionOptions = {
@@ -24,5 +29,7 @@ export const sessionOptions: IronSessionOptions = {
 declare module "iron-session" {
   interface IronSessionData {
     user?: User;
+    umInfo?: UMInfo;
+    isSpecialSite?: boolean;
   }
 }

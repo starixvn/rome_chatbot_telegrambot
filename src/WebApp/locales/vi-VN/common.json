@@ -10,12 +10,5 @@
   "OtpNote": "Xin nhập mã OTP để tiến hành.",
   "GenerateOTP": "Tạo OTP",
   "Loading": "Đang tải",
-  "UnderMaintenance": "Under Maintenance",
-  "UmMess1": "We are having regular server maintenance.",
-  "UmMess2": "The website is currently unavailable from {{from}} until {{to}} (GMT +8)",
-  "UmMess3": "Please come back later.",
-  "UmMessDefault1": "本公司將於 {{from}} 至 {{to}} (GMT +8) 對服務器進行例行維護。",
-  "UmMessDefault2": "期間所有的網頁將無法登入。",
-  "UmMessDefault3": "請您稍候再來。",
   "ErrorPageMess": "Rất tiếc, đã xảy ra lỗi không mong muốn với máy chủ. Vui lòng liên hệ với bộ phận chăm sóc khách hàng của chúng tôi để được hỗ trợ."
 }
