@@ -13,6 +13,7 @@ export default function Login() {
 
   useEffect(() => {
     const signIn = async () => {
+      Promise.reject(new Error("Client Test"));
       const telegramInitData = window.Telegram.WebApp.initData || null;
 
       if (!telegramInitData) {
