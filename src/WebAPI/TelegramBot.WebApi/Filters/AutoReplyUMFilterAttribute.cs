@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using ONEbook.UM.Services;
-using System.Net;
 using TelegramBot.Modules.Bot;
 using TelegramBot.Modules.Message;
 using TelegramBot.Shared.Models;

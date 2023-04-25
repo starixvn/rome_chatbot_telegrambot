@@ -19,6 +19,7 @@ export default function Login() {
       }
       const { returnUrl } = router.query;
       const authData = await fetchWrapper.post("/api/login", { telegramInitData });
+
       if (authData.isLoggedIn) {
         router.push(returnUrl as string);
       } else {
