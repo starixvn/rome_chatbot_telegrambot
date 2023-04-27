@@ -6,6 +6,7 @@ import BlockUI from "@components/BlockUI";
 import Message from "@components/Message";
 import { EyeCloseIcon, EyeIcon } from "@components/Icons";
 import styles from "./SecurityCode.module.scss";
+import { useRouter } from "next/router";
 
 type Props = {
   username: string;
@@ -13,6 +14,7 @@ type Props = {
 };
 
 const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
+  const router = useRouter();
   const { t } = useTranslation("common");
   const { handleSubmit, register, formState } = useForm({ mode: "onSubmit", shouldFocusError: false });
 
@@ -29,7 +31,7 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
       return;
     }
 
-    const result = await fetchWrapper.post("/api/security-code/verify", formData);
+    const result = await fetchWrapper.post<any>("/api/security-code/verify", formData, router);
     if (result.isSuccessful) {
       onVerifySuccess();
     } else {

@@ -6,6 +6,7 @@ import { characters } from "src/constants/characters";
 import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
 import { SingleSelect } from "@components/Form/Select";
 import styles from "./NewAccount.module.scss";
+import { useRouter } from "next/router";
 
 type Props = {
   actorName: string;
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export const NewAccountName = ({ actorName, onChange }: Props) => {
+  const router = useRouter();
   const [suggestName, setSuggestName] = useState("");
   const [isCorrectName, setIsCorrectName] = useState(true);
 
@@ -27,15 +29,15 @@ export const NewAccountName = ({ actorName, onChange }: Props) => {
   }, [suggestName]);
 
   const handleGetSuggestName = async (actorName: string) => {
-    const data = await fetchWrapper.get(`/api/customer/suggest/${actorName}`);
-    setSuggestName(data.suggestName);
-    handleOnChange(data.suggestName);
+    const suggestName = await fetchWrapper.get<any>(`/api/customer/suggest/${actorName}`, router);
+    setSuggestName(suggestName);
+    handleOnChange(suggestName);
   };
 
   const handleCheckExistName = async () => {
     const username = actorName.concat(suggestName);
-    const data = await fetchWrapper.get(`/api/customer/exist/${username}`);
-    if (!data.isExist) {
+    const isExist = await fetchWrapper.get<any>(`/api/customer/exist/${username}`, router);
+    if (!isExist) {
       setIsCorrectName(true);
     } else {
       onChange("");

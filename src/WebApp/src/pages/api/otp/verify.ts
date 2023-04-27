@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "src/lib/session";
 import { getClientIP } from "src/helpers/ip-helper";
-import { fetchWrapper } from "src/lib/fetch-wrapper";
+import { fetchServerWrapper } from "src/lib/fetch-server";
 
 export default withIronSessionApiRoute(verifyRouter, sessionOptions);
 
@@ -19,7 +19,7 @@ async function verifyRouter(req: NextApiRequest, res: NextApiResponse) {
     return;
   }
 
-  const body = {
+  const postData = {
     custId: user?.custId,
     subAccId: user?.subAccId,
     otp: req.body.otp,
@@ -28,10 +28,10 @@ async function verifyRouter(req: NextApiRequest, res: NextApiResponse) {
     isEnabledTelegramOTP: req.body.isEnableTelegramOtp,
   };
   const url = `${process.env.CUSTOMER_API}/customer/otp/verify`;
-  const result = await fetchWrapper.post(url, body);
+  const { resStatus, data } = await fetchServerWrapper.post(url, postData);
 
-  req.session.user && (req.session.user.isVerifyOtpOrSC = result.isSuccessful);
+  req.session.user && (req.session.user.isVerifyOtpOrSC = data.isSuccessful);
   await req.session.save();
 
-  res.status(200).json({ isSuccessful: result.isSuccessful });
+  res.status(resStatus).json({ isSuccessful: data.isSuccessful });
 }

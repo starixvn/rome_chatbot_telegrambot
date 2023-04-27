@@ -1,9 +1,9 @@
-import { fetchWrapper } from "./../../../lib/fetch-wrapper";
 import { getClientIP } from "./../../../helpers/ip-helper";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "src/lib/session";
 import { User } from "./../../../lib/session";
+import { fetchServerWrapper } from "src/lib/fetch-server";
 
 export default withIronSessionApiRoute(copyRouter, sessionOptions);
 
@@ -20,14 +20,11 @@ type CopyCustomerData = {
 
 async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user;
-  if (user?.isLoggedIn) {
-    const { credit, numberOfAccounts, sourceUserName } = req.body;
-    const sourceInfo = await fetchWrapper.get(`${process.env.CUSTOMER_API}/customer/${user.custId}/${user.subAccId}/downlines/${sourceUserName}`);
-    const data = await copyCustomer(user, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) });
-    res.status(200).json({ ...data, credit: credit, failAccounts: numberOfAccounts - data.usernames.length });
-  } else {
-    res.status(500).json({});
-  }
+
+  const { credit, numberOfAccounts, sourceUserName } = req.body;
+  const sourceInfo = (await fetchServerWrapper.get(`${process.env.CUSTOMER_API}/customer/${user?.custId}/${user?.subAccId}/downlines/${sourceUserName}`)).data;
+  const { resStatus, data } = await copyCustomer(user as User, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) });
+  res.status(resStatus).json({ ...data, credit: credit, failAccounts: numberOfAccounts - data.usernames.length });
 }
 
 const copyCustomer = async (user: User, data: CopyCustomerData) => {
@@ -50,7 +47,7 @@ const copyCustomer = async (user: User, data: CopyCustomerData) => {
     ip: data.ip,
     systemId: 10,
   };
-  return await fetchWrapper.post(url, body);
+  return await fetchServerWrapper.post(url, body);
 };
 
 const hashPassword = async (password: string): Promise<string> => {
@@ -59,5 +56,5 @@ const hashPassword = async (password: string): Promise<string> => {
     password: password,
   };
 
-  return await fetchWrapper.post<string>(url, body);
+  return (await fetchServerWrapper.post(url, body)).data;
 };

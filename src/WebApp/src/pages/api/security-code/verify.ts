@@ -1,8 +1,8 @@
-import { fetchWrapper } from "src/lib/fetch-wrapper";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getClientIP } from "src/helpers/ip-helper";
 import { sessionOptions } from "src/lib/session";
+import { fetchServerWrapper } from "src/lib/fetch-server";
 
 export default withIronSessionApiRoute(verifyRout, sessionOptions);
 
@@ -19,7 +19,7 @@ async function verifyRout(req: NextApiRequest, res: NextApiResponse) {
     return;
   }
 
-  const data = {
+  const body = {
     custId: user?.custId,
     subAccId: user?.subAccId,
     securityCode: req.body.securityCode,
@@ -27,8 +27,8 @@ async function verifyRout(req: NextApiRequest, res: NextApiResponse) {
     ip: getClientIP(req),
   };
   const url = `${process.env.CUSTOMER_API}/security-code/verify`;
-  const result = await fetchWrapper.post(url, data);
-  req.session.user && (req.session.user.isVerifyOtpOrSC = result.isSuccessful);
+  const { resStatus, data } = await fetchServerWrapper.post(url, body);
+  req.session.user && (req.session.user.isVerifyOtpOrSC = data.isSuccessful);
   await req.session.save();
-  res.json(result);
+  res.status(resStatus).json(data);
 }

@@ -18,7 +18,7 @@ export default function Login() {
         router.push("/unauthorized");
       }
       const { returnUrl } = router.query;
-      const authData = await fetchWrapper.post("/api/login", { telegramInitData });
+      const authData = await fetchWrapper.post<any>("/api/login", { telegramInitData });
 
       if (authData.isLoggedIn) {
         router.push(returnUrl as string);

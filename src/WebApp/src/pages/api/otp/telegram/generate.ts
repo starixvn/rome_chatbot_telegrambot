@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "src/lib/session";
-import { fetchWrapper } from "src/lib/fetch-wrapper";
+import { fetchServerWrapper } from "src/lib/fetch-server";
 
 export default withIronSessionApiRoute(generateRouter, sessionOptions);
 
@@ -12,13 +12,12 @@ async function generateRouter(req: NextApiRequest, res: NextApiResponse) {
   }
 
   const { user } = req.session;
-
   if (!user || user.isLoggedIn === false) {
     res.status(401).end();
     return;
   }
 
   const url = `${process.env.CUSTOMER_API}/customer/otp/telegram/generate`;
-  await fetchWrapper.post(url, { custId: user.custId, subAccId: user.subAccId });
-  res.status(200).json({});
+  const { resStatus, data } = await fetchServerWrapper.post(url, { custId: user?.custId, subAccId: user?.subAccId });
+  res.status(resStatus).json(data);
 }

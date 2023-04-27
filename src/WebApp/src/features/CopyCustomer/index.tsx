@@ -15,6 +15,7 @@ import { fetchWrapper } from "src/lib/fetch-wrapper";
 import { User } from "src/lib/session";
 import { Master } from "src/constants/role-id";
 import styles from "./NewCustomer.module.scss";
+import { useRouter } from "next/router";
 
 const NewAccountName = dynamic(() => import("@components/Customer/NewAccount").then((mod) => mod.NewAccountName), {
   ssr: false,
@@ -49,6 +50,7 @@ type Props = {
 };
 
 export const CopyCustomer = ({ user, ...props }: Props) => {
+  const router = useRouter();
   const { t } = useTranslation("newcustomer");
   const methods = useForm<IFormInputs>({
     mode: "onSubmit",
@@ -73,7 +75,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
       sourceUserName: formData.existAccount,
       numberOfAccounts: Number(formData.noOfAccounts),
     };
-    const data = await fetchWrapper.post(url, body);
+    const data = await fetchWrapper.post<any>(url, body, router);
     if (data.usernames.length > 0) {
       setData(data);
     } else {

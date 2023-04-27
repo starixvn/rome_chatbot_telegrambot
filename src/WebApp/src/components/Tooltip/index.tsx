@@ -1,5 +1,4 @@
 import React from "react";
-import { InformationIcon } from "@components/Icons";
 import styles from "./Tooltip.module.scss";
 
 type Position = "top" | "bottom";

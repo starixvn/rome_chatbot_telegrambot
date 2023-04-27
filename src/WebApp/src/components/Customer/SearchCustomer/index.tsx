@@ -8,6 +8,7 @@ import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
 import Select from "react-select/dist/declarations/src/Select";
 import Message from "@components/Message";
 import styles from "./SearchCustomer.module.scss";
+import { useRouter } from "next/router";
 
 export type CustomerInfoOption = {
   userName: string;
@@ -22,16 +23,6 @@ enum ErrorMode {
   InCorrect,
   Correct,
 }
-
-export const customPromiseOptions = async (inputValue: string) => {
-  const data = await fetchWrapper.get(`/api/customer/search?query=${inputValue}`);
-  return data.map((item: CustomerInfoOption) => {
-    return {
-      ...item,
-      value: item.userName,
-    };
-  });
-};
 
 const CustomOption = (props: OptionProps<CustomerInfoOption, false>) => {
   return (
@@ -60,6 +51,7 @@ type Props = {
 };
 
 export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
+  const router = useRouter();
   const { t } = useTranslation("newcustomer");
   let selectInputRef: Select<CustomerInfoOption, boolean, GroupBase<CustomerInfoOption>> | null = null;
   const [isCorrectName, setIsCorrectName] = useState<ErrorMode>(ErrorMode.Init);
@@ -86,18 +78,28 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
   };
 
   const handleCheckIsDownLine = async (username: string) => {
-    const data = await fetchWrapper.get(`/api/customer/downline/${username}`);
+    const data = await fetchWrapper.get<any>(`/api/customer/downline/${username}`, router);
     if (data.isDownLineUser) {
       onChange(username);
       setIsCorrectName(ErrorMode.Correct);
       setShowError(false);
-      const data = await fetchWrapper.get(`/api/customer/credit/${username}`);
+      const data = await fetchWrapper.get<any>(`/api/customer/credit/${username}`, router);
       changeMaxCredit(data.maxCredit);
     } else {
       onChange("");
       setIsCorrectName(ErrorMode.InCorrect);
       setShowError(true);
     }
+  };
+
+  const customPromiseOptions = async (inputValue: string) => {
+    const data = await fetchWrapper.get<any>(`/api/customer/search?query=${inputValue}`, router);
+    return data.map((item: CustomerInfoOption) => {
+      return {
+        ...item,
+        value: item.userName,
+      };
+    });
   };
 
   const clearSingleValue = () => {

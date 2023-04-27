@@ -1,29 +1,30 @@
 import * as Sentry from "@sentry/nextjs";
+import { NextRouter } from "next/router";
 
-const get = async <T>(url: string): Promise<T | any> => {
-  try {
-    const res = await fetch(url);
-    return await res.json();
-  } catch (error) {
-    Sentry.captureException(error);
+const get = async <T>(url: string, router?: NextRouter): Promise<T> => {
+  const res = await fetch(url);
+  if (res.status !== 200) {
+    router && router.isReady && router.push("/500");
+    return {} as T;
   }
+
+  return await res.json();
 };
 
-const post = async <T>(url: string, body?: object): Promise<T | any> => {
+const post = async <T>(url: string, body = {}, router?: NextRouter): Promise<T> => {
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: body && JSON.stringify(body),
   };
 
-  let statusCode;
-  try {
-    const res = await fetch(url, requestOptions);
-    statusCode = res.status;
-    return await res.json();
-  } catch (error) {
-    statusCode !== 200 && Sentry.captureException(error);
+  const res = await fetch(url, requestOptions);
+  if (res.status !== 200) {
+    router && router.isReady && router.push("/500");
+    return {} as T;
   }
+
+  return await res.json();
 };
 
 export const fetchWrapper = {

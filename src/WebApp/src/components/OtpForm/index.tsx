@@ -7,6 +7,7 @@ import Message from "@components/Message";
 import BlockUI from "@components/BlockUI";
 import { Countdown } from "@components/Countdown";
 import styles from "./Otp.module.scss";
+import { useRouter } from "next/router";
 
 type Props = {
   username: string;
@@ -16,6 +17,7 @@ type Props = {
 };
 
 const VerifyOtp = (props: Props) => {
+  const router = useRouter();
   const { t } = useTranslation("common");
   const { handleSubmit, register, formState } = useForm({ mode: "onSubmit", shouldFocusError: false });
 
@@ -27,7 +29,7 @@ const VerifyOtp = (props: Props) => {
       setError(t("RequiredMessage"));
       return;
     }
-    const result = await fetchWrapper.post("/api/otp/verify", { otp: formData.otp, isEnableTelegramOtp: props.isEnableTelegramOtp });
+    const result = await fetchWrapper.post<any>("/api/otp/verify", { otp: formData.otp, isEnableTelegramOtp: props.isEnableTelegramOtp });
     if (result.isSuccessful) {
       props.onVerifySuccess();
     } else {
