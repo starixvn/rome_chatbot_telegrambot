@@ -2,8 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "src/lib/session";
 import { fetchServerWrapper } from "src/lib/fetch-server";
+import withAuth from "src/lib/with-auth";
 
-export default withIronSessionApiRoute(suggestRouter, sessionOptions);
+export default withIronSessionApiRoute(withAuth(suggestRouter), sessionOptions);
 
 async function suggestRouter(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user;
@@ -13,6 +14,6 @@ async function suggestRouter(req: NextApiRequest, res: NextApiResponse) {
     roleId: user?.customerLevel,
   };
   const url = `${process.env.CUSTOMER_API}/customer/suggest-username`;
-  const { resStatus, data } = await fetchServerWrapper.post(url, body);
-  res.status(resStatus).json(data);
+  const data = await fetchServerWrapper.post(url, body);
+  res.json(data);
 }

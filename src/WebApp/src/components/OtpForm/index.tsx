@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useTranslation from "next-translate/useTranslation";
 import cn from "classnames";
-import { fetchWrapper } from "src/lib/fetch-wrapper";
+import { fetchWrapper } from "src/lib/fetch-client";
 import Message from "@components/Message";
 import BlockUI from "@components/BlockUI";
 import { Countdown } from "@components/Countdown";
@@ -29,7 +29,7 @@ const VerifyOtp = (props: Props) => {
       setError(t("RequiredMessage"));
       return;
     }
-    const result = await fetchWrapper.post<any>("/api/otp/verify", { otp: formData.otp, isEnableTelegramOtp: props.isEnableTelegramOtp });
+    const result = await fetchWrapper.post<any>("/api/otp/verify", { otp: formData.otp, isEnableTelegramOtp: props.isEnableTelegramOtp }, router);
     if (result.isSuccessful) {
       props.onVerifySuccess();
     } else {
@@ -39,7 +39,7 @@ const VerifyOtp = (props: Props) => {
 
   const handleGenerateOTP = async () => {
     setCountdown(true);
-    await fetchWrapper.post("/api/otp/telegram/generate");
+    await fetchWrapper.post("/api/otp/telegram/generate", router);
   };
 
   return (

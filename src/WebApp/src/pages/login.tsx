@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { fetchWrapper } from "src/lib/fetch-wrapper";
+import { fetchWrapper } from "src/lib/fetch-client";
 import { CustomWindow } from "src/types/custom.window";
 import Loading from "@components/Loading";
 

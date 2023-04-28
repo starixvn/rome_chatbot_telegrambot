@@ -11,7 +11,7 @@ import Result from "./Result";
 import { NumberInputField, PasswordField } from "@components/Form/Inputs";
 import { formatThousandNumber, getNumberOfCommaString } from "src/lib/number";
 import { validatePassword } from "src/lib/password";
-import { fetchWrapper } from "src/lib/fetch-wrapper";
+import { fetchWrapper } from "src/lib/fetch-client";
 import { User } from "src/lib/session";
 import { Master } from "src/constants/role-id";
 import styles from "./NewCustomer.module.scss";

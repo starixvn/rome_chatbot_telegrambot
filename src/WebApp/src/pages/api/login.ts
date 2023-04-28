@@ -16,7 +16,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   try {
     const initData = new URLSearchParams(telegramInitData);
     const user = JSON.parse(initData.get("user") || "");
-    const account = (await fetchServerWrapper.get(`${process.env.TELEGRAM_API_URL}/Setting/${user.id}`)).data;
+    const account = await fetchServerWrapper.get(`${process.env.TELEGRAM_API_URL}/Setting/${user.id}`);
     const botToken = await getBotToken(Number(account.botId));
     const isVerified = await verifyWebAppOpenByTelegram(botToken, initData);
 
@@ -43,7 +43,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
 }
 
 const getBotToken = async (botId: number) => {
-  const bots = (await fetchServerWrapper.get(`${process.env.TELEGRAM_API_URL}/Bot`)).data;
+  const bots = await fetchServerWrapper.get(`${process.env.TELEGRAM_API_URL}/Bot`);
   const bot: TelegramBot = bots.find((b: TelegramBot) => b.botId == botId);
   return bot.accessToken;
 };

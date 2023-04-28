@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import AsyncSelect from "react-select/async";
 import { components, GroupBase, InputActionMeta, OptionProps, SingleValue, StylesConfig } from "react-select";
-import { fetchWrapper } from "src/lib/fetch-wrapper";
+import { fetchWrapper } from "src/lib/fetch-client";
 import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
 import Select from "react-select/dist/declarations/src/Select";
 import Message from "@components/Message";

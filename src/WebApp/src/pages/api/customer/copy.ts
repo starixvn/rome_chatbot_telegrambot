@@ -4,8 +4,9 @@ import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "src/lib/session";
 import { User } from "./../../../lib/session";
 import { fetchServerWrapper } from "src/lib/fetch-server";
+import withAuth from "src/lib/with-auth";
 
-export default withIronSessionApiRoute(copyRouter, sessionOptions);
+export default withIronSessionApiRoute(withAuth(copyRouter), sessionOptions);
 
 type CopyCustomerData = {
   username: string;
@@ -22,9 +23,9 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user;
 
   const { credit, numberOfAccounts, sourceUserName } = req.body;
-  const sourceInfo = (await fetchServerWrapper.get(`${process.env.CUSTOMER_API}/customer/${user?.custId}/${user?.subAccId}/downlines/${sourceUserName}`)).data;
-  const { resStatus, data } = await copyCustomer(user as User, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) });
-  res.status(resStatus).json({ ...data, credit: credit, failAccounts: numberOfAccounts - data.usernames.length });
+  const sourceInfo = await fetchServerWrapper.get(`${process.env.CUSTOMER_API}/customer/${user?.custId}/${user?.subAccId}/downlines/${sourceUserName}`);
+  const data = await copyCustomer(user as User, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) });
+  res.json({ ...data, credit: credit, failAccounts: numberOfAccounts - data.usernames.length });
 }
 
 const copyCustomer = async (user: User, data: CopyCustomerData) => {
@@ -56,5 +57,5 @@ const hashPassword = async (password: string): Promise<string> => {
     password: password,
   };
 
-  return (await fetchServerWrapper.post(url, body)).data;
+  return await fetchServerWrapper.post(url, body);
 };

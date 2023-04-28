@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useTranslation from "next-translate/useTranslation";
-import { fetchWrapper } from "src/lib/fetch-wrapper";
+import { fetchWrapper } from "src/lib/fetch-client";
 import BlockUI from "@components/BlockUI";
 import Message from "@components/Message";
 import { EyeCloseIcon, EyeIcon } from "@components/Icons";

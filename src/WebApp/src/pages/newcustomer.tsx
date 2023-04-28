@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import { withIronSessionSsr } from "iron-session/next";
 import { User, sessionOptions } from "src/lib/session";
-import { fetchWrapper } from "src/lib/fetch-wrapper";
+import { fetchWrapper } from "src/lib/fetch-client";
 import { CopyCustomer } from "@features/CopyCustomer";
 import Layout from "@components/Layout";
 import SecurityCodeForm from "@components/SecurityCodeForm";

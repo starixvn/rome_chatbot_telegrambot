@@ -1,12 +1,6 @@
 const get = async (url: string) => {
   const response = await fetch(url);
-  let data;
-  try {
-    data = await response.json();
-  } catch {
-    data = {};
-  }
-  return { resStatus: response.status, data: data };
+  return await response.json();
 };
 
 const post = async (url: string, body = {}) => {
@@ -23,8 +17,7 @@ const post = async (url: string, body = {}) => {
   } catch {
     data = {};
   }
-
-  return { resStatus: response.status, data };
+  return data;
 };
 
 export const fetchServerWrapper = {

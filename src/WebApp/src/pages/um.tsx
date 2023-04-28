@@ -5,8 +5,7 @@ import { useRouter } from "next/router";
 
 export default function UMPage() {
   const router = useRouter();
-  const { system, from, to } = router.query;
-  const isSpecialSite = (system as string)?.toLowerCase() == "789Y".toLowerCase();
+  const { isSpecialSite, from, to } = router.query;
   return (
     <div className={styles.um}>
       <Image src={UmImg} alt="Under Maintenance"></Image>

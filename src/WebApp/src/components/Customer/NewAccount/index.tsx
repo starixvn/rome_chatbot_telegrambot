@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import cn from "classnames";
-import { fetchWrapper } from "src/lib/fetch-wrapper";
+import { fetchWrapper } from "src/lib/fetch-client";
 import { characters } from "src/constants/characters";
 import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
 import { SingleSelect } from "@components/Form/Select";
