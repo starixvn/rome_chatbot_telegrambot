@@ -44,6 +44,6 @@ export const getUmInfo = async () => {
 };
 
 export const getCustomerStatus = async (user: User) => {
-  const res = await fetch(`${process.env.ALPHA_API}/customer/GetCustomerStatus?custId=${user.custId}&subAccId=${user.subAccId}`);
+  const res = await fetch(`${process.env.CUSTOMER_API}/customer/${user.custId}/${user.subAccId}/status`);
   return await res.json();
 };

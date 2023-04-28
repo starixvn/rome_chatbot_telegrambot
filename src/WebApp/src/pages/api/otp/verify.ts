@@ -5,6 +5,8 @@ import { getClientIP } from "src/helpers/ip-helper";
 import { fetchServerWrapper } from "src/lib/fetch-server";
 import withAuth from "src/lib/with-auth";
 
+const ACCOUNT_CLOCKED_CODE = 200;
+
 export default withIronSessionApiRoute(withAuth(verifyRouter), sessionOptions);
 
 async function verifyRouter(req: NextApiRequest, res: NextApiResponse) {
@@ -25,8 +27,11 @@ async function verifyRouter(req: NextApiRequest, res: NextApiResponse) {
   };
   const url = `${process.env.CUSTOMER_API}/customer/otp/verify`;
   const data = await fetchServerWrapper.post(url, postData);
-
   req.session.user && (req.session.user.isVerifyOtpOrSC = data.isSuccessful);
   await req.session.save();
+
+  if (data.code === ACCOUNT_CLOCKED_CODE) {
+    return res.status(403).json({ isActive: true, isLocked: true, isProtectedMode: false });
+  }
   res.json({ isSuccessful: data.isSuccessful });
 }

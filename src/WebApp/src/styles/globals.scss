@@ -124,6 +124,7 @@ textarea {
   font-family: var(--font-600);
   color: var(--description-color);
   border-color: var(--border-color);
+  resize: none;
 
   &:focus {
     outline: none;
