@@ -17,6 +17,7 @@ type NumberInputProps = InputFieldProps & {
   min?: number;
   max?: number;
   messError?: string;
+  placeholder?: string;
 };
 
 type PasswordFieldProps = InputFieldProps & {
@@ -66,6 +67,7 @@ export const NumberInputField = forwardRef<HTMLInputElement, NumberInputProps>(f
           defaultValue={0}
           thousandSeparator=","
           decimalScale={2}
+          placeholder={props.placeholder}
         />
         <div className={styles.icon}>
           {typeof min === "number" &&
