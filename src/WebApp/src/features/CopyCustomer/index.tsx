@@ -97,6 +97,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
     setData({});
     setMaxCredit(0);
     setMaxMemberCredit(0);
+    setErrorMessage("");
     reset();
   };
 
