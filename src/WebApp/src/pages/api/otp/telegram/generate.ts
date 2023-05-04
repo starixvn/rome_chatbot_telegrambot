@@ -13,7 +13,12 @@ async function generateRouter(req: NextApiRequest, res: NextApiResponse) {
   }
   const { user } = req.session;
 
-  const url = `${process.env.CUSTOMER_API}/customer/otp/telegram/generate`;
-  const data = await fetchServerWrapper.post(url, { custId: user?.custId, subAccId: user?.subAccId });
-  res.json(data);
+  const customerOtpSetting = await fetchServerWrapper.get(`${process.env.CUSTOMER_API}/customer/otp/${user?.custId}/${user?.subAccId}`);
+  if (customerOtpSetting.isEnableTelegramOtp) {
+    const url = `${process.env.CUSTOMER_API}/customer/otp/telegram/generate`;
+    await fetchServerWrapper.post(url, { custId: user?.custId, subAccId: user?.subAccId });
+    return res.json({ isSuccessful: true });
+  } else {
+    return res.json({ isSuccessful: false });
+  }
 }

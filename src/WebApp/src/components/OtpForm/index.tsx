@@ -39,7 +39,10 @@ const VerifyOtp = (props: Props) => {
 
   const handleGenerateOTP = async () => {
     setCountdown(true);
-    await fetchWrapper.post("/api/otp/telegram/generate", router);
+    const result = await fetchWrapper.post<any>("/api/otp/telegram/generate", router);
+    if (!result.isSuccessful) {
+      setError(t("OTPViaTelegramDisabled"));
+    }
   };
 
   return (
