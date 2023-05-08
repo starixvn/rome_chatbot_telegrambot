@@ -18,7 +18,7 @@
     "noOfAccounts": "Số tài khoản",
     "accountDetail": "Chi Tiết Tài Khoản",
     "accountDetailNote": "Hãy chọn tên tài khoản khả dụng trước và hệ thống sẽ đề xuất tên cho các tài khoản còn lại.",
-    "username": "Tên đăng nhập",
+    "username": "Tên người dùng",
     "creditNote": "Hạn mức tín dụng còn lại: ",
     "password": "Mật Khẩu",
     "givenCreditPerAccount": "Hạn mức cho mỗi tài khoản",
