@@ -350,8 +350,8 @@ public class MessageBuilderTest
         expectedResult.Append("You can run IBCBET using the following commands:\n\n");
         expectedResult.Append("/menu - Open Main Menu of IBCBET\n");
         expectedResult.Append("/help - List all commands\n");
-        expectedResult.Append("/settings, /setting - Open Settings Menu\n");
-        expectedResult.Append("/stop, /unlink - Unlink IBCBET");
+        expectedResult.Append("/settings - Open Settings Menu\n");
+        expectedResult.Append("/unlink - Unlink IBCBET");
 
         // Act
         var result = messageBuilder.BuildGeneralCommandsHelpMessage(LanguageCodes.English, botName);

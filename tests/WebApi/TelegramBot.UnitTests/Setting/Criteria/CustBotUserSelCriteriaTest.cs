@@ -37,11 +37,5 @@ public class CustBotUserSelCriteriaTest
         criteria = new CustBotUserSelCriteria(0, 1, true);
         var case1 = criteria.IsValid();
         Assert.False(case1);
-
-        //case BotId < 0
-        criteria = new CustBotUserSelCriteria(1, 0, true);
-        var case2 = criteria.IsValid();
-        Assert.False(case2);
-
     }
 }

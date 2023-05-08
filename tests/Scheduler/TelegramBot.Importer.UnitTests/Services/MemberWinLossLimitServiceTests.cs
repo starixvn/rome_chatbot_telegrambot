@@ -15,7 +15,13 @@ public class MemberWinLossLimitServiceTests
     public MemberWinLossLimitServiceTests()
     {
         dynamicRepository = Substitute.For<IDynamicRepository>();
-        configuration = Substitute.For<IConfiguration>();
+        var settings = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("SettingStatus", "0")
+            };
+        configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(settings)
+            .Build();
         memberWinLossLimitService = new MemberWinLossLimitService(dynamicRepository, configuration);
     }
 
