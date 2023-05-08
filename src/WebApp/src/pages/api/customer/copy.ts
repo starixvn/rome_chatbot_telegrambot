@@ -5,6 +5,7 @@ import { sessionOptions } from "src/lib/session";
 import { User } from "./../../../lib/session";
 import { fetchServerWrapper } from "src/lib/fetch-server";
 import withAuth from "src/lib/with-auth";
+import { isDirectDownLine } from "src/constants/role-id";
 
 export default withIronSessionApiRoute(withAuth(copyRouter), sessionOptions);
 
@@ -24,6 +25,10 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
 
   const { credit, numberOfAccounts, sourceUserName } = req.body;
   const sourceInfo = await fetchServerWrapper.get(`${process.env.CUSTOMER_API}/customer/${user?.custId}/${user?.subAccId}/downlines/${sourceUserName}`);
+  const isExceedMaxAccount = process.env.MAX_ACCOUNTS && numberOfAccounts > process.env.MAX_ACCOUNTS;
+  if (sourceInfo.custId <= 0 || !isDirectDownLine(sourceInfo.roleId, user?.customerLevel as number) || isExceedMaxAccount) {
+    res.status(500).json({});
+  }
   const data = await copyCustomer(user as User, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) });
   res.json({ ...data, credit: credit, failAccounts: numberOfAccounts - data.usernames.length });
 }

@@ -67,6 +67,7 @@ export const NumberInputField = forwardRef<HTMLInputElement, NumberInputProps>(f
           defaultValue={0}
           thousandSeparator=","
           decimalScale={2}
+          allowNegative={false}
           placeholder={props.placeholder}
         />
         <div className={styles.icon}>

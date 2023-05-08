@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 import { Controller, useForm } from "react-hook-form";
 import Message from "@components/Message";
-import { numberAccounts as MAX_ACCOUNTS } from "src/constants/number-accounts";
+import { generateAccountSelect } from "src/constants/number-accounts";
 import { SingleSelect } from "@components/Form/Select";
 import { Label } from "@components/Form/Label";
 import BlockUI from "@components/BlockUI";
@@ -147,7 +147,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
             render={({ field: { onChange } }) => (
               <div className={styles.row}>
                 <SingleSelect
-                  options={MAX_ACCOUNTS}
+                  options={generateAccountSelect(props.maxAccounts)}
                   selectedValue={"1"}
                   handleChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                     setNumberAccounts(Number(e.target.value));
@@ -156,7 +156,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
                 />
               </div>
             )}
-            rules={{ required: true }}
+            rules={{ required: true, max: props.maxAccounts }}
           />
 
           <Label title={`${t("givenCreditPerAccount")}`} subLabel />
