@@ -30,6 +30,7 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
     res.status(500).json({});
   }
   const data = await copyCustomer(user as User, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) });
+  data.usernames.length > 0 && (await notifySuccessCustomersCreated(user as User, data.usernames));
   res.json({ ...data, credit: credit, failAccounts: numberOfAccounts - data.usernames.length });
 }
 
@@ -63,4 +64,10 @@ const hashPassword = async (password: string): Promise<string> => {
   };
 
   return await fetchServerWrapper.post(url, body);
+};
+
+const notifySuccessCustomersCreated = async (user: User, customers: string[]) => {
+  const url = `${process.env.TELEGRAM_API_URL}/notification/success-customers-created`;
+  const message = `<code>${customers.join(", ")}</code>`;
+  return await fetchServerWrapper.post(url, { custId: user.custId, subAccId: user.subAccId, message: message });
 };
