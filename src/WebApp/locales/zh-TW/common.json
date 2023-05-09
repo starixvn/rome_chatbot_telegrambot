@@ -12,5 +12,8 @@
   "Loading": "Loading",
   "ErrorPageMess": "很抱歉，伺服器發生意外錯誤，請聯繫我們的客服協助處理。",
   "UnauthorizedMessage": "對不起, 您不被允許進入此網頁.",
-  "AccessDenied": "不被允許登入"
+  "AccessDenied": "不被允許登入",
+  "AccountClosed": "Your account was closed. Please contact your upline for the assistance.",
+  "AccountClocked": "由於檢測多次失敗，導致此賬號已被鎖定。請聯繫您的上線以解鎖。",
+  "AccountProtected": "您與chatbot連接已中斷，請聯繫您的上線以獲得進一步的協助。"
 }

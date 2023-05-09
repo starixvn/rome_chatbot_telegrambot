@@ -12,5 +12,8 @@
   "Loading": "Đang tải",
   "ErrorPageMess": "Rất tiếc, đã xảy ra lỗi không mong muốn với máy chủ. Vui lòng liên hệ với bộ phận chăm sóc khách hàng của chúng tôi để được hỗ trợ.",
   "UnauthorizedMessage": "Xin lỗi, bạn không được phép truy cập vào trang này",
-  "AccessDenied": "Truy câp bi chặn"
+  "AccessDenied": "Truy câp bi chặn",
+  "AccountClosed": "Your account was closed. Please contact your upline for the assistance.",
+  "AccountClocked": "Tài khoản của bạn đã bị khóa do nhiều lần xác thực không thành công. Vui lòng liên hệ với cấp trên của bạn để mở khóa.",
+  "AccountProtected": "Bạn đã bị ngắt kết nối với chatbot. Vui lòng liên hệ với cấp trên của bạn để được hỗ trợ."
 }
