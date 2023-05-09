@@ -16,6 +16,7 @@ import { User } from "src/lib/session";
 import { Master } from "src/constants/role-id";
 import styles from "./NewCustomer.module.scss";
 import { useRouter } from "next/router";
+import CryptoJS from "crypto-js";
 
 const NewAccountName = dynamic(() => import("@components/Customer/NewAccount").then((mod) => mod.NewAccountName), {
   ssr: false,
@@ -69,7 +70,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
     const url = `/api/customer/copy`;
     const body = {
       username: formData.username,
-      password: formData.password,
+      password: CryptoJS.AES.encrypt(formData.password, user.salt).toString(),
       credit: getNumberOfCommaString(formData.credit.toString()),
       maxCredit: formData.memberMaxCredit && getNumberOfCommaString(formData.memberMaxCredit.toString()),
       sourceUserName: formData.existAccount,

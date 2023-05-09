@@ -41,7 +41,7 @@ const NewCustomer = ({ user, customerOtpSetting, isSpecialSite, ...props }: Prop
       {customerOtpSetting.isEnableSophosOtp || customerOtpSetting.isEnableTelegramOtp ? (
         <VerifyOtp {...customerOtpSetting} username={user.username} onVerifySuccess={onVerifySecurityCodeSuccess} />
       ) : (
-        <SecurityCodeForm username={user.username} onVerifySuccess={onVerifySecurityCodeSuccess} />
+        <SecurityCodeForm username={user.username} salt={user.salt} onVerifySuccess={onVerifySecurityCodeSuccess} />
       )}
     </Layout>
   );

@@ -8,6 +8,7 @@ export type User = {
   username: string;
   language: string;
   isVerifyOtpOrSC: boolean;
+  salt: string;
 };
 
 export type UMInfo = {

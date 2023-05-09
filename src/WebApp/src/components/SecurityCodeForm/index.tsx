@@ -7,13 +7,15 @@ import Message from "@components/Message";
 import { EyeCloseIcon, EyeIcon } from "@components/Icons";
 import styles from "./SecurityCode.module.scss";
 import { useRouter } from "next/router";
+import CryptoJS from "crypto-js";
 
 type Props = {
   username: string;
+  salt: string;
   onVerifySuccess: () => void;
 };
 
-const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
+const SecurityCodeForm = ({ username, salt, onVerifySuccess }: Props) => {
   const router = useRouter();
   const { t } = useTranslation("common");
   const { handleSubmit, register, formState } = useForm({ mode: "onSubmit", shouldFocusError: false });
@@ -31,7 +33,11 @@ const SecurityCodeForm = ({ username, onVerifySuccess }: Props) => {
       return;
     }
 
-    const result = await fetchWrapper.post<any>("/api/security-code/verify", formData, router);
+    const result = await fetchWrapper.post<any>(
+      "/api/security-code/verify",
+      { securityCode: CryptoJS.AES.encrypt(formData.securityCode, salt).toString() },
+      router
+    );
     if (result.isSuccessful) {
       onVerifySuccess();
     } else {

@@ -4,6 +4,7 @@ import { getClientIP } from "src/helpers/ip-helper";
 import { sessionOptions } from "src/lib/session";
 import { fetchServerWrapper } from "src/lib/fetch-server";
 import withAuth from "src/lib/with-auth";
+import CryptoJS from "crypto-js";
 
 const ACCOUNT_CLOCKED_CODE = 200;
 
@@ -20,7 +21,7 @@ async function verifyRout(req: NextApiRequest, res: NextApiResponse) {
   const body = {
     custId: user?.custId,
     subAccId: user?.subAccId,
-    securityCode: req.body.securityCode,
+    securityCode: CryptoJS.AES.decrypt(req.body.securityCode, user?.salt as string).toString(CryptoJS.enc.Utf8),
     language: user?.language,
     ip: getClientIP(req),
   };

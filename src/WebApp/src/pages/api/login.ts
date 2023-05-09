@@ -29,6 +29,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
         username: account.username,
         language: account.language,
         isVerifyOtpOrSC: false,
+        salt: CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Hex),
       };
       req.session.isSpecialSite = account.system.toLowerCase() == "789Y".toLowerCase();
       req.session.user = data;

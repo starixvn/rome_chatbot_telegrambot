@@ -6,6 +6,7 @@ import { User } from "./../../../lib/session";
 import { fetchServerWrapper } from "src/lib/fetch-server";
 import withAuth from "src/lib/with-auth";
 import { isDirectDownLine } from "src/constants/role-id";
+import CryptoJS from "crypto-js";
 
 export default withIronSessionApiRoute(withAuth(copyRouter), sessionOptions);
 
@@ -45,7 +46,7 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
 
 const copyCustomer = async (user: User, data: CopyCustomerData) => {
   const url = `${process.env.CUSTOMER_API}/customer/copy`;
-  const hashedPassword = await hashPassword(data.password);
+  const hashedPassword = await hashPassword(CryptoJS.AES.decrypt(data.password, user.salt).toString(CryptoJS.enc.Utf8));
 
   const body = {
     actorId: user.custId,
