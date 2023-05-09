@@ -15,6 +15,8 @@ namespace TelegramBot.Modules.Notification
         Task<Result> NotifyUnlink(int userId, long chatId, int botId, string language);
 
         Task<Result> NotifyWrongPassword(int custId, int subAccId, string ip);
+
+        Task<Result> NotifySuccessCustomerCreated(int custId, int subAccId, string message);
     }
 
     public class NotificationService : INotificationService
@@ -85,6 +87,13 @@ namespace TelegramBot.Modules.Notification
             var message = messageBuilder.BuildWrongPasswordAlertMessage(messenger.Language, ip);
             await messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), message, FunctionIds.WrongPasswordAlert);
 
+            return Result.CreateSuccessfulResult();
+        }
+
+        public async Task<Result> NotifySuccessCustomerCreated(int custId, int subAccId, string message)
+        {
+            var messenger = await settingService.GetCustBotMessenger(custId, subAccId);
+            await messageSender.SendMessage(messenger.UserId, new Messenger(messenger.BotId, messenger.ChatId), message);
             return Result.CreateSuccessfulResult();
         }
     }

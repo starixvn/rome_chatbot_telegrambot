@@ -39,5 +39,11 @@ namespace TelegramBot.WebApi.Controllers
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
         public async Task<Result> NotifyWrongPassword([FromBody] AlertParam param)
             => await notificationService.NotifyWrongPassword(param.CustId, param.SubAccId, param.IP);
+
+        [HttpPost("success-customers-created")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
+        public async Task<Result> NotifySuccessCustomerCreated([FromBody] CopyAccountNotifyParam param)
+            => await notificationService.NotifySuccessCustomerCreated(param.CustId, param.SubAccId, param.Message);
     }
 }
