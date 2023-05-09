@@ -20,17 +20,26 @@ type CopyCustomerData = {
   ip: string;
 };
 
+type NotifyCopyCustomersTranslate = {
+  success: string;
+  usernames: string;
+  givenCreditPerAccount: string;
+  fail: string;
+  failReason: string;
+};
+
 async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user;
 
-  const { credit, numberOfAccounts, sourceUserName } = req.body;
+  const { credit, numberOfAccounts, sourceUserName, notifyTelegramMessage } = req.body;
   const sourceInfo = await fetchServerWrapper.get(`${process.env.CUSTOMER_API}/customer/${user?.custId}/${user?.subAccId}/downlines/${sourceUserName}`);
   const isExceedMaxAccount = process.env.MAX_ACCOUNTS && numberOfAccounts > process.env.MAX_ACCOUNTS;
   if (sourceInfo.custId <= 0 || !isDirectDownLine(sourceInfo.roleId, user?.customerLevel as number) || isExceedMaxAccount) {
     res.status(500).json({});
   }
   const data = await copyCustomer(user as User, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) });
-  data.usernames.length > 0 && (await notifySuccessCustomersCreated(user as User, data.usernames));
+  data.usernames.length > 0 &&
+    (await notifySuccessCustomersCreated(user as User, { ...data, credit: credit }, numberOfAccounts - data.usernames.length, notifyTelegramMessage));
   res.json({ ...data, credit: credit, failAccounts: numberOfAccounts - data.usernames.length });
 }
 
@@ -66,8 +75,18 @@ const hashPassword = async (password: string): Promise<string> => {
   return await fetchServerWrapper.post(url, body);
 };
 
-const notifySuccessCustomersCreated = async (user: User, customers: string[]) => {
+const notifySuccessCustomersCreated = async (user: User, data: any, failAccounts: number, translation: NotifyCopyCustomersTranslate) => {
+  const newLineCharacter = "\u000a";
   const url = `${process.env.TELEGRAM_API_URL}/notification/success-customers-created`;
-  const message = `<code>${customers.join(", ")}</code>`;
-  return await fetchServerWrapper.post(url, { custId: user.custId, subAccId: user.subAccId, message: message });
+  const successMessage = `${translation.success.replace("{{no}}", data.usernames.length.toString())}${newLineCharacter}${
+    translation.usernames
+  }:  <code>${data.usernames.join(", ")}</code>${newLineCharacter}${translation.givenCreditPerAccount}:  ${data.credit.toFixed(2)}`;
+
+  const failMessage =
+    failAccounts > 0
+      ? `${newLineCharacter}${newLineCharacter}${translation.fail.replace("{{failAccounts}}", failAccounts.toString())}${newLineCharacter}${
+          translation.failReason
+        }:  ${data.message}`
+      : "";
+  return await fetchServerWrapper.post(url, { custId: user.custId, subAccId: user.subAccId, message: `${successMessage}${failMessage}` });
 };

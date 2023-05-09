@@ -74,6 +74,13 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
       maxCredit: formData.memberMaxCredit && getNumberOfCommaString(formData.memberMaxCredit.toString()),
       sourceUserName: formData.existAccount,
       numberOfAccounts: Number(formData.noOfAccounts),
+      notifyTelegramMessage: {
+        success: t("result.success"),
+        usernames: t("result.usernames"),
+        givenCreditPerAccount: t("givenCreditPerAccount"),
+        fail: t("result.fail"),
+        failReason: t("result.failReason"),
+      },
     };
     const data = await fetchWrapper.post<any>(url, body, router);
     if (data.usernames.length > 0) {
