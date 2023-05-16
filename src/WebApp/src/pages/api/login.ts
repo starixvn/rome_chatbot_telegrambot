@@ -13,15 +13,33 @@ export default withIronSessionApiRoute(loginRoute, sessionOptions);
 
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   const { telegramInitData } = req.body;
+  const { user } = req.session;
   try {
     const initData = new URLSearchParams(telegramInitData);
-    const user = JSON.parse(initData.get("user") || "");
-    const account = await fetchServerWrapper.get(`${process.env.TELEGRAM_API_URL}/Setting/${user.id}`);
+    const tgHash = initData.get("hash") as string;
+    if (user?.isLoggedIn && user.hash === tgHash) {
+      req.session.user = {
+        isLoggedIn: true,
+        custId: user.custId,
+        subAccId: user.subAccId,
+        customerLevel: user.customerLevel,
+        username: user.username,
+        language: user.language,
+        isVerifyOtpOrSC: user.isVerifyOtpOrSC,
+        hash: user.hash,
+        salt: CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Hex),
+      };
+      req.session.reChecking = true;
+      await req.session.save();
+      return res.status(200).json(req.session.user);
+    }
+
+    const tgUser = JSON.parse(initData.get("user") || "");
+    const account = await fetchServerWrapper.get(`${process.env.TELEGRAM_API_URL}/Setting/${tgUser.id}`);
     const botToken = await getBotToken(Number(account.botId));
     const isVerified = await verifyWebAppOpenByTelegram(botToken, initData);
-
     if (isVerified) {
-      const data = {
+      req.session.user = {
         isLoggedIn: true,
         custId: account.custId,
         subAccId: account.subAccId,
@@ -29,10 +47,11 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
         username: account.username,
         language: account.language,
         isVerifyOtpOrSC: false,
+        hash: tgHash,
         salt: CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Hex),
       };
       req.session.isSpecialSite = account.system.toLowerCase() == "789Y".toLowerCase();
-      req.session.user = data;
+      req.session.reChecking = true;
       await req.session.save();
       res.status(200).json(req.session.user);
     } else {

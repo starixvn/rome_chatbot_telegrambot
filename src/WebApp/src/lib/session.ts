@@ -8,6 +8,7 @@ export type User = {
   username: string;
   language: string;
   isVerifyOtpOrSC: boolean;
+  hash: string;
   salt: string;
 };
 
@@ -32,5 +33,6 @@ declare module "iron-session" {
     user?: User;
     umInfo?: UMInfo;
     isSpecialSite?: boolean;
+    reChecking?: boolean;
   }
 }

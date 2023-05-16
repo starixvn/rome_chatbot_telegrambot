@@ -7,6 +7,7 @@ import { CopyCustomer } from "@features/CopyCustomer";
 import Layout from "@components/Layout";
 import SecurityCodeForm from "@components/SecurityCodeForm";
 import VerifyOtp from "@components/OtpForm";
+import * as Sentry from "@sentry/nextjs";
 
 type CustomerOtpSetting = {
   isEnableSophosOtp: boolean;
@@ -49,6 +50,8 @@ const NewCustomer = ({ user, customerOtpSetting, isSpecialSite, ...props }: Prop
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
   const user = req.session.user;
+
+  Sentry.captureMessage(`${new Date().getMinutes()}:${new Date().getMilliseconds()}: custId: ${user?.custId} -> salt: ${user?.salt} -> hash: ${user?.hash}`);
 
   const customerOtpSetting = await fetchWrapper.get<CustomerOtpSetting>(`${process.env.CUSTOMER_API}/customer/otp/${user?.custId}/${user?.subAccId}`);
   return {

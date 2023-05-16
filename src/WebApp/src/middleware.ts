@@ -11,16 +11,16 @@ export const middleware = async (req: NextRequest, event: NextFetchEvent) => {
   const umInfo = await getUmInfo();
   const system = searchParams.get("system") as string;
   searchParams.delete("system");
-  const isSpecialSite = (system as string)?.toLowerCase() == "789Y".toLowerCase();
+  const isSpecialSite = system?.toLowerCase() == "789Y".toLowerCase();
   res.cookies.set("isSpecialSite", String(isSpecialSite));
   if (umInfo !== undefined && umInfo.isUnderMaintenanceTime) {
     return NextResponse.redirect(new URL(`/um?isSpecialSite=${isSpecialSite}&from=${umInfo.from}&to=${umInfo.to}`, req.url));
   }
 
   const session = await getIronSession(req, res, sessionOptions);
-  const { user } = session;
+  const { user, reChecking } = session;
 
-  if (user === undefined) {
+  if (user === undefined || !reChecking || user.hash === undefined) {
     return NextResponse.redirect(new URL(`${locale}/login?returnUrl=${pathname}${searchParams}`, req.url)); // redirect to /unauthorized page
   }
 
@@ -31,6 +31,8 @@ export const middleware = async (req: NextRequest, event: NextFetchEvent) => {
     );
   }
 
+  session.reChecking = false;
+  await session.save();
   return res;
 };
 
