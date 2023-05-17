@@ -81,7 +81,7 @@ const notifySuccessCustomersCreated = async (user: User, data: any, failAccounts
   const url = `${process.env.TELEGRAM_API_URL}/notification/success-customers-created`;
   const successMessage = `${translation.success.replace("{{no}}", data.usernames.length.toString())}${newLineCharacter}${
     translation.usernames
-  }:  <code>${data.usernames.join(", ")}</code>${newLineCharacter}${translation.givenCreditPerAccount}:  ${data.credit.toFixed(2)}`;
+  }:  <code>${data.usernames.join(", ")}</code>${newLineCharacter}${translation.givenCreditPerAccount}:  ${data.credit}`;
 
   const failMessage =
     failAccounts > 0

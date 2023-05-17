@@ -6,6 +6,7 @@ import { CopiedICon, CopyICon } from "@components/Icons";
 import Message from "@components/Message";
 import styles from "./Result.module.scss";
 import { Tooltip } from "@components/Tooltip";
+import { formatThousandNumber } from "src/lib/number";
 
 type Props = {
   usernames?: string[];
@@ -42,7 +43,7 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
           </CopyToClipboard>
         </div>
         <p>{t("givenCreditPerAccount")}</p>
-        <input value={credit?.toFixed(2)} readOnly />
+        <input value={formatThousandNumber(Number(credit))} readOnly />
       </>
       {failAccounts && failAccounts > 0 ? (
         <>

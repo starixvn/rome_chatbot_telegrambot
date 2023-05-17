@@ -69,6 +69,7 @@ export const NumberInputField = forwardRef<HTMLInputElement, NumberInputProps>(f
           decimalScale={2}
           allowNegative={false}
           placeholder={props.placeholder}
+          fixedDecimalScale={false}
         />
         <div className={styles.icon}>
           {typeof min === "number" &&

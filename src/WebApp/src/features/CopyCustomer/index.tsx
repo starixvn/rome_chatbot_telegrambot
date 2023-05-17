@@ -180,7 +180,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
                 onBlur={handleOnBlur}
                 max={maxCredit / numberAccounts}
                 placeholder="0"
-                messError={t("formError.credit", { max: (maxCredit / numberAccounts).toFixed(2) })}
+                messError={t("formError.credit", { max: formatThousandNumber(Number((maxCredit / numberAccounts).toFixed(2))) })}
               />
             )}
             rules={{ min: 0, max: maxCredit / numberAccounts, required: true }}
@@ -201,7 +201,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
                     onChange={field.onChange}
                     max={maxMemberCredit}
                     placeholder="0"
-                    messError={t("formError.memberMaxCredit", { min: 0, max: maxMemberCredit })}
+                    messError={t("formError.memberMaxCredit", { min: 0, max: formatThousandNumber(maxMemberCredit) })}
                   />
                 )}
                 rules={{ min: 0, max: maxMemberCredit, required: true }}

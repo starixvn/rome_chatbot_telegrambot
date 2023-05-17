@@ -4,7 +4,7 @@ export const getNumberOfCommaString = (commaNumber: string) => {
 
 export const formatThousandNumber = (number: number) => {
   return number.toLocaleString("en-US", {
-    minimumFractionDigits: 2,
+    minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   });
 };
