@@ -55,11 +55,9 @@ const NewCustomer = ({ user, isRequireSecurityCode, customerOtpSetting, isSpecia
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
   const user = req.session.user;
-
-  Sentry.captureMessage(`${new Date().getMinutes()}:${new Date().getMilliseconds()}: custId: ${user?.custId} -> salt: ${user?.salt} -> hash: ${user?.hash}`);
-
   const securityCode = await fetchWrapper.get<string>(`${process.env.CUSTOMER_API}/security-code?custId=${user?.custId}&subAccId=${user?.subAccId}`);
   const customerOtpSetting = await fetchWrapper.get<CustomerOtpSetting>(`${process.env.CUSTOMER_API}/customer/otp/${user?.custId}/${user?.subAccId}`);
+
   return {
     props: {
       minCredit: 0,

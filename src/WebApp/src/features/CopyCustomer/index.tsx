@@ -173,7 +173,10 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
             control={control}
             render={({ field }) => (
               <NumberInputField
-                onChange={field.onChange}
+                onChange={(e) => {
+                  field.onChange(e);
+                  setMaxMemberCredit(getNumberOfCommaString(e.target.value));
+                }}
                 onBlur={handleOnBlur}
                 max={maxCredit / numberAccounts}
                 placeholder="0"
