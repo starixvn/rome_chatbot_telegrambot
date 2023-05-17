@@ -3,15 +3,14 @@ import { User } from "./session";
 
 export default function withAuth(handler: NextApiHandler): NextApiHandler {
   return async (req: NextApiRequest, res: NextApiResponse) => {
-    const isSpecialSite = req.cookies.isSpecialSite;
+    const { user, isSpecialSite } = req.session;
+    if (user === undefined) {
+      return res.status(401).end();
+    }
+
     const umInfo = await getUmInfo();
     if (umInfo !== undefined && umInfo.isUnderMaintenanceTime && isSpecialSite) {
       return res.status(503).json({ umInfo: umInfo, isSpecialSite: isSpecialSite });
-    }
-
-    const { user } = req.session;
-    if (user === undefined) {
-      return res.status(401).end();
     }
 
     const customerStatus = await getCustomerStatus(user);

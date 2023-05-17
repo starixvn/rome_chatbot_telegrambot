@@ -14,7 +14,7 @@ export default function UMPage() {
       <p>{`The website is currently unavailable from ${from} until ${to} (GMT +8).`}</p>
       <p>Please come back later.</p>
       <hr />
-      {isSpecialSite ? (
+      {isSpecialSite === "true" ? (
         <>
           <p>Hệ thống của chúng tôi đang trong thời gian bảo trì định kỳ.</p>
           <p>{`Trang mạng đang ngừng hoạt động từ ${from} cho đến ${to} (GMT +8).`}</p>

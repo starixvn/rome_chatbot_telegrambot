@@ -12,7 +12,6 @@ export const middleware = async (req: NextRequest, event: NextFetchEvent) => {
   const system = searchParams.get("system") as string;
   searchParams.delete("system");
   const isSpecialSite = system?.toLowerCase() == "789Y".toLowerCase();
-  res.cookies.set("isSpecialSite", String(isSpecialSite));
   if (umInfo !== undefined && umInfo.isUnderMaintenanceTime) {
     return NextResponse.redirect(new URL(`/um?isSpecialSite=${isSpecialSite}&from=${umInfo.from}&to=${umInfo.to}`, req.url));
   }
