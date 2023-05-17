@@ -18,6 +18,16 @@ export type CustomerInfoOption = {
   value: string;
 };
 
+type DownLineInfo = {
+  isEnable: boolean;
+  isDownLineUser: boolean;
+};
+
+type CustomerCredit = {
+  credit: number;
+  maxCredit: number;
+};
+
 enum ErrorMode {
   Init = 1,
   InCorrect,
@@ -56,7 +66,7 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
   let selectInputRef: Select<CustomerInfoOption, boolean, GroupBase<CustomerInfoOption>> | null = null;
   const [isCorrectName, setIsCorrectName] = useState<ErrorMode>(ErrorMode.Init);
   const [value, setValue] = useState("");
-  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     setIsCorrectName(ErrorMode.Init);
@@ -78,17 +88,17 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
   };
 
   const handleCheckIsDownLine = async (username: string) => {
-    const data = await fetchWrapper.get<any>(`/api/customer/downline/${username}`, router);
-    if (data.isDownLineUser) {
+    const downLineInfo = await fetchWrapper.get<DownLineInfo>(`/api/customer/downline/${username}`, router);
+    if (downLineInfo.isDownLineUser && downLineInfo.isEnable) {
       onChange(username);
       setIsCorrectName(ErrorMode.Correct);
-      setShowError(false);
-      const data = await fetchWrapper.get<any>(`/api/customer/credit/${username}`, router);
-      changeMaxCredit(data.maxCredit);
+      setErrorMessage("");
+      const customerCredit = await fetchWrapper.get<CustomerCredit>(`/api/customer/credit/${username}`, router);
+      changeMaxCredit(customerCredit.maxCredit);
     } else {
       onChange("");
       setIsCorrectName(ErrorMode.InCorrect);
-      setShowError(true);
+      setErrorMessage(!downLineInfo.isEnable ? t("formError.accountDisabled") : t("formError.existAccount"));
     }
   };
 
@@ -135,7 +145,7 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
           loadOptions={customPromiseOptions}
           onChange={handleOnChange}
           onFocus={onFocus}
-          onBlur={() => setShowError(false)}
+          onBlur={() => setErrorMessage("")}
           noOptionsMessage={() => null}
           controlShouldRenderValue={false}
           formatOptionLabel={(option) => {
@@ -148,9 +158,9 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
           {isCorrectName === ErrorMode.InCorrect && <ErrorIcon height={16} width={16} />}
         </div>
       </div>
-      {showError && (
+      {errorMessage && (
         <div className={styles.row}>
-          <Message message={t("formError.existAccount")} isError />
+          <Message message={errorMessage} isError />
         </div>
       )}
     </div>

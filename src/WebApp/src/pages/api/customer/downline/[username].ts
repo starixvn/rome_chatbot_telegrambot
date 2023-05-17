@@ -10,7 +10,12 @@ export default withIronSessionApiRoute(withAuth(downLineRouter), sessionOptions)
 async function downLineRouter(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user;
   const username = req.query["username"];
-  const url = `${process.env.CUSTOMER_API}/customer/${user?.custId}/${user?.subAccId}/downlines/${username}`;
-  const data = await fetchServerWrapper.get(url);
-  res.json({ isDownLineUser: data.custId > 0 && isDirectDownLine(data.roleId, user?.customerLevel as number) });
+
+  const checkDownLineUrl = `${process.env.CUSTOMER_API}/customer/${user?.custId}/${user?.subAccId}/downlines/${username}`;
+  const downLineInfo = await fetchServerWrapper.get(checkDownLineUrl);
+
+  const checkStatusUrl = `${process.env.CUSTOMER_API}/customer/${downLineInfo.custId}/IsEnabled`;
+  const isEnable = await fetchServerWrapper.get(checkStatusUrl);
+
+  res.json({ isDownLineUser: downLineInfo.custId > 0 && isDirectDownLine(downLineInfo.roleId, user?.customerLevel as number), isEnable });
 }

@@ -1,29 +1,29 @@
 {
-    "header": "新的客戶",
-    "formError": {
-        "existAccount": "该账号不存在",
-        "username": "此帳戶已有人使用",
-        "credit": "每个账号最高信用额度: {{max}} 或是降低。",
-        "memberMaxCredit": "会员信用额应在{{min}}和{{max}}之间"
-    },
-    "result": {
-        "success": "{{no}} 账号已经创建成功。",
-        "usernames": "用户名：",
-        "fail": "{{failAccounts}} 账号创建失败",
-        "failReason": "失败原因",
-        "createMore": "创建更多"
-    },
-    "note": "注意：设定将与原始账号保持相同",
-    "sourceAccount": "账号来源。",
-    "noOfAccounts": "账号数量",
-    "accountDetail": "账号的详细资料",
-    "accountDetailNote": "选择第一个可用的用户名，其余的账号将根据系统的建议。",
-    "username": "用户名",
-    "creditNote": "可用信用额度：",
-    "password": "密码",
-    "givenCreditPerAccount": "每个账号的信用额度",
-    "maxCreditPerMember": "每个会员的最高信用额",
-    "createAccount": "新增帐号功能",
-    "sourceInputPlaceholder": "用户名或名/姓",
-    "passwordRule": "密码必须至少 8 个字符没有空格和包含至少 3个 以下：\n\n• 大写字母 [A-Z]\n• 小写字母 [a-z]\n• 数字 [0-9]\n• 特殊字符 （!、 @、 # 等。。)\n\n例如： 59D7!4$h, 493abcDE\n注意： 您的密码需有大小写"
+  "header": "新的客戶",
+  "formError": {
+    "existAccount": "该账号不存在",
+    "accountDisabled": "这个帐号禁用",
+    "credit": "每个账号最高信用额度: {{max}} 或是降低。",
+    "memberMaxCredit": "会员信用额应在{{min}}和{{max}}之间"
+  },
+  "result": {
+    "success": "{{no}} 账号已经创建成功。",
+    "usernames": "用户名：",
+    "fail": "{{failAccounts}} 账号创建失败",
+    "failReason": "失败原因",
+    "createMore": "创建更多"
+  },
+  "note": "注意：设定将与原始账号保持相同",
+  "sourceAccount": "账号来源。",
+  "noOfAccounts": "账号数量",
+  "accountDetail": "账号的详细资料",
+  "accountDetailNote": "选择第一个可用的用户名，其余的账号将根据系统的建议。",
+  "username": "用户名",
+  "creditNote": "可用信用额度：",
+  "password": "密码",
+  "givenCreditPerAccount": "每个账号的信用额度",
+  "maxCreditPerMember": "每个会员的最高信用额",
+  "createAccount": "新增帐号功能",
+  "sourceInputPlaceholder": "用户名或名/姓",
+  "passwordRule": "密码必须至少 8 个字符没有空格和包含至少 3个 以下：\n\n• 大写字母 [A-Z]\n• 小写字母 [a-z]\n• 数字 [0-9]\n• 特殊字符 （!、 @、 # 等。。)\n\n例如： 59D7!4$h, 493abcDE\n注意： 您的密码需有大小写"
 }

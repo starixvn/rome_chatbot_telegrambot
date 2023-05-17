@@ -1,6 +1,7 @@
 {
   "header": "New Customer",
   "formError": {
+    "accountDisabled": "This account was disabled.",
     "existAccount": "This user does not exist",
     "credit": "Max Given Credit per Account: {{max}} or lower.",
     "memberMaxCredit": "Member Max Credit must be between {{min}} and {{max}}"
