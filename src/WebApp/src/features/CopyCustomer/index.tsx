@@ -84,10 +84,12 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
       },
     };
     const data = await fetchWrapper.post<any>(url, body, router);
-    if (data.usernames.length > 0) {
-      setData(data);
-    } else {
-      setErrorMessage(data.message);
+    if (data.usernames) {
+      if (data.usernames.length > 0) {
+        setData(data);
+      } else {
+        setErrorMessage(data.message);
+      }
     }
   });
 

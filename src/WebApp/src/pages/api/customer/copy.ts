@@ -1,10 +1,11 @@
+import { PagePermission, Permissions } from "./../../../lib/with-auth";
 import { getClientIP } from "./../../../helpers/ip-helper";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "src/lib/session";
 import { User } from "./../../../lib/session";
 import { fetchServerWrapper } from "src/lib/fetch-server";
-import withAuth, { checkIsLinkTelegramBot } from "src/lib/with-auth";
+import withAuth, { checkIsLinkTelegramBot, checkPagePermission } from "src/lib/with-auth";
 import { isDirectDownLine } from "src/constants/role-id";
 import CryptoJS from "crypto-js";
 
@@ -30,11 +31,13 @@ type NotifyCopyCustomersTranslate = {
 };
 
 async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
-  const user = req.session.user;
+  const { user, pageAccess } = req.session;
 
-  const isLinkBot = await checkIsLinkTelegramBot(Number(user?.tgChatId));
-  if (isLinkBot === undefined) {
-    return res.status(403).json({ key: "isUnLinkMessage" });
+  if (user?.subAccId !== 0) {
+    const hasPagePermission = checkPagePermission(pageAccess as string, Permissions.Create);
+    if (!hasPagePermission) {
+      return res.status(401).end();
+    }
   }
 
   const { credit, numberOfAccounts, sourceUserName, notifyTelegramMessage } = req.body;

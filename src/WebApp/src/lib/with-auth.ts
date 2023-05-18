@@ -10,7 +10,7 @@ export default function withAuth(handler: NextApiHandler): NextApiHandler {
 
     const isLinkBot = await checkIsLinkTelegramBot(user.tgChatId);
     if (isLinkBot === undefined) {
-      return res.status(403).json({ key: "isUnLinkMessage" });
+      return res.status(401).end();
     }
 
     const umInfo = await getUmInfo();
@@ -52,20 +52,57 @@ export const getUmInfo = async () => {
   }
 };
 
-export const getCustomerStatus = async (user: User) => {
+export const getCustomerStatus = async (user: User): Promise<CustomerStatus> => {
   try {
     const res = await fetch(`${process.env.CUSTOMER_API}/customer/${user.custId}/${user.subAccId}/status`);
     return await res.json();
   } catch (error) {
-    return {};
+    return {} as CustomerStatus;
   }
 };
 
-export const checkIsLinkTelegramBot = async (id: number) => {
+export const checkIsLinkTelegramBot = async (id: number): Promise<boolean> => {
   try {
     const res = await fetch(`${process.env.TELEGRAM_API_URL}/Setting/${id}`);
     return await res.json();
   } catch (error) {
-    return {};
+    return false;
   }
+};
+
+export enum Pages {
+  NewCustomer = "/newcustomer",
+}
+
+export enum Permissions {
+  Create = "[A]",
+  Update = "[B]",
+  Transfer = "[C]",
+  TotalBets = "[D]",
+  Reports = "[E]",
+  Forcast = "[F]",
+  MemberInformation = "[H]",
+  ViewLog = "[G]",
+  BetLists = "[L]",
+}
+
+export const PagePermission = {
+  "/newcustomer": Permissions.Create,
+};
+
+export type CustomerStatus = {
+  custId: number;
+  subAccId: number;
+  isActive: boolean;
+  isProtectedMode: boolean;
+  isLocked: boolean;
+  pageAccess: string;
+  isSubAcc: boolean;
+};
+
+export const checkPagePermission = (customerPermission: string, permission: Permissions) => {
+  if (!customerPermission) {
+    return false;
+  }
+  return customerPermission.includes(permission);
 };

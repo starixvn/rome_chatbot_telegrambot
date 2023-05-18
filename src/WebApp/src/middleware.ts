@@ -2,7 +2,7 @@ import { NextFetchEvent, NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getIronSession } from "iron-session/edge";
 import { sessionOptions } from "./lib/session";
-import { checkIsLinkTelegramBot, getCustomerStatus, getUmInfo } from "./lib/with-auth";
+import { PagePermission, Pages, checkIsLinkTelegramBot, checkPagePermission, getCustomerStatus, getUmInfo } from "./lib/with-auth";
 
 export const middleware = async (req: NextRequest, event: NextFetchEvent) => {
   const res = NextResponse.next();
@@ -25,13 +25,21 @@ export const middleware = async (req: NextRequest, event: NextFetchEvent) => {
 
   const isLinkBot = await checkIsLinkTelegramBot(user.tgChatId);
   if (isLinkBot === undefined) {
-    return NextResponse.redirect(new URL(`/kickout?key=isUnLinkMessage`, req.url));
+    return NextResponse.redirect(new URL(`/unauthorized`, req.url));
   }
 
   const customerStatus = await getCustomerStatus(user);
-  if (!customerStatus.isActive || customerStatus.isProtectedMode || customerStatus.isLocked) {
+  if (customerStatus.custId === undefined || !customerStatus.isActive || customerStatus.isProtectedMode || customerStatus.isLocked) {
+    session.pageAccess = customerStatus.pageAccess;
     const key = !customerStatus.isActive ? "AccountClosed" : customerStatus.isLocked ? "AccountClocked" : "AccountProtected";
     return NextResponse.redirect(new URL(`/kickout?key=${key}`, req.url));
+  }
+
+  if (user.subAccId !== 0) {
+    const hasPagePermission = checkPagePermission(customerStatus.pageAccess, PagePermission[new URL(req.url).pathname as Pages]);
+    if (!hasPagePermission) {
+      return NextResponse.redirect(new URL(`/unauthorized`, req.url));
+    }
   }
 
   session.reChecking = false;

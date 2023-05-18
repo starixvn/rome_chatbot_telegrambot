@@ -35,5 +35,6 @@ declare module "iron-session" {
     umInfo?: UMInfo;
     isSpecialSite?: boolean;
     reChecking?: boolean;
+    pageAccess?: string;
   }
 }
