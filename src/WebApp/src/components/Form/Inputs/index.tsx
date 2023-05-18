@@ -70,6 +70,7 @@ export const NumberInputField = forwardRef<HTMLInputElement, NumberInputProps>(f
           allowNegative={false}
           placeholder={props.placeholder}
           fixedDecimalScale={false}
+          type="tel"
         />
         <div className={styles.icon}>
           {typeof min === "number" &&
