@@ -8,7 +8,7 @@ export default function withAuth(handler: NextApiHandler): NextApiHandler {
       return res.status(401).end();
     }
 
-    const isLinkBot = await checkIsLinkTelegramBot(user.tgChatId);
+    const isLinkBot = await checkIsLinkTelegramBot(user);
     if (!isLinkBot) {
       return res.status(401).end();
     }
@@ -61,9 +61,15 @@ export const getCustomerStatus = async (user: User): Promise<CustomerStatus> => 
   }
 };
 
-export const checkIsLinkTelegramBot = async (id: number): Promise<boolean> => {
+export const checkIsLinkTelegramBot = async (user: User): Promise<boolean> => {
   try {
-    const res = await fetch(`${process.env.TELEGRAM_API_URL}/Setting/${id}`);
+    const body = { custId: user.custId, subAccId: user.subAccId, language: user.language };
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: body && JSON.stringify(body),
+    };
+    const res = await fetch(`${process.env.TELEGRAM_API_URL}/Setting/custBotMessenger`, requestOptions);
     return await res.json();
   } catch (error) {
     return false;

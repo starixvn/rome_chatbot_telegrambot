@@ -23,7 +23,7 @@ export const middleware = async (req: NextRequest, event: NextFetchEvent) => {
     return NextResponse.redirect(new URL(`${locale}/login?returnUrl=${pathname}${searchParams}`, req.url)); // redirect to /unauthorized page
   }
 
-  const isLinkBot = await checkIsLinkTelegramBot(user.tgChatId);
+  const isLinkBot = await checkIsLinkTelegramBot(user);
   if (!isLinkBot) {
     return NextResponse.redirect(new URL(`/unauthorized`, req.url));
   }
