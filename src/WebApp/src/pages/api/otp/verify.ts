@@ -31,7 +31,7 @@ async function verifyRouter(req: NextApiRequest, res: NextApiResponse) {
   await req.session.save();
 
   if (data.code === ACCOUNT_CLOCKED_CODE) {
-    return res.status(403).json({ isActive: true, isLocked: true, isProtectedMode: false });
+    return res.status(403).json({ key: "AccountClocked" });
   }
   res.json({ isSuccessful: data.isSuccessful });
 }
