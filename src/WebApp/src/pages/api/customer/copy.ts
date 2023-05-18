@@ -1,3 +1,4 @@
+import { formatThousandNumber } from "src/lib/number";
 import { PagePermission, Permissions } from "./../../../lib/with-auth";
 import { getClientIP } from "./../../../helpers/ip-helper";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -89,7 +90,7 @@ const notifySuccessCustomersCreated = async (user: User, data: any, failAccounts
   const url = `${process.env.TELEGRAM_API_URL}/notification/success-customers-created`;
   const successMessage = `${translation.success.replace("{{no}}", data.usernames.length.toString())}${newLineCharacter}${
     translation.usernames
-  }:  <code>${data.usernames.join(", ")}</code>${newLineCharacter}${translation.givenCreditPerAccount}:  ${data.credit}`;
+  }:  <code>${data.usernames.join(", ")}</code>${newLineCharacter}${translation.givenCreditPerAccount}:  ${formatThousandNumber(data.credit)}`;
 
   const failMessage =
     failAccounts > 0
