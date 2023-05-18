@@ -51,7 +51,7 @@ const handleRedirect = (router: NextRouter, resStatus: number, data: any) => {
     redirectToUrl(router, "/unauthorized");
   }
   if (resStatus === 403) {
-    redirectToUrl(router, `/kickout?isActive=${data.isActive}&isProtectedMode=${data.isProtectedMode}&isLocked=${data.isLocked}`);
+    redirectToUrl(router, `/kickout?key=${data.key}`);
   }
 };
 

@@ -17,11 +17,13 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   try {
     const initData = new URLSearchParams(telegramInitData);
     const tgHash = initData.get("hash") as string;
+    const tgUser = JSON.parse(initData.get("user") || "");
     if (user?.isLoggedIn && user.hash === tgHash) {
       req.session.user = {
         isLoggedIn: true,
         custId: user.custId,
         subAccId: user.subAccId,
+        tgChatId: tgUser.id,
         customerLevel: user.customerLevel,
         username: user.username,
         language: user.language,
@@ -33,8 +35,6 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
       await req.session.save();
       return res.status(200).json(req.session.user);
     }
-
-    const tgUser = JSON.parse(initData.get("user") || "");
     const account = await fetchServerWrapper.get(`${process.env.TELEGRAM_API_URL}/Setting/${tgUser.id}`);
     const botToken = await getBotToken(Number(account.botId));
     const isVerified = await verifyWebAppOpenByTelegram(botToken, initData);
@@ -43,6 +43,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
         isLoggedIn: true,
         custId: account.custId,
         subAccId: account.subAccId,
+        tgChatId: tgUser.id,
         customerLevel: account.customerLevel,
         username: account.username,
         language: account.language,

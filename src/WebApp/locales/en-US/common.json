@@ -17,5 +17,6 @@
   "AccessDenied": "Access denied",
   "AccountClosed": "Your account was closed. Please contact your upline for the assistance.",
   "AccountClocked": "Your account has been locked due to multiple failed security check attempts. Please contact your upline to unlock.",
-  "AccountProtected": "You have been disconnected with the chatbot. Please contact your upline for further assistance."
+  "AccountProtected": "You have been disconnected with the chatbot. Please contact your upline for further assistance.",
+  "isUnLinkMessage": "Your Telegram has been unlinked."
 }

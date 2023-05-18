@@ -4,7 +4,7 @@ import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "src/lib/session";
 import { User } from "./../../../lib/session";
 import { fetchServerWrapper } from "src/lib/fetch-server";
-import withAuth from "src/lib/with-auth";
+import withAuth, { checkIsLinkTelegramBot } from "src/lib/with-auth";
 import { isDirectDownLine } from "src/constants/role-id";
 import CryptoJS from "crypto-js";
 
@@ -31,6 +31,11 @@ type NotifyCopyCustomersTranslate = {
 
 async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user;
+
+  const isLinkBot = await checkIsLinkTelegramBot(Number(user?.tgChatId));
+  if (isLinkBot === undefined) {
+    return res.status(403).json({ key: "isUnLinkMessage" });
+  }
 
   const { credit, numberOfAccounts, sourceUserName, notifyTelegramMessage } = req.body;
   const sourceInfo = await fetchServerWrapper.get(`${process.env.CUSTOMER_API}/customer/${user?.custId}/${user?.subAccId}/downlines/${sourceUserName}`);

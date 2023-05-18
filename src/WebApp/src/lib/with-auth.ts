@@ -8,6 +8,11 @@ export default function withAuth(handler: NextApiHandler): NextApiHandler {
       return res.status(401).end();
     }
 
+    const isLinkBot = await checkIsLinkTelegramBot(user.tgChatId);
+    if (isLinkBot === undefined) {
+      return res.status(403).json({ key: "isUnLinkMessage" });
+    }
+
     const umInfo = await getUmInfo();
     if (umInfo !== undefined && umInfo.isUnderMaintenanceTime && isSpecialSite) {
       return res.status(503).json({ umInfo: umInfo, isSpecialSite: isSpecialSite });
@@ -15,7 +20,8 @@ export default function withAuth(handler: NextApiHandler): NextApiHandler {
 
     const customerStatus = await getCustomerStatus(user);
     if (!customerStatus.isActive || customerStatus.isProtectedMode || customerStatus.isLocked) {
-      return res.status(403).json({ isActive: customerStatus.isActive, isLocked: customerStatus.isLocked, isProtectedMode: customerStatus.isProtectedMode });
+      const key = !customerStatus.isActive ? "AccountClosed" : customerStatus.isLocked ? "AccountClocked" : "AccountProtected";
+      return res.status(403).json({ key });
     }
 
     try {
@@ -27,22 +33,39 @@ export default function withAuth(handler: NextApiHandler): NextApiHandler {
 }
 
 export const getUmInfo = async () => {
-  const isMaintain = process.env.IS_UNDER_MAINTENANCE_TIME;
-  if (isMaintain === "true") {
-    return {
-      from: process.env.MAINTENANCE_TIME_FROM,
-      to: process.env.MAINTENANCE_TIME_TO,
-      isUnderMaintenanceTime: true,
-      errorCode: 0,
-    };
-  }
+  try {
+    const isMaintain = process.env.IS_UNDER_MAINTENANCE_TIME;
+    if (isMaintain === "true") {
+      return {
+        from: process.env.MAINTENANCE_TIME_FROM,
+        to: process.env.MAINTENANCE_TIME_TO,
+        isUnderMaintenanceTime: true,
+        errorCode: 0,
+      };
+    }
 
-  const url = `${process.env.UM_URL}/UnderMaintenance/Get`;
-  const res = await fetch(url);
-  return await res.json();
+    const url = `${process.env.UM_URL}/UnderMaintenance/Get`;
+    const res = await fetch(url);
+    return await res.json();
+  } catch (error) {
+    return {};
+  }
 };
 
 export const getCustomerStatus = async (user: User) => {
-  const res = await fetch(`${process.env.CUSTOMER_API}/customer/${user.custId}/${user.subAccId}/status`);
-  return await res.json();
+  try {
+    const res = await fetch(`${process.env.CUSTOMER_API}/customer/${user.custId}/${user.subAccId}/status`);
+    return await res.json();
+  } catch (error) {
+    return {};
+  }
+};
+
+export const checkIsLinkTelegramBot = async (id: number) => {
+  try {
+    const res = await fetch(`${process.env.TELEGRAM_API_URL}/Setting/${id}`);
+    return await res.json();
+  } catch (error) {
+    return {};
+  }
 };

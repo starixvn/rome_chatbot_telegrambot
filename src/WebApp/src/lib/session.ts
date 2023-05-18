@@ -4,6 +4,7 @@ export type User = {
   isLoggedIn: boolean;
   custId: number;
   subAccId: number;
+  tgChatId: number;
   customerLevel: number;
   username: string;
   language: string;
