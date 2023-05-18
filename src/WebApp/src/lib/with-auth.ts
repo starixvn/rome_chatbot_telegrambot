@@ -9,7 +9,7 @@ export default function withAuth(handler: NextApiHandler): NextApiHandler {
     }
 
     const isLinkBot = await checkIsLinkTelegramBot(user.tgChatId);
-    if (isLinkBot === undefined) {
+    if (!isLinkBot) {
       return res.status(401).end();
     }
 

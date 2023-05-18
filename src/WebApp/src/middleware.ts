@@ -24,7 +24,7 @@ export const middleware = async (req: NextRequest, event: NextFetchEvent) => {
   }
 
   const isLinkBot = await checkIsLinkTelegramBot(user.tgChatId);
-  if (isLinkBot === undefined) {
+  if (!isLinkBot) {
     return NextResponse.redirect(new URL(`/unauthorized`, req.url));
   }
 
