@@ -118,7 +118,7 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
 
   const onFocus = () => {
     selectInputRef?.inputRef?.setSelectionRange(value.length, value.length);
-    value && selectInputRef?.inputRef?.focus();
+    selectInputRef?.inputRef?.focus();
   };
 
   return (
