@@ -1,5 +1,4 @@
 import { formatThousandNumber } from "src/helpers/number";
-import { Permissions } from "./../../../lib/with-auth";
 import { getClientIP } from "./../../../helpers/ip-helper";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
@@ -9,6 +8,7 @@ import { fetchServerWrapper } from "src/lib/fetch-server";
 import withAuth, { checkPagePermission } from "src/lib/with-auth";
 import { isDirectDownLine } from "src/constants/role-id";
 import CryptoJS from "crypto-js";
+import { SubAccountPermissions } from "src/constants/page-permission";
 
 export default withIronSessionApiRoute(withAuth(copyRouter), sessionOptions);
 
@@ -35,7 +35,7 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
   const { user, pageAccess } = req.session;
 
   if (user?.subAccId !== 0) {
-    const hasPagePermission = checkPagePermission(pageAccess as string, Permissions.Create);
+    const hasPagePermission = checkPagePermission(pageAccess as string, SubAccountPermissions.Create);
     if (!hasPagePermission) {
       return res.status(401).end();
     }

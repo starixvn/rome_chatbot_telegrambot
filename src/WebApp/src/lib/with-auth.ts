@@ -1,5 +1,16 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { User } from "./session";
+import { SubAccountPermissions } from "src/constants/page-permission";
+
+export type CustomerStatus = {
+  custId: number;
+  subAccId: number;
+  isActive: boolean;
+  isProtectedMode: boolean;
+  isLocked: boolean;
+  pageAccess: string;
+  isSubAcc: boolean;
+};
 
 export default function withAuth(handler: NextApiHandler): NextApiHandler {
   return async (req: NextApiRequest, res: NextApiResponse) => {
@@ -76,37 +87,7 @@ export const checkIsLinkTelegramBot = async (user: User): Promise<boolean> => {
   }
 };
 
-export enum Pages {
-  NewCustomer = "/newcustomer",
-}
-
-export enum Permissions {
-  Create = "[A]",
-  Update = "[B]",
-  Transfer = "[C]",
-  TotalBets = "[D]",
-  Reports = "[E]",
-  Forcast = "[F]",
-  MemberInformation = "[H]",
-  ViewLog = "[G]",
-  BetLists = "[L]",
-}
-
-export const PagePermission = {
-  "/newcustomer": Permissions.Create,
-};
-
-export type CustomerStatus = {
-  custId: number;
-  subAccId: number;
-  isActive: boolean;
-  isProtectedMode: boolean;
-  isLocked: boolean;
-  pageAccess: string;
-  isSubAcc: boolean;
-};
-
-export const checkPagePermission = (customerPermission: string, permission: Permissions) => {
+export const checkPagePermission = (customerPermission: string, permission: SubAccountPermissions) => {
   if (!customerPermission || !permission) {
     return false;
   }

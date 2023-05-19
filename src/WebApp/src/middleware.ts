@@ -2,7 +2,8 @@ import { NextFetchEvent, NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getIronSession } from "iron-session/edge";
 import { sessionOptions } from "./lib/session";
-import { PagePermission, Pages, checkIsLinkTelegramBot, checkPagePermission, getCustomerStatus, getUmInfo } from "./lib/with-auth";
+import { checkIsLinkTelegramBot, checkPagePermission, getCustomerStatus, getUmInfo } from "./lib/with-auth";
+import { PagePermission, Pages } from "./constants/page-permission";
 
 export const middleware = async (req: NextRequest, event: NextFetchEvent) => {
   const res = NextResponse.next();

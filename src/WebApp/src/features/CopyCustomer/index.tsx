@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 import { Controller, useForm } from "react-hook-form";
 import Message from "@components/Message";
-import { generateAccountSelect } from "src/constants/number-accounts";
+import { generateAccountSelect } from "src/helpers/generate-account";
 import { SingleSelect } from "@components/Form/Select";
 import { Label } from "@components/Form/Label";
 import BlockUI from "@components/BlockUI";
