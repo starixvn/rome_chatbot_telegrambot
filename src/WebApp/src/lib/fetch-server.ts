@@ -12,6 +12,7 @@ const post = async (url: string, body = {}) => {
 
   const response = await fetch(url, requestOptions);
   let data;
+  // try catch for success post request but not return data
   try {
     data = await response.json();
   } catch {
