@@ -1,12 +1,12 @@
-import { formatThousandNumber } from "src/lib/number";
-import { PagePermission, Permissions } from "./../../../lib/with-auth";
+import { formatThousandNumber } from "src/helpers/number";
+import { Permissions } from "./../../../lib/with-auth";
 import { getClientIP } from "./../../../helpers/ip-helper";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "src/lib/session";
 import { User } from "./../../../lib/session";
 import { fetchServerWrapper } from "src/lib/fetch-server";
-import withAuth, { checkIsLinkTelegramBot, checkPagePermission } from "src/lib/with-auth";
+import withAuth, { checkPagePermission } from "src/lib/with-auth";
 import { isDirectDownLine } from "src/constants/role-id";
 import CryptoJS from "crypto-js";
 

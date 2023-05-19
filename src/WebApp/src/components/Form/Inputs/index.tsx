@@ -3,7 +3,7 @@ import { CheckMarkIcon, ErrorIcon, EyeCloseIcon, EyeIcon } from "@components/Ico
 import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import cn from "classnames";
-import { getNumberOfCommaString } from "src/lib/number";
+import { getNumberOfCommaString } from "src/helpers/number";
 import styles from "./Inputs.module.scss";
 import Message from "@components/Message";
 

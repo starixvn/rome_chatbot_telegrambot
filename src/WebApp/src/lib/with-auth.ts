@@ -107,7 +107,7 @@ export type CustomerStatus = {
 };
 
 export const checkPagePermission = (customerPermission: string, permission: Permissions) => {
-  if (!customerPermission) {
+  if (!customerPermission || !permission) {
     return false;
   }
   return customerPermission.includes(permission);

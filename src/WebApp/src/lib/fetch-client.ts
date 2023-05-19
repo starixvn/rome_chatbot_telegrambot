@@ -1,5 +1,4 @@
 import { NextRouter } from "next/router";
-import * as Sentry from "@sentry/nextjs";
 
 const get = async <T>(url: string, router?: NextRouter): Promise<T> => {
   const res = await fetch(url);

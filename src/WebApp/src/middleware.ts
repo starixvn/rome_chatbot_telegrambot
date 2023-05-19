@@ -29,8 +29,8 @@ export const middleware = async (req: NextRequest, event: NextFetchEvent) => {
   }
 
   const customerStatus = await getCustomerStatus(user);
+  session.pageAccess = customerStatus.pageAccess;
   if (customerStatus.custId === undefined || !customerStatus.isActive || customerStatus.isProtectedMode || customerStatus.isLocked) {
-    session.pageAccess = customerStatus.pageAccess;
     const key = !customerStatus.isActive ? "AccountClosed" : customerStatus.isLocked ? "AccountClocked" : "AccountProtected";
     return NextResponse.redirect(new URL(`/kickout?key=${key}`, req.url));
   }

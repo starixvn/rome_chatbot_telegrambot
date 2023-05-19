@@ -7,7 +7,6 @@ import { CopyCustomer } from "@features/CopyCustomer";
 import Layout from "@components/Layout";
 import SecurityCodeForm from "@components/SecurityCodeForm";
 import VerifyOtp from "@components/OtpForm";
-import * as Sentry from "@sentry/nextjs";
 
 type CustomerOtpSetting = {
   isEnableSophosOtp: boolean;
