@@ -82,7 +82,7 @@ input {
   border: 1px solid var(--border-color);
   border-radius: 0;
   font-family: var(--font-400);
-  font-size: var(--font-14);
+  font-size: var(--font-16) !important;
   color: var(--sub-label-color);
   background-color: white;
   appearance: none;
@@ -110,7 +110,7 @@ select {
   background-color: white;
   border-color: var(--border-color);
   font-family: var(--font-400);
-  font-size: var(--font-14);
+  font-size: var(--font-16) !important;
 
   &:focus {
     outline: none;
