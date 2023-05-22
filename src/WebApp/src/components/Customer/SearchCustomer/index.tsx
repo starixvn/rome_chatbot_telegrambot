@@ -122,16 +122,10 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
     asyncRef.current?.clearValue();
   };
 
-  // const onFocus = () => {
-  //   asyncRef?.current?.inputRef?.setSelectionRange(value.length, value.length);
-  //   asyncRef?.current?.focus();
-  // };
-
   return (
     <div className={styles.container}>
       <div className={styles.search}>
         <AsyncSelect
-          // ref={asyncRef}
           inputValue={value}
           onInputChange={onInputChange}
           components={{ Option: CustomOption, Input: Input, SingleValue: () => null, Placeholder: () => null }}
@@ -148,14 +142,12 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
           }}
           loadOptions={customPromiseOptions}
           onChange={handleOnChange}
-          // onFocus={onFocus}
           onBlur={() => setErrorMessage("")}
           noOptionsMessage={() => null}
           controlShouldRenderValue={false}
           formatOptionLabel={(option) => {
             return option.userName ? option.userName : option["value"];
           }}
-          // autoFocus={true}
         />
         <div className={styles.icon}>
           {isCorrectName === ErrorMode.Correct && <CheckMarkIcon height={16} width={16} />}
