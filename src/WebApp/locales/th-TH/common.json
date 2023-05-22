@@ -1,11 +1,13 @@
 {
   "SecurityCode": "รหัสความปลอดภัย",
+  "OTPValidation": "การตรวจสอบ OTP",
   "Verify": "ยืนยัน",
   "Hi": "สวัสดี",
   "SCNote": "เพื่อความปลอดภัยสำหรับการดำเนินการขั้นต่อไป, กรุณาใส่รหัสความปลอดภัยสำหรับเวปเอเย่นท์ของตัวท่าน",
   "RequiredMessage": "จำเป็นต้องใส่ข้อมูลนี้",
   "WrongSCMessage": "รหัสรักษาความปลอดภัยไม่ถูกต้อง โปรดลองใหม่อีกครั้ง",
   "WrongOTPMessage": "OTP ไม่ถูกต้องหรือหมดอายุแล้ว",
+  "OTPViaTelegramDisabled": "The OTP via Telegram was disabled.",
   "Otp": "OTP",
   "OtpNote": "โปรดใส่ OTP ก่อนดำเนินการ",
   "GenerateOTP": "สร้างรหัสผ่านครั้งเดียว (OTP)",

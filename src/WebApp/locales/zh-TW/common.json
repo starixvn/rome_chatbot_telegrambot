@@ -1,11 +1,13 @@
 {
   "SecurityCode": "保安碼",
+  "OTPValidation": "OTP验证",
   "Verify": "驗證",
   "Hi": "您好",
   "SCNote": "為了您的安全，請在繼續之前輸入您的保安碼！",
   "RequiredMessage": "必填欄",
   "WrongSCMessage": "保安碼不正確。請再重試。",
   "WrongOTPMessage": "您的OTP無效或已過期。",
+  "OTPViaTelegramDisabled": "The OTP via Telegram was disabled.",
   "Otp": "一次性密碼",
   "OtpNote": "請輸入您的一次性密碼以便繼續。",
   "GenerateOTP": "產生一次性密碼",

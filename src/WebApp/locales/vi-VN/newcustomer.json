@@ -8,7 +8,7 @@
   },
   "result": {
     "success": "{{no}} tài khoản đã được tạo thành công.",
-    "usernames": "Tên người dùng:",
+    "usernames": "Tên người dùng",
     "fail": "{{failAccounts}} tài khoản tạo không thành công.",
     "failReason": "Lý do thất bại",
     "createMore": "Tạo thêm"

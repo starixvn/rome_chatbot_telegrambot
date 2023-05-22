@@ -8,7 +8,7 @@
   },
   "result": {
     "success": "{{no}} 賬號已經創建成功。",
-    "usernames": "用戶名：",
+    "usernames": "用戶名",
     "fail": "{{failAccounts}} 賬號創建失敗",
     "failReason": "失敗原因",
     "createMore": "創建更多"

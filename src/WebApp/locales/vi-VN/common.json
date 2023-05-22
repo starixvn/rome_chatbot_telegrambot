@@ -1,5 +1,6 @@
 {
   "SecurityCode": "Mã Bảo Mật",
+  "OTPValidation": "Xác minh mã OTP",
   "Verify": "Xác Nhận",
   "Hi": "Chào",
   "SCNote": "Để bảo vệ tài khoản, vui lòng nhập Mã Bảo Mật trước khi tiếp tục!",
@@ -7,6 +8,7 @@
   "WrongSCMessage": "Sai Mã Bảo Mật. Vui lòng thử lại.",
   "WrongOTPMessage": "Mã OTP không phù hợp hoặc hết hạn.",
   "Otp": "OTP",
+  "OTPViaTelegramDisabled": "The OTP via Telegram was disabled.",
   "OtpNote": "Xin nhập mã OTP để tiến hành.",
   "GenerateOTP": "Tạo OTP",
   "Loading": "Đang tải",
