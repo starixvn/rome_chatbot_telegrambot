@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import AsyncSelect from "react-select/async";
-import { components, GroupBase, InputActionMeta, OptionProps, SingleValue, StylesConfig } from "react-select";
+import { components, InputActionMeta, InputProps, OptionProps, SelectInstance, SingleValue, StylesConfig } from "react-select";
 import { fetchWrapper } from "src/lib/fetch-client";
 import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
-import Select from "react-select/dist/declarations/src/Select";
 import Message from "@components/Message";
 import styles from "./SearchCustomer.module.scss";
 import { useRouter } from "next/router";
@@ -53,7 +52,14 @@ const CustomOption = (props: OptionProps<CustomerInfoOption, false>) => {
   );
 };
 
-const Input = (props: any) => <components.Input {...props} isHidden={false} />;
+const Input = (props: InputProps<CustomerInfoOption, false>) => (
+  <components.Input
+    {...props}
+    isHidden={false}
+    placeholder={props.selectProps.placeholder as string}
+    style={{ minWidth: "300px", height: "28px", marginBottom: "2px", border: "none" }}
+  />
+);
 
 type Props = {
   onChange: (existAccountName: string) => void;
@@ -63,7 +69,7 @@ type Props = {
 export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
   const router = useRouter();
   const { t } = useTranslation("newcustomer");
-  let selectInputRef: Select<CustomerInfoOption, boolean, GroupBase<CustomerInfoOption>> | null = null;
+  const asyncRef = useRef<SelectInstance<CustomerInfoOption> | null>(null);
   const [isCorrectName, setIsCorrectName] = useState<ErrorMode>(ErrorMode.Init);
   const [value, setValue] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -113,24 +119,22 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
   };
 
   const clearSingleValue = () => {
-    selectInputRef?.clearValue();
+    asyncRef.current?.clearValue();
   };
 
-  const onFocus = () => {
-    selectInputRef?.inputRef?.setSelectionRange(value.length, value.length);
-    selectInputRef?.inputRef?.focus();
-  };
+  // const onFocus = () => {
+  //   asyncRef?.current?.inputRef?.setSelectionRange(value.length, value.length);
+  //   asyncRef?.current?.focus();
+  // };
 
   return (
     <div className={styles.container}>
       <div className={styles.search}>
         <AsyncSelect
-          ref={(ref) => {
-            selectInputRef = ref;
-          }}
+          // ref={asyncRef}
           inputValue={value}
           onInputChange={onInputChange}
-          components={{ Option: CustomOption, Input: Input, SingleValue: () => null }}
+          components={{ Option: CustomOption, Input: Input, SingleValue: () => null, Placeholder: () => null }}
           placeholder={t("sourceInputPlaceholder")}
           styles={{
             valueContainer: (provided) => ({
@@ -144,14 +148,14 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
           }}
           loadOptions={customPromiseOptions}
           onChange={handleOnChange}
-          onFocus={onFocus}
+          // onFocus={onFocus}
           onBlur={() => setErrorMessage("")}
           noOptionsMessage={() => null}
           controlShouldRenderValue={false}
           formatOptionLabel={(option) => {
             return option.userName ? option.userName : option["value"];
           }}
-          menuIsOpen={true}
+          // autoFocus={true}
         />
         <div className={styles.icon}>
           {isCorrectName === ErrorMode.Correct && <CheckMarkIcon height={16} width={16} />}
@@ -202,7 +206,6 @@ const customerStyles: StylesConfig<CustomerInfoOption> = {
   input: (provided) => ({
     ...provided,
     padding: 0,
-    paddingLeft: "5px",
     margin: 0,
   }),
 
