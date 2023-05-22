@@ -9,11 +9,6 @@ type TelegramBot = {
   accessToken: string;
 };
 
-export const languageMapper: { [key: string]: string } = {
-  "zh-Hant": "zh-CN",
-  "zh-Hans": "zh-TW",
-};
-
 export default withIronSessionApiRoute(loginRoute, sessionOptions);
 
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
@@ -31,7 +26,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
         tgChatId: tgUser.id,
         customerLevel: user.customerLevel,
         username: user.username,
-        language: Object.keys(languageMapper).indexOf(user.language) ? languageMapper[user.language] : user.language,
+        language: user.language,
         isVerifyOtpOrSC: user.isVerifyOtpOrSC,
         hash: user.hash,
         salt: CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Hex),
@@ -51,7 +46,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
         tgChatId: tgUser.id,
         customerLevel: account.customerLevel,
         username: account.username,
-        language: Object.keys(languageMapper).indexOf(account.language) ? languageMapper[account.language] : account.language,
+        language: account.language,
         isVerifyOtpOrSC: false,
         hash: tgHash,
         salt: CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Hex),
