@@ -17,7 +17,7 @@ public class NewCustomersWebAppBuilder : IWebAppBuilder
     {
         return new WebAppInfo
         {
-            Url = $"{webAppUrls[account.System]}/{LanguageCodes.MapWebAppLanguage(account.Language)}/newcustomer?system=${account.System}"
+            Url = $"{webAppUrls[account.System]}/{LanguageCodes.MapWebAppLanguage(account.Language)}/newcustomer?system={account.System}"
         };
     }
 }

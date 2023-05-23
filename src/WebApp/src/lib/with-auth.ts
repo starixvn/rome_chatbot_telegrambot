@@ -55,7 +55,7 @@ export const getUmInfo = async () => {
     };
   }
 
-  const url = `${process.env.UM_URL}/UnderMaintenance/Get`;
+  const url = `${process.env.UM_URL}/UnderMaintenance/Get?siteId=${process.env.UM_SITE_ID || 3400000}`;
   const res = await fetch(url);
   return await res.json();
 };
