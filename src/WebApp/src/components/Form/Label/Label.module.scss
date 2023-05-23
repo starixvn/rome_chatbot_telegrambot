@@ -1,0 +1,36 @@
+.label {
+  margin-top: 12px;
+  font-size: var(--font-16);
+  font-family: var(--font-600);
+
+  .title {
+    display: flex;
+    color: var(--label-color);
+    align-items: center;
+
+    .info {
+      position: relative;
+      margin-left: 5px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  p {
+    color: var(--description-color);
+    margin-top: 10px;
+  }
+}
+
+.subLabel {
+  font-family: var(--font-400);
+  font-size: var(--font-14);
+  color: var(--sub-label-color);
+}
+
+.require {
+  color: #fe0000;
+  margin-left: 3px;
+}

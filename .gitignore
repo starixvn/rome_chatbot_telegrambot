@@ -34,3 +34,4 @@ packages/
 .vscode/*
 .idea/*
 lcov.info
+coverage.json

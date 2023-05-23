@@ -1,0 +1,30 @@
+{
+  "header": "New Customer",
+  "formError": {
+    "accountDisabled": "This account was disabled.",
+    "existAccount": "This user does not exist",
+    "credit": "Max Given Credit per Account: {{max}} or lower.",
+    "memberMaxCredit": "Member Max Credit must be between {{min}} and {{max}}"
+  },
+  "result": {
+    "success": "{{no}} accounts have been created successfully.",
+    "usernames": "Usernames",
+    "fail": "{{failAccounts}} accounts failed to be created.",
+    "failReason": "Failure Reason",
+    "createMore": "Create More"
+  },
+  "copied": "Copied!",
+  "note": "Note: Settings will be the same as the Source account",
+  "sourceAccount": "Source account",
+  "noOfAccounts": "No. of Accounts",
+  "accountDetail": "Account Details",
+  "accountDetailNote": "Choose the first available username and the remaining accounts will follow the system's suggestion.",
+  "username": "Username",
+  "creditNote": "Available Given Credit: ",
+  "password": "Password",
+  "givenCreditPerAccount": "Given Credit per Account",
+  "maxCreditPerMember": "Max Credit per Member",
+  "createAccount": "Create Account",
+  "sourceInputPlaceholder": "Username or First/Last Name",
+  "passwordRule": "Password must be at least 8 characters without white-space and contain at least 3 of the following:\n\n• Uppercase letter [A-Z]\n• Lowercase letter [a-z]\n• Numeric [0-9]\n• Special character (!,@,#,etc..)\n\nFor example: 59D7!4$h, 493abcDE\nNotes: your password is cAsE sEnSiTiVe"
+}

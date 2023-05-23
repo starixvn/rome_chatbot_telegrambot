@@ -1,0 +1,29 @@
+{
+  "header": "Tạo Tài Khoản",
+  "formError": {
+    "existAccount": "Người dùng này không tồn tại",
+    "accountDisabled": "Tài khoản bị vô hiệu hóa.",
+    "credit": "Hạn mức tối đa mỗi Tài khoản: {{max}} hoặc thấp hơn.",
+    "memberMaxCredit": "Hạn mức tín dụng được cấp cho Member phải trong khoảng từ {{min}} đến {{max}}"
+  },
+  "result": {
+    "success": "{{no}} tài khoản đã được tạo thành công.",
+    "usernames": "Tên người dùng",
+    "fail": "{{failAccounts}} tài khoản tạo không thành công.",
+    "failReason": "Lý do thất bại",
+    "createMore": "Tạo thêm"
+  },
+  "note": "Lưu ý: Cài đặt sẽ giống như của tài khoản sao chép",
+  "sourceAccount": "Tài khoản sao chép",
+  "noOfAccounts": "Số tài khoản",
+  "accountDetail": "Chi Tiết Tài Khoản",
+  "accountDetailNote": "Hãy chọn tên tài khoản khả dụng trước và hệ thống sẽ đề xuất tên cho các tài khoản còn lại.",
+  "username": "Tên người dùng",
+  "creditNote": "Hạn mức tín dụng còn lại: ",
+  "password": "Mật Khẩu",
+  "givenCreditPerAccount": "Hạn mức cho mỗi tài khoản",
+  "maxCreditPerMember": "Hạn mức tối đa mỗi Member",
+  "createAccount": "Tạo tài khoản",
+  "sourceInputPlaceholder": "Tên đăng nhập hoặc Tên/Họ",
+  "passwordRule": "Mật khẩu phải gồm ít nhất 8 ký tự, không có khoảng trắng và phải có ít nhất 3 ký tự sau đây:\n\n- Ký tự viết hoa [A-Z]\n- Ký tự viết thường [a-z]\n- Ký tự số [0-9]\n- Ký tự đặc biệt (!,@,#,...)\n\nVí dụ : 59D7!4$h, 493abcDE\nLưu ý : Mật khẩu có phân biệt chữ hoa và chữ thường."
+}

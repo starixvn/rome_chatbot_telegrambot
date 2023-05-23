@@ -1,0 +1,21 @@
+{
+  "SecurityCode": "Security Code",
+  "OTPValidation": "OTP Validation",
+  "Verify": "Verify",
+  "Hi": "Hi",
+  "SCNote": "For your protection, please input your Security Code before proceeding!",
+  "RequiredMessage": "This field is required.",
+  "WrongSCMessage": "Wrong Security Code. Please try again.",
+  "WrongOTPMessage": "Your OTP is invalid or expired",
+  "OTPViaTelegramDisabled": "The OTP via Telegram was disabled.",
+  "Otp": "OTP",
+  "OtpNote": "Please enter your OTP before proceeding!",
+  "GenerateOTP": "Generate OTP",
+  "Loading": "Loading",
+  "ErrorPageMess": "Sorry, there was an unexpected issue on the server. Please seek help from our customer support.",
+  "UnauthorizedMessage": "Sorry, You don't have permission to access this page.",
+  "AccessDenied": "Access denied",
+  "AccountClosed": "Your account was closed. Please contact your upline for the assistance.",
+  "AccountClocked": "Your account has been locked due to multiple failed security check attempts. Please contact your upline to unlock.",
+  "AccountProtected": "You have been disconnected with the chatbot. Please contact your upline for further assistance."
+}

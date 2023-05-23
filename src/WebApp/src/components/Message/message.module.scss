@@ -1,0 +1,39 @@
+.msg {
+  white-space: pre-wrap;
+  border-width: 1px;
+  border-style: solid;
+  box-sizing: border-box;
+  padding: 10px 6px 6px;
+  position: relative;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  font-size: var(--font-14);
+  font-family: var(--font-500);
+
+  svg {
+    position: relative;
+    top: -1px;
+    margin-right: 1px;
+  }
+
+  span {
+    flex: 1;
+  }
+}
+
+.msgError {
+  background-color: #fff2f2;
+  border-color: #fe0000;
+  color: #fe0000;
+}
+
+.msgSuccess {
+  background-color: #e2fff2;
+  border-color: #137849;
+  color: #137849;
+}
+
+.msg-content {
+  padding-left: 5px;
+}

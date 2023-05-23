@@ -1,0 +1,35 @@
+.otp {
+  min-height: 100vh;
+
+  .title {
+    font-size: var(--font-16);
+    font-family: var(--font-500);
+    color: var(--label-color);
+    margin-bottom: 12px;
+  }
+
+  .mess {
+    margin-bottom: 12px;
+  }
+
+  span {
+    font-weight: 500;
+  }
+
+  input {
+    margin-top: 12px;
+  }
+
+  .buttons {
+    display: flex;
+    column-gap: 10px;
+
+    .btn-genOtp {
+      background: #18965b;
+    }
+
+    button {
+      width: fit-content;
+    }
+  }
+}

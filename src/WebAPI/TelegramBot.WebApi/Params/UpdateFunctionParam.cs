@@ -1,4 +1,4 @@
-﻿using TelegramBot.Infrastructure.Function.Models;
+﻿using TelegramBot.Modules.Function.Models;
 
 namespace TelegramBot.WebApi.Params
 {

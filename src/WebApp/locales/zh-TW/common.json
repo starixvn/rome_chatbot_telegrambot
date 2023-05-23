@@ -1,0 +1,21 @@
+{
+  "SecurityCode": "保安碼",
+  "OTPValidation": "OTP验证",
+  "Verify": "驗證",
+  "Hi": "您好",
+  "SCNote": "為了您的安全，請在繼續之前輸入您的保安碼！",
+  "RequiredMessage": "必填欄",
+  "WrongSCMessage": "保安碼不正確。請再重試。",
+  "WrongOTPMessage": "您的OTP無效或已過期。",
+  "OTPViaTelegramDisabled": "The OTP via Telegram was disabled.",
+  "Otp": "一次性密碼",
+  "OtpNote": "請輸入您的一次性密碼以便繼續。",
+  "GenerateOTP": "產生一次性密碼",
+  "Loading": "Loading",
+  "ErrorPageMess": "很抱歉，伺服器發生意外錯誤，請聯繫我們的客服協助處理。",
+  "UnauthorizedMessage": "對不起, 您不被允許進入此網頁.",
+  "AccessDenied": "不被允許登入",
+  "AccountClosed": "您的帳戶被關閉。請聯系您上線的援助。",
+  "AccountClocked": "由於檢測多次失敗，導致此賬號已被鎖定。請聯繫您的上線以解鎖。",
+  "AccountProtected": "您與chatbot連接已中斷，請聯繫您的上線以獲得進一步的協助。"
+}

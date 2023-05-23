@@ -1,11 +1,11 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using TelegramBot.Infrastructure.Function.Constants;
-using TelegramBot.Infrastructure.Message;
-using TelegramBot.Infrastructure.OTP;
-using TelegramBot.Infrastructure.Setting;
-using TelegramBot.Infrastructure.Setting.Models;
-using TelegramBot.Infrastructure.Shared.Models;
+using TelegramBot.Modules.Function.Constants;
+using TelegramBot.Modules.Message;
+using TelegramBot.Modules.OTP;
+using TelegramBot.Modules.Setting;
+using TelegramBot.Modules.Setting.Models;
+using TelegramBot.Shared.Models;
 using TelegramBot.WebApi.Params;
 
 namespace TelegramBot.WebApi.Controllers;

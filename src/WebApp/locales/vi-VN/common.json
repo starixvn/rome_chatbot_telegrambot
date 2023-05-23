@@ -1,0 +1,21 @@
+{
+  "SecurityCode": "Mã Bảo Mật",
+  "OTPValidation": "Xác minh mã OTP",
+  "Verify": "Xác Nhận",
+  "Hi": "Chào",
+  "SCNote": "Để bảo vệ tài khoản, vui lòng nhập Mã Bảo Mật trước khi tiếp tục!",
+  "RequiredMessage": "Thông tin này bắt buộc phải nhập.",
+  "WrongSCMessage": "Sai Mã Bảo Mật. Vui lòng thử lại.",
+  "WrongOTPMessage": "Mã OTP không phù hợp hoặc hết hạn.",
+  "Otp": "OTP",
+  "OTPViaTelegramDisabled": "The OTP via Telegram was disabled.",
+  "OtpNote": "Xin nhập mã OTP để tiến hành.",
+  "GenerateOTP": "Tạo OTP",
+  "Loading": "Đang tải",
+  "ErrorPageMess": "Rất tiếc, đã xảy ra lỗi không mong muốn với máy chủ. Vui lòng liên hệ với bộ phận chăm sóc khách hàng của chúng tôi để được hỗ trợ.",
+  "UnauthorizedMessage": "Xin lỗi, bạn không được phép truy cập vào trang này",
+  "AccessDenied": "Truy câp bi chặn",
+  "AccountClosed": "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ với cấp trên của bạn để được hỗ trợ.",
+  "AccountClocked": "Tài khoản của bạn đã bị khóa do nhiều lần xác thực không thành công. Vui lòng liên hệ với cấp trên của bạn để mở khóa.",
+  "AccountProtected": "Bạn đã bị ngắt kết nối với chatbot. Vui lòng liên hệ với cấp trên của bạn để được hỗ trợ."
+}

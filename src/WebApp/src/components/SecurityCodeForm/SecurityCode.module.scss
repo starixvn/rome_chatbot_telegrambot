@@ -1,0 +1,44 @@
+.sc {
+  min-height: 100vh;
+
+  .title {
+    font-family: var(--font-500);
+    font-size: var(--font-16);
+    color: var(--label-color);
+    margin-bottom: 12px;
+  }
+
+  span {
+    font-family: var(--font-500);
+  }
+
+  button {
+    padding: 8px 16px;
+    width: fit-content;
+    font-size: 13px;
+    line-height: 15px;
+    font-family: var(--font-500);
+  }
+
+  .mess {
+    margin-bottom: 12px;
+  }
+
+  .row {
+    margin-top: 12px;
+    position: relative;
+
+    .eye {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      right: 10px;
+      top: 0;
+      position: absolute;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

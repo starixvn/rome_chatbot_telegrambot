@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using TelegramBot.Infrastructure.Bot;
-using TelegramBot.Infrastructure.Command;
-using TelegramBot.Infrastructure.Command.Models;
+using TelegramBot.Modules.Bot;
+using TelegramBot.Modules.Command;
+using TelegramBot.Modules.Command.Models;
 using TelegramBot.WebApi.Filters;
 using TelegramBot.WebApi.Params;
 

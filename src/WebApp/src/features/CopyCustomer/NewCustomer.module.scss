@@ -1,0 +1,38 @@
+.form-new-customer {
+  background-color: white;
+
+  .row {
+    padding-right: 21px;
+  }
+
+  .note {
+    color: var(--description-color);
+    font-style: italic;
+    margin-top: 4px;
+
+    span {
+      color: #fe0000;
+    }
+  }
+
+  hr {
+    margin-top: 12px;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  button {
+    padding: 9px 10px;
+  }
+
+  .credit {
+    color: var(--note-color);
+    font: var(--font-12);
+    font-family: var(--font-400);
+    margin-top: 4px;
+
+    span {
+      color: var(--note-color);
+      font-family: var(--font-700);
+    }
+  }
+}

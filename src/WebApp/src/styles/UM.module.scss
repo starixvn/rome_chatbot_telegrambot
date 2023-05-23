@@ -1,0 +1,18 @@
+.um {
+  padding: 10px 16px;
+
+  img {
+    margin: 0 auto;
+  }
+
+  .title {
+    font-size: var(--font-16);
+    font-family: var(--font-500);
+    margin: 16px 0;
+  }
+
+  hr {
+    margin: 16px 0;
+    border-top: 1px solid #e0e0e0;
+  }
+}

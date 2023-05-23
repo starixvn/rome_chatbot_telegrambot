@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TelegramBot.Infrastructure.Bot;
-using TelegramBot.Infrastructure.Command;
-using TelegramBot.Infrastructure.Message;
-using TelegramBot.Infrastructure.Setting;
-using TelegramBot.Infrastructure.Setting.Models;
-using TelegramBot.Infrastructure.Shared;
-using TelegramBot.Infrastructure.Shared.Constants;
-using TelegramBot.Infrastructure.Shared.Models;
+using TelegramBot.Modules.Bot;
+using TelegramBot.Modules.Command;
+using TelegramBot.Modules.Message;
+using TelegramBot.Modules.Setting;
+using TelegramBot.Modules.Setting.Models;
+using TelegramBot.Shared;
+using TelegramBot.Shared.Constants;
+using TelegramBot.Shared.Models;
 using TelegramBot.WebApi.Filters;
 using TelegramBot.WebApi.Params;
 
@@ -37,7 +37,7 @@ namespace TelegramBot.WebApi.Controllers
             _messageSender = messageSender;
             _commandService = commandService;
             _messageBuilder = messageBuilder;
-        } 
+        }
 
         [Route("start-uri"), HttpPost]
         public async Task<string> GenerateStartUri([FromBody] GenerateStartUriParam param)
@@ -54,7 +54,7 @@ namespace TelegramBot.WebApi.Controllers
         public async Task<Result> Start(StartParam param)
         {
             var bot = await _botService.GetAsync(param.MessengerBotId);
-            var messenger = new Messenger(bot.BotId, param.ChatId, bot.System);
+            var messenger = new Messenger(bot.BotId, param.ChatId);
 
             var words = param.Message.Split(' ');
             var introMessage = _messageBuilder.BuildIntroductionMessage(bot.System);
@@ -63,7 +63,7 @@ namespace TelegramBot.WebApi.Controllers
                 var account = await _settingService.GetCustBotAccount(param.ChatId, bot.BotId);
                 if (account != null)
                 {
-                    await _commandService.SendMainMenuMessage(account, messenger);
+                    await _commandService.SendMainMenuMessage(account);
                     return Result.CreateSuccessfulResult();
                 }
                 else
@@ -123,5 +123,9 @@ namespace TelegramBot.WebApi.Controllers
         [HttpPost("{userId}/language")]
         public async Task<Result> UpdateLanguage(int userId, [FromBody] UpdateLanguageParam param)
             => await _settingService.UpdateUserLanguage(userId, param.BotId, LanguageCodes.MapLanguage(param.Language), param.Creator, param.IP);
+
+        [HttpGet("{chatId}")]
+        public async Task<CustBotAccount> GetCustBotAccount(long chatId)
+            => await _settingService.GetCustBotAccount(chatId, 0);
     }
 }

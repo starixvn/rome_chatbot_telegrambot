@@ -4,10 +4,9 @@ using Fanex.Data.Repository;
 using Fanex.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
-using Prometheus;
 using System.Reflection;
-using TelegramBot.Infrastructure.Shared;
-using TelegramBot.Infrastructure.Shared.Configurations;
+using TelegramBot.Shared;
+using TelegramBot.Shared.Configurations;
 using TelegramBot.WebApi.Extensions;
 using TelegramBot.WebApi.Middlewares;
 
@@ -19,8 +18,9 @@ var configuration = builder.Configuration;
 var webAPIConfiguration = new WebAPIConfiguration();
 configuration.GetSection(nameof(WebAPIConfiguration)).Bind(webAPIConfiguration);
 webAPIConfiguration.HiddenActionsBySystem = configuration.GetSection("HiddenActionsBySystems")
-                .Get<HiddenActionsBySystem[]>()
-                .ToDictionary(kvp => kvp.SiteName, kvp => kvp.ActionIds);
+    .Get<HiddenActionsBySystem[]>()
+    .ToDictionary(kvp => kvp.SiteName, kvp => kvp.ActionIds);
+webAPIConfiguration.FunctionPermissions = configuration.GetSection("FunctionPermissions").GetChildren().ToDictionary(c => c.Key, c => c.Value);
 
 builder.Services
     .AddSingleton(webAPIConfiguration)
@@ -44,14 +44,12 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 app.UseRouting();
-app.UseHttpMetrics();
 
 app.MapGet("/", () => "Telegram bot web api!!!");
 app.UseUM(configuration);
 app.UseFanexDataWithSqlServer(configuration, app.Environment);
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.MapControllers();
-app.MapMetrics();
 
 var isDevelopment = app.Environment.IsDevelopment();
 app.UseSwagger();

@@ -6,7 +6,7 @@ RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
 RUN dotnet restore WebAPI/TelegramBot.WebApi/TelegramBot.WebApi.csproj -v n
 
 COPY src/Shared/TelegramBot.Utilities ./Shared/TelegramBot.Utilities
-COPY src/WebAPI/TelegramBot.Infrastructure ./WebAPI/TelegramBot.Infrastructure
+COPY src/WebAPI/TelegramBot ./WebAPI/TelegramBot
 COPY src/WebAPI/TelegramBot.WebApi ./WebAPI/TelegramBot.WebApi
 
 WORKDIR /src/WebAPI/TelegramBot.WebApi

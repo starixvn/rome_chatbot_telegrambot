@@ -1,0 +1,19 @@
+{
+  "locales": [
+    "en-US",
+    "zh-CN",
+    "zh-TW",
+    "th-TH",
+    "vi-VN"
+  ],
+  "defaultLocale": "en-US",
+  "localeDetection": false,
+  "pages": {
+    "*": [
+      "common"
+    ],
+    "/newcustomer": [
+      "newcustomer"
+    ]
+  }
+}

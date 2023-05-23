@@ -1,0 +1,39 @@
+.account {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 4px;
+
+  .name {
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    width: 100%;
+    font-size: 13px;
+    font-family: var(--font-600);
+    padding-left: 5px;
+    border: 1px solid;
+    border-color: var(--border-color);
+    background-color: var(--bg-color);
+  }
+
+  .item {
+    min-width: 52px !important;
+  }
+
+  .icon {
+    display: inline-block;
+    margin-left: 5px;
+  }
+}
+
+.error {
+  .name {
+    border: 1px solid #fe0000;
+  }
+
+  select {
+    border: 1px solid #fe0000;
+    border-left: none;
+  }
+}
