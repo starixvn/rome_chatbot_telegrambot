@@ -73,7 +73,6 @@ const copyCustomer = async (user: User, data: CopyCustomerData) => {
     ip: data.ip,
     systemId: 10,
   };
-  console.log(body);
   return await fetchServerWrapper.post(url, body);
 };
 
