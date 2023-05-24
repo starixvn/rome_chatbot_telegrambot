@@ -17,13 +17,16 @@ namespace TelegramBot.Shared
 
         public string Encrypt(string clearText)
         {
-            byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
-            using var aes = CreateAes();
-            using var ms = new MemoryStream();
-            using var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write);
-            cs.Write(clearBytes, 0, clearBytes.Length);
-            cs.Close();
-            var base64String = Convert.ToBase64String(ms.ToArray());
+            using var md5 = MD5.Create();
+            using var tripleDES = TripleDES.Create();
+            tripleDES.Key = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(EncryptionKey));
+            tripleDES.Mode = CipherMode.ECB;
+            tripleDES.Padding = PaddingMode.PKCS7;
+
+            using var encryptor = tripleDES.CreateEncryptor();
+            byte[] textBytes = UTF8Encoding.UTF8.GetBytes(clearText);
+            byte[] bytes = encryptor.TransformFinalBlock(textBytes, 0, textBytes.Length);
+            var base64String = Convert.ToBase64String(bytes);
             base64String = base64String.Replace('+', '-').Replace('/', '_');
             return base64String;
         }
@@ -31,26 +34,16 @@ namespace TelegramBot.Shared
         public string Decrypt(string cipherText)
         {
             cipherText = cipherText.Replace('-', '+').Replace('_', '/');
-            byte[] cipherBytes = Convert.FromBase64String(cipherText);
-            using var aes = CreateAes();
-            using var ms = new MemoryStream();
-            using var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write);
-            cs.Write(cipherBytes, 0, cipherBytes.Length);
-            cs.Close();
-            return Encoding.Unicode.GetString(ms.ToArray());
-        }
+            using var md5 = MD5.Create();
+            using var tripleDES = TripleDES.Create();
+            tripleDES.Key = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(EncryptionKey));
+            tripleDES.Mode = CipherMode.ECB;
+            tripleDES.Padding = PaddingMode.PKCS7;
 
-        private Aes CreateAes()
-        {
-            var aes = Aes.Create();
-            Rfc2898DeriveBytes pdb = new(EncryptionKey, new byte[] {
-                0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76
-            });
-            const int keySize = 32;
-            const int ivSize = 16;
-            aes.Key = pdb.GetBytes(keySize);
-            aes.IV = pdb.GetBytes(ivSize);
-            return aes;
+            using var decryptor = tripleDES.CreateDecryptor();
+            byte[] cipherBytes = Convert.FromBase64String(cipherText);
+            byte[] bytes = decryptor.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);
+            return UTF8Encoding.UTF8.GetString(bytes);
         }
     }
 }
