@@ -14,6 +14,6 @@ export enum Pages {
   NewCustomer = "/newcustomer",
 }
 
-export const PagePermission = {
+export const PagePermission: { [key: string]: SubAccountPermissions } = {
   [Pages.NewCustomer]: SubAccountPermissions.Create,
 };

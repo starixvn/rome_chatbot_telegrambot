@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import CryptoJS from "crypto-js";
 import { withIronSessionApiRoute } from "iron-session/next";
-import { sessionOptions } from "../../lib/session";
+import { User, sessionOptions } from "../../lib/session";
 import { fetchServerWrapper } from "src/lib/fetch-server";
+import * as Sentry from "@sentry/nextjs";
 
 type TelegramBot = {
   botId: number;
@@ -35,6 +36,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
       await req.session.save();
       return res.status(200).json(req.session.user);
     }
+
     const account = await fetchServerWrapper.get(`${process.env.TELEGRAM_API_URL}/Setting/${tgUser.id}`);
     const botToken = await getBotToken(Number(account.botId));
     const isVerified = await verifyWebAppOpenByTelegram(botToken, initData);
@@ -56,9 +58,14 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
       await req.session.save();
       res.status(200).json(req.session.user);
     } else {
+      req.session.destroy();
+      await req.session.save();
       res.status(200).json({ isLoggedIn: false });
     }
   } catch (error) {
+    req.session.destroy();
+    await req.session.save();
+    Sentry.captureException(error);
     res.status(500).json({ message: (error as Error).message });
   }
 }
