@@ -124,6 +124,10 @@ namespace TelegramBot.WebApi.Controllers
         public async Task<Result> UpdateLanguage(int userId, [FromBody] UpdateLanguageParam param)
             => await _settingService.UpdateUserLanguage(userId, param.BotId, LanguageCodes.MapLanguage(param.Language), param.Creator, param.IP);
 
+        [Route("GetSiteDBGroupIp"), HttpGet]
+        public async Task<string> GetSiteDBGroupIp(int custId)
+            => await _settingService.GetSiteDBGroupIp(custId);
+
         [HttpGet("{chatId}")]
         public async Task<CustBotAccount> GetCustBotAccount(long chatId)
             => await _settingService.GetCustBotAccount(chatId, 0);

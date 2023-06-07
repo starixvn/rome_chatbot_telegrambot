@@ -9,6 +9,7 @@ import withAuth, { checkPagePermission } from "src/lib/with-auth";
 import { isDirectDownLine } from "src/constants/role-id";
 import CryptoJS from "crypto-js";
 import { SubAccountPermissions } from "src/constants/page-permission";
+import { fetchWrapper } from "src/lib/fetch-client";
 
 export default withIronSessionApiRoute(withAuth(copyRouter), sessionOptions);
 
@@ -47,13 +48,14 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
   if (sourceInfo.custId <= 0 || !isDirectDownLine(sourceInfo.roleId, user?.customerLevel as number) || isExceedMaxAccount) {
     res.status(500).json({});
   }
-  const data = await copyCustomer(user as User, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) });
+  
+  const siteDBGroupIp = await fetch(`${process.env.TELEGRAM_API_URL}/Setting/GetSiteDBGroupIp?custId=${sourceInfo.custId}`);
+  const data = await copyCustomer(user as User, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) }, await siteDBGroupIp.text());
   data.usernames.length > 0 &&
     (await notifySuccessCustomersCreated(user as User, { ...data, credit: credit }, numberOfAccounts - data.usernames.length, notifyTelegramMessage));
   res.json({ ...data, credit: credit, failAccounts: numberOfAccounts - data.usernames.length });
 }
-
-const copyCustomer = async (user: User, data: CopyCustomerData) => {
+const copyCustomer = async (user: User, data: CopyCustomerData, siteDBGroupIp: string) => {
   const url = `${process.env.CUSTOMER_API}/customer/copy`;
   const hashedPassword = await hashPassword(CryptoJS.AES.decrypt(data.password, user.salt).toString(CryptoJS.enc.Utf8));
 
@@ -73,7 +75,7 @@ const copyCustomer = async (user: User, data: CopyCustomerData) => {
     ip: data.ip,
     systemId: 10,
   };
-  return await fetchServerWrapper.post(url, body);
+  return await fetchServerWrapper.post2sitedb(url, siteDBGroupIp, body);
 };
 
 const hashPassword = async (password: string): Promise<string> => {
