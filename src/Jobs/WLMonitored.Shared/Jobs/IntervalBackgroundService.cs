@@ -54,8 +54,7 @@ public abstract class IntervalBackgroundService : BackgroundService
 
             if (umInfo.IsUnderMaintenanceTime)
             {
-                await loggerService.Debug(
-                    $"{scheduleJob.JobInfo} is Under Maintenance from {umInfo.From} to {umInfo.To}.");
+                loggerService.InfoConsole("{JobInfo} is Under Maintenance from {From} to {To}.", scheduleJob.JobInfo, umInfo.From, umInfo.To);
 
                 multiplier = umDelayTimeInSeconds;
             }
@@ -83,19 +82,20 @@ public abstract class IntervalBackgroundService : BackgroundService
 
         if (globalSetting.IsStopJob(scheduleJob.Name))
         {
-            await loggerService.Debug($"{scheduleJob.JobInfo} is set stopped from DB.");
+            loggerService.InfoConsole("{JobInfo} is set stopped from DB.", scheduleJob.JobInfo);
 
             return CalculateMultiplier(false, multiplier);
         }
 
         bool hasData = await ExecuteJob(globalSetting);
         multiplier = CalculateMultiplier(hasData, multiplier);
-        
         sw.Stop();
-        await loggerService.Debug(hasData
-            ? $"{scheduleJob.JobInfo}: Total execution time {sw.ElapsedMilliseconds} milliseconds."
-            : $"{scheduleJob.JobInfo}: No Data to Import, SleepTimeInSeconds={multiplier}");
-            
+
+        if (hasData)
+        {
+            loggerService.InfoConsole("{JobInfo} Total execution time {ElapsedMilliseconds} milliseconds", scheduleJob.JobInfo, sw.ElapsedMilliseconds);
+        }
+
         return multiplier;
     }
 
