@@ -298,7 +298,7 @@
     <comment/>
   </data>
   <data name="AbnormalLogin_Header" xml:space="preserve">
-    <value>Dear {0}, we detected an unusual login attempt from a device at {1} (GMT-4).</value>
+    <value>Dear {0}, we detected an unusual login attempt from a new device at {1} (GMT-4).</value>
     <comment/>
   </data>
   <data name="AbnormalLogin_Near" xml:space="preserve">

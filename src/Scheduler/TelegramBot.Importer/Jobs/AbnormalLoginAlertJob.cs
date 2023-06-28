@@ -91,7 +91,7 @@ public sealed class AbnormalLoginAlertJob : NotificationBaseJob
         messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Title), language), DateTime.Now.ToSimpleDate()));
 
         var loginTime = DateTime.Parse(login.LoginTime);
-        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Header), language), login.LoginName, loginTime.ToLongTimeString()));
+        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Header), language), login.Username, loginTime.ToLongTimeString()));
 
         messageBuilder.AppendLine("<pre>");
         messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Near), language), login.City, login.Country, login.IP));

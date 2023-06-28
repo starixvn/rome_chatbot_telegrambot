@@ -11,7 +11,6 @@ public record AbnormalLoginModel
     public string LoginTime { get; set; }
     public int Status { get; set; }
     public int Count { get; set; }
-    public string LoginName { get; set; }
     public string OS { get; set; }
     public string UserAgent { get; set; }
 
@@ -19,4 +18,5 @@ public record AbnormalLoginModel
     public int UserId { get; set; }
     public string City { get; set; }
     public string Country { get; set; }
+    public string Username { get; set; }
 }
