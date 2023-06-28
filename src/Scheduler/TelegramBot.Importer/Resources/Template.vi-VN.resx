@@ -294,7 +294,7 @@
     <comment />
   </data>
   <data name="AbnormalLogin_Title" xml:space="preserve">
-    <value>[Cảnh báo đăng nhập - {0}]</value>
+    <value>[Cảnh báo đăng nhập lạ - {0}]</value>
     <comment />
   </data>
   <data name="AbnormalLogin_Header" xml:space="preserve">
