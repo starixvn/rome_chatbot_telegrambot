@@ -49,7 +49,7 @@ public sealed class AbnormalLoginAlertJob : NotificationBaseJob
 
         foreach (var login in abnormalLogins)
         {
-            var linkedCust = linkedInfo.FirstOrDefault(l => l.CustId == login.CustId);
+            var linkedCust = linkedInfo.FirstOrDefault(l => l.CustId == login.CustId && l.SubAccId == login.SubAccId);
 
             if (linkedCust == null)
             {
