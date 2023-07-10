@@ -15,6 +15,13 @@ public interface ISystemSettingService
         string environment,
         string jobStatus,
         DateTime lastRuntime);
+
+    Task UpdateJobStatus(
+        string serviceName,
+        string environment,
+        string jobStatus,
+        DateTime lastRuntime,
+        long maxLogId);
 }
 
 public class SystemSettingService : ISystemSettingService
@@ -48,12 +55,33 @@ public class SystemSettingService : ISystemSettingService
         => dynamicRepository.ExecuteAsync(
             new UpdateSystemSettingCommand(serviceName, environment, BuildSettingXML(jobStatus, lastRuntime)));
 
+    public Task UpdateJobStatus(
+        string serviceName,
+        string environment,
+        string jobStatus,
+        DateTime lastRuntime,
+        long maxLogId)
+        => dynamicRepository.ExecuteAsync(
+            new UpdateSystemSettingCommand(serviceName, environment, BuildSettingXML(jobStatus, lastRuntime, maxLogId)));
+
     private static string BuildSettingXML(string jobStatus, DateTime lastRuntime)
     {
         var setting = new StringBuilder();
         setting.Append("<root>")
             .Append($"<r SettingName=\"JobStatus\" Value=\"{jobStatus}\"/>")
             .Append($"<r SettingName=\"LastRuntime\" Value=\"{lastRuntime.ToLongDateTime24h()}\"/>")
+            .Append("</root>");
+
+        return setting.ToString();
+    }
+
+    private static string BuildSettingXML(string jobStatus, DateTime lastRuntime, long maxLogId)
+    {
+        var setting = new StringBuilder();
+        setting.Append("<root>")
+            .Append($"<r SettingName=\"JobStatus\" Value=\"{jobStatus}\"/>")
+            .Append($"<r SettingName=\"LastRuntime\" Value=\"{lastRuntime.ToLongDateTime24h()}\"/>")
+            .Append($"<r SettingName=\"MaxLogId\" Value=\"{maxLogId}\"/>")
             .Append("</root>");
 
         return setting.ToString();

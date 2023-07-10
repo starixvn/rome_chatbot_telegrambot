@@ -30,6 +30,7 @@ namespace TelegramBot.Modules.Action.Constants
         public const short OTP = 43;
         public const short RiskAlert = 45;
         public const short NewCustomers = 47;
+        public const short AbnormalLogin = 49;
 
         public static readonly short[] NotificationSettingActionIds = new[]{
             YesterdayWinLossNotification,
@@ -42,7 +43,8 @@ namespace TelegramBot.Modules.Action.Constants
             SystemAnnouncement,
             MyWatchlist,
             OTP,
-            RiskAlert
+            RiskAlert,
+            AbnormalLogin
         };
 
         public static readonly short[] LanguageSettingActionIds = new[]{

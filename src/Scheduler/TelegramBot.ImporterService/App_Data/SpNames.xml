@@ -64,4 +64,17 @@
       <Mapping DataField="ToDate" ObjectProperty="ExpiredDate" />
     </Setting>
   </Function>
+  <Function Name="Abnormal Login">
+    <Setting Key="Acc_CustAbnormalLoginSel" SpName="Acc_CustAbnormalLoginSel" DbName="DBLOG.bodb_CustomerLog.BODBDownlineNet">
+      <Mapping DataField="SubAccountID" ObjectProperty="SubAccId" />
+      <Mapping DataField="CountLogin" ObjectProperty="Count" />
+  </Setting>
+    <Setting Key="Age_Chatbot_ServiceNotificationImport" SpName="Age_Chatbot_ServiceNotificationImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+  	<Setting Key="Acc_GetInfoListIPs" SpName="Acc_GetInfoListIPs" DbName="DBCust.IPDB.BODBDownlineNet">
+		 	<Mappings>
+            	<Mapping DataField="CountryName" ObjectProperty="Country" />
+           		<Mapping DataField="city_name" ObjectProperty="City" />
+        	</Mappings>
+		</Setting>
+  </Function>
 </Functions>
