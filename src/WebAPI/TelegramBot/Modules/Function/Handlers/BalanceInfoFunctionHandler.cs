@@ -138,7 +138,7 @@ namespace TelegramBot.Modules.Function.Handlers
                 return Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
             }
 
-            var downlineBalance = await balanceInfoService.GetDownlineBalance(downlineInfo.CustId, downlineInfo.RoleId);
+            var downlineBalance = await balanceInfoService.GetDownlineBalance(downlineInfo.CustId, downlineInfo.RoleId, account.SiteDBGroupIp);
             var textContainer = new List<string>
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.DownlineBalance),  account.Language)} - {DateTime.Now.ToSimpleDate()}]",

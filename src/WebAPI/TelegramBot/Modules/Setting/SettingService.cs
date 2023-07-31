@@ -1,4 +1,5 @@
-﻿using Alpha.API.Client.Services;
+﻿using Fanex.Caching;
+using Alpha.API.Client.Services;
 using Fanex.Data.Repository;
 using TelegramBot.Modules.Action;
 using TelegramBot.Modules.Function.Models;
@@ -10,6 +11,7 @@ using TelegramBot.Modules.Setting.Models;
 using TelegramBot.Shared.Configurations;
 using TelegramBot.Shared.Constants;
 using TelegramBot.Shared.Models;
+using TelegramBot.Shared.Caching;
 
 namespace TelegramBot.Modules.Setting
 {
@@ -32,6 +34,8 @@ namespace TelegramBot.Modules.Setting
         Task<CustBotAccount> GetCustBotAccount(long chatId, int botId);
 
         Task SendUnlinkMessage(int userId, long chatId, int botId, string botName, string language);
+
+        Task<string> GetSiteDBGroupIp(int custId);
     }
 
     public class SettingService : ISettingService
@@ -44,6 +48,7 @@ namespace TelegramBot.Modules.Setting
         private readonly ICustomerService _customerService;
         private readonly IFunctionService _functionService;
         private readonly IOTPService _otpService;
+        private readonly ICacheService cacheService;
 
         public SettingService(
             WebAPIConfiguration webAPIConfiguration,
@@ -53,7 +58,8 @@ namespace TelegramBot.Modules.Setting
             IActionService actionService,
             ICustomerService customerService,
             IFunctionService functionService,
-            IOTPService otpService)
+            IOTPService otpService,
+            ICacheServiceFactory cacheServiceFactory)
         {
             _webAPIConfiguration = webAPIConfiguration;
             _dynamicRepository = dynamicRepository;
@@ -63,6 +69,7 @@ namespace TelegramBot.Modules.Setting
             _customerService = customerService;
             _functionService = functionService;
             _otpService = otpService;
+            cacheService = cacheServiceFactory.Get();
         }
 
         public async Task<Result> Start(int botId, long chatId, int custId, int subAccId, string language, string ip)
@@ -175,6 +182,16 @@ namespace TelegramBot.Modules.Setting
             return custBotMessenger;
         }
 
+        public async Task<string> GetSiteDBGroupIp(int custId)
+        {
+            var siteDB = await cacheService.GetOrSetAsync(
+                $"TelegramBot.Modules.Setting.SiteDBGroup.CustId-{custId}",
+                () => _dynamicRepository.GetAsync<SiteDBGroup>(new GetSiteDBConfigCriteria(custId)),
+                new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1)));
+            
+            return siteDB.AGIP;
+        }
+
         private async Task<IEnumerable<BotFunction>> GetAccountFunctions(int custId, int subAccId, IEnumerable<BotFunction> functions)
         {
             functions = functions.Concat(await _functionService.GetReportAndCommonFunctions());
@@ -219,6 +236,7 @@ namespace TelegramBot.Modules.Setting
             if (account != null)
             {
                 account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, functions);
+                account.SiteDBGroupIp = await GetSiteDBGroupIp(account.CustId);
             }
 
             return account;
