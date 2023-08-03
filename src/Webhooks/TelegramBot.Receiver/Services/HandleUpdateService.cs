@@ -78,6 +78,7 @@ namespace TelegramBot.Receiver.Services
 
             if (message.Text!.Split(' ')[0].Equals("/start"))
             {
+                Console.WriteLine(message.Text);
                 await _settingService.StartAsync(botClient.BotId.Value, message.Chat.Id, message.Text);
             }
             else
