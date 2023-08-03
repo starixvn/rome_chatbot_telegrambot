@@ -1,16 +1,17 @@
-import { formatThousandNumber } from "src/helpers/number";
-import { getClientIP } from "./../../../helpers/ip-helper";
-import type { NextApiRequest, NextApiResponse } from "next";
-import { withIronSessionApiRoute } from "iron-session/next";
-import { sessionOptions } from "src/lib/session";
-import { User } from "./../../../lib/session";
-import { fetchServerWrapper } from "src/lib/fetch-server";
-import withAuth, { checkPagePermission } from "src/lib/with-auth";
-import { isDirectDownLine } from "src/constants/role-id";
 import CryptoJS from "crypto-js";
+import { withIronSessionApiRoute } from "iron-session/next";
 import { SubAccountPermissions } from "src/constants/page-permission";
+import { isDirectDownLine } from "src/constants/role-id";
+import { formatThousandNumber } from "src/helpers/number";
 import { fetchWrapper } from "src/lib/fetch-client";
+import { fetchServerWrapper } from "src/lib/fetch-server";
+import { sessionOptions } from "src/lib/session";
+import withAuth, { checkPagePermission } from "src/lib/with-auth";
 
+import { getClientIP } from "../../../helpers/ip-helper";
+import { User } from "../../../lib/session";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 export default withIronSessionApiRoute(withAuth(copyRouter), sessionOptions);
 
 type CopyCustomerData = {
@@ -48,7 +49,7 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
   if (sourceInfo.custId <= 0 || !isDirectDownLine(sourceInfo.roleId, user?.customerLevel as number) || isExceedMaxAccount) {
     res.status(500).json({});
   }
-  
+
   const siteDBGroupIp = await fetch(`${process.env.TELEGRAM_API_URL}/Setting/GetSiteDBGroupIp?custId=${sourceInfo.custId}`);
   const data = await copyCustomer(user as User, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) }, await siteDBGroupIp.text());
   data.usernames.length > 0 &&
@@ -74,6 +75,7 @@ const copyCustomer = async (user: User, data: CopyCustomerData, siteDBGroupIp: s
     language: user.language,
     ip: data.ip,
     systemId: 10,
+    actorUsername: user.username,
   };
   return await fetchServerWrapper.post2sitedb(url, siteDBGroupIp, body);
 };

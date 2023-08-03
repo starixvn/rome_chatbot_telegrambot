@@ -40,6 +40,10 @@ const NewCustomer = ({ user, isRequireSecurityCode, customerOtpSetting, isSpecia
 
   function render() {
     if (isSecurityCodeOrOTPVerified) {
+      if (limitedDownlineResult && !limitedDownlineResult.isSuccessful) {
+        return <Message message={limitedDownlineResult.message} isError />;
+      }
+
       return <CopyCustomer user={user} {...props} />;
     }
 
@@ -49,10 +53,6 @@ const NewCustomer = ({ user, isRequireSecurityCode, customerOtpSetting, isSpecia
 
     if (isRequireSecurityCode) {
       return <SecurityCodeForm username={user.username} salt={user.salt} onVerifySuccess={onVerifySecurityCodeOrOTPSuccess} />;
-    }
-
-    if (!limitedDownlineResult.isSuccessful) {
-      return <Message message={limitedDownlineResult.message} isError />;
     }
 
     return <CopyCustomer user={user} {...props} />;
@@ -69,7 +69,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
   const { user } = req.session;
   const securityCode = await fetchWrapper.get<string>(`${process.env.CUSTOMER_API}/security-code?custId=${user?.custId}&subAccId=${user?.subAccId}`);
   const customerOtpSetting = await fetchWrapper.get<CustomerOtpSetting>(`${process.env.CUSTOMER_API}/customer/otp/${user?.custId}/${user?.subAccId}`);
-  const limitedDownlineResult = await fetchWrapper.post<Result>(`${process.env.CUSTOMER_API}/customer/CheckAllLimitedRules`, {
+  const limitedDownlineResult = await fetchWrapper.post<Result>(`${process.env.CUSTOMER_API}/rules/CheckAllLimitedRules`, {
     custId: user?.custId,
     custLevel: user?.customerLevel,
     actorUsername: user?.username,
@@ -84,7 +84,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
       isRequireSecurityCode: securityCode !== "" && securityCode !== undefined && securityCode !== null,
       customerOtpSetting: customerOtpSetting,
       isSpecialSite: req.session.isSpecialSite,
-      limitedDownlineResult,
+      limitedDownlineResult: limitedDownlineResult,
     },
   };
 }, sessionOptions);
