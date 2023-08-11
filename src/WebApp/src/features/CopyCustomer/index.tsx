@@ -67,6 +67,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
   const [numberAccounts, setNumberAccounts] = useState(1);
   const [maxCredit, setMaxCredit] = useState(0);
   const [maxMemberCredit, setMaxMemberCredit] = useState(0);
+  const [existedSourceAccount, setExistedSourceAccount] = useState(false);
 
   const onSubmit = handleSubmit(async (formData) => {
     const url = `/api/customer/copy`;
@@ -141,7 +142,9 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
           <Controller
             name="existAccount"
             control={control}
-            render={({ field }) => <SearchCustomerExists onChange={field.onChange} changeMaxCredit={handleChangeMaxCredit} />}
+            render={({ field }) => (
+              <SearchCustomerExists onChange={field.onChange} changeMaxCredit={handleChangeMaxCredit} setExistedSourceAccount={setExistedSourceAccount} />
+            )}
             rules={{ minLength: 1, required: true }}
           />
           <hr />
@@ -197,7 +200,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
                 onBlur={handleOnBlur}
                 max={maxCredit / numberAccounts}
                 placeholder="0"
-                messError={t("formError.credit", { max: formatThousandNumber(Number((maxCredit / numberAccounts).toFixed(2))) })}
+                messError={existedSourceAccount ? t("formError.credit", { max: formatThousandNumber(Number((maxCredit / numberAccounts).toFixed(2))) }) : ""}
               />
             )}
             rules={{ min: 0, max: maxCredit / numberAccounts, required: true }}
@@ -218,7 +221,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
                     onChange={field.onChange}
                     max={maxMemberCredit}
                     placeholder="0"
-                    messError={t("formError.memberMaxCredit", { min: 0, max: formatThousandNumber(maxMemberCredit) })}
+                    messError={existedSourceAccount ? t("formError.memberMaxCredit", { min: 0, max: formatThousandNumber(maxMemberCredit) }) : ""}
                   />
                 )}
                 rules={{ min: 0, max: maxMemberCredit, required: true }}

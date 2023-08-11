@@ -1,13 +1,15 @@
+import useTranslation from "next-translate/useTranslation";
+import { useRouter } from "next/router";
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from "react";
-import useTranslation from "next-translate/useTranslation";
-import AsyncSelect from "react-select/async";
 import { components, InputActionMeta, InputProps, OptionProps, SelectInstance, SingleValue, StylesConfig } from "react-select";
+import AsyncSelect from "react-select/async";
 import { fetchWrapper } from "src/lib/fetch-client";
+
 import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
 import Message from "@components/Message";
+
 import styles from "./SearchCustomer.module.scss";
-import { useRouter } from "next/router";
 
 export type CustomerInfoOption = {
   userName: string;
@@ -64,9 +66,10 @@ const Input = (props: InputProps<CustomerInfoOption, false>) => (
 type Props = {
   onChange: (existAccountName: string) => void;
   changeMaxCredit: (maxCredit: number) => void;
+  setExistedSourceAccount: (value: boolean) => void;
 };
 
-export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
+export const SearchCustomerExists = ({ onChange, changeMaxCredit, setExistedSourceAccount }: Props) => {
   const router = useRouter();
   const { t } = useTranslation("newcustomer");
   const asyncRef = useRef<SelectInstance<CustomerInfoOption> | null>(null);
@@ -96,6 +99,7 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
   const handleCheckIsDownLine = async (username: string) => {
     const downLineInfo = await fetchWrapper.get<DownLineInfo>(`/api/customer/downline/${username}`, router);
     if (downLineInfo.isDownLineUser && downLineInfo.isEnable) {
+      setExistedSourceAccount(true);
       onChange(username);
       setIsCorrectName(ErrorMode.Correct);
       setErrorMessage("");
@@ -103,6 +107,7 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit }: Props) => {
       changeMaxCredit(customerCredit.maxCredit);
     } else {
       onChange("");
+      setExistedSourceAccount(false);
       setIsCorrectName(ErrorMode.InCorrect);
       setErrorMessage(!downLineInfo.isEnable ? t("formError.accountDisabled") : t("formError.existAccount"));
     }
