@@ -14,3 +14,12 @@ export const validatePassword = (password: string) => {
 
   return case1 + case2 + case3 + case4 >= 3 && whiteSpaceCase;
 };
+
+export const validateMemberPassword = (password: string) => {
+  const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$/;
+  const whiteSpace = /^\S*$/;
+
+  const case5 = password.search(whiteSpace) !== -1;
+
+  return password.search(regex) !== -1 && case5;
+};

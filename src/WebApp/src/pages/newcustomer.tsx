@@ -1,16 +1,24 @@
-import React, { useState } from "react";
-import useTranslation from "next-translate/useTranslation";
 import { withIronSessionSsr } from "iron-session/next";
-import { User, sessionOptions } from "src/lib/session";
+import useTranslation from "next-translate/useTranslation";
+import React, { useState } from "react";
 import { fetchWrapper } from "src/lib/fetch-client";
-import { CopyCustomer } from "@features/CopyCustomer";
+import { sessionOptions, User } from "src/lib/session";
+
 import Layout from "@components/Layout";
-import SecurityCodeForm from "@components/SecurityCodeForm";
+import Message from "@components/Message";
 import VerifyOtp from "@components/OtpForm";
+import SecurityCodeForm from "@components/SecurityCodeForm";
+import { CopyCustomer } from "@features/CopyCustomer";
 
 type CustomerOtpSetting = {
   isEnableSophosOtp: boolean;
   isEnableTelegramOtp: boolean;
+};
+
+type Result = {
+  code: number;
+  message: string;
+  isSuccessful: boolean;
 };
 
 type Props = {
@@ -20,9 +28,10 @@ type Props = {
   isRequireSecurityCode: boolean;
   customerOtpSetting: CustomerOtpSetting;
   isSpecialSite: boolean;
+  limitedDownlineResult: Result;
 };
 
-const NewCustomer = ({ user, isRequireSecurityCode, customerOtpSetting, isSpecialSite, ...props }: Props) => {
+const NewCustomer = ({ user, isRequireSecurityCode, customerOtpSetting, isSpecialSite, limitedDownlineResult, ...props }: Props) => {
   const { t } = useTranslation("newcustomer");
   const [isSecurityCodeOrOTPVerified, setIsSecurityCodeOrOTPVerified] = useState(user.isVerifyOtpOrSC);
   const onVerifySecurityCodeOrOTPSuccess = () => {
@@ -31,6 +40,10 @@ const NewCustomer = ({ user, isRequireSecurityCode, customerOtpSetting, isSpecia
 
   function render() {
     if (isSecurityCodeOrOTPVerified) {
+      if (limitedDownlineResult && !limitedDownlineResult.isSuccessful) {
+        return <Message message={limitedDownlineResult.message} isError />;
+      }
+
       return <CopyCustomer user={user} {...props} />;
     }
 
@@ -53,9 +66,15 @@ const NewCustomer = ({ user, isRequireSecurityCode, customerOtpSetting, isSpecia
 };
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
-  const user = req.session.user;
+  const { user } = req.session;
   const securityCode = await fetchWrapper.get<string>(`${process.env.CUSTOMER_API}/security-code?custId=${user?.custId}&subAccId=${user?.subAccId}`);
   const customerOtpSetting = await fetchWrapper.get<CustomerOtpSetting>(`${process.env.CUSTOMER_API}/customer/otp/${user?.custId}/${user?.subAccId}`);
+  const limitedDownlineResult = await fetchWrapper.post<Result>(`${process.env.CUSTOMER_API}/rules/CheckAllLimitedRules`, {
+    custId: user?.custId,
+    custLevel: user?.customerLevel,
+    actorUsername: user?.username,
+    language: user?.language,
+  });
 
   return {
     props: {
@@ -65,6 +84,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
       isRequireSecurityCode: securityCode !== "" && securityCode !== undefined && securityCode !== null,
       customerOtpSetting: customerOtpSetting,
       isSpecialSite: req.session.isSpecialSite,
+      limitedDownlineResult: limitedDownlineResult,
     },
   };
 }, sessionOptions);

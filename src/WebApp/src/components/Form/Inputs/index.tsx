@@ -1,11 +1,13 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { CheckMarkIcon, ErrorIcon, EyeCloseIcon, EyeIcon } from "@components/Icons";
+import cn from "classnames";
 import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { NumericFormat } from "react-number-format";
-import cn from "classnames";
 import { getNumberOfCommaString } from "src/helpers/number";
-import styles from "./Inputs.module.scss";
+
+/* eslint-disable react-hooks/exhaustive-deps */
+import { CheckMarkIcon, ErrorIcon, EyeCloseIcon, EyeIcon } from "@components/Icons";
 import Message from "@components/Message";
+
+import styles from "./Inputs.module.scss";
 
 type InputFieldProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -23,6 +25,7 @@ type NumberInputProps = InputFieldProps & {
 type PasswordFieldProps = InputFieldProps & {
   validate?: (password: string) => boolean;
   messError?: string;
+  maxLength?: number;
 };
 
 export const NumberInputField = forwardRef<HTMLInputElement, NumberInputProps>(function NumberInputField({ min = 0, max, messError = "", ...props }, ref) {

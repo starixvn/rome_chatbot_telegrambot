@@ -1,22 +1,24 @@
-import React, { useState } from "react";
-import dynamic from "next/dynamic";
+import CryptoJS from "crypto-js";
 import useTranslation from "next-translate/useTranslation";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import Message from "@components/Message";
+import { Agent, Master } from "src/constants/role-id";
 import { generateAccountSelect } from "src/helpers/generate-account";
-import { SingleSelect } from "@components/Form/Select";
-import { Label } from "@components/Form/Label";
-import BlockUI from "@components/BlockUI";
-import Result from "./Result";
-import { NumberInputField, PasswordField } from "@components/Form/Inputs";
 import { formatThousandNumber, getNumberOfCommaString } from "src/helpers/number";
-import { validatePassword } from "src/helpers/password";
+import { validateMemberPassword, validatePassword } from "src/helpers/password";
 import { fetchWrapper } from "src/lib/fetch-client";
 import { User } from "src/lib/session";
-import { Master } from "src/constants/role-id";
+
+import BlockUI from "@components/BlockUI";
+import { NumberInputField, PasswordField } from "@components/Form/Inputs";
+import { Label } from "@components/Form/Label";
+import { SingleSelect } from "@components/Form/Select";
+import Message from "@components/Message";
+
 import styles from "./NewCustomer.module.scss";
-import { useRouter } from "next/router";
-import CryptoJS from "crypto-js";
+import Result from "./Result";
 
 const NewAccountName = dynamic(() => import("@components/Customer/NewAccount").then((mod) => mod.NewAccountName), {
   ssr: false,
@@ -65,6 +67,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
   const [numberAccounts, setNumberAccounts] = useState(1);
   const [maxCredit, setMaxCredit] = useState(0);
   const [maxMemberCredit, setMaxMemberCredit] = useState(0);
+  const [existedSourceAccount, setExistedSourceAccount] = useState(false);
 
   const onSubmit = handleSubmit(async (formData) => {
     const url = `/api/customer/copy`;
@@ -118,6 +121,10 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
     reset();
   };
 
+  const handlePasswordChange = (password: string) => {
+    return user.customerLevel == Agent ? validateMemberPassword(password) : validatePassword(password);
+  };
+
   return (
     <>
       {formState.isSubmitting && <BlockUI />}
@@ -135,7 +142,9 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
           <Controller
             name="existAccount"
             control={control}
-            render={({ field }) => <SearchCustomerExists onChange={field.onChange} changeMaxCredit={handleChangeMaxCredit} />}
+            render={({ field }) => (
+              <SearchCustomerExists onChange={field.onChange} changeMaxCredit={handleChangeMaxCredit} setExistedSourceAccount={setExistedSourceAccount} />
+            )}
             rules={{ minLength: 1, required: true }}
           />
           <hr />
@@ -149,12 +158,14 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
             rules={{ minLength: 1, required: true }}
           />
 
-          <Label title={t("password")} subLabel info tooltipMessage={t("passwordRule")} />
+          <Label title={t("password")} subLabel info tooltipMessage={t(user.customerLevel == Agent ? "memberPasswordRule" : "passwordRule")} />
           <Controller
             name="password"
             control={control}
-            render={({ field }) => <PasswordField onChange={field.onChange} validate={validatePassword} />}
-            rules={{ minLength: 1, required: true, validate: (value) => validatePassword(value) }}
+            render={({ field }) => (
+              <PasswordField onChange={field.onChange} validate={handlePasswordChange} maxLength={user.customerLevel == Agent ? 10 : 16} />
+            )}
+            rules={{ minLength: 1, required: true, validate: (value) => handlePasswordChange(value) }}
           />
 
           <Label title={t("noOfAccounts")} subLabel />
@@ -189,7 +200,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
                 onBlur={handleOnBlur}
                 max={maxCredit / numberAccounts}
                 placeholder="0"
-                messError={t("formError.credit", { max: formatThousandNumber(Number((maxCredit / numberAccounts).toFixed(2))) })}
+                messError={existedSourceAccount ? t("formError.credit", { max: formatThousandNumber(Number((maxCredit / numberAccounts).toFixed(2))) }) : ""}
               />
             )}
             rules={{ min: 0, max: maxCredit / numberAccounts, required: true }}
@@ -210,7 +221,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
                     onChange={field.onChange}
                     max={maxMemberCredit}
                     placeholder="0"
-                    messError={t("formError.memberMaxCredit", { min: 0, max: formatThousandNumber(maxMemberCredit) })}
+                    messError={existedSourceAccount ? t("formError.memberMaxCredit", { min: 0, max: formatThousandNumber(maxMemberCredit) }) : ""}
                   />
                 )}
                 rules={{ min: 0, max: maxMemberCredit, required: true }}
