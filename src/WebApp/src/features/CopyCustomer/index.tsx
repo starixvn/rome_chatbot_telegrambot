@@ -75,7 +75,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
       username: formData.username,
       password: CryptoJS.AES.encrypt(formData.password, user.salt).toString(),
       credit: getNumberOfCommaString(formData.credit.toString()),
-      maxCredit: formData.memberMaxCredit && getNumberOfCommaString(formData.memberMaxCredit.toString()),
+      memberMaxCredit: formData.memberMaxCredit && getNumberOfCommaString(formData.memberMaxCredit.toString()),
       sourceUserName: formData.existAccount,
       numberOfAccounts: Number(formData.noOfAccounts),
       notifyTelegramMessage: {
