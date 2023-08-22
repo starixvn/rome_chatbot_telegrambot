@@ -1,7 +1,7 @@
 import { NextApiRequest } from "next";
 
 export const getClientIP = (req: NextApiRequest) => {
-  let ip = req.headers["x-real-ip"] as string;
+  let ip = req.headers["x-actual-ip"] as string;
 
   const forwardedFor = req.headers["x-forwarded-for"] as string;
   if (!ip && forwardedFor) {
