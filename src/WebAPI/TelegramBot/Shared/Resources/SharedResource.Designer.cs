@@ -1290,5 +1290,16 @@ namespace TelegramBot.Shared.Resources
                 return ResourceManager.GetString("YourBalance", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to OTP Informed.
+        /// </summary>
+        public static string OTPInformed
+        {
+            get
+            {
+                return ResourceManager.GetString("OTPInformed", resourceCulture);
+            }
+        }
     }
 }

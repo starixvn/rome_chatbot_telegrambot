@@ -108,16 +108,14 @@ namespace TelegramBot.Modules.Message
         public string BuildChangePasswordAlertMessage(string language)
             => string.Join(
                 messageFormatter.NewLine(),
-                $"[{ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlert), language)} - {DateTime.Now.ToSimpleDate()}]",
-                ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlertContent), language),
-                ResourceHelper.Get(nameof(SharedResource.AlertChangePasswordMessage), language));
+                $"{Unicode.Alarm} {ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlert), language)}",
+                ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlertContent), language));
 
         public string BuildChangeSecurityCodeAlertMessage(string language)
             => string.Join(
                 messageFormatter.NewLine(),
-                $"[{ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlert), language)} - {DateTime.Now.ToSimpleDate()}]",
-                ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlertContent), language),
-                ResourceHelper.Get(nameof(SharedResource.AlertMessage), language));
+                $"{Unicode.Alarm} {ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlert), language)}",
+                ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlertContent), language));
 
         public string BuildSettingOTPMessage(string language, string otp)
             => string.Format(ResourceHelper.Get(nameof(SharedResource.Setting_OTP_Help), language), otp);
@@ -282,12 +280,14 @@ namespace TelegramBot.Modules.Message
         public string BuildWrongPasswordAlertMessage(string language, string ip)
             => string.Join(
                 messageFormatter.NewLine(),
-                $"[{ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlert), language)} - {DateTime.Now.ToSimpleDate()}]",
-                ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlertContent), language),
-                $"{ResourceHelper.Get(nameof(SharedResource.RequestedIP), language)}: {ip}",
-                ResourceHelper.Get(nameof(SharedResource.AlertChangePasswordMessage), language));
+                $"{Unicode.Warning} {ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlert), language)}",
+                string.Format(ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlertContent), language), ip));
 
         public string BuildOTPMessage(string language, string otp)
-            => string.Format(ResourceHelper.Get(nameof(SharedResource.OTPMessage), language), otp);
+            => string.Join(
+                messageFormatter.NewLine(),
+                $"{Unicode.Envelope} {ResourceHelper.Get(nameof(SharedResource.OTPInformed), language)}",
+                string.Format(ResourceHelper.Get(nameof(SharedResource.OTPMessage), language), otp)
+            );
     }
 }

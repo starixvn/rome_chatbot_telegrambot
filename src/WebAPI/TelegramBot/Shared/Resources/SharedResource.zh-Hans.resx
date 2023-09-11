@@ -373,10 +373,6 @@
     <value>您的Telegram已经未链接与{0}</value>
     <comment />
   </data>
-  <data name="AlertChangePasswordMessage" xml:space="preserve">
-    <value>如果这不是您，请联系客户服务部门寻求协助</value>
-    <comment />
-  </data>
   <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
     <value>"{0}"无效，请输入有效的数字（最多{1}）。</value>
     <comment />
@@ -422,23 +418,15 @@
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
-    <value>您的保安码已经更改。</value>
-    <comment />
-  </data>
-  <data name="AlertMessage" xml:space="preserve">
-    <value>如果这不是您，请更改密码或联系客户服务部门寻求协助。</value>
+    <value>Your Security Code has been changed. Please check if it wasn't you.</value>
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlert" xml:space="preserve">
-    <value>警惕更换保安码</value>
-    <comment />
-  </data>
-  <data name="RequestedIP" xml:space="preserve">
-    <value>要求IP</value>
+    <value>Security Code Changed</value>
     <comment />
   </data>
   <data name="ChangePasswordAlert" xml:space="preserve">
-    <value>警惕更换密码</value>
+    <value>Password Changed</value>
     <comment />
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
@@ -466,7 +454,7 @@
     <comment />
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
-    <value>您帐户密码已更改。</value>
+    <value>Your account password has been changed. Please check if it wasn't you.</value>
     <comment />
   </data>
   <data name="LanguageUpdated" xml:space="preserve">
@@ -498,10 +486,10 @@
     <comment />
   </data>
   <data name="WrongPasswordAlert" xml:space="preserve">
-    <value>密码错误提示</value>
+    <value>Wrong Password</value>
   </data>
   <data name="WrongPasswordAlertContent" xml:space="preserve">
-    <value>您的账号密码多次输入错误。</value>
+    <value>Multiple incorrect password attempts from IP {0}. Please check if it wasn't you.</value>
   </data>
   <data name="BAL" xml:space="preserve">
     <value>余额</value>
@@ -540,9 +528,12 @@
     <value>昨天未完成赛事</value>
   </data>
   <data name="OTPMessage" xml:space="preserve">
-    <value>您的OTP是 &lt;code&gt;{0}&lt;/code&gt;，有效期为 3 分钟。 不要与任何人共享此 OTP。</value>
+    <value>Your OTP is &lt;code&gt;{0}&lt;/code&gt;, valid for 3 minutes. Do not share it with anyone.</value>
   </data>
   <data name="NonEnteredMatches" xml:space="preserve">
     <value>未完成赛事</value>
+  </data>
+  <data name="OTPInformed" xml:space="preserve">
+    <value>OTP Informed</value>
   </data>
 </root>
