@@ -88,10 +88,12 @@ public sealed class AbnormalLoginAlertJob : NotificationBaseJob
         var device = string.IsNullOrWhiteSpace(login.Device) ? Enum.GetName(typeof(DeviceFormFactor), GetDeviceType(c)) : login.Device;
 
         var messageBuilder = new StringBuilder();
-        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Title), language), DateTime.Now.ToSimpleDate()));
+        messageBuilder
+            .AppendLine(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.AbnormalLogin_Title), EmojiUnicode.Warning))
+            .AppendLine();
 
         var loginTime = DateTime.Parse(login.LoginTime);
-        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Header), language), login.Username, loginTime.ToLongTimeString()));
+        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Header), language), loginTime.ToLongTimeString()));
 
         messageBuilder.AppendLine("<pre>");
         messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Near), language), login.City, login.Country, login.IP));

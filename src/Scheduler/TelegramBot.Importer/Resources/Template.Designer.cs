@@ -389,17 +389,6 @@ namespace TelegramBot.Importer.Resources
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to Please kindly be informed and review the listed downline(s)..
-        /// </summary>
-        public static string ProblemAccountShowAllDownlines
-        {
-            get
-            {
-                return ResourceManager.GetString("ProblemAccountShowAllDownlines", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   Looks up a localized string similar to Please kindly be informed that there are {0} new problem accounts. Details can be found in Problem Account List..
         /// </summary>
         public static string ProblemAccountShowXDownlines
@@ -418,17 +407,6 @@ namespace TelegramBot.Importer.Resources
             get
             {
                 return ResourceManager.GetString("ReachedTime", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Your Win Loss Reached Sportsbook Threshold Alert.
-        /// </summary>
-        public static string SMAThresholdAlertTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("SMAThresholdAlertTitle", resourceCulture);
             }
         }
 
@@ -616,6 +594,72 @@ namespace TelegramBot.Importer.Resources
             get
             {
                 return ResourceManager.GetString("AbnormalLogin_Footer1", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to MyWatchlistWinContent.
+        /// </summary>
+        public static string MyWatchlistWinContent
+        {
+            get
+            {
+                return ResourceManager.GetString("MyWatchlistWinContent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to MyWatchlistLossContent.
+        /// </summary>
+        public static string MyWatchlistLossContent
+        {
+            get
+            {
+                return ResourceManager.GetString("MyWatchlistLossContent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to SMAThresholdAlertWinContent.
+        /// </summary>
+        public static string SMAThresholdAlertWinContent
+        {
+            get
+            {
+                return ResourceManager.GetString("SMAThresholdAlertWinContent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to SMAThresholdAlertLossContent.
+        /// </summary>
+        public static string SMAThresholdAlertLossContent
+        {
+            get
+            {
+                return ResourceManager.GetString("SMAThresholdAlertLossContent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to MemberWinLossLimitAlertWinContent.
+        /// </summary>
+        public static string MemberWinLossLimitAlertWinContent
+        {
+            get
+            {
+                return ResourceManager.GetString("MemberWinLossLimitAlertWinContent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to MemberWinLossLimitAlertLossContent.
+        /// </summary>
+        public static string MemberWinLossLimitAlertLossContent
+        {
+            get
+            {
+                return ResourceManager.GetString("MemberWinLossLimitAlertLossContent", resourceCulture);
             }
         }
     }

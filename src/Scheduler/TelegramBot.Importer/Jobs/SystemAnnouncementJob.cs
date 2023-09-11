@@ -84,12 +84,11 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
     {
         var result = new List<SystemNotification>();
         var custInfo = await customerService.GetCustomerInfo(customer.CustId);
-        if(!string.IsNullOrEmpty(custInfo.SiteLabel))
+        if (!string.IsNullOrEmpty(custInfo.SiteLabel))
         {
             var system = SystemMapper[custInfo.SiteLabel];
             var offeredProductIds = await productService.GetOfferedProductIdsByCustomer(customer.CustId);
             var specificationParam = new SpecificationParam(custInfo, customer.SubAccId > 0, offeredProductIds);
-            
 
             foreach (var announcement in announcements.Where(a => a.Systems.Contains(system, StringComparer.OrdinalIgnoreCase)))
             {
@@ -105,7 +104,7 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
                         customer.IsRealUser,
                         isUAT));
                 }
-            }            
+            }
         }
 
         return result;
@@ -126,7 +125,8 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
         }
 
         messageBuilder
-            .AppendLine(TemplateHelper.BuildTitle(language, "SystemAnnouncement", DateTime.Now.ToString("MM/dd/yyyy")))
+            .AppendLine(TemplateHelper.BuildTitleWithEmoji(language, "SystemAnnouncement", EmojiUnicode.Envelope))
+            .AppendLine()
             .Append(messageContent.StripHTML().Replace(TabChar, string.Empty));
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());

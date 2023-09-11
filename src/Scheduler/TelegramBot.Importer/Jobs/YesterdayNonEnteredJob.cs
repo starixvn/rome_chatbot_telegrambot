@@ -3,6 +3,7 @@ using Alpha.API.Client.Exceptions;
 using Alpha.API.Client.Models.WinLoss;
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
+using TelegramBot.Importer.Constants;
 using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Models.Customers;
@@ -67,7 +68,7 @@ public sealed class YesterdayNonEnteredJob : NotificationBaseJob
         try
         {
             var notifications = hasLinkedCustomer
-                ? await BuildYesterdayNonEnteredNotifications(job, linkedCustomers, winLossDate, enteredResult)
+                ? await BuildYesterdayNonEnteredNotifications(job, linkedCustomers, enteredResult)
                 : Enumerable.Empty<Notification>();
 
             // In case of NoData, call Import to update JobStatus=Completed and LastRuntime.
@@ -89,7 +90,6 @@ public sealed class YesterdayNonEnteredJob : NotificationBaseJob
     private async Task<IEnumerable<Notification>> BuildYesterdayNonEnteredNotifications(
         ScheduleJob job,
         IEnumerable<LinkedCustomer> linkedCustomers,
-        DateTime winLossDate,
         EnteredResult enteredResult)
     {
         var customerStatusParams = linkedCustomers.Select(c => new CustomerStatusParam(c.CustId, c.SubAccId));
@@ -108,7 +108,7 @@ public sealed class YesterdayNonEnteredJob : NotificationBaseJob
             query,
             (customer, _) =>
             {
-                var notification = BuildYesterdayNonEnteredNotification(job, customer, winLossDate, enteredResult);
+                var notification = BuildYesterdayNonEnteredNotification(job, customer, enteredResult);
 
                 if (notification != null)
                 {
@@ -122,19 +122,18 @@ public sealed class YesterdayNonEnteredJob : NotificationBaseJob
     private static Notification BuildYesterdayNonEnteredNotification(
         ScheduleJob job,
         LinkedCustomer customer,
-        DateTime winLossDate,
         EnteredResult enteredResult)
     {
-        var message = BuildMessage(customer.Language, enteredResult, winLossDate.ToSimpleDate());
+        var message = BuildMessage(customer.Language, enteredResult);
 
         return new Notification(customer.UserId, customer.BotId, message, customer.IsRealUser, job.IsUAT);
     }
 
-    private static string BuildMessage(string language, EnteredResult enteredResult, string winLossDate)
+    private static string BuildMessage(string language, EnteredResult enteredResult)
     {
         var messageBuilder = new StringBuilder();
         messageBuilder
-            .AppendLine(TemplateHelper.BuildTitle(language, nameof(Template.NonEnteredMatchNotification), winLossDate));
+            .AppendLine(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.NonEnteredMatchNotification), EmojiUnicode.Envelope));
 
         messageBuilder.AppendLine("<pre>");
         messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.NonEnteredMatches), enteredResult.NonEntered.ToString(), language));

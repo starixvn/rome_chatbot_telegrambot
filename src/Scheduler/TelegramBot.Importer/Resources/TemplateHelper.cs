@@ -25,6 +25,9 @@ public static class TemplateHelper
     public static string BuildTitleWithoutStrikeThrough(string language, string resourceKey, string date)
         => $"[{Get(resourceKey, language)} {date}]";
 
+    public static string BuildTitleWithEmoji(string language, string resourceKey, string emoji)
+        => $"{emoji} <b>{Get(resourceKey, language)}</b>";
+
     public static string FormatRow(string resourceKey, string value, string language)
     {
         var key = Get(resourceKey, language);
