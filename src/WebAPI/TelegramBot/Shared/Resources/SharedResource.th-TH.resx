@@ -414,7 +414,7 @@
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
-    <value>Your Security Code has been changed. Please check if it wasn't you.</value>
+    <value>Your Security Code has been changed. Please check if this wasn't you.</value>
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlert" xml:space="preserve">
@@ -450,7 +450,7 @@
     <comment />
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
-    <value>Your account password has been changed. Please check if it wasn't you.</value>
+    <value>Your account password has been changed. Please check if this wasn't you.</value>
     <comment />
   </data>
   <data name="LanguageUpdated" xml:space="preserve">
@@ -485,7 +485,7 @@
     <value>Wrong Password</value>
   </data>
   <data name="WrongPasswordAlertContent" xml:space="preserve">
-    <value>Multiple incorrect password attempts from IP {0}. Please check if it wasn't you.</value>
+    <value>Multiple incorrect password attempts from IP {0}. Please check if this wasn't you.</value>
   </data>
   <data name="BAL" xml:space="preserve">
     <value>ยอดเงินคงเหลือ</value>

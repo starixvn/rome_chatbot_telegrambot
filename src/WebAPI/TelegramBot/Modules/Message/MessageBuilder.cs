@@ -107,14 +107,18 @@ namespace TelegramBot.Modules.Message
 
         public string BuildChangePasswordAlertMessage(string language)
             => string.Join(
+                string.Empty,
+                BuildTitleWithEmoji(Unicode.Alarm, nameof(SharedResource.ChangePasswordAlert), language),
                 messageFormatter.NewLine(),
-                $"{Unicode.Alarm} {ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlert), language)}",
+                messageFormatter.NewLine(),
                 ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlertContent), language));
 
         public string BuildChangeSecurityCodeAlertMessage(string language)
             => string.Join(
+                string.Empty,
+                BuildTitleWithEmoji(Unicode.Alarm, nameof(SharedResource.ChangeSecurityCodeAlert), language),
                 messageFormatter.NewLine(),
-                $"{Unicode.Alarm} {ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlert), language)}",
+                messageFormatter.NewLine(),
                 ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlertContent), language));
 
         public string BuildSettingOTPMessage(string language, string otp)
@@ -279,15 +283,22 @@ namespace TelegramBot.Modules.Message
 
         public string BuildWrongPasswordAlertMessage(string language, string ip)
             => string.Join(
+                string.Empty,
+                BuildTitleWithEmoji(Unicode.Warning, nameof(SharedResource.WrongPasswordAlert), language),
                 messageFormatter.NewLine(),
-                $"{Unicode.Warning} {ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlert), language)}",
+                messageFormatter.NewLine(),
                 string.Format(ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlertContent), language), ip));
 
         public string BuildOTPMessage(string language, string otp)
             => string.Join(
+                string.Empty,
+                BuildTitleWithEmoji(Unicode.Envelope, nameof(SharedResource.OTPInformed), language),
                 messageFormatter.NewLine(),
-                $"{Unicode.Envelope} {ResourceHelper.Get(nameof(SharedResource.OTPInformed), language)}",
+                messageFormatter.NewLine(),
                 string.Format(ResourceHelper.Get(nameof(SharedResource.OTPMessage), language), otp)
             );
+
+        private static string BuildTitleWithEmoji(string emoji, string resourceKey, string language)
+            => $"{emoji} <b>{ResourceHelper.Get(resourceKey, language)}</b>";
     }
 }
