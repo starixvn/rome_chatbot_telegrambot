@@ -31,12 +31,12 @@ public abstract class NotificationBaseJob : IJob
 
     public async Task Execute(IJobExecutionContext context)
     {
-        var sw = Stopwatch.StartNew();
+        //var sw = Stopwatch.StartNew();
         var job = GetJobDetails(context);
 
         if (await IsUM(job))
         {
-            await loggerService.Debug(job, "is Under Maintenance.");
+            loggerService.InfoConsole(job, "is Under Maintenance.");
             return;
         }
 
@@ -46,7 +46,7 @@ public abstract class NotificationBaseJob : IJob
 
             if (systemSetting == null || !systemSetting.ServiceFlag)
             {
-                await loggerService.Debug(job, "is set stopped from DB.");
+                loggerService.InfoConsole(job, "is set stopped from DB.");
                 return;
             }
 
@@ -59,8 +59,7 @@ public abstract class NotificationBaseJob : IJob
             await loggerService.Error(ex, job);
         }
 
-        sw.Stop();
-        await loggerService.Debug(job, $"Total execution time {sw.ElapsedMilliseconds} milliseconds.");
+        //sw.Stop();
     }
 
     private static ScheduleJob GetJobDetails(IJobExecutionContext context)

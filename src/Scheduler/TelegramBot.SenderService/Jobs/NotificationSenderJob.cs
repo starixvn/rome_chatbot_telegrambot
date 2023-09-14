@@ -48,10 +48,9 @@ public sealed class NotificationSenderJob : IJob
         var environment = dataMap.GetString(JobDataKey.Environment);
         var notificationChunkSize = dataMap.GetIntValue(JobDataKey.NotificationChunkSize);
 
-        await loggerService.Debug($"{DateTime.Now} - {jobName}: Start job.");
-
         if (await IsUM(jobName, environment))
         {
+            loggerService.InfoConsole($"{DateTime.Now}: {jobName} is Under Maintenance.");
             return;
         }
 
@@ -61,6 +60,7 @@ public sealed class NotificationSenderJob : IJob
 
             if (IsStopJob(systemSetting))
             {
+                loggerService.InfoConsole($"{DateTime.Now}: {jobName} is set stopped from DB.");
                 return;
             }
 
@@ -78,10 +78,6 @@ public sealed class NotificationSenderJob : IJob
         catch (Exception ex)
         {
             await loggerService.Error(ex, jobName, environment);
-        }
-        finally
-        {
-            await loggerService.Debug($"{DateTime.Now} - {jobName}: End job.");
         }
     }
 

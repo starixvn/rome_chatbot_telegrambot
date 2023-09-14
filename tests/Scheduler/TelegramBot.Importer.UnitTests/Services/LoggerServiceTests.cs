@@ -2,6 +2,7 @@ using System.Data.SqlClient;
 using System.Runtime.Serialization;
 using Fanex.Data;
 using Fanex.Logging;
+using Microsoft.Extensions.Logging;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Services;
 
@@ -9,13 +10,15 @@ namespace TelegramBot.Importer.UnitTests.Services;
 
 public class LoggerServiceTests
 {
-    private readonly ILogger logger;
+    private readonly Fanex.Logging.ILogger logger;
+    private readonly ILogger<LoggerService> loggerConsole;
     private readonly LoggerService loggerService;
 
     public LoggerServiceTests()
     {
-        logger = Substitute.For<ILogger>();
-        loggerService = new LoggerService(logger);
+        logger = Substitute.For<Fanex.Logging.ILogger>();
+        loggerConsole = Substitute.For<ILogger<LoggerService>>();
+        loggerService = new LoggerService(logger, loggerConsole);
     }
 
     [Theory, AutoData]
@@ -57,12 +60,12 @@ public class LoggerServiceTests
     }
 
     [Theory, AutoData]
-    public async Task Debug_Always_CallsDebugAsync(ScheduleJob job, string message)
+    public void InfoConsole_Always_CallsLogInformation(ScheduleJob job, string message)
     {
         // Act
-        await loggerService.Debug(job, message);
+        loggerService.InfoConsole(job, message);
 
         // Assert
-        await logger.Received().DebugAsync(Arg.Any<string>());
+        loggerConsole.Received().LogInformation(Arg.Any<string>());
     }
 }

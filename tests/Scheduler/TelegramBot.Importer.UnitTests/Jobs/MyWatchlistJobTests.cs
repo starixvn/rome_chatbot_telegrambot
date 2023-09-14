@@ -108,7 +108,7 @@ public class MyWatchlistJobTests
     }
 
     [Fact]
-    public async Task Execute_IsUM_CallsLogDebug()
+    public async Task Execute_IsUM_CallsLogInfoConsole()
     {
         // Arrange
         var context = Substitute.For<IJobExecutionContext>();
@@ -129,13 +129,13 @@ public class MyWatchlistJobTests
         await myWatchlistJob.Execute(context);
 
         // Assert
-        await loggerService.Received().Debug(
+        loggerService.Received().InfoConsole(
             Arg.Is<ScheduleJob>(j => j.Name == jobName && j.SubAccPermission == subAccPermission && j.Environment == environment && !j.IsGetTestData && j.IsActive),
             "is Under Maintenance.");
     }
 
     [Fact]
-    public async Task Execute_SettingIsNull_CallsLogDebug()
+    public async Task Execute_SettingIsNull_CallsLogInfoConsole()
     {
         // Arrange
         var context = Substitute.For<IJobExecutionContext>();
@@ -157,13 +157,13 @@ public class MyWatchlistJobTests
         await myWatchlistJob.Execute(context);
 
         // Assert
-        await loggerService.Received().Debug(
+        loggerService.Received().InfoConsole(
             Arg.Is<ScheduleJob>(j => j.Name == jobName && j.SubAccPermission == subAccPermission && j.Environment == environment && !j.IsGetTestData && j.IsActive),
             "is set stopped from DB.");
     }
 
     [Fact]
-    public async Task Execute_ServiceFlagIsFalse_CallsLogDebug()
+    public async Task Execute_ServiceFlagIsFalse_CallsLogInfoConsole()
     {
         // Arrange
         var context = Substitute.For<IJobExecutionContext>();
@@ -186,13 +186,13 @@ public class MyWatchlistJobTests
         await myWatchlistJob.Execute(context);
 
         // Assert
-        await loggerService.Received().Debug(
+        loggerService.Received().InfoConsole(
             Arg.Is<ScheduleJob>(j => j.Name == jobName && j.SubAccPermission == subAccPermission && j.Environment == environment && !j.IsGetTestData && j.IsActive),
             "is set stopped from DB.");
     }
 
     [Fact]
-    public async Task Execute_ServiceFlagIsTrue_CallsLogDebug()
+    public async Task Execute_ServiceFlagIsTrue_CallsLogInfoConsole()
     {
         // Arrange
         var context = Substitute.For<IJobExecutionContext>();
