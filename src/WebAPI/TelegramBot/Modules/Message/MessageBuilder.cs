@@ -107,18 +107,14 @@ namespace TelegramBot.Modules.Message
 
         public string BuildChangePasswordAlertMessage(string language)
             => string.Join(
-                string.Empty,
+                messageFormatter.NewLine(),
                 BuildTitleWithEmoji(Unicode.Alarm, nameof(SharedResource.ChangePasswordAlert), language),
-                messageFormatter.NewLine(),
-                messageFormatter.NewLine(),
                 ResourceHelper.Get(nameof(SharedResource.ChangePasswordAlertContent), language));
 
         public string BuildChangeSecurityCodeAlertMessage(string language)
             => string.Join(
-                string.Empty,
+                messageFormatter.NewLine(),
                 BuildTitleWithEmoji(Unicode.Alarm, nameof(SharedResource.ChangeSecurityCodeAlert), language),
-                messageFormatter.NewLine(),
-                messageFormatter.NewLine(),
                 ResourceHelper.Get(nameof(SharedResource.ChangeSecurityCodeAlertContent), language));
 
         public string BuildSettingOTPMessage(string language, string otp)
@@ -283,18 +279,14 @@ namespace TelegramBot.Modules.Message
 
         public string BuildWrongPasswordAlertMessage(string language, string ip)
             => string.Join(
-                string.Empty,
+                messageFormatter.NewLine(),
                 BuildTitleWithEmoji(Unicode.Warning, nameof(SharedResource.WrongPasswordAlert), language),
-                messageFormatter.NewLine(),
-                messageFormatter.NewLine(),
                 string.Format(ResourceHelper.Get(nameof(SharedResource.WrongPasswordAlertContent), language), ip));
 
         public string BuildOTPMessage(string language, string otp)
             => string.Join(
-                string.Empty,
+                messageFormatter.NewLine(),
                 BuildTitleWithEmoji(Unicode.Envelope, nameof(SharedResource.OTPInformed), language),
-                messageFormatter.NewLine(),
-                messageFormatter.NewLine(),
                 string.Format(ResourceHelper.Get(nameof(SharedResource.OTPMessage), language), otp)
             );
 

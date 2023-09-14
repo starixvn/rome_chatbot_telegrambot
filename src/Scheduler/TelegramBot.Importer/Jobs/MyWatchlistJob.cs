@@ -113,26 +113,26 @@ public sealed class MyWatchlistJob : NotificationBaseJob
     private static string BuildMessage(string language, MonitoredPlayer monitoredPlayer)
     {
         var messageBuilder = new StringBuilder();
-        messageBuilder.AppendLine(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.MyWatchlistTitle), EmojiUnicode.Warning));
-        messageBuilder.AppendLine("<pre>");
+        messageBuilder.Append(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.MyWatchlistTitle), EmojiUnicode.Warning));
+        messageBuilder.Append("<pre>");
         if (monitoredPlayer.AccumWL >= 0)
         {
-            messageBuilder.AppendLine(string.Format(
+            messageBuilder.AppendFormat(
                 TemplateHelper.Get(nameof(Template.MyWatchlistWinContent), language),
                 monitoredPlayer.Username,
                 monitoredPlayer.AccumWL.FormatDecimal(),
-                monitoredPlayer.WinningThreshold.FormatDecimal()));
+                monitoredPlayer.WinningThreshold.FormatDecimal());
         }
         else
         {
-            messageBuilder.AppendLine(string.Format(
+            messageBuilder.AppendFormat(
                 TemplateHelper.Get(nameof(Template.MyWatchlistLossContent), language),
                 monitoredPlayer.Username,
                 monitoredPlayer.AccumWL.FormatDecimal(),
-                monitoredPlayer.LosingThreshold.FormatDecimal()));
+                monitoredPlayer.LosingThreshold.FormatDecimal());
         }
 
-        messageBuilder.AppendLine("</pre>");
+        messageBuilder.Append("</pre>");
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
@@ -140,24 +140,24 @@ public sealed class MyWatchlistJob : NotificationBaseJob
     private static string BuildSMAThresholdMessage(string language, MonitoredPlayer monitoredPlayer)
     {
         var messageBuilder = new StringBuilder();
-        messageBuilder.AppendLine(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.MyWatchlistTitle), EmojiUnicode.Warning));
-        messageBuilder.AppendLine("<pre>");
+        messageBuilder.Append(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.MyWatchlistTitle), EmojiUnicode.Warning));
+        messageBuilder.Append("<pre>");
         if (monitoredPlayer.AccumWL >= 0)
         {
-            messageBuilder.AppendLine(string.Format(
+            messageBuilder.AppendFormat(
                 TemplateHelper.Get(nameof(Template.SMAThresholdAlertWinContent), language),
                 monitoredPlayer.AccumWL.FormatDecimal(),
-                monitoredPlayer.WinningThreshold.FormatDecimal()));
+                monitoredPlayer.WinningThreshold.FormatDecimal());
         }
         else
         {
-            messageBuilder.AppendLine(string.Format(
+            messageBuilder.AppendFormat(
                 TemplateHelper.Get(nameof(Template.SMAThresholdAlertLossContent), language),
                 monitoredPlayer.AccumWL.FormatDecimal(),
-                monitoredPlayer.LosingThreshold.FormatDecimal()));
+                monitoredPlayer.LosingThreshold.FormatDecimal());
         }
 
-        messageBuilder.AppendLine("</pre>");
+        messageBuilder.Append("</pre>");
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }

@@ -167,20 +167,18 @@ public sealed class ProblemAccountJob : NotificationBaseJob
         var usernamesCount = usernames.Count();
 
         var messageBuilder = new StringBuilder();
-        messageBuilder
-            .AppendLine(TemplateHelper.BuildTitleWithEmoji(language, "ProblemAccountAlert", EmojiUnicode.Warning))
-            .AppendLine();
+        messageBuilder.AppendLine(TemplateHelper.BuildTitleWithEmoji(language, "ProblemAccountAlert", EmojiUnicode.Warning));
 
         if (usernamesCount <= MaxUsernames)
         {
-            messageBuilder.AppendLine(
-                string.Format(TemplateHelper.Get("NewProblemAccounts", language),
+            messageBuilder.AppendFormat(
+                TemplateHelper.Get("NewProblemAccounts", language),
                 usernamesCount,
-                usernames.Select(u => u.Item1).Join(", ")));
+                usernames.Select(u => u.Item1).Join(", "));
         }
         else
         {
-            messageBuilder.Append(string.Format(TemplateHelper.Get("ProblemAccountShowXDownlines", language), usernamesCount));
+            messageBuilder.AppendFormat(TemplateHelper.Get("ProblemAccountShowXDownlines", language), usernamesCount);
         }
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());

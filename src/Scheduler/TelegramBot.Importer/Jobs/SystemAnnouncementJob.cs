@@ -126,7 +126,6 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
 
         messageBuilder
             .AppendLine(TemplateHelper.BuildTitleWithEmoji(language, "SystemAnnouncement", EmojiUnicode.Envelope))
-            .AppendLine()
             .Append(messageContent.StripHTML().Replace(TabChar, string.Empty));
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());

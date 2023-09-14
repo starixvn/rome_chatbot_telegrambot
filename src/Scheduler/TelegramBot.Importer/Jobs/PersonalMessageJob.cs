@@ -144,7 +144,6 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         var messageBuilder = new StringBuilder();
         messageBuilder
             .AppendLine(TemplateHelper.BuildTitleWithEmoji(language, "PersonalMessage", EmojiUnicode.Envelope))
-            .AppendLine()
             .Append(transId.Length == 0 ? content : content.Replace("@@", transId));
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());

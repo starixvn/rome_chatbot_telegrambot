@@ -98,10 +98,9 @@ public sealed class MemberWinLossLimitJob : NotificationBaseJob
     {
         var messageBuilder = new StringBuilder();
         messageBuilder
-            .AppendLine(string.Format(
+            .AppendFormat(
                 TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.MemberWinLossLimitAlert), EmojiUnicode.Warning),
-                cacheRefService.GetProductName(memberWinLossLimit.ProductId, language)))
-            .AppendLine()
+                cacheRefService.GetProductName(memberWinLossLimit.ProductId, language))
             .Append("<pre>");
         if (memberWinLossLimit.WinLost >= 0)
         {
