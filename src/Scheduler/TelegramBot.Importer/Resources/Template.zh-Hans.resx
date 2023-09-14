@@ -186,15 +186,15 @@
     <comment />
   </data>
   <data name="NewProblemAccounts" xml:space="preserve">
-    <value>{0} account(s) added: {1}.</value>
+    <value>添加 {0}个账号: {1}</value>
     <comment />
   </data>
   <data name="ProblemAccountAlert" xml:space="preserve">
-    <value>Problem Accounts</value>
+    <value>问题账号</value>
     <comment />
   </data>
   <data name="ProblemAccountShowXDownlines" xml:space="preserve">
-    <value>{0} accounts added. Details can be found in Problem Account List.</value>
+    <value>添加 {0}个账号: 请在问题账号列表找到详细信息。</value>
     <comment />
   </data>
   <data name="MemberReachWinLossIntro" xml:space="preserve">
@@ -202,7 +202,7 @@
     <comment />
   </data>
   <data name="MemberWinLossLimitAlert" xml:space="preserve">
-    <value>{0} Win Loss Limit</value>
+    <value>{0} 输赢限制</value>
     <comment />
   </data>
   <data name="MemberWinLossLimitNote" xml:space="preserve">
@@ -230,7 +230,7 @@
     <comment />
   </data>
   <data name="MyWatchlistTitle" xml:space="preserve">
-    <value>Sportsbook Threshold</value>
+    <value>体育博彩限额</value>
     <comment />
   </data>
   <data name="NonEnteredMatchNote" xml:space="preserve">
@@ -246,7 +246,7 @@
     <comment />
   </data>
   <data name="NonEnteredMatchNotification" xml:space="preserve">
-    <value>Non-entered matches</value>
+    <value>未完成赛事</value>
     <comment />
   </data>
   <data name="CurrentWinLoss" xml:space="preserve">
@@ -286,11 +286,11 @@
     <comment />
   </data>
   <data name="AbnormalLogin_Title" xml:space="preserve">
-    <value>Abnormal Login Detected</value>
+    <value>检测登入异常</value>
     <comment />
   </data>
   <data name="AbnormalLogin_Header" xml:space="preserve">
-    <value>New device attempted to log in to your account at {0} (GMT-4).</value>
+    <value>新设备在 {0} (GMT-4)尝试登入您的账号。</value>
     <comment />
   </data>
   <data name="AbnormalLogin_Near" xml:space="preserve">
@@ -306,25 +306,25 @@
     <comment />
   </data>
   <data name="AbnormalLogin_Footer1" xml:space="preserve">
-    <value>Please check if this wasn't you.</value>
+    <value>若不是您本人请再次查看。</value>
     <comment />
   </data>
   <data name="MyWatchlistWinContent" xml:space="preserve">
-    <value>{0}’s win amount ({1}) has reached the threshold ({2})</value>
+    <value>{0}的赢额 ({1})已达到限额 ({2})</value>
   </data>
   <data name="MyWatchlistLossContent" xml:space="preserve">
-    <value>{0}’s loss amount ({1}) has reached the threshold ({2})</value>
+    <value>{0}的输额 ({1})已达到限额 ({2})</value>
   </data>
   <data name="SMAThresholdAlertWinContent" xml:space="preserve">
-    <value>Your win amount ({0}) has reached the threshold ({1})</value>
+    <value>您的赢额 ({0})已达到限额 ({1})</value>
   </data>
   <data name="SMAThresholdAlertLossContent" xml:space="preserve">
-    <value>Your loss amount ({0}) has reached the threshold ({1})</value>
+    <value>您的输额 ({0})已达到限额 ({1})</value>
   </data>
   <data name="MemberWinLossLimitAlertWinContent" xml:space="preserve">
-    <value>{0}'s win amount ({1}) has reached the limit ({2})</value>
+    <value>{0}的赢额 ({1})已达到限额 ({2})</value>
   </data>
   <data name="MemberWinLossLimitAlertLossContent" xml:space="preserve">
-    <value>{0}'s loss amount ({1}) has reached the limit ({2})</value>
+    <value>{0}的输额 ({1})已达到限额 ({2})</value>
   </data>
 </root>

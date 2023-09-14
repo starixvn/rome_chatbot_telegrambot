@@ -92,14 +92,14 @@ public sealed class AbnormalLoginAlertJob : NotificationBaseJob
             .AppendLine(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.AbnormalLogin_Title), EmojiUnicode.Warning));
 
         var loginTime = DateTime.Parse(login.LoginTime);
-        messageBuilder.Append(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Header), language), loginTime.ToLongTimeString()));
+        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Header), language), loginTime.ToLongTimeString()));
 
         messageBuilder.Append("<pre>");
         messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Near), language), login.City, login.Country, login.IP));
         messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Device), language), string.IsNullOrWhiteSpace(device) ? string.Empty : device + ", ", c.OS.ToString()));
 
         var browser = string.IsNullOrWhiteSpace(login.Browser) ? c.UA.Family : login.Browser;
-        messageBuilder.Append(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Browser), language), browser));
+        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Browser), language), browser));
         messageBuilder.Append("</pre>");
 
         messageBuilder.Append(TemplateHelper.Get(nameof(Template.AbnormalLogin_Footer1), language));

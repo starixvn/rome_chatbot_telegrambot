@@ -521,7 +521,7 @@
         <value>Downline's Yesterday Win Loss</value>
     </data>
   <data name="OTPMessage" xml:space="preserve">
-        <value>Your OTP is &lt;code&gt;{0}&lt;/code&gt;, valid for 3 minutes. Do not share it with anyone.</value>
+        <value>Your OTP is &lt;code&gt;{0}&lt;/code&gt;, valid for 3 minutes. Do not share this OTP with anyone.</value>
     </data>
   <data name="YesterdayNonEnteredMatches" xml:space="preserve">
         <value>Yesterday Non-Entered Matches</value>
@@ -533,6 +533,6 @@
         <value>Entered matches</value>
     </data>
   <data name="OTPInformed" xml:space="preserve">
-        <value>OTP Informed</value>
+        <value>OTP Verification</value>
     </data>
 </root>

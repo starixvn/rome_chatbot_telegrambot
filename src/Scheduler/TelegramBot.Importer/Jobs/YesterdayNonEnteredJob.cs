@@ -132,7 +132,7 @@ public sealed class YesterdayNonEnteredJob : NotificationBaseJob
     private static string BuildMessage(string language, EnteredResult enteredResult)
     {
         var messageBuilder = new StringBuilder();
-        messageBuilder.Append(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.NonEnteredMatchNotification), EmojiUnicode.Envelope));
+        messageBuilder.AppendLine(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.NonEnteredMatchNotification), EmojiUnicode.Envelope));
 
         messageBuilder.Append("<pre>");
         messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.NonEnteredMatches), enteredResult.NonEntered.ToString(), language));

@@ -378,7 +378,7 @@
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
-    <value>Your Security Code has been changed. Please check if this wasn't you.</value>
+    <value>Mã Bảo Mật của bạn đã thay đổi. Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
     <comment />
   </data>
   <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
@@ -394,11 +394,11 @@
     <comment />
   </data>
   <data name="ChangePasswordAlert" xml:space="preserve">
-    <value>Password Changed</value>
+    <value>Mật Khẩu Đã Thay Đổi</value>
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlert" xml:space="preserve">
-    <value>Security Code Changed</value>
+    <value>Mã Bảo Mật Đã Thay Đổi</value>
     <comment />
   </data>
   <data name="Unlink" xml:space="preserve">
@@ -422,7 +422,7 @@
     <comment />
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
-    <value>Your account password has been changed. Please check if this wasn't you.</value>
+    <value>Mật khẩu của bạn đã thay đổi. Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
     <comment />
   </data>
   <data name="LanguageUpdated" xml:space="preserve">
@@ -458,10 +458,10 @@
     <comment />
   </data>
   <data name="WrongPasswordAlert" xml:space="preserve">
-    <value>Wrong Password</value>
+    <value>Sai Mật Khẩu</value>
   </data>
   <data name="WrongPasswordAlertContent" xml:space="preserve">
-    <value>Multiple incorrect password attempts from IP {0}. Please check if this wasn't you.</value>
+    <value>Nhiều lần thử mật khẩu không thành công từ IP {0}.Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
   </data>
   <data name="BAL" xml:space="preserve">
     <value>Thu/Nợ</value>
@@ -503,12 +503,12 @@
     <value>Trận chưa có kết quả hôm qua</value>
   </data>
   <data name="OTPMessage" xml:space="preserve">
-    <value>Your OTP is &lt;code&gt;{0}&lt;/code&gt;, valid for 3 minutes. Do not share it with anyone.</value>
+    <value>OTP của bạn &lt;code&gt;{0}&lt;/code&gt; có hiệu lực trong 3 phút. Vui lòng không chia sẻ OTP với bất kỳ ai.</value>
   </data>
   <data name="NonEnteredMatches" xml:space="preserve">
     <value>Trận chưa có kết quả</value>
   </data>
   <data name="OTPInformed" xml:space="preserve">
-    <value>OTP Informed</value>
+    <value>Xác Thực OTP</value>
   </data>
 </root>

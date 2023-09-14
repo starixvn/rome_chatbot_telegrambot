@@ -414,15 +414,15 @@
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
-    <value>Your Security Code has been changed. Please check if this wasn't you.</value>
+    <value>รหัสความปลอดภัยของคุณมีการเปลี่ยนแปลง โปรดตรวจสอบหากคุณไม่ได้ดำเนินการดังกล่าว</value>
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlert" xml:space="preserve">
-    <value>Security Code Changed</value>
+    <value>รหัสความปลอดภัยมีการเปลี่ยนแปลง</value>
     <comment />
   </data>
   <data name="ChangePasswordAlert" xml:space="preserve">
-    <value>Password Changed</value>
+    <value>เปลี่ยนรหัสผ่านแล้ว</value>
     <comment />
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
@@ -450,7 +450,7 @@
     <comment />
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
-    <value>Your account password has been changed. Please check if this wasn't you.</value>
+    <value>รหัสผ่านของคุณมีการเปลี่ยนแปลง โปรดตรวจสอบหากคุณไม่ได้ดำเนินการดังกล่าว</value>
     <comment />
   </data>
   <data name="LanguageUpdated" xml:space="preserve">
@@ -482,10 +482,10 @@
     <comment />
   </data>
   <data name="WrongPasswordAlert" xml:space="preserve">
-    <value>Wrong Password</value>
+    <value>รหัสผ่านผิด</value>
   </data>
   <data name="WrongPasswordAlertContent" xml:space="preserve">
-    <value>Multiple incorrect password attempts from IP {0}. Please check if this wasn't you.</value>
+    <value>มีการใช้รหัสผ่านไม่ถูกต้องหลายครั้งจาก IP {0} โปรดตรวจสอบหากคุณไม่ได้ดำเนินการดังกล่าว</value>
   </data>
   <data name="BAL" xml:space="preserve">
     <value>ยอดเงินคงเหลือ</value>
@@ -524,12 +524,12 @@
     <value>คู่การแข่งขันของเมื่อวานที่ยังไม่จบ</value>
   </data>
   <data name="OTPMessage" xml:space="preserve">
-    <value>Your OTP is &lt;code&gt;{0}&lt;/code&gt;, valid for 3 minutes. Do not share it with anyone.</value>
+    <value>รหัสผ่าน OTP ของคุณคือ &lt;code&gt;{0}&lt;/code&gt; และจะหมดอายุภายใน 3 นาที โปรดอย่าเผยแพร่รหัส OTP แก่ผู้อื่น</value>
   </data>
   <data name="NonEnteredMatches" xml:space="preserve">
     <value>คู่การแข่งขันที่ยังไม่จบ</value>
   </data>
   <data name="OTPInformed" xml:space="preserve">
-    <value>OTP Informed</value>
+    <value>การยืนยัน OTP</value>
   </data>
 </root>

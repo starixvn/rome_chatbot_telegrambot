@@ -418,15 +418,15 @@
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
-    <value>Your Security Code has been changed. Please check if this wasn't you.</value>
+    <value>您的保安码已更换。若不是您本人请再次查看。</value>
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlert" xml:space="preserve">
-    <value>Security Code Changed</value>
+    <value>保安码已更换。</value>
     <comment />
   </data>
   <data name="ChangePasswordAlert" xml:space="preserve">
-    <value>Password Changed</value>
+    <value>密码已更改</value>
     <comment />
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
@@ -454,7 +454,7 @@
     <comment />
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
-    <value>Your account password has been changed. Please check if this wasn't you.</value>
+    <value>您的密码已更换。若不是您本人请再次查看。</value>
     <comment />
   </data>
   <data name="LanguageUpdated" xml:space="preserve">
@@ -486,10 +486,10 @@
     <comment />
   </data>
   <data name="WrongPasswordAlert" xml:space="preserve">
-    <value>Wrong Password</value>
+    <value>密码错误</value>
   </data>
   <data name="WrongPasswordAlertContent" xml:space="preserve">
-    <value>Multiple incorrect password attempts from IP {0}. Please check if this wasn't you.</value>
+    <value>来自于IP {0}多次尝试错误密码。若不是您本人请再次查看。</value>
   </data>
   <data name="BAL" xml:space="preserve">
     <value>余额</value>
@@ -528,12 +528,12 @@
     <value>昨天未完成赛事</value>
   </data>
   <data name="OTPMessage" xml:space="preserve">
-    <value>Your OTP is &lt;code&gt;{0}&lt;/code&gt;, valid for 3 minutes. Do not share it with anyone.</value>
+    <value>您的OTP是 &lt;code&gt;{0}&lt;/code&gt;，有效期为 3 分钟。 不要与任何人共享此 OTP。</value>
   </data>
   <data name="NonEnteredMatches" xml:space="preserve">
     <value>未完成赛事</value>
   </data>
   <data name="OTPInformed" xml:space="preserve">
-    <value>OTP Informed</value>
+    <value>OTP 验证码</value>
   </data>
 </root>

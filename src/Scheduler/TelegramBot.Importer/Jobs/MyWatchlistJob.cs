@@ -113,7 +113,7 @@ public sealed class MyWatchlistJob : NotificationBaseJob
     private static string BuildMessage(string language, MonitoredPlayer monitoredPlayer)
     {
         var messageBuilder = new StringBuilder();
-        messageBuilder.Append(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.MyWatchlistTitle), EmojiUnicode.Warning));
+        messageBuilder.AppendLine(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.MyWatchlistTitle), EmojiUnicode.Warning));
         messageBuilder.Append("<pre>");
         if (monitoredPlayer.AccumWL >= 0)
         {
@@ -140,7 +140,7 @@ public sealed class MyWatchlistJob : NotificationBaseJob
     private static string BuildSMAThresholdMessage(string language, MonitoredPlayer monitoredPlayer)
     {
         var messageBuilder = new StringBuilder();
-        messageBuilder.Append(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.MyWatchlistTitle), EmojiUnicode.Warning));
+        messageBuilder.AppendLine(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.MyWatchlistTitle), EmojiUnicode.Warning));
         messageBuilder.Append("<pre>");
         if (monitoredPlayer.AccumWL >= 0)
         {
