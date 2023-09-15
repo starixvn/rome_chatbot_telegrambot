@@ -23,7 +23,7 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
     {
         ["IBC"] = "Bot-IBC",
         ["789y"] = "Bot-789Y",
-        ["Nova88"] = "Bot-Nova88"
+        ["MBC"] = "Bot-MBC"
     };
     private readonly IAnnouncementService announcementService;
     private readonly IProductService productService;
