@@ -11,5 +11,8 @@ namespace TelegramBot.Modules.Action.Constants
         public const string ChinaFlag = "\uD83C\uDDE8\uD83C\uDDF3";
         public const string ThaiFlag = "\uD83C\uDDF9\uD83C\uDDED";
         public const string VietnamFlag = "\uD83C\uDDFB\uD83C\uDDF3";
+        public const string Alarm = "\uD83D\uDEA8";
+        public const string Warning = "\u26A0";
+        public const string Envelope = "\u2709";
     }
 }

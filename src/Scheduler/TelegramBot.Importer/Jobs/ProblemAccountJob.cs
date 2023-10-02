@@ -2,6 +2,7 @@
 using System.Text;
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
+using TelegramBot.Importer.Constants;
 using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Models.Customers;
 using TelegramBot.Importer.Models.ProblemAccounts;
@@ -166,43 +167,20 @@ public sealed class ProblemAccountJob : NotificationBaseJob
         var usernamesCount = usernames.Count();
 
         var messageBuilder = new StringBuilder();
-        messageBuilder
-            .AppendLine(TemplateHelper.BuildTitleWithoutStrikeThrough(language, "ProblemAccountAlert", GetDateTimeOnTitle(usernames)));
-
+        messageBuilder.AppendLine(TemplateHelper.BuildTitleWithEmoji(language, "ProblemAccountAlert", EmojiUnicode.Warning));
 
         if (usernamesCount <= MaxUsernames)
         {
-            messageBuilder
-                .AppendLine(
-                    string.Format(TemplateHelper.Get("NewProblemAccounts", language),
-                    usernames.Select(u => u.Item1).Join(", ")))
-                .Append(TemplateHelper.Get("ProblemAccountShowAllDownlines", language));
+            messageBuilder.AppendFormat(
+                TemplateHelper.Get("NewProblemAccounts", language),
+                usernamesCount,
+                usernames.Select(u => u.Item1).Join(", "));
         }
         else
         {
-            messageBuilder
-                .Append(string.Format(TemplateHelper.Get("ProblemAccountShowXDownlines", language), usernamesCount));
+            messageBuilder.AppendFormat(TemplateHelper.Get("ProblemAccountShowXDownlines", language), usernamesCount);
         }
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
-    }
-
-    private static string GetDateTimeOnTitle(IEnumerable<Tuple<string, DateTime>> usernames)
-    {
-        var createdDates = usernames.Select(u => u.Item2).ToList();
-        var minCreatedDate = createdDates.Min();
-        var maxCreatedDate = createdDates.Max();
-
-        if (minCreatedDate == maxCreatedDate)
-        {
-            return minCreatedDate.ToLongDateTime24hWithSlash();
-        }
-
-        if (minCreatedDate.Date == maxCreatedDate.Date)
-        {
-            return $"{minCreatedDate.ToLongDateTime24hWithSlash()} - {maxCreatedDate.ToTime24h()}";
-        }
-
-        return $"{minCreatedDate.ToLongDateTime24hWithSlash()} - {maxCreatedDate.ToLongDateTime24hWithSlash()}";
     }
 }

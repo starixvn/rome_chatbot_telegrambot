@@ -113,17 +113,26 @@ public sealed class MyWatchlistJob : NotificationBaseJob
     private static string BuildMessage(string language, MonitoredPlayer monitoredPlayer)
     {
         var messageBuilder = new StringBuilder();
-        messageBuilder
-            .AppendLine($"[{TemplateHelper.Get(nameof(Template.MyWatchlistTitle), language)}]");
+        messageBuilder.AppendLine(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.MyWatchlistTitle), EmojiUnicode.Warning));
+        messageBuilder.Append("<pre>");
+        if (monitoredPlayer.AccumWL >= 0)
+        {
+            messageBuilder.AppendFormat(
+                TemplateHelper.Get(nameof(Template.MyWatchlistWinContent), language),
+                monitoredPlayer.Username,
+                monitoredPlayer.AccumWL.FormatDecimal(),
+                monitoredPlayer.WinningThreshold.FormatDecimal());
+        }
+        else
+        {
+            messageBuilder.AppendFormat(
+                TemplateHelper.Get(nameof(Template.MyWatchlistLossContent), language),
+                monitoredPlayer.Username,
+                monitoredPlayer.AccumWL.FormatDecimal(),
+                monitoredPlayer.LosingThreshold.FormatDecimal());
+        }
 
-        messageBuilder.AppendLine("<pre>");
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.Username), monitoredPlayer.Username, language));
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.CurrentWinLoss), monitoredPlayer.AccumWL.FormatDecimal(), language));
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.WinningThreshold), monitoredPlayer.WinningThreshold.FormatDecimal(), language));
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.LosingThreshold), monitoredPlayer.LosingThreshold.FormatDecimal(), language));
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.ThresholdType), TemplateHelper.Get($"ThresholdType_{monitoredPlayer.SettingType}", language), language));
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.ReachedTime), monitoredPlayer.CreatedDate.ToString("MM-dd-yyyy HH:mm"), language));
-        messageBuilder.AppendLine("</pre>");
+        messageBuilder.Append("</pre>");
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
@@ -131,15 +140,24 @@ public sealed class MyWatchlistJob : NotificationBaseJob
     private static string BuildSMAThresholdMessage(string language, MonitoredPlayer monitoredPlayer)
     {
         var messageBuilder = new StringBuilder();
-        messageBuilder
-            .AppendLine($"[{TemplateHelper.Get(nameof(Template.SMAThresholdAlertTitle), language)}]");
+        messageBuilder.AppendLine(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.MyWatchlistTitle), EmojiUnicode.Warning));
+        messageBuilder.Append("<pre>");
+        if (monitoredPlayer.AccumWL >= 0)
+        {
+            messageBuilder.AppendFormat(
+                TemplateHelper.Get(nameof(Template.SMAThresholdAlertWinContent), language),
+                monitoredPlayer.AccumWL.FormatDecimal(),
+                monitoredPlayer.WinningThreshold.FormatDecimal());
+        }
+        else
+        {
+            messageBuilder.AppendFormat(
+                TemplateHelper.Get(nameof(Template.SMAThresholdAlertLossContent), language),
+                monitoredPlayer.AccumWL.FormatDecimal(),
+                monitoredPlayer.LosingThreshold.FormatDecimal());
+        }
 
-        messageBuilder.AppendLine("<pre>");
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.CurrentWinLoss), monitoredPlayer.AccumWL.FormatDecimal(), language));
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.WinningThreshold), monitoredPlayer.WinningThreshold.FormatDecimal(), language));
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.LosingThreshold), monitoredPlayer.LosingThreshold.FormatDecimal(), language));
-        messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.ReachedTime), monitoredPlayer.CreatedDate.ToString("MM-dd-yyyy HH:mm"), language));
-        messageBuilder.AppendLine("</pre>");
+        messageBuilder.Append("</pre>");
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }

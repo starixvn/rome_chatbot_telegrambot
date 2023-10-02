@@ -369,10 +369,6 @@
     <value>Telegramของคุณจะถูกยกเลิกการเชื่อมต่อจาก {0}</value>
     <comment />
   </data>
-  <data name="AlertChangePasswordMessage" xml:space="preserve">
-    <value>หากไม่ใช่คุณ โปรดติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ</value>
-    <comment />
-  </data>
   <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
     <value>"{0}" ไม่สามารถใช้ได้ โปรดป้อนตัวเลขที่ใช้ได้ (สูงสุด {1})</value>
     <comment />
@@ -418,23 +414,15 @@
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
-    <value>รหัสความปลอดภัยของคุณถูกเปลี่ยนแล้ว</value>
-    <comment />
-  </data>
-  <data name="AlertMessage" xml:space="preserve">
-    <value>หากไม่ใช่คุณ กรุณาเปลี่ยนรหัสผ่านหรือติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ</value>
+    <value>รหัสความปลอดภัยของคุณมีการเปลี่ยนแปลง โปรดตรวจสอบหากคุณไม่ได้ดำเนินการดังกล่าว</value>
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlert" xml:space="preserve">
-    <value>การแจ้งเตือนเปลี่ยนรหัสความปลอดภัย</value>
-    <comment />
-  </data>
-  <data name="RequestedIP" xml:space="preserve">
-    <value>ที่อยู่ IP</value>
+    <value>รหัสความปลอดภัยมีการเปลี่ยนแปลง</value>
     <comment />
   </data>
   <data name="ChangePasswordAlert" xml:space="preserve">
-    <value>การแจ้งเตือนเปลี่ยนรหัสผ่าน</value>
+    <value>เปลี่ยนรหัสผ่านแล้ว</value>
     <comment />
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
@@ -462,7 +450,7 @@
     <comment />
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
-    <value>รหัสผ่านบัญชีของคุณมีการเปลี่ยนแปลง</value>
+    <value>รหัสผ่านของคุณมีการเปลี่ยนแปลง โปรดตรวจสอบหากคุณไม่ได้ดำเนินการดังกล่าว</value>
     <comment />
   </data>
   <data name="LanguageUpdated" xml:space="preserve">
@@ -494,10 +482,10 @@
     <comment />
   </data>
   <data name="WrongPasswordAlert" xml:space="preserve">
-    <value>แจ้งเตือนรหัสผ่านผิด</value>
+    <value>รหัสผ่านผิด</value>
   </data>
   <data name="WrongPasswordAlertContent" xml:space="preserve">
-    <value>ป้อนรหัสผ่านบัญชีของคุณไม่ถูกต้องหลายครั้ง</value>
+    <value>มีการใช้รหัสผ่านไม่ถูกต้องหลายครั้งจาก IP {0} โปรดตรวจสอบหากคุณไม่ได้ดำเนินการดังกล่าว</value>
   </data>
   <data name="BAL" xml:space="preserve">
     <value>ยอดเงินคงเหลือ</value>
@@ -540,5 +528,8 @@
   </data>
   <data name="NonEnteredMatches" xml:space="preserve">
     <value>คู่การแข่งขันที่ยังไม่จบ</value>
+  </data>
+  <data name="OTPInformed" xml:space="preserve">
+    <value>การยืนยัน OTP</value>
   </data>
 </root>

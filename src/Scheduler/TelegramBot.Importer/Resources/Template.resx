@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -119,202 +119,212 @@
   </resheader>
   <data name="PersonalMessage" xml:space="preserve">
     <value>Personal Message</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YesterdayWinLoss" xml:space="preserve">
     <value>Yesterday Win Loss</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Turnover" xml:space="preserve">
     <value>TO</value>
-    <comment/>
+    <comment />
   </data>
   <data name="GrossComm" xml:space="preserve">
     <value>Gross Comm</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterTotal" xml:space="preserve">
     <value>Master Total</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
     <value>Super WL</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperComm" xml:space="preserve">
     <value>Super Comm</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperTotal" xml:space="preserve">
     <value>Super Total</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CompanyWinLoss" xml:space="preserve">
     <value>Company</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentTotal" xml:space="preserve">
     <value>Agent Total</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
     <value>Master WL</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterComm" xml:space="preserve">
     <value>Master Comm</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
     <value>Member WL</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
     <value>Member Comm</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">
     <value>Member Total</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
     <value>Agent WL</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
     <value>Agent Comm</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberReachWinLossIntro" xml:space="preserve">
     <value>You have Members who have reached 100% of their Win Loss Limit</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberWinLossLimitAlert" xml:space="preserve">
-    <value>Member Win Loss Limit Alert</value>
-    <comment/>
+    <value>{0} Win Loss Limit</value>
+    <comment />
   </data>
   <data name="ProblemAccountAlert" xml:space="preserve">
-    <value>Problem Account Alert</value>
-    <comment/>
+    <value>Problem Accounts</value>
+    <comment />
   </data>
   <data name="NewProblemAccounts" xml:space="preserve">
-    <value>New problem account(s): {0}.</value>
-    <comment/>
-  </data>
-  <data name="ProblemAccountShowAllDownlines" xml:space="preserve">
-    <value>Please kindly be informed and review the listed downline(s).</value>
-    <comment/>
+    <value>{0} account(s) added: {1}.</value>
+    <comment />
   </data>
   <data name="ProblemAccountShowXDownlines" xml:space="preserve">
-    <value>Please kindly be informed that there are {0} new problem accounts. Details can be found in Problem Account List.</value>
-    <comment/>
+    <value>{0} accounts added. Details can be found in Problem Account List.</value>
+    <comment />
   </data>
   <data name="MemberWinLossLimitNote" xml:space="preserve">
     <value>Product. Current Win Loss | Maximum Win Loss | Current Win Loss (%)</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SystemAnnouncement" xml:space="preserve">
     <value>System Announcement</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MyWatchlistTitle" xml:space="preserve">
-    <value>Member Reached Sportsbook Threshold Alert</value>
-    <comment/>
+    <value>Sportsbook Threshold</value>
+    <comment />
   </data>
   <data name="MyWatchlistMessage" xml:space="preserve">
     <value>You have members who reached their win/loss threshold</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MyWatchlistHeader" xml:space="preserve">
     <value>Username | Current Win Loss | Winning Threshold | Losing Threshold | Date Time | Threshold Type</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ThresholdType_1" xml:space="preserve">
     <value>Global</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ThresholdType_2" xml:space="preserve">
     <value>Personal</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NonEnteredMatchNotification" xml:space="preserve">
-    <value>Non-entered matches notification</value>
-    <comment/>
+    <value>Non-entered matches</value>
+    <comment />
   </data>
   <data name="EnteredMatches" xml:space="preserve">
     <value>Entered matches</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NonEnteredMatches" xml:space="preserve">
     <value>Non-entered matches</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NonEnteredMatchNote" xml:space="preserve">
     <value>All of yesterday's matches have been settled and entered into the system. You can proceed with further business operations with your downlines.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CurrentWinLoss" xml:space="preserve">
     <value>Current WL</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MaximumWinLoss" xml:space="preserve">
     <value>Maximum WL</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CurrentWinLossPercent" xml:space="preserve">
     <value>Current WL (%)</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>
-    <comment/>
+    <comment />
   </data>
   <data name="WinningThreshold" xml:space="preserve">
     <value>Winning Threshold</value>
-    <comment/>
+    <comment />
   </data>
   <data name="LosingThreshold" xml:space="preserve">
     <value>Losing Threshold </value>
-    <comment/>
+    <comment />
   </data>
   <data name="DateTime" xml:space="preserve">
     <value>Date Time</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ThresholdType" xml:space="preserve">
     <value>Threshold Type</value>
-    <comment/>
-  </data>
-  <data name="SMAThresholdAlertTitle" xml:space="preserve">
-    <value>Your Win Loss Reached Sportsbook Threshold Alert</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ReachedTime" xml:space="preserve">
     <value>Reached Time</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AbnormalLogin_Title" xml:space="preserve">
-    <value>[Abnormal Login Alert - {0}]</value>
-    <comment/>
+    <value>Abnormal Login Detected</value>
+    <comment />
   </data>
   <data name="AbnormalLogin_Header" xml:space="preserve">
-    <value>Dear {0}, we detected an unusual login attempt from a new device at {1} (GMT-4).</value>
-    <comment/>
+    <value>New device attempted to log in to your account at {0} (GMT-4).</value>
+    <comment />
   </data>
   <data name="AbnormalLogin_Near" xml:space="preserve">
     <value>Location: {0}, {1} (IP = {2})</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AbnormalLogin_Device" xml:space="preserve">
     <value>Device: {0}{1}</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AbnormalLogin_Browser" xml:space="preserve">
     <value>Browser: {0}</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AbnormalLogin_Footer1" xml:space="preserve">
-    <value>If this wasn't you, please change your password immediately or contact Customer Service Department for support.</value>
-    <comment/>
+    <value>Please check if this wasn't you.</value>
+    <comment />
+  </data>
+  <data name="MyWatchlistWinContent" xml:space="preserve">
+    <value>{0}’s win amount ({1}) has reached the threshold ({2})</value>
+  </data>
+  <data name="MyWatchlistLossContent" xml:space="preserve">
+    <value>{0}’s loss amount ({1}) has reached the threshold ({2})</value>
+  </data>
+  <data name="SMAThresholdAlertWinContent" xml:space="preserve">
+    <value>Your win amount ({0}) has reached the threshold ({1})</value>
+  </data>
+  <data name="SMAThresholdAlertLossContent" xml:space="preserve">
+    <value>Your loss amount ({0}) has reached the threshold ({1})</value>
+  </data>
+  <data name="MemberWinLossLimitAlertWinContent" xml:space="preserve">
+    <value>{0}'s win amount ({1}) has reached the limit ({2})</value>
+  </data>
+  <data name="MemberWinLossLimitAlertLossContent" xml:space="preserve">
+    <value>{0}'s loss amount ({1}) has reached the limit ({2})</value>
   </data>
 </root>

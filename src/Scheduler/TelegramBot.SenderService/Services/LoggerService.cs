@@ -11,9 +11,9 @@ public interface ILoggerService
 
     Task Error(Exception exception, string jobName, string environment, string errorMessage = "");
 
-    Task Debug(string message);
-
     Task Warn(string message);
+
+    void InfoConsole(string message);
 }
 
 public class LoggerService : ILoggerService
@@ -22,9 +22,10 @@ public class LoggerService : ILoggerService
     private const string TwoBreakLine = "\r\n\r\n";
 
     private readonly Fanex.Logging.ILogger logger;
+    private readonly ILogger<LoggerService> loggerConsole;
 
-    public LoggerService(Fanex.Logging.ILogger logger)
-        => this.logger = logger;
+    public LoggerService(Fanex.Logging.ILogger logger, ILogger<LoggerService> loggerConsole)
+        => (this.logger, this.loggerConsole) = (logger, loggerConsole);
 
     public Task Error(string jobName, string environment, string errorMessage)
     {
@@ -83,7 +84,8 @@ public class LoggerService : ILoggerService
     private static string GetSpParameters(IDictionary<string, object> parameters)
         => string.Join(BreakLine, parameters.Select(p => $"{p.Key}={HttpUtility.HtmlEncode(p.Value)}"));
 
-    public Task Debug(string message) => logger.DebugAsync(message);
-
     public Task Warn(string message) => logger.WarnAsync(message);
+
+    public void InfoConsole(string message)
+        => loggerConsole.LogInformation(message);
 }

@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace TelegramBot.Importer.Models.MemberWinLossLimits;
 
 public record MemberWinLossLimitNotification(
@@ -8,20 +6,8 @@ public record MemberWinLossLimitNotification(
     string Message,
     bool IsRealUser,
     bool IsJobUAT,
-    IEnumerable<long> LogIds) : Notification(UserId, BotId, Message, IsRealUser, IsJobUAT)
+    long LogId) : Notification(UserId, BotId, Message, IsRealUser, IsJobUAT)
 {
     public override string ToLogXml()
-    {
-        var sb = new StringBuilder();
-
-        foreach (var id in LogIds)
-        {
-            sb.Append(ToLogXml(id));
-        }
-
-        return sb.ToString();
-    }
-
-    private string ToLogXml(long logId)
-        => $"<r UserId=\"{UserId}\" LogID=\"{logId}\" />";
+        => $"<r UserId=\"{UserId}\" LogID=\"{LogId}\" />";
 }

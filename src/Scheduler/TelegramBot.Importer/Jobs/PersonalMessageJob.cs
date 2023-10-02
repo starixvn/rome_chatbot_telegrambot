@@ -1,6 +1,7 @@
 using System.Text;
 using ONEbook.UM.Services;
 using TelegramBot.Importer.Configuration;
+using TelegramBot.Importer.Constants;
 using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Models.Customers;
 using TelegramBot.Importer.Models.PersonalMessages;
@@ -76,16 +77,11 @@ public sealed class PersonalMessageJob : NotificationBaseJob
                 Customer = customer
             };
 
-        var currentDate = DateTime.Today.ToSimpleDate();
         var notifications = new List<PersonalMessageNotification>();
 
         foreach (var item in query)
         {
-            notifications.AddRange(BuildPersonalMessageNotifications(
-                job,
-                item.PersonalMessage,
-                item.Customer,
-                currentDate));
+            notifications.AddRange(BuildPersonalMessageNotifications(job, item.PersonalMessage, item.Customer));
         }
 
         return notifications;
@@ -94,8 +90,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
     private static IEnumerable<PersonalMessageNotification> BuildPersonalMessageNotifications(
         ScheduleJob job,
         PersonalMessage message,
-        LinkedCustomer customer,
-        string currentDate)
+        LinkedCustomer customer)
     {
         var isReplaceBetTransId = message.ContentEN.Contains("@@")
             && !string.IsNullOrWhiteSpace(message.BetTransId);
@@ -111,11 +106,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
                     customer.BotId,
                     message.MsgTargetId,
                     message.MessageId,
-                    BuildMessage(
-                        customer.Language,
-                        currentDate,
-                        message.GetContentByLanguage(customer.Language),
-                        transId),
+                    BuildMessage(customer.Language, message.GetContentByLanguage(customer.Language), transId),
                     customer.IsRealUser,
                     job.IsUAT);
             }
@@ -127,10 +118,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
                 customer.BotId,
                 message.MsgTargetId,
                 message.MessageId,
-                BuildMessage(
-                    customer.Language,
-                    currentDate,
-                    message.GetContentByLanguage(customer.Language)),
+                BuildMessage(customer.Language, message.GetContentByLanguage(customer.Language)),
                 customer.IsRealUser,
                 job.IsUAT);
         }
@@ -151,11 +139,11 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         return chunkBetTransIds.Select(array => array.JoinWithComma());
     }
 
-    private static string BuildMessage(string language, string currentDate, string content, string transId = "")
+    private static string BuildMessage(string language, string content, string transId = "")
     {
         var messageBuilder = new StringBuilder();
         messageBuilder
-            .AppendLine(TemplateHelper.BuildTitle(language, "PersonalMessage", currentDate))
+            .AppendLine(TemplateHelper.BuildTitleWithEmoji(language, "PersonalMessage", EmojiUnicode.Envelope))
             .Append(transId.Length == 0 ? content : content.Replace("@@", transId));
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());

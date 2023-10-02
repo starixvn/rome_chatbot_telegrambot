@@ -88,20 +88,21 @@ public sealed class AbnormalLoginAlertJob : NotificationBaseJob
         var device = string.IsNullOrWhiteSpace(login.Device) ? Enum.GetName(typeof(DeviceFormFactor), GetDeviceType(c)) : login.Device;
 
         var messageBuilder = new StringBuilder();
-        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Title), language), DateTime.Now.ToSimpleDate()));
+        messageBuilder
+            .AppendLine(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.AbnormalLogin_Title), EmojiUnicode.Warning));
 
         var loginTime = DateTime.Parse(login.LoginTime);
-        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Header), language), login.Username, loginTime.ToLongTimeString()));
+        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Header), language), loginTime.ToLongTimeString()));
 
-        messageBuilder.AppendLine("<pre>");
+        messageBuilder.Append("<pre>");
         messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Near), language), login.City, login.Country, login.IP));
         messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Device), language), string.IsNullOrWhiteSpace(device) ? string.Empty : device + ", ", c.OS.ToString()));
 
         var browser = string.IsNullOrWhiteSpace(login.Browser) ? c.UA.Family : login.Browser;
         messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Browser), language), browser));
-        messageBuilder.AppendLine("</pre>");
+        messageBuilder.Append("</pre>");
 
-        messageBuilder.AppendLine(TemplateHelper.Get(nameof(Template.AbnormalLogin_Footer1), language));
+        messageBuilder.Append(TemplateHelper.Get(nameof(Template.AbnormalLogin_Footer1), language));
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
 

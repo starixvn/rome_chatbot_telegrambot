@@ -186,19 +186,15 @@
     <comment />
   </data>
   <data name="NewProblemAccounts" xml:space="preserve">
-    <value>Số tài khoản có vấn đề mới: {0}.</value>
+    <value>{0} tài khoản đã được thêm: {1}</value>
     <comment />
   </data>
   <data name="ProblemAccountAlert" xml:space="preserve">
-    <value>Thông Báo Tài Khoản Có Vấn Đề</value>
-    <comment />
-  </data>
-  <data name="ProblemAccountShowAllDownlines" xml:space="preserve">
-    <value>Vui lòng xem và kiểm tra chi tiết cấp dưới trực thuộc đã liệt kê.</value>
+    <value>Tài Khoản Có Vấn Đề</value>
     <comment />
   </data>
   <data name="ProblemAccountShowXDownlines" xml:space="preserve">
-    <value>Xin thông báo hiện đang có {0} tài khoản có vấn đề. Bạn có thể xem thêm chi tiết ở Danh Sách Tài Khoản Có Vấn Đề.</value>
+    <value>{0} tài khoản đã được thêm. Xem chi tiết ở Danh Sách Tài Khoản Có Vấn Đề.</value>
     <comment />
   </data>
   <data name="MemberReachWinLossIntro" xml:space="preserve">
@@ -206,7 +202,7 @@
     <comment />
   </data>
   <data name="MemberWinLossLimitAlert" xml:space="preserve">
-    <value>Thông Báo Giới Hạn Thắng Thua Của Member</value>
+    <value>Giới Hạn Thắng Thua của {0}</value>
     <comment />
   </data>
   <data name="MemberWinLossLimitNote" xml:space="preserve">
@@ -234,7 +230,7 @@
     <comment />
   </data>
   <data name="MyWatchlistTitle" xml:space="preserve">
-    <value>Thông báo Member đã đạt Giới Hạn Sportsbook</value>
+    <value>Giới Hạn Sportsbook</value>
     <comment />
   </data>
   <data name="NonEnteredMatchNote" xml:space="preserve">
@@ -250,7 +246,7 @@
     <comment />
   </data>
   <data name="NonEnteredMatchNotification" xml:space="preserve">
-    <value>Thông báo trận chưa có kết quả</value>
+    <value>Trận chưa có kết quả</value>
     <comment />
   </data>
   <data name="CurrentWinLoss" xml:space="preserve">
@@ -289,16 +285,12 @@
     <value>Ngày đạt</value>
     <comment />
   </data>
-  <data name="SMAThresholdAlertTitle" xml:space="preserve">
-    <value>Thông báo Thắng Thua Của Bạn đã đạt Giới Hạn Sportsbook</value>
-    <comment />
-  </data>
   <data name="AbnormalLogin_Title" xml:space="preserve">
-    <value>[Cảnh báo đăng nhập lạ - {0}]</value>
+    <value>Phát Hiện Đăng Nhập Bất Thường</value>
     <comment />
   </data>
   <data name="AbnormalLogin_Header" xml:space="preserve">
-    <value>Kính gửi {0}, chúng tôi phát hiện hoạt động đăng nhập bất thường từ thiết bị mới vào lúc {1}.</value>
+    <value>Một thiết bị mới đã cố gắng đăng nhập vào tài khoản của bạn lúc {0} (GMT-4).</value>
     <comment />
   </data>
   <data name="AbnormalLogin_Near" xml:space="preserve">
@@ -314,7 +306,25 @@
     <comment />
   </data>
   <data name="AbnormalLogin_Footer1" xml:space="preserve">
-    <value>Nếu không phải bạn, vui lòng đổi mật khẩu ngay lập tức hoặc liên hệ với Bộ phận Chăm Sóc Khách hàng để được hỗ trợ.</value>
+    <value>Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
     <comment />
+  </data>
+  <data name="MyWatchlistWinContent" xml:space="preserve">
+    <value>Số tiền thắng của {0} ({1}) đã đạt đến giới hạn ({2})</value>
+  </data>
+  <data name="MyWatchlistLossContent" xml:space="preserve">
+    <value>Số tiền thua của {0} ({1}) đã đạt đến giới hạn ({2})</value>
+  </data>
+  <data name="SMAThresholdAlertWinContent" xml:space="preserve">
+    <value>Số tiền thắng của bạn ({0}) đã đạt đến giới hạn ({1})</value>
+  </data>
+  <data name="SMAThresholdAlertLossContent" xml:space="preserve">
+    <value>Số tiền thua của bạn ({0}) đã đạt đến giới hạn ({1})</value>
+  </data>
+  <data name="MemberWinLossLimitAlertWinContent" xml:space="preserve">
+    <value>Số tiền thắng của {0} ({1}) đã đạt đến giới hạn ({2})</value>
+  </data>
+  <data name="MemberWinLossLimitAlertLossContent" xml:space="preserve">
+    <value>Số tiền thua của {0} ({1}) đã đạt đến giới hạn ({2})</value>
   </data>
 </root>

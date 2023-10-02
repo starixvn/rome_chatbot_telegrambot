@@ -373,10 +373,6 @@
     <value>您的Telegram已經未鏈接與{0}</value>
     <comment />
   </data>
-  <data name="AlertChangePasswordMessage" xml:space="preserve">
-    <value>如果這不是您，請聯繫客戶服務部門尋求協助</value>
-    <comment />
-  </data>
   <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
     <value>{0}無效，請輸入有效的數字（最多{1}）。</value>
     <comment />
@@ -422,23 +418,15 @@
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
-    <value>您的保安碼已經更改。</value>
-    <comment />
-  </data>
-  <data name="AlertMessage" xml:space="preserve">
-    <value>如果這不是您，請更改密碼或聯繫客戶服務部門尋求協助。</value>
+    <value>您的保安碼已更換。若不是您本人請再次查看。</value>
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlert" xml:space="preserve">
-    <value>警惕更換保安碼</value>
-    <comment />
-  </data>
-  <data name="RequestedIP" xml:space="preserve">
-    <value>要求IP</value>
+    <value>保安碼已更換。</value>
     <comment />
   </data>
   <data name="ChangePasswordAlert" xml:space="preserve">
-    <value>警惕更換密碼</value>
+    <value>密碼已更改</value>
     <comment />
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
@@ -466,7 +454,7 @@
     <comment />
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
-    <value>您帳戶密碼已更改。</value>
+    <value>您的密碼已更換。若不是您本人請再次查看。</value>
     <comment />
   </data>
   <data name="LanguageUpdated" xml:space="preserve">
@@ -498,10 +486,10 @@
     <comment />
   </data>
   <data name="WrongPasswordAlert" xml:space="preserve">
-    <value>密碼錯誤提示</value>
+    <value>密碼錯誤</value>
   </data>
   <data name="WrongPasswordAlertContent" xml:space="preserve">
-    <value>您的賬號密碼多次輸入錯誤。</value>
+    <value>來自於IP {0}多次嘗試錯誤密碼。若不是您本人請再次查看。</value>
   </data>
   <data name="BAL" xml:space="preserve">
     <value>餘額</value>
@@ -544,5 +532,8 @@
   </data>
   <data name="NonEnteredMatches" xml:space="preserve">
     <value>未完成賽事</value>
+  </data>
+  <data name="OTPInformed" xml:space="preserve">
+    <value>OTP 驗證碼</value>
   </data>
 </root>

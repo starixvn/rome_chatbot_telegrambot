@@ -2,6 +2,7 @@ using System.Data.SqlClient;
 using System.Text;
 using System.Web;
 using Fanex.Data;
+using Microsoft.Extensions.Logging;
 using TelegramBot.Importer.Configuration;
 
 namespace TelegramBot.Importer.Services;
@@ -14,7 +15,7 @@ public interface ILoggerService
 
     Task Error(Exception exception, ScheduleJob job, string errorMessage = "");
 
-    Task Debug(ScheduleJob job, string message);
+    void InfoConsole(ScheduleJob job, string message);
 }
 
 public class LoggerService : ILoggerService
@@ -23,9 +24,10 @@ public class LoggerService : ILoggerService
     private const string TwoBreakLine = "\r\n\r\n";
 
     private readonly Fanex.Logging.ILogger logger;
+    private readonly ILogger<LoggerService> loggerConsole;
 
-    public LoggerService(Fanex.Logging.ILogger logger)
-        => this.logger = logger;
+    public LoggerService(Fanex.Logging.ILogger logger, ILogger<LoggerService> loggerConsole)
+        => (this.logger, this.loggerConsole) = (logger, loggerConsole);
 
     public Task Error(ScheduleJob job, string errorMessage)
         => Error(job.Name, job.Environment, errorMessage);
@@ -90,6 +92,6 @@ public class LoggerService : ILoggerService
     private static string GetSpParameters(IDictionary<string, object> parameters)
         => string.Join(BreakLine, parameters.Select(p => $"{p.Key}={HttpUtility.HtmlEncode(p.Value)}"));
 
-    public Task Debug(ScheduleJob job, string message)
-        => logger.DebugAsync($"{DateTime.Now}: {job.Name}{(string.IsNullOrWhiteSpace(job.Environment) ? string.Empty : "-" + job.Environment)}: {message}");
+    public void InfoConsole(ScheduleJob job, string message)
+        => loggerConsole.LogInformation($"{DateTime.Now}: {job.Name}{(string.IsNullOrWhiteSpace(job.Environment) ? string.Empty : "-" + job.Environment)}: {message}");
 }

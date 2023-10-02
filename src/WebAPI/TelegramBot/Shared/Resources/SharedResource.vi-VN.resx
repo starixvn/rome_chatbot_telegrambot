@@ -337,10 +337,6 @@
     <value>Telegram của bạn đã hủy liên kết với {0}</value>
     <comment />
   </data>
-  <data name="AlertChangePasswordMessage" xml:space="preserve">
-    <value>Nếu đây không phải là bạn, vui lòng liên hệ với bộ phận Chăm Sóc Khách Hàng để được hỗ trợ.</value>
-    <comment />
-  </data>
   <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
     <value>"{0}" không hợp lệ, vui lòng nhập số hợp lệ (tối đa {1})</value>
     <comment />
@@ -381,20 +377,12 @@
     <value>Telegram của bạn đã liên kết với tài khoản khác. Vui lòng hủy liên kết với tài khoản đó và thử lại.</value>
     <comment />
   </data>
-  <data name="RequestedIP" xml:space="preserve">
-    <value>IP đã yêu cầu</value>
-    <comment />
-  </data>
   <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
-    <value>Mã Bảo Mật của bạn đã thay đổi.</value>
+    <value>Mã Bảo Mật của bạn đã thay đổi. Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
     <comment />
   </data>
   <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
     <value>Telegram của bạn đã liên kết với Chatbot này bằng tài khoản khác. Nếu đây không phải tài khoản của bạn, vui lòng liên hệ chúng tôi để được hỗ trợ.</value>
-    <comment />
-  </data>
-  <data name="AlertMessage" xml:space="preserve">
-    <value>Nếu đây không phải là bạn, vui lòng đổi mật khẩu hoặc liên hệ với bộ phận Chăm Sóc Khách Hàng để được hỗ trợ.</value>
     <comment />
   </data>
   <data name="InvalidNumberOfDownlines" xml:space="preserve">
@@ -406,11 +394,11 @@
     <comment />
   </data>
   <data name="ChangePasswordAlert" xml:space="preserve">
-    <value>Thông Báo Đổi Mật Khẩu</value>
+    <value>Mật Khẩu Đã Thay Đổi</value>
     <comment />
   </data>
   <data name="ChangeSecurityCodeAlert" xml:space="preserve">
-    <value>Thông Báo Đổi Mã Bảo Mật</value>
+    <value>Mã Bảo Mật Đã Thay Đổi</value>
     <comment />
   </data>
   <data name="Unlink" xml:space="preserve">
@@ -434,7 +422,7 @@
     <comment />
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
-    <value>Mật khẩu của bạn đã thay đổi.</value>
+    <value>Mật khẩu của bạn đã thay đổi. Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
     <comment />
   </data>
   <data name="LanguageUpdated" xml:space="preserve">
@@ -470,10 +458,10 @@
     <comment />
   </data>
   <data name="WrongPasswordAlert" xml:space="preserve">
-    <value>Thông báo sai mật khẩu</value>
+    <value>Sai Mật Khẩu</value>
   </data>
   <data name="WrongPasswordAlertContent" xml:space="preserve">
-    <value>Mật khẩu tài khoản của bạn đã bị nhập sai nhiều lần.</value>
+    <value>Nhiều lần thử mật khẩu không thành công từ IP {0}.Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
   </data>
   <data name="BAL" xml:space="preserve">
     <value>Thu/Nợ</value>
@@ -515,9 +503,12 @@
     <value>Trận chưa có kết quả hôm qua</value>
   </data>
   <data name="OTPMessage" xml:space="preserve">
-    <value>OTP của bạn là &lt;code&gt;{0}&lt;/code&gt; và có hiệu lực trong 3 phút. Vui lòng không chia sẻ OTP với bất kỳ ai.</value>
+    <value>OTP của bạn &lt;code&gt;{0}&lt;/code&gt; có hiệu lực trong 3 phút. Vui lòng không chia sẻ OTP với bất kỳ ai.</value>
   </data>
   <data name="NonEnteredMatches" xml:space="preserve">
     <value>Trận chưa có kết quả</value>
+  </data>
+  <data name="OTPInformed" xml:space="preserve">
+    <value>Xác Thực OTP</value>
   </data>
 </root>
