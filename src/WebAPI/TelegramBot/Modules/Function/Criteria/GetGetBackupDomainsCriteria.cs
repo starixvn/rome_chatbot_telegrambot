@@ -4,12 +4,10 @@ namespace TelegramBot.Modules.Function.Criteria
 {
     public class GetGetBackupDomainsCriteria : CriteriaBase
     {
-        public GetGetBackupDomainsCriteria(string siteLabel)
-        {
-            SiteLabel = siteLabel;
-        }
+        public GetGetBackupDomainsCriteria(string site)
+            => Site = site;
 
-        public string SiteLabel { get; set; }
+        public string Site { get; }
 
         public override string GetSettingKey()
            => "Age_DomainListSel";

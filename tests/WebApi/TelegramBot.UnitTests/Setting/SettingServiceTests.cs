@@ -15,6 +15,7 @@ using TelegramBot.Modules.Setting;
 using TelegramBot.Modules.Setting.Constants;
 using TelegramBot.Modules.Setting.Criteria;
 using TelegramBot.Modules.Setting.Models;
+using TelegramBot.Shared.Caching;
 using TelegramBot.Shared.Configurations;
 using TelegramBot.Shared.Models;
 using Xunit;
@@ -32,6 +33,7 @@ namespace TelegramBot.Modules.UnitTests.Setting
         private readonly ICustomerService _customerService;
         private readonly IFunctionService _functionService;
         private readonly IOTPService _otpService;
+        private readonly ICacheServiceFactory _cacheServiceFactory;
 
         public SettingServiceTests()
         {
@@ -44,6 +46,7 @@ namespace TelegramBot.Modules.UnitTests.Setting
             _customerService = Substitute.For<ICustomerService>();
             _functionService = Substitute.For<IFunctionService>();
             _otpService = Substitute.For<IOTPService>();
+            _cacheServiceFactory = Substitute.For<ICacheServiceFactory>();
             _settingService = new SettingService(
                 _webAPIConfiguration,
                 _dynamicRepository,
@@ -52,7 +55,8 @@ namespace TelegramBot.Modules.UnitTests.Setting
                 _actionService,
                 _customerService,
                 _functionService,
-                _otpService);
+                _otpService,
+                _cacheServiceFactory);
         }
 
         [Theory, AutoData]

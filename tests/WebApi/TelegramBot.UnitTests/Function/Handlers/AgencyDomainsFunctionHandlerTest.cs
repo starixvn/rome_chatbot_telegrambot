@@ -14,15 +14,15 @@ using TelegramBot.Modules.Function.Models;
 
 namespace TelegramBot.Modules.UnitTests.Function.Handlers
 {
-    public class AvailableDomainsFunctionHandlerTest
+    public class AgencyDomainsFunctionHandlerTest
     {
-        private readonly AvailableDomainsFunctionHandler handler;
+        private readonly AgencyDomainsFunctionHandler handler;
         private readonly IMessageBuilder messageBuilder;
         private readonly TelegramFormatter telegramFormatter;
         private readonly IDynamicRepository dynamicRepository;
         private readonly BotEntity bot;
 
-        public AvailableDomainsFunctionHandlerTest()
+        public AgencyDomainsFunctionHandlerTest()
         {
             messageBuilder = Substitute.For<IMessageBuilder>();
             telegramFormatter = new TelegramFormatter();
@@ -30,7 +30,7 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
 
             bot = new BotEntity(0, string.Empty, string.Empty, string.Empty, false, false, string.Empty);
 
-            handler = new AvailableDomainsFunctionHandler(messageBuilder, telegramFormatter, dynamicRepository);
+            handler = new AgencyDomainsFunctionHandler(messageBuilder, telegramFormatter, dynamicRepository);
         }
 
         [Fact]

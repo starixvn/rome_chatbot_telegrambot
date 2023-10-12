@@ -7,40 +7,35 @@ using TelegramBot.Modules.Function.Models;
 
 namespace TelegramBot.Modules.Function.Handlers
 {
-    public class AvailableDomainsFunctionHandler : BaseFunctionHandler, IFunctionHandler
+    public abstract class AvailableDomainsFunctionHandler : BaseFunctionHandler, IFunctionHandler
     {
         private readonly IDynamicRepository dynamicRepository;
 
-        public AvailableDomainsFunctionHandler(
+        protected AvailableDomainsFunctionHandler(
             IMessageBuilder messageBuilder,
             IMessageFormatter messageFormatter,
             IDynamicRepository dynamicRepository)
             : base(messageBuilder, messageFormatter)
+            => this.dynamicRepository = dynamicRepository;
+
+        public virtual async Task<Result> Handle(CustBotAccount account, string[] parameters)
         {
-            this.dynamicRepository = dynamicRepository;
-        }
-
-        public async Task<Result> Handle(CustBotAccount account, string[] parameters)
-        {
-            var siteLabel = account.System;
-            var criteria = new GetGetBackupDomainsCriteria(siteLabel);
-            var data = await dynamicRepository.FetchAsync<BackupDomainModel>(criteria);
-
-            var textContainer = new List<string>();
-
-            if (data != null && data.Any())
+            if (parameters == null || parameters.Length == 0)
             {
-                foreach (var d in data)
-                {
-                    textContainer.Add(d.Domain);
-                }
-            }
-            else
-            {
-                textContainer.Add(messageBuilder.BuildNoDataMessage(account.Language));
+                return Result.CreateErrorResult();
             }
 
-            return new Result(0, string.Join(messageFormatter.NewLine(), textContainer));
+            var isAgency = parameters[0] == "1";
+            var data =
+                (await dynamicRepository.FetchAsync<BackupDomainModel>(new GetGetBackupDomainsCriteria(account.Site)))
+                .Where(d => d.IsAgency == isAgency)
+                .Select(d => d.Domain)
+                .ToList();
+            var message = data.Count > 0
+                ? string.Join(messageFormatter.NewLine(), data)
+                : messageBuilder.BuildNoDataMessage(account.Language);
+
+            return new Result(0, message);
         }
 
         public Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)

@@ -76,15 +76,15 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
         }
 
         [Fact]
-        public void GetHandler_FunctionAvailableDomains_ReturnAvailableDomainsFunctionHandler()
+        public void GetHandler_FunctionAvailableDomains_ReturnAgencyDomainsFunctionHandler()
         {
-            serviceProvider.GetService(typeof(AvailableDomainsFunctionHandler))
-                .Returns(new AvailableDomainsFunctionHandler(
+            serviceProvider.GetService(typeof(AgencyDomainsFunctionHandler))
+                .Returns(new AgencyDomainsFunctionHandler(
                     Substitute.For<IMessageBuilder>(),
                     Substitute.For<IMessageFormatter>(),
                     Substitute.For<IDynamicRepository>()));
-            var result = functionHandlerFactory.GetHandler(FunctionIds.AvailableDomains);
-            Assert.Equal(typeof(AvailableDomainsFunctionHandler), result.GetType());
+            var result = functionHandlerFactory.GetHandler(FunctionIds.AgencyDomains);
+            Assert.Equal(typeof(AgencyDomainsFunctionHandler), result.GetType());
         }
 
         [Fact]

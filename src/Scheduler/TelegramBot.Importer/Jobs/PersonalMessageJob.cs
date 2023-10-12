@@ -13,6 +13,7 @@ namespace TelegramBot.Importer.Jobs;
 
 public sealed class PersonalMessageJob : NotificationBaseJob
 {
+    private const int DomainsMsgContentType = 110;
     private readonly IPersonalMessageService personalMessageService;
 
     public PersonalMessageJob(
@@ -35,7 +36,9 @@ public sealed class PersonalMessageJob : NotificationBaseJob
 
         if (personalMessages.Any())
         {
-            var custIds = personalMessages.Select(m => m.TargetId).Distinct().JoinWithComma();
+            var (normalMessages, domainMessages) = SplitPersonalMessages(personalMessages);
+
+            var custIds = normalMessages.Select(m => m.TargetId).Distinct().JoinWithComma();
             var linkedCustomers = await GetLinkedCustomers(custIds, job);
 
             if (linkedCustomers.Any())
@@ -44,7 +47,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
 
                 notifications = BuildPersonalMessageNotifications(
                     job,
-                    personalMessages,
+                    normalMessages,
                     linkedCustomers,
                     customerStatus);
             }
@@ -57,6 +60,26 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         {
             await loggerService.Error(job, result.Message);
         }
+    }
+
+    private static Tuple<IEnumerable<PersonalMessage>, IEnumerable<PersonalMessage>> SplitPersonalMessages(IEnumerable<PersonalMessage> personalMessages)
+    {
+        var normalMessages = new List<PersonalMessage>();
+        var domainMessages = new List<PersonalMessage>();
+
+        foreach (var item in personalMessages)
+        {
+            if (item.MsgContentType == DomainsMsgContentType)
+            {
+                domainMessages.Add(item);
+            }
+            else
+            {
+                normalMessages.Add(item);
+            }
+        }
+
+        return Tuple.Create<IEnumerable<PersonalMessage>, IEnumerable<PersonalMessage>>(normalMessages, domainMessages);
     }
 
     private static IEnumerable<PersonalMessageNotification> BuildPersonalMessageNotifications(

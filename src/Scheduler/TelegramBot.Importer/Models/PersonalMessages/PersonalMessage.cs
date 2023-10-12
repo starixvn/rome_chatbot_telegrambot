@@ -18,7 +18,9 @@ public record PersonalMessage
         string contentTH,
         string contentVI,
         int targetId,
-        string betTransId)
+        string betTransId,
+        int msgContentType,
+        string remark)
 #pragma warning restore S107
     {
         MsgTargetId = msgTargetId;
@@ -30,6 +32,8 @@ public record PersonalMessage
         ContentVI = contentVI;
         TargetId = targetId;
         BetTransId = betTransId;
+        MsgContentType = msgContentType;
+        Remark = remark;
     }
 
     public int MsgTargetId { get; }
@@ -49,6 +53,10 @@ public record PersonalMessage
     public int TargetId { get; }
 
     public string BetTransId { get; } = default!;
+
+    public int MsgContentType { get; }
+
+    public string Remark { get; } = default!;
 
     public string GetContentByLanguage(string language)
         => language switch
