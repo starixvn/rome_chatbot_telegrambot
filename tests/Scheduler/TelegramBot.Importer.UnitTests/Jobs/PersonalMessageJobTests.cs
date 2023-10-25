@@ -71,12 +71,21 @@ public class PersonalMessageJobTests
         // Arrange
         IEnumerable<PersonalMessage> personalMessages = new List<PersonalMessage>
         {
-            new PersonalMessage(1,1,"contentEN@@","contentCS","contentCH","contentTH","contentVI",1,"123456,123321")
+            new PersonalMessage(1,1,"contentEN@@","contentCS","contentCH","contentTH","contentVI",1,"123456,123321",0,null)
         };
         personalMessageService.GetNewMessages(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<bool>()).Returns(Task.FromResult(Tuple.Create(1, personalMessages)));
         IEnumerable<LinkedCustomer> linkedCustomers = new List<LinkedCustomer>
         {
-            new LinkedCustomer(1,0,"en-US",2,3,true,10)
+            new LinkedCustomer
+            {
+                CustId = 1,
+                SubAccId = 0,
+                Language = "en-US",
+                CustomerLevel = 2,
+                UserId = 3,
+                IsRealUser = true,
+                BotId = 10
+            }
         };
         customerService.GetLinkedCustomers(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(Task.FromResult(linkedCustomers));
         IEnumerable<CustomerStatus> customerStatus = new List<CustomerStatus>

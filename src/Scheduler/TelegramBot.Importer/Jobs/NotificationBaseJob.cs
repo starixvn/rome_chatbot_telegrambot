@@ -107,8 +107,8 @@ public abstract class NotificationBaseJob : IJob
         }
     }
 
-    protected Task<IEnumerable<LinkedCustomer>> GetLinkedCustomers(string custIds, ScheduleJob job)
-        => customerService.GetLinkedCustomers(job.Name, custIds, job.Environment);
+    protected Task<IEnumerable<LinkedCustomer>> GetLinkedCustomers(string custIds, ScheduleJob job, string sites = null)
+        => customerService.GetLinkedCustomers(job.Name, custIds, job.Environment, sites);
 
     protected Task<IEnumerable<CustomerStatus>> GetCustomerStatus(IEnumerable<LinkedCustomer> linkedCustomers)
     {

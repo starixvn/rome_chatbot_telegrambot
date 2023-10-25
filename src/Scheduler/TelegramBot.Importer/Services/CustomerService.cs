@@ -11,7 +11,7 @@ public interface ICustomerService
 {
     Task<Tuple<IEnumerable<LinkedCustomer>, int>> GetYesterdayWinLossLinkedCustomers(DateTime winLossDate, string serviceName, string environment);
 
-    Task<IEnumerable<LinkedCustomer>> GetLinkedCustomers(string functionKey, string custIds, string environment);
+    Task<IEnumerable<LinkedCustomer>> GetLinkedCustomers(string functionKey, string custIds, string environment, string sites = null);
 
     Task<IEnumerable<LinkedCustomer>> GetLinkedCustomersByFunction(string functionKey, string environment);
 
@@ -41,11 +41,13 @@ public class CustomerService : ICustomerService
     public Task<IEnumerable<LinkedCustomer>> GetLinkedCustomers(
         string functionKey,
         string custIds,
-        string environment)
+        string environment,
+        string sites = null)
         => dynamicRepository.FetchAsync<LinkedCustomer>(new GetLinkedCustomerCriteria(
             functionKey,
             custIds,
-            environment));
+            environment,
+            sites));
 
     public Task<IEnumerable<CustomerStatus>> GetCustomerStatus(IEnumerable<CustomerStatusParam> customers)
         => dynamicRepository.FetchAsync<CustomerStatus>(

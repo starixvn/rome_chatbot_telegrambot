@@ -1,9 +1,7 @@
-using System.Text;
 using Fanex.Data.Repository;
 using TelegramBot.Importer.Criteria.PersonalMessages;
 using TelegramBot.Importer.Models;
 using TelegramBot.Importer.Models.PersonalMessages;
-using TelegramBot.Importer.Resources;
 
 namespace TelegramBot.Importer.Services;
 

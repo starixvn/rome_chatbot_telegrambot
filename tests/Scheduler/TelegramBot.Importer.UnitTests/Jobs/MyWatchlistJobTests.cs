@@ -88,7 +88,16 @@ public class MyWatchlistJobTests
            .Returns(Task.FromResult((maxLogId, lastDataRow, serverName, monitoredPlayers)));
         IEnumerable<LinkedCustomer> linkedCustomers = new List<LinkedCustomer>
         {
-            new LinkedCustomer(1,0,"en-US",2,3,true,10)
+            new LinkedCustomer
+            {
+                CustId = 1,
+                SubAccId = 0,
+                Language = "en-US",
+                CustomerLevel = 2,
+                UserId = 3,
+                IsRealUser = true,
+                BotId = 10
+            }
         };
         customerService.GetLinkedCustomers(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(Task.FromResult(linkedCustomers));
         IEnumerable<CustomerStatus> customerStatus = new List<CustomerStatus>

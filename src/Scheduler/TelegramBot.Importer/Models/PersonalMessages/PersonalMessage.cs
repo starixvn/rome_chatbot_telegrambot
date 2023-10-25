@@ -19,7 +19,7 @@ public record PersonalMessage
         string contentVI,
         int targetId,
         string betTransId,
-        int msgContentType,
+        byte msgContentsType,
         string remark)
 #pragma warning restore S107
     {
@@ -32,7 +32,7 @@ public record PersonalMessage
         ContentVI = contentVI;
         TargetId = targetId;
         BetTransId = betTransId;
-        MsgContentType = msgContentType;
+        MsgContentsType = msgContentsType;
         Remark = remark;
     }
 
@@ -54,7 +54,7 @@ public record PersonalMessage
 
     public string BetTransId { get; } = default!;
 
-    public int MsgContentType { get; }
+    public byte MsgContentsType { get; }
 
     public string Remark { get; } = default!;
 

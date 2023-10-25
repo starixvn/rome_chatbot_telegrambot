@@ -662,5 +662,16 @@ namespace TelegramBot.Importer.Resources
                 return ResourceManager.GetString("MemberWinLossLimitAlertLossContent", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to NormalAnnouncement.
+        /// </summary>
+        public static string NormalAnnouncement
+        {
+            get
+            {
+                return ResourceManager.GetString("NormalAnnouncement", resourceCulture);
+            }
+        }
     }
 }
