@@ -1,44 +1,71 @@
-using Fanex.Data.Repository;
 using TelegramBot.Shared.Models;
 using TelegramBot.Modules.Setting.Models;
 using TelegramBot.Modules.Message;
-using TelegramBot.Modules.Function.Criteria;
-using TelegramBot.Modules.Function.Models;
+using Alpha.API.Client.Services;
+using Alpha.API.Client.Models.Customers;
+using TelegramBot.Shared.Resources;
+using System.Text;
 
 namespace TelegramBot.Modules.Function.Handlers
 {
-    public abstract class AvailableDomainsFunctionHandler : BaseFunctionHandler, IFunctionHandler
+    public class AvailableDomainsFunctionHandler : BaseFunctionHandler, IFunctionHandler
     {
-        private readonly IDynamicRepository dynamicRepository;
+        private readonly ICustomerService customerService;
 
-        protected AvailableDomainsFunctionHandler(
+        public AvailableDomainsFunctionHandler(
             IMessageBuilder messageBuilder,
             IMessageFormatter messageFormatter,
-            IDynamicRepository dynamicRepository)
-            : base(messageBuilder, messageFormatter)
-            => this.dynamicRepository = dynamicRepository;
+            ICustomerService customerService) : base(messageBuilder, messageFormatter)
+            => this.customerService = customerService;
 
-        public virtual async Task<Result> Handle(CustBotAccount account, string[] parameters)
+        public async Task<Result> Handle(CustBotAccount account, string[] parameters)
         {
-            if (parameters == null || parameters.Length == 0)
+            var domains = await customerService.GetDomains(account.Site);
+            var (agencyDomains, memberDomains) = SplitDomains(domains);
+
+            var agencyMessage = BuildAvailableDomainsMessage(
+                ResourceHelper.Get(nameof(SharedResource.AgencyDomains), account.Language),
+                agencyDomains,
+                account.Language);
+            var memberMessage = BuildAvailableDomainsMessage(
+                ResourceHelper.Get(nameof(SharedResource.MemberDomains), account.Language),
+                memberDomains,
+                account.Language);
+
+            return new Result(0, $"{agencyMessage}{messageFormatter.NewLine()}{messageFormatter.NewLine()}{memberMessage}");
+        }
+
+        private static Tuple<IEnumerable<string>, IEnumerable<string>> SplitDomains(
+            IEnumerable<DomainInfo> domains)
+        {
+            var agencyDomains = new List<string>();
+            var memberDomains = new List<string>();
+
+            foreach (var item in domains)
             {
-                return Result.CreateErrorResult();
+                if (item.IsAgency)
+                {
+                    agencyDomains.Add(item.Domain);
+                }
+                else
+                {
+                    memberDomains.Add(item.Domain);
+                }
             }
 
-            var isAgency = parameters[0] == "1";
-            var data =
-                (await dynamicRepository.FetchAsync<BackupDomainModel>(new GetGetBackupDomainsCriteria(account.Site)))
-                .Where(d => d.IsAgency == isAgency)
-                .Select(d => d.Domain)
-                .ToList();
-            var message = data.Count > 0
-                ? string.Join(messageFormatter.NewLine(), data)
-                : messageBuilder.BuildNoDataMessage(account.Language);
+            return Tuple.Create<IEnumerable<string>, IEnumerable<string>>(agencyDomains, memberDomains);
+        }
 
-            return new Result(0, message);
+        private string BuildAvailableDomainsMessage(string title, IEnumerable<string> domains, string language)
+        {
+            var message = domains.Any()
+                ? $"<pre>{string.Join(messageFormatter.NewLine(), domains)}</pre>"
+                : messageBuilder.BuildNoDataMessage(language);
+
+            return string.Join(messageFormatter.NewLine(), $"<b>{title}</b>", message);
         }
 
         public Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)
-            => Task.FromResult(Enumerable.Empty<string>());
+            => throw new NotImplementedException();
     }
 }

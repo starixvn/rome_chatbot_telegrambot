@@ -22,8 +22,7 @@ namespace TelegramBot.Modules.Function.Handlers
                 FunctionIds.TodayWinLoss => (IFunctionHandler)serviceProvider.GetService(typeof(TodayWinLossFunctionHandler)),
                 FunctionIds.BalanceInfo => (IFunctionHandler)serviceProvider.GetService(typeof(BalanceInfoFunctionHandler)),
                 FunctionIds.YesterdayWinLoss => (IFunctionHandler)serviceProvider.GetService(typeof(YesterdayWinLossFunctionHandler)),
-                FunctionIds.AgencyDomains => (IFunctionHandler)serviceProvider.GetService(typeof(AgencyDomainsFunctionHandler)),
-                FunctionIds.MemberDomains => (IFunctionHandler)serviceProvider.GetService(typeof(MemberDomainsFunctionHandler)),
+                FunctionIds.AvailableDomains => (IFunctionHandler)serviceProvider.GetService(typeof(AvailableDomainsFunctionHandler)),
                 _ => throw new NotImplementedException(),
             };
         }

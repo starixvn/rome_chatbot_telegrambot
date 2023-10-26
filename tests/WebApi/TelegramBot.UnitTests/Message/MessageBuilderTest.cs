@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NSubstitute;
+using TelegramBot.Modules.Action.Constants;
 using TelegramBot.Modules.Message;
 using TelegramBot.Modules.Message.Models;
 using TelegramBot.Modules.Resource;
@@ -40,9 +41,8 @@ public class MessageBuilderTest
     {
         var expect = new List<string>
         {
-            $"[Change Password Alert - {DateTime.Now:MM/dd/yyyy}]",
-            "Your account password has been changed.",
-            "If this wasn't you, please contact Customer Service Department for support",
+            $"{Unicode.Alarm} <b>Password Changed</b>",
+            "Your account password has been changed. Please check if this wasn't you."
         };
 
         var result = messageBuilder.BuildChangePasswordAlertMessage("EN");
@@ -55,9 +55,8 @@ public class MessageBuilderTest
     {
         var expect = new List<string>
         {
-            $"[Change Security Code Alert - {DateTime.Now:MM/dd/yyyy}]",
-            "Your Security Code has been changed.",
-            "If this wasn't you, please change password or contact Customer Service Department for support",
+            $"{Unicode.Alarm} <b>Security Code Changed</b>",
+            "Your Security Code has been changed. Please check if this wasn't you."
         };
 
         var result = messageBuilder.BuildChangeSecurityCodeAlertMessage("EN");
@@ -366,10 +365,9 @@ public class MessageBuilderTest
         // Arrange
         var ip = "127.0.0.1";
         var expectedResult = new StringBuilder();
-        expectedResult.Append($"[Wrong Password Alert - {DateTime.Now:MM/dd/yyyy}]\n");
-        expectedResult.Append("Your account password has been entered incorrectly several times.\n");
-        expectedResult.Append($"Requested IP: {ip}\n");
-        expectedResult.Append("If this wasn't you, please contact Customer Service Department for support");
+        expectedResult
+            .Append($"{Unicode.Warning} <b>Wrong Password</b>\n")
+            .Append($"Multiple incorrect password attempts from IP {ip}. Please check if this wasn't you.");
 
         // Act
         var result = messageBuilder.BuildWrongPasswordAlertMessage(LanguageCodes.English, ip);

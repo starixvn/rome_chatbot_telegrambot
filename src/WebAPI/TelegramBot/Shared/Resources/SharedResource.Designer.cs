@@ -1301,5 +1301,27 @@ namespace TelegramBot.Shared.Resources
                 return ResourceManager.GetString("OTPInformed", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Agency Domains.
+        /// </summary>
+        public static string AgencyDomains
+        {
+            get
+            {
+                return ResourceManager.GetString("AgencyDomains", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Member Domains.
+        /// </summary>
+        public static string MemberDomains
+        {
+            get
+            {
+                return ResourceManager.GetString("MemberDomains", resourceCulture);
+            }
+        }
     }
 }

@@ -12,7 +12,6 @@ namespace TelegramBot.Modules.Function.Constants
         public const short WrongPasswordAlert = 11;
         public const short Settings = 12;
         public const short OTP = 15;
-        public const short AgencyDomains = 19;
-        public const short MemberDomains = 21;
+        public const short AvailableDomains = 19;
     }
 }

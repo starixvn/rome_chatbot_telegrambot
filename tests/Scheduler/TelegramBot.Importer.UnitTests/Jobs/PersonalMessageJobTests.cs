@@ -66,7 +66,7 @@ public class PersonalMessageJobTests
     }
 
     [Theory, AutoData]
-    public async Task Execute_HasPersonalMessages_CallLogError(ScheduleJob job, SystemSetting systemSetting)
+    public async Task Execute_HasPersonalMessages_CallsGetLinkedCustomers(ScheduleJob job, SystemSetting systemSetting)
     {
         // Arrange
         IEnumerable<PersonalMessage> personalMessages = new List<PersonalMessage>
@@ -100,6 +100,6 @@ public class PersonalMessageJobTests
         await personalMessageJob.Execute(job, systemSetting);
 
         // Assert
-        await customerService.Received().GetLinkedCustomers(job.Name, "1", job.Environment);
+        await customerService.Received().GetLinkedCustomers(job.Name, "1,", job.Environment, string.Empty);
     }
 }

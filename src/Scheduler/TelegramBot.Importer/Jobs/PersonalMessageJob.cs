@@ -190,8 +190,6 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         IEnumerable<LinkedCustomer> linkedCustomers,
         IEnumerable<CustomerStatus> customerStatus)
     {
-        var notifications = new List<PersonalMessageNotification>();
-
         if (domainMessages.Any())
         {
             var query =
@@ -208,18 +206,16 @@ public sealed class PersonalMessageJob : NotificationBaseJob
 
             foreach (var item in query)
             {
-                notifications.Add(new PersonalMessageNotification(
+                yield return new PersonalMessageNotification(
                     item.Customer.UserId,
                     item.Customer.BotId,
                     item.PersonalMessage.MsgTargetId,
                     item.PersonalMessage.MessageId,
                     BuildDomainMessage(item.Customer.Language, item.PersonalMessage.GetContentByLanguage(item.Customer.Language)),
                     item.Customer.IsRealUser,
-                    job.IsUAT));
+                    job.IsUAT);
             }
         }
-
-        return notifications;
     }
 
     private static string BuildDomainMessage(string language, string content)
