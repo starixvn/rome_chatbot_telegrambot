@@ -25,5 +25,7 @@ namespace TelegramBot.Modules.Setting.Models
         public IEnumerable<BotFunction> Functions { get; set; }
 
         public string SiteDBGroupIp { get; set; }
+
+        public string Site { get; set; }
     }
 }

@@ -33,7 +33,16 @@ public class YesterdayWinLossJobTests
         // Arrange
         IEnumerable<LinkedCustomer> linkedCustomers = new List<LinkedCustomer>
         {
-            new LinkedCustomer(1,0,"en-US",2,1,true,10)
+            new LinkedCustomer
+            {
+                CustId = 1,
+                SubAccId = 0,
+                Language = "en-US",
+                CustomerLevel = 2,
+                UserId = 1,
+                IsRealUser = true,
+                BotId = 10
+            }
         };
         IEnumerable<CustomerStatus> customerStatus = new List<CustomerStatus>
         {

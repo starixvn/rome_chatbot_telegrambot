@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
+    <!--
     Microsoft ResX Schema
 
     Version 2.0
@@ -59,456 +59,377 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+        <xsd:element name="root" msdata:IsDataSet="true">
             <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="metadata">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" use="required" type="xsd:string"/>
+                            <xsd:attribute name="type" type="xsd:string"/>
+                            <xsd:attribute name="mimetype" type="xsd:string"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assembly">
+                        <xsd:complexType>
+                            <xsd:attribute name="alias" type="xsd:string"/>
+                            <xsd:attribute name="name" type="xsd:string"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
             </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="Cash" xml:space="preserve">
-    <value>Số Dư</value>
-    <comment />
-  </data>
-  <data name="YesterdayCash" xml:space="preserve">
-    <value>Số Dư Hôm Qua</value>
-    <comment />
-  </data>
-  <data name="AgentComm" xml:space="preserve">
-    <value>H.Hồng Agent</value>
-    <comment />
-  </data>
-  <data name="AgentCredit" xml:space="preserve">
-    <value>H.Mức Agent</value>
-    <comment />
-  </data>
-  <data name="AgentOutStanding" xml:space="preserve">
-    <value>Chưa Xử Lý Agent</value>
-    <comment />
-  </data>
-  <data name="AgentTotal" xml:space="preserve">
-    <value>Tổng Tiền Agent</value>
-    <comment />
-  </data>
-  <data name="AgentWinLoss" xml:space="preserve">
-    <value>T.Thua Agent</value>
-    <comment />
-  </data>
-  <data name="MasterComm" xml:space="preserve">
-    <value>H.Hồng Master</value>
-    <comment />
-  </data>
-  <data name="MasterCredit" xml:space="preserve">
-    <value>H.Mức Master</value>
-    <comment />
-  </data>
-  <data name="MasterOutStanding" xml:space="preserve">
-    <value>Chưa Xử Lý Master</value>
-    <comment />
-  </data>
-  <data name="MasterTotal" xml:space="preserve">
-    <value>Tổng Tiền Master</value>
-    <comment />
-  </data>
-  <data name="MasterWinLoss" xml:space="preserve">
-    <value>T.Thua Master</value>
-    <comment />
-  </data>
-  <data name="MemberComm" xml:space="preserve">
-    <value>H.Hồng Member</value>
-    <comment />
-  </data>
-  <data name="MemberCredit" xml:space="preserve">
-    <value>H.Mức Member</value>
-    <comment />
-  </data>
-  <data name="MemberOutStanding" xml:space="preserve">
-    <value>Chưa Xử Lý Member</value>
-    <comment />
-  </data>
-  <data name="MemberTotal" xml:space="preserve">
-    <value>Tổng Tiền Member</value>
-    <comment />
-  </data>
-  <data name="MemberWinLoss" xml:space="preserve">
-    <value>T.Thua Member</value>
-    <comment />
-  </data>
-  <data name="SuperComm" xml:space="preserve">
-    <value>H.Hồng Super</value>
-    <comment />
-  </data>
-  <data name="SuperOutStanding" xml:space="preserve">
-    <value>Chưa Xử Lý Super</value>
-    <comment />
-  </data>
-  <data name="SuperTotal" xml:space="preserve">
-    <value>Tổng Tiền Super</value>
-    <comment />
-  </data>
-  <data name="SuperWinLoss" xml:space="preserve">
-    <value>T.Thua Super</value>
-    <comment />
-  </data>
-  <data name="GrossComm" xml:space="preserve">
-    <value>Tổng Hoa Hồng</value>
-    <comment />
-  </data>
-  <data name="Balance" xml:space="preserve">
-    <value>Thu/Nợ</value>
-    <comment />
-  </data>
-  <data name="For" xml:space="preserve">
-    <value>Cho</value>
-    <comment />
-  </data>
-  <data name="Credit" xml:space="preserve">
-    <value>Hạn mức tín dụng</value>
-    <comment />
-  </data>
-  <data name="Currency" xml:space="preserve">
-    <value>Tiền Tệ</value>
-    <comment />
-  </data>
-  <data name="GivenCredit" xml:space="preserve">
-    <value>H.Mức Được Cấp</value>
-    <comment />
-  </data>
-  <data name="InvalidUsername" xml:space="preserve">
-    <value>Tên tài khoản không hợp lệ.</value>
-    <comment />
-  </data>
-  <data name="NoData" xml:space="preserve">
-    <value>Thông tin không tồn tại</value>
-    <comment />
-  </data>
-  <data name="NotRecognizeCommandMessage" xml:space="preserve">
-    <value>Rất tiếc, chúng tôi không nhận ra yêu cầu của bạn. Bạn muốn thực hiện yêu cầu nào?</value>
-    <comment />
-  </data>
-  <data name="Outstanding" xml:space="preserve">
-    <value>Tiền chưa xử lý</value>
-    <comment />
-  </data>
-  <data name="Products" xml:space="preserve">
-    <value>Sản phẩm</value>
-    <comment />
-  </data>
-  <data name="TodayWinLoss" xml:space="preserve">
-    <value>T.Thua Hôm Nay</value>
-    <comment />
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>Tổng Cộng</value>
-    <comment />
-  </data>
-  <data name="Turnover" xml:space="preserve">
-    <value>Tiền Cược</value>
-    <comment />
-  </data>
-  <data name="Username" xml:space="preserve">
-    <value>Tài Khoản</value>
-    <comment />
-  </data>
-  <data name="Yesterday" xml:space="preserve">
-    <value>Hôm Qua</value>
-    <comment />
-  </data>
-  <data name="YesterdayBal" xml:space="preserve">
-    <value>Thu/Nợ Hôm Qua</value>
-    <comment />
-  </data>
-  <data name="YesterdayWinLoss" xml:space="preserve">
-    <value>T.Thua Hôm Qua</value>
-    <comment />
-  </data>
-  <data name="YourAccountIsClosed" xml:space="preserve">
-    <value>Tài khoản của bạn đã bị đóng.</value>
-    <comment />
-  </data>
-  <data name="Today" xml:space="preserve">
-    <value>Hôm Nay</value>
-    <comment />
-  </data>
-  <data name="BetCredit" xml:space="preserve">
-    <value>H.Mức khả dụng</value>
-    <comment />
-  </data>
-  <data name="UsedCredit" xml:space="preserve">
-    <value>H.Mức Đã Dùng</value>
-    <comment />
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Hủy</value>
-    <comment />
-  </data>
-  <data name="ThirdPartyPendingTransfer" xml:space="preserve">
-    <value>Chưa Chuyển Về</value>
-    <comment />
-  </data>
-  <data name="MemMaxCredit" xml:space="preserve">
-    <value>H.Mức Tối Đa Member</value>
-    <comment />
-  </data>
-  <data name="MemberActClosedSus" xml:space="preserve">
-    <value>Members (Mở/Bị đóng/Bị đình chỉ)</value>
-    <comment />
-  </data>
-  <data name="AgentActClosedSus" xml:space="preserve">
-    <value>Agents (Mở/Bị đóng/Bị đình chỉ)</value>
-    <comment />
-  </data>
-  <data name="Setting_OTP_Help" xml:space="preserve">
-    <value>Vui lòng nhập mã OTP &lt;code&gt;{0}&lt;/code&gt; trên &lt;b&gt;trang Agency&lt;/b&gt; trong vòng 3 phút để hoàn thành cài đặt Telegram Chatbot.</value>
-    <comment />
-  </data>
-  <data name="YourAccountIsLocked" xml:space="preserve">
-    <value>Tài khoản của bạn đã bị khóa</value>
-    <comment />
-  </data>
-  <data name="OpenSettingsMenu" xml:space="preserve">
-    <value>Mở Menu Cài Đặt</value>
-    <comment />
-  </data>
-  <data name="BackTo" xml:space="preserve">
-    <value>Trở về</value>
-    <comment />
-  </data>
-  <data name="StopUsingChatbot" xml:space="preserve">
-    <value>Ngưng sử dụng Chatbot</value>
-    <comment />
-  </data>
-  <data name="StopUsingChatbotConfirmMessage" xml:space="preserve">
-    <value>Bạn sắp &lt;b&gt;ngưng sử dụng Chatbot&lt;/b&gt;. Telegram của bạn sẽ hủy liên kết với {0} và bạn không thể sử dụng {0} nữa. Bạn có muốn tiếp tục?</value>
-    <comment />
-  </data>
-  <data name="UnlinkMessage" xml:space="preserve">
-    <value>Telegram của bạn đã hủy liên kết với {0}</value>
-    <comment />
-  </data>
-  <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
-    <value>"{0}" không hợp lệ, vui lòng nhập số hợp lệ (tối đa {1})</value>
-    <comment />
-  </data>
-  <data name="TurnOffNotification" xml:space="preserve">
-    <value>Đã tắt thông báo</value>
-    <comment />
-  </data>
-  <data name="TurnOnNotification" xml:space="preserve">
-    <value>Đã bật thông báo</value>
-    <comment />
-  </data>
-  <data name="MainMenu" xml:space="preserve">
-    <value>Menu Chính</value>
-    <comment />
-  </data>
-  <data name="ApiException" xml:space="preserve">
-    <value>Chúng tôi đang nâng cấp chức năng này để có trải nghiệm tốt hơn. Do đó, chức năng này tạm gián đoạn ({0} - {1} (GMT+8)). Xin lỗi vì sự bất tiện này, vui lòng thử lại sau.</value>
-    <comment />
-  </data>
-  <data name="InvalidCustName" xml:space="preserve">
-    <value>"{0}" không hợp lệ, vui lòng nhập tên người dùng hợp lệ.</value>
-    <comment />
-  </data>
-  <data name="ListAllCommands" xml:space="preserve">
-    <value>Liệt kê tất cả các lệnh</value>
-    <comment />
-  </data>
-  <data name="HelpCommandIntro" xml:space="preserve">
-    <value>Bạn có thể sử dụng {0} bằng các lệnh sau:</value>
-    <comment />
-  </data>
-  <data name="OpenMainMenu" xml:space="preserve">
-    <value>Mở Menu Chính của {0}</value>
-    <comment />
-  </data>
-  <data name="AccountAlreadyLinked" xml:space="preserve">
-    <value>Telegram của bạn đã liên kết với tài khoản khác. Vui lòng hủy liên kết với tài khoản đó và thử lại.</value>
-    <comment />
-  </data>
-  <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
-    <value>Mã Bảo Mật của bạn đã thay đổi. Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
-    <comment />
-  </data>
-  <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
-    <value>Telegram của bạn đã liên kết với Chatbot này bằng tài khoản khác. Nếu đây không phải tài khoản của bạn, vui lòng liên hệ chúng tôi để được hỗ trợ.</value>
-    <comment />
-  </data>
-  <data name="InvalidNumberOfDownlines" xml:space="preserve">
-    <value>Số lượng cấp dưới phải từ 1 đến {0}</value>
-    <comment />
-  </data>
-  <data name="ActionSelected" xml:space="preserve">
-    <value>Danh mục đã chọn</value>
-    <comment />
-  </data>
-  <data name="ChangePasswordAlert" xml:space="preserve">
-    <value>Mật Khẩu Đã Thay Đổi</value>
-    <comment />
-  </data>
-  <data name="ChangeSecurityCodeAlert" xml:space="preserve">
-    <value>Mã Bảo Mật Đã Thay Đổi</value>
-    <comment />
-  </data>
-  <data name="Unlink" xml:space="preserve">
-    <value>Hủy liên kết</value>
-    <comment />
-  </data>
-  <data name="PleaseSelectAnAction" xml:space="preserve">
-    <value>Vui lòng chọn một danh mục</value>
-    <comment />
-  </data>
-  <data name="BackToMainMenu" xml:space="preserve">
-    <value>Trở về Menu Chính</value>
-    <comment />
-  </data>
-  <data name="IntroductionMessage" xml:space="preserve">
-    <value>Vui lòng đăng nhập vào &lt;b&gt;trang Agency&lt;/b&gt;, đi đến chức năng Chatbot và làm theo hướng dẫn để cài đặt Telegram Chatbot.</value>
-    <comment />
-  </data>
-  <data name="WelcomeMessage" xml:space="preserve">
-    <value>Xin chào {0}. Quá trình cài đặt Telegram Chatbot của bạn đã hoàn thành. Bạn có thể xem báo cáo bằng cách tương tác với Chatbot, và cập nhật thông tin mới nhất qua thông báo tự động. Bạn sẽ nhận Báo Cáo Thắng Thua Hôm Qua sau 2:00 PM (GMT+8) hằng ngày.</value>
-    <comment />
-  </data>
-  <data name="ChangePasswordAlertContent" xml:space="preserve">
-    <value>Mật khẩu của bạn đã thay đổi. Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
-    <comment />
-  </data>
-  <data name="LanguageUpdated" xml:space="preserve">
-    <value>Đã cập nhật ngôn ngữ.</value>
-    <comment />
-  </data>
-  <data name="No" xml:space="preserve">
-    <value>Không</value>
-    <comment />
-  </data>
-  <data name="UnderMaintenance" xml:space="preserve">
-    <value>Hệ thống hiện đang trong thời gian bảo trì định kỳ từ {0} đến {1} (GMT +8). Vui lòng quay lại sau.</value>
-    <comment />
-  </data>
-  <data name="BackTo_1" xml:space="preserve">
-    <value>Trở về Tiền Chưa Xử Lý</value>
-    <comment />
-  </data>
-  <data name="BackTo_2" xml:space="preserve">
-    <value>Trở về Tài Khoản</value>
-    <comment />
-  </data>
-  <data name="BackTo_3" xml:space="preserve">
-    <value>Trở về menu trước</value>
-    <comment />
-  </data>
-  <data name="BackTo_4" xml:space="preserve">
-    <value>Trở về menu trước</value>
-    <comment />
-  </data>
-  <data name="BackTo_11" xml:space="preserve">
-    <value>Trở về Cài Đặt</value>
-    <comment />
-  </data>
-  <data name="WrongPasswordAlert" xml:space="preserve">
-    <value>Sai Mật Khẩu</value>
-  </data>
-  <data name="WrongPasswordAlertContent" xml:space="preserve">
-    <value>Nhiều lần thử mật khẩu không thành công từ IP {0}.Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
-  </data>
-  <data name="BAL" xml:space="preserve">
-    <value>Thu/Nợ</value>
-  </data>
-  <data name="DownlineYesterdayWinLoss" xml:space="preserve">
-    <value>Thắng Thua Hôm Qua Cấp Dưới</value>
-  </data>
-  <data name="DownlineTopHighestOutstanding" xml:space="preserve">
-    <value>Cấp Dưới Có Tiền Chưa Xử Lý Cao Nhất</value>
-  </data>
-  <data name="DownlineTopHighestBalance" xml:space="preserve">
-    <value>Cấp Dưới Có Số Dư Cao Nhất</value>
-  </data>
-  <data name="DownlineTodayWinLoss" xml:space="preserve">
-    <value>Thắng Thua Hôm Nay Cấp Dưới</value>
-  </data>
-  <data name="DownlineOutstanding" xml:space="preserve">
-    <value>Tiền Chưa Xử Lý Cấp Dưới</value>
-  </data>
-  <data name="DownlineBalance" xml:space="preserve">
-    <value>Số Dư Cấp Dưới</value>
-  </data>
-  <data name="MyTodayWinLoss" xml:space="preserve">
-    <value>Thắng Thua Hôm Nay Của Bạn</value>
-  </data>
-  <data name="MyYesterdayWinLoss" xml:space="preserve">
-    <value>Thắng Thua Hôm Qua Của Bạn</value>
-  </data>
-  <data name="YourBalance" xml:space="preserve">
-    <value>Số Dư Của Bạn</value>
-  </data>
-  <data name="CompanyWinLoss" xml:space="preserve">
-    <value>Công Ty</value>
-  </data>
-  <data name="EnteredMatches" xml:space="preserve">
-    <value>Trận đã kết thúc</value>
-  </data>
-  <data name="YesterdayNonEnteredMatches" xml:space="preserve">
-    <value>Trận chưa có kết quả hôm qua</value>
-  </data>
-  <data name="OTPMessage" xml:space="preserve">
-    <value>OTP của bạn &lt;code&gt;{0}&lt;/code&gt; có hiệu lực trong 3 phút. Vui lòng không chia sẻ OTP với bất kỳ ai.</value>
-  </data>
-  <data name="NonEnteredMatches" xml:space="preserve">
-    <value>Trận chưa có kết quả</value>
-  </data>
-  <data name="OTPInformed" xml:space="preserve">
-    <value>Xác Thực OTP</value>
-  </data>
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Cash" xml:space="preserve">
+        <value>Số Dư</value>
+    </data>
+    <data name="YesterdayCash" xml:space="preserve">
+        <value>Số Dư Hôm Qua</value>
+    </data>
+    <data name="AgentComm" xml:space="preserve">
+        <value>H.Hồng Agent</value>
+    </data>
+    <data name="AgentCredit" xml:space="preserve">
+        <value>H.Mức Agent</value>
+    </data>
+    <data name="AgentOutStanding" xml:space="preserve">
+        <value>Chưa Xử Lý Agent</value>
+    </data>
+    <data name="AgentTotal" xml:space="preserve">
+        <value>Tổng Tiền Agent</value>
+    </data>
+    <data name="AgentWinLoss" xml:space="preserve">
+        <value>T.Thua Agent</value>
+    </data>
+    <data name="MasterComm" xml:space="preserve">
+        <value>H.Hồng Master</value>
+    </data>
+    <data name="MasterCredit" xml:space="preserve">
+        <value>H.Mức Master</value>
+    </data>
+    <data name="MasterOutStanding" xml:space="preserve">
+        <value>Chưa Xử Lý Master</value>
+    </data>
+    <data name="MasterTotal" xml:space="preserve">
+        <value>Tổng Tiền Master</value>
+    </data>
+    <data name="MasterWinLoss" xml:space="preserve">
+        <value>T.Thua Master</value>
+    </data>
+    <data name="MemberComm" xml:space="preserve">
+        <value>H.Hồng Member</value>
+    </data>
+    <data name="MemberCredit" xml:space="preserve">
+        <value>H.Mức Member</value>
+    </data>
+    <data name="MemberOutStanding" xml:space="preserve">
+        <value>Chưa Xử Lý Member</value>
+    </data>
+    <data name="MemberTotal" xml:space="preserve">
+        <value>Tổng Tiền Member</value>
+    </data>
+    <data name="MemberWinLoss" xml:space="preserve">
+        <value>T.Thua Member</value>
+    </data>
+    <data name="SuperComm" xml:space="preserve">
+        <value>H.Hồng Super</value>
+    </data>
+    <data name="SuperOutStanding" xml:space="preserve">
+        <value>Chưa Xử Lý Super</value>
+    </data>
+    <data name="SuperTotal" xml:space="preserve">
+        <value>Tổng Tiền Super</value>
+    </data>
+    <data name="SuperWinLoss" xml:space="preserve">
+        <value>T.Thua Super</value>
+    </data>
+    <data name="GrossComm" xml:space="preserve">
+        <value>Tổng Hoa Hồng</value>
+    </data>
+    <data name="Balance" xml:space="preserve">
+        <value>Thu/Nợ</value>
+    </data>
+    <data name="For" xml:space="preserve">
+        <value>Cho</value>
+    </data>
+    <data name="Credit" xml:space="preserve">
+        <value>Hạn mức tín dụng</value>
+    </data>
+    <data name="Currency" xml:space="preserve">
+        <value>Tiền Tệ</value>
+    </data>
+    <data name="GivenCredit" xml:space="preserve">
+        <value>H.Mức Được Cấp</value>
+    </data>
+    <data name="InvalidUsername" xml:space="preserve">
+        <value>Tên tài khoản không hợp lệ.</value>
+    </data>
+    <data name="NoData" xml:space="preserve">
+        <value>Thông tin không tồn tại</value>
+    </data>
+    <data name="NotRecognizeCommandMessage" xml:space="preserve">
+        <value>Rất tiếc, chúng tôi không nhận ra yêu cầu của bạn. Bạn muốn thực hiện yêu cầu nào?</value>
+    </data>
+    <data name="Outstanding" xml:space="preserve">
+        <value>Tiền chưa xử lý</value>
+    </data>
+    <data name="Products" xml:space="preserve">
+        <value>Sản phẩm</value>
+    </data>
+    <data name="TodayWinLoss" xml:space="preserve">
+        <value>T.Thua Hôm Nay</value>
+    </data>
+    <data name="Total" xml:space="preserve">
+        <value>Tổng Cộng</value>
+    </data>
+    <data name="Turnover" xml:space="preserve">
+        <value>Tiền Cược</value>
+    </data>
+    <data name="Username" xml:space="preserve">
+        <value>Tài Khoản</value>
+    </data>
+    <data name="Yesterday" xml:space="preserve">
+        <value>Hôm Qua</value>
+    </data>
+    <data name="YesterdayBal" xml:space="preserve">
+        <value>Thu/Nợ Hôm Qua</value>
+    </data>
+    <data name="YesterdayWinLoss" xml:space="preserve">
+        <value>T.Thua Hôm Qua</value>
+    </data>
+    <data name="YourAccountIsClosed" xml:space="preserve">
+        <value>Tài khoản của bạn đã bị đóng.</value>
+    </data>
+    <data name="Today" xml:space="preserve">
+        <value>Hôm Nay</value>
+    </data>
+    <data name="BetCredit" xml:space="preserve">
+        <value>H.Mức khả dụng</value>
+    </data>
+    <data name="UsedCredit" xml:space="preserve">
+        <value>H.Mức Đã Dùng</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Hủy</value>
+    </data>
+    <data name="ThirdPartyPendingTransfer" xml:space="preserve">
+        <value>Chưa Chuyển Về</value>
+    </data>
+    <data name="MemMaxCredit" xml:space="preserve">
+        <value>H.Mức Tối Đa Member</value>
+    </data>
+    <data name="MemberActClosedSus" xml:space="preserve">
+        <value>Members (Mở/Bị đóng/Bị đình chỉ)</value>
+    </data>
+    <data name="AgentActClosedSus" xml:space="preserve">
+        <value>Agents (Mở/Bị đóng/Bị đình chỉ)</value>
+    </data>
+    <data name="Setting_OTP_Help" xml:space="preserve">
+        <value>Vui lòng nhập mã OTP &lt;code&gt;{0}&lt;/code&gt; trên &lt;b&gt;trang Agency&lt;/b&gt; trong vòng 3 phút để hoàn thành cài đặt Telegram Chatbot.</value>
+    </data>
+    <data name="YourAccountIsLocked" xml:space="preserve">
+        <value>Tài khoản của bạn đã bị khóa</value>
+    </data>
+    <data name="OpenSettingsMenu" xml:space="preserve">
+        <value>Mở Menu Cài Đặt</value>
+    </data>
+    <data name="BackTo" xml:space="preserve">
+        <value>Trở về</value>
+    </data>
+    <data name="StopUsingChatbot" xml:space="preserve">
+        <value>Ngưng sử dụng Chatbot</value>
+    </data>
+    <data name="StopUsingChatbotConfirmMessage" xml:space="preserve">
+        <value>Bạn sắp &lt;b&gt;ngưng sử dụng Chatbot&lt;/b&gt;. Telegram của bạn sẽ hủy liên kết với {0} và bạn không thể sử dụng {0} nữa. Bạn có muốn tiếp tục?</value>
+    </data>
+    <data name="UnlinkMessage" xml:space="preserve">
+        <value>Telegram của bạn đã hủy liên kết với {0}</value>
+    </data>
+    <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
+        <value>"{0}" không hợp lệ, vui lòng nhập số hợp lệ (tối đa {1})</value>
+    </data>
+    <data name="TurnOffNotification" xml:space="preserve">
+        <value>Đã tắt thông báo</value>
+    </data>
+    <data name="TurnOnNotification" xml:space="preserve">
+        <value>Đã bật thông báo</value>
+    </data>
+    <data name="MainMenu" xml:space="preserve">
+        <value>Menu Chính</value>
+    </data>
+    <data name="ApiException" xml:space="preserve">
+        <value>Chúng tôi đang nâng cấp chức năng này để có trải nghiệm tốt hơn. Do đó, chức năng này tạm gián đoạn ({0} - {1} (GMT+8)). Xin lỗi vì sự bất tiện này, vui lòng thử lại sau.</value>
+    </data>
+    <data name="InvalidCustName" xml:space="preserve">
+        <value>"{0}" không hợp lệ, vui lòng nhập tên người dùng hợp lệ.</value>
+    </data>
+    <data name="ListAllCommands" xml:space="preserve">
+        <value>Liệt kê tất cả các lệnh</value>
+    </data>
+    <data name="HelpCommandIntro" xml:space="preserve">
+        <value>Bạn có thể sử dụng {0} bằng các lệnh sau:</value>
+    </data>
+    <data name="OpenMainMenu" xml:space="preserve">
+        <value>Mở Menu Chính của {0}</value>
+    </data>
+    <data name="AccountAlreadyLinked" xml:space="preserve">
+        <value>Telegram của bạn đã liên kết với tài khoản khác. Vui lòng hủy liên kết với tài khoản đó và thử lại.</value>
+    </data>
+    <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
+        <value>Mã Bảo Mật của bạn đã thay đổi. Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
+    </data>
+    <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
+        <value>Telegram của bạn đã liên kết với Chatbot này bằng tài khoản khác. Nếu đây không phải tài khoản của bạn, vui lòng liên hệ chúng tôi để được hỗ trợ.</value>
+    </data>
+    <data name="InvalidNumberOfDownlines" xml:space="preserve">
+        <value>Số lượng cấp dưới phải từ 1 đến {0}</value>
+    </data>
+    <data name="ActionSelected" xml:space="preserve">
+        <value>Danh mục đã chọn</value>
+    </data>
+    <data name="ChangePasswordAlert" xml:space="preserve">
+        <value>Mật Khẩu Đã Thay Đổi</value>
+    </data>
+    <data name="ChangeSecurityCodeAlert" xml:space="preserve">
+        <value>Mã Bảo Mật Đã Thay Đổi</value>
+    </data>
+    <data name="Unlink" xml:space="preserve">
+        <value>Hủy liên kết</value>
+    </data>
+    <data name="PleaseSelectAnAction" xml:space="preserve">
+        <value>Vui lòng chọn một danh mục</value>
+    </data>
+    <data name="BackToMainMenu" xml:space="preserve">
+        <value>Trở về Menu Chính</value>
+    </data>
+    <data name="IntroductionMessage" xml:space="preserve">
+        <value>Vui lòng đăng nhập vào &lt;b&gt;trang Agency&lt;/b&gt;, đi đến chức năng Chatbot và làm theo hướng dẫn để cài đặt Telegram Chatbot.</value>
+    </data>
+    <data name="WelcomeMessage" xml:space="preserve">
+        <value>Xin chào {0}. Quá trình cài đặt Telegram Chatbot của bạn đã hoàn thành. Bạn có thể xem báo cáo bằng cách tương tác với Chatbot, và cập nhật thông tin mới nhất qua thông báo tự động. Bạn sẽ nhận Báo Cáo Thắng Thua Hôm Qua sau 2:00 PM (GMT+8) hằng ngày.</value>
+    </data>
+    <data name="ChangePasswordAlertContent" xml:space="preserve">
+        <value>Mật khẩu của bạn đã thay đổi. Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
+    </data>
+    <data name="LanguageUpdated" xml:space="preserve">
+        <value>Đã cập nhật ngôn ngữ.</value>
+    </data>
+    <data name="No" xml:space="preserve">
+        <value>Không</value>
+    </data>
+    <data name="UnderMaintenance" xml:space="preserve">
+        <value>Hệ thống hiện đang trong thời gian bảo trì định kỳ từ {0} đến {1} (GMT +8). Vui lòng quay lại sau.</value>
+    </data>
+    <data name="BackTo_1" xml:space="preserve">
+        <value>Trở về Tiền Chưa Xử Lý</value>
+    </data>
+    <data name="BackTo_2" xml:space="preserve">
+        <value>Trở về Tài Khoản</value>
+    </data>
+    <data name="BackTo_3" xml:space="preserve">
+        <value>Trở về menu trước</value>
+    </data>
+    <data name="BackTo_4" xml:space="preserve">
+        <value>Trở về menu trước</value>
+    </data>
+    <data name="BackTo_11" xml:space="preserve">
+        <value>Trở về Cài Đặt</value>
+    </data>
+    <data name="WrongPasswordAlert" xml:space="preserve">
+        <value>Sai Mật Khẩu</value>
+    </data>
+    <data name="WrongPasswordAlertContent" xml:space="preserve">
+        <value>Nhiều lần thử mật khẩu không thành công từ IP {0}.Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
+    </data>
+    <data name="BAL" xml:space="preserve">
+        <value>Thu/Nợ</value>
+    </data>
+    <data name="DownlineYesterdayWinLoss" xml:space="preserve">
+        <value>Thắng Thua Hôm Qua Cấp Dưới</value>
+    </data>
+    <data name="DownlineTopHighestOutstanding" xml:space="preserve">
+        <value>Cấp Dưới Có Tiền Chưa Xử Lý Cao Nhất</value>
+    </data>
+    <data name="DownlineTopHighestBalance" xml:space="preserve">
+        <value>Cấp Dưới Có Số Dư Cao Nhất</value>
+    </data>
+    <data name="DownlineTodayWinLoss" xml:space="preserve">
+        <value>Thắng Thua Hôm Nay Cấp Dưới</value>
+    </data>
+    <data name="DownlineOutstanding" xml:space="preserve">
+        <value>Tiền Chưa Xử Lý Cấp Dưới</value>
+    </data>
+    <data name="DownlineBalance" xml:space="preserve">
+        <value>Số Dư Cấp Dưới</value>
+    </data>
+    <data name="MyTodayWinLoss" xml:space="preserve">
+        <value>Thắng Thua Hôm Nay Của Bạn</value>
+    </data>
+    <data name="MyYesterdayWinLoss" xml:space="preserve">
+        <value>Thắng Thua Hôm Qua Của Bạn</value>
+    </data>
+    <data name="YourBalance" xml:space="preserve">
+        <value>Số Dư Của Bạn</value>
+    </data>
+    <data name="CompanyWinLoss" xml:space="preserve">
+        <value>Công Ty</value>
+    </data>
+    <data name="EnteredMatches" xml:space="preserve">
+        <value>Trận đã kết thúc</value>
+    </data>
+    <data name="YesterdayNonEnteredMatches" xml:space="preserve">
+        <value>Trận chưa có kết quả hôm qua</value>
+    </data>
+    <data name="OTPMessage" xml:space="preserve">
+        <value>OTP của bạn &lt;code&gt;{0}&lt;/code&gt; có hiệu lực trong 3 phút. Vui lòng không chia sẻ OTP với bất kỳ ai.</value>
+    </data>
+    <data name="NonEnteredMatches" xml:space="preserve">
+        <value>Trận chưa có kết quả</value>
+    </data>
+    <data name="OTPInformed" xml:space="preserve">
+        <value>Xác Thực OTP</value>
+    </data>
+    <data name="AgencyDomains" xml:space="preserve">
+        <value>Tên Miền Đại lý</value>
+    </data>
+    <data name="MemberDomains" xml:space="preserve">
+        <value>Tên Miền Member</value>
+    </data>
 </root>

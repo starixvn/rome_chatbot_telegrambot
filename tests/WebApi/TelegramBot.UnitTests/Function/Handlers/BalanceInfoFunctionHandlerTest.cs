@@ -160,7 +160,7 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
             customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(downlineInfo));
             var downlineBalance = new DownlineBalance(1, 2, 3, 4, 5, 6, 7, 8, new List<TotalDownline>(), 9, 10,
                 new CustomerOutstanding(11, 12, 13, 14));
-            balanceInfoService.GetDownlineBalance(Arg.Any<int>(), Arg.Any<byte>()).Returns(downlineBalance);
+            balanceInfoService.GetDownlineBalance(Arg.Any<int>(), Arg.Any<byte>(), Arg.Any<string>()).Returns(downlineBalance);
 
             var textContainer = new List<string>()
             {
@@ -212,7 +212,7 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
             customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(downlineInfo));
             var downlineBalance = new DownlineBalance(1, 2, 3, 4, 5, 6, 7, 8, new List<TotalDownline>(), 9, 10,
                 new CustomerOutstanding(11, 12, 13, 14));
-            balanceInfoService.GetDownlineBalance(Arg.Any<int>(), Arg.Any<byte>()).Returns(downlineBalance);
+            balanceInfoService.GetDownlineBalance(Arg.Any<int>(), Arg.Any<byte>(), Arg.Any<string>()).Returns(downlineBalance);
 
             // Act
             var result = await handler.Handle(requestAccount, new[] { "Username" });

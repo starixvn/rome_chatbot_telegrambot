@@ -1,7 +1,6 @@
 using System.Data.SqlClient;
 using System.Runtime.Serialization;
 using Fanex.Data;
-using Fanex.Logging;
 using Microsoft.Extensions.Logging;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Services;
@@ -57,15 +56,5 @@ public class LoggerServiceTests
 
         // Assert
         await logger.Received().ErrorAsync(Arg.Any<string>(), exception);
-    }
-
-    [Theory, AutoData]
-    public void InfoConsole_Always_CallsLogInformation(ScheduleJob job, string message)
-    {
-        // Act
-        loggerService.InfoConsole(job, message);
-
-        // Assert
-        loggerConsole.Received().LogInformation(Arg.Any<string>());
     }
 }

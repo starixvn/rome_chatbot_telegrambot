@@ -13,6 +13,7 @@ namespace TelegramBot.Importer.Jobs;
 
 public sealed class PersonalMessageJob : NotificationBaseJob
 {
+    private const byte DomainsMsgContentsType = 110;
     private readonly IPersonalMessageService personalMessageService;
 
     public PersonalMessageJob(
@@ -26,7 +27,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
 
     public override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
-        var notifications = Enumerable.Empty<PersonalMessageNotification>();
+        var notifications = new List<PersonalMessageNotification>();
 
         var (maxMsgTargetId, personalMessages) = await personalMessageService.GetNewMessages(
             systemSetting.MaxMsgTargetId,
@@ -35,18 +36,21 @@ public sealed class PersonalMessageJob : NotificationBaseJob
 
         if (personalMessages.Any())
         {
-            var custIds = personalMessages.Select(m => m.TargetId).Distinct().JoinWithComma();
-            var linkedCustomers = await GetLinkedCustomers(custIds, job);
+            var personalMessageByContentType = SplitPersonalMessages(personalMessages);
+            var linkedCustomers = await GetLinkedCustomers(
+                personalMessageByContentType.CustIds,
+                job,
+                personalMessageByContentType.Sites);
 
             if (linkedCustomers.Any())
             {
                 var customerStatus = await GetCustomerStatus(linkedCustomers);
 
-                notifications = BuildPersonalMessageNotifications(
-                    job,
-                    personalMessages,
-                    linkedCustomers,
-                    customerStatus);
+                if (customerStatus.Any())
+                {
+                    notifications.AddRange(BuildNormalMessages(job, personalMessageByContentType.NormalMessages, linkedCustomers, customerStatus));
+                    notifications.AddRange(BuildDomainMessages(job, personalMessageByContentType.DomainMessages, linkedCustomers, customerStatus));
+                }
             }
         }
 
@@ -59,29 +63,60 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         }
     }
 
-    private static IEnumerable<PersonalMessageNotification> BuildPersonalMessageNotifications(
+    private static PersonalMessageByContentType SplitPersonalMessages(IEnumerable<PersonalMessage> personalMessages)
+    {
+        var normalMessages = new List<PersonalMessage>();
+        var custIdsBuilder = new StringBuilder();
+        var domainMessages = new List<PersonalMessage>();
+        var sitesBuilder = new StringBuilder();
+
+        foreach (var item in personalMessages)
+        {
+            if (item.MsgContentsType == DomainsMsgContentsType)
+            {
+                domainMessages.Add(item);
+                sitesBuilder.Append(item.Remark).Append(',');
+            }
+            else
+            {
+                normalMessages.Add(item);
+                custIdsBuilder.Append(item.TargetId).Append(',');
+            }
+        }
+
+        return new PersonalMessageByContentType(
+            normalMessages,
+            custIdsBuilder.ToString(),
+            domainMessages,
+            sitesBuilder.ToString());
+    }
+
+    private IEnumerable<PersonalMessageNotification> BuildNormalMessages(
         ScheduleJob job,
-        IEnumerable<PersonalMessage> personalMessages,
+        IEnumerable<PersonalMessage> normalMessages,
         IEnumerable<LinkedCustomer> linkedCustomers,
         IEnumerable<CustomerStatus> customerStatus)
     {
-        var query =
-            from message in personalMessages
-            join customer in linkedCustomers on message.TargetId equals customer.CustId
-            join status in customerStatus on new { customer.CustId, customer.SubAccId }
-                equals new { status.CustId, status.SubAccId }
-            where status.IsValid(job.SubAccPermission)
-            select new
-            {
-                PersonalMessage = message,
-                Customer = customer
-            };
-
         var notifications = new List<PersonalMessageNotification>();
 
-        foreach (var item in query)
+        if (normalMessages.Any())
         {
-            notifications.AddRange(BuildPersonalMessageNotifications(job, item.PersonalMessage, item.Customer));
+            var query =
+                from message in normalMessages
+                join customer in linkedCustomers on message.TargetId equals customer.CustId
+                join status in customerStatus on new { customer.CustId, customer.SubAccId }
+                    equals new { status.CustId, status.SubAccId }
+                where status.IsValid(job.SubAccPermission)
+                select new
+                {
+                    PersonalMessage = message,
+                    Customer = customer
+                };
+
+            foreach (var item in query)
+            {
+                notifications.AddRange(BuildPersonalMessageNotifications(job, item.PersonalMessage, item.Customer));
+            }
         }
 
         return notifications;
@@ -106,7 +141,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
                     customer.BotId,
                     message.MsgTargetId,
                     message.MessageId,
-                    BuildMessage(customer.Language, message.GetContentByLanguage(customer.Language), transId),
+                    BuildNormalMessage(customer.Language, message.GetContentByLanguage(customer.Language), transId),
                     customer.IsRealUser,
                     job.IsUAT);
             }
@@ -118,7 +153,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
                 customer.BotId,
                 message.MsgTargetId,
                 message.MessageId,
-                BuildMessage(customer.Language, message.GetContentByLanguage(customer.Language)),
+                BuildNormalMessage(customer.Language, message.GetContentByLanguage(customer.Language)),
                 customer.IsRealUser,
                 job.IsUAT);
         }
@@ -139,12 +174,56 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         return chunkBetTransIds.Select(array => array.JoinWithComma());
     }
 
-    private static string BuildMessage(string language, string content, string transId = "")
+    private static string BuildNormalMessage(string language, string content, string transId = "")
     {
         var messageBuilder = new StringBuilder();
         messageBuilder
             .AppendLine(TemplateHelper.BuildTitleWithEmoji(language, "PersonalMessage", EmojiUnicode.Envelope))
             .Append(transId.Length == 0 ? content : content.Replace("@@", transId));
+
+        return TemplateHelper.EncodeXml(messageBuilder.ToString());
+    }
+
+    private IEnumerable<PersonalMessageNotification> BuildDomainMessages(
+        ScheduleJob job,
+        IEnumerable<PersonalMessage> domainMessages,
+        IEnumerable<LinkedCustomer> linkedCustomers,
+        IEnumerable<CustomerStatus> customerStatus)
+    {
+        if (domainMessages.Any())
+        {
+            var query =
+                from message in domainMessages
+                join customer in linkedCustomers on message.Remark equals customer.Site
+                join status in customerStatus on new { customer.CustId, customer.SubAccId }
+                    equals new { status.CustId, status.SubAccId }
+                where status.IsValid(job.SubAccPermission)
+                select new
+                {
+                    PersonalMessage = message,
+                    Customer = customer
+                };
+
+            foreach (var item in query)
+            {
+                yield return new PersonalMessageNotification(
+                    item.Customer.UserId,
+                    item.Customer.BotId,
+                    item.PersonalMessage.MsgTargetId,
+                    item.PersonalMessage.MessageId,
+                    BuildDomainMessage(item.Customer.Language, item.PersonalMessage.GetContentByLanguage(item.Customer.Language)),
+                    item.Customer.IsRealUser,
+                    job.IsUAT);
+            }
+        }
+    }
+
+    private static string BuildDomainMessage(string language, string content)
+    {
+        var messageBuilder = new StringBuilder();
+        messageBuilder
+            .AppendLine(TemplateHelper.BuildTitleWithEmoji(language, nameof(Template.NormalAnnouncement), EmojiUnicode.Envelope))
+            .Append(content);
 
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }

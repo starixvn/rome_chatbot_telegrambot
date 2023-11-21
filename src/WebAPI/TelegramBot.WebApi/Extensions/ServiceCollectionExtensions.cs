@@ -139,7 +139,6 @@ namespace TelegramBot.WebApi.Extensions
                 .AddSingleton<IFunctionHandler, TodayWinLossFunctionHandler>(s => s.GetService<TodayWinLossFunctionHandler>());
             services.AddSingleton<YesterdayWinLossFunctionHandler>()
                 .AddSingleton<IFunctionHandler, YesterdayWinLossFunctionHandler>(s => s.GetService<YesterdayWinLossFunctionHandler>());
-
             services.AddSingleton<AvailableDomainsFunctionHandler>()
                 .AddSingleton<IFunctionHandler, AvailableDomainsFunctionHandler>(s => s.GetService<AvailableDomainsFunctionHandler>());
             return services;
