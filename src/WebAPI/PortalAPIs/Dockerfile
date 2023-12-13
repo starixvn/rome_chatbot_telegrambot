@@ -3,19 +3,21 @@ WORKDIR /src
 
 COPY src/WebAPI/PortalAPIs/PortalAPIs.csproj ./WebAPI/PortalAPIs/PortalAPIs.csproj
 RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
-RUN dotnet restore WebAPI/PortalAPIs/PortalAPIs.csproj -v n
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet restore WebAPI/PortalAPIs/PortalAPIs.csproj -v n
 
 COPY src/Shared/TelegramBot.Utilities ./Shared/TelegramBot.Utilities
 COPY src/WebAPI/PortalAPIs ./WebAPI/PortalAPIs
 
 WORKDIR /src/WebAPI/PortalAPIs
-RUN dotnet publish -r linux-x64 --self-contained false -o /app
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet publish -r linux-x64 --self-contained false -o /app
 
 FROM hub.nexdev.net/base/dotnet/core/aspnet:6.0-alpine as base
 
 RUN adduser --disabled-password \
     --home /app \
-    --gecos '' dotnetuser && chown -R dotnetuser /app
+    --gecos '' dotnetuser && chown -R dotnetuser /app && chown -R dotnetuser /tmp
 USER dotnetuser
 
 WORKDIR /app
