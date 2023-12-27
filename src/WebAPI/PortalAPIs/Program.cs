@@ -3,12 +3,12 @@ using Fanex.Data.Repository;
 using Fanex.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
-using Prometheus;
 using System.Reflection;
 using PortalAPIs.Extensions;
 using PortalAPIs.Middlewares;
 using Microsoft.AspNetCore.Diagnostics;
 using PortalAPIs.Services;
+using Fanex.Data.SqlServer;
 
 [assembly: ApiController]
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +17,7 @@ builder.Services.AddControllers();
 var configuration = builder.Configuration;
 
 builder.Services
+    .AddFanexSql(configuration)
     .AddSingleton<IDynamicRepository, DynamicRepository>()
     .AddFanexLogging(configuration)
     .AddFanexCaching(configuration)
@@ -36,14 +37,11 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 app.UseRouting();
-app.UseHttpMetrics();
 
 app.MapGet("/", () => "Portal APIs!!!");
 app.UseUM(configuration);
-app.UseFanexDataWithSqlServer(configuration, app.Environment);
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.MapControllers();
-app.MapMetrics();
 
 var isDevelopment = app.Environment.IsDevelopment();
 app.UseSwagger();

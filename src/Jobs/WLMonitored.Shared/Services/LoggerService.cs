@@ -1,8 +1,8 @@
-using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Web;
 using Fanex.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using WLMonitored.Shared.Configuration;
 
