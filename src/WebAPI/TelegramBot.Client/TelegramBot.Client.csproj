@@ -9,11 +9,11 @@
     <Company>@starixvn</Company>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2"/>
-  </ItemGroup>
-
   <PropertyGroup Label="sonarqube-rules-synchronizer">
     <CodeAnalysisRuleSet>../../../.sonarlint/telegrambotcsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.0" />
+  </ItemGroup>
 </Project>

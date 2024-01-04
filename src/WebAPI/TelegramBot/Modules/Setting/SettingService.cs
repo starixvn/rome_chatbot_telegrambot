@@ -188,7 +188,7 @@ namespace TelegramBot.Modules.Setting
                 $"TelegramBot.Modules.Setting.SiteDBGroup.CustId-{custId}",
                 () => _dynamicRepository.GetAsync<SiteDBGroup>(new GetSiteDBConfigCriteria(custId)),
                 new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1)));
-            
+
             return siteDB.AGIP;
         }
 
@@ -211,7 +211,7 @@ namespace TelegramBot.Modules.Setting
         private async Task<CustBotMessenger> GetVerifyingMessenger(int custId, int subAccId)
         {
             var criteria = new CustBotMessengerSelCriteria(custId, subAccId, !_webAPIConfiguration.IsProduction, true, false);
-            return (await _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(criteria).ConfigureAwait(false)).firstResultSet.FirstOrDefault();
+            return (await _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(criteria).ConfigureAwait(false)).FirstResultSet.FirstOrDefault();
         }
 
         public async Task<Result> UpdateUserFunction(int userid, int botId, BotFunction function, int creator, string ip)

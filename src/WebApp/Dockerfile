@@ -5,7 +5,7 @@ WORKDIR /app
 # Install dependencies based on the preferred package manager
 COPY src/WebApp/package.json ./
 COPY src/WebApp/yarn.lock ./
-RUN yarn --frozen-lockfile
+RUN --mount=type=cache,target=/root/.yarn yarn --frozen-lockfile
 
 # 2. Rebuild the source code only when needed
 FROM hub.nexdev.net/base/node:17.9-alpine3.14 AS builder

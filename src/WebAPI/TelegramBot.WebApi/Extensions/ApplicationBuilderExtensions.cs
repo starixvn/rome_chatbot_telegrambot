@@ -13,22 +13,6 @@ namespace TelegramBot.WebApi.Extensions
     [ExcludeFromCodeCoverage]
     public static class ApplicationBuilderExtensions
     {
-        public static IApplicationBuilder UseFanexDataWithSqlServer(this IApplicationBuilder app, IConfiguration configuration, IWebHostEnvironment env)
-        {
-            var connectionStrings = configuration
-                .GetSection("ConnectionStrings")
-                .GetChildren()
-                .ToDictionary(connection => connection.Key,
-                            connection => new ConnectionConfiguration(connection.Key, connection.Value));
-            var resourcePath = Path.Combine(env.ContentRootPath, "App_Data", "SPNames.xml");
-            DbSettingProviderManager
-                .StartNewSession()
-                .WithSqlServer(resourcePath)
-                .Use(connectionStrings)
-                .Run();
-            return app;
-        }
-
         public static IApplicationBuilder UseUM(this IApplicationBuilder app, IConfiguration configuration)
         {
             var umConfig = new UMClientConfiguration().Initialize(configuration);

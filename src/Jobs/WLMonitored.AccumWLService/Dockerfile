@@ -3,19 +3,21 @@ WORKDIR /src
 
 COPY src/Jobs/WLMonitored.AccumWLService/WLMonitored.AccumWLService.csproj ./WLMonitored.AccumWLService/WLMonitored.AccumWLService.csproj
 RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
-RUN dotnet restore WLMonitored.AccumWLService/WLMonitored.AccumWLService.csproj -v n
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet restore WLMonitored.AccumWLService/WLMonitored.AccumWLService.csproj -v n
 
 COPY src/Jobs/WLMonitored.Shared ./WLMonitored.Shared
 COPY src/Jobs/WLMonitored.AccumWLService ./WLMonitored.AccumWLService
 
 WORKDIR /src/WLMonitored.AccumWLService
-RUN dotnet publish -r linux-x64 --self-contained false -o /app
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet publish -r linux-x64 --self-contained false -o /app
 
 FROM hub.nexdev.net/base/dotnet/core/aspnet:6.0-alpine as base
 
 RUN adduser --disabled-password \
     --home /app \
-    --gecos '' dotnetuser && chown -R dotnetuser /app
+    --gecos '' dotnetuser && chown -R dotnetuser /app && chown -R dotnetuser /tmp
 USER dotnetuser
 
 WORKDIR /app

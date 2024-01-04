@@ -1,7 +1,7 @@
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using TelegramBot.Client.Extensions;
 using TelegramBot.Client.Models;
 
@@ -24,7 +24,7 @@ namespace TelegramBot.Client.Services
 
         public async Task SendOTP(int custId, int subAccId)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(new { custId, subAccId }), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(new { custId, subAccId }), Encoding.UTF8, "application/json");
             using var responseMessage = await httpClient.PostAsync("OTP/Send", content).ConfigureAwait(false);
             responseMessage.EnsureSuccessStatusCode();
         }

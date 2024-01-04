@@ -1,6 +1,6 @@
-using System.Data.SqlClient;
 using System.Runtime.Serialization;
 using Fanex.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using TelegramBot.Importer.Configuration;
 using TelegramBot.Importer.Services;

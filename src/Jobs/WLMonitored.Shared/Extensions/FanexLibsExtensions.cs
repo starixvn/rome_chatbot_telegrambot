@@ -22,7 +22,7 @@ public static class FanexLibsExtensions
     public static IServiceCollection AddONEBookUM(this IServiceCollection services, IConfiguration configuration)
     {
         var umConfig = new UMClientConfiguration().Initialize(configuration);
-        
+
         return services
             .AddSingleton(umConfig)
             .AddSingleton<IMaintenanceService, MaintenanceService>()
@@ -55,19 +55,7 @@ public static class FanexLibsExtensions
 
     public static IServiceCollection AddFanexDataWithSqlServer(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionStrings = configuration
-            .GetSection("ConnectionStrings")
-            .GetChildren()
-            .ToDictionary(
-                connection => connection.Key,
-                connection => new ConnectionConfiguration(connection.Key, connection.Value), StringComparer.OrdinalIgnoreCase);
-
-        DbSettingProviderManager
-            .StartNewSession()
-            .WithSqlServer("App_Data/SpNames.xml")
-            .Use(connectionStrings)
-            .Run();
-
+        services.AddFanexSql(configuration);
         return services.AddSingleton<IDynamicRepository, DynamicRepository>();
     }
 }
