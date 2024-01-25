@@ -77,4 +77,22 @@
         	</Mappings>
 		</Setting>
   </Function>
-</Functions>
+  <Function Name="Auto Transfer">
+    <Setting Key="Age_AutoTransfer_Job_GetTelegramNotify_DBTXN" SpName="Age_AutoTransfer_Job_GetTelegramNotify_xtest" DbName="DBTXN.BODB02.wsv_alp">
+      <Mapping DataField="FromCustID" ObjectProperty="CustId" />
+      <Mapping DataField="Success" ObjectProperty="SuccessCount" />
+      <Mapping DataField="Failed" ObjectProperty="FailedCount" />
+      <Mapping DataField="Cancelled" ObjectProperty="CancelledCount" />
+      <Mapping DataField="FailedList" ObjectProperty="FailedCusts" />
+      <Mapping DataField="CancelledList" ObjectProperty="CancelledCusts" />
+    </Setting>
+    <Setting Key="Age_AutoTransfer_Job_GetTelegramNotify_DBSite03" SpName="Age_AutoTransfer_Job_GetTelegramNotify_xtest" DbName="DBSite03.BODB02.wsv_alp">
+      <Mapping DataField="FromCustID" ObjectProperty="CustId" />
+      <Mapping DataField="Success" ObjectProperty="SuccessCount" />
+      <Mapping DataField="Failed" ObjectProperty="FailedCount" />
+      <Mapping DataField="Cancelled" ObjectProperty="CancelledCount" />
+      <Mapping DataField="FailedList" ObjectProperty="FailedCusts" />
+      <Mapping DataField="CancelledList" ObjectProperty="CancelledCusts" />
+    </Setting>
+  </Function>
+</Functions> 

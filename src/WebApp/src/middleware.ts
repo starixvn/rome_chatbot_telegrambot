@@ -51,5 +51,9 @@ export const middleware = async (req: NextRequest, event: NextFetchEvent) => {
 };
 
 export const config = {
-  matcher: ["/newcustomer"],
+  matcher: [
+    "/newcustomer", 
+    "/viewautotransfermonitor", 
+    "/editautotransfer"
+  ],
 };

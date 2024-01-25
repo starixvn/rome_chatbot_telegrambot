@@ -1,0 +1,9 @@
+{
+  "selectAll": "Select All",
+  "selected": "selected",
+  "search": "Search",
+  "noOptions": "There is no data",
+  "allItemsAreSelected": "All",    
+  "selectAllFiltered": "Select All",
+  "selectSomeItems": "Select..."
+}

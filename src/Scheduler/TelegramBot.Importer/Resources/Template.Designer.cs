@@ -673,5 +673,82 @@ namespace TelegramBot.Importer.Resources
                 return ResourceManager.GetString("NormalAnnouncement", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_Title.
+        /// </summary>
+        public static string AutoTransfer_Title
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_Title", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_Header.
+        /// </summary>
+        public static string AutoTransfer_Header
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_Header", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_SuccessCount.
+        /// </summary>
+        public static string AutoTransfer_SuccessCount
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_SuccessCount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_FailedCount.
+        /// </summary>
+        public static string AutoTransfer_FailedCount
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_FailedCount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_CancelledCount.
+        /// </summary>
+        public static string AutoTransfer_CancelledCount
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_CancelledCount", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_FailedCusts.
+        /// </summary>
+        public static string AutoTransfer_FailedCusts
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_FailedCusts", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_CancelledCCusts.
+        /// </summary>
+        public static string AutoTransfer_CancelledCusts
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_CancelledCusts", resourceCulture);
+            }
+        }
     }
 }

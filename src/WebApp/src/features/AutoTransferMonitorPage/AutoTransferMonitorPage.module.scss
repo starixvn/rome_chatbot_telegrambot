@@ -1,0 +1,182 @@
+.form-monitor {
+  background-color: white;
+
+  .row {
+    padding-right: 21px;
+  }
+
+  .note {
+    color: var(--description-color);
+    font-style: italic;
+    margin-top: 4px;
+
+    span {
+      color: #fe0000;
+    }
+  }
+
+  hr {
+    margin-top: 12px;
+    border-top: 1px solid #e0e0e0;
+  }
+ 
+
+  .frm-row-label {
+    width: 100%;
+    padding: 0;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+    .div-half {
+      width: 48%;
+      display: inline-block;
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .frm-row {
+    width: 100%;
+    padding: 0;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+    .div-half {
+      width: 48%;
+      display: inline-block;
+      border: none;
+      padding: 0;
+      margin: 0;
+      vertical-align: middle;
+    }
+  }
+}
+
+.content {
+  margin-top: 15px;
+}
+
+.div-status-all {
+  display: flex;
+  flex-wrap: wrap;
+  > div{
+    &:first-child{
+      margin-left: 0;
+    }
+  }
+  .div-pending-all,
+  .div-processing-all,
+  .div-failed-all {
+    border: 1px solid #e8bb90;
+    border-radius: 3px;
+    background-color: #fdf9ee;
+    margin-left: 4px;
+    padding: 3px 3px 3px 0;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    
+    margin-bottom: 6px;
+    font-weight: bold;
+
+    .text {
+      text-align: center;
+      padding: 0 4px;
+      flex: 1;
+      color: #7e3d00;
+    }
+
+    .spn-pending-count,
+    .spn-processing-count,
+    .spn-failed-count {
+      width: 24px;
+      height: 24px;
+      border-radius: 3px;
+      text-align: center;
+      line-height: 24px;
+      color: #7e3d00;
+      background: #f6c699;
+    }
+  }
+}
+.btn-submit{
+  padding: 8px 16px;
+  width: auto;
+  font-size: 13px;
+  line-height: 15px;
+  font-family: var(--font-500);
+  margin-top: 0;
+  &.mt-0{
+    margin-top: 0;
+  }
+}
+//multiselect
+.div-multi-value{
+  white-space: nowrap;
+  + div{
+    > div{
+      margin: 0 0 0 3px;
+    }
+  }
+}
+.multiSelect-control {
+  z-index: 1;
+  > div {
+    z-index: 1;
+    > div {
+      z-index: 2;
+      border-radius: 0;
+      margin: 0;
+      min-height: 32px;
+      border-color: var(--border-color) !important;
+      box-shadow: none !important;
+      &:last-child {
+        border: 1px solid var(--border-color) !important;
+        > div {
+          > div {
+            display: flex;
+          }
+        }
+      }
+      [class$="-indicatorContainer"] {
+        padding: 4px;
+      }
+      > div {
+        z-index: 3;
+        padding-left: 2px;
+        padding-right: 2px;
+        flex-wrap: nowrap;
+        &:first-child{
+          padding-left: 2px;
+          padding-right: 2px;
+          > div{
+            white-space: nowrap;
+            
+          }
+        }
+        
+        flex-wrap: nowrap;
+        &:first-child {
+          > div {
+            &:last-child {
+             
+            }
+          }
+        }
+        > div {
+          z-index: 4;
+          margin: 0;
+          > div{
+            margin: 0 0 0 3px;
+          }
+          input {
+            height: 20px;
+          }
+        }
+      }
+    }
+  }
+}

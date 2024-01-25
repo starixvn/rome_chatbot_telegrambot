@@ -31,6 +31,10 @@ namespace TelegramBot.Modules.Action.Constants
         public const short RiskAlert = 45;
         public const short NewCustomers = 47;
         public const short AbnormalLogin = 49;
+        public const short AutoTransfer = 50;
+        public const short AutoTransferSettings = 51;
+        public const short ViewAutoTransferMonitor = 52;
+        public const short EditAutoTransfer = 53;
 
         public static readonly short[] NotificationSettingActionIds = new[]{
             YesterdayWinLossNotification,
@@ -44,7 +48,8 @@ namespace TelegramBot.Modules.Action.Constants
             MyWatchlist,
             OTP,
             RiskAlert,
-            AbnormalLogin
+            AbnormalLogin,
+            AutoTransfer
         };
 
         public static readonly short[] LanguageSettingActionIds = new[]{

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TelegramBot.Modules.Action;
+using TelegramBot.Modules.AutoTransfer;
 using TelegramBot.Modules.Function.Models;
 using TelegramBot.Modules.Message;
 using TelegramBot.Modules.OTP;
@@ -34,6 +35,7 @@ namespace TelegramBot.Modules.UnitTests.Setting
         private readonly IFunctionService _functionService;
         private readonly IOTPService _otpService;
         private readonly ICacheServiceFactory _cacheServiceFactory;
+        private readonly IAutoTransferService _autoTransferService;
 
         public SettingServiceTests()
         {
@@ -47,6 +49,7 @@ namespace TelegramBot.Modules.UnitTests.Setting
             _functionService = Substitute.For<IFunctionService>();
             _otpService = Substitute.For<IOTPService>();
             _cacheServiceFactory = Substitute.For<ICacheServiceFactory>();
+            _autoTransferService = Substitute.For<IAutoTransferService>();
             _settingService = new SettingService(
                 _webAPIConfiguration,
                 _dynamicRepository,
@@ -56,6 +59,7 @@ namespace TelegramBot.Modules.UnitTests.Setting
                 _customerService,
                 _functionService,
                 _otpService,
+                _autoTransferService,
                 _cacheServiceFactory);
         }
 

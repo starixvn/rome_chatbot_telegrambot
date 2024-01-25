@@ -1323,5 +1323,159 @@ namespace TelegramBot.Shared.Resources
                 return ResourceManager.GetString("MemberDomains", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to ADBT Change Error.
+        /// </summary>
+        public static string ADBTChangeError
+        {
+            get
+            {
+                return ResourceManager.GetString("ADBTChangeError", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to BadRequest Error.
+        /// </summary>
+        public static string BadRequest
+        {
+            get
+            {
+                return ResourceManager.GetString("BadRequest", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_UpdateSuccessOn.
+        /// </summary>
+        public static string AutoTransfer_UpdateSuccessOn
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_UpdateSuccessOn", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_UpdateSuccessOff.
+        /// </summary>
+        public static string AutoTransfer_UpdateSuccessOff
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_UpdateSuccessOff", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_UpdateSuccess.
+        /// </summary>
+        public static string AutoTransfer_UpdateSuccess
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_UpdateSuccess", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_UpdateScheduleSuccess.
+        /// </summary>
+        public static string AutoTransfer_UpdateScheduleSuccess
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_UpdateScheduleSuccess", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_MultipleAffectNextConditionWarning.
+        /// </summary>
+        public static string AutoTransfer_MultipleAffectNextConditionWarning
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_MultipleAffectNextConditionWarning", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_MultipleAffectNextConditionWarning_Single.
+        /// </summary>
+        public static string AutoTransfer_MultipleAffectNextConditionWarning_Single
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_MultipleAffectNextConditionWarning_Single", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_Error_101_Multiple.
+        /// </summary>
+        public static string AutoTransfer_Error_101_Multiple
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_Error_101_Multiple", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_Error_101_Single.
+        /// </summary>
+        public static string AutoTransfer_Error_101_Single
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_Error_101_Single", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_Error_102_Multiple.
+        /// </summary>
+        public static string AutoTransfer_Error_102_Multiple
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_Error_102_Multiple", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_Error_102_Single.
+        /// </summary>
+        public static string AutoTransfer_Error_102_Single
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_Error_102_Single", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_Error_103_Multiple.
+        /// </summary>
+        public static string AutoTransfer_Error_103_Multiple
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_Error_103_Multiple", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to AutoTransfer_Error_103_Single.
+        /// </summary>
+        public static string AutoTransfer_Error_103_Single
+        {
+            get
+            {
+                return ResourceManager.GetString("AutoTransfer_Error_103_Single", resourceCulture);
+            }
+        }
     }
 }

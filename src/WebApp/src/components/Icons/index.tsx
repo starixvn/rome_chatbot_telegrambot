@@ -102,3 +102,50 @@ export const CopiedICon = ({ width = 16, height = 16 }: IconProps) => {
     </svg>
   );
 };
+
+export const FirstPageIcon = ({ width, height }: IconProps) => {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="20" height="20" rx="3" fill="#DDDDDD" />
+      <path d="M6 14.0938V6.09375H7.3335V14.0938H6ZM8.3335 10.0938L14 6.09375V14.0938L8.3335 10.0938Z" fill="#333333" />
+    </svg>
+  );
+};
+
+export const PrevPageIcon = ({ width, height }: IconProps) => {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="20" height="20" rx="3" fill="#DDDDDD" />
+      <path d="M9.33333 10L12 7.21739L10.8333 6L7 10L10.8333 14L12 12.7826L9.33333 10Z" fill="#333333" />
+    </svg>
+  );
+};
+
+export const NextPageIcon = ({ width, height }: IconProps) => {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="20" height="20" rx="3" fill="#DDDDDD" />
+      <path d="M10.6667 10L8 12.7826L9.16667 14L13 10L9.16667 6L8 7.21739L10.6667 10Z" fill="#333333" />
+    </svg>
+  );
+};
+
+export const LastPageIcon = ({ width, height }: IconProps) => {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="20" height="20" rx="3" fill="#DDDDDD" />
+      <path d="M12.6665 14.0938H14V6.09375H12.6665V14.0938ZM6 14.0938L11.6665 10.0938L6 6.09375V14.0938V14.0938Z" fill="#333333" />
+    </svg>
+  );
+};
+
+export const CalendarIcon = ({ width, height }: IconProps) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} fill="currentColor" viewBox="0 0 1024 1024">
+      <path
+        d="M810.666667 810.666667 213.333333 810.666667 213.333333 341.333333 810.666667 341.333333M682.666667 42.666667 682.666667 128 341.333333 128 341.333333 42.666667 256 42.666667 256 128 213.333333 128C165.973333 128 128 165.973333 128 213.333333L128 810.666667C128 857.6 166.4 896 213.333333 896L810.666667 896C857.6 896 896 857.6 896 810.666667L896 213.333333C896 165.973333 857.6 128 810.666667 128L768 128 768 42.666667M725.333333 512 512 512 512 725.333333 725.333333 725.333333 725.333333 512Z"
+        fill="#000000"
+      />
+    </svg>
+  );
+};

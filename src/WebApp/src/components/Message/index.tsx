@@ -1,17 +1,32 @@
 import cn from "classnames";
+import { CheckMarkIcon, ErrorIcon, InformationIcon } from "@components/Icons";
 import useTranslation from "next-translate/useTranslation";
 import React from "react";
 
-import { CheckMarkIcon, ErrorIcon } from "@components/Icons";
-
 import styles from "./message.module.scss";
 
-const Message = ({ message, isError }: { message: string; isError?: boolean }) => {
+const Message = ({ message, isError, isWarning }: { message: string; isError?: boolean; isWarning?: boolean }) => {
   return (
-    <div className={cn([styles.msg], { [styles.msgError]: isError }, { [styles.msgSuccess]: !isError })}>
-      {isError ? <ErrorIcon width={16} height={16} /> : <CheckMarkIcon height={16} width={16} />}
-      <span className={styles["msg-content"]}>{message}</span>
-    </div>
+    <>
+      {
+        isError && <div className={cn([styles.msg], { [styles.msgError]: true })}>
+            <ErrorIcon width={16} height={16} />
+            <span className={styles["msg-content"]}>{message}</span>
+          </div>
+      }
+      {
+          isWarning && <div className={cn([styles.msg], { [styles.msgWarning]: true })}>
+              <InformationIcon height={16} width={16} />
+              <span className={styles["msg-content"]}>{message}</span>
+            </div>
+      }
+      {
+          !isError && !isWarning && <div className={cn([styles.msg], { [styles.msgSuccess]: true })}>
+              <CheckMarkIcon height={16} width={16} />
+              <span className={styles["msg-content"]}>{message}</span>
+          </div>
+      }
+    </>
   );
 };
 

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,79 +26,79 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -119,167 +119,250 @@
   </resheader>
   <data name="PersonalMessage" xml:space="preserve">
     <value>Tin nhắn cá nhân</value>
+    <comment/>
   </data>
   <data name="YesterdayWinLoss" xml:space="preserve">
     <value>Thắng thua hôm qua</value>
+    <comment/>
   </data>
   <data name="Turnover" xml:space="preserve">
     <value>Tiền Cược</value>
+    <comment/>
   </data>
   <data name="GrossComm" xml:space="preserve">
     <value>Tổng Hoa Hồng</value>
+    <comment/>
   </data>
   <data name="MasterTotal" xml:space="preserve">
     <value>Tổng Tiền Master</value>
+    <comment/>
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
     <value>T.Thua Super</value>
+    <comment/>
   </data>
   <data name="SuperComm" xml:space="preserve">
     <value>H.Hồng Super</value>
+    <comment/>
   </data>
   <data name="SuperTotal" xml:space="preserve">
     <value>Tổng Tiền Super</value>
+    <comment/>
   </data>
   <data name="CompanyWinLoss" xml:space="preserve">
     <value>Công Ty</value>
+    <comment/>
   </data>
   <data name="AgentComm" xml:space="preserve">
     <value>H.Hồng Agent</value>
+    <comment/>
   </data>
   <data name="AgentTotal" xml:space="preserve">
     <value>Tổng Tiền Agent</value>
+    <comment/>
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
     <value>T.Thua Agent</value>
+    <comment/>
   </data>
   <data name="MasterComm" xml:space="preserve">
     <value>H.Hồng Master</value>
+    <comment/>
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
     <value>T.Thua Master</value>
+    <comment/>
   </data>
   <data name="MemberComm" xml:space="preserve">
     <value>H.Hồng Member</value>
+    <comment/>
   </data>
   <data name="MemberTotal" xml:space="preserve">
     <value>Tổng Tiền Member</value>
+    <comment/>
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
     <value>T.Thua Member</value>
+    <comment/>
   </data>
   <data name="NewProblemAccounts" xml:space="preserve">
     <value>{0} tài khoản đã được thêm: {1}</value>
+    <comment/>
   </data>
   <data name="ProblemAccountAlert" xml:space="preserve">
     <value>Tài Khoản Có Vấn Đề</value>
+    <comment/>
   </data>
   <data name="ProblemAccountShowXDownlines" xml:space="preserve">
     <value>{0} tài khoản đã được thêm. Xem chi tiết ở Danh Sách Tài Khoản Có Vấn Đề.</value>
+    <comment/>
   </data>
   <data name="MemberReachWinLossIntro" xml:space="preserve">
     <value>Bạn có Member đạt 100% Giới Hạn Thắng Thua.</value>
+    <comment/>
   </data>
   <data name="MemberWinLossLimitAlert" xml:space="preserve">
     <value>Giới Hạn Thắng Thua của {0}</value>
+    <comment/>
   </data>
   <data name="MemberWinLossLimitNote" xml:space="preserve">
     <value>Sản phẩm. Thắng thua hiện tại | Thắng thua tối đa | Thắng thua hiện tại (%)</value>
+    <comment/>
   </data>
   <data name="ThresholdType_1" xml:space="preserve">
     <value>Chung</value>
+    <comment/>
   </data>
   <data name="ThresholdType_2" xml:space="preserve">
     <value>Riêng</value>
+    <comment/>
   </data>
   <data name="MyWatchlistMessage" xml:space="preserve">
     <value>Bạn có Member đạt Giới Hạn Thắng Thua.</value>
+    <comment/>
   </data>
   <data name="MyWatchlistHeader" xml:space="preserve">
     <value>Tên người dùng | Thắng thua hiện tại | Giới hạn thắng | Giới hạn thua | Ngày Giờ | Loại giới hạn</value>
+    <comment/>
   </data>
   <data name="SystemAnnouncement" xml:space="preserve">
     <value>Thông báo hệ thống</value>
+    <comment/>
   </data>
   <data name="MyWatchlistTitle" xml:space="preserve">
     <value>Giới Hạn Sportsbook</value>
+    <comment/>
   </data>
   <data name="NonEnteredMatchNote" xml:space="preserve">
     <value>Tất cả trận đấu hôm qua đã được kết toán và nhập vào hệ thống. Bạn có thể tiến hành các bước tiếp theo với cấp dưới của bạn.</value>
+    <comment/>
   </data>
   <data name="NonEnteredMatches" xml:space="preserve">
     <value>Trận chưa có kết quả</value>
+    <comment/>
   </data>
   <data name="EnteredMatches" xml:space="preserve">
     <value>Trận đã kết thúc</value>
+    <comment/>
   </data>
   <data name="NonEnteredMatchNotification" xml:space="preserve">
     <value>Trận chưa có kết quả</value>
+    <comment/>
   </data>
   <data name="CurrentWinLoss" xml:space="preserve">
     <value>T.Thua hiện tại</value>
+    <comment/>
   </data>
   <data name="MaximumWinLoss" xml:space="preserve">
     <value>T.Thua tối đa</value>
+    <comment/>
   </data>
   <data name="CurrentWinLossPercent" xml:space="preserve">
     <value>T.Thua hiện tại (%)</value>
+    <comment/>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Tên người dùng</value>
+    <comment/>
   </data>
   <data name="WinningThreshold" xml:space="preserve">
     <value>Giới hạn thắng</value>
+    <comment/>
   </data>
   <data name="LosingThreshold" xml:space="preserve">
     <value>Giới hạn thua</value>
+    <comment/>
   </data>
   <data name="DateTime" xml:space="preserve">
     <value>Ngày Giờ</value>
+    <comment/>
   </data>
   <data name="ThresholdType" xml:space="preserve">
     <value>Loại giới hạn</value>
+    <comment/>
   </data>
   <data name="ReachedTime" xml:space="preserve">
     <value>Ngày đạt</value>
+    <comment/>
   </data>
   <data name="AbnormalLogin_Title" xml:space="preserve">
     <value>Phát Hiện Đăng Nhập Bất Thường</value>
+    <comment/>
   </data>
   <data name="AbnormalLogin_Header" xml:space="preserve">
     <value>Một thiết bị mới đã cố gắng đăng nhập vào tài khoản của bạn lúc {0} (GMT-4).</value>
+    <comment/>
   </data>
   <data name="AbnormalLogin_Near" xml:space="preserve">
     <value>Vị trí: {0}, {1} (IP = {2})</value>
+    <comment/>
   </data>
   <data name="AbnormalLogin_Device" xml:space="preserve">
     <value>Thiết bị: {0}{1}</value>
+    <comment/>
   </data>
   <data name="AbnormalLogin_Browser" xml:space="preserve">
     <value>Trình duyệt: {0}</value>
+    <comment/>
   </data>
   <data name="AbnormalLogin_Footer1" xml:space="preserve">
     <value>Vui lòng kiểm tra lại nếu đây không phải là bạn.</value>
+    <comment/>
   </data>
   <data name="MyWatchlistWinContent" xml:space="preserve">
     <value>Số tiền thắng của {0} ({1}) đã đạt đến giới hạn ({2})</value>
+    <comment/>
   </data>
   <data name="MyWatchlistLossContent" xml:space="preserve">
     <value>Số tiền thua của {0} ({1}) đã đạt đến giới hạn ({2})</value>
+    <comment/>
   </data>
   <data name="SMAThresholdAlertWinContent" xml:space="preserve">
     <value>Số tiền thắng của bạn ({0}) đã đạt đến giới hạn ({1})</value>
+    <comment/>
   </data>
   <data name="SMAThresholdAlertLossContent" xml:space="preserve">
     <value>Số tiền thua của bạn ({0}) đã đạt đến giới hạn ({1})</value>
+    <comment/>
   </data>
   <data name="MemberWinLossLimitAlertWinContent" xml:space="preserve">
     <value>Số tiền thắng của {0} ({1}) đã đạt đến giới hạn ({2})</value>
+    <comment/>
   </data>
   <data name="MemberWinLossLimitAlertLossContent" xml:space="preserve">
     <value>Số tiền thua của {0} ({1}) đã đạt đến giới hạn ({2})</value>
+    <comment/>
   </data>
   <data name="NormalAnnouncement" xml:space="preserve">
     <value>Thông báo chung</value>
+    <comment/>
+  </data>
+  <data name="AutoTransfer_Title" xml:space="preserve">
+    <value>Auto Transfer Notification</value>
+    <comment/>
+  </data>
+  <data name="AutoTransfer_Header" xml:space="preserve">
+    <value>Auto Transfer has been completed for your designated downlines. Here's a brief summary:</value>
+    <comment/>
+  </data>
+  <data name="AutoTransfer_SuccessCount" xml:space="preserve">
+    <value>Successful transfers</value>
+    <comment/>
+  </data>
+  <data name="AutoTransfer_FailedCount" xml:space="preserve">
+    <value>Failed transfers</value>
+    <comment/>
+  </data>
+  <data name="AutoTransfer_CancelledCount" xml:space="preserve">
+    <value>Cancelled transfers</value>
+    <comment/>
+  </data>
+  <data name="AutoTransfer_FailedCusts" xml:space="preserve">
+    <value>Accounts that encountered transfer failures</value>
+    <comment/>
+  </data>
+  <data name="AutoTransfer_CancelledCusts" xml:space="preserve">
+    <value>Accounts whose transfers were canceled</value>
+    <comment/>
   </data>
 </root>

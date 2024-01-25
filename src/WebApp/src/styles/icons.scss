@@ -1,0 +1,30 @@
+
+.icon-expand {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  color: #ffffff;
+  background-color: #28945A;
+  font-size: 20px;
+  cursor: pointer;
+  &::before {
+    content: "+";
+    top: -7px;
+    position: relative;
+  }
+}
+
+.icon-collapse {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  color: #ffffff;
+  background-color: #28945A;
+  font-size: 20px;
+  cursor: pointer;
+  &::before {
+    content: "-";
+    top: -7px;
+    position: relative;
+  }
+}

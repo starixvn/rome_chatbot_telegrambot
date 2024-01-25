@@ -25,7 +25,8 @@ public static class DIExtensions
             .AddSingleton<IMemberWinLossLimitService, MemberWinLossLimitService>()
             .AddSingleton<IAnnouncementService, AnnouncementService>()
             .AddSingleton<IMyWatchlistService, MyWatchlistService>()
-            .AddSingleton<IAbnormalLoginService, AbnormalLoginService>();
+            .AddSingleton<IAbnormalLoginService, AbnormalLoginService>()
+            .AddSingleton<IAutoTransferService, AutoTransferService>();
 
     public static IServiceCollection AddAlphaServicesClient(this IServiceCollection services, IConfiguration configuration)
     {

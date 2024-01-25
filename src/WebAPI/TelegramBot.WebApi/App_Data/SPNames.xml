@@ -35,4 +35,54 @@
 		<Setting Key="CustBotActionCommandUpd" SpName="Age_Chatbot_CustBotActionCommandUpd" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
 		<Setting Key="Acc_SiteDBConfigSel" SpName="Acc_SiteDBConfigSel" DbName="DBCUST.CustDB.wsv_alp" />
 	</Function>
+	<Function Name="Auto Transfer">
+		<Setting Key="Age_GetIsAllDayBalTransfer" SpName="Age_GetIsAllDayBalTransfer" DbName="DBCUST.CustDB.wsv_alp" Plain="0" />
+		<Setting Key="Acc_CustomerSelTransferOption" SpName="Acc_CustomerSelTransferOption" DbName="DBCUST.CustDB.wsv_alp" Plain="0" />
+		<Setting Key="SiteDB0_Age_ClearBalanceCust_ProcessSel" SpName="Age_ClearBalanceCust_ProcessSel" DbName="DBTXN.BODB02.wsv_alp">
+		 	<Mappings>
+			  <Mapping DataField="Amount" ObjectProperty="TransferAmount" />
+ 			</Mappings>
+		</Setting>
+		<Setting Key="SiteDB3_Age_ClearBalanceCust_ProcessSel" SpName="Age_ClearBalanceCust_ProcessSel" DbName="DBSite03.BODB02.wsv_alp">
+		 	<Mappings>
+			  <Mapping DataField="Amount" ObjectProperty="TransferAmount" />
+ 			</Mappings>
+		</Setting>
+
+		<Setting Key="SiteDB0_Age_Transfer_SelList_Level2" SpName="Age_Transfer_SelList_Ag_ForDBTrans" DbName="DBTXN.BODB02.wsv_alp">
+		 	<Mappings>
+			  <Mapping DataField="yesterday_balance" ObjectProperty="YesterdayBalance" />
+			  <Mapping DataField="isallowautotransfer" ObjectProperty="EnableAutoTransfer" />
+			  <Mapping DataField="ScheduleWeekDays" ObjectProperty="AutoTransferSchedule" />
+ 			</Mappings>
+		</Setting>
+		<Setting Key="SiteDB3_Age_Transfer_SelList_Level2" SpName="Age_Transfer_SelList_Ag_ForDBTrans" DbName="DBSite03.BODB02.wsv_alp">
+		 	<Mappings>
+			  <Mapping DataField="yesterday_balance" ObjectProperty="YesterdayBalance" />
+			  <Mapping DataField="isallowautotransfer" ObjectProperty="EnableAutoTransfer" />
+			  <Mapping DataField="ScheduleWeekDays" ObjectProperty="AutoTransferSchedule" />
+ 			</Mappings>
+		</Setting>
+		<Setting Key="Age_Transfer_SelList_Level3" SpName="Age_Transfer_SelList_MAg" DbName="DBAGE.bodb02.wsv_alp">
+		 	<Mappings>
+			  <Mapping DataField="yesterday_agentBalance" ObjectProperty="YesterdayBalance" />
+			  <Mapping DataField="agentBalance" ObjectProperty="Balance" />
+			  <Mapping DataField="isallowautotransfer" ObjectProperty="EnableAutoTransfer" />
+			  <Mapping DataField="ScheduleWeekDays" ObjectProperty="AutoTransferSchedule" />
+ 			</Mappings>
+		</Setting>
+		<Setting Key="Age_Transfer_SelList_Level4" SpName="Age_Transfer_SelList_SAg" DbName="DBAGE.bodb02.wsv_alp">
+		 	<Mappings>
+			  <Mapping DataField="yesterday_magentBalance" ObjectProperty="YesterdayBalance" />
+			  <Mapping DataField="magentbalance" ObjectProperty="Balance" />
+			  <Mapping DataField="isallowautotransfer" ObjectProperty="EnableAutoTransfer" />
+			  <Mapping DataField="ScheduleWeekDays" ObjectProperty="AutoTransferSchedule" />
+ 			</Mappings>
+		</Setting>
+
+		<Setting Key="SiteDB0_Age_ClearBalanceCust_Job_StatusCheck" SpName="Age_ClearBalanceCust_Job_StatusCheck" DbName="DBTXN.BODB02.wsv_alp"></Setting>
+		<Setting Key="SiteDB3_Age_ClearBalanceCust_Job_StatusCheck" SpName="Age_ClearBalanceCust_Job_StatusCheck" DbName="DBSite03.BODB02.wsv_alp"></Setting>
+    	<Setting Key="Age_ClearBalanceCust_SettingUpdate" SpName="Age_ClearBalanceCust_SettingUpdate" DbName="DBCUST.CustDB.wsv_alp" Plain="0" />
+		<Setting Key="Age_AutoTransferSchedule_Upd" SpName="Age_AutoTransferSchedule_Upd" DbName="DBCUST.CustDB.wsv_alp" Plain="0" />
+	</Function>
 </Functions>

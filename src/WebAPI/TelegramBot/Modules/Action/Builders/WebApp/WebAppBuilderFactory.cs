@@ -17,11 +17,15 @@ public class WebAppBuilderFactory : IWebAppBuilderFactory
 
     public IWebAppBuilder GetBuilder(short actionId)
     {
-        if (actionId == ActionIds.NewCustomers)
-        {
-            return new NewCustomersWebAppBuilder(webAppUrls);
+        switch(actionId) {
+            case ActionIds.NewCustomers:
+                return new NewCustomersWebAppBuilder(webAppUrls);
+            case ActionIds.ViewAutoTransferMonitor:
+                return new ViewAutoTransferMonitorWebAppBuilder(webAppUrls);
+            case ActionIds.EditAutoTransfer:
+                return new EditAutoTransferWebAppBuilder(webAppUrls);
+            default:
+                throw new InvalidOperationException($"Test ActionId: {actionId}");
         }
-
-        throw new InvalidOperationException($"ActionId: {actionId}");
     }
 }
