@@ -54,9 +54,6 @@ const EditScheduleComponent = ({
 
         const data = await fetchWrapper.post<any>(url, body, router);
         setUpdateResult(data);
-        if(data.code < 0 || data.code == 107 || data.code == 105) {
-            setTimeout(() => { returnCustomerLists(true); }, 3000);
-        }
     });
 
     function isCurrectSelectAll() {

@@ -65,9 +65,6 @@ const EditMultipleComponent = ({
 
             const data = await fetchWrapper.post<any>(url, body, router);
             setUpdateResult(data);
-            if(data.code == 107 || data.code == 105 || (!data.hasError && data.hasWarning)) {
-                setTimeout(() => { returnCustomerLists(true); }, 3000);
-            }
         }
     });
 
