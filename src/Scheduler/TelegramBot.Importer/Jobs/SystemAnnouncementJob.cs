@@ -24,6 +24,7 @@ public sealed class SystemAnnouncementJob : NotificationBaseJob
         ["IBC"] = "Bot-IBC",
         ["789y"] = "Bot-789Y",
         ["MBC"] = "Bot-MBC",
+        ["777"] = "Bot-777",
         ["TH7a5"] = "Bot-TH7a5"
     };
     private readonly IAnnouncementService announcementService;
