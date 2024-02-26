@@ -365,4 +365,20 @@
     <value>Accounts With Cancelled Transfers</value>
     <comment/>
   </data>
+  <data name="LastBets_Title" xml:space="preserve">
+    <value>Sportsbook Last Bets</value>
+    <comment/>
+  </data>
+  <data name="LastBets_FiltersTitle" xml:space="preserve">
+    <value>New tickets match your filters:</value>
+    <comment/>
+  </data>
+  <data name="LastBets_FilterResult" xml:space="preserve">
+    <value>{0} ticket(s)</value>
+    <comment/>
+  </data>
+  <data name="LastBets_ViewDetails" xml:space="preserve">
+    <value>View the details in Last Bets</value>
+    <comment/>
+  </data>
 </root>

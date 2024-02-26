@@ -14,7 +14,7 @@
     <Setting Key="Age_Chatbot_MyWatchlist_Sel" SpName="Age_Chatbot_MyWatchlist_Sel" DbName="DBAGE.bodb02.wsv_alp" />
     <Setting Key="Age_Chatbot_MyWatchlistImport" SpName="Age_Chatbot_MyWatchlistImport" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
   </Function>
-
+ 
   <Function Name="Customer">
     <Setting Key="Age_Chatbot_CustomerStatusSel" SpName="Age_Chatbot_CustomerStatusSel" DbName="DBCust.CustDB.wsv_alp" />
     <Setting Key="Age_GetCustomerInfo" SpName="Age_GetCustomerInfo" DbName="DBAGE.bodb02.wsv_alp">
@@ -72,10 +72,18 @@
     <Setting Key="Age_Chatbot_ServiceNotificationImport" SpName="Age_Chatbot_ServiceNotificationImport" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
   	<Setting Key="Acc_GetInfoListIPs" SpName="Acc_GetInfoListIPs" DbName="DBCust.IPDB.wsv_alp">
 		 	<Mappings>
-            	<Mapping DataField="CountryName" ObjectProperty="Country" />
-           		<Mapping DataField="city_name" ObjectProperty="City" />
-        	</Mappings>
+        <Mapping DataField="CountryName" ObjectProperty="Country" />
+        <Mapping DataField="city_name" ObjectProperty="City" />
+      </Mappings>
 		</Setting>
+  </Function>
+  <Function Name="Last Bets">
+    <Setting Key="Age_CustLastBetFilter_Sel" SpName="Age_CustLastBetFilter_Sel" DbName="DBCust.CustDB.wsv_alp" Plain="0" />  
+    <Setting Key="Age_BetList_LastBets_Ag_BetCount" SpName="Age_BetList_LastBets_Ag_BetCount" DbName="DBBOF.bodb02.wsv_alp" Plain="0">
+      <Mapping DataField="Tickets" ObjectProperty="Tickets"></Mapping>
+    </Setting>
+   <Setting Key="Age_BetList_LastBets_LastTransIdsSel" SpName="Age_BetList_LastBets_LastTransIdsSel" DbName="DBBOT.bodb_Chatbot.wsv_alp" Plain="0" />  
+   <Setting Key="Age_BetList_LastBets_LastTransIdsUpd" SpName="Age_BetList_LastBets_LastTransIdsUpd" DbName="DBBOT.bodb_Chatbot.wsv_alp" Plain="0" />  
   </Function>
   <Function Name="Auto Transfer">
     <Setting Key="Age_AutoTransfer_Job_GetTelegramNotify_DBTXN" SpName="Age_AutoTransfer_Job_GetTelegramNotify" DbName="DBTXN.BODB02.wsv_alp">

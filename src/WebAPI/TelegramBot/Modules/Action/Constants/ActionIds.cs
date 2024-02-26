@@ -36,6 +36,7 @@ namespace TelegramBot.Modules.Action.Constants
         public const short ViewAutoTransferMonitor = 52;
         public const short EditAutoTransfer = 53;
         public const short TotalBets = 55;
+        public const short LastBets = 54;
 
         public static readonly short[] NotificationSettingActionIds = new[]{
             YesterdayWinLossNotification,
@@ -50,7 +51,8 @@ namespace TelegramBot.Modules.Action.Constants
             OTP,
             RiskAlert,
             AbnormalLogin,
-            AutoTransfer
+            AutoTransfer,
+            LastBets
         };
 
         public static readonly short[] LanguageSettingActionIds = new[]{

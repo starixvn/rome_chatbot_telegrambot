@@ -9,7 +9,7 @@ async function detailsRouter(req: NextApiRequest, res: NextApiResponse) {
   const { user, pageAccess } = req.session;
   if (user?.subAccId !== 0) {
     const hasPagePermission = checkPagePermission(pageAccess as string, SubAccountPermissions.TotalBets);
-    if (!hasPagePermission) {
+    if (!hasPagePermission) { 
       return res.status(401).end();
     }
   }

@@ -56,6 +56,8 @@ public abstract class NotificationBaseJob : IJob
         }
         catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.StackTrace);
             await loggerService.Error(ex, job);
         }
 
