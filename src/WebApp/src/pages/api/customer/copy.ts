@@ -3,7 +3,6 @@ import { withIronSessionApiRoute } from "iron-session/next";
 import { SubAccountPermissions } from "src/constants/page-permission";
 import { isDirectDownLine } from "src/constants/role-id";
 import { formatThousandNumber } from "src/helpers/number";
-import { fetchWrapper } from "src/lib/fetch-client";
 import { fetchServerWrapper } from "src/lib/fetch-server";
 import { sessionOptions } from "src/lib/session";
 import withAuth, { checkPagePermission } from "src/lib/with-auth";
@@ -57,25 +56,26 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
   res.json({ ...data, credit: credit, failAccounts: numberOfAccounts - data.usernames.length });
 }
 const copyCustomer = async (user: User, data: CopyCustomerData, siteDBGroupIp: string) => {
-  const url = `${process.env.CUSTOMER_API}/customer/copy`;
+  const url = `${process.env.CUSTOMER_API}/customer/copy-multiple`;
   const hashedPassword = await hashPassword(CryptoJS.AES.decrypt(data.password, user.salt).toString(CryptoJS.enc.Utf8));
 
   const body = {
     actorId: user.custId,
     actorSubAccId: user.subAccId,
-    actorSubAccName: "",
-    actorUserLevel: user.customerLevel,
+    uplineId: user.custId,
+    custLevel: user.customerLevel - 1,
+    actorUsername: user.username,
     userName: data.username,
     password: hashedPassword,
     credit: data.credit,
     maxCredit: data.memberMaxCredit,
     sourceCustId: data.sourceCustId,
-    sourceUsername: data.sourceUserName,
     numberOfAccounts: data.numberOfAccounts,
+    site: user.site,
+    isQRCode: false,
     language: user.language,
     ip: data.ip,
     systemId: 10,
-    actorUsername: user.username,
   };
   return await fetchServerWrapper.post2sitedb(url, siteDBGroupIp, body);
 };

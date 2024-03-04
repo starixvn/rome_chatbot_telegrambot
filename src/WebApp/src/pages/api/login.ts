@@ -1,9 +1,11 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import CryptoJS from "crypto-js";
 import { withIronSessionApiRoute } from "iron-session/next";
-import { User, sessionOptions } from "../../lib/session";
+import { NextApiRequest, NextApiResponse } from "next";
 import { fetchServerWrapper } from "src/lib/fetch-server";
+
 import * as Sentry from "@sentry/nextjs";
+
+import { sessionOptions, User } from "../../lib/session";
 
 type TelegramBot = {
   botId: number;
@@ -28,6 +30,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
         customerLevel: user.customerLevel,
         username: user.username,
         language: user.language,
+        site: user.site,
         isVerifyOtpOrSC: user.isVerifyOtpOrSC,
         hash: user.hash,
         salt: CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Hex),
@@ -49,6 +52,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
         customerLevel: account.customerLevel,
         username: account.username,
         language: account.language,
+        site: account.site,
         isVerifyOtpOrSC: false,
         hash: tgHash,
         salt: CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Hex),

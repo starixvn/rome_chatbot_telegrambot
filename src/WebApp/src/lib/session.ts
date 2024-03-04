@@ -8,6 +8,7 @@ export type User = {
   customerLevel: number;
   username: string;
   language: string;
+  site: string;
   isVerifyOtpOrSC: boolean;
   hash: string;
   salt: string;
