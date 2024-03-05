@@ -15,7 +15,7 @@ import BlockUI from "@components/BlockUI";
 import { NumberInputField, PasswordField } from "@components/Form/Inputs";
 import { Label } from "@components/Form/Label";
 import { SingleSelect } from "@components/Form/Select";
-import Message from "@components/Message";
+import Message, { MessageContent } from "@components/Message";
 
 import styles from "./NewCustomer.module.scss";
 import Result from "./Result";
@@ -68,6 +68,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
   const [maxCredit, setMaxCredit] = useState(0);
   const [maxMemberCredit, setMaxMemberCredit] = useState(0);
   const [existedSourceAccount, setExistedSourceAccount] = useState(false);
+  const [messageContent, setMessageContent] = useState<MessageContent | undefined>(undefined);
 
   const onSubmit = handleSubmit(async (formData) => {
     const url = `/api/customer/copy`;
@@ -98,7 +99,11 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
       if (data.usernames.length > 0) {
         setData(data);
       } else {
-        setErrorMessage(data.message);
+        if (data.messageContent) {
+          setMessageContent(data.messageContent);
+        } else {
+          setErrorMessage(data.message);
+        }
       }
     }
   });
@@ -118,6 +123,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
     setMaxCredit(0);
     setMaxMemberCredit(0);
     setErrorMessage("");
+    setMessageContent(undefined);
     reset();
   };
 
@@ -137,6 +143,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
           </p>
 
           {errorMessage && <Message message={errorMessage} isError></Message>}
+          {messageContent && <MessageContent mainMessage={messageContent.mainMessage} subMessages={messageContent.subMessages} />}
 
           <Label title={t("sourceAccount")} required />
           <Controller
