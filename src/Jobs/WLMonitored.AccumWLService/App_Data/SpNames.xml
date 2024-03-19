@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Functions SiteId="105" SiteName="Alpha">
   <Function Name="DBAGE.bodb02">
-    <Setting Key="Acc_WLMonitored_Service_GlobalSettingSel" SpName="Acc_WLMonitored_Service_GlobalSettingSel" DbName="DBAGE.bodb02.BODBDownlineNet" />
-    <Setting Key="Acc_WLMonitored_Service_TicketDetailSel" SpName="Acc_WLMonitored_Service_TicketDetailSel" DbName="DBAGE.bodb02.BODBDownlineNet">
+    <Setting Key="Acc_WLMonitored_Service_GlobalSettingSel" SpName="Acc_WLMonitored_Service_GlobalSettingSel" DbName="DBAGE.bodb02.wsv_alp" />
+    <Setting Key="Acc_WLMonitored_Service_TicketDetailSel" SpName="Acc_WLMonitored_Service_TicketDetailSel" DbName="DBAGE.bodb02.wsv_alp">
       <Mapping DataField="Actual_Stake" ObjectProperty="ActualStake" />
       <Mapping DataField="Winlost" ObjectProperty="WinLoss" />
       <Mapping DataField="aWinlost" ObjectProperty="AgentWinLoss" />
       <Mapping DataField="mWinlost" ObjectProperty="MasterWinLoss" />
       <Mapping DataField="sWinlost" ObjectProperty="SuperWinLoss" />
     </Setting>
-    <Setting Key="Acc_WLMonitored_Service_AccumulatedDataSel" SpName="Acc_WLMonitored_Service_AccumulatedDataSel" DbName="DBAGE.bodb02.BODBDownlineNet" />
-    <Setting Key="Acc_Dep_WLMonitored_Service_AccumulatedDataSel" SpName="Acc_Dep_WLMonitored_Service_AccumulatedDataSel" DbName="DBAGE.bodb02.BODBDownlineNet" />
-    <Setting Key="Acc_WLMonitored_Service_AccumulatedData" SpName="Acc_WLMonitored_Service_AccumulatedData" DbName="DBAGE.bodb02.BODBDownlineNet" />
-    <Setting Key="Acc_WLMonitored_Service_BettypeOffered" SpName="Acc_WLMonitored_Service_BettypeOffered" DbName="DBAGE.bodb02.BODBDownlineNet" />
+    <Setting Key="Acc_WLMonitored_Service_AccumulatedDataSel" SpName="Acc_WLMonitored_Service_AccumulatedDataSel" DbName="DBAGE.bodb02.wsv_alp" />
+    <Setting Key="Acc_Dep_WLMonitored_Service_AccumulatedDataSel" SpName="Acc_Dep_WLMonitored_Service_AccumulatedDataSel" DbName="DBAGE.bodb02.wsv_alp" />
+    <Setting Key="Acc_WLMonitored_Service_AccumulatedData" SpName="Acc_WLMonitored_Service_AccumulatedData" DbName="DBAGE.bodb02.wsv_alp" />
+    <Setting Key="Acc_WLMonitored_Service_BettypeOffered" SpName="Acc_WLMonitored_Service_BettypeOffered" DbName="DBAGE.bodb02.wsv_alp" />
   </Function>
 
   <Function Name="DBCust.CustDB">
-    <Setting Key="Acc_WLMonitored_Service_CheckExistSettingByCust" SpName="Acc_WLMonitored_Service_CheckExistSettingByCust" DbName="DBCust.CustDB.BODBDownlineNet" />
+    <Setting Key="Acc_WLMonitored_Service_CheckExistSettingByCust" SpName="Acc_WLMonitored_Service_CheckExistSettingByCust" DbName="DBCust.CustDB.wsv_alp" />
   </Function>
 </Functions>

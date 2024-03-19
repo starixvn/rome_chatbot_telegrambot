@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Functions>
   <Function Name="ChatBot">
-    <Setting Key="Age_Chatbot_BotSystemSetting_Sel" SpName="Age_Chatbot_BotSystemSetting_Sel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-    <Setting Key="Age_Chatbot_BotSystemSetting_Upd" SpName="Age_Chatbot_BotSystemSetting_Upd" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-    <Setting Key="Age_Chatbot_GetLinkedAccounts" SpName="Age_Chatbot_GetLinkedAccounts" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-    <Setting Key="Age_Chatbot_YesterdateWinlost_LinkedAccounts_Sel" SpName="Age_Chatbot_YesterdateWinlost_LinkedAccounts_Sel" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-    <Setting Key="Age_Chatbot_PersonalMessageImport" SpName="Age_Chatbot_PersonalMessageImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-    <Setting Key="Age_Chatbot_YesterdateWinlostImport" SpName="Age_Chatbot_YesterdateWinlostImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-    <Setting Key="Age_Chatbot_ProblemAccountsImport" SpName="Age_Chatbot_ProblemAccountsImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-    <Setting Key="Age_Chatbot_WinLossLimitNotificationImport" SpName="Age_Chatbot_WinLossLimitNotificationImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet"/>
-    <Setting Key="Age_Chatbot_GetAllLinkedAccountsByFunction" SpName="Age_Chatbot_GetAllLinkedAccountsByFunction" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-    <Setting Key="Age_Chatbot_AnnouncementNotificationImport" SpName="Age_Chatbot_AnnouncementNotificationImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-    <Setting Key="Age_Chatbot_MyWatchlist_Sel" SpName="Age_Chatbot_MyWatchlist_Sel" DbName="DBAGE.bodb02.BODBDownlineNet" />
-    <Setting Key="Age_Chatbot_MyWatchlistImport" SpName="Age_Chatbot_MyWatchlistImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_BotSystemSetting_Sel" SpName="Age_Chatbot_BotSystemSetting_Sel" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
+    <Setting Key="Age_Chatbot_BotSystemSetting_Upd" SpName="Age_Chatbot_BotSystemSetting_Upd" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
+    <Setting Key="Age_Chatbot_GetLinkedAccounts" SpName="Age_Chatbot_GetLinkedAccounts" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
+    <Setting Key="Age_Chatbot_YesterdateWinlost_LinkedAccounts_Sel" SpName="Age_Chatbot_YesterdateWinlost_LinkedAccounts_Sel" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
+    <Setting Key="Age_Chatbot_PersonalMessageImport" SpName="Age_Chatbot_PersonalMessageImport" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
+    <Setting Key="Age_Chatbot_YesterdateWinlostImport" SpName="Age_Chatbot_YesterdateWinlostImport" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
+    <Setting Key="Age_Chatbot_ProblemAccountsImport" SpName="Age_Chatbot_ProblemAccountsImport" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
+    <Setting Key="Age_Chatbot_WinLossLimitNotificationImport" SpName="Age_Chatbot_WinLossLimitNotificationImport" DbName="DBBOT.bodb_Chatbot.wsv_alp"/>
+    <Setting Key="Age_Chatbot_GetAllLinkedAccountsByFunction" SpName="Age_Chatbot_GetAllLinkedAccountsByFunction" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
+    <Setting Key="Age_Chatbot_AnnouncementNotificationImport" SpName="Age_Chatbot_AnnouncementNotificationImport" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
+    <Setting Key="Age_Chatbot_MyWatchlist_Sel" SpName="Age_Chatbot_MyWatchlist_Sel" DbName="DBAGE.bodb02.wsv_alp" />
+    <Setting Key="Age_Chatbot_MyWatchlistImport" SpName="Age_Chatbot_MyWatchlistImport" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
   </Function>
 
   <Function Name="Customer">
-    <Setting Key="Age_Chatbot_CustomerStatusSel" SpName="Age_Chatbot_CustomerStatusSel" DbName="DBCust.CustDB.BODBDownlineNet" />
-    <Setting Key="Age_GetCustomerInfo" SpName="Age_GetCustomerInfo" DbName="DBAGE.bodb02.BODBDownlineNet">
+    <Setting Key="Age_Chatbot_CustomerStatusSel" SpName="Age_Chatbot_CustomerStatusSel" DbName="DBCust.CustDB.wsv_alp" />
+    <Setting Key="Age_GetCustomerInfo" SpName="Age_GetCustomerInfo" DbName="DBAGE.bodb02.wsv_alp">
       <Mapping DataField="custid" ObjectProperty="CustId" />
       <Mapping DataField="username" ObjectProperty="UserName" />
       <Mapping DataField="currency" ObjectProperty="CurrencyId" />
@@ -28,13 +28,13 @@
   </Function>
 
   <Function Name="Product">
-    <Setting Key="Age_GetOfferedProductByCust" SpName="Age_GetOfferedProductByCust" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0">
+    <Setting Key="Age_GetOfferedProductByCust" SpName="Age_GetOfferedProductByCust" DbName="DBAGE.bodb02.wsv_alp" Plain="0">
       <Mapping DataField="ProductID" ObjectProperty="id" />
     </Setting>
   </Function>
 
   <Function Name="Personal Message">
-    <Setting Key="Age_Chatbot_PersonalMessage_Sel" SpName="Age_Chatbot_PersonalMessage_Sel" DbName="DBMSG.bodb_Message.BODBDownlineNet">
+    <Setting Key="Age_Chatbot_PersonalMessage_Sel" SpName="Age_Chatbot_PersonalMessage_Sel" DbName="DBMSG.bodb_Message.wsv_alp">
       <Mapping DataField="Content_en" ObjectProperty="ContentEN" />
       <Mapping DataField="Content_cs" ObjectProperty="ContentCS" />
       <Mapping DataField="Content_ch" ObjectProperty="ContentCH" />
@@ -44,11 +44,11 @@
   </Function>
 
   <Function Name="Problem Account">
-    <Setting Key="Age_Chatbot_ProblemAccounts_Sel" SpName="Age_Chatbot_ProblemAccounts_Sel" DbName="DBCust.CustDB.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_ProblemAccounts_Sel" SpName="Age_Chatbot_ProblemAccounts_Sel" DbName="DBCust.CustDB.wsv_alp" />
   </Function>
 
   <Function Name="Member Win Loss Limit">
-    <Setting Key="Age_Chatbot_CustWinLossReachLimitSel" SpName="Age_Chatbot_CustWinLossReachLimitSel" DbName="DBCUST.CustDB.BODBDownlineNet">
+    <Setting Key="Age_Chatbot_CustWinLossReachLimitSel" SpName="Age_Chatbot_CustWinLossReachLimitSel" DbName="DBCUST.CustDB.wsv_alp">
       <Mapping DataField="srecommend" ObjectProperty="SCustId" />
       <Mapping DataField="mrecommend" ObjectProperty="MCustId" />
       <Mapping DataField="recommend" ObjectProperty="ACustId" />
@@ -59,18 +59,18 @@
   </Function>
 
   <Function Name="Announcements">
-    <Setting Key="Age_Announcements_Select" SpName="Age_Announcements_Select" DbName="DBMSG.bodb_Message.BODBDownlineNet">
+    <Setting Key="Age_Announcements_Select" SpName="Age_Announcements_Select" DbName="DBMSG.bodb_Message.wsv_alp">
       <Mapping DataField="FromDate" ObjectProperty="ReleasedDate" />
       <Mapping DataField="ToDate" ObjectProperty="ExpiredDate" />
     </Setting>
   </Function>
   <Function Name="Abnormal Login">
-    <Setting Key="Acc_CustAbnormalLoginSel" SpName="Acc_CustAbnormalLoginSel" DbName="DBLOG.bodb_CustomerLog.BODBDownlineNet">
+    <Setting Key="Acc_CustAbnormalLoginSel" SpName="Acc_CustAbnormalLoginSel" DbName="DBLOG.bodb_CustomerLog.wsv_alp">
       <Mapping DataField="SubAccountID" ObjectProperty="SubAccId" />
       <Mapping DataField="CountLogin" ObjectProperty="Count" />
   </Setting>
-    <Setting Key="Age_Chatbot_ServiceNotificationImport" SpName="Age_Chatbot_ServiceNotificationImport" DbName="DBBOT.bodb_Chatbot.BODBDownlineNet" />
-  	<Setting Key="Acc_GetInfoListIPs" SpName="Acc_GetInfoListIPs" DbName="DBCust.IPDB.BODBDownlineNet">
+    <Setting Key="Age_Chatbot_ServiceNotificationImport" SpName="Age_Chatbot_ServiceNotificationImport" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
+  	<Setting Key="Acc_GetInfoListIPs" SpName="Acc_GetInfoListIPs" DbName="DBCust.IPDB.wsv_alp">
 		 	<Mappings>
             	<Mapping DataField="CountryName" ObjectProperty="Country" />
            		<Mapping DataField="city_name" ObjectProperty="City" />

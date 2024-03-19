@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Functions>
 	<Function Name="Abnormal Login Alert">
-		<Setting Key="Acc_CustAbnormalLoginIns" SpName="Acc_CustAbnormalLoginIns" DbName="DBLOG.bodb_CustomerLog.BODBDownlineNet" />
+		<Setting Key="Acc_CustAbnormalLoginIns" SpName="Acc_CustAbnormalLoginIns" DbName="DBLOG.bodb_CustomerLog.wsv_alp" />
  	</Function>
 </Functions>
