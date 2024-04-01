@@ -17,4 +17,6 @@ public sealed class ScheduleJob
     public bool IsActive { get; init; } 
 
     public string SiteDBs { get; init; } 
+
+    public string MonitorEnvironment { get; init; } 
 }

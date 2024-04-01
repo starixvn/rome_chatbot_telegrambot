@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TelegramBot.Modules.AutoTransfer;
-using TelegramBot.Modules.AutoTransfer.Models;
-using TelegramBot.Shared.Models;
 using TelegramBot.WebApi.Params.AutoTransfer;
 using TelegramBot.Shared.Resources;
 using TelegramBot.Modules.Setting.Constants;
+using Alpha.API.Client.Models.AutoTransfer;
 
 namespace TelegramBot.WebApi.Controllers
 {
@@ -12,20 +11,20 @@ namespace TelegramBot.WebApi.Controllers
     [ApiController]
     public class AutoTransferController : ControllerBase
     {
-        private readonly IAutoTransferService _autoTransferService;
+        private readonly IAutoTransferHandler autoTransferHandler;
 
-        public AutoTransferController(IAutoTransferService autoTransferService)
+        public AutoTransferController(IAutoTransferHandler autoTransferHandler)
         {
-            _autoTransferService = autoTransferService;
+            this.autoTransferHandler = autoTransferHandler;
         }
 
         [Route("IsAllDayBalanceTransfer"), HttpGet]
         public async Task<bool> IsAllDayBalanceTransfer(int custId)
-            => await _autoTransferService.IsAllDayBalanceTransfer(custId);
+            => await autoTransferHandler.IsAllDayBalanceTransfer(custId);
 
         [Route("Monitor"), HttpPost]
         public async Task<AutoTransferMonitoringPageModel> Monitor([FromBody] AutoTransferMonitorParam param)
-            => await _autoTransferService.Monitor(
+            => await autoTransferHandler.Monitor(
                 param.CustId, 
                 param.Username, 
                 param.Status, 
@@ -35,7 +34,7 @@ namespace TelegramBot.WebApi.Controllers
 
         [Route("Customers"), HttpPost]
         public async Task<AutoTransferCustomersPageModel> Customers([FromBody] AutoTransferCustomersParam param)
-            => await _autoTransferService.Customers(
+            => await autoTransferHandler.Customers(
                 param.CustId, 
                 param.CustLevel, 
                 param.Language, 
@@ -46,35 +45,35 @@ namespace TelegramBot.WebApi.Controllers
                 param.PageSize);
 
         [Route("UpdateStatus"), HttpPost]
-        public async Task<Result> UpdateStatus([FromBody] UpdateStatusParam param) {
+        public async Task<Alpha.API.Client.Models.Result> UpdateStatus([FromBody] UpdateStatusParam param) {
             if (param == null || !param.IsValid())
             {
-                  return new Result(ErrorCodes.BadRequest, ResourceHelper.Get(nameof(SharedResource.BadRequest), param.Language));
+                  return new Alpha.API.Client.Models.Result(ErrorCodes.BadRequest, ResourceHelper.Get(nameof(SharedResource.BadRequest), param.Language));
             }
 
-            if (await _autoTransferService.IsAllDayBalanceTransfer(param.UplineId))
+            if (await autoTransferHandler.IsAllDayBalanceTransfer(param.UplineId))
             {
-                return new Result(ErrorCodes.ADBTChanged, ResourceHelper.Get(nameof(SharedResource.ADBTChangeError), param.Language));
+                return new Alpha.API.Client.Models.Result(ErrorCodes.ADBTChanged, ResourceHelper.Get(nameof(SharedResource.ADBTChangeError), param.Language));
             }
             
-            return await _autoTransferService.UpdateStatus(
+            return await autoTransferHandler.UpdateStatus(
                 param.UplineId, param.SubAccId, param.UplineRoleId, param.Language,
                 param.CustId, param.Username, param.State, param.Schedule, param.OldTransferOption);
         }
 
         [Route("UpdateSchedule"), HttpPost]
-        public async Task<Result> UpdateSchedule([FromBody] UpdateScheduleParam param) {
+        public async Task<Alpha.API.Client.Models.Result> UpdateSchedule([FromBody] UpdateScheduleParam param) {
             if (param == null || !param.IsValid())
             {
-                  return new Result(ErrorCodes.BadRequest, ResourceHelper.Get(nameof(SharedResource.BadRequest), param.Language));
+                  return new Alpha.API.Client.Models.Result(ErrorCodes.BadRequest, ResourceHelper.Get(nameof(SharedResource.BadRequest), param.Language));
             }
 
-            if (await _autoTransferService.IsAllDayBalanceTransfer(param.UplineId))
+            if (await autoTransferHandler.IsAllDayBalanceTransfer(param.UplineId))
             {
-                return new Result(ErrorCodes.ADBTChanged, ResourceHelper.Get(nameof(SharedResource.ADBTChangeError), param.Language));
+                return new Alpha.API.Client.Models.Result(ErrorCodes.ADBTChanged, ResourceHelper.Get(nameof(SharedResource.ADBTChangeError), param.Language));
             }
             
-            return await _autoTransferService.UpdateSchedule(
+            return await autoTransferHandler.UpdateSchedule(
                 param.UplineId, param.SubAccId, param.UplineRoleId, param.Language,
                 param.CustId, param.Username, param.Schedule, param.OldTransferOption);
         }
@@ -86,12 +85,12 @@ namespace TelegramBot.WebApi.Controllers
                 return new UpdateMultipleAutoTransferResultModel(ErrorCodes.BadRequest, ResourceHelper.Get(nameof(SharedResource.BadRequest), param.Language), param.Language);
             }
 
-            if (await _autoTransferService.IsAllDayBalanceTransfer(param.UplineId))
+            if (await autoTransferHandler.IsAllDayBalanceTransfer(param.UplineId))
             {
                 return new UpdateMultipleAutoTransferResultModel(ErrorCodes.ADBTChanged, ResourceHelper.Get(nameof(SharedResource.ADBTChangeError), param.Language), param.Language);
             }
             
-            return await _autoTransferService.UpdateMultiple(
+            return await autoTransferHandler.UpdateMultiple(
                 param.UplineId, param.SubAccId, param.UplineRoleId, param.Language,
                 param.OnIds, param.OffIds, param.OnNames, param.OffNames,
                 param.OnSchedule, param.OffSchedule, param.OnStatus, param.OffStatus, param.OldTransferOption);

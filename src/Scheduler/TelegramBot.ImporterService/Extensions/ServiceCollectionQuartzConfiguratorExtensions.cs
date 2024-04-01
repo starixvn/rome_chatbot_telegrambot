@@ -38,7 +38,8 @@ public static class ServiceCollectionQuartzConfiguratorExtensions
             .UsingJobData(JobDataKey.SubAccPermission, job.SubAccPermission)
             .UsingJobData(JobDataKey.Environment, job.Environment)
             .UsingJobData(JobDataKey.IsGetTestData, job.IsGetTestData)
-            .UsingJobData(JobDataKey.SiteDBs, job.SiteDBs));
+            .UsingJobData(JobDataKey.SiteDBs, job.SiteDBs)
+            .UsingJobData(JobDataKey.MonitorEnvironment, job.MonitorEnvironment));
 
         quartz.AddTrigger(opts => opts
             .ForJob(jobKey)

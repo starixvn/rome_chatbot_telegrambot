@@ -55,7 +55,7 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<IActionNameBuilderFactory, ActionNameBuilderFactory>();
             services.AddSingleton<IWebAppBuilderFactory, WebAppBuilderFactory>();
             services.AddSingleton<IOTPService, OTPService>();
-            services.AddSingleton<IAutoTransferService, AutoTransferService>();
+            services.AddSingleton<IAutoTransferHandler, AutoTransferHandler>();
             services.AddFunctionHandlers();
 
             return services;

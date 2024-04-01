@@ -30,7 +30,7 @@ public sealed class AutoTransferAlertJob : NotificationBaseJob
         var siteDBs = job.SiteDBs.Split("," , StringSplitOptions.RemoveEmptyEntries);
 
         foreach(var siteDB in siteDBs) {
-            var autoTransferResult = await service.GetAutoTransferResults(siteDB);
+            var autoTransferResult = await service.GetAutoTransferResults(siteDB, job.MonitorEnvironment);
             if (!autoTransferResult.Any())
             {
                 continue;

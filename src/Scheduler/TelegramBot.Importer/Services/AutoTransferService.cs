@@ -8,7 +8,7 @@ namespace TelegramBot.Importer.Services;
 
 public interface IAutoTransferService
 {
-    Task<IEnumerable<AutoTransferResultModel>> GetAutoTransferResults(string siteDB);
+    Task<IEnumerable<AutoTransferResultModel>> GetAutoTransferResults(string siteDB, string environment);
     Task<Result> Import(IEnumerable<AutoTransferAlert> notifications, string environment);
 }
 
@@ -16,9 +16,9 @@ public class AutoTransferService : NotificationServiceBase, IAutoTransferService
 {
     public AutoTransferService(IDynamicRepository dynamicRepository) : base(dynamicRepository) { }
 
-    public async Task<IEnumerable<AutoTransferResultModel>> GetAutoTransferResults(string siteDB)
+    public async Task<IEnumerable<AutoTransferResultModel>> GetAutoTransferResults(string siteDB, string environment)
     {
-        var command = new GetAutoTransferResultCriteria(siteDB);
+        var command = new GetAutoTransferResultCriteria(siteDB, environment);
         var result = await dynamicRepository.FetchAsync<AutoTransferResultModel>(command);
 
         return result;

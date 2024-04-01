@@ -74,6 +74,7 @@ public abstract class NotificationBaseJob : IJob
             IsGetTestData = dataMap.GetBooleanValue(JobDataKey.IsGetTestData),
             IsActive = true,
             SiteDBs = dataMap.GetString(JobDataKey.SiteDBs),
+            MonitorEnvironment = dataMap.GetString(JobDataKey.MonitorEnvironment),
         };
     }
 
