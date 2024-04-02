@@ -12,6 +12,7 @@ import { fetchWrapper } from "src/lib/fetch-client";
 import { User } from "src/lib/session";
 
 import BlockUI from "@components/BlockUI";
+import { CustomerCredit } from "@components/Customer/SearchCustomer";
 import { NumberInputField, PasswordField } from "@components/Form/Inputs";
 import { Label } from "@components/Form/Label";
 import { SingleSelect } from "@components/Form/Select";
@@ -65,7 +66,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
   const [data, setData] = useState<Result>({});
   const [errorMessage, setErrorMessage] = useState("");
   const [numberAccounts, setNumberAccounts] = useState(1);
-  const [maxCredit, setMaxCredit] = useState(0);
+  const [creditInfo, setCreditInfo] = useState<CustomerCredit | undefined>(undefined);
   const [maxMemberCredit, setMaxMemberCredit] = useState(0);
   const [existedSourceAccount, setExistedSourceAccount] = useState(false);
   const [messageContent, setMessageContent] = useState<MessageContent | undefined>(undefined);
@@ -108,10 +109,6 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
     }
   });
 
-  const handleChangeMaxCredit = (value: number) => {
-    setMaxCredit(value);
-  };
-
   const handleOnBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (getNumberOfCommaString(e.target.value) !== maxMemberCredit) {
       setMaxMemberCredit(getNumberOfCommaString(e.target.value));
@@ -120,7 +117,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
 
   const handleContinue = () => {
     setData({});
-    setMaxCredit(0);
+    setCreditInfo(undefined);
     setMaxMemberCredit(0);
     setErrorMessage("");
     setMessageContent(undefined);
@@ -130,6 +127,13 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
   const handlePasswordChange = (password: string) => {
     return user.customerLevel == Agent ? validateMemberPassword(password) : validatePassword(password);
   };
+
+  const maxCredit = creditInfo?.maxCredit ?? 0;
+  let maxGivenCreditPerAccount = maxCredit / numberAccounts;
+
+  if (user.customerLevel === Agent && creditInfo?.memberMaxCredit) {
+    maxGivenCreditPerAccount = Math.min(maxGivenCreditPerAccount, creditInfo.memberMaxCredit);
+  }
 
   return (
     <>
@@ -150,7 +154,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
             name="existAccount"
             control={control}
             render={({ field }) => (
-              <SearchCustomerExists onChange={field.onChange} changeMaxCredit={handleChangeMaxCredit} setExistedSourceAccount={setExistedSourceAccount} />
+              <SearchCustomerExists onChange={field.onChange} setCreditInfo={setCreditInfo} setExistedSourceAccount={setExistedSourceAccount} />
             )}
             rules={{ minLength: 1, required: true }}
           />
@@ -198,19 +202,21 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
           <Controller
             name="credit"
             control={control}
-            render={({ field }) => (
-              <NumberInputField
-                onChange={(e) => {
-                  field.onChange(e);
-                  setMaxMemberCredit(getNumberOfCommaString(e.target.value));
-                }}
-                onBlur={handleOnBlur}
-                max={maxCredit / numberAccounts}
-                placeholder="0"
-                messError={existedSourceAccount ? t("formError.credit", { max: formatThousandNumber(Number((maxCredit / numberAccounts).toFixed(2))) }) : ""}
-              />
-            )}
-            rules={{ min: 0, max: maxCredit / numberAccounts, required: true }}
+            render={({ field }) => {
+              return (
+                <NumberInputField
+                  onChange={(e) => {
+                    field.onChange(e);
+                    setMaxMemberCredit(getNumberOfCommaString(e.target.value));
+                  }}
+                  onBlur={handleOnBlur}
+                  max={maxGivenCreditPerAccount}
+                  placeholder="0"
+                  messError={existedSourceAccount ? t("formError.credit", { max: formatThousandNumber(Number(maxGivenCreditPerAccount.toFixed(2))) }) : ""}
+                />
+              );
+            }}
+            rules={{ min: 0, max: maxGivenCreditPerAccount, required: true }}
           />
           <div className={styles.credit}>
             {t("creditNote")}

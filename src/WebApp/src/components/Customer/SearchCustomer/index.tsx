@@ -24,9 +24,10 @@ type DownLineInfo = {
   isDownLineUser: boolean;
 };
 
-type CustomerCredit = {
+export type CustomerCredit = {
   credit: number;
   maxCredit: number;
+  memberMaxCredit?: number;
 };
 
 enum ErrorMode {
@@ -65,11 +66,11 @@ const Input = (props: InputProps<CustomerInfoOption, false>) => (
 
 type Props = {
   onChange: (existAccountName: string) => void;
-  changeMaxCredit: (maxCredit: number) => void;
   setExistedSourceAccount: (value: boolean) => void;
+  setCreditInfo: (creditInfo: CustomerCredit) => void;
 };
 
-export const SearchCustomerExists = ({ onChange, changeMaxCredit, setExistedSourceAccount }: Props) => {
+export const SearchCustomerExists = ({ onChange, setCreditInfo, setExistedSourceAccount }: Props) => {
   const router = useRouter();
   const { t } = useTranslation("newcustomer");
   const asyncRef = useRef<SelectInstance<CustomerInfoOption> | null>(null);
@@ -104,7 +105,7 @@ export const SearchCustomerExists = ({ onChange, changeMaxCredit, setExistedSour
       setIsCorrectName(ErrorMode.Correct);
       setErrorMessage("");
       const customerCredit = await fetchWrapper.get<CustomerCredit>(`/api/customer/credit/${username}`, router);
-      changeMaxCredit(customerCredit.maxCredit);
+      setCreditInfo(customerCredit);
     } else {
       onChange("");
       setExistedSourceAccount(false);
