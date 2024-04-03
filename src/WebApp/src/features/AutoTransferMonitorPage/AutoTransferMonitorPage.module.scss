@@ -156,6 +156,10 @@
             white-space: nowrap;
             
           }
+          > input{
+            position: absolute;
+            opacity: 0;
+          }
         }
         
         flex-wrap: nowrap;

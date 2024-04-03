@@ -20,9 +20,7 @@ type EditAutoTransferViewModel = {
 };
 
 type IFormInputs = {
-    username: string;
-    status: string;
-    autoTransfer: string;
+    username2: string;
 };
 
 type CustomerListDataViewModel = {
@@ -60,7 +58,7 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
     const router = useRouter();
     const methods = useForm<IFormInputs>({
       mode: "onSubmit",
-      defaultValues: { username: '', status: '' },
+      defaultValues: { username2: '' },
       shouldFocusError: false,
     });
 
@@ -73,7 +71,7 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
     const [autoTransferStatus, setAutoTransferStatus] = useState("2");
     const [pageIndex, setPageIndex] = useState(1);
 
-    const [pageSize, setPageSize] = useState("50");
+    const [pageSize, setPageSize] = useState("25");
     const [customerListData, setCustomerListData] = useState<CustomerListDataViewModel>();
     const [expandStatus, setExpandStatus] = useState<{ [key: number]: boolean}>({});
 
@@ -83,7 +81,7 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
     const [selectedCustomers, setSelectedCustomers] = useState<{ [key: number]: boolean}>({});
     const [editingPageIndex, setEditingPageIndex] = useState<number | undefined>(1);
     const [isExpandAll, setIsExpandAll] = useState(false);
-    const [pagerValue, setPagerValue] = useState(calculatePagerValue(1, 50));
+    const [pagerValue, setPagerValue] = useState(calculatePagerValue(1, 25));
 
     useEffect(
         () => { 
@@ -100,8 +98,8 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
         setSelectedCustomers({});
         setCustomerListData(undefined);
         setPageIndex(1);
-        setPageSize("50");
-        setPagerValue(calculatePagerValue(1, 50));
+        setPageSize("25");
+        setPagerValue(calculatePagerValue(1, 25));
         setIsInitPager(true);
     }
 
@@ -116,7 +114,7 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
             status: selectedStatus,
             autoTransferStatus: autoTransferStatus,
             pageIndex: 1,
-            pageSize: 50,
+            pageSize: 25,
         };
 
         const data = await fetchWrapper.post<any>(url, body, router);
@@ -145,8 +143,8 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
             username: username,
             status: selectedStatus,
             autoTransferStatus: autoTransferStatus,
-            pageIndex: pageIndex,
-            pageSize: pageSize,
+            pageIndex: Math.floor(pagerValue / 1000),
+            pageSize: pagerValue % 1000,
         };
 
         const data = await fetchWrapper.post<any>(url, body, router);
@@ -181,7 +179,7 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
     }
 
     function generatePageSize() {
-        const pageSizes = [50, 100, 200];
+        const pageSizes = [25, 50, 100, 200];
 
         return pageSizes.map((s) => {
             return { value: s, displayName: s.toString() };
@@ -229,7 +227,8 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
                                 <div className={styles["div-half"]}>
                                     <input type="text" name="username" 
                                         className={styles["txt-username"]}
-                                        onChange={(e) => { setUsername(e.target.value); }} />
+                                        onChange={(e) => { setUsername(e.target.value); }} 
+                                        value={username}/>
                                 </div>
 
                                 <div className={styles["div-half"]}>

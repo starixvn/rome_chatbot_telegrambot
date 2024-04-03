@@ -47,9 +47,11 @@ const EditMultipleComponent = ({
 
     const onSubmit = handleSubmit(async () => {
         const url = `/api/autotransfer/updateMultiple`;
-        const allNames = onNames.concat(offNames).join(", ");
+        const allNames = onNames.concat(offNames);
 
-        const msg = t("confirmUpdateAutoTransfer") + " " + allNames;
+        const maxCount = 25;
+        const msg = t("confirmUpdateAutoTransfer") + " " + 
+            (allNames.length <= maxCount ? allNames.join(", ") : allNames.slice(0, maxCount).join(", ") + "...");
         if (window.confirm(msg)) {
             const body = {
                 onIds: onCustomers.map((c: any) => c.custId).join(","),

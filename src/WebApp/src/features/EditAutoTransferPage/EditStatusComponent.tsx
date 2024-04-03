@@ -15,7 +15,7 @@ type EditStatusViewModel = {
 };
 
 type IFormInputs = {
-    username: string;
+    username2: string;
 };
 
 const EditStatusComponent = ({ 
@@ -28,7 +28,7 @@ const EditStatusComponent = ({
     const { t } = useTranslation("editautotransfer");
     const methods = useForm<IFormInputs>({
       mode: "onSubmit",
-      defaultValues: { username: '' },
+      defaultValues: { username2: '' },
       shouldFocusError: false,
     });
 
