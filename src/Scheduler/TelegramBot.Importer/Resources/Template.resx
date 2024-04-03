@@ -358,11 +358,11 @@
     <comment/>
   </data>
   <data name="AutoTransfer_FailedCusts" xml:space="preserve">
-    <value>Accounts that encountered transfer failures</value>
+    <value>Accounts With Failed Transfers</value>
     <comment/>
   </data>
   <data name="AutoTransfer_CancelledCusts" xml:space="preserve">
-    <value>Accounts whose transfers were canceled</value>
+    <value>Accounts With Cancelled Transfers</value>
     <comment/>
   </data>
 </root>

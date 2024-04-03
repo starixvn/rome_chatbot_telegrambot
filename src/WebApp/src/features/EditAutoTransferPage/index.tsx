@@ -83,6 +83,7 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
     const [selectedCustomers, setSelectedCustomers] = useState<{ [key: number]: boolean}>({});
     const [editingPageIndex, setEditingPageIndex] = useState<number | undefined>(1);
     const [isExpandAll, setIsExpandAll] = useState(false);
+    const [pagerValue, setPagerValue] = useState(calculatePagerValue(1, 50));
 
     useEffect(
         () => { 
@@ -90,7 +91,7 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
             pagingCustomers(); 
             setIsInitPager(true); 
         }, 
-        [pageSize, pageIndex]);
+        [pagerValue]);
 
     function resetCustomersGrid() {
         setIsInitPager(false);
@@ -100,6 +101,7 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
         setCustomerListData(undefined);
         setPageIndex(1);
         setPageSize("50");
+        setPagerValue(calculatePagerValue(1, 50));
         setIsInitPager(true);
     }
 
@@ -130,6 +132,12 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
         setSelectedCustomers({});
         setCustomerListData(undefined);
         const url = `/api/autotransfer/customers`;
+        const pageSize = pagerValue % 1000;
+        const pageIndex = Math.floor(pagerValue / 1000);
+        setPageIndex(pageIndex);
+        setEditingPageIndex(pageIndex);
+        setPageSize(pageSize.toString());
+
         const body = {
             custId: user?.custId,
             language: user?.language,
@@ -202,6 +210,10 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
         }
     }
 
+    function calculatePagerValue(pageIndex: any, pageSize: any) {
+        return pageIndex * 1000 + parseInt(pageSize);
+    }
+
     return (
         <>
             {
@@ -262,11 +274,21 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
                                 <div className={styles["frm-row"]}>
                                     <div className={`${styles["div-page-index"]}`}>
                                         <div className={`${styles["div-icon-paging"]} ${ pageIndex==1 ? styles["disabled"] : ""}`}
-                                            onClick={() => { pageIndex > 1 && setPageIndex(1); }}>
+                                            onClick={() => { 
+                                                if(pageIndex > 1) {
+                                                  setPageIndex(1);    
+                                                  setPagerValue(calculatePagerValue(1, pageSize));   
+                                                } 
+                                            }}>
                                             <FirstPageIcon height={16} width={16} />
                                         </div>
                                         <div className={`${styles["div-icon-paging"]} ${styles["div-page-prev"]} ${ pageIndex==1 ? styles["disabled"] : ""}`}
-                                            onClick={() => { pageIndex > 1 && setPageIndex(pageIndex - 1); }}>
+                                            onClick={() => { 
+                                                if(pageIndex > 1) {
+                                                    setPageIndex(pageIndex - 1);
+                                                    setPagerValue(calculatePagerValue(pageIndex - 1, pageSize));
+                                                }
+                                            }}>
                                             <PrevPageIcon height={16} width={16} />
                                         </div>
                                         <span>{t("pageIndex")}</span>
@@ -282,6 +304,7 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
                                                 }
                                                 
                                                 setPageIndex(editingPageIndex || 1); 
+                                                setPagerValue(calculatePagerValue(editingPageIndex || 1, pageSize));
                                             }}
                                             onBlur={() => { 
                                                 if(!editingPageIndex) {
@@ -289,6 +312,7 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
                                                 }
 
                                                 setPageIndex(editingPageIndex || 1); 
+                                                setPagerValue(calculatePagerValue(editingPageIndex || 1, pageSize));
                                             }}
                                             onChange={(e) => { 
                                                 if(!e.target.value) {
@@ -307,11 +331,21 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
                                             value={editingPageIndex || ""} />
                                         <div>{t("of")} {customerListData.totalPages}</div>
                                         <div className={`${styles["div-icon-paging"]} ${styles["div-page-next"]} ${ pageIndex==customerListData.totalPages ? styles["disabled"] : ""}`}
-                                            onClick={() => { pageIndex < customerListData.totalPages && setPageIndex(pageIndex + 1); }}>
+                                            onClick={() => { 
+                                                if(pageIndex < customerListData.totalPages)  {
+                                                    setPageIndex(pageIndex + 1);
+                                                    setPagerValue(calculatePagerValue(pageIndex + 1, pageSize));
+                                                }
+                                            }}>
                                             <NextPageIcon height={16} width={16} />
                                         </div>
                                         <div className={`${styles["div-icon-paging"]} ${ pageIndex==customerListData.totalPages ? styles["disabled"] : ""}`}
-                                            onClick={() => { pageIndex < customerListData.totalPages && setPageIndex(customerListData.totalPages); }}>
+                                            onClick={() => { 
+                                                if(pageIndex < customerListData.totalPages) {
+                                                    setPageIndex(customerListData.totalPages); 
+                                                    setPagerValue(calculatePagerValue(customerListData.totalPages, pageSize));
+                                                }
+                                            }}>
                                             <LastPageIcon height={16} width={16} />
                                         </div>
                                     </div>
@@ -323,7 +357,10 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
                                             options={generatePageSize()}
                                             selectedValue={pageSize}
                                             handleChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                                                setEditingPageIndex(1);    
+                                                setPageIndex(editingPageIndex || 1); 
                                                 setPageSize(e.target.value);
+                                                setPagerValue(calculatePagerValue(1, e.target.value));
                                             }}
                                             />
                                     </div>

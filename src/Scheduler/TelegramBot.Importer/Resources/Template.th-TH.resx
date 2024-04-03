@@ -358,11 +358,11 @@
     <comment/>
   </data>
   <data name="AutoTransfer_FailedCusts" xml:space="preserve">
-    <value>บัญชีที่เกิดความล้มเหลวในการโอน</value>
+    <value>บัญชีที่มีการโอนที่ล้มเหลว</value>
     <comment/>
   </data>
   <data name="AutoTransfer_CancelledCusts" xml:space="preserve">
-    <value>บัญชีที่มีการยกเลิกการโอน</value>
+    <value>บัญชีที่มีการโอนที่ถูกยกเลิก</value>
     <comment/>
   </data>
 </root>

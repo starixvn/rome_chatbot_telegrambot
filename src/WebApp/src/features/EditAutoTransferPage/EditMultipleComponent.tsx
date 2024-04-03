@@ -94,7 +94,7 @@ const EditMultipleComponent = ({
                     <div className={`${styles["div-on-customers"]} ${onCustomers.length ? '' : 'hide'}`}>
                         <div className={`${styles["frm-row"]} ${styles["h-auto"]} ${styles["frm-align-left"]}`}>                    
                             <div className={"txt-bold"}>{t("autoTransfer")}:</div>                            
-                            <div className={styles["box-auto-calendar"]}>
+                            <div className={`${styles["box-auto-calendar"]} ${styles["box-auto-calendar-on-off"]}`}>
                                 <div className={styles["lbl-on-off"]} onClick={() => { setSelectedStatus_On(false); }}>{t("off")}</div>
                                 <div className={styles[selectedStatus_On ? "div-auto-transfer-on" : "div-auto-transfer-off"]}
                                     onClick={() => { 
@@ -152,7 +152,7 @@ const EditMultipleComponent = ({
                     <div className={`${styles["div-off-customers"]} ${offCustomers.length ? '' : 'hide'}`}>
                         <div className={`${styles["frm-row"]} ${styles["h-auto"]} ${styles["frm-align-left"]}`}>                      
                             <div className={"txt-bold"}>{t("autoTransfer")}:</div>                          
-                            <div className={styles["box-auto-calendar"]}>
+                            <div className={`${styles["box-auto-calendar"]} ${styles["box-auto-calendar-on-off"]}`}>
                                 <div className={styles["lbl-on-off"]} onClick={() => { setSelectedStatus_Off(false); }}>{t("off")}</div>
                                 <div className={styles[selectedStatus_Off ? "div-auto-transfer-on" : "div-auto-transfer-off"]}
                                     onClick={() => { 

@@ -201,12 +201,15 @@ namespace TelegramBot.Modules.Setting
         {
             functions = functions.Concat(await _functionService.GetReportAndCommonFunctions());
 
+            var isADBT = await _autoTransferService.IsAllDayBalanceTransfer(custId);
+
             if (subAccId > 0)
             {
                 var customerStatus = await _customerService.GetCustomerStatus(custId, subAccId);
                 var functionPermissions = _webAPIConfiguration.FunctionPermissions;
-                var isADBT = await _autoTransferService.IsAllDayBalanceTransfer(customerStatus.CustId);
                 functions = functions.Where(f => IsAllowFunction(f, customerStatus, functionPermissions, isADBT));
+            } else {
+                functions = functions.Where(f => IsAllowFunction(f, null, new Dictionary<string,string> { }, isADBT));
             }
 
             return functions;

@@ -358,11 +358,11 @@
     <comment/>
   </data>
   <data name="AutoTransfer_FailedCusts" xml:space="preserve">
-    <value>转账失败的账户</value>
+    <value>转账失败的账号</value>
     <comment/>
   </data>
   <data name="AutoTransfer_CancelledCusts" xml:space="preserve">
-    <value>已取消转账的账户</value>
+    <value>已取消转账的账号</value>
     <comment/>
   </data>
 </root>

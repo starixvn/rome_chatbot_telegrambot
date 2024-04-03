@@ -185,8 +185,12 @@
 .box-auto-calendar {
   display: flex;
   position: relative;
-  margin-left: 16px;
+  width: 68px;
+  margin: 0 auto;
   align-items: center;
+  &-on-off{
+    width: auto;
+  }
   .div-auto-transfer-on {
     cursor: pointer;
     display: flex;

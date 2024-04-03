@@ -219,6 +219,7 @@ const MultiSelect = (props: Props) => {
           blurInputOnSelect={false}
           placeholder={t("search")}
           noOptionsMessage={() => t("noOptions")}
+          isSearchable={false}
         />
       );
     }
@@ -243,6 +244,7 @@ const MultiSelect = (props: Props) => {
           blurInputOnSelect={true}
           placeholder={t("search")}
           noOptionsMessage={() => t("noOptions")}
+          isSearchable={false}
         />
       </div>
     );
