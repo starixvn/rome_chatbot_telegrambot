@@ -1,0 +1,138 @@
+.top-detail-total-bets{
+    color: #333;
+    font-size: 13px;
+    padding-bottom: 8px;
+    .league-name{
+        font-size: 13px;        
+    }
+    .home-name, .away-name{
+        font-weight: bold;
+        font-size: 16px;
+    }
+    .showtime{
+        color: #828282;
+        position: relative;
+        top: -2px;
+        display: inline-block;
+    }
+    .score{
+        color: #DD3333;
+        font-weight: bold;
+        font-size: 16px;
+        margin: 0 8px;
+    }
+    .vs{
+        margin: 0 4px;
+    }
+    .name{
+        margin-right: 4px;
+    }
+}
+.badge-live-full{
+    color: #fff;
+    background-color: #DD3333;
+    border: 1px solid #DD3333;
+    font-size: 11px;
+    border-radius: 2px;
+    line-height: 13px;
+    font-weight: bold;
+    padding: 0 3px;
+    display: inline-block;
+    margin-right: 8px;
+    position: relative;
+    top: -3px;
+    
+}
+.badge-live{
+    color: #DD3333;
+    border: 1px solid #DD3333;
+    font-size: 11px;
+    border-radius: 2px;
+    line-height: 13px;
+    font-weight: bold;
+    padding: 0 3px;
+    display: inline-block;
+    margin-right: 8px;
+    position: relative;
+    top: -3px;
+    
+}
+.turnover{
+    span{
+        font-weight: bold;
+        font-size: 16px;
+    }
+}
+.block-detail{
+    margin: 0 -16px;
+    .bet-type-header{
+        padding: 8px 12px 7px;
+        background-color: #537090;
+        color: #fff;
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 15px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #f4f4f4;
+        .right-icon{
+            margin-left: auto;
+        }
+    }
+}
+.list-item{
+    padding: 8px 12px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    + .list-item{
+        margin-top: -8px;
+    }
+}
+.value{
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.big-item{
+    font-size: 13px;
+    text-align: center;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+    margin-right: 12px;
+    padding: 3px 0;
+    width: 68px;
+    color: #4F4F4F;
+    line-height: 18px;
+    strong{
+        font-size: 16px;
+        color: #333333;
+    }
+}
+.item{
+    font-size: 12px;
+    text-align: center;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;    
+    padding: 7px 9px 5px 9px;
+    color: #4F4F4F;     
+    line-height: 15px;
+    strong{
+        font-size: 13px;
+        color: #333333;
+    }
+}
+.width-auto{
+    flex: 1 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    .item{
+        flex: 1 1 0;
+        padding: 3px 9px 1px;
+    }
+}
+.text-align-right{
+    text-align: right;
+}

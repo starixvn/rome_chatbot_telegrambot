@@ -35,6 +35,7 @@ namespace TelegramBot.Modules.Action.Constants
         public const short AutoTransferSettings = 51;
         public const short ViewAutoTransferMonitor = 52;
         public const short EditAutoTransfer = 53;
+        public const short TotalBets = 55;
 
         public static readonly short[] NotificationSettingActionIds = new[]{
             YesterdayWinLossNotification,

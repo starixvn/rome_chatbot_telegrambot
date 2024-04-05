@@ -22,6 +22,12 @@
     ],
     "/editautotransfer": [
       "editautotransfer"
+    ],
+    "/totalbets": [
+      "totalbets"
+    ],
+    "/totalbetsdetails/[matchId]": [
+      "totalbets"
     ]
   }
 }

@@ -17,5 +17,6 @@
   "AccessDenied": "不被允许登入",
   "AccountClosed": "您的帐户被关闭。请联系您上线的援助。",
   "AccountClocked": "由于检测多次失败，导致此账号已被锁定。请联系您的上线以解锁。",
-  "AccountProtected": "您与chatbot的连接已中断，请联系您的上线以获得进一步的协助。"
+  "AccountProtected": "您与chatbot的连接已中断，请联系您的上线以获得进一步的协助。",
+  "noRefresh": "关闭"
 }

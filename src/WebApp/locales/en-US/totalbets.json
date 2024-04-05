@@ -1,0 +1,19 @@
+{
+  "headerTotalBets": "Soccer / Top 10 Turnover Matches",
+  "headerTotalBetsDetails": "Soccer / Total Bets",
+  "loading": "Loading...",
+  "turnover": "Turnover",
+  "noInformationIsAvailable": "No information is available",
+  "back": "Back",
+  "memberTurnover": "Member Turnover",
+  "home": "Home",
+  "away": "Away",
+  "draw": "Draw",
+  "over": "Over",
+  "under": "Under",
+  "others": "Others",
+  "live": "Live",
+  "note": "Note",
+  "gmt8Note": "The time above is displayed in GMT+8",
+  "detailsNotAvailable": "This match is completed. Total Bets is no longer available for this match."
+}

@@ -14,5 +14,6 @@ namespace TelegramBot.Modules.Action.Constants
         public const string Alarm = "\uD83D\uDEA8";
         public const string Warning = "\u26A0";
         public const string Envelope = "\u2709";
+        public const string Soccer = "\u26BD";
     }
 }

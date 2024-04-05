@@ -62,18 +62,14 @@
 .div-status-all {
   display: flex;
   flex-wrap: wrap;
-  > div{
-    &:first-child{
-      margin-left: 0;
-    }
-  }
+   
   .div-pending-all,
   .div-processing-all,
   .div-failed-all {
     border: 1px solid #e8bb90;
     border-radius: 3px;
     background-color: #fdf9ee;
-    margin-left: 4px;
+    margin-right: 4px;
     padding: 3px 3px 3px 0;
     justify-content: space-between;
     align-items: center;
@@ -81,6 +77,7 @@
     
     margin-bottom: 6px;
     font-weight: bold;
+    min-width: 193px;
 
     .text {
       text-align: center;

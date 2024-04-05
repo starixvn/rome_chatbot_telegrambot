@@ -1,0 +1,19 @@
+{
+  "headerTotalBets": "足球 / 前10场投注额赛事",
+  "headerTotalBetsDetails": "足球 / 总投注",
+  "loading": "Loading...",
+  "turnover": "投注额",
+  "noInformationIsAvailable": "没资料显示",
+  "back": "退回",
+  "memberTurnover": "会员总投注交易",
+  "home": "主",
+  "away": "客",
+  "draw": "和",
+  "over": "大",
+  "under": "小",
+  "others": "其他",
+  "live": "现场",
+  "note": "笔记",
+  "gmt8Note": "显示时间为GMT+8时区。",
+  "detailsNotAvailable": "这场赛事已结束。所以不再提供总投注于这场赛事。"
+}
