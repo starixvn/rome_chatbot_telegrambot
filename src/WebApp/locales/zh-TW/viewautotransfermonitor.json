@@ -1,0 +1,19 @@
+{
+  "header": "監控自動轉賬",
+  "username": "用戶名",
+  "submit": "提交",
+  "status": "状態",
+  "new": "处理中",
+  "processing": "处理中",
+  "completed": "已完成",
+  "failed": "失敗",
+  "cancelled": "取消",
+  "pending": "等待中",
+  "ignored": "忽視",
+  "transferAmount": "轉帳餘額",
+  "noInformationIsAvailable": "沒資料顯示",
+  "firstLastName": "名及姓",
+  "reason": "原因",
+  "completedTime": "完成時間",
+  "adbtChangeError": "由於上線已為您啟用全天餘額轉賬，所以您無法使用自動轉賬。頁面將會自動刷新。"
+}

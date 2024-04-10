@@ -12,6 +12,8 @@ using TelegramBot.Shared.Configurations;
 using TelegramBot.Shared.Constants;
 using TelegramBot.Shared.Models;
 using TelegramBot.Shared.Caching;
+using Alpha.API.Client.Models.Customers;
+using TelegramBot.Modules.AutoTransfer;
 
 namespace TelegramBot.Modules.Setting
 {
@@ -49,6 +51,7 @@ namespace TelegramBot.Modules.Setting
         private readonly IFunctionService _functionService;
         private readonly IOTPService _otpService;
         private readonly ICacheService cacheService;
+        private readonly IAutoTransferService _autoTransferService;
 
         public SettingService(
             WebAPIConfiguration webAPIConfiguration,
@@ -59,6 +62,7 @@ namespace TelegramBot.Modules.Setting
             ICustomerService customerService,
             IFunctionService functionService,
             IOTPService otpService,
+            IAutoTransferService autoTransferService,
             ICacheServiceFactory cacheServiceFactory)
         {
             _webAPIConfiguration = webAPIConfiguration;
@@ -69,6 +73,7 @@ namespace TelegramBot.Modules.Setting
             _customerService = customerService;
             _functionService = functionService;
             _otpService = otpService;
+            _autoTransferService = autoTransferService;
             cacheService = cacheServiceFactory.Get();
         }
 
@@ -172,7 +177,7 @@ namespace TelegramBot.Modules.Setting
                 return null;
             }
 
-            custBotMessenger.Functions = await GetAccountFunctions(custId, subAccId, functions);
+            custBotMessenger.Functions = await GetAccountFunctions(custId, subAccId, functions, custBotMessenger.System);
             foreach (var function in custBotMessenger.Functions)
             {
                 function.FunctionName = await _functionService.GetFunctionName(function.FunctionId, language);
@@ -192,20 +197,40 @@ namespace TelegramBot.Modules.Setting
             return siteDB.AGIP;
         }
 
-        private async Task<IEnumerable<BotFunction>> GetAccountFunctions(int custId, int subAccId, IEnumerable<BotFunction> functions)
+        private async Task<IEnumerable<BotFunction>> GetAccountFunctions(
+            int custId, int subAccId, IEnumerable<BotFunction> functions, string system)
         {
             functions = functions.Concat(await _functionService.GetReportAndCommonFunctions());
+
+            var isADBT = await _autoTransferService.IsAllDayBalanceTransfer(custId);
 
             if (subAccId > 0)
             {
                 var customerStatus = await _customerService.GetCustomerStatus(custId, subAccId);
                 var functionPermissions = _webAPIConfiguration.FunctionPermissions;
-                functions = functions.Where(f =>
-                    !functionPermissions.ContainsKey(f.FunctionKey)
-                    || customerStatus.PageAccess.Contains(functionPermissions[f.FunctionKey]));
+                functions = functions.Where(f => IsAllowFunction(f, customerStatus, functionPermissions, isADBT, system));
+            } else {
+                functions = functions.Where(f => IsAllowFunction(f, null, new Dictionary<string,string> { }, isADBT, system));
             }
 
             return functions;
+        }
+
+        private bool IsAllowFunction(
+            BotFunction f, 
+            CustomerStatus customerStatus, 
+            IDictionary<string, string> functionPermissions,
+            bool isADBT,
+            string system) {
+            var isAllow = !functionPermissions.ContainsKey(f.FunctionKey)
+                || customerStatus.PageAccess.Contains(functionPermissions[f.FunctionKey]);
+            switch(f.FunctionKey) {
+                case "AutoTransferSettings":
+                case "AutoTransferAlert":
+                    return isAllow && !isADBT && system != "789Y";
+                default:
+                    return isAllow;
+            }
         }
 
         private async Task<CustBotMessenger> GetVerifyingMessenger(int custId, int subAccId)
@@ -235,7 +260,7 @@ namespace TelegramBot.Modules.Setting
             var account = accounts.FirstOrDefault();
             if (account != null)
             {
-                account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, functions);
+                account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, functions, account.System);
                 account.SiteDBGroupIp = await GetSiteDBGroupIp(account.CustId);
             }
 

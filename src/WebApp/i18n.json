@@ -10,10 +10,18 @@
   "localeDetection": false,
   "pages": {
     "*": [
-      "common"
+      "common",
+      "multiselection",
+      "pager"
     ],
     "/newcustomer": [
       "newcustomer"
+    ],
+    "/viewautotransfermonitor": [
+      "viewautotransfermonitor"
+    ],
+    "/editautotransfer": [
+      "editautotransfer"
     ]
   }
 }

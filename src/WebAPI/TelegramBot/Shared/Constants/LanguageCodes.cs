@@ -8,6 +8,13 @@
         public const string Thai = "th-TH";
         public const string Vietnamese = "vi-VN";
         public static string[] SupportLanguages => new[] { English, ChineseTraditional, ChineseSimplified, Thai, Vietnamese };
+        public static Dictionary<string,string> LanguageKeys = new Dictionary<string, string> {
+            [English] = "E",
+            [ChineseTraditional] = "CT",
+            [ChineseSimplified] = "CS",
+            [Thai] = "TH",
+            [Vietnamese] = "VI"
+        };
 
         private static readonly IDictionary<string, string> LanguageCodeMapper = new Dictionary<string, string>
         {

@@ -72,7 +72,9 @@ public abstract class NotificationBaseJob : IJob
             SubAccPermission = dataMap.GetString(JobDataKey.SubAccPermission),
             Environment = dataMap.GetString(JobDataKey.Environment),
             IsGetTestData = dataMap.GetBooleanValue(JobDataKey.IsGetTestData),
-            IsActive = true
+            IsActive = true,
+            SiteDBs = dataMap.GetString(JobDataKey.SiteDBs),
+            MonitorEnvironment = dataMap.GetString(JobDataKey.MonitorEnvironment),
         };
     }
 

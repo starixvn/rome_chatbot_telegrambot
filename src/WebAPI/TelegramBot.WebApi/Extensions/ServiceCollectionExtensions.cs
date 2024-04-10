@@ -19,6 +19,7 @@ using TelegramBot.Modules.Action;
 using TelegramBot.Modules.Action.Builders.ActionName;
 using TelegramBot.Modules.Action.Builders.WebApp;
 using TelegramBot.Modules.Action.Validators;
+using TelegramBot.Modules.AutoTransfer;
 using TelegramBot.Modules.Bot;
 using TelegramBot.Modules.Command;
 using TelegramBot.Modules.Function.Handlers;
@@ -54,6 +55,7 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<IActionNameBuilderFactory, ActionNameBuilderFactory>();
             services.AddSingleton<IWebAppBuilderFactory, WebAppBuilderFactory>();
             services.AddSingleton<IOTPService, OTPService>();
+            services.AddSingleton<IAutoTransferHandler, AutoTransferHandler>();
             services.AddFunctionHandlers();
 
             return services;

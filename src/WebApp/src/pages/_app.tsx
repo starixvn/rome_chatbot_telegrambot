@@ -1,5 +1,7 @@
 import type { AppProps } from "next/app";
 import "@styles/globals.scss";
+import "@styles/table.scss";
+import "@styles/icons.scss";
 import "@styles/_reset.scss";
 
 export default function App({ Component, pageProps }: AppProps) {

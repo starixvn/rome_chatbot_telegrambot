@@ -75,7 +75,7 @@ p {
   color: var(--sub-label-color);
 }
 
-input {
+input:not([type="checkbox"]) {
   width: 100%;
   height: 32px;
   padding: 0 5px;
@@ -139,13 +139,86 @@ textarea {
   background: #0b589c;
   border: 0;
   font-size: 13px;
-
   font-family: var(--font-500);
   text-transform: uppercase;
   outline: none;
+  &.width-auto{
+    width: auto;
+  }
+  &.mt-0{
+    margin-top: 0;
+  }
+}
+.btn-cancel{
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px 16px;
+  color: #ededed;
+  background: #696969;
+  border: 0;
+  font-size: 13px;
+  font-family: var(--font-500);
+  text-transform: uppercase;
+  outline: none;
+  &.width-auto{
+    width: auto;
+  }
+  &.mt-0{
+    margin-top: 0;
+  }
 }
 
 .btn-submit:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center { 
+  text-align: center;
+  align-items: center;
+  align-content: center;
+}
+
+.format-negative {
+    color: #b50000;
+}
+
+.div-center {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  vertical-align: middle;
+}
+
+.hide {
+  display: none !important;
+}
+
+.txt-bold {
+  font-weight: bold;
+}
+
+.text-note {
+  color: #DD3333;
+}
+
+.txt-blue { 
+  color: #0B599C;
+}
+
+.col-status {
+  &.failed, &.cancelled {
+      color: #A11515;
+  }
+
+  &.completed {
+      color: #2E9E60;
+  }
 }

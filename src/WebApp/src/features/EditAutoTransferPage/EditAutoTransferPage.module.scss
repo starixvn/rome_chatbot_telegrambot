@@ -1,0 +1,286 @@
+.form-auto-transfer-settings {
+  .frm-row-label {
+    width: 100%;
+    height: 24px;
+    padding: 0;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+
+    .div-half {
+      width: 48%;
+      display: inline-block;
+      border: none;
+      padding: 0;
+      margin: 0;
+
+      select,
+      input,
+      button {
+        display: inline-block;
+      }
+    }
+  }
+
+  .frm-row {
+    width: 100%;
+    height: 50px;
+    padding: 0;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+    &.frm-align-left{
+      justify-content: flex-start;
+      align-items: center;
+    }
+    &.frm-align-right{
+      justify-content: flex-end;
+    }
+    &.h-auto{
+      height: auto;
+    }
+    &.flex-wrap{
+      flex-wrap: wrap;
+    }
+    .flex{
+      display: flex;
+    }
+    .align-center{
+      align-items: center;
+    }
+    select,
+    input,
+    button {
+      display: inline-block;
+      font-size: var(--font-14) !important;
+      height: 32px;
+      line-height: 32px;
+    }
+    button {
+      padding: 0 12px;
+    }
+    .div-half {
+      width: 48%;
+      display: inline-block;
+      border: none;
+      padding: 0;
+      margin: 0;      
+    }
+    .div-page-size {
+      margin-bottom: 5px;
+      select {
+        display: inline-block;
+        width: 56px;
+        height: 28px;
+        font-size: 11px;
+        margin: 0 2px;
+        border-radius: 2px;
+      }
+    }
+    &.button-confirm{
+      button{
+        min-width: 86px;
+        margin-left: 10px;
+        width: auto;
+      }
+    }
+    .div-page-index {
+      margin-bottom: 5px;
+      div {
+        display: inline-block;
+      }
+
+      .page-index {
+        width: 40px;
+        height: 28px;
+        margin: 0 4px;
+        text-align: center;
+        font-size: 12px;
+        border-radius: 1px;
+        border: 1px solid #c2c2c2;
+      }
+
+      .div-icon-paging {
+        display: inline-block;
+        white-space: pre-wrap;
+        box-sizing: border-box;
+        border-radius: 3px;
+        margin: 0 2px;
+        position: relative;
+        align-items: flex-start;
+        font-size: var(--font-14);
+        font-family: var(--font-500);        
+        cursor: pointer;
+        vertical-align: middle;
+
+        &.disabled {
+          opacity: 0.35;
+          cursor: default;
+        }
+
+        &:not(.disabled):hover { 
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        svg {
+          position: relative;
+        }
+        &.div-page-prev{
+          margin-right: 5px;
+        }
+        &.div-page-next{
+          margin-left: 4px;
+        }
+      }
+    }
+  }
+
+  .div-message {
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+}
+
+.row-status-1 {
+  background-color: #f9f9f7;
+}
+
+.row-status-2 {
+  background-color: #a0a97a;
+}
+
+.row-status-3 {
+  background-color: #b3a2c7;
+}
+
+.row-status-4 {
+  background-color: #f79646;
+}
+
+.row-status-5 {
+  background-color: #969696;
+}
+
+.row-status-6 {
+  background-color: #f8ded7;
+}
+
+.row-status-7 {
+  background-color: #86c5e4;
+}
+
+.row-status-8 {
+  background-color: #ccc7ba;
+}
+
+.lbl-for-ckb {
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.box-auto-calendar {
+  display: flex;
+  position: relative;
+  width: 68px;
+  margin: 0 auto;
+  align-items: center;
+  &-on-off{
+    width: auto;
+  }
+  .div-auto-transfer-on {
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    width: 45px;
+    border-radius: 8px;
+    height: 16px;
+    background-color: #558b11;
+    padding: 1px;
+    margin: 0 4px;
+    box-sizing: border-box;
+
+    .toggle {
+      cursor: pointer;
+      display: inline-block;
+      height: 14px;
+      width: 14px;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  .div-auto-transfer-off {
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    width: 45px;
+    border-radius: 8px;
+    height: 16px;
+    background-color: #8a8a8a;
+    padding: 1px;
+    margin: 0 4px;
+    box-sizing: border-box;
+
+    .toggle {
+      cursor: pointer;
+      display: inline-block;
+      height: 14px;
+      width: 14px;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  .icon-calendar {
+    white-space: pre-wrap;
+    box-sizing: border-box;
+    position: relative;
+    align-items: flex-start;
+    font-size: var(--font-14);
+    font-family: var(--font-500);
+    background-color: #ffffff;
+    color: #ffffff;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+  }
+}
+.div-on-customers{
+  margin-bottom: 15px;
+}
+.div-on-customers,
+.div-off-customers {
+  padding: 10px;
+  border: 1px solid #d1d1d1;
+  border-radius: 3px;
+  background: #f7f7f7;
+
+  .lbl-on-off {
+    cursor: pointer;
+  }
+
+  .div-usernames {
+    border: 1px solid #d2d2d2;
+    background: #efefef;
+    font-weight: bold;
+    border-radius: 3px;
+    padding: 10px;
+  }
+}
+
+.note-list-transfer {
+  padding: 2px 25px 12px;
+  background: #f0f7ff;
+  border-radius: 3px;
+  margin-bottom: 17px;
+  margin-top: 10px;
+}
+ 

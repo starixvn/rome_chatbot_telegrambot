@@ -39,7 +39,7 @@ public static class TemplateHelper
         };
         return $"{key}{" ".PadLeft(length > 0 ? length : 0)} {value}";
     }
-
+    
     public static string EncodeXml(string text, bool isAttribute = true, int attrSubStringLength = 5)
         => isAttribute
         ? new XAttribute("__n", text).ToString().Substring(attrSubStringLength).TrimEnd('\"')

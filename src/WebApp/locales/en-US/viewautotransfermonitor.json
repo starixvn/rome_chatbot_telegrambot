@@ -1,0 +1,19 @@
+{
+  "header": "Auto Transfer Monitor",
+  "username": "Username",
+  "submit": "Submit",
+  "status": "Status",
+  "new": "Processing",
+  "processing": "Processing",
+  "completed": "Completed",
+  "failed": "Failed",
+  "cancelled": "Cancelled",
+  "pending": "Pending",
+  "ignored": "Ignored",
+  "transferAmount": "Transfer Amount",
+  "noInformationIsAvailable": "No information is available",
+  "firstLastName": "First/ Last Name",
+  "reason": "Reason",
+  "completedTime": "Completed Time",
+  "adbtChangeError": "You cannot use Auto Transfer because upline has enabled All Day Balance Transfer for you. The page will refresh automatically."
+}

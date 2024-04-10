@@ -11,5 +11,7 @@
 
         public const int AccountAlreadyLinked = 103;
         public const int TelegramAccountAlreadyLinked = 104;
+        public const int BadRequest = 400;
+        public const int ADBTChanged = 108;
     }
 }

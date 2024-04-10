@@ -1,0 +1,19 @@
+{
+  "header": "Auto Transfer Monitor",
+  "username": "Tên người dùng",
+  "submit": "Xác nhận",
+  "status": "Trạng thái",
+  "new": "Processing",
+  "processing": "Processing",
+  "completed": "Kết thúc",
+  "failed": "Failed",
+  "cancelled": "Cancelled",
+  "pending": "Chưa xử lý",
+  "ignored": "Ignored",
+  "transferAmount": "Transfer Amount",
+  "noInformationIsAvailable": "Thông tin chưa được cập nhật",
+  "firstLastName": "Họ/ tên",
+  "reason": "Reason",
+  "completedTime": "Completed Time",
+  "adbtChangeError": "You cannot use Auto Transfer because upline has enabled All Day Balance Transfer for you. The page will refresh automatically."
+}
