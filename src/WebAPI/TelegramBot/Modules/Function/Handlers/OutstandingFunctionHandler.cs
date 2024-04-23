@@ -55,7 +55,7 @@ namespace TelegramBot.Modules.Function.Handlers
                 return Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
             }
 
-            var data = await outstandingService.GetDownlineOutstanding(account.CustId, account.CustomerLevel, downlineInfo.CustId, account.Language);
+            var data = await outstandingService.GetDownlineOutstanding(account.CustId, account.CustomerLevel, downlineInfo.CustId, account.System, account.Language);
             var message = BuildDownlineOutstandingMessage(account.Language, data, account.CustomerLevel, username);
             return Result.CreateSuccessfulResult(message);
         }
