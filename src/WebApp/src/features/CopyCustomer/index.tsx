@@ -1,25 +1,27 @@
-import CryptoJS from "crypto-js";
-import useTranslation from "next-translate/useTranslation";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { Agent, Master } from "src/constants/role-id";
-import { generateAccountSelect } from "src/helpers/generate-account";
-import { formatThousandNumber, getNumberOfCommaString } from "src/helpers/number";
-import { validateMemberPassword, validatePassword } from "src/helpers/password";
-import { fetchWrapper } from "src/lib/fetch-client";
-import { User } from "src/lib/session";
+import CryptoJS from 'crypto-js';
+import useTranslation from 'next-translate/useTranslation';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Agent, Master } from 'src/constants/role-id';
+import { generateAccountSelect } from 'src/helpers/generate-account';
+import { formatThousandNumber, getNumberOfCommaString } from 'src/helpers/number';
+import { validateMemberPassword, validatePassword } from 'src/helpers/password';
+import { fetchWrapper } from 'src/lib/fetch-client';
+import { User } from 'src/lib/session';
 
-import BlockUI from "@components/BlockUI";
-import { CustomerCredit } from "@components/Customer/SearchCustomer";
-import { NumberInputField, PasswordField } from "@components/Form/Inputs";
-import { Label } from "@components/Form/Label";
-import { SingleSelect } from "@components/Form/Select";
-import Message, { MessageContent } from "@components/Message";
+import BlockUI from '@components/BlockUI';
+import { CustomerCredit } from '@components/Customer/SearchCustomer';
+import { NumberInputField, PasswordField } from '@components/Form/Inputs';
+import { Label } from '@components/Form/Label';
+import { SingleSelect } from '@components/Form/Select';
+import { IconCredit } from '@components/Icons';
+import Message, { MessageContent } from '@components/Message';
+import { Tooltip } from '@components/Tooltip';
 
-import styles from "./NewCustomer.module.scss";
-import Result from "./Result";
+import styles from './NewCustomer.module.scss';
+import Result from './Result';
 
 const NewAccountName = dynamic(() => import("@components/Customer/NewAccount").then((mod) => mod.NewAccountName), {
   ssr: false,
@@ -130,8 +132,10 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
 
   const maxCredit = creditInfo?.maxCredit ?? 0;
   let maxGivenCreditPerAccount = maxCredit / numberAccounts;
+  let creditHint = t("creditHint", { availableCredit: maxCredit });
 
   if (user.customerLevel === Agent && creditInfo?.memberMaxCredit) {
+    creditHint = `${creditHint}<br>${t("memberMaxCreditHint", { memberMaxCredit: creditInfo.memberMaxCredit })}`;
     maxGivenCreditPerAccount = Math.min(maxGivenCreditPerAccount, creditInfo.memberMaxCredit);
   }
 
@@ -212,15 +216,18 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
                   onBlur={handleOnBlur}
                   max={maxGivenCreditPerAccount}
                   placeholder="0"
-                  messError={existedSourceAccount ? t("formError.credit", { max: formatThousandNumber(Number(maxGivenCreditPerAccount.toFixed(2))) }) : ""}
+                  messError={existedSourceAccount ? t("formError.credit", { max: formatThousandNumber(maxGivenCreditPerAccount) }) : ""}
                 />
               );
             }}
             rules={{ min: 0, max: maxGivenCreditPerAccount, required: true }}
           />
           <div className={styles.credit}>
-            {t("creditNote")}
-            <span>{formatThousandNumber(maxCredit)}</span>
+            {t("Min")}: <strong>0</strong> - {t("Max")}: <strong>{formatThousandNumber(maxGivenCreditPerAccount)}</strong>
+            <div className={styles.info}>
+              <IconCredit />
+              <Tooltip message={creditHint} position="bottom" />
+            </div>
           </div>
 
           {user.customerLevel === Master && (
@@ -239,6 +246,9 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
                 )}
                 rules={{ min: 0, max: maxMemberCredit, required: true }}
               />
+              <div className={styles.credit}>
+                {t("Min")}: <strong>0</strong> - {t("Max")}: <strong>{formatThousandNumber(maxMemberCredit)}</strong>
+              </div>
             </>
           )}
           <div className={styles.row}>

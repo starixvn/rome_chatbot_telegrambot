@@ -28,5 +28,9 @@
   "sourceInputPlaceholder": "Username or First/Last Name",
   "passwordRule": "Password must be at least 8 characters without white-space and contain at least 3 of the following:\n\n• Uppercase letter [A-Z]\n• Lowercase letter [a-z]\n• Numeric [0-9]\n• Special character (!,@,#,etc..)\n\nFor example: 59D7!4$h, 493abcDE\nNotes: your password is cAsE sEnSiTiVe",
   "memberPasswordRule": "Password must be 6-10 characters without white-space and contain at least 1 uppercase letter, 1 lowercase letter, 1 numeric digit. (e.g. 493abcDE, 59D7!4$h)\nNotes: your password is cAsE sEnSiTiVe.",
-  "Live": "Live"
+  "Live": "Live",
+  "Min": "Min",
+  "Max": "Max",
+  "creditHint": "Available Credit: {{availableCredit}}",
+  "memberMaxCreditHint": "The Maximum Member Credit set by your upline: {{memberMaxCredit}}"
 }

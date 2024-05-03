@@ -35,4 +35,13 @@
       font-family: var(--font-700);
     }
   }
+
+  .info {
+    position: relative;
+    margin-left: 5px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
