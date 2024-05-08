@@ -1,27 +1,27 @@
-import CryptoJS from 'crypto-js';
-import useTranslation from 'next-translate/useTranslation';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { Agent, Master } from 'src/constants/role-id';
-import { generateAccountSelect } from 'src/helpers/generate-account';
-import { formatThousandNumber, getNumberOfCommaString } from 'src/helpers/number';
-import { validateMemberPassword, validatePassword } from 'src/helpers/password';
-import { fetchWrapper } from 'src/lib/fetch-client';
-import { User } from 'src/lib/session';
+import CryptoJS from "crypto-js";
+import useTranslation from "next-translate/useTranslation";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { Agent, Master } from "src/constants/role-id";
+import { generateAccountSelect } from "src/helpers/generate-account";
+import { formatThousandNumber, getNumberOfCommaString } from "src/helpers/number";
+import { validateMemberPassword, validatePassword } from "src/helpers/password";
+import { fetchWrapper } from "src/lib/fetch-client";
+import { User } from "src/lib/session";
 
-import BlockUI from '@components/BlockUI';
-import { CustomerCredit } from '@components/Customer/SearchCustomer';
-import { NumberInputField, PasswordField } from '@components/Form/Inputs';
-import { Label } from '@components/Form/Label';
-import { SingleSelect } from '@components/Form/Select';
-import { IconCredit } from '@components/Icons';
-import Message, { MessageContent } from '@components/Message';
-import { Tooltip } from '@components/Tooltip';
+import BlockUI from "@components/BlockUI";
+import { CustomerCredit } from "@components/Customer/SearchCustomer";
+import { NumberInputField, PasswordField } from "@components/Form/Inputs";
+import { Label } from "@components/Form/Label";
+import { SingleSelect } from "@components/Form/Select";
+import { IconCredit } from "@components/Icons";
+import Message, { MessageContent } from "@components/Message";
+import { Tooltip } from "@components/Tooltip";
 
-import styles from './NewCustomer.module.scss';
-import Result from './Result';
+import styles from "./NewCustomer.module.scss";
+import Result from "./Result";
 
 const NewAccountName = dynamic(() => import("@components/Customer/NewAccount").then((mod) => mod.NewAccountName), {
   ssr: false,
