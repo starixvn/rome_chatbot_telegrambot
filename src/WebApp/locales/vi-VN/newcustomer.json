@@ -29,5 +29,7 @@
   "memberPasswordRule": "Mật khẩu phải gồm 6-10 ký tự, không có khoảng trắng và phải chứa it nhất 1 ký tự viết hoa, 1 ký tự viết thường, 1 ký tự số (ví dụ: 493abcDE, 59D7!4$h).\nLưu ý:  Mật khẩu có phân biệt chữ hoa và chữ thường.",
   "Live": "Trực Tuyến",
   "Min": "Nhỏ nhất",
-  "Max": "Lớn nhất"
+  "Max": "Lớn nhất",
+  "creditHint": "Hạn mức khả dụng: {{availableCredit}}",
+  "memberMaxCreditHint": "Hạn Mức Tín Dụng Tối Đa Của Member Cấp Bởi Cấp Trên: {{memberMaxCredit}}"
 }
