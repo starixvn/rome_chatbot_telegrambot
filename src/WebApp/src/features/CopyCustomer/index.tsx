@@ -132,10 +132,10 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
 
   const maxCredit = creditInfo?.maxCredit ?? 0;
   let maxGivenCreditPerAccount = maxCredit / numberAccounts;
-  let creditHint = t("creditHint", { availableCredit: maxCredit });
+  let creditHint = t("creditHint", { availableCredit: formatThousandNumber(maxCredit) });
 
   if (user.customerLevel === Agent && creditInfo?.memberMaxCredit) {
-    creditHint = `${creditHint}<br>${t("memberMaxCreditHint", { memberMaxCredit: creditInfo.memberMaxCredit })}`;
+    creditHint = `${creditHint}\n${t("memberMaxCreditHint", { memberMaxCredit: formatThousandNumber(creditInfo.memberMaxCredit) })}`;
     maxGivenCreditPerAccount = Math.min(maxGivenCreditPerAccount, creditInfo.memberMaxCredit);
   }
 
@@ -222,13 +222,15 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
             }}
             rules={{ min: 0, max: maxGivenCreditPerAccount, required: true }}
           />
-          <div className={styles.credit}>
-            {t("Min")}: <strong>0</strong> - {t("Max")}: <strong>{formatThousandNumber(maxGivenCreditPerAccount)}</strong>
-            <div className={styles.info}>
-              <IconCredit />
-              <Tooltip message={creditHint} position="bottom" />
+          {existedSourceAccount && (
+            <div className={styles.credit}>
+              {t("Min")}: <strong>0</strong> - {t("Max")}: <strong>{formatThousandNumber(maxGivenCreditPerAccount)}</strong>
+              <div className={styles.info}>
+                <IconCredit />
+                <Tooltip message={creditHint} position="bottom" />
+              </div>
             </div>
-          </div>
+          )}
 
           {user.customerLevel === Master && (
             <>
