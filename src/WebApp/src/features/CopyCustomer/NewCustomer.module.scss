@@ -35,4 +35,21 @@
       font-family: var(--font-700);
     }
   }
+
+  .info {
+    position: relative;
+    margin-left: 5px;
+    display: inline-block;
+    vertical-align: middle;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    [data-tooltip]::before {
+      min-width: auto;
+      white-space: pre;
+      left: 50px;
+    }
+  }
 }

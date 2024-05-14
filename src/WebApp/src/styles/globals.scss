@@ -47,6 +47,10 @@
 
   --border-color: #d1d1d1;
   --bg-color: #d1d1d1;
+
+  //icon
+  --bg-icon: #333;
+  --color-icon: #fff;
 }
 
 body {
@@ -142,14 +146,14 @@ textarea {
   font-family: var(--font-500);
   text-transform: uppercase;
   outline: none;
-  &.width-auto{
+  &.width-auto {
     width: auto;
   }
-  &.mt-0{
+  &.mt-0 {
     margin-top: 0;
   }
 }
-.btn-cancel{
+.btn-cancel {
   width: 100%;
   margin-top: 12px;
   padding: 8px 16px;
@@ -160,10 +164,10 @@ textarea {
   font-family: var(--font-500);
   text-transform: uppercase;
   outline: none;
-  &.width-auto{
+  &.width-auto {
     width: auto;
   }
-  &.mt-0{
+  &.mt-0 {
     margin-top: 0;
   }
 }
@@ -177,14 +181,14 @@ textarea {
   text-align: left;
 }
 
-.text-center { 
+.text-center {
   text-align: center;
   align-items: center;
   align-content: center;
 }
 
 .format-negative {
-    color: #b50000;
+  color: #b50000;
 }
 
 .div-center {
@@ -206,19 +210,20 @@ textarea {
 }
 
 .text-note {
-  color: #DD3333;
+  color: #dd3333;
 }
 
-.txt-blue { 
-  color: #0B599C;
+.txt-blue {
+  color: #0b599c;
 }
 
 .col-status {
-  &.failed, &.cancelled {
-      color: #A11515;
+  &.failed,
+  &.cancelled {
+    color: #a11515;
   }
 
   &.completed {
-      color: #2E9E60;
+    color: #2e9e60;
   }
 }

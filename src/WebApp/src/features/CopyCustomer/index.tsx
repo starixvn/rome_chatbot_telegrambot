@@ -16,7 +16,9 @@ import { CustomerCredit } from "@components/Customer/SearchCustomer";
 import { NumberInputField, PasswordField } from "@components/Form/Inputs";
 import { Label } from "@components/Form/Label";
 import { SingleSelect } from "@components/Form/Select";
+import { IconCredit } from "@components/Icons";
 import Message, { MessageContent } from "@components/Message";
+import { Tooltip } from "@components/Tooltip";
 
 import styles from "./NewCustomer.module.scss";
 import Result from "./Result";
@@ -130,8 +132,10 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
 
   const maxCredit = creditInfo?.maxCredit ?? 0;
   let maxGivenCreditPerAccount = maxCredit / numberAccounts;
+  let creditHint = t("creditHint", { availableCredit: formatThousandNumber(maxCredit) });
 
   if (user.customerLevel === Agent && creditInfo?.memberMaxCredit) {
+    creditHint = `${creditHint}\n${t("memberMaxCreditHint", { memberMaxCredit: formatThousandNumber(creditInfo.memberMaxCredit) })}`;
     maxGivenCreditPerAccount = Math.min(maxGivenCreditPerAccount, creditInfo.memberMaxCredit);
   }
 
@@ -212,16 +216,21 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
                   onBlur={handleOnBlur}
                   max={maxGivenCreditPerAccount}
                   placeholder="0"
-                  messError={existedSourceAccount ? t("formError.credit", { max: formatThousandNumber(Number(maxGivenCreditPerAccount.toFixed(2))) }) : ""}
+                  messError={existedSourceAccount ? t("formError.credit", { max: formatThousandNumber(maxGivenCreditPerAccount) }) : ""}
                 />
               );
             }}
             rules={{ min: 0, max: maxGivenCreditPerAccount, required: true }}
           />
-          <div className={styles.credit}>
-            {t("creditNote")}
-            <span>{formatThousandNumber(maxCredit)}</span>
-          </div>
+          {existedSourceAccount && (
+            <div className={styles.credit}>
+              {t("Min")}: <strong>0</strong> - {t("Max")}: <strong>{formatThousandNumber(maxGivenCreditPerAccount)}</strong>
+              <div className={styles.info}>
+                <IconCredit />
+                <Tooltip message={creditHint} position="bottom" />
+              </div>
+            </div>
+          )}
 
           {user.customerLevel === Master && (
             <>
@@ -239,6 +248,9 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
                 )}
                 rules={{ min: 0, max: maxMemberCredit, required: true }}
               />
+              <div className={styles.credit}>
+                {t("Min")}: <strong>0</strong> - {t("Max")}: <strong>{formatThousandNumber(maxMemberCredit)}</strong>
+              </div>
             </>
           )}
           <div className={styles.row}>
