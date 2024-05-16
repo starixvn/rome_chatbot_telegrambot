@@ -54,6 +54,8 @@ export const config = {
   matcher: [
     "/newcustomer", 
     "/viewautotransfermonitor", 
-    "/editautotransfer"
+    "/editautotransfer",
+    "/totalbets",
+    "/totalbetsdetails"
   ],
 };

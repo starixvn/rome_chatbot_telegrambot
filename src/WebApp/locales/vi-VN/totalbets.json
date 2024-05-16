@@ -1,0 +1,19 @@
+{
+  "headerTotalBets": "Bóng Đá / Top 10 Trận Tiền Cược Cao Nhất",
+  "headerTotalBetsDetails": "Bóng Đá / Tổng Cược",
+  "loading": "Đang tải...",
+  "turnover": "Tiền Cược",
+  "noInformationIsAvailable": "Thông tin chưa được cập nhật",
+  "back": "Trở lại",
+  "memberTurnover": "Tiền Cược Member",
+  "home": "Đội Nhà",
+  "away": "Đội Khách",
+  "draw": "Hòa",
+  "over": "Tài",
+  "under": "Xỉu",
+  "others": "Thể loại khác",
+  "live": "Trực Tiếp",
+  "note": "Ghi chú",
+  "gmt8Note": "Thời gian trên được hiển thị theo GMT+8",
+  "detailsNotAvailable": "Trận đấu này đã kết thúc. Tổng Cược hiện không còn khả dụng cho trận đấu này."
+}

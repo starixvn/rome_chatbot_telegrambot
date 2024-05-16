@@ -37,12 +37,12 @@ type MonitorDataViewModel = {
 
 export const AutoTransferMonitorPage = ({ user, ...props }: AutoTransferMonitorViewModel) => {
   const adbtChangedCode = 108;
-  const router = useRouter();
+  const router = useRouter(); 
   const methods = useForm<IFormInputs>({
     mode: "onSubmit",
     defaultValues: { username: "", status: "" },
     shouldFocusError: false,
-  });
+  }); 
 
   const { formState, handleSubmit, control } = methods;
   const { t } = useTranslation("viewautotransfermonitor");

@@ -24,6 +24,8 @@ public class WebAppBuilderFactory : IWebAppBuilderFactory
                 return new ViewAutoTransferMonitorWebAppBuilder(webAppUrls);
             case ActionIds.EditAutoTransfer:
                 return new EditAutoTransferWebAppBuilder(webAppUrls);
+            case ActionIds.TotalBets:
+                return new TotalBetsWebAppBuilder(webAppUrls);
             default:
                 throw new InvalidOperationException($"Test ActionId: {actionId}");
         }

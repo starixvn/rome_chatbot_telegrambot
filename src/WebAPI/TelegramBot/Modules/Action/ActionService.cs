@@ -197,9 +197,17 @@ namespace TelegramBot.Modules.Action
 
             foreach (var action in rootActions)
             {
-                var builder = actionNameBuilderFactory.GetBuilder(action.ActionId);
-                var actionName = await builder.BuildActionName(action, account);
-                buttons.Add(new MessageButton(actionName, JsonConvert.SerializeObject(new { Id = action.ActionId, cmd = action.IsEndAction ? action.Command : string.Empty })));
+                switch(action.ActionId ) {
+                    case ActionIds.TotalBets:
+                        var webBuilder = webAppBuilderFactory.GetBuilder(action.ActionId);
+                        buttons.Add(new MessageButton(text: Unicode.Soccer + await GetActionName(action, account), webAppInfo: webBuilder.BuildWebAppInfo(account)));
+                        break;
+                    default:
+                        var builder = actionNameBuilderFactory.GetBuilder(action.ActionId);
+                        var actionName = await builder.BuildActionName(action, account);
+                        buttons.Add(new MessageButton(actionName, JsonConvert.SerializeObject(new { Id = action.ActionId, cmd = action.IsEndAction ? action.Command : string.Empty })));
+                        break;
+                }
             }
 
             return buttons;

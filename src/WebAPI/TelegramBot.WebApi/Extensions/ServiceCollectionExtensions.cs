@@ -28,6 +28,7 @@ using TelegramBot.Modules.Notification;
 using TelegramBot.Modules.OTP;
 using TelegramBot.Modules.Resource;
 using TelegramBot.Modules.Setting;
+using TelegramBot.Modules.TotalBets;
 using TelegramBot.Shared.Caching;
 using TelegramBot.WebApi.Filters;
 
@@ -56,6 +57,7 @@ namespace TelegramBot.WebApi.Extensions
             services.AddSingleton<IWebAppBuilderFactory, WebAppBuilderFactory>();
             services.AddSingleton<IOTPService, OTPService>();
             services.AddSingleton<IAutoTransferHandler, AutoTransferHandler>();
+            services.AddSingleton<ITotalBetsHandler, TotalBetsHandler>();
             services.AddFunctionHandlers();
 
             return services;

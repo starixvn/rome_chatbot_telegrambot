@@ -41,5 +41,6 @@
   "off": "关闭",
   "autoTransfer_InfoCannotTransfer": "为确保自动转账过程中数据的准确性，您不能向已启用自动转账的下线进行转账。",
   "confirmUpdateAutoTransfer": "您想要更新這些账号的自动转账：",
+  "back": "退回",
   "backToMainPage" : "返回主要页面"
 }
