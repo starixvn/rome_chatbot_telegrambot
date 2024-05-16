@@ -212,7 +212,7 @@ export const TotalBetsDetails = ({
                           return (
                             <>
                             {t.homeTO > 0 && <div className={styles["item"]}>
-                              <div>{t.teamHDP==hdpTeams.away ? '+' : '-'}{parseFloat(t.hdp)}</div>
+                              <div>{parseFloat(t.hdp) == 0 ? '' : t.teamHDP==hdpTeams.away ? '+' : '-'}{parseFloat(t.hdp)}</div>
                               <div><strong>{formatTurnover(t.homeTO)}</strong></div>
                             </div>}
                             </>
@@ -230,7 +230,7 @@ export const TotalBetsDetails = ({
                           return (
                             <>
                             {t.awayTO > 0 && <div className={styles["item"]}>
-                              <div>{t.teamHDP==hdpTeams.away ? '-' : '+'}{parseFloat(t.hdp)}</div>
+                              <div>{parseFloat(t.hdp) == 0 ? '' : t.teamHDP==hdpTeams.away ? '-' : '+'}{parseFloat(t.hdp)}</div>
                               <div><strong>{formatTurnover(t.awayTO)}</strong></div>
                             </div>}
                             </>
