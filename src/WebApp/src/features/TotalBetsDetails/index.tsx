@@ -133,7 +133,7 @@ export const TotalBetsDetails = ({
                 for(let i=0; i<to.length; i++) {
                   const t = to[i];
                   overTotal += t.overTO;
-                  underTotal = t.underTO;
+                  underTotal += t.underTO;
                 }
                 
                 return (
@@ -190,7 +190,7 @@ export const TotalBetsDetails = ({
                 for(let i=0; i<to.length; i++) {
                   const t = to[i];
                   homeTotal += t.homeTO;
-                  awayTotal = t.awayTO;
+                  awayTotal += t.awayTO;
                 }
 
                 return (
