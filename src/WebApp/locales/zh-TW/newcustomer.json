@@ -11,7 +11,10 @@
     "usernames": "用戶名",
     "fail": "{{failAccounts}} 賬號創建失敗",
     "failReason": "失敗原因",
-    "createMore": "創建更多"
+    "createMore": "創建更多",
+    "compactCopy": "Compact Copy",
+    "individualCopy": "Individual Copy",
+    "introCopyFeature": "Share the account details by clicking on \"Copy\"."
   },
   "note": "注意：設定將與原始賬號保持相同",
   "sourceAccount": "賬號來源。",
@@ -31,5 +34,7 @@
   "Min": "最低",
   "Max": "最高",
   "creditHint": "可用信用額: {{availableCredit}}",
-  "memberMaxCreditHint": "您的上線已設置會員最高信用: {{memberMaxCredit}}"
+  "memberMaxCreditHint": "您的上線已設置會員最高信用: {{memberMaxCredit}}",
+  "credit": "Credit",
+  "domain": "Domain"
 }

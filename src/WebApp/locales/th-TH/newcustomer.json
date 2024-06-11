@@ -11,7 +11,10 @@
     "usernames": "ชื่อผู้ใช้",
     "fail": "สร้างไม่สำเร็จ {{failAccounts}} บัญชี",
     "failReason": "สาเหตุที่ไม่สำเร็จ",
-    "createMore": "สร้างเพิ่ม"
+    "createMore": "สร้างเพิ่ม",
+    "compactCopy": "Compact Copy",
+    "individualCopy": "Individual Copy",
+    "introCopyFeature": "Share the account details by clicking on \"Copy\"."
   },
   "note": "หมายเหตุ : การตั้งค่าต่างๆ จะใช้ค่าเดียวกันกับบัญชีต้นทาง",
   "sourceAccount": "บัญชีต้นทาง",
@@ -31,5 +34,7 @@
   "Min": "ต่ำสุด",
   "Max": "สูงสุด",
   "creditHint": "ยอดคงเหลือที่ใช้ได้: {{availableCredit}}",
-  "memberMaxCreditHint": "เครดิตสมาชิกสูงสุดที่กำหนดโดยอัพไลน์ของคุณ: {{memberMaxCredit}}"
+  "memberMaxCreditHint": "เครดิตสมาชิกสูงสุดที่กำหนดโดยอัพไลน์ของคุณ: {{memberMaxCredit}}",
+  "credit": "Credit",
+  "domain": "Domain"
 }

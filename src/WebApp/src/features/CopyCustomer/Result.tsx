@@ -10,15 +10,57 @@ import { formatThousandNumber } from "src/helpers/number";
 
 type Props = {
   usernames?: string[];
+  domains?: string[];
   message?: string;
   credit?: number;
   failAccounts?: number;
   handleContinue?: () => void;
 };
+const formatDomainList=(domains: string[] | undefined)=> {
+  if (!domains) {
+    return "";
+  }
 
-const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, handleContinue }) => {
+  return domains.length < 4
+    ? domains.join(', ')
+    : `${domains.slice(0, 3).join(', ')}`;
+}
+
+function CopyToClipboardV2(text: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    if (window.navigator["clipboard"] && window.isSecureContext) {
+      window.navigator["clipboard"].writeText(text)
+        .then(() => resolve(true))  // Resolve on success
+        .catch(err => {
+          console.error("Navigator Clipboard API error:", err);
+          reject(false);  // Reject on error
+        });
+    } else {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.display = "none";
+
+      document.body.prepend(textArea);
+      textArea.select();
+
+      try {
+        document.execCommand('copy');
+        resolve(true);  // Resolve on success with fallback method
+      } catch (error) {
+        console.error("Fallback copy error:", error);
+        reject(false);  // Reject on error
+      } finally {
+        textArea.remove();
+      }
+    }
+  });
+}
+
+const Result: React.FC<Props> = ({ usernames,domains, failAccounts, credit, message, handleContinue }) => {
   const { t } = useTranslation("newcustomer");
   const successAccounts = usernames?.join(", ");
+  const formatCredit = formatThousandNumber(Number(credit));
+  const formattedDomains = formatDomainList(domains);
   const [isCopied, setIsCopied] = useState(false);
 
   const handleAllAccounts = () => {
@@ -27,23 +69,33 @@ const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, han
       setTimeout(() => setIsCopied(false), 3000);
     }
   };
+  const userInfo = (username: string , credit: string, domains: string) => {
+    return `${t("username")}: ${username}\n${t("credit")}: ${credit}\n${t("domain")}: ${domains}\n`;
+  }
 
   return (
     <div className={styles.result}>
       <>
         <Message message={`${t("result.success", { no: usernames?.length })}`} isError={false} />
+        <div><span style={{color: "red"}}>*</span> {t("result.introCopyFeature")}</div>
+
+        <button onClick={()=>CopyToClipboardV2(userInfo(usernames?.join(", ") || "", formatCredit, formattedDomains))}>
+          {t("result.compactCopy")}
+        </button>
+        <button onClick={()=>CopyToClipboardV2(usernames?.map(name => userInfo(name, formatCredit, formattedDomains)).join("\n") || "")}>
+          {t("result.individualCopy")}
+        </button>
+
         <p>{t("result.usernames")}:</p>
         <div className={styles.copy}>
           <textarea rows={3} readOnly defaultValue={successAccounts}></textarea>
-          <CopyToClipboard text={successAccounts || ""}>
-            <div className={cn(styles.icon, { [styles.show]: isCopied })} onClick={handleAllAccounts}>
-              <div className={styles["icon-copy"]}>{isCopied ? <CopiedICon width={16} height={16} /> : <CopyICon width={16} height={16} />}</div>
-              <Tooltip message={t("copied")} position="top" />
-            </div>
-          </CopyToClipboard>
         </div>
-        <p>{t("givenCreditPerAccount")}</p>
-        <input value={formatThousandNumber(Number(credit))} readOnly />
+
+        <p>{t("givenCreditPerAccount")}:</p>
+        <input value={formatCredit} readOnly />
+
+        <p>{t("domain")}:</p>
+        <textarea rows={3} readOnly defaultValue={formattedDomains}></textarea>
       </>
       {failAccounts && failAccounts > 0 ? (
         <>
