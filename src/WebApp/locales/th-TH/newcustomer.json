@@ -12,9 +12,9 @@
     "fail": "สร้างไม่สำเร็จ {{failAccounts}} บัญชี",
     "failReason": "สาเหตุที่ไม่สำเร็จ",
     "createMore": "สร้างเพิ่ม",
-    "compactCopy": "Compact Copy",
-    "individualCopy": "Individual Copy",
-    "introCopyFeature": "Share the account details by clicking on \"Copy\"."
+    "compactCopy": "คัดลอกแบบรวบรัด",
+    "individualCopy": "คัดลอกรายบุคคล",
+    "introCopyFeature": "คลิก 'คัดลอก' เพื่อคัดลอกและแบ่งปันรายละเอียดบัญชี"
   },
   "note": "หมายเหตุ : การตั้งค่าต่างๆ จะใช้ค่าเดียวกันกับบัญชีต้นทาง",
   "sourceAccount": "บัญชีต้นทาง",

@@ -12,9 +12,9 @@
     "fail": "{{failAccounts}} 账号创建失败",
     "failReason": "失败原因",
     "createMore": "创建更多",
-    "compactCopy": "Compact Copy",
-    "individualCopy": "Individual Copy",
-    "introCopyFeature": "Share the account details by clicking on \"Copy\"."
+    "compactCopy": "简洁复制",
+    "individualCopy": "單一复制",
+    "introCopyFeature": "点击“复制”即可复制并分享账号详情"
   },
   "note": "注意：设定将与原始账号保持相同",
   "sourceAccount": "账号来源。",
