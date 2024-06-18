@@ -6,6 +6,7 @@ using TelegramBot.Modules.Message;
 using TelegramBot.Modules.Setting;
 using TelegramBot.Shared.Models;
 using TelegramBot.WebApi.Params;
+using TelegramBot.Modules.Command.Models;
 
 namespace TelegramBot.WebApi.Filters
 {
@@ -43,8 +44,18 @@ namespace TelegramBot.WebApi.Filters
             if (context.ActionArguments.ContainsKey(ParamName) && context.ActionArguments[ParamName] is CommandParam param)
             {
                 var bot = await botService.GetAsync(param.MessengerBotId);
+                var messenger = new Messenger(bot.BotId, param.ChatId);
                 var account = await settingService.GetCustBotAccount(param.ChatId, bot.BotId);
+
                 if (account == null)
+                {
+                    var introMessage = messageBuilder.BuildIntroductionMessage(bot.System);
+                    await messageSender.SendMessage(messenger, introMessage);
+                    return;
+                }
+
+                var callbackData = CovertToCallbackData(param.Message);
+                if ((callbackData != null && callbackData.IsStopUsingChatbot) || param.Message.Split(' ')[0].Equals("/unlink"))
                 {
                     await base.OnActionExecutionAsync(context, next);
                     return;
@@ -57,7 +68,6 @@ namespace TelegramBot.WebApi.Filters
                     return;
                 }
 
-                var messenger = new Messenger(bot.BotId, param.ChatId);
                 if (accountStatus.IsLocked)
                 {
                     var message = messageBuilder.BuildAccountLockedMessage(account.Language);
@@ -74,6 +84,18 @@ namespace TelegramBot.WebApi.Filters
             }
 
             await base.OnActionExecutionAsync(context, next);
+        }
+
+        private CallbackData CovertToCallbackData(string message)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<CallbackData>(message);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
