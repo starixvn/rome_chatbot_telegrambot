@@ -16,7 +16,7 @@ type Props = {
   failAccounts?: number;
   handleContinue?: () => void;
 };
-const formatDomainList=(domains: string[] | undefined)=> {
+const formatDomainList = (domains: string[] | undefined) => {
   if (!domains) {
     return "";
   }
@@ -56,7 +56,7 @@ function CopyToClipboardV2(text: string): Promise<boolean> {
   });
 }
 
-const Result: React.FC<Props> = ({ usernames,domains, failAccounts, credit, message, handleContinue }) => {
+const Result: React.FC<Props> = ({ usernames, domains, failAccounts, credit, message, handleContinue }) => {
   const { t } = useTranslation("newcustomer");
   const successAccounts = usernames?.join(", ");
   const formatCredit = formatThousandNumber(Number(credit));
@@ -69,7 +69,7 @@ const Result: React.FC<Props> = ({ usernames,domains, failAccounts, credit, mess
       setTimeout(() => setIsCopied(false), 3000);
     }
   };
-  const userInfo = (username: string , credit: string, domains: string) => {
+  const userInfo = (username: string, credit: string, domains: string) => {
     return `${t("username")}: ${username}\n${t("credit")}: ${credit}\n${t("domain")}: ${domains}\n`;
   }
 
@@ -77,15 +77,15 @@ const Result: React.FC<Props> = ({ usernames,domains, failAccounts, credit, mess
     <div className={styles.result}>
       <>
         <Message message={`${t("result.success", { no: usernames?.length })}`} isError={false} />
-        <div><span style={{color: "red"}}>*</span> {t("result.introCopyFeature")}</div>
-
-        <button onClick={()=>CopyToClipboardV2(userInfo(usernames?.join(", ") || "", formatCredit, formattedDomains))}>
-          {t("result.compactCopy")}
-        </button>
-        <button onClick={()=>CopyToClipboardV2(usernames?.map(name => userInfo(name, formatCredit, formattedDomains)).join("\n") || "")}>
-          {t("result.individualCopy")}
-        </button>
-
+        <div className="mt-5"><span style={{ color: "red" }}>*</span> {t("result.introCopyFeature")}</div>
+        <div className="mt-5">
+          <button className="btn-border mr-10" onClick={() => CopyToClipboardV2(userInfo(usernames?.join(", ") || "", formatCredit, formattedDomains))}>
+            {t("result.compactCopy")}
+          </button>
+          <button className="btn-border" onClick={() => CopyToClipboardV2(usernames?.map(name => userInfo(name, formatCredit, formattedDomains)).join("\n") || "")}>
+            {t("result.individualCopy")}
+          </button>
+        </div>
         <p>{t("result.usernames")}:</p>
         <div className={styles.copy}>
           <textarea rows={3} readOnly defaultValue={successAccounts}></textarea>
