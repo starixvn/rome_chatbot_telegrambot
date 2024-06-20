@@ -49,13 +49,19 @@ namespace TelegramBot.WebApi.Filters
 
                 if (account == null)
                 {
+                    if (IsLinkAction(param.Message))
+                    {
+                        await base.OnActionExecutionAsync(context, next);
+                        return;
+                    }
+
                     var introMessage = messageBuilder.BuildIntroductionMessage(bot.System);
                     await messageSender.SendMessage(messenger, introMessage);
                     return;
                 }
 
-                var callbackData = CovertToCallbackData(param.Message);
-                if ((callbackData != null && callbackData.IsStopUsingChatbot) || param.Message.Split(' ')[0].Equals("/unlink"))
+
+                if (IsLinkAction(param.Message) || IsUnlinkAction(param.Message))
                 {
                     await base.OnActionExecutionAsync(context, next);
                     return;
@@ -86,7 +92,19 @@ namespace TelegramBot.WebApi.Filters
             await base.OnActionExecutionAsync(context, next);
         }
 
-        private CallbackData CovertToCallbackData(string message)
+        private static bool IsLinkAction(string message)
+        {
+            var words = message!.Split(' ');
+            return words.Length == 2 && words[0].Equals("/start");
+        }
+
+        private static bool IsUnlinkAction(string message)
+        {
+            var callbackData = CovertToCallbackData(message);
+            return (callbackData != null && callbackData.IsStopUsingChatbot) || message.Split(' ')[0].Equals("/unlink");
+        }
+
+        private static CallbackData CovertToCallbackData(string message)
         {
             try
             {
