@@ -6,6 +6,7 @@ using TelegramBot.Modules.Message;
 using TelegramBot.Modules.Setting;
 using TelegramBot.Shared.Models;
 using TelegramBot.WebApi.Params;
+using TelegramBot.Modules.Command.Models;
 
 namespace TelegramBot.WebApi.Filters
 {
@@ -43,8 +44,24 @@ namespace TelegramBot.WebApi.Filters
             if (context.ActionArguments.ContainsKey(ParamName) && context.ActionArguments[ParamName] is CommandParam param)
             {
                 var bot = await botService.GetAsync(param.MessengerBotId);
+                var messenger = new Messenger(bot.BotId, param.ChatId);
                 var account = await settingService.GetCustBotAccount(param.ChatId, bot.BotId);
+
                 if (account == null)
+                {
+                    if (IsLinkAction(param.Message))
+                    {
+                        await base.OnActionExecutionAsync(context, next);
+                        return;
+                    }
+
+                    var introMessage = messageBuilder.BuildIntroductionMessage(bot.System);
+                    await messageSender.SendMessage(messenger, introMessage);
+                    return;
+                }
+
+
+                if (IsLinkAction(param.Message) || IsUnlinkAction(param.Message))
                 {
                     await base.OnActionExecutionAsync(context, next);
                     return;
@@ -57,7 +74,6 @@ namespace TelegramBot.WebApi.Filters
                     return;
                 }
 
-                var messenger = new Messenger(bot.BotId, param.ChatId);
                 if (accountStatus.IsLocked)
                 {
                     var message = messageBuilder.BuildAccountLockedMessage(account.Language);
@@ -74,6 +90,30 @@ namespace TelegramBot.WebApi.Filters
             }
 
             await base.OnActionExecutionAsync(context, next);
+        }
+
+        private static bool IsLinkAction(string message)
+        {
+            var words = message!.Split(' ');
+            return words.Length == 2 && words[0].Equals("/start");
+        }
+
+        private static bool IsUnlinkAction(string message)
+        {
+            var callbackData = CovertToCallbackData(message);
+            return (callbackData != null && callbackData.IsStopUsingChatbot) || message.Split(' ')[0].Equals("/unlink");
+        }
+
+        private static CallbackData CovertToCallbackData(string message)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<CallbackData>(message);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
