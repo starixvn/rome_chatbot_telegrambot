@@ -41,48 +41,7 @@
       font-weight: 500;
     }
   }
-
-  //.copy {
-  //  position: relative;
-  //  margin-top: 4px;
-  //  transition: 0.3s;
-  //
-  //  .icon {
-  //    position: absolute;
-  //    right: 12px;
-  //    top: 4px;
-  //
-  //    &:hover {
-  //      cursor: pointer;
-  //      box-shadow: 0 0 8px #555;
-  //    }
-  //
-  //    [data-tooltip]:before {
-  //      width: fit-content;
-  //      white-space: nowrap;
-  //      min-width: 30px;
-  //    }
-  //
-  //    [data-tooltip-position="top"]:before {
-  //      left: 0px;
-  //    }
-  //
-  //    [data-tooltip]:hover:before,
-  //    [data-tooltip]:hover:after {
-  //      display: none;
-  //    }
-  //  }
-  //
-  //  .show {
-  //    [data-tooltip]:hover:before,
-  //    [data-tooltip]:hover:after,
-  //    [data-tooltip]:before,
-  //    [data-tooltip]:after {
-  //      display: block;
-  //    }
-  //  }
-  //}
-
+  
   .fail {
     color: #fe0000;
   }

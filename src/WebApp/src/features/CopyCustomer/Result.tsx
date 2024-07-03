@@ -66,11 +66,11 @@ const Result: React.FC<Props> = ({ usernames, domains, failAccounts, credit, mes
 
   const showTooltipCompactCopy = () => {
     setCompactIsCopied(true);
-    setTimeout(() => setCompactIsCopied(false), 12000);
+    setTimeout(() => setCompactIsCopied(false), 1500);
   };
   const showTooltipIndividualCopy = () => {
     setIndividualIsCopied(true);
-    setTimeout(() => setIndividualIsCopied(false), 12000);
+    setTimeout(() => setIndividualIsCopied(false), 1500);
   };
   const userInfo = (username: string, credit: string, domains: string) => {
     return `${t("username")}: ${username}\n${t("credit")}: ${credit}\n${t("domain")}: ${domains}\n`;
@@ -82,13 +82,6 @@ const Result: React.FC<Props> = ({ usernames, domains, failAccounts, credit, mes
         <Message message={`${t("result.success", { no: usernames?.length })}`} isError={false} />
         <div className="mt-5"><span style={{ color: "red" }}>*</span> {t("result.introCopyFeature")}</div>
         <div className={cn("mt-5", styles["list-button"])}>
-          {/*<button className="btn-border mr-10" onClick={() => CopyToClipboardV2(userInfo(usernames?.join(", ") || "", formatCredit, formattedDomains))}>*/}
-          {/*  {t("result.compactCopy")}*/}
-          {/*</button>*/}
-          {/*<button className="btn-border" onClick={() => CopyToClipboardV2(usernames?.map(name => userInfo(name, formatCredit, formattedDomains)).join("\n") || "")}>*/}
-          {/*  {t("result.individualCopy")}*/}
-          {/*</button>*/}
-
           <CopyToClipboard text={userInfo(usernames?.join(", ") || "", formatCredit, formattedDomains)} options={{ format: "text/plain" }} onCopy={showTooltipIndividualCopy}>
             <div className={cn("btn-border mr-10", { [styles.show]: isIndividualCopied })}>
               <Tooltip message={t("copied")} position="top">{t("result.compactCopy")}</Tooltip >
