@@ -102,4 +102,41 @@
       display: block;
     }
   }
+
+  .list-button{
+    > div{
+      display: inline-block;
+      margin-right: 10px;
+      padding: 0;
+      &.show{
+        >div{
+          span{
+            &[data-tooltip]{
+              &:before, &:after{
+                display: block!important;
+              }
+            }
+          }
+        }
+      }
+      > div{
+        position: relative;
+        span{
+          &[data-tooltip]{
+            &:hover{
+              &:before, &:after{
+                display: none;
+              }
+            }
+            &:before{
+              min-width: calc(100% + 2px);
+              transform: translateX(0);
+              left: -1px;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }
 }

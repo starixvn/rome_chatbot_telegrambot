@@ -81,7 +81,7 @@ const Result: React.FC<Props> = ({ usernames, domains, failAccounts, credit, mes
       <>
         <Message message={`${t("result.success", { no: usernames?.length })}`} isError={false} />
         <div className="mt-5"><span style={{ color: "red" }}>*</span> {t("result.introCopyFeature")}</div>
-        <div className="mt-5 lst-btn-copy">
+        <div className={cn("mt-5", styles["list-button"])}>
           {/*<button className="btn-border mr-10" onClick={() => CopyToClipboardV2(userInfo(usernames?.join(", ") || "", formatCredit, formattedDomains))}>*/}
           {/*  {t("result.compactCopy")}*/}
           {/*</button>*/}
@@ -89,15 +89,15 @@ const Result: React.FC<Props> = ({ usernames, domains, failAccounts, credit, mes
           {/*  {t("result.individualCopy")}*/}
           {/*</button>*/}
 
-          <CopyToClipboard text={userInfo(usernames?.join(", ") || "", formatCredit, formattedDomains)} options={{format: "text/plain"}} onCopy={showTooltipIndividualCopy}>
-              <div className={cn("btn-border mr-10", { [styles.show]: isIndividualCopied })}>
-                <Tooltip message={t("copied")} position="top">{t("result.compactCopy")}</Tooltip >
-              </div>
+          <CopyToClipboard text={userInfo(usernames?.join(", ") || "", formatCredit, formattedDomains)} options={{ format: "text/plain" }} onCopy={showTooltipIndividualCopy}>
+            <div className={cn("btn-border mr-10", { [styles.show]: isIndividualCopied })}>
+              <Tooltip message={t("copied")} position="top">{t("result.compactCopy")}</Tooltip >
+            </div>
           </CopyToClipboard>
           <CopyToClipboard
             text={usernames?.map(name => userInfo(name, formatCredit, formattedDomains)).join("\n") || ""}
             options={{ format: "text/plain" }} onCopy={showTooltipCompactCopy}>
-            <div className={cn("btn-border", {[styles.show]: isCompactCopied})}>
+            <div className={cn("btn-border", { [styles.show]: isCompactCopied })}>
               <Tooltip message={t("copied")} position="top">{t("result.individualCopy")}</Tooltip>
             </div>
           </CopyToClipboard>
