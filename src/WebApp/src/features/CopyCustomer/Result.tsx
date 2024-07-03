@@ -95,7 +95,7 @@ const Result: React.FC<Props> = ({ usernames, domains, failAccounts, credit, mes
             </div>
           </CopyToClipboard>
         </div>
-        <p>{t("result.usernames")}:</p>
+        <p>{t("result.usernames")}</p>
         <div className={styles.copy}>
           <textarea rows={3} readOnly defaultValue={successAccounts}></textarea>
         </div>
