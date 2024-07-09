@@ -36,6 +36,6 @@
   "Max": "最高",
   "creditHint": "可用信用额: {{availableCredit}}",
   "memberMaxCreditHint": "您的上线已设置会员最高信用: {{memberMaxCredit}}",
-  "credit": "Credit",
-  "domain": "Domain"
+  "credit": "信用额度",
+  "domain": "域名"
 }

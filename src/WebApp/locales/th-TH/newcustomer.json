@@ -36,6 +36,6 @@
   "Max": "สูงสุด",
   "creditHint": "ยอดคงเหลือที่ใช้ได้: {{availableCredit}}",
   "memberMaxCreditHint": "เครดิตสมาชิกสูงสุดที่กำหนดโดยอัพไลน์ของคุณ: {{memberMaxCredit}}",
-  "credit": "Credit",
+  "credit": "เครดิต",
   "domain": "Domain"
 }

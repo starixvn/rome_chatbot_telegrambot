@@ -12,9 +12,9 @@
     "fail": "{{failAccounts}} tài khoản tạo không thành công.",
     "failReason": "Lý do thất bại",
     "createMore": "Tạo thêm",
-    "compactCopy": "Compact Copy",
-    "individualCopy": "Individual Copy",
-    "introCopyFeature": "Share the account details by clicking on \"Copy\"."
+    "compactCopy": "Sao chép gộp",
+    "individualCopy": "Sao chép lẻ",
+    "introCopyFeature": "Nhấn 'Sao chép' để sao chép và chia sẻ thông tin tài khoản"
   },
   "copied": "Đã lưu!",
   "note": "Lưu ý: Cài đặt sẽ giống như của tài khoản sao chép",
@@ -36,6 +36,6 @@
   "Max": "Lớn nhất",
   "creditHint": "Hạn mức khả dụng: {{availableCredit}}",
   "memberMaxCreditHint": "Hạn Mức Tín Dụng Tối Đa Của Member Cấp Bởi Cấp Trên: {{memberMaxCredit}}",
-  "credit": "Credit",
+  "credit": "Hạn mức tín dụng",
   "domain": "Domain"
 }
