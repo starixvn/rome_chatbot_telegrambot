@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import cn from "classnames";
-import { CopiedICon, CopyICon } from "@components/Icons";
 import Message from "@components/Message";
 import styles from "./Result.module.scss";
 import { Tooltip } from "@components/Tooltip";
@@ -25,36 +24,6 @@ const formatDomainList = (domains: string[] | undefined) => {
     ? domains.join(", ")
     : `${domains.slice(0, 3).join(", ")}`;
 };
-
-function CopyToClipboardV2(text: string): Promise<boolean> {
-  return new Promise((resolve, reject) => {
-    if (window.navigator["clipboard"] && window.isSecureContext) {
-      window.navigator["clipboard"].writeText(text)
-        .then(() => resolve(true))  // Resolve on success
-        .catch(err => {
-          console.error("Navigator Clipboard API error:", err);
-          reject(false);  // Reject on error
-        });
-    } else {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      textArea.style.display = "none";
-
-      document.body.prepend(textArea);
-      textArea.select();
-
-      try {
-        document.execCommand("copy");
-        resolve(true);  // Resolve on success with fallback method
-      } catch (error) {
-        console.error("Fallback copy error:", error);
-        reject(false);  // Reject on error
-      } finally {
-        textArea.remove();
-      }
-    }
-  });
-}
 
 const Result: React.FC<Props> = ({ usernames, domains, failAccounts, credit, message, handleContinue }) => {
   const { t } = useTranslation("newcustomer");
