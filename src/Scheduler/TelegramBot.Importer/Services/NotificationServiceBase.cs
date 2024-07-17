@@ -1,5 +1,6 @@
 using System.Text;
 using Fanex.Data.Repository;
+using Fanex.Logging;
 using TelegramBot.Importer.Criteria;
 using TelegramBot.Importer.Models;
 
@@ -10,7 +11,10 @@ public class NotificationServiceBase
     protected readonly IDynamicRepository dynamicRepository;
 
     protected NotificationServiceBase(IDynamicRepository dynamicRepository)
-        => this.dynamicRepository = dynamicRepository;
+    {
+        this.dynamicRepository = dynamicRepository;
+    }
+
 
     protected async Task<Result> ExecuteNonQuery(NonQueryCommandBase command)
     {
@@ -25,7 +29,14 @@ public class NotificationServiceBase
 
         foreach (var item in notifications)
         {
-            xmlData.Append(item.ToXml());
+            if (item != null)
+            {
+                xmlData.Append(item.ToXml());
+            }
+            else
+            {
+                Logger.Log.Warn("Notification is NULL");
+            }
         }
 
         return BuildXmlRoot(xmlData);
