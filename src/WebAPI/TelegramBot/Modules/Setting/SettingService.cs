@@ -177,7 +177,7 @@ namespace TelegramBot.Modules.Setting
                 return null;
             }
 
-            custBotMessenger.Functions = await GetAccountFunctions(custId, subAccId, functions, custBotMessenger.System);
+            custBotMessenger.Functions = await GetAccountFunctions(custId, subAccId, functions, custBotMessenger.System, custBotMessenger.CustomerLevel);
             foreach (var function in custBotMessenger.Functions)
             {
                 function.FunctionName = await _functionService.GetFunctionName(function.FunctionId, language);
@@ -198,7 +198,11 @@ namespace TelegramBot.Modules.Setting
         }
 
         private async Task<IEnumerable<BotFunction>> GetAccountFunctions(
-            int custId, int subAccId, IEnumerable<BotFunction> functions, string system)
+            int custId, 
+            int subAccId, 
+            IEnumerable<BotFunction> functions, 
+            string system,
+            byte custLevel)
         {
             functions = functions.Concat(await _functionService.GetReportAndCommonFunctions());
 
@@ -208,9 +212,9 @@ namespace TelegramBot.Modules.Setting
             {
                 var customerStatus = await _customerService.GetCustomerStatus(custId, subAccId);
                 var functionPermissions = _webAPIConfiguration.FunctionPermissions;
-                functions = functions.Where(f => IsAllowFunction(f, customerStatus, functionPermissions, isADBT, system));
+                functions = functions.Where(f => IsAllowFunction(f, customerStatus, functionPermissions, isADBT, system, custLevel));
             } else {
-                functions = functions.Where(f => IsAllowFunction(f, null, new Dictionary<string,string> { }, isADBT, system));
+                functions = functions.Where(f => IsAllowFunction(f, null, new Dictionary<string,string> { }, isADBT, system, custLevel));
             }
 
             return functions;
@@ -221,13 +225,16 @@ namespace TelegramBot.Modules.Setting
             CustomerStatus customerStatus, 
             IDictionary<string, string> functionPermissions,
             bool isADBT,
-            string system) {
+            string system,
+            byte custLevel) {
             var isAllow = !functionPermissions.ContainsKey(f.FunctionKey)
                 || customerStatus.PageAccess.Contains(functionPermissions[f.FunctionKey]);
             switch(f.FunctionKey) {
                 case "AutoTransferSettings":
                 case "AutoTransferAlert":
                     return isAllow && !isADBT && system != "789Y";
+                case "LastBetsAlert":
+                    return isAllow && custLevel == (byte)CustomerLevel.Agent;
                 default:
                     return isAllow;
             }
@@ -260,7 +267,7 @@ namespace TelegramBot.Modules.Setting
             var account = accounts.FirstOrDefault();
             if (account != null)
             {
-                account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, functions, account.System);
+                account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, functions, account.System, account.CustomerLevel);
                 account.SiteDBGroupIp = await GetSiteDBGroupIp(account.CustId);
             }
 

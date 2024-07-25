@@ -750,5 +750,49 @@ namespace TelegramBot.Importer.Resources
                 return ResourceManager.GetString("AutoTransfer_CancelledCusts", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LastBets_Title.
+        /// </summary>
+        public static string LastBets_Title
+        {
+            get
+            {
+                return ResourceManager.GetString("LastBets_Title", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to LastBets_FiltersTitle.
+        /// </summary>
+        public static string LastBets_FiltersTitle
+        {
+            get
+            {
+                return ResourceManager.GetString("LastBets_FiltersTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to LastBets_FilterResult.
+        /// </summary>
+        public static string LastBets_FilterResult
+        {
+            get
+            {
+                return ResourceManager.GetString("LastBets_FilterResult", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to LastBets_ViewDetails.
+        /// </summary>
+        public static string LastBets_ViewDetails
+        {
+            get
+            {
+                return ResourceManager.GetString("LastBets_ViewDetails", resourceCulture);
+            }
+        }
     }
 }

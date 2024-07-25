@@ -1,3 +1,6 @@
 namespace TelegramBot.Importer.Models.SystemSettings;
 
-public record SystemSettingEntity(string SettingName, string Value);
+public record SystemSettingEntity {
+    public string SettingName {get; set;} 
+    public string Value {get; set;} 
+}

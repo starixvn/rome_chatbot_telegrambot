@@ -365,4 +365,20 @@
     <value>已取消转账的账号</value>
     <comment/>
   </data>
+  <data name="LastBets_Title" xml:space="preserve">
+    <value>体育博彩最后投注</value>
+    <comment/>
+  </data>
+  <data name="LastBets_FiltersTitle" xml:space="preserve">
+    <value>符合您的筛选的新注单：</value>
+    <comment/>
+  </data>
+  <data name="LastBets_FilterResult" xml:space="preserve">
+    <value>{0} 注单</value>
+    <comment/>
+  </data>
+  <data name="LastBets_ViewDetails" xml:space="preserve">
+    <value>在最后投注查看详细信息</value>
+    <comment/>
+  </data>
 </root>

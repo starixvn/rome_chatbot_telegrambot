@@ -365,4 +365,20 @@
     <value>已取消轉帳的帳號</value>
     <comment/>
   </data>
+  <data name="LastBets_Title" xml:space="preserve">
+    <value>體育博彩最後投注</value>
+    <comment/>
+  </data>
+  <data name="LastBets_FiltersTitle" xml:space="preserve">
+    <value>符合您的篩選的新注單：</value>
+    <comment/>
+  </data>
+  <data name="LastBets_FilterResult" xml:space="preserve">
+    <value>{0} 注單</value>
+    <comment/>
+  </data>
+  <data name="LastBets_ViewDetails" xml:space="preserve">
+    <value>在最後投注查看詳細信息</value>
+    <comment/>
+  </data>
 </root>

@@ -365,4 +365,20 @@
     <value>Accounts With Cancelled Transfers</value>
     <comment/>
   </data>
+  <data name="LastBets_Title" xml:space="preserve">
+    <value>Sportsbook Cược Gần Nhất</value>
+    <comment/>
+  </data>
+  <data name="LastBets_FiltersTitle" xml:space="preserve">
+    <value>Vé cược mới khớp với bộ lọc của bạn:</value>
+    <comment/>
+  </data>
+  <data name="LastBets_FilterResult" xml:space="preserve">
+    <value>{0} vé</value>
+    <comment/>
+  </data>
+  <data name="LastBets_ViewDetails" xml:space="preserve">
+    <value>Xem chi tiết trong Cược Gần Nhất</value>
+    <comment/>
+  </data>
 </root>

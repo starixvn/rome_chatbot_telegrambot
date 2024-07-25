@@ -104,17 +104,15 @@ public sealed class YesterdayNonEnteredJob : NotificationBaseJob
 
         var notifications = new List<Notification>();
 
-        Parallel.ForEach(
-            query,
-            (customer, _) =>
-            {
-                var notification = BuildYesterdayNonEnteredNotification(job, customer, enteredResult);
+        foreach (var customer in query)
+        {
+            var notification = BuildYesterdayNonEnteredNotification(job, customer, enteredResult);
 
-                if (notification != null)
-                {
-                    notifications.Add(notification);
-                }
-            });
+            if (notification != null)
+            {
+                notifications.Add(notification);
+            }
+        }
 
         return notifications;
     }

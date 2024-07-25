@@ -45,6 +45,19 @@ public static class TemplateHelper
         ? new XAttribute("__n", text).ToString().Substring(attrSubStringLength).TrimEnd('\"')
         : new XElement("t", text).LastNode.ToString();
 
+    public static string FormatRow(string left, string right, int rowLength, string language)
+    {
+       var paddingLength = language switch
+        {
+            LanguageCode.ChineseSimplified or LanguageCode.ChineseTraditional => rowLength - left.Length * 2 - right.Length * 2,
+            LanguageCode.Thai => rowLength -  TemplateHelper.ThaiLength(left) - TemplateHelper.ThaiLength(right),
+            _ => rowLength - left.Length - right.Length,
+        };
+            
+
+        return $"{left}{" ".PadLeft(paddingLength > 0 ? paddingLength : 0)} {right}";
+    }
+
     private static int ThaiLength(string text)
     {
         int c = 0;

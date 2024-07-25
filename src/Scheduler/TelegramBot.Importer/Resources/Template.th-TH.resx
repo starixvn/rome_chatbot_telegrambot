@@ -365,4 +365,20 @@
     <value>บัญชีที่มีการโอนที่ถูกยกเลิก</value>
     <comment/>
   </data>
+  <data name="LastBets_Title" xml:space="preserve">
+    <value>ตั๋วเดิมพันกีฬาล่าสุด</value>
+    <comment/>
+  </data>
+  <data name="LastBets_FiltersTitle" xml:space="preserve">
+    <value>ตั๋วเดิมพันใหม่ตรงกับตัวกรองของคุณ:</value>
+    <comment/>
+  </data>
+  <data name="LastBets_FilterResult" xml:space="preserve">
+    <value>จำนวน {0} ตั๋ว</value>
+    <comment/>
+  </data>
+  <data name="LastBets_ViewDetails" xml:space="preserve">
+    <value>ดูรายละเอียดในการเดิมพันล่าสุด</value>
+    <comment/>
+  </data>
 </root>
