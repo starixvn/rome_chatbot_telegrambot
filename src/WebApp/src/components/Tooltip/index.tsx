@@ -6,12 +6,13 @@ type Position = "top" | "bottom";
 type Props = {
   position: Position;
   message?: string;
+  children?: React.ReactNode;
 };
 
-export const Tooltip = ({ position, message = "" }: Props) => {
+export const Tooltip = ({ position, message = "", children }: Props) => {
   return (
     <div className={styles.tooltip}>
-      <span data-tooltip={message} data-tooltip-position={position}></span>
+      <span data-tooltip={message} data-tooltip-position={position}>{children}</span>
     </div>
   );
 };

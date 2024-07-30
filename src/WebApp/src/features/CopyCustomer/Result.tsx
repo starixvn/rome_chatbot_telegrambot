@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import cn from "classnames";
-import { CopiedICon, CopyICon } from "@components/Icons";
 import Message from "@components/Message";
 import styles from "./Result.module.scss";
 import { Tooltip } from "@components/Tooltip";
@@ -10,40 +9,71 @@ import { formatThousandNumber } from "src/helpers/number";
 
 type Props = {
   usernames?: string[];
+  domains?: string[];
   message?: string;
   credit?: number;
   failAccounts?: number;
   handleContinue?: () => void;
 };
+const formatDomainList = (domains: string[] | undefined) => {
+  if (!domains) {
+    return "";
+  }
 
-const Result: React.FC<Props> = ({ usernames, failAccounts, credit, message, handleContinue }) => {
+  return domains.length < 4
+    ? domains.join(", ")
+    : `${domains.slice(0, 3).join(", ")}`;
+};
+
+const Result: React.FC<Props> = ({ usernames, domains, failAccounts, credit, message, handleContinue }) => {
   const { t } = useTranslation("newcustomer");
   const successAccounts = usernames?.join(", ");
-  const [isCopied, setIsCopied] = useState(false);
+  const formatCredit = formatThousandNumber(Number(credit));
+  const formattedDomains = formatDomainList(domains);
+  const [isCompactCopied, setCompactIsCopied] = useState(false);
+  const [isIndividualCopied, setIndividualIsCopied] = useState(false);
 
-  const handleAllAccounts = () => {
-    if (!isCopied) {
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 3000);
-    }
+  const showTooltipCompactCopy = () => {
+    setCompactIsCopied(true);
+    setTimeout(() => setCompactIsCopied(false), 1500);
+  };
+  const showTooltipIndividualCopy = () => {
+    setIndividualIsCopied(true);
+    setTimeout(() => setIndividualIsCopied(false), 1500);
+  };
+  const userInfo = (username: string, credit: string, domains: string) => {
+    return `${t("username")}: ${username}\n${t("credit")}: ${credit}\n${t("domain")}: ${domains}\n`;
   };
 
   return (
     <div className={styles.result}>
       <>
         <Message message={`${t("result.success", { no: usernames?.length })}`} isError={false} />
-        <p>{t("result.usernames")}:</p>
-        <div className={styles.copy}>
-          <textarea rows={3} readOnly defaultValue={successAccounts}></textarea>
-          <CopyToClipboard text={successAccounts || ""}>
-            <div className={cn(styles.icon, { [styles.show]: isCopied })} onClick={handleAllAccounts}>
-              <div className={styles["icon-copy"]}>{isCopied ? <CopiedICon width={16} height={16} /> : <CopyICon width={16} height={16} />}</div>
-              <Tooltip message={t("copied")} position="top" />
+        <div className="mt-5"><span style={{ color: "red" }}>*</span> {t("result.introCopyFeature")}</div>
+        <div className={cn("mt-5", styles["list-button"])}>
+          <CopyToClipboard text={userInfo(usernames?.join(", ") || "", formatCredit, formattedDomains)} options={{ format: "text/plain" }} onCopy={showTooltipIndividualCopy}>
+            <div className={cn("btn-border mr-10", { [styles.show]: isIndividualCopied })}>
+              <Tooltip message={t("copied")} position="top">{t("result.compactCopy")}</Tooltip >
+            </div>
+          </CopyToClipboard>
+          <CopyToClipboard
+            text={usernames?.map(name => userInfo(name, formatCredit, formattedDomains)).join("\n") || ""}
+            options={{ format: "text/plain" }} onCopy={showTooltipCompactCopy}>
+            <div className={cn("btn-border", { [styles.show]: isCompactCopied })}>
+              <Tooltip message={t("copied")} position="top">{t("result.individualCopy")}</Tooltip>
             </div>
           </CopyToClipboard>
         </div>
-        <p>{t("givenCreditPerAccount")}</p>
-        <input value={formatThousandNumber(Number(credit))} readOnly />
+        <p>{t("result.usernames")}</p>
+        <div className={styles.copy}>
+          <textarea rows={3} readOnly defaultValue={successAccounts}></textarea>
+        </div>
+
+        <p>{t("givenCreditPerAccount")}:</p>
+        <input value={formatCredit} readOnly />
+
+        <p>{t("domain")}:</p>
+        <textarea rows={3} readOnly defaultValue={formattedDomains}></textarea>
       </>
       {failAccounts && failAccounts > 0 ? (
         <>

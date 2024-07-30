@@ -11,9 +11,12 @@
     "usernames": "Usernames",
     "fail": "{{failAccounts}} accounts failed to be created.",
     "failReason": "Failure Reason",
-    "createMore": "Create More"
+    "createMore": "Create More",
+    "compactCopy": "Compact Copy",
+    "individualCopy": "Individual Copy",
+    "introCopyFeature": "Click 'Copy' to copy and share the account details"
   },
-  "copied": "Copied!",
+  "copied": "Copied",
   "note": "Note: Settings will be the same as the Source account",
   "sourceAccount": "Source account",
   "noOfAccounts": "No. of Accounts",
@@ -32,5 +35,7 @@
   "Min": "Min",
   "Max": "Max",
   "creditHint": "Available Credit: {{availableCredit}}",
-  "memberMaxCreditHint": "The Maximum Member Credit set by your upline: {{memberMaxCredit}}"
+  "memberMaxCreditHint": "The Maximum Member Credit set by your upline: {{memberMaxCredit}}",
+  "credit": "Credit",
+  "domain": "Domain"
 }
