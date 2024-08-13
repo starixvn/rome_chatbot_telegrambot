@@ -1,4 +1,4 @@
-FROM hub.nexdev.net/base/node:17.9-alpine3.14 AS deps
+FROM hub.nexdev.net/base/node:20.9.0-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
@@ -8,7 +8,7 @@ COPY src/WebApp/yarn.lock ./
 RUN --mount=type=cache,target=/root/.yarn yarn --frozen-lockfile
 
 # 2. Rebuild the source code only when needed
-FROM hub.nexdev.net/base/node:17.9-alpine3.14 AS builder
+FROM hub.nexdev.net/base/node:20.9.0-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY src/WebApp .
@@ -28,7 +28,7 @@ RUN yarn build
 # RUN npm run build
 
 # Production image, copy all the files and run next
-FROM hub.nexdev.net/base/node:17.9-alpine3.14 AS runner
+FROM hub.nexdev.net/base/node:20.9.0-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production

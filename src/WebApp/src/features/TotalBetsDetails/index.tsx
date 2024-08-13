@@ -1,8 +1,12 @@
-import useTranslation from "next-translate/useTranslation";
-import React, { useState } from "react";
-import { User } from "src/lib/session";
-import styles from "./TotalBetsDetails.module.scss";
-import { ArrowDownIcon, ArrowRightIcon } from "@components/Icons";
+import useTranslation from 'next-translate/useTranslation';
+import React, { useState } from 'react';
+import { useTracking } from 'src/hooks/tracking-activity';
+import { User } from 'src/lib/session';
+
+import { ArrowDownIcon, ArrowRightIcon } from '@components/Icons';
+
+import styles from './TotalBetsDetails.module.scss';
+
 type BasePageViewModel = {
   user: User;
   totalBetsDetailsData: any;
@@ -15,6 +19,8 @@ type BasePageViewModel = {
 export const TotalBetsDetails = ({
   user, totalBetsDetailsData, collapseBetTypeStatus, setCollapseBetTypeStatus, isSpecialSite, ...props }: BasePageViewModel) => {
   const { t } = useTranslation("totalbets");
+  useTracking("/totalbets");
+
   const betTypeIds = {
       ft1x2: 5,
       _1h1x2: 15,
