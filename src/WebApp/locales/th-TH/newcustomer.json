@@ -34,7 +34,7 @@
   "Live": "สด",
   "Min": "ต่ำสุด",
   "Max": "สูงสุด",
-  "creditHint": "ยอดคงเหลือที่ใช้ได้: {{availableCredit}}",
+  "creditHint": "เครดิตที่มีอยู่: {{availableCredit}}",
   "memberMaxCreditHint": "เครดิตสมาชิกสูงสุดที่กำหนดโดยอัพไลน์ของคุณ: {{memberMaxCredit}}",
   "credit": "เครดิต",
   "domain": "Domain"

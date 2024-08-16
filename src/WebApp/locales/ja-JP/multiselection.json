@@ -1,0 +1,9 @@
+{
+  "selectAll": "全選択",
+  "selected": "選択された",
+  "search": "検索",
+  "noOptions": "データがありません",
+  "allItemsAreSelected": "全",    
+  "selectAllFiltered": "全選択",
+  "selectSomeItems": "選択..."
+}

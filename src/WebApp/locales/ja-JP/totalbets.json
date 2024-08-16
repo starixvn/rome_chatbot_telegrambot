@@ -1,0 +1,20 @@
+{
+  "headerTotalBets": "サッカー / トップ10の売上高試合",
+  "headerTotalBetsDetails": "サッカー / 総ベット",
+  "loading": "ロード中...",
+  "turnover": "賭金総額",
+  "noInformationIsAvailable": "情報が利用できません",
+  "back": "戻る",
+  "memberTurnover": "メンバー賭金総額",
+  "home": "ホーム",
+  "away": "アウェイ",
+  "draw": "ドロー",
+  "over": "オーバー",
+  "under": "アンダー",
+  "others": "その他",
+  "live": "ライブ",
+  "note": "注意",
+  "gmt8Note": "上記の時間はGMT+8で表示されています。",
+  "detailsNotAvailable": "この試合は終了しました。総ベットはこの試合では利用できません。"
+  }
+  

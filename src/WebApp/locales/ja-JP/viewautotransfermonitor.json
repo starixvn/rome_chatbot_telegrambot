@@ -1,0 +1,19 @@
+{
+  "header": "自動振込モニター",
+  "username": "ユーザー名",
+  "submit": "送信",
+  "status": "ステータス",
+  "new": "処理中",
+  "processing": "処理中",
+  "completed": "完了",
+  "failed": "失敗",
+  "cancelled": "キャンセル済み",
+  "pending": "保留中",
+  "ignored": "無視済み",
+  "transferAmount": "振込金額",
+  "noInformationIsAvailable": "情報が利用できません",
+  "firstLastName": "名/姓",
+  "reason": "理由",
+  "completedTime": "完了時間",
+  "adbtChangeError": "アップラインが終日残高振込を有効にしているため、自動振込を利用できません。ページは自動的に更新されます。"
+}

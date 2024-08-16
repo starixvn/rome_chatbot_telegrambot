@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -119,499 +119,499 @@
   </resheader>
   <data name="Cash" xml:space="preserve">
     <value>ยอดเงินสด</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YesterdayCash" xml:space="preserve">
     <value>ยอดเมื่อวาน</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CustLevel_2" xml:space="preserve">
-    <value>ตัวแทน</value>
-    <comment/>
+    <value>เอเย่นต์</value>
+    <comment />
   </data>
   <data name="AgentComm" xml:space="preserve">
     <value>ค่าคอม AGENT</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentCredit" xml:space="preserve">
     <value>เครดิตตัวแทน</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentOutStanding" xml:space="preserve">
     <value>ตัวแทนยอดคงค้าง</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentTotal" xml:space="preserve">
-    <value>รวม เอเจนต์</value>
-    <comment/>
+    <value>ยอดรวมเอเย่นต์</value>
+    <comment />
   </data>
   <data name="AgentWinLoss" xml:space="preserve">
     <value>เอเจนต์ ได้เสีย</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CustLevel_3" xml:space="preserve">
-    <value>ตัวแทนหลัก</value>
-    <comment/>
+    <value>มาสเตอร์</value>
+    <comment />
   </data>
   <data name="MasterComm" xml:space="preserve">
     <value>ค่าคอม MASTER</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterCredit" xml:space="preserve">
     <value>เครดิตตัวแทนหลัก</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterOutStanding" xml:space="preserve">
     <value>ตัวแทนหลักยอดคงค้าง</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MasterTotal" xml:space="preserve">
-    <value>รวม Master</value>
-    <comment/>
+    <value>ยอดรวมของมาสเตอร์</value>
+    <comment />
   </data>
   <data name="MasterWinLoss" xml:space="preserve">
     <value>ตัวแทนหลัก ชนะ แพ้</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CustLevel_1" xml:space="preserve">
     <value>สมาชิก</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Member" xml:space="preserve">
     <value>สมาชิก</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberComm" xml:space="preserve">
     <value>ค่าคอม MEMBER</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberCredit" xml:space="preserve">
     <value>เครดิตสมาชิก</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberOutStanding" xml:space="preserve">
     <value>ยอดคงค้างสมาชิก</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberTotal" xml:space="preserve">
     <value>สมาชิกทั้งหมด</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberWinLoss" xml:space="preserve">
     <value>สมาชิก (ชนะ แพ้)</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CustLevel_4" xml:space="preserve">
-    <value>สูงสุด</value>
-    <comment/>
+    <value>ซุปเปอร์</value>
+    <comment />
   </data>
   <data name="SuperComm" xml:space="preserve">
     <value>ค่าคอม SUPER</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperOutStanding" xml:space="preserve">
     <value>สูงสุดยอดคงค้าง</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperTotal" xml:space="preserve">
     <value>ซุปเปอร์ทั้งหมด</value>
-    <comment/>
+    <comment />
   </data>
   <data name="SuperWinLoss" xml:space="preserve">
     <value>การได้เสียสูงสุด</value>
-    <comment/>
+    <comment />
   </data>
   <data name="CompanyWinLoss" xml:space="preserve">
     <value>บริษัท</value>
-    <comment/>
+    <comment />
   </data>
   <data name="GrossComm" xml:space="preserve">
     <value>ยอดรวมค่าคอม</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Balance" xml:space="preserve">
-    <value>ข้อมูลยอดเงินคงเหลือ</value>
-    <comment/>
+    <value>บัญชีคงเหลือ</value>
+    <comment />
   </data>
   <data name="For" xml:space="preserve">
     <value>สำหรับ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Credit" xml:space="preserve">
     <value>เครดิต</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Currency" xml:space="preserve">
     <value>สกุลเงิน</value>
-    <comment/>
+    <comment />
   </data>
   <data name="GivenCredit" xml:space="preserve">
     <value>เครดิตที่ให้</value>
-    <comment/>
+    <comment />
   </data>
   <data name="InvalidUsername" xml:space="preserve">
     <value>ชื่อผู้ใช้งานไม่ถูกต้อง</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NoData" xml:space="preserve">
     <value>ไม่มีข้อมูล</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NotRecognizeCommandMessage" xml:space="preserve">
     <value>ขออภัย เราไม่สามารถรับรู้คำขอของคุณได้ คุณต้องการดำเนินการใด?</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Outstanding" xml:space="preserve">
-    <value>การเดิมพันที่ยังไม่สิ้นสุด</value>
-    <comment/>
+    <value>เดิมพันที่ยังไม่สิ้นสุด</value>
+    <comment />
   </data>
   <data name="Products" xml:space="preserve">
     <value>ผลิตภัณฑ์</value>
-    <comment/>
+    <comment />
   </data>
   <data name="TodayWinLoss" xml:space="preserve">
     <value>ยอดได้เสียวันนี้</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Total" xml:space="preserve">
     <value>ยอดรวม</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Turnover" xml:space="preserve">
     <value>ยอดหมุนเวียน</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Username" xml:space="preserve">
-    <value>ชื่อผู้ใช้ระบบ</value>
-    <comment/>
+    <value>ชื่อผู้ใช้</value>
+    <comment />
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>เมื่อวาน</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YesterdayBal" xml:space="preserve">
     <value>ยอดเงินคงเหลือเมื่อวาน</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YesterdayWinLoss" xml:space="preserve">
     <value>ยอดได้เสียเมื่อวาน</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YourAccountIsClosed" xml:space="preserve">
     <value>บัญชีของคุณถูกปิด</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Today" xml:space="preserve">
     <value>วันนี้</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BetCredit" xml:space="preserve">
     <value>เครดิตสำหรับการวางเดิมพัน</value>
-    <comment/>
+    <comment />
   </data>
   <data name="UsedCredit" xml:space="preserve">
     <value>เครดิตที่ใช้ไป</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NetPosition" xml:space="preserve">
-    <value>สถานะเงินลงทุนสุทธิ</value>
-    <comment/>
+    <value>ยอดรวมสุทธิ</value>
+    <comment />
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>ยกเลิก</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ThirdPartyPendingTransfer" xml:space="preserve">
     <value>บุคคลที่สามรอการถ่ายโอน</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemMaxCredit" xml:space="preserve">
     <value>เครดิตสูงสุดสมาชิก</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberActClosedSus" xml:space="preserve">
     <value>สมาชิก (เปิด/ปิด/ถูกระงับ)</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgentActClosedSus" xml:space="preserve">
     <value>เอเย่นต์ (เปิด/ปิด/ถูกระงับ)</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Setting_OTP_Help" xml:space="preserve">
     <value>โปรดป้อนรหัส OTP นี้ &lt;code&gt;{0}&lt;/code&gt; ไปยัง &lt;b&gt;เว็บไซต์ตัวแทน&lt;/b&gt; ภายใน 3 นาที เพื่อตั้งค่า Telegram Chatbot ให้เสร็จสิ้น</value>
-    <comment/>
+    <comment />
   </data>
   <data name="InvalidCustName" xml:space="preserve">
     <value>"{0}" ไม่สามารถใช้ได้ โปรดป้อนชื่อบัญชีที่ใช้ได้</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YourAccountIsLocked" xml:space="preserve">
     <value>บัญชีของคุณถูกล็อค</value>
-    <comment/>
+    <comment />
   </data>
   <data name="OpenSettingsMenu" xml:space="preserve">
     <value>เปิดเมนูการตั้งค่า</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo" xml:space="preserve">
     <value>ย้อนกลับ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="StopUsingChatbot" xml:space="preserve">
     <value>หยุดการใช้งานChatbot</value>
-    <comment/>
+    <comment />
   </data>
   <data name="StopUsingChatbotConfirmMessage" xml:space="preserve">
     <value>คุณกำลังจะ&lt;b&gt;หยุดการใช้งานChatbot&lt;/b&gt; Telegramของคุณจะถูกยกเลิกการเชื่อมต่อจาก {0} และคุณจะไม่สามารถใช้งาน {0} ได้อีกต่อไป คุณต้องการดำเนินการต่อหรือไม่</value>
-    <comment/>
+    <comment />
   </data>
   <data name="UnlinkMessage" xml:space="preserve">
     <value>Telegramของคุณจะถูกยกเลิกการเชื่อมต่อจาก {0}</value>
-    <comment/>
+    <comment />
   </data>
   <data name="InvalidNumberOfDownlinesRange" xml:space="preserve">
     <value>"{0}" ไม่สามารถใช้ได้ โปรดป้อนตัวเลขที่ใช้ได้ (สูงสุด {1})</value>
-    <comment/>
+    <comment />
   </data>
   <data name="TurnOffNotification" xml:space="preserve">
     <value>ปิดการแจ้งเตือน</value>
-    <comment/>
+    <comment />
   </data>
   <data name="TurnOnNotification" xml:space="preserve">
     <value>เปิดการแจ้งเตือน</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MainMenu" xml:space="preserve">
     <value>เมนูหลัก</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ApiException" xml:space="preserve">
     <value>เรากำลังอัปเดตฟังก์ชันนี้เพื่อประสบการณ์ที่ดีขึ้น ดังนั้น ฟังก์ชันนี้จึงถูกปิดชั่วคราว ({0} - {1} (GMT+8)) โปรดลองอีกครั้งในภายหลังและขออภัยในความไม่สะดวก</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackToMainMenu" xml:space="preserve">
     <value>กลับไปที่เมนูหลัก</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ActionSelected" xml:space="preserve">
     <value>เลือกการดำเนินการแล้ว</value>
-    <comment/>
+    <comment />
   </data>
   <data name="TelegramAccountAlreadyLinked" xml:space="preserve">
     <value>Telegramของคุณเชื่อมต่อกับChatboโดยบัญชีอื่น หากนี่ไม่ใช่บัญชีของคุณ โปรดติดต่อเราเพื่อขอความช่วยแหลือ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="HelpCommandIntro" xml:space="preserve">
     <value>คุณสามารถเรียกใช้ {0} โดยใช้คำสั่งต่อไปนี้:</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AccountAlreadyLinked" xml:space="preserve">
     <value>Telegramของคุณเชื่อมโยงกับบัญชีอื่น โปรดยกเลิกบัญชีที่เกี่ยวข้องแล้วลองอีกครั้ง</value>
-    <comment/>
+    <comment />
   </data>
   <data name="OpenMainMenu" xml:space="preserve">
     <value>เปิดเมนูหลักของ {0}</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ChangeSecurityCodeAlertContent" xml:space="preserve">
     <value>รหัสความปลอดภัยของคุณมีการเปลี่ยนแปลง โปรดตรวจสอบหากคุณไม่ได้ดำเนินการดังกล่าว</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ChangeSecurityCodeAlert" xml:space="preserve">
     <value>รหัสความปลอดภัยมีการเปลี่ยนแปลง</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ChangePasswordAlert" xml:space="preserve">
     <value>เปลี่ยนรหัสผ่านแล้ว</value>
-    <comment/>
+    <comment />
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
     <value>ยินดีต้อนรับ {0} การตั้งค่าTelegram Chatbotของคุณเสร็จสิ้นแล้ว คุณสามารถดูรายงานได้ด้วยการสนทนากับChatbotนี้ และติดตามข้อมูลล่าสุดผ่านการแจ้งเตือนอัตโนมัติ คุณจะได้รับรายงานชนะ/แพ้เมื่อวาน หลัง 2:00 PM (GMT+8)ของทุกวัน</value>
-    <comment/>
+    <comment />
   </data>
   <data name="IntroductionMessage" xml:space="preserve">
     <value>โปรดลงชื่อเข้าใช้ &lt;b&gt;เว็บไซต์ตัวแทน&lt;/b&gt; เข้าถึงฟังก์ชันChatboและทำตามคำแนะนำเพื่อตั้งค่าTelegram Chatbot</value>
-    <comment/>
+    <comment />
   </data>
   <data name="PleaseSelectAnAction" xml:space="preserve">
     <value>โปรดเลือกการดำเนินการ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="Unlink" xml:space="preserve">
     <value>ยกเลิกการเชื่อมต่อ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ListAllCommands" xml:space="preserve">
     <value>รายการคำสั่งทั้งหมด</value>
-    <comment/>
+    <comment />
   </data>
   <data name="InvalidNumberOfDownlines" xml:space="preserve">
     <value>จำนวนของดาวน์ไลน์ต้องเริ่มตั้งแต่ 1 ถึง {0}</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ChangePasswordAlertContent" xml:space="preserve">
     <value>รหัสผ่านของคุณมีการเปลี่ยนแปลง โปรดตรวจสอบหากคุณไม่ได้ดำเนินการดังกล่าว</value>
-    <comment/>
+    <comment />
   </data>
   <data name="LanguageUpdated" xml:space="preserve">
     <value>เปลี่ยนภาษา</value>
-    <comment/>
+    <comment />
   </data>
   <data name="No" xml:space="preserve">
-    <value>ไม่</value>
-    <comment/>
+    <value>ไม่ใช่</value>
+    <comment />
   </data>
   <data name="BackTo_1" xml:space="preserve">
     <value>กลับไปเมนูก่อนหน้า</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_2" xml:space="preserve">
     <value>กลับไปเมนูก่อนหน้า</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_3" xml:space="preserve">
     <value>กลับไปเมนูก่อนหน้า</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_4" xml:space="preserve">
     <value>กลับไปเมนูก่อนหน้า</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BackTo_11" xml:space="preserve">
     <value>กลับไปเมนูก่อนหน้า</value>
-    <comment/>
+    <comment />
   </data>
   <data name="WrongPasswordAlert" xml:space="preserve">
     <value>รหัสผ่านผิด</value>
-    <comment/>
+    <comment />
   </data>
   <data name="WrongPasswordAlertContent" xml:space="preserve">
     <value>มีการใช้รหัสผ่านไม่ถูกต้องหลายครั้งจาก IP {0} โปรดตรวจสอบหากคุณไม่ได้ดำเนินการดังกล่าว</value>
-    <comment/>
+    <comment />
   </data>
   <data name="BAL" xml:space="preserve">
     <value>ยอดเงินคงเหลือ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="DownlineYesterdayWinLoss" xml:space="preserve">
     <value>ยอดได้เสียเมื่อวานของดาวน์ไลน์</value>
-    <comment/>
+    <comment />
   </data>
   <data name="DownlineTopHighestOutstanding" xml:space="preserve">
     <value>ยอดคงค้างสูงที่สุดของดาวน์ไลน์</value>
-    <comment/>
+    <comment />
   </data>
   <data name="DownlineTopHighestBalance" xml:space="preserve">
     <value>ดาวน์ไลน์ที่มียอดเงินคงเหลือสูงสุด</value>
-    <comment/>
+    <comment />
   </data>
   <data name="DownlineTodayWinLoss" xml:space="preserve">
     <value>ยอดได้เสียวันนี้ของดาวน์ไลน์</value>
-    <comment/>
+    <comment />
   </data>
   <data name="DownlineOutstanding" xml:space="preserve">
     <value>ยอดคงค้างของดาวน์ไลน์</value>
-    <comment/>
+    <comment />
   </data>
   <data name="DownlineBalance" xml:space="preserve">
     <value>ยอดเงินคงเหลือของดาวน์ไลน์</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MyTodayWinLoss" xml:space="preserve">
     <value>ยอดได้เสียวันนี้ของคุณ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MyYesterdayWinLoss" xml:space="preserve">
     <value>ยอดได้เสียเมื่อวานของคุณ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YourBalance" xml:space="preserve">
     <value>ยอดเงินคงเหลือของคุณ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="EnteredMatches" xml:space="preserve">
     <value>คู่การแข่งขันที่จบแล้ว</value>
-    <comment/>
+    <comment />
   </data>
   <data name="YesterdayNonEnteredMatches" xml:space="preserve">
     <value>คู่การแข่งขันของเมื่อวานที่ยังไม่จบ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="OTPMessage" xml:space="preserve">
     <value>รหัสผ่าน OTP ของคุณคือ &lt;code&gt;{0}&lt;/code&gt; และจะหมดอายุภายใน 3 นาที โปรดอย่าเผยแพร่รหัส OTP แก่ผู้อื่น</value>
-    <comment/>
+    <comment />
   </data>
   <data name="NonEnteredMatches" xml:space="preserve">
     <value>คู่การแข่งขันที่ยังไม่จบ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="OTPInformed" xml:space="preserve">
     <value>การยืนยัน OTP</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AgencyDomains" xml:space="preserve">
     <value>โดเมนเวปเอเย่นท์</value>
-    <comment/>
+    <comment />
   </data>
   <data name="MemberDomains" xml:space="preserve">
     <value>โดเมนเวปสมาชิก</value>
-    <comment/>
+    <comment />
   </data>
   <data name="ADBTChangeError" xml:space="preserve">
     <value>บัญชีของคุณไม่สามารถใช้ระบบโอนอัตโนมัติได้ เนื่องจากอัพไลน์ได้เปิดใช้งานระบบโอนยอดคงเหลือตลอดทั้งวันสำหรับบัญชีของคุณ  </value>
-    <comment/>
+    <comment />
   </data>
   <data name="BadRequest" xml:space="preserve">
     <value>Bad Request.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AutoTransfer_UpdateSuccessOff" xml:space="preserve">
     <value>การโอนอัตโนมัติสำหรับบัญชี {0} ถูกปิดใช้งานเรียบร้อยแล้ว</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AutoTransfer_UpdateSuccessOn" xml:space="preserve">
     <value>เปิดใช้งานการโอนอัตโนมัติสำหรับบัญชี {0} เรียบร้อยแล้ว</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AutoTransfer_UpdateSuccess" xml:space="preserve">
     <value>การโอนอัตโนมัติได้รับการอัปเดตสำหรับบัญชีเหล่านี้เรียบร้อยแล้ว</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AutoTransfer_UpdateScheduleSuccess" xml:space="preserve">
     <value>กำหนดการโอนอัตโนมัติสำหรับบัญชี {0} ได้รับการอัปเดตเรียบร้อยแล้ว</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AutoTransfer_MultipleAffectNextConditionWarning" xml:space="preserve">
     <value>การโอนอัตโนมัติได้รับการเปิดใช้งานสำหรับบัญชีเหล่านี้ อย่างไรก็ตาม กระบวนการนี้กำลังเกิดขึ้น และบัญชีเหล่านี้จะถูกจัดคิวสำหรับการโอนอัตโนมัติตามเวลาที่กำหนดครั้งถัดไปตามกำหนดการโอนอัตโนมัติ.</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AutoTransfer_MultipleAffectNextConditionWarning_Single" xml:space="preserve">
     <value>การโอนอัตโนมัติสำหรับบัญชีนี้ได้เปิดใช้งานแล้ว อย่างไรก็ตาม ระบบกำลังดำเนินการอยู่ในขณะนี้ บัญชีนี้จะถูกจัดคิวสำหรับการโอนอัตโนมัติในครั้งถัดไปตามกำหนดการของการโอนอัตโนมัติ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AutoTransfer_Error_101_Multiple" xml:space="preserve">
     <value>ไม่มีบัญชีเหล่านี้:</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AutoTransfer_Error_101_Single" xml:space="preserve">
     <value>ไม่มีบัญชีนี้</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AutoTransfer_Error_102_Multiple" xml:space="preserve">
     <value>บัญชีเหล่านี้ไม่ได้เป็นของดาวน์ไลน์ของคุณ:</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AutoTransfer_Error_102_Single" xml:space="preserve">
     <value>บัญชีนี้ไม่ได้เป็นของดาวน์ไลน์ของคุณ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AutoTransfer_Error_103_Multiple" xml:space="preserve">
     <value>ขณะนี้ระบบโอนอัตโนมัติกำลังดำเนินการอยู่ จึงไม่สามารถปิดการใช้งานสำหรับบัญชีเหล่านี้ได้ กรุณาลองใหม่เมื่อระบบทำงานเสร็จ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="AutoTransfer_Error_103_Single" xml:space="preserve">
     <value>ขณะนี้ระบบโอนอัตโนมัติกำลังดำเนินการอยู่ จึงไม่สามารถปิดการใช้งานสำหรับบัญชีนี้ได้ กรุณาลองใหม่เมื่อระบบทำงานเสร็จ</value>
-    <comment/>
+    <comment />
   </data>
   <data name="RewardReceivable" xml:space="preserve">
     <value>เงินรางวัลที่สามารถรับได้</value>

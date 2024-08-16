@@ -328,7 +328,7 @@ export const EditAutoTransferPage = ({ user, ...props }: EditAutoTransferViewMod
                                             }} 
                                             maxLength={6}
                                             value={editingPageIndex || ""} />
-                                        <div>{t("of")} {customerListData.totalPages}</div>
+                                        <div>{t("of").indexOf("{value}") == -1 ? t("of") + " " + customerListData.totalPages : t("of").replace("{value}", customerListData.totalPages)}</div>
                                         <div className={`${styles["div-icon-paging"]} ${styles["div-page-next"]} ${ pageIndex==customerListData.totalPages ? styles["disabled"] : ""}`}
                                             onClick={() => { 
                                                 if(pageIndex < customerListData.totalPages)  {

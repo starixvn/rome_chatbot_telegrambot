@@ -1,0 +1,22 @@
+{
+  "SecurityCode": "セキュリティコード",
+  "OTPValidation": "OTP 有効性確認",
+  "Verify": "確かめる",
+  "Hi": "やあ、{0}さん",
+  "SCNote": "保護のため、続行する前にセキュリティコードを入力してください！",
+  "RequiredMessage": "このフィールドは必須です。",
+  "WrongSCMessage": "誤ったセキュリティコードです。再度お試しください。",
+  "WrongOTPMessage": "あなたのOTPは無効または期限切れです",
+  "OTPViaTelegramDisabled": "Telegram経由のOTPは無効化されました。",
+  "Otp": "OTP",
+  "OtpNote": "先に進む前にOTPを入力してください！",
+  "GenerateOTP": "OTPを生成する",
+  "Loading": "ロード中",
+  "ErrorPageMess": "申し訳ありませんが、サーバーに予期しない問題が発生しました。カスタマーサポートにお問い合わせください。",
+  "UnauthorizedMessage": "申し訳ありませんが、このページにアクセスする権限がありません。",
+  "AccessDenied": "アクセス拒否",
+  "AccountClosed": "あなたのアカウントは閉鎖されました。サポートが必要な場合はアップラインにお問い合わせください。",
+  "AccountClocked": "複数回のセキュリティチェック失敗により、あなたのアカウントはロックされました。アンロックするためにアップラインにお問い合わせください。",
+  "AccountProtected": "チャットボットとの接続が切断されました。さらなるサポートが必要な場合はアップラインにお問い合わせください。",
+  "noRefresh": "オフ"
+}
