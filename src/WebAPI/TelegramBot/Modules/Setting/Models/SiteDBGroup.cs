@@ -6,6 +6,8 @@ namespace TelegramBot.Modules.Setting.Models
     {
         public int SiteDBGroupID { get; set; }
 
+        public int CustDBGroupID { get; set; }
+
         public string LinkedServerName { get; set; }
 
         public string ClientAccessName { get; set; }

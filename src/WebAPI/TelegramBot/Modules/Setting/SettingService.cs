@@ -37,7 +37,7 @@ namespace TelegramBot.Modules.Setting
 
         Task SendUnlinkMessage(int userId, long chatId, int botId, string botName, string language);
 
-        Task<string> GetSiteDBGroupIp(int custId);
+        Task<SiteDBGroup> GetSiteDBGroup(int custId);
     }
 
     public class SettingService : ISettingService
@@ -187,14 +187,14 @@ namespace TelegramBot.Modules.Setting
             return custBotMessenger;
         }
 
-        public async Task<string> GetSiteDBGroupIp(int custId)
+        public async Task<SiteDBGroup> GetSiteDBGroup(int custId)
         {
             var siteDB = await cacheService.GetOrSetAsync(
                 $"TelegramBot.Modules.Setting.SiteDBGroup.CustId-{custId}",
                 () => _dynamicRepository.GetAsync<SiteDBGroup>(new GetSiteDBConfigCriteria(custId)),
                 new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1)));
 
-            return siteDB.AGIP;
+            return siteDB;
         }
 
         private async Task<IEnumerable<BotFunction>> GetAccountFunctions(
@@ -268,7 +268,7 @@ namespace TelegramBot.Modules.Setting
             if (account != null)
             {
                 account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, functions, account.System, account.CustomerLevel);
-                account.SiteDBGroupIp = await GetSiteDBGroupIp(account.CustId);
+                account.SiteDBGroupIp = (await GetSiteDBGroup(account.CustId)).AGIP;
             }
 
             return account;

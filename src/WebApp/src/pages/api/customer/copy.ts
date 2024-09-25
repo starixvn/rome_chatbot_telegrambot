@@ -49,13 +49,14 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
     res.status(500).json({});
   }
 
-  const siteDBGroupIp = await fetch(`${process.env.TELEGRAM_API_URL}/Setting/GetSiteDBGroupIp?custId=${sourceInfo.custId}`);
-  const data = await copyCustomer(user as User, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) }, await siteDBGroupIp.text());
+  const siteDBGroup = await fetch(`${process.env.TELEGRAM_API_URL}/Setting/GetSiteDBGroup?custId=${sourceInfo.custId}`);
+  const custDBGroupID = (await siteDBGroup.json()).custDBGroupID;
+  const data = await copyCustomer(user as User, { ...req.body, sourceCustId: sourceInfo.custId, ip: getClientIP(req) }, await custDBGroupID);
   data.usernames.length > 0 &&
     (await notifySuccessCustomersCreated(user as User, { ...data, credit: credit }, numberOfAccounts - data.usernames.length, notifyTelegramMessage));
   res.json({ ...data, credit: credit, failAccounts: numberOfAccounts - data.usernames.length });
 }
-const copyCustomer = async (user: User, data: CopyCustomerData, siteDBGroupIp: string) => {
+const copyCustomer = async (user: User, data: CopyCustomerData, custDBGroupID: number) => {
   const url = `${process.env.CUSTOMER_API}/customer/copy-multiple`;
   const hashedPassword = await hashPassword(CryptoJS.AES.decrypt(data.password, user.salt).toString(CryptoJS.enc.Utf8));
 
@@ -76,8 +77,9 @@ const copyCustomer = async (user: User, data: CopyCustomerData, siteDBGroupIp: s
     language: user.language,
     ip: data.ip,
     systemId: 10,
+    custDBGroupID: custDBGroupID,
   };
-  return await fetchServerWrapper.post2sitedb(url, siteDBGroupIp, body);
+  return await fetchServerWrapper.post(url, body);
 };
 
 const hashPassword = async (password: string): Promise<string> => {
