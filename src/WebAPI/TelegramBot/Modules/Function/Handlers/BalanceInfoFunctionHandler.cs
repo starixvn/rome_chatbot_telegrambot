@@ -119,12 +119,14 @@ namespace TelegramBot.Modules.Function.Handlers
                 {$"{(CustomerLevel)account.CustomerLevel - 1}Credit", bal.MemberCredit},
                 {nameof(SharedResource.MemberOutStanding), bal.Outstanding.MemberOutstanding},
                 {$"{(CustomerLevel)account.CustomerLevel}OutStanding", GetOutStanding(bal.Outstanding,account.CustomerLevel)},
+                {nameof(SharedResource.RewardReceivable), bal.RewardReceivable},
+                {nameof(SharedResource.RewardPayable), bal.RewardPayable}
             };
             foreach (var item in dict)
             {
                 var title = ResourceHelper.Get(item.Key, account.Language);
                 var value = item.Value?.ToFormattedNumber();
-                textContainer.Add(messageFormatter.FormatRow(title, value, account.Language));
+                textContainer.Add(messageFormatter.FormatRow(title, IsReward(item.Key) ? $"{bal.RewardCurrency} {value}" : value, account.Language));
             }
             textContainer.Add("</pre>");
             var message = string.Join(messageFormatter.NewLine(), textContainer);
@@ -158,7 +160,7 @@ namespace TelegramBot.Modules.Function.Handlers
             {
                 var title = ResourceHelper.Get(item.Key, account.Language);
                 var value = item.Value?.ToFormattedNumber();
-                textContainer.Add(messageFormatter.FormatRow(title, value, account.Language));
+                textContainer.Add(messageFormatter.FormatRow(title, IsReward(item.Key) ? $"{downlineBalance.RewardCurrency} {value}" : value, account.Language));
             }
 
             textContainer.Add("</pre>");
@@ -179,7 +181,9 @@ namespace TelegramBot.Modules.Function.Handlers
                 {nameof(SharedResource.UsedCredit), bal.UsedCredit},
                 {nameof(SharedResource.GivenCredit), bal.GivenCredit},
                 {nameof(SharedResource.MemberOutStanding), bal.Outstanding.MemberOutstanding},
-                {nameof(SharedResource.SuperOutStanding), bal.Outstanding.SuperOutstanding}
+                {nameof(SharedResource.SuperOutStanding), bal.Outstanding.SuperOutstanding},
+                {nameof(SharedResource.RewardReceivable), bal.RewardReceivable},
+                {nameof(SharedResource.RewardPayable), bal.RewardPayable}
             };
 
         public static Dictionary<string, decimal?> BuildAgentDownLineUsernameMessage(DownlineBalance bal)
@@ -195,7 +199,9 @@ namespace TelegramBot.Modules.Function.Handlers
                 {nameof(SharedResource.GivenCredit), bal.GivenCredit},
                 {nameof(SharedResource.MemMaxCredit), bal.GivenCredit},
                 {nameof(SharedResource.MemberOutStanding), bal.Outstanding.MemberOutstanding},
-                {nameof(SharedResource.MasterOutStanding), bal.Outstanding.MasterOutstanding}
+                {nameof(SharedResource.MasterOutStanding), bal.Outstanding.MasterOutstanding},
+                {nameof(SharedResource.RewardReceivable), bal.RewardReceivable},
+                {nameof(SharedResource.RewardPayable), bal.RewardPayable}
             };
 
         public static Dictionary<string, decimal?> BuildMemberDownLineUsernameMessage(DownlineBalance bal)
@@ -208,7 +214,8 @@ namespace TelegramBot.Modules.Function.Handlers
                 {nameof(SharedResource.NetPosition), bal.NetPosition},
                 {nameof(SharedResource.BetCredit), bal.BetCredit},
                 {nameof(SharedResource.MemberOutStanding), bal.Outstanding.MemberOutstanding},
-                {nameof(SharedResource.AgentOutStanding), bal.Outstanding.AgentOutstanding}
+                {nameof(SharedResource.AgentOutStanding), bal.Outstanding.AgentOutstanding},
+                {nameof(SharedResource.RewardReceivable), bal.RewardReceivable}
             };
 
         public async Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)
@@ -223,5 +230,9 @@ namespace TelegramBot.Modules.Function.Handlers
                 CustomerLevel.Super => outstanding.SuperOutstanding,
                 _ => throw new ArgumentOutOfRangeException(nameof(customerLevel), customerLevel, null)
             };
+
+        private static bool IsReward(string key)
+            => key.Equals(nameof(SharedResource.RewardReceivable), StringComparison.OrdinalIgnoreCase)
+            || key.Equals(nameof(SharedResource.RewardPayable), StringComparison.OrdinalIgnoreCase);
     }
 };

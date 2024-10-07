@@ -1477,5 +1477,27 @@ namespace TelegramBot.Shared.Resources
                 return ResourceManager.GetString("AutoTransfer_Error_103_Single", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Reward Receivable.
+        /// </summary>
+        public static string RewardReceivable
+        {
+            get
+            {
+                return ResourceManager.GetString("RewardReceivable", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Reward Payable.
+        /// </summary>
+        public static string RewardPayable
+        {
+            get
+            {
+                return ResourceManager.GetString("RewardPayable", resourceCulture);
+            }
+        }
     }
 }

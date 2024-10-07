@@ -613,4 +613,12 @@
     <value>ขณะนี้ระบบโอนอัตโนมัติกำลังดำเนินการอยู่ จึงไม่สามารถปิดการใช้งานสำหรับบัญชีนี้ได้ กรุณาลองใหม่เมื่อระบบทำงานเสร็จ</value>
     <comment/>
   </data>
+  <data name="RewardReceivable" xml:space="preserve">
+    <value>เงินรางวัลที่สามารถรับได้</value>
+    <comment/>
+  </data>
+  <data name="RewardPayable" xml:space="preserve">
+    <value>เงินรางวัลที่ต้องแจกจ่าย</value>
+    <comment/>
+  </data>
 </root>
