@@ -11,7 +11,7 @@ namespace TelegramBot.Modules.Setting.Criteria
         
         public int CustId { get; }
 
-        public override string GetSettingKey() => "Acc_SiteDBConfigSel";
+        public override string GetSettingKey() => "Acc_ServerDBConfigSelByCust";
 
         public override bool IsValid() => CustId > 0;
     }

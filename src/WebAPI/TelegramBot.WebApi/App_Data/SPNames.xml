@@ -33,6 +33,6 @@
 		<Setting Key="CustBotActionIns" SpName="Age_Chatbot_CustBotActionIns" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
 		<Setting Key="CustBotActionStatusUpd" SpName="Age_Chatbot_CustBotActionStatusUpd" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
 		<Setting Key="CustBotActionCommandUpd" SpName="Age_Chatbot_CustBotActionCommandUpd" DbName="DBBOT.bodb_Chatbot.wsv_alp" />
-		<Setting Key="Acc_SiteDBConfigSel" SpName="Acc_SiteDBConfigSel" DbName="DBCUST.CustDB.wsv_alp" />
+		<Setting Key="Acc_ServerDBConfigSelByCust" SpName="Acc_ServerDBConfigSelByCust" DbName="DBGLOB.GlobCustDB.wsv_alp" />
 	</Function>
 </Functions>
