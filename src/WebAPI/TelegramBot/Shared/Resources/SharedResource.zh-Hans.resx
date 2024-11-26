@@ -617,4 +617,12 @@
     <value>您无法禁用此账号的自动转账功能，因为自动转账正在进行中。请等进行完毕之后再重试。</value>
     <comment/>
   </data>
+  <data name="RewardReceivable" xml:space="preserve">
+    <value>应收奖金</value>
+    <comment/>
+  </data>
+  <data name="RewardPayable" xml:space="preserve">
+    <value>奖金支付</value>
+    <comment/>
+  </data>
 </root>

@@ -617,4 +617,12 @@
     <value>You cannot disable Auto Transfer for this account because the Auto Transfer process is in progress. Please try again after the process has been completed.</value>
     <comment/>
   </data>
+  <data name="RewardReceivable" xml:space="preserve">
+    <value>Reward Receivable</value>
+    <comment/>
+  </data>
+  <data name="RewardPayable" xml:space="preserve">
+    <value>Reward Payable</value>
+    <comment/>
+  </data>
 </root>

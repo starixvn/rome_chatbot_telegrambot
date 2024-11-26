@@ -617,4 +617,12 @@
     <value>您無法禁用此賬號的自動轉賬功能，因為自動轉賬正在進行中。請等進行完畢之後再重試。</value>
     <comment/>
   </data>
+  <data name="RewardReceivable" xml:space="preserve">
+    <value>應收獎金</value>
+    <comment/>
+  </data>
+  <data name="RewardPayable" xml:space="preserve">
+    <value>獎金支付</value>
+    <comment/>
+  </data>
 </root>
