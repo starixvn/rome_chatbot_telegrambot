@@ -7,20 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fanex.Logging" Version="2.0.1" />
-    <PackageReference Include="Fanex.Logging.Extensions.AspNetCore" Version="1.0.0" />
-    <PackageReference Include="Fanex.Logging.RabbitMQ" Version="1.0.1" />
-    <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.36" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.0" />
+    <PackageReference Include="Fanex.Logging" Version="2.0.1"/>
+    <PackageReference Include="Fanex.Logging.Extensions.AspNetCore" Version="1.0.0"/>
+    <PackageReference Include="Fanex.Logging.RabbitMQ" Version="1.0.1"/>
+    <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6"/>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.3"/>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.0"/>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup> 
-    <ProjectReference Include="..\..\WebAPI\TelegramBot.Client\TelegramBot.Client.csproj" />
-    <ProjectReference Include="..\..\Shared\TelegramBot.Utilities\TelegramBot.Utilities.csproj" />
+    <ProjectReference Include="..\..\WebAPI\TelegramBot.Client\TelegramBot.Client.csproj"/>
+    <ProjectReference Include="..\..\Shared\TelegramBot.Utilities\TelegramBot.Utilities.csproj"/>
   </ItemGroup>
+  
   <PropertyGroup Label="sonarqube-rules-synchronizer">
-    <CodeAnalysisRuleSet>../../../.sonarlint/telegrambotcsharp.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-</Project>
+    <CodeAnalysisRuleSet>../../../.sonarlint/alpha-apicsharp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup></Project>

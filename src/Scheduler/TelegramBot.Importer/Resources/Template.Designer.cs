@@ -794,5 +794,16 @@ namespace TelegramBot.Importer.Resources
                 return ResourceManager.GetString("LastBets_ViewDetails", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to DownlineTotal.
+        /// </summary>
+        public static string DownlineTotal
+        {
+            get
+            {
+                return ResourceManager.GetString("DownlineTotal", resourceCulture);
+            }
+        }
     }
 }

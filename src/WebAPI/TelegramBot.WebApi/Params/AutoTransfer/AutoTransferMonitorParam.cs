@@ -6,7 +6,7 @@ namespace TelegramBot.WebApi.Params.AutoTransfer
     {
         [Required]
         public int CustId { get; set; }
-        
+
         [Required]
         public string Language { get; set; }
 
@@ -17,5 +17,7 @@ namespace TelegramBot.WebApi.Params.AutoTransfer
         public int SortedBy { get; set; }
 
         public int Direction { get; set; }
+
+        public byte LevelType { get; set; }
     }
 }

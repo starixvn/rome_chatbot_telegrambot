@@ -7,6 +7,8 @@ import styles from "./AutoTransferMonitorPage.module.scss";
 import { fetchWrapper } from "src/lib/fetch-client";
 import { User } from "src/lib/session";
 import MultiSelect, { Option } from "@components/Form/MultiSelect";
+import { SingleSelect } from "@components/Form/Select";
+import { Super, Agent } from "src/constants/role-id";
 import Message from "@components/Message";
 import MonitorComponent from "./MonitorComponent";
 
@@ -17,6 +19,7 @@ type AutoTransferMonitorViewModel = {
 type IFormInputs = {
   username: string;
   status: string;
+  levelType: number
 };
 
 type MonitorDataViewModel = {
@@ -37,12 +40,12 @@ type MonitorDataViewModel = {
 
 export const AutoTransferMonitorPage = ({ user, ...props }: AutoTransferMonitorViewModel) => {
   const adbtChangedCode = 108;
-  const router = useRouter(); 
+  const router = useRouter();
   const methods = useForm<IFormInputs>({
     mode: "onSubmit",
-    defaultValues: { username: "", status: "" },
+    defaultValues: { username: "", status: "", levelType: 0 },
     shouldFocusError: false,
-  }); 
+  });
 
   const { formState, handleSubmit, control } = methods;
   const { t } = useTranslation("viewautotransfermonitor");
@@ -64,6 +67,16 @@ export const AutoTransferMonitorPage = ({ user, ...props }: AutoTransferMonitorV
   const handleStatusChange = (selected: Option[]) => {
     setSelectedStatus(selected);
   };
+
+  function getLevelTypeOptions() {
+    return [
+      { value: "0", displayName: t("all") },
+      { value: "1", displayName: user.customerLevel === Super ? t("masterAgent") : t("agent") },
+      { value: "2", displayName: t("directMember") }
+    ];
+  }
+
+  const [selectedLevelType, setSelectedLevelType] = useState(0);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [errorCode, setErrorCode] = useState(0);
@@ -94,6 +107,7 @@ export const AutoTransferMonitorPage = ({ user, ...props }: AutoTransferMonitorV
       status: selectedStatus?.map((s) => s.value).join(","),
       sortedBy: sortedBy,
       direction: sortedDirection,
+      levelType: selectedLevelType
     };
 
     const data = await fetchWrapper.post<any>(url, body, router);
@@ -143,13 +157,38 @@ export const AutoTransferMonitorPage = ({ user, ...props }: AutoTransferMonitorV
               </div>
             </div>
           </div>
-          <div className={styles["frm-row"]}>
-            <div className={styles.row}>
+          {user.customerLevel === Agent && (
+            <div className={styles["frm-row"]}>
+              <div className={styles.row}>
               <button className="btn-submit auto-transfer" type="submit" disabled={!formState.isValid}>
                 {t("submit")}
               </button>
             </div>
-          </div>
+            </div>
+          )}
+          {user.customerLevel !== Agent && (
+            <>
+              <div className={styles["frm-row-label"]}>
+                <div className={`${styles["div-half"]} txt-bold`}>{t("level")}</div>
+              </div>
+              <div className={styles["frm-row"]}>
+                <div className={styles["div-half"]}>
+                  <SingleSelect
+                      options={getLevelTypeOptions()}
+                      selectedValue={"0"}
+                      handleChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        setSelectedLevelType(Number(e.target.value));
+                      }}
+                    />
+                </div>
+                <div className={styles["div-half"]}>
+                  <button className={`btn-submit width-auto mt-0 ${styles["sm-padding"]} auto-transfer`} type="submit" disabled={!formState.isValid}>
+                    {t("submit")}
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
         </form>
       )}
       {errorMessage && <Message message={errorMessage} isError></Message>}
@@ -165,6 +204,7 @@ export const AutoTransferMonitorPage = ({ user, ...props }: AutoTransferMonitorV
           isExpandAll={isExpandAll}
           setIsExpandAll={setIsExpandAll}
           setSortValue={setSortValue}
+          customerLevel={user.customerLevel}
         />
       )}
     </>

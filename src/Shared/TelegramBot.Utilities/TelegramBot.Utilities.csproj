@@ -10,7 +10,7 @@
     <PackageReference Include="Telegram.Bot" Version="18.0.0"/>
   </ItemGroup>
 
+  
   <PropertyGroup Label="sonarqube-rules-synchronizer">
-    <CodeAnalysisRuleSet>../../../.sonarlint/telegrambotcsharp.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-</Project>
+    <CodeAnalysisRuleSet>../../../.sonarlint/alpha-apicsharp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup></Project>

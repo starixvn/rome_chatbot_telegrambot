@@ -104,7 +104,7 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
             };
             var parameters = new[] { "m" };
             var lang = request.Language;
-            var bal = new CustomerBalance("USD", 1, 2, 3, 4, 5, 6, 7, 8, 9, new CustomerOutstanding(10, 11, 12, 13), 0, 0, "");
+            var bal = new CustomerBalance("USD", 1, 2, 3, 4, 5, 6, 7, 8, 9, new CustomerOutstanding(10, 11, 12, 13), 0, 0, "", null);
             balanceInfoService.GetMyBalance(request.CustId, request.CustomerLevel).Returns(bal);
 
             var dict = new Dictionary<string, string>

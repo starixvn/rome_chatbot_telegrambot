@@ -381,4 +381,8 @@
     <value>Xem chi tiết trong Cược Gần Nhất</value>
     <comment/>
   </data>
+  <data name="DownlineTotal" xml:space="preserve">
+    <value>Downline Total</value>
+    <comment/>
+  </data>
 </root>

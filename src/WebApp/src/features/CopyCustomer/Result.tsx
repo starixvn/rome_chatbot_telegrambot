@@ -1,16 +1,19 @@
-import React, { useState } from "react";
-import useTranslation from "next-translate/useTranslation";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import cn from "classnames";
-import Message from "@components/Message";
-import styles from "./Result.module.scss";
-import { Tooltip } from "@components/Tooltip";
+import useTranslation from "next-translate/useTranslation";
+import React, { useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import { formatThousandNumber } from "src/helpers/number";
+
+import Message, { MessageContent } from "@components/Message";
+import { Tooltip } from "@components/Tooltip";
+
+import styles from "./Result.module.scss";
 
 type Props = {
   usernames?: string[];
   domains?: string[];
   message?: string;
+  messageContent?: MessageContent;
   credit?: number;
   failAccounts?: number;
   handleContinue?: () => void;
@@ -20,12 +23,10 @@ const formatDomainList = (domains: string[] | undefined) => {
     return "";
   }
 
-  return domains.length < 4
-    ? domains.join(", ")
-    : `${domains.slice(0, 3).join(", ")}`;
+  return domains.length < 4 ? domains.join(", ") : `${domains.slice(0, 3).join(", ")}`;
 };
 
-const Result: React.FC<Props> = ({ usernames, domains, failAccounts, credit, message, handleContinue }) => {
+const Result: React.FC<Props> = ({ usernames, domains, failAccounts, credit, message, messageContent, handleContinue }) => {
   const { t } = useTranslation("newcustomer");
   const successAccounts = usernames?.join(", ");
   const formatCredit = formatThousandNumber(Number(credit));
@@ -49,18 +50,30 @@ const Result: React.FC<Props> = ({ usernames, domains, failAccounts, credit, mes
     <div className={styles.result}>
       <>
         <Message message={`${t("result.success", { no: usernames?.length })}`} isError={false} />
-        <div className="mt-5"><span style={{ color: "red" }}>*</span> {t("result.introCopyFeature")}</div>
+        <div className="mt-5">
+          <span style={{ color: "red" }}>*</span> {t("result.introCopyFeature")}
+        </div>
         <div className={cn("mt-5", styles["list-button"])}>
-          <CopyToClipboard text={userInfo(usernames?.join(", ") || "", formatCredit, formattedDomains)} options={{ format: "text/plain" }} onCopy={showTooltipIndividualCopy}>
+          <CopyToClipboard
+            text={userInfo(usernames?.join(", ") || "", formatCredit, formattedDomains)}
+            options={{ format: "text/plain" }}
+            onCopy={showTooltipIndividualCopy}
+          >
             <div className={cn("btn-border mr-10", { [styles.show]: isIndividualCopied })}>
-              <Tooltip message={t("copied")} position="top">{t("result.compactCopy")}</Tooltip >
+              <Tooltip message={t("copied")} position="top">
+                {t("result.compactCopy")}
+              </Tooltip>
             </div>
           </CopyToClipboard>
           <CopyToClipboard
-            text={usernames?.map(name => userInfo(name, formatCredit, formattedDomains)).join("\n") || ""}
-            options={{ format: "text/plain" }} onCopy={showTooltipCompactCopy}>
+            text={usernames?.map((name) => userInfo(name, formatCredit, formattedDomains)).join("\n") || ""}
+            options={{ format: "text/plain" }}
+            onCopy={showTooltipCompactCopy}
+          >
             <div className={cn("btn-border", { [styles.show]: isCompactCopied })}>
-              <Tooltip message={t("copied")} position="top">{t("result.individualCopy")}</Tooltip>
+              <Tooltip message={t("copied")} position="top">
+                {t("result.individualCopy")}
+              </Tooltip>
             </div>
           </CopyToClipboard>
         </div>
@@ -81,7 +94,7 @@ const Result: React.FC<Props> = ({ usernames, domains, failAccounts, credit, mes
           <Message message={`${t("result.fail", { failAccounts: failAccounts })}`} isError />
           <div className={styles.row}>
             <p>{t("result.failReason")}: </p>
-            <span className={styles.fail}>{message}</span>
+            {messageContent && <span className={styles.fail}>{messageContent.mainMessage}</span>}
           </div>
         </>
       ) : null}

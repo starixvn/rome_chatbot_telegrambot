@@ -628,4 +628,36 @@
   <data name="SportsbookRiskAmount" xml:space="preserve">
     <value>体育博彩风险金额</value>
   </data>
+  <data name="DirectMember" xml:space="preserve">
+    <value>直系会员</value>
+    <comment/>
+  </data>
+  <data name="CustLevelFull_1" xml:space="preserve">
+    <value>会员</value>
+    <comment/>
+  </data>
+  <data name="CustLevelFull_2" xml:space="preserve">
+    <value>代理</value>
+    <comment/>
+  </data>
+  <data name="CustLevelFull_3" xml:space="preserve">
+    <value>总代理</value>
+    <comment/>
+  </data>
+  <data name="CustLevelFull_4" xml:space="preserve">
+    <value>超级</value>
+    <comment/>
+  </data>
+  <data name="DownlineTotal" xml:space="preserve">
+    <value>下线总数</value>
+    <comment/>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>阶层</value>
+    <comment/>
+  </data>
+  <data name="DirectMemberCRE" xml:space="preserve">
+    <value>直系会员信用额度</value>
+    <comment/>
+  </data>
 </root>

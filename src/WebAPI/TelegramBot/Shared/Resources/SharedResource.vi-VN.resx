@@ -604,4 +604,20 @@
   <data name="SportsbookRiskAmount" xml:space="preserve">
     <value>Số Tiền Rủi Ro Sportsbook</value>
   </data>
+  <data name="DirectMember" xml:space="preserve">
+    <value>Member Trực Tiếp</value>
+    <comment/>
+  </data>
+  <data name="DownlineTotal" xml:space="preserve">
+    <value>Downline Total</value>
+    <comment/>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Cấp</value>
+    <comment/>
+  </data>
+  <data name="DirectMemberCRE" xml:space="preserve">
+    <value>Direct Member CRE.</value>
+    <comment/>
+  </data>
 </root>

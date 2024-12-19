@@ -241,6 +241,22 @@
     <value>Super</value>
     <comment />
   </data>
+  <data name="CustLevelFull_1" xml:space="preserve">
+    <value>Member</value>
+    <comment/>
+  </data>
+  <data name="CustLevelFull_2" xml:space="preserve">
+    <value>Agent</value>
+    <comment/>
+  </data>
+  <data name="CustLevelFull_3" xml:space="preserve">
+    <value>Master Agent</value>
+    <comment/>
+  </data>
+  <data name="CustLevelFull_4" xml:space="preserve">
+    <value>Super</value>
+    <comment/>
+  </data>
   <data name="YourAccountIsClosed" xml:space="preserve">
     <value>Your account is closed</value>
     <comment />
@@ -627,5 +643,21 @@
   </data>
   <data name="SportsbookRiskAmount" xml:space="preserve">
     <value>Sportsbook Risk Amount</value>
+  </data>
+  <data name="DirectMember" xml:space="preserve">
+    <value>Direct Member</value>
+    <comment/>
+  </data>
+  <data name="DownlineTotal" xml:space="preserve">
+    <value>Downline Total</value>
+    <comment/>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Level</value>
+    <comment/>
+  </data>
+  <data name="DirectMemberCRE" xml:space="preserve">
+    <value>Direct Member CRE.</value>
+    <comment/>
   </data>
 </root>

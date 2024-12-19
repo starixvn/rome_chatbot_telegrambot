@@ -1211,5 +1211,93 @@ namespace TelegramBot.Shared.Resources {
                 return ResourceManager.GetString("YourBalance", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to DirectMember.
+        /// </summary>
+        public static string DirectMember
+        {
+            get
+            {
+                return ResourceManager.GetString("DirectMember", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to CustLevelFull_1.
+        /// </summary>
+        public static string CustLevelFull_1
+        {
+            get
+            {
+                return ResourceManager.GetString("CustLevelFull_1", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to CustLevelFull_2.
+        /// </summary>
+        public static string CustLevelFull_2
+        {
+            get
+            {
+                return ResourceManager.GetString("CustLevelFull_2", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to CustLevelFull_3.
+        /// </summary>
+        public static string CustLevelFull_3
+        {
+            get
+            {
+                return ResourceManager.GetString("CustLevelFull_3", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to CustLevelFull_4.
+        /// </summary>
+        public static string CustLevelFull_4
+        {
+            get
+            {
+                return ResourceManager.GetString("CustLevelFull_4", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to DownlineTotal.
+        /// </summary>
+        public static string DownlineTotal
+        {
+            get
+            {
+                return ResourceManager.GetString("DownlineTotal", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Level.
+        /// </summary>
+        public static string Level
+        {
+            get
+            {
+                return ResourceManager.GetString("Level", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to DirectMemberCRE.
+        /// </summary>
+        public static string DirectMemberCRE
+        {
+            get
+            {
+                return ResourceManager.GetString("DirectMemberCRE", resourceCulture);
+            }
+        }
     }
 }

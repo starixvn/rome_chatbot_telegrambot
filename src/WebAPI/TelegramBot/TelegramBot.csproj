@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alpha.API.Client" Version="1.0.2.2" />
-    <PackageReference Include="Fanex.Caching.Redis" Version="2.2.2.1" />
-    <PackageReference Include="Fanex.Data.Repository" Version="4.2.5.3" />
-    <PackageReference Include="Fanex.Logging" Version="2.0.1" />
+    <PackageReference Include="Alpha.API.Client" Version="1.0.2.1-beta07" />
+    <PackageReference Include="Fanex.Caching.Redis" Version="2.2.2.1"/>
+    <PackageReference Include="Fanex.Data.Repository" Version="4.2.5.3"/>
+    <PackageReference Include="Fanex.Logging" Version="2.0.1"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -28,10 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\TelegramBot.Utilities\TelegramBot.Utilities.csproj" />
+    <ProjectReference Include="..\..\Shared\TelegramBot.Utilities\TelegramBot.Utilities.csproj"/>
   </ItemGroup>
 
+
   <PropertyGroup Label="sonarqube-rules-synchronizer">
-    <CodeAnalysisRuleSet>../../../.sonarlint/telegrambotcsharp.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-</Project>
+    <CodeAnalysisRuleSet>../../../.sonarlint/alpha-apicsharp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup></Project>

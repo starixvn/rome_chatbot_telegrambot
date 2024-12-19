@@ -56,8 +56,8 @@ namespace TelegramBot.Modules.Function.Handlers
                 return Result.CreateErrorResult(messageBuilder.BuildInvalidUsernameMessage(account.Language));
             }
 
-            var data = await outstandingService.GetDownlineOutstanding(account.CustId, account.CustomerLevel, downlineInfo.CustId, account.System, account.Language);
-            var message = BuildDownlineOutstandingMessage(account.Language, data, account.CustomerLevel, username);
+            var data = await outstandingService.GetDownlineOutstanding(account.CustId, account.CustomerLevel, (byte)(downlineInfo.RoleId + 1), downlineInfo.CustId, account.System, account.Language);
+            var message = BuildDownlineOutstandingMessage(account.Language, data, account, username, downlineInfo);
             return Result.CreateSuccessfulResult(message);
         }
 
@@ -69,67 +69,103 @@ namespace TelegramBot.Modules.Function.Handlers
             }
 
             var data = await outstandingService.GetTopOutstanding(account.CustId, account.CustomerLevel, topQuery);
-            var message = BuildTopOutstandingMessage(account.Language, data, account.CustomerLevel);
+            var message = BuildTopOutstandingMessage(account.Language, data, account);
             return Result.CreateSuccessfulResult(message);
         }
 
-        private string BuildTopOutstandingMessage(string language, OutstandingReport data, byte custLevel)
+        private string BuildTopOutstandingMessage(string language, OutstandingReport data, CustBotAccount account)
         {
             var textContainer = new List<string>
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.DownlineTopHighestOutstanding), language)}]"
             };
-            AddBodyMessage(textContainer, data, custLevel, language);
+            AddTopOutstandingBodyMessage(textContainer, data, account, language);
 
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
-        private string BuildDownlineOutstandingMessage(string language, OutstandingReport data, byte custLevel, string downlineUsername)
+        private string BuildDownlineOutstandingMessage(string language, OutstandingReport data, CustBotAccount account, string downlineUsername, DownlineInfo downlineInfo)
         {
             var textContainer = new List<string>
             {
                 $"[{ResourceHelper.Get(nameof(SharedResource.DownlineOutstanding), language)}]",
                 $"{ResourceHelper.Get(nameof(SharedResource.For), language)} {downlineUsername}"
             };
-            AddBodyMessage(textContainer, data, custLevel, language);
+            AddDownlineOutstandingBodyMessage(textContainer, data, account, language, downlineInfo);
 
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
-        private async Task AddBodyMessage(List<string> textContainer, OutstandingReport data, byte custLevel, string language)
+        private void AddTopOutstandingBodyMessage(List<string> textContainer, OutstandingReport data, CustBotAccount account, string language)
         {
             if (data == null || !data.Outstandings.Any())
             {
                 textContainer.Add(messageBuilder.BuildNoDataMessage(language));
+                return;
             }
-            else
-            {
-                var downlineLevelText = ResourceHelper.Get($"CustLevel_{custLevel - 1}", language);
-                var custLevelText = ResourceHelper.Get($"CustLevel_{custLevel}", language);
-                var memberText = ResourceHelper.Get(nameof(SharedResource.Member), language);
-                textContainer.Add("<pre>");
-                textContainer.Add(messageFormatter.FormatHeaderRow(downlineLevelText, ResourceHelper.Get(nameof(SharedResource.Outstanding), language), ResourceHelper.Get(nameof(SharedResource.SportsbookRiskAmount), language), language));
-                textContainer.Add($"______________________________________________________________");
 
-                var index = 1;
-                var length = data.Outstandings.Count();
-                foreach (var outstanding in data.Outstandings)
-                {
-                    textContainer.Add(outstanding.Name);
-                    textContainer.Add(messageFormatter.FormatRow(memberText, outstanding.MemberOutstanding.ToFormattedNumber(), outstanding.ToWin.ToFormattedNumber(), language));
-                    textContainer.Add(messageFormatter.FormatRow(custLevelText, outstanding.Outstanding.ToFormattedNumber(), outstanding.RiskAmount.ToFormattedNumber(), language));
-                    textContainer.Add(index == length ? "______________________________________________________________" : "--------------------------------------------------");
-                    index++;
-                }
-                textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant());
-                var toWin = TotalHasToWinValue(data.Outstandings) ? data.Total.ToWin.ToFormattedNumber() : NumberExtensions.NotAvaibleNumber;
-                var riskAmout = TotalHasToWinValue(data.Outstandings) ? data.Total.RiskAmount.ToFormattedNumber() : NumberExtensions.NotAvaibleNumber;
+            var rowLength = 50;
+            textContainer.Add("<pre>");
+            textContainer.Add(messageFormatter.FormatHeaderRow(ResourceHelper.Get(nameof(SharedResource.Username), language), ResourceHelper.Get(nameof(SharedResource.Outstanding), language), language, rowLength));
+            textContainer.Add(string.Join("", Enumerable.Repeat("_", rowLength + 1)));
+
+            var custLevelText = ResourceHelper.Get($"CustLevel_{account.CustomerLevel}", language);
+            var memberText = ResourceHelper.Get(nameof(SharedResource.Member), language);
+            var downlineLevelText = ResourceHelper.Get($"CustLevelFull_{account.CustomerLevel - 1}", language);
+            var index = 1;
+            var length = data.Outstandings.Count();
+            foreach (var outstanding in data.Outstandings)
+            {
+                var level = outstanding.IsDirectMember ? ResourceHelper.Get(nameof(SharedResource.DirectMember), language) : downlineLevelText;
+                textContainer.Add(messageFormatter.FormatRow(outstanding.Name, level, language, rowLength));
+                textContainer.Add(messageFormatter.FormatRow(memberText, outstanding.MemberOutstanding.ToFormattedNumber(), language, rowLength));
+                textContainer.Add(messageFormatter.FormatRow(custLevelText, outstanding.Outstanding.ToFormattedNumber(), language, rowLength));
+                var paddingChar = index == length ? "_" : "-";
+                textContainer.Add(string.Join("", Enumerable.Repeat(paddingChar, rowLength + 1)));
+                index++;
+            }
+            textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant());
+            textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), language, rowLength));
+            textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), language, rowLength));
+
+            textContainer.Add("</pre>");
+        }
+
+        private void AddDownlineOutstandingBodyMessage(List<string> textContainer, OutstandingReport data, CustBotAccount account, string language, DownlineInfo downlineInfo)
+        {
+            if (data == null || !data.Outstandings.Any())
+            {
+                textContainer.Add(messageBuilder.BuildNoDataMessage(language));
+                return;
+            }
+
+            var downlineLevelText = account.CustomerLevel != 2 && downlineInfo.RoleId == 1
+                ? ResourceHelper.Get(nameof(SharedResource.DirectMember), language)
+                : ResourceHelper.Get($"CustLevelFull_{account.CustomerLevel - 1}", language);
+            textContainer.Add("<pre>");
+            textContainer.Add(messageFormatter.FormatHeaderRow(downlineLevelText, ResourceHelper.Get(nameof(SharedResource.Outstanding), language), language));
+            textContainer.Add("________________________________");
+
+            var custLevelText = ResourceHelper.Get($"CustLevel_{account.CustomerLevel}", language);
+            var memberText = ResourceHelper.Get(nameof(SharedResource.Member), language);
+            var index = 1;
+            var length = data.Outstandings.Count();
+            foreach (var outstanding in data.Outstandings)
+            {
+                textContainer.Add(outstanding.Name);
+                textContainer.Add(messageFormatter.FormatRow(memberText, outstanding.MemberOutstanding.ToFormattedNumber(), language));
+                textContainer.Add(messageFormatter.FormatRow(custLevelText, outstanding.Outstanding.ToFormattedNumber(), language));
+                textContainer.Add(index == length ? "________________________________" : "--------------------------------");
+                index++;
+            }
+            textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant());
+            textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), language));
+            textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), language));
 
                 textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), toWin, language));
                 textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), riskAmout, language));
 
-                textContainer.Add("</pre>");
-            }
+            textContainer.Add("</pre>");
         }
 
         public async Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)

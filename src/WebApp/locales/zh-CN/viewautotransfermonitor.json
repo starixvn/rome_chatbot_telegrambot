@@ -15,5 +15,10 @@
   "firstLastName": "名及姓",
   "reason": "原因",
   "completedTime": "完成时间",
-  "adbtChangeError": "由于上线已为您启用全天余额转账，所以您无法使用自动转账。 页面将会自动刷新。"
+  "adbtChangeError": "由于上线已为您启用全天余额转账，所以您无法使用自动转账。 页面将会自动刷新。",
+  "level": "阶层",
+  "all": "全部",
+  "masterAgent": "总代理",
+  "agent": "代理",
+  "directMember": "直系会员"
 }

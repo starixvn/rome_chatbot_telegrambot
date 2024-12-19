@@ -117,17 +117,26 @@ namespace TelegramBot.Modules.Function.Handlers
                 {nameof(SharedResource.ThirdPartyPendingTransfer), bal.PendingTransfer3rd},
                 {nameof(SharedResource.GivenCredit), bal.GivenCredit},
                 {$"{(CustomerLevel)account.CustomerLevel - 1}Credit", bal.MemberCredit},
-                {nameof(SharedResource.MemberOutStanding), bal.Outstanding.MemberOutstanding},
-                {$"{(CustomerLevel)account.CustomerLevel}OutStanding", GetOutStanding(bal.Outstanding,account.CustomerLevel)},
-                {nameof(SharedResource.RewardReceivable), bal.RewardReceivable},
-                {nameof(SharedResource.RewardPayable), bal.RewardPayable}
             };
+
+            if ((CustomerLevel)account.CustomerLevel == CustomerLevel.Super
+                || (CustomerLevel)account.CustomerLevel == CustomerLevel.Master)
+            {
+                dict.Add("DirectMemberCRE", bal.DirectMemberCredit);
+            }
+
+            dict.Add(nameof(SharedResource.MemberOutStanding), bal.Outstanding.MemberOutstanding);
+            dict.Add($"{(CustomerLevel)account.CustomerLevel}OutStanding", GetOutStanding(bal.Outstanding, account.CustomerLevel));
+            dict.Add(nameof(SharedResource.RewardReceivable), bal.RewardReceivable);
+            dict.Add(nameof(SharedResource.RewardPayable), bal.RewardPayable);
+
             foreach (var item in dict)
             {
                 var title = ResourceHelper.Get(item.Key, account.Language);
                 var value = item.Value?.ToFormattedNumber();
                 textContainer.Add(messageFormatter.FormatRow(title, IsReward(item.Key) ? $"{bal.RewardCurrency} {value}" : value, account.Language));
             }
+
             textContainer.Add("</pre>");
             var message = string.Join(messageFormatter.NewLine(), textContainer);
             return Result.CreateSuccessfulResult(message);
