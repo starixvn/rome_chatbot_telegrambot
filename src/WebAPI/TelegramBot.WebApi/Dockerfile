@@ -14,7 +14,7 @@ WORKDIR /src/WebAPI/TelegramBot.WebApi
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet publish -r linux-x64 --self-contained false -o /app
 
-FROM hub.nexdev.net/base/dotnet/core/aspnet:6.0-alpine as base
+FROM hub.nexdev.net/base/dotnet/core/aspnet:6.0-alpine-25h1 as base
 
 # Don’t run as root
 RUN adduser --disabled-password \
