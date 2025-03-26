@@ -1,6 +1,7 @@
 using Alpha.API.Client.Models.Customers;
 using Alpha.API.Client.Models.Outstanding;
 using Alpha.API.Client.Services;
+using System.Threading.Tasks;
 using TelegramBot.Modules.Message;
 using TelegramBot.Modules.Setting.Models;
 using TelegramBot.Shared.Configurations;
@@ -95,7 +96,7 @@ namespace TelegramBot.Modules.Function.Handlers
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
-        private void AddBodyMessage(List<string> textContainer, OutstandingReport data, byte custLevel, string language)
+        private async Task AddBodyMessage(List<string> textContainer, OutstandingReport data, byte custLevel, string language)
         {
             if (data == null || !data.Outstandings.Any())
             {
@@ -107,22 +108,25 @@ namespace TelegramBot.Modules.Function.Handlers
                 var custLevelText = ResourceHelper.Get($"CustLevel_{custLevel}", language);
                 var memberText = ResourceHelper.Get(nameof(SharedResource.Member), language);
                 textContainer.Add("<pre>");
-                textContainer.Add(messageFormatter.FormatHeaderRow(downlineLevelText, ResourceHelper.Get(nameof(SharedResource.Outstanding), language), language));
-                textContainer.Add("________________________________");
+                textContainer.Add(messageFormatter.FormatHeaderRow(downlineLevelText, ResourceHelper.Get(nameof(SharedResource.Outstanding), language), ResourceHelper.Get(nameof(SharedResource.SportsbookRiskAmount), language), language));
+                textContainer.Add($"______________________________________________________________");
 
                 var index = 1;
                 var length = data.Outstandings.Count();
                 foreach (var outstanding in data.Outstandings)
                 {
                     textContainer.Add(outstanding.Name);
-                    textContainer.Add(messageFormatter.FormatRow(memberText, outstanding.MemberOutstanding.ToFormattedNumber(), language));
-                    textContainer.Add(messageFormatter.FormatRow(custLevelText, outstanding.Outstanding.ToFormattedNumber(), language));
-                    textContainer.Add(index == length ? "________________________________" : "--------------------------------");
+                    textContainer.Add(messageFormatter.FormatRow(memberText, outstanding.MemberOutstanding.ToFormattedNumber(), outstanding.ToWin.ToFormattedNumber(), language));
+                    textContainer.Add(messageFormatter.FormatRow(custLevelText, outstanding.Outstanding.ToFormattedNumber(), outstanding.RiskAmount.ToFormattedNumber(), language));
+                    textContainer.Add(index == length ? "______________________________________________________________" : "--------------------------------------------------");
                     index++;
                 }
                 textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant());
-                textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), language));
-                textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), language));
+                var toWin = TotalHasToWinValue(data.Outstandings) ? data.Total.ToWin.ToFormattedNumber() : NumberExtensions.NotAvaibleNumber;
+                var riskAmout = TotalHasToWinValue(data.Outstandings) ? data.Total.RiskAmount.ToFormattedNumber() : NumberExtensions.NotAvaibleNumber;
+
+                textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), toWin, language));
+                textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), riskAmout, language));
 
                 textContainer.Add("</pre>");
             }
@@ -130,5 +134,8 @@ namespace TelegramBot.Modules.Function.Handlers
 
         public async Task<IEnumerable<string>> GetTopDownlineUsername(CustBotAccount account, int top = 5)
             => await outstandingService.GetTopUsername(account.CustId, account.CustomerLevel, top);
+
+        private static bool TotalHasToWinValue(IEnumerable<OutstandingEntity> data)
+            => data.Any(i => i.ToWin.HasValue);
     }
 }
