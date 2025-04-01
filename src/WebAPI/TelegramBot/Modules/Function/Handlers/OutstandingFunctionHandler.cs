@@ -106,7 +106,7 @@ namespace TelegramBot.Modules.Function.Handlers
 
             var rowLength = 50;
             textContainer.Add("<pre>");
-            textContainer.Add(messageFormatter.FormatHeaderRow(ResourceHelper.Get(nameof(SharedResource.Username), language), ResourceHelper.Get(nameof(SharedResource.Outstanding), language), language, rowLength));
+            textContainer.Add(messageFormatter.FormatHeaderRow(ResourceHelper.Get(nameof(SharedResource.Username), language), ResourceHelper.Get(nameof(SharedResource.Outstanding), language), ResourceHelper.Get(nameof(SharedResource.SportsbookRiskAmount), language), language, rowLength));
             textContainer.Add(string.Join("", Enumerable.Repeat("_", rowLength + 1)));
 
             var custLevelText = ResourceHelper.Get($"CustLevel_{account.CustomerLevel}", language);
@@ -118,15 +118,19 @@ namespace TelegramBot.Modules.Function.Handlers
             {
                 var level = outstanding.IsDirectMember ? ResourceHelper.Get(nameof(SharedResource.DirectMember), language) : downlineLevelText;
                 textContainer.Add(messageFormatter.FormatRow(outstanding.Name, level, language, rowLength));
-                textContainer.Add(messageFormatter.FormatRow(memberText, outstanding.MemberOutstanding.ToFormattedNumber(), language, rowLength));
-                textContainer.Add(messageFormatter.FormatRow(custLevelText, outstanding.Outstanding.ToFormattedNumber(), language, rowLength));
+                textContainer.Add(messageFormatter.FormatRow(memberText, outstanding.MemberOutstanding.ToFormattedNumber(), outstanding.ToWin.ToFormattedNumber(), language, rowLength));
+                textContainer.Add(messageFormatter.FormatRow(custLevelText, outstanding.Outstanding.ToFormattedNumber(), outstanding.RiskAmount.ToFormattedNumber(), language, rowLength));
                 var paddingChar = index == length ? "_" : "-";
                 textContainer.Add(string.Join("", Enumerable.Repeat(paddingChar, rowLength + 1)));
                 index++;
             }
+
             textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant());
-            textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), language, rowLength));
-            textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), language, rowLength));
+            var toWin = TotalHasToWinValue(data.Outstandings) ? data.Total.ToWin.ToFormattedNumber() : NumberExtensions.NotAvaibleNumber;
+            var riskAmout = TotalHasToWinValue(data.Outstandings) ? data.Total.RiskAmount.ToFormattedNumber() : NumberExtensions.NotAvaibleNumber;
+
+            textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), toWin, language));
+            textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), riskAmout, language));
 
             textContainer.Add("</pre>");
         }
@@ -143,8 +147,8 @@ namespace TelegramBot.Modules.Function.Handlers
                 ? ResourceHelper.Get(nameof(SharedResource.DirectMember), language)
                 : ResourceHelper.Get($"CustLevelFull_{account.CustomerLevel - 1}", language);
             textContainer.Add("<pre>");
-            textContainer.Add(messageFormatter.FormatHeaderRow(downlineLevelText, ResourceHelper.Get(nameof(SharedResource.Outstanding), language), language));
-            textContainer.Add("________________________________");
+            textContainer.Add(messageFormatter.FormatHeaderRow(downlineLevelText, ResourceHelper.Get(nameof(SharedResource.Outstanding), language), ResourceHelper.Get(nameof(SharedResource.SportsbookRiskAmount), language), language));
+            textContainer.Add($"______________________________________________________________");
 
             var custLevelText = ResourceHelper.Get($"CustLevel_{account.CustomerLevel}", language);
             var memberText = ResourceHelper.Get(nameof(SharedResource.Member), language);
@@ -153,17 +157,17 @@ namespace TelegramBot.Modules.Function.Handlers
             foreach (var outstanding in data.Outstandings)
             {
                 textContainer.Add(outstanding.Name);
-                textContainer.Add(messageFormatter.FormatRow(memberText, outstanding.MemberOutstanding.ToFormattedNumber(), language));
-                textContainer.Add(messageFormatter.FormatRow(custLevelText, outstanding.Outstanding.ToFormattedNumber(), language));
-                textContainer.Add(index == length ? "________________________________" : "--------------------------------");
+                textContainer.Add(messageFormatter.FormatRow(memberText, outstanding.MemberOutstanding.ToFormattedNumber(), outstanding.ToWin.ToFormattedNumber(), language));
+                textContainer.Add(messageFormatter.FormatRow(custLevelText, outstanding.Outstanding.ToFormattedNumber(), outstanding.RiskAmount.ToFormattedNumber(), language));
+                textContainer.Add(index == length ? "______________________________________________________________" : "--------------------------------------------------");
                 index++;
             }
             textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant());
-            textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), language));
-            textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), language));
+            var toWin = TotalHasToWinValue(data.Outstandings) ? data.Total.ToWin.ToFormattedNumber() : NumberExtensions.NotAvaibleNumber;
+            var riskAmout = TotalHasToWinValue(data.Outstandings) ? data.Total.RiskAmount.ToFormattedNumber() : NumberExtensions.NotAvaibleNumber;
 
-                textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), toWin, language));
-                textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), riskAmout, language));
+            textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), toWin, language));
+            textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), riskAmout, language));
 
             textContainer.Add("</pre>");
         }

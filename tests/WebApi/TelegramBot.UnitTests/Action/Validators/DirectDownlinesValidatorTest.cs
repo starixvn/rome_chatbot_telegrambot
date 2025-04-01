@@ -26,7 +26,7 @@ public class DirectDownlinesValidatorTest
     public void Validate_ValidDownlineAccount_ReturnSuccessResult()
     {
         var account = new CustBotAccount { CustId = 1, CustomerLevel = 3 };
-        customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(new DownlineInfo(22, 2, true));
+        customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(new DownlineInfo(22, 2, true, 1));
         var expectResult = Result.CreateSuccessfulResult();
 
         var result = directDownlinesValidator.Validate(account, "directDownline");
@@ -39,7 +39,7 @@ public class DirectDownlinesValidatorTest
     public void Validate_EmptyUserResponse_ReturnErrorResult()
     {
         var account = new CustBotAccount { CustId = 1, CustomerLevel = 3 };
-        customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(new DownlineInfo(22, 2, true));
+        customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(new DownlineInfo(22, 2, true, 1));
         var expectResult = Result.CreateErrorResult();
 
         var result = directDownlinesValidator.Validate(account, "");
@@ -52,7 +52,7 @@ public class DirectDownlinesValidatorTest
     public void Validate_BadDownlineInfo_ReturnErrorResult()
     {
         var account = new CustBotAccount { CustId = 1, CustomerLevel = 3 };
-        customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(new DownlineInfo(-1, 2, true));
+        customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(new DownlineInfo(-1, 2, true, 1));
         var expectResult = Result.CreateErrorResult();
 
         var result = directDownlinesValidator.Validate(account, "directDownline");

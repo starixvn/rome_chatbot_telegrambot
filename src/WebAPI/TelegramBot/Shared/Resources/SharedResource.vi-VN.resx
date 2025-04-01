@@ -606,18 +606,18 @@
   </data>
   <data name="DirectMember" xml:space="preserve">
     <value>Member Trực Tiếp</value>
-    <comment/>
+    <comment />
   </data>
   <data name="DownlineTotal" xml:space="preserve">
-    <value>Downline Total</value>
-    <comment/>
+    <value>Tổng giao dịch của cấp dưới</value>
+    <comment />
   </data>
   <data name="Level" xml:space="preserve">
     <value>Cấp</value>
-    <comment/>
+    <comment />
   </data>
   <data name="DirectMemberCRE" xml:space="preserve">
-    <value>Direct Member CRE.</value>
-    <comment/>
+    <value>H.Mức Member Trực Tiếp</value>
+    <comment />
   </data>
 </root>
