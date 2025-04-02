@@ -14,7 +14,6 @@
   <ItemGroup>
     <PackageReference Include="Fanex.Caching.Redis" Version="2.2.2.1"/>
     <PackageReference Include="Fanex.Caching.Redis.AspNetCore" Version="2.2.2.1"/>
-    <PackageReference Include="Fanex.Data" Version="4.3.2.1" />
     <PackageReference Include="Fanex.Data.Repository" Version="4.3.2.1" />
     <PackageReference Include="Fanex.Data.SqlServer" Version="4.3.2.1" />
     <PackageReference Include="Fanex.Logging.Extensions.AspNetCore" Version="1.0.0"/>
