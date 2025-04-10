@@ -38,16 +38,20 @@ public sealed class AbnormalLoginAlertJob : NotificationBaseJob
             return;
         }
 
-        var ips = abnormalLogins.Select(a => a.IP).Distinct();
-        var ipInfo = await abnormalLoginService.GetIPInfo(ips);
-        var defaultIPInfo = new IPInfoModel(string.Empty, "-", "-");
-
         var custIds = abnormalLogins.Select(a => a.CustId).Distinct().JoinWithComma();
         var linkedInfo = await customerService.GetLinkedCustomers(FunctionKey.AbnormalLoginAlert, custIds, job.Environment);
+        var linkedAbnormalLogins = abnormalLogins.Where(a => linkedInfo.Any(l => l.CustId == a.CustId && l.SubAccId == a.SubAccId)).ToList();        
+        if (!linkedAbnormalLogins.Any())
+        {
+            return;
+        }
 
+        var ips = linkedAbnormalLogins.Select(a => a.IP).Distinct();
+        var ipInfo = await abnormalLoginService.GetIPInfo(ips);
+        var defaultIPInfo = new IPInfoModel(string.Empty, "-", "-");
         var notifications = new List<AbnormalLoginNotification>();
 
-        foreach (var login in abnormalLogins)
+        foreach (var login in linkedAbnormalLogins)
         {
             var linkedCust = linkedInfo.FirstOrDefault(l => l.CustId == login.CustId && l.SubAccId == login.SubAccId);
 
