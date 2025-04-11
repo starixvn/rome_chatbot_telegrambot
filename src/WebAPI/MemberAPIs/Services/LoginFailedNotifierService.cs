@@ -89,21 +89,34 @@ namespace MemberAPIs.Services
                 return APIResultModel.Failed(ApiMessagesConstants.LoginFailedCountZero);
             }
 
-            if (getCustInfoCriteria.FailedCount > 6)
+            if (getCustInfoCriteria.FailedCount >= 6)
             {
                 return APIResultModel.Failed(ApiMessagesConstants.AccountIsLocked);
             }
 
-            return param.LoginFailedType switch
+            if (param.LoginFailedType == LoginFailedTypeConstants.ReachFailedCount)
             {
-                LoginFailedTypeConstants.ChangedPassword => string.IsNullOrWhiteSpace(param.LastChangedPasswordDate)
-                    ? APIResultModel.Failed(ApiMessagesConstants.LastChangedPasswordDateEmpty)
-                    : null,
-                LoginFailedTypeConstants.ReachFailedCount => getCustInfoCriteria.FailedCount < 3
-                    ? APIResultModel.Failed(ApiMessagesConstants.FailedCountNotReachThree)
-                    : null,
-                _ => null
-            };
+                return getCustInfoCriteria.FailedCount == 3
+                    ? null
+                    : APIResultModel.Failed(ApiMessagesConstants.FailedCountNotThree);
+            }  
+            
+            if (param.LoginFailedType == LoginFailedTypeConstants.ChangedPassword)
+            {
+                if (string.IsNullOrWhiteSpace(param.LastChangedPasswordDate))
+                {
+                    return APIResultModel.Failed(ApiMessagesConstants.LastChangedPasswordDateEmpty);
+                }
+
+                if (getCustInfoCriteria.FailedCount == 3)
+                {
+                    return APIResultModel.Failed(ApiMessagesConstants.LoginFailedTypeMismatchForReach3Attempts);
+                }
+
+                return null;
+            }
+
+            return null;
         }
     }
 }

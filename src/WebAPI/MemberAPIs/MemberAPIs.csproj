@@ -33,4 +33,12 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resources\Labels.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Labels.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

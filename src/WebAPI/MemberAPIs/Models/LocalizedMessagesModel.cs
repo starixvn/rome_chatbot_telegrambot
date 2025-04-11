@@ -23,13 +23,13 @@ public class LocalizedMessagesModel
         .Where(p => Cultures.Select(c => c.property).Contains(p.Name))
         .ToArray();
 
-    public string En { get; set; }
-    public string Ch { get; set; }
-    public string Cs { get; set; }
-    public string Th { get; set; }
-    public string Vi { get; set; }
-    public string Jp { get; set; }
-    public string Ko { get; set; }
+    public string En { get; set; } = string.Empty;
+    public string Ch { get; set; } = string.Empty;
+    public string Cs { get; set; } = string.Empty;
+    public string Th { get; set; } = string.Empty;
+    public string Vi { get; set; } = string.Empty;
+    public string Jp { get; set; } = string.Empty;
+    public string Ko { get; set; } = string.Empty;
 
     public static LocalizedMessagesModel GetLocalizedMessages(string messageKey, object[] messageParams)
     {

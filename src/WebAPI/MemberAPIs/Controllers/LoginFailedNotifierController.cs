@@ -34,22 +34,10 @@ namespace MemberAPIs.Controllers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(apiKey))
+                var validationResult = ValidateInsertNotificationParameters(apiKey, request);
+                if (validationResult != null)
                 {
-                    Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    return ApiMessagesConstants.ApiKeyRequired;
-                }
-
-                if (apiKey != AppSetting.APIToken)
-                {
-                    Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    return ApiMessagesConstants.ApiKeyInvalid;
-                }
-
-                if (!LoginFailedTypeConstants.IsValidLoginFailedType(request.LoginFailedType))
-                {
-                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return ApiMessagesConstants.InvalidLoginFailedType;
+                    return validationResult;
                 }
 
                 var param = new AlertLoginFailedParam
@@ -67,6 +55,29 @@ namespace MemberAPIs.Controllers
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return ApiMessagesConstants.InternalServerError;
             }
+        }
+
+        private object ValidateInsertNotificationParameters(string apiKey, AlertLoginFailedRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                return ApiMessagesConstants.ApiKeyRequired;
+            }
+
+            if (apiKey != AppSetting.APIToken)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                return ApiMessagesConstants.ApiKeyInvalid;
+            }
+
+            if (!LoginFailedTypeConstants.IsValidLoginFailedType(request.LoginFailedType))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return ApiMessagesConstants.InvalidLoginFailedType;
+            }
+
+            return null;
         }
     }
 }

@@ -10,7 +10,8 @@ namespace MemberAPIs.Constants
         public const string LoginFailedCountZero = "Login failed count is 0";
         public const string AccountIsLocked = "Account is locked";
         public const string LastChangedPasswordDateEmpty = "LastChangedPasswordDate is empty";
-        public const string FailedCountNotReachThree = "FailedCount is not reach 3";
+        public const string FailedCountNotThree = "FailedCount is not 3";
         public const string RateLimitExceeded = "Rate limit exceeded. Please try again later.";
+        public const string LoginFailedTypeMismatchForReach3Attempts = "LoginFailedType should be 2 when FailedCount is 3.";
     }
 } 
