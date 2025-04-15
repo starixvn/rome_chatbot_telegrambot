@@ -1,5 +1,6 @@
 using Alpha.API.Client.Models.Customers;
 using TelegramBot.Modules.Message;
+using TelegramBot.Shared.Constants;
 
 namespace TelegramBot.Modules.Function.Handlers
 {
@@ -16,10 +17,13 @@ namespace TelegramBot.Modules.Function.Handlers
 
         protected static bool IsValidDirectDownline(int custLevel, DownlineInfo downlineInfo)
             => downlineInfo != null
-                && downlineInfo.CustId > 0
-                && IsDirectDownline(custLevel, downlineInfo.RoleId);
+            && downlineInfo.CustId > 0
+            && (IsDirectDownline(custLevel, downlineInfo.RoleId) || IsDirectMember(custLevel, downlineInfo));
 
         private static bool IsDirectDownline(int custLevel, int downlineLevel)
             => (custLevel - downlineLevel) == 1;
+
+        private static bool IsDirectMember(int custLevel, DownlineInfo downlineInfo)
+            => (CustomerLevel)downlineInfo.RoleId == CustomerLevel.Member && -custLevel == downlineInfo.AgentId;
     }
 }

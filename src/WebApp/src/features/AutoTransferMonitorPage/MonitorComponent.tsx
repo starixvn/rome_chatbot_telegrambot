@@ -1,6 +1,7 @@
 import styles from "./AutoTransferMonitorPage.module.scss";
 import React from "react";
 import useTranslation from "next-translate/useTranslation";
+import { Super, Agent } from "src/constants/role-id";
 
 type MonitorDataViewModel = {
     transfers: any;
@@ -16,18 +17,20 @@ type MonitorDataViewModel = {
     setExpandStatus: any;
     isExpandAll: any;
     setIsExpandAll: any;
+    customerLevel: number;
 };
- 
-const MonitorComponent = ({ 
-    sortedBy, 
-    sortedDirection, 
-    setSortedBy, 
-    setSortedDirection, 
-    setSortValue, 
+
+const MonitorComponent = ({
+    sortedBy,
+    sortedDirection,
+    setSortedBy,
+    setSortedDirection,
+    setSortValue,
     expandStatus,
     setExpandStatus,
     isExpandAll,
     setIsExpandAll,
+    customerLevel,
     ...props }: MonitorDataViewModel) => {
 
     const sortedByValues = {
@@ -47,10 +50,10 @@ const MonitorComponent = ({
         const direction =  sortedDirection === sortedDirectionValues.asc ? sortedDirectionValues.desc : sortedDirectionValues.asc ;
         const newDirection = sortedBy === val ? direction : sortedDirectionValues.asc;
         setSortedDirection(newDirection);
-        setSortedBy(val); 
+        setSortedBy(val);
         setExpandStatus({});
         setSortValue(val * 10 + newDirection);
-    } 
+    }
 
     return (
         <div className={styles["content"]}>
@@ -114,11 +117,12 @@ const MonitorComponent = ({
                     </tr>
                 </thead>
                 <tbody>
-                    {props.transfers.length === 0 && <tr><td colSpan={7} className="text-center">{t("noInformationIsAvailable")}</td></tr>}
+                    {props.transfers.length === 0 && <tr><td colSpan={5} className="text-center">{t("noInformationIsAvailable")}</td></tr>}
                     {props.transfers.length > 0 && props.transfers.map((transfer: any, i: number) => {
                         const amountClass = (transfer.transferAmount || 0) < 0 ? " format-negative" : "";
                         const status = transfer.status.toLowerCase() === 'waiting' ? 'processing' : transfer.status.toLowerCase();
-                        
+                        const levelTypeValue = customerLevel === Super ? t("masterAgent") : t("agent");
+
                         return (
                             <>
                                 <tr key={i}>
@@ -137,11 +141,24 @@ const MonitorComponent = ({
                                         </div>
                                     </td>
                                 </tr>
-                                <tr className={"row-detail " + (expandStatus[i] ? '' : 'hide')}>
-                                    <td rowSpan={3}></td>
-                                    <td className={"text-left"}>{t("firstLastName")}</td>
-                                    <td colSpan={3} className={"text-center"}>{transfer.firstLastName}</td>
-                                </tr>
+                                {customerLevel === Agent ?
+                                    <tr className={"row-detail " + (expandStatus[i] ? '' : 'hide')}>
+                                        <td rowSpan={3}></td>
+                                        <td className={"text-left"}>{t("firstLastName")}</td>
+                                        <td colSpan={3} className={"text-center"}>{transfer.firstLastName}</td>
+                                    </tr> :
+                                    <>
+                                        <tr className={"row-detail " + (expandStatus[i] ? '' : 'hide')}>
+                                            <td rowSpan={4}></td>
+                                            <td className={"text-left"}>{t("level")}</td>
+                                            <td colSpan={3} className={"text-center"}>{transfer.isDirectMember ? t("directMember") : levelTypeValue}</td>
+                                        </tr>
+                                        <tr className={"row-detail " + (expandStatus[i] ? '' : 'hide')}>
+                                            <td className={"text-left"}>{t("firstLastName")}</td>
+                                            <td colSpan={3} className={"text-center"}>{transfer.firstLastName}</td>
+                                        </tr>
+                                    </>
+                                }
                                 <tr className={"row-detail " + (expandStatus[i] ? '' : 'hide')}>
                                     <td className={"text-left"}>{t("reason")}</td>
                                     <td colSpan={3} className={"text-center"}>{transfer.reason || ''}</td>

@@ -484,6 +484,60 @@ namespace TelegramBot.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Member.
+        /// </summary>
+        public static string CustLevelFull_1 {
+            get {
+                return ResourceManager.GetString("CustLevelFull_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Agent.
+        /// </summary>
+        public static string CustLevelFull_2 {
+            get {
+                return ResourceManager.GetString("CustLevelFull_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Master Agent.
+        /// </summary>
+        public static string CustLevelFull_3 {
+            get {
+                return ResourceManager.GetString("CustLevelFull_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Super.
+        /// </summary>
+        public static string CustLevelFull_4 {
+            get {
+                return ResourceManager.GetString("CustLevelFull_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Direct Member.
+        /// </summary>
+        public static string DirectMember {
+            get {
+                return ResourceManager.GetString("DirectMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Direct Member CRE..
+        /// </summary>
+        public static string DirectMemberCRE {
+            get {
+                return ResourceManager.GetString("DirectMemberCRE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Downline&apos;s Balance.
         /// </summary>
         public static string DownlineBalance {
@@ -525,6 +579,15 @@ namespace TelegramBot.Shared.Resources {
         public static string DownlineTopHighestOutstanding {
             get {
                 return ResourceManager.GetString("DownlineTopHighestOutstanding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downline Total.
+        /// </summary>
+        public static string DownlineTotal {
+            get {
+                return ResourceManager.GetString("DownlineTotal", resourceCulture);
             }
         }
         
@@ -633,6 +696,15 @@ namespace TelegramBot.Shared.Resources {
         public static string LanguageUpdated {
             get {
                 return ResourceManager.GetString("LanguageUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Level.
+        /// </summary>
+        public static string Level {
+            get {
+                return ResourceManager.GetString("Level", resourceCulture);
             }
         }
         

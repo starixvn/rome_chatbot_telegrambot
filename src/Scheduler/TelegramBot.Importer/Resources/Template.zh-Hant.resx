@@ -381,4 +381,8 @@
     <value>在最後投注查看詳細信息</value>
     <comment/>
   </data>
+  <data name="DownlineTotal" xml:space="preserve">
+    <value>下線總數</value>
+    <comment/>
+  </data>
 </root>

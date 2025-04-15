@@ -15,5 +15,10 @@
   "firstLastName": "Họ/ tên",
   "reason": "Reason",
   "completedTime": "Completed Time",
-  "adbtChangeError": "You cannot use Auto Transfer because upline has enabled All Day Balance Transfer for you. The page will refresh automatically."
+  "adbtChangeError": "You cannot use Auto Transfer because upline has enabled All Day Balance Transfer for you. The page will refresh automatically.",
+  "level": "Cấp",
+  "all": "Tất cả",
+  "masterAgent": "Master Agent",
+  "agent": "Agent",
+  "directMember": "Member Trực Tiếp"
 }

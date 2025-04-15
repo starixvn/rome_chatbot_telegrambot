@@ -15,5 +15,10 @@
   "firstLastName": "名及姓",
   "reason": "原因",
   "completedTime": "完成時間",
-  "adbtChangeError": "由於上線已為您啟用全天餘額轉賬，所以您無法使用自動轉賬。頁面將會自動刷新。"
+  "adbtChangeError": "由於上線已為您啟用全天餘額轉賬，所以您無法使用自動轉賬。頁面將會自動刷新。",
+  "level": "階層",
+  "all": "全部",
+  "masterAgent": "總代理",
+  "agent": "代理",
+  "directMember": "直系會員"
 }

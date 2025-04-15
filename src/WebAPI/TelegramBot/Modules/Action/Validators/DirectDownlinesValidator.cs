@@ -1,6 +1,8 @@
+using Alpha.API.Client.Models.Customers;
 using Alpha.API.Client.Services;
 using TelegramBot.Modules.Message;
 using TelegramBot.Modules.Setting.Models;
+using TelegramBot.Shared.Constants;
 using TelegramBot.Shared.Models;
 
 namespace TelegramBot.Modules.Action.Validators
@@ -21,7 +23,9 @@ namespace TelegramBot.Modules.Action.Validators
             if (!string.IsNullOrEmpty(userResponse))
             {
                 var downlineInfo = await customerService.GetDownlineInfo(account.CustId, userResponse);
-                if (downlineInfo != null && downlineInfo.CustId > 0 && IsDirectDownline(account.CustomerLevel, downlineInfo.RoleId))
+                if (downlineInfo != null
+                    && downlineInfo.CustId > 0
+                    && (IsDirectDownline(account.CustomerLevel, downlineInfo.RoleId) || IsDirectMember(account.CustomerLevel, downlineInfo)))
                 {
                     return Result.CreateSuccessfulResult();
                 }
@@ -32,5 +36,8 @@ namespace TelegramBot.Modules.Action.Validators
 
         private static bool IsDirectDownline(int custLevel, int downlineLevel)
             => (custLevel - downlineLevel) == 1;
+
+        private static bool IsDirectMember(int custLevel, DownlineInfo downlineInfo)
+            => (CustomerLevel)downlineInfo.RoleId == CustomerLevel.Member && -custLevel == downlineInfo.AgentId;
     }
 }

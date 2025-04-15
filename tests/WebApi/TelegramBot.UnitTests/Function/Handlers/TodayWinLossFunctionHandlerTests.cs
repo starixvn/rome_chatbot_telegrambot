@@ -147,7 +147,7 @@ namespace TelegramBot.Modules.UnitTests.Function
             var account = new CustBotAccount { Language = "en-US", CustId = (byte)CustomerLevel.Super };
             string[] parameters = { "invalidDownlineUsername" };
 
-            customerService.GetDownlineInfo(account.CustId, "invalidDownlineUsername").Returns(Task.FromResult(new DownlineInfo(111, (byte)CustomerLevel.Member, false)));
+            customerService.GetDownlineInfo(account.CustId, "invalidDownlineUsername").Returns(Task.FromResult(new DownlineInfo(111, (byte)CustomerLevel.Member, false, 1)));
             var expectedMessage = messageBuilder.BuildInvalidCustNameMessage(account.Language, "invalidDownlineUsername");
 
             // Act
@@ -182,7 +182,7 @@ namespace TelegramBot.Modules.UnitTests.Function
         {
             // Arrange
             var expectedMessage = string.Join(telegramFormatter.NewLine(), messages);
-            customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(new DownlineInfo(111, (byte)(account.CustomerLevel - 1), true)));
+            customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(new DownlineInfo(111, (byte)(account.CustomerLevel - 1), true, 1)));
             winLossService.GetDownlineWinLoss(account.CustId, account.CustomerLevel, today, 111).Returns(winLoss);
 
             // Act

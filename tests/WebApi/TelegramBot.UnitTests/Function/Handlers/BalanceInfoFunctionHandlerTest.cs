@@ -104,7 +104,7 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
             };
             var parameters = new[] { "m" };
             var lang = request.Language;
-            var bal = new CustomerBalance("USD", 1, 2, 3, 4, 5, 6, 7, 8, 9, new CustomerOutstanding(10, 11, 12, 13), 0, 0, "");
+            var bal = new CustomerBalance("USD", 1, 2, 3, 4, 5, 6, 7, 8, 9, new CustomerOutstanding(10, 11, 12, 13), 0, 0, "", null);
             balanceInfoService.GetMyBalance(request.CustId, request.CustomerLevel).Returns(bal);
 
             var dict = new Dictionary<string, string>
@@ -156,7 +156,7 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
         public async Task Handle_ValidRequestDownLineUserName_ReturnSuccessMessage(CustBotAccount requestAccount, string[] parameters)
         {
             // Arrange
-            var downlineInfo = new DownlineInfo(1, (byte)(requestAccount.CustomerLevel - 1), true);
+            var downlineInfo = new DownlineInfo(1, (byte)(requestAccount.CustomerLevel - 1), true, 1);
             customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(downlineInfo));
             var downlineBalance = new DownlineBalance(1, 2, 3, 4, 5, 6, 7, 8, new List<TotalDownline>(), 9, 10,
                 new CustomerOutstanding(11, 12, 13, 14), 0, 0, "");
@@ -208,7 +208,7 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
             };
 
 
-            var downlineInfo = new DownlineInfo(1, (byte)CustomerLevel.Super, true);
+            var downlineInfo = new DownlineInfo(1, (byte)CustomerLevel.Super, true, 1);
             customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(downlineInfo));
             var downlineBalance = new DownlineBalance(1, 2, 3, 4, 5, 6, 7, 8, new List<TotalDownline>(), 9, 10,
                 new CustomerOutstanding(11, 12, 13, 14), 0, 0, "");

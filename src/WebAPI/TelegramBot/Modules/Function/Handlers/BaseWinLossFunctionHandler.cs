@@ -6,6 +6,7 @@ using TelegramBot.Shared.Models;
 using TelegramBot.Shared.Resources;
 using TelegramBot.Shared.Extensions;
 using TelegramBot.Shared.Constants;
+using Alpha.API.Client.Models.Customers;
 
 namespace TelegramBot.Modules.Function.Handlers
 {
@@ -47,7 +48,7 @@ namespace TelegramBot.Modules.Function.Handlers
                 }
 
                 var data = await winLossService.GetDownlineWinLoss(account.CustId, account.CustomerLevel, dateTime, downlineInfo.CustId);
-                return Result.CreateSuccessfulResult(BuildDownlineWinLossMessage(account.Language, data, parameter, downlineInfo.RoleId));
+                return Result.CreateSuccessfulResult(BuildDownlineWinLossMessage(account.Language, data, parameter, account, downlineInfo));
             }
         }
 
@@ -61,13 +62,23 @@ namespace TelegramBot.Modules.Function.Handlers
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
 
-        private string BuildDownlineWinLossMessage(string language, WinLossBase winLoss, string downlineUsername, byte custLevel)
+        private string BuildDownlineWinLossMessage(
+            string language,
+            WinLossBase winLoss,
+            string downlineUsername,
+            CustBotAccount account,
+            DownlineInfo downlineInfo)
         {
             var textContainer = new List<string>();
             AddDownlineWinLossTitleRow(textContainer, language);
             textContainer.Add("<pre>");
             textContainer.Add(messageFormatter.FormatRow(ResourceHelper.Get(nameof(SharedResource.Username), language), downlineUsername, language));
-            AddBodyMessage(textContainer, winLoss, language, custLevel);
+
+            var downlineLevelText = account.CustomerLevel != 2 && downlineInfo.RoleId == 1
+                ? ResourceHelper.Get(nameof(SharedResource.DirectMember), language)
+                : ResourceHelper.Get($"CustLevelFull_{account.CustomerLevel - 1}", language);
+            textContainer.Add(messageFormatter.FormatRow(ResourceHelper.Get(nameof(SharedResource.Level), language), downlineLevelText, language));
+            AddBodyMessage(textContainer, winLoss, language, account.CustomerLevel);
             textContainer.Add("</pre>");
             return string.Join(messageFormatter.NewLine(), textContainer);
         }
@@ -100,20 +111,19 @@ namespace TelegramBot.Modules.Function.Handlers
             {
                 {nameof(winLossMaster.Turnover), winLossMaster.Turnover},
                 {nameof(winLossMaster.GrossComm), winLossMaster.GrossComm},
-                {nameof(winLossMaster.MasterTotal), winLossMaster.MasterTotal},
+                {"DownlineTotal", winLossMaster.MasterTotal},
                 {nameof(winLossMaster.SuperWinLoss), winLossMaster.SuperWinLoss},
                 {nameof(winLossMaster.SuperComm), winLossMaster.SuperComm},
                 {nameof(winLossMaster.SuperTotal), winLossMaster.SuperTotal},
                 {nameof(winLossMaster.CompanyWinLoss), winLossMaster.CompanyWinLoss},
             };
 
-
         private static Dictionary<string, decimal> AddWinLossAgent(WinLossAgent winLossAgent)
             => new()
             {
                 {nameof(winLossAgent.Turnover), winLossAgent.Turnover},
                 {nameof(winLossAgent.GrossComm), winLossAgent.GrossComm},
-                {nameof(winLossAgent.AgentTotal), winLossAgent.AgentTotal},
+                {"DownlineTotal", winLossAgent.AgentTotal},
                 {nameof(winLossAgent.MasterWinLoss), winLossAgent.MasterWinLoss},
                 {nameof(winLossAgent.MasterComm), winLossAgent.MasterComm},
                 {nameof(winLossAgent.MasterTotal), winLossAgent.MasterTotal},
@@ -133,7 +143,6 @@ namespace TelegramBot.Modules.Function.Handlers
                 {nameof(winLossMember.AgentTotal), winLossMember.AgentTotal},
                 {nameof(winLossMember.CompanyWinLoss), winLossMember.CompanyWinLoss}
             };
-
 
         private static Dictionary<string, decimal> AddWinLossMemberDownline(WinLossMember winLossMember)
             => new()

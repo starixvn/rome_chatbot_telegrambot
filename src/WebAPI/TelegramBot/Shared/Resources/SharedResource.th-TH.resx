@@ -624,4 +624,36 @@
   <data name="SportsbookRiskAmount" xml:space="preserve">
     <value>จำนวนความเสี่ยงของสปอร์ตบุ๊ค</value>
   </data>
+  <data name="DirectMember" xml:space="preserve">
+    <value>สมาชิกโดยตรง</value>
+    <comment/>
+  </data>
+  <data name="CustLevelFull_1" xml:space="preserve">
+    <value>สมาชิก</value>
+    <comment/>
+  </data>
+  <data name="CustLevelFull_2" xml:space="preserve">
+    <value>ตัวแทน</value>
+    <comment/>
+  </data>
+  <data name="CustLevelFull_3" xml:space="preserve">
+    <value>ตัวแทนหลัก</value>
+    <comment/>
+  </data>
+  <data name="CustLevelFull_4" xml:space="preserve">
+    <value>สูงสุด</value>
+    <comment/>
+  </data>
+  <data name="DownlineTotal" xml:space="preserve">
+    <value>ดาวน์ไลน์ทั้งหมด</value>
+    <comment/>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>ระดับ</value>
+    <comment/>
+  </data>
+  <data name="DirectMemberCRE" xml:space="preserve">
+    <value>สมาชิกโดยตรง เครดิตที่ได้รับ</value>
+    <comment/>
+  </data>
 </root>

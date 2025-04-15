@@ -164,7 +164,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
         {
             {nameof(winloss.Turnover),winloss.Turnover},
             {nameof(winloss.GrossComm),winloss.GrossComm},
-            {nameof(winloss.MasterTotal),winloss.MasterTotal},
+            {"DownlineTotal",winloss.MasterTotal},
             {nameof(winloss.SuperWinLoss),winloss.SuperWinLoss},
             {nameof(winloss.SuperComm),winloss.SuperComm},
             {nameof(winloss.SuperTotal),winloss.SuperTotal},
@@ -176,7 +176,7 @@ public sealed class YesterdayWinLossJob : NotificationBaseJob
         {
             {nameof(winloss.Turnover),winloss.Turnover},
             {nameof(winloss.GrossComm),winloss.GrossComm},
-            {nameof(winloss.AgentTotal),winloss.AgentTotal},
+            {"DownlineTotal",winloss.AgentTotal},
             {nameof(winloss.MasterWinLoss),winloss.MasterWinLoss},
             {nameof(winloss.MasterComm),winloss.MasterComm},
             {nameof(winloss.MasterTotal),winloss.MasterTotal},

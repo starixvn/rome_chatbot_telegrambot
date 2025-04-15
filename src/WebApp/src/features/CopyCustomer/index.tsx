@@ -102,7 +102,7 @@ export const CopyCustomer = ({ user, ...props }: Props) => {
       if (data.usernames.length > 0) {
         setData(data);
       } else {
-        if (data.messageContent) {
+        if (data.messageContent !== null) {
           setMessageContent(data.messageContent);
         } else {
           setErrorMessage(data.message);

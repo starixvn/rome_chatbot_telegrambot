@@ -381,4 +381,8 @@
     <value>ดูรายละเอียดในการเดิมพันล่าสุด</value>
     <comment/>
   </data>
+  <data name="DownlineTotal" xml:space="preserve">
+    <value>ดาวน์ไลน์ทั้งหมด</value>
+    <comment/>
+  </data>
 </root>

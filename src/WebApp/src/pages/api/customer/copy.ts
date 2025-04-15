@@ -58,8 +58,7 @@ async function copyRouter(req: NextApiRequest, res: NextApiResponse) {
 }
 const copyCustomer = async (user: User, data: CopyCustomerData, custDBGroupID: number) => {
   const url = `${process.env.CUSTOMER_API}/customer/copy-multiple`;
-  const hashedPassword = await hashPassword(CryptoJS.AES.decrypt(data.password, user.salt).toString(CryptoJS.enc.Utf8));
-
+  const rawPassword = CryptoJS.AES.decrypt(data.password, user.salt).toString(CryptoJS.enc.Utf8);
   const body = {
     actorId: user.custId,
     actorSubAccId: user.subAccId,
@@ -67,7 +66,7 @@ const copyCustomer = async (user: User, data: CopyCustomerData, custDBGroupID: n
     custLevel: user.customerLevel - 1,
     actorUsername: user.username,
     userName: data.username,
-    password: hashedPassword,
+    password: rawPassword,
     credit: data.credit,
     maxCredit: data.memberMaxCredit,
     sourceCustId: data.sourceCustId,
@@ -82,15 +81,6 @@ const copyCustomer = async (user: User, data: CopyCustomerData, custDBGroupID: n
   return await fetchServerWrapper.post(url, body);
 };
 
-const hashPassword = async (password: string): Promise<string> => {
-  const url = `${process.env.HASH_PASSWORD_URL}`;
-  const body = {
-    password: password,
-  };
-
-  return await fetchServerWrapper.post(url, body);
-};
-
 const notifySuccessCustomersCreated = async (user: User, data: any, failAccounts: number, translation: NotifyCopyCustomersTranslate) => {
   const newLineCharacter = "\u000a";
   const url = `${process.env.TELEGRAM_API_URL}/notification/success-customers-created`;
@@ -102,7 +92,7 @@ const notifySuccessCustomersCreated = async (user: User, data: any, failAccounts
     failAccounts > 0
       ? `${newLineCharacter}${newLineCharacter}${translation.fail.replace("{{failAccounts}}", failAccounts.toString())}${newLineCharacter}${
           translation.failReason
-        }:  ${data.message}`
+        }:  ${data.messageContent.mainMessage}`
       : "";
   return await fetchServerWrapper.post(url, { custId: user.custId, subAccId: user.subAccId, message: `${successMessage}${failMessage}` });
 };
