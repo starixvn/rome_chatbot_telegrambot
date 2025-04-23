@@ -7,13 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fanex.Data.Repository" Version="4.2.5.3"/>
-    <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.5.3"/>
-    <PackageReference Include="Fanex.Logging.RabbitMQ" Version="1.0.1"/>
-    <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6"/>
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0"/>
-    <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.0"/>
-    <PackageReference Include="ONEbook.UM.Transport" Version="3.1.1"/>
+    <PackageReference Include="Fanex.Data.Repository" Version="4.3.2.1" />
+    <PackageReference Include="Fanex.Data.SqlServer" Version="4.3.2.1" />
+    <PackageReference Include="Fanex.Logging.RabbitMQ" Version="1.0.1" />
+    <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.0" />
+    <PackageReference Include="ONEbook.UM.Transport" Version="3.1.1" />
   </ItemGroup>
 
   

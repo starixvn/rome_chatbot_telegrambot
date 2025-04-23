@@ -21,6 +21,12 @@
   <ItemGroup>
     <ProjectReference Include="..\WLMonitored.Shared\WLMonitored.Shared.csproj"/>
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="App_Data\SpNames.LOCAL.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
     <PropertyGroup Label="sonarqube-rules-synchronizer">
     <CodeAnalysisRuleSet>../../../.sonarlint/alpha-apicsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup></Project>
