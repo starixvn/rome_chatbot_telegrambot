@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MemberAPIs</name>
+    </assembly>
+    <members>
+        <member name="T:MemberAPIs.Resources.Labels">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:MemberAPIs.Resources.Labels.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:MemberAPIs.Resources.Labels.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:MemberAPIs.Resources.Labels.PersonalMessage_DownlineLoginFailed_ChangedPassword">
+            <summary>
+              Looks up a localized string similar to Your downline, &lt;b&gt;{0}&lt;/b&gt; is unable to log in due to using an old password changed on &lt;b&gt;{1}&lt;/b&gt;. Please assist or reset their password if needed..
+            </summary>
+        </member>
+        <member name="P:MemberAPIs.Resources.Labels.PersonalMessage_DownlineLoginFailed_ExceedCount">
+            <summary>
+              Looks up a localized string similar to Your downline, &lt;b&gt;{0}&lt;/b&gt;, has reached &lt;b&gt;3 failed login attempts&lt;/b&gt;. This could be a login issue or a security concern. Please check and take action if needed..
+            </summary>
+        </member>
+        <member name="P:MemberAPIs.Resources.Labels.ToastTitle_DownlineLoginFailed">
+            <summary>
+              Looks up a localized string similar to Downline Login Issue.
+            </summary>
+        </member>
+    </members>
+</doc>
