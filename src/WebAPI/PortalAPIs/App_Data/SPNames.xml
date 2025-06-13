@@ -2,5 +2,6 @@
 <Functions>
 	<Function Name="Abnormal Login Alert">
 		<Setting Key="Acc_CustAbnormalLoginIns" SpName="Acc_CustAbnormalLoginIns" DbName="DBLOG.bodb_CustomerLog.wsv_alp" />
+		<Setting Key="Acc_CustAbnormalLogin_PrepareIns" SpName="Acc_CustAbnormalLogin_PrepareIns" DbName="DBACC.bodb02.wsv_alp" />
  	</Function>
 </Functions>

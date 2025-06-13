@@ -22,7 +22,34 @@ namespace PortalAPIs.Services
 
         public async Task<bool> AlertAbnormalLogin(IEnumerable<AbnormalLoginModel> trans)
         {
-            var criteria = new AddAbnormalLoginCriteria(trans);
+            var processDataResult = await PreprocessData(trans);
+
+            if (processDataResult.ErrCode != 0)
+            {
+                await loggerService.Error(new Exception(processDataResult.ErrMsg.ToString()));
+                return false;
+            }
+
+            return await InsertData(processDataResult.Data);
+        }
+
+        public async Task<ResultModel> PreprocessData(IEnumerable<AbnormalLoginModel> trans)
+        {
+            var criteria = new PrepareAbnormalLoginInsertCriteria(trans);
+
+            await dynamicRepository.ExecuteAsync(criteria);
+
+            return new ResultModel
+            {
+                Data = criteria.NewBatch,
+                ErrCode = criteria.ErrCode,
+                ErrMsg = criteria.ErrMsg
+            };
+        }
+   
+        public async Task<bool> InsertData(string batch)
+        {
+            var criteria = new AddAbnormalLoginCriteria(batch);
 
             await dynamicRepository.ExecuteAsync(criteria);
 
