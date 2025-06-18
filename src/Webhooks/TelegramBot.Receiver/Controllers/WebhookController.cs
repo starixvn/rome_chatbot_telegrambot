@@ -16,6 +16,7 @@ namespace TelegramBot.Receiver.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(string accessToken, [FromBody] Update update)
         {
+            Console.WriteLine($"accessToken: {accessToken}");
             if (_handleUpdateService.BotClients.ContainsKey(accessToken))
             {
                 var botClient = _handleUpdateService.BotClients[accessToken];
