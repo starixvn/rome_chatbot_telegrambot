@@ -7,8 +7,8 @@
         <Setting Key="Acc_WLMonitored_Service_AccumulatedDataSel" SpName="Acc_WLMonitored_Service_AccumulatedDataSel" DbName="DBAGE.bodb02.wsv_alp" />
     </Function>
 
-    <Function Name="DBCust.CustDB">
-        <Setting Key="Acc_WLMonitored_Service_GetSettingByCust" SpName="Acc_WLMonitored_Service_GetSettingByCust" DbName="DBCust.CustDB.wsv_alp" />
-        <Setting Key="Acc_WLMonitored_Service_GetChangedSettingList" SpName="Acc_WLMonitored_Service_GetChangedSettingList" DbName="DBCust.CustDB.wsv_alp" />
+    <Function Name="DBCUST.CustDB">
+        <Setting Key="Acc_WLMonitored_Service_GetSettingByCust" SpName="Acc_WLMonitored_Service_GetSettingByCust" DbName="DBCUST.CustDB.wsv_alp" />
+        <Setting Key="Acc_WLMonitored_Service_GetChangedSettingList" SpName="Acc_WLMonitored_Service_GetChangedSettingList" DbName="DBCUST.CustDB.wsv_alp" />
     </Function>
 </Functions>
