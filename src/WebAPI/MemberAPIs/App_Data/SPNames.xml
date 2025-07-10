@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Functions>
     <Function Name="Cust Info">
-        <Setting Key="API_LoginNotifyInfoSel" SpName="API_LoginNotifyInfoSel" DbName="DBCust.CustDB.wsv_alp" />
+        <Setting Key="API_LoginNotifyInfoSel" SpName="API_LoginNotifyInfoSel" DbName="DBCUST.CustDB.wsv_alp" />
     </Function>
     <Function Name="Messages">
         <Setting Key="Age_Msg_SetMessage" SpName="Age_Msg_SetMessage" DbName="DBMSG.bodb_Message.wsv_alp" />

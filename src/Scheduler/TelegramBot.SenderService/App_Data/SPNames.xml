@@ -8,6 +8,6 @@
   </Function>
 
   <Function Name="Customer">
-    <Setting Key="Age_Chatbot_CustomerStatusSel" SpName="Age_Chatbot_CustomerStatusSel" DbName="DBCust.CustDB.wsv_alp" />
+    <Setting Key="Age_Chatbot_CustomerStatusSel" SpName="Age_Chatbot_CustomerStatusSel" DbName="DBCUST.CustDB.wsv_alp" />
   </Function>
 </Functions>

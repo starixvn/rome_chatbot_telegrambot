@@ -15,7 +15,7 @@
         <Setting Key="Acc_WLMonitored_Service_BettypeOffered" SpName="Acc_WLMonitored_Service_BettypeOffered" DbName="DBAGE_STANDBY.bodb02.wsv_alp" />
     </Function>
 
-    <Function Name="DBCust.CustDB">
-        <Setting Key="Acc_WLMonitored_Service_CheckExistSettingByCust" SpName="Acc_WLMonitored_Service_CheckExistSettingByCust" DbName="DBCust.CustDB.wsv_alp" />
+    <Function Name="DBCUST.CustDB">
+        <Setting Key="Acc_WLMonitored_Service_CheckExistSettingByCust" SpName="Acc_WLMonitored_Service_CheckExistSettingByCust" DbName="DBCUST.CustDB.wsv_alp" />
     </Function>
 </Functions>
