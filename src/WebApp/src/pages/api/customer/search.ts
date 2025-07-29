@@ -10,6 +10,6 @@ async function searchRouter(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user;
   const query = req.query["query"];
   const url = `${process.env.CUSTOMER_API}/customer/username-suggestion`;
-  const data = await fetchServerWrapper.post(url, { actorId: user?.custId, query, directDownlines: true, excludeMember: true, isAccInfo: false });
+  const data = await fetchServerWrapper.post(url, { actorId: user?.custId, query, directDownlines: true, excludeMember: true, excludeCashMember: true, isAccInfo: false });
   res.json(data);
 }
