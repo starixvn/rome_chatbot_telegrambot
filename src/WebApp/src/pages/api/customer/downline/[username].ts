@@ -15,12 +15,11 @@ async function downLineRouter(req: NextApiRequest, res: NextApiResponse) {
   const checkDownLineUrl = `${process.env.CUSTOMER_API}/customer/${user?.custId}/${user?.subAccId}/downlines/${username}`;
   const downLineInfo = await fetchServerWrapper.get(checkDownLineUrl);
 
-  if (downLineInfo && downLineInfo.custId > 0) {
-    const checkStatusUrl = `${process.env.CUSTOMER_API}/customer/${downLineInfo.custId}/IsEnabled`;
-    const isEnable = await fetchServerWrapper.get(checkStatusUrl);
-    const serviceType: number = await fetchServerWrapper.get(`${process.env.CUSTOMER_API}/customer/${downLineInfo.custId}/cash-service-status`);
-    res.json({ isDownLineUser: isDirectDownLine(downLineInfo.roleId, user?.customerLevel as number) && serviceType !== ServiceType.Cash, isEnable });
-  } else {
-    res.json({ isDownLineUser: false, isEnable: false });
-  }
+  const checkStatusUrl = `${process.env.CUSTOMER_API}/customer/${downLineInfo.custId}/IsEnabled`;
+  const isEnable = await fetchServerWrapper.get(checkStatusUrl);
+  const serviceType: number = await fetchServerWrapper.get(`${process.env.CUSTOMER_API}/customer/${downLineInfo.custId}/cash-service-status`);
+  res.json({
+    isDownLineUser: downLineInfo.custId > 0 && isDirectDownLine(downLineInfo.roleId, user?.customerLevel as number) && serviceType !== ServiceType.Cash,
+    isEnable,
+  });
 }
