@@ -22,9 +22,9 @@ const post = async (url: string, body = {}) => {
 };
 
 const post2sitedb = async (url: string, siteDBIp: string, body = {}) => {
-  const header = { 
-    "Content-Type": "application/json" ,
-    "X-SiteDBServer": siteDBIp
+  const header = {
+    "Content-Type": "application/json",
+    "X-SiteDBServer": siteDBIp,
   };
   const requestOptions = {
     method: "POST",
@@ -46,5 +46,5 @@ const post2sitedb = async (url: string, siteDBIp: string, body = {}) => {
 export const fetchServerWrapper = {
   get,
   post,
-  post2sitedb
+  post2sitedb,
 };
