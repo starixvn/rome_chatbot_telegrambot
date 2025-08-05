@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
-import { sessionOptions } from "src/lib/session";
-import { fetchServerWrapper } from "src/lib/fetch-server";
-import withAuth from "src/lib/with-auth";
 import { isDirectDownLine } from "src/constants/role-id";
+import { ServiceType } from "src/constants/service-type";
+import { fetchServerWrapper } from "src/lib/fetch-server";
+import { sessionOptions } from "src/lib/session";
+import withAuth from "src/lib/with-auth";
 
 export default withIronSessionApiRoute(withAuth(downLineRouter), sessionOptions);
 
@@ -16,6 +17,9 @@ async function downLineRouter(req: NextApiRequest, res: NextApiResponse) {
 
   const checkStatusUrl = `${process.env.CUSTOMER_API}/customer/${downLineInfo.custId}/IsEnabled`;
   const isEnable = await fetchServerWrapper.get(checkStatusUrl);
-
-  res.json({ isDownLineUser: downLineInfo.custId > 0 && isDirectDownLine(downLineInfo.roleId, user?.customerLevel as number), isEnable });
+  const serviceType: number = await fetchServerWrapper.get(`${process.env.CUSTOMER_API}/customer/${downLineInfo.custId}/cash-service-status`);
+  res.json({
+    isDownLineUser: downLineInfo.custId > 0 && isDirectDownLine(downLineInfo.roleId, user?.customerLevel as number) && serviceType !== ServiceType.Cash,
+    isEnable,
+  });
 }
