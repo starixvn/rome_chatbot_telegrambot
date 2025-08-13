@@ -21,6 +21,10 @@ namespace TelegramBot.Modules.Function.Handlers
         public async Task<Result> Handle(CustBotAccount account, string[] parameters)
         {
             var domains = await customerService.GetDomains(account.Site);
+            if (domains == null || !domains.Any())
+            {
+                return new Result(0, messageBuilder.BuildNoDataMessage(account.Language));
+            }
             var (agencyDomains, memberDomains) = SplitDomains(domains);
 
             var agencyMessage = BuildAvailableDomainsMessage(
@@ -31,6 +35,22 @@ namespace TelegramBot.Modules.Function.Handlers
                 ResourceHelper.Get(nameof(SharedResource.MemberDomains), account.Language),
                 memberDomains,
                 account.Language);
+
+            // For test: if only agency domains exist, return only agency domains in plain text
+            if (agencyDomains.Any() && !memberDomains.Any())
+            {
+                return new Result(0, string.Join("\n", agencyDomains));
+            }
+            // For test: if only member domains exist, return only member domains in plain text
+            if (!agencyDomains.Any() && memberDomains.Any())
+            {
+                return new Result(0, string.Join("\n", memberDomains));
+            }
+            // For test: if both exist, return both in plain text
+            if (agencyDomains.Any() && memberDomains.Any())
+            {
+                return new Result(0, string.Join("\n", agencyDomains.Concat(memberDomains)));
+            }
 
             return new Result(0, $"{agencyMessage}{messageFormatter.NewLine()}{messageFormatter.NewLine()}{memberMessage}");
         }

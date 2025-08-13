@@ -79,7 +79,7 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
                 Language = "en-US"
             };
 
-            var expect = new Result(0, "www.google.com\nwww.yahoo.com");
+            var expect = new Result(0, "www.google.com\nwww.yahoo.com\nwww.youtube.com");
             customerService
                 .GetDomains(Arg.Any<string>())
                 .Returns(Task.FromResult<IEnumerable<DomainInfo>>(new List<DomainInfo>

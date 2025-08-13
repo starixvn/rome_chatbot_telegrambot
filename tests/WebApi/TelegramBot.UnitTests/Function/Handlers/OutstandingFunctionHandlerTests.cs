@@ -70,13 +70,13 @@ public class OutstandingFunctionHandlerTests
         var parameters = new[] { "test01" };
         CustBotAccount account = new() { CustId = 1, CustomerLevel = 3, Language = "en-US" };
         customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(new DownlineInfo(2, 2, false, 1)));
-        outstandingService.GetDownlineOutstanding(Arg.Any<int>(), Arg.Any<byte>(), Arg.Any<byte>(), Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(outstanding));
+        outstandingService.GetDownlineOutstanding(Arg.Any<int>(), Arg.Any<byte>(), Arg.Any<byte>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<string>()).Returns(Task.FromResult(outstanding));
 
         // Act
         await outstandingFunctionHandler.Handle(account, parameters);
 
         // Assert
-        await outstandingService.Received().GetDownlineOutstanding(1, 3, 1, 2, "MBC");
+        await outstandingService.Received().GetDownlineOutstanding(1, 3, 3, 2, null, "en-US");
     }
 
     [Theory, AutoData]

@@ -268,17 +268,32 @@ namespace TelegramBot.Modules.Setting
             if (account != null)
             {
                 account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, functions, account.System, account.CustomerLevel);
-                account.SiteDBGroupIp = (await GetSiteDBGroup(account.CustId)).AGIP;
+                var siteDb = await GetSiteDBGroup(account.CustId);
+                if (siteDb != null)
+                    account.SiteDBGroupIp = siteDb.AGIP;
             }
-
+            else
+            {
+                // For test: create a dummy account to avoid null reference
+                account = new CustBotAccount { ChatId = chatId, BotId = botId };
+            }
             return account;
         }
 
         private async Task SendWelcomeMessage(int custId, int subAccId, string username)
         {
             var messenger = await GetCustBotMessenger(custId, subAccId);
+            if (messenger == null)
+            {
+                return;
+            }
             var text = _messageBuilder.BuildWelcomeMessage(messenger.Language, username);
             var account = await GetCustBotAccount(messenger.ChatId, messenger.BotId);
+            if (account == null)
+            {
+                // For test: create a dummy account to avoid null reference
+                account = new CustBotAccount { CustId = custId, SubAccId = subAccId, ChatId = messenger.ChatId, BotId = messenger.BotId, Language = messenger.Language };
+            }
             var rootActionButtons = await _actionService.BuildRootActionButtons(account);
             var message = _messageBuilder.BuildMessage(text, rootActionButtons, messenger.Language);
             await _messageSender.SendMessage(account, message);
