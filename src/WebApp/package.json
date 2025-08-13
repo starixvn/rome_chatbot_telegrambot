@@ -6,8 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 5000",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test-coverage": "jest --ci -u --coverage"
   },
+  
   "dependencies": {
     "@sentry/nextjs": "^6.10.0",
     "classnames": "^2.3.2",
