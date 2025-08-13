@@ -30,8 +30,7 @@ public abstract class NotificationBaseJob : IJob
     }
 
     public async Task Execute(IJobExecutionContext context)
-    {
-        //var sw = Stopwatch.StartNew();
+    {        
         var job = GetJobDetails(context);
 
         if (await IsUM(job))
