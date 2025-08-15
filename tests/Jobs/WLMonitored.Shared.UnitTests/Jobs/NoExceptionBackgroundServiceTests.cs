@@ -1,8 +1,6 @@
-using System;
 using System.Threading.Tasks;
 using NSubstitute;
 using ONEbook.UM.Configurations;
-using ONEbook.UM.Models;
 using ONEbook.UM.Services;
 using WLMonitored.Shared.Configuration;
 using WLMonitored.Shared.Services;
@@ -56,44 +54,7 @@ public class NoExceptionBackgroundServiceTests
 
         // Assert
         await loggerService.DidNotReceive().Info(Arg.Any<string>());
-    }
-
-    // [Fact]
-    // public async Task ExecuteAsync_IsActive_CallsGetUnderMaintenanceTimeAsync()
-    // {
-    //     // Arrange
-    //     loggerService
-    //         .Info(Arg.Any<string>())
-    //         .Returns(Task.CompletedTask);
-
-    //     // Act
-    //     await backgroundService.StartAsync(default);
-
-    //     // Assert
-    //     await maintenanceService.Received().GetUnderMaintenanceTimeAsync();
-    // }
-
-    // [Fact]
-    // public async Task ExecuteAsync_ExecuteJob_NotCallsErrorLog()
-    // {
-    //     // Arrange
-    //     loggerService
-    //         .Info(Arg.Any<string>())
-    //         .Returns(Task.CompletedTask);
-    //     maintenanceService.GetUnderMaintenanceTimeAsync()
-    //         .Returns(Task.FromResult(new UnderMaintenanceTime(false, string.Empty, string.Empty)));
-
-    //     // Act
-    //     await backgroundService.StartAsync(default);
-
-    //     // Assert
-    //     await loggerService.DidNotReceive().Error(
-    //         Arg.Any<Exception>(),
-    //         Arg.Any<ScheduleJob>(),
-    //         Arg.Any<string>(),
-    //         Arg.Any<string>()
-    //     );
-    // }
+    }    
 
     [Fact]
     public void CalculateMultiplier_DelayExecutionTimeInSeconds_ReturnsDelayExecutionTimeInSeconds()

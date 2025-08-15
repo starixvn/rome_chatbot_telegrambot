@@ -1,4 +1,3 @@
-using NSubstitute;
 using TelegramBot.Modules.Function.Models;
 using TelegramBot.Modules.Setting.Criteria;
 using Xunit;

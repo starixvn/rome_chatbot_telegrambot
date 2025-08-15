@@ -100,7 +100,7 @@ public sealed class AbnormalLoginAlertJob : NotificationBaseJob
 
         messageBuilder.Append("<pre>");
         messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Near), language), login.City, login.Country, login.IP));
-        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Device), language), string.IsNullOrWhiteSpace(device) ? string.Empty : device + ", ", c.OS.ToString()));
+        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Device), language), string.IsNullOrWhiteSpace(device) ? string.Empty : device + ", ", c.OS));
 
         var browser = string.IsNullOrWhiteSpace(login.Browser) ? c.UA.Family : login.Browser;
         messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Browser), language), browser));

@@ -4,7 +4,7 @@ using WLMonitored.Shared.Configuration;
 
 namespace WLMonitored.RiskControl.Importer.Extensions;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains extension methods for DI registration and is not intended to be covered by tests.")]
 public static class DIExtensions
 {
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)

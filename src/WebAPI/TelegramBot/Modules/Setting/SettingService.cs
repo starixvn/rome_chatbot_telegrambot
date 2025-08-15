@@ -1,5 +1,6 @@
-﻿using Fanex.Caching;
+﻿using Alpha.API.Client.Models.Customers;
 using Alpha.API.Client.Services;
+using Fanex.Caching;
 using Fanex.Data.Repository;
 using TelegramBot.Modules.Action;
 using TelegramBot.Modules.Function.Models;
@@ -8,12 +9,10 @@ using TelegramBot.Modules.OTP;
 using TelegramBot.Modules.Setting.Constants;
 using TelegramBot.Modules.Setting.Criteria;
 using TelegramBot.Modules.Setting.Models;
+using TelegramBot.Shared.Caching;
 using TelegramBot.Shared.Configurations;
 using TelegramBot.Shared.Constants;
 using TelegramBot.Shared.Models;
-using TelegramBot.Shared.Caching;
-using Alpha.API.Client.Models.Customers;
-using TelegramBot.Modules.AutoTransfer;
 
 namespace TelegramBot.Modules.Setting
 {
@@ -270,12 +269,14 @@ namespace TelegramBot.Modules.Setting
                 account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, functions, account.System, account.CustomerLevel);
                 var siteDb = await GetSiteDBGroup(account.CustId);
                 if (siteDb != null)
+                {
                     account.SiteDBGroupIp = siteDb.AGIP;
+                }
             }
             else
             {
                 // For test: create a dummy account to avoid null reference
-                account = new CustBotAccount { ChatId = chatId, BotId = botId };
+                account ??= new CustBotAccount { ChatId = chatId, BotId = botId };
             }
             return account;
         }

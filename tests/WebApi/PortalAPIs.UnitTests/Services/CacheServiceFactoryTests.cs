@@ -1,10 +1,8 @@
 using Fanex.Caching;
 using Fanex.Caching.Memory;
 using Fanex.Caching.Redis;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using PortalAPIs.Services;
-using Xunit;
 
 namespace PortalAPIs.UnitTests.Services
 {

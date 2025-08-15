@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using Fanex.Data;
 using Fanex.Data.Repository;
 using Fanex.Data.SqlServer;
 using Fanex.Logging;
@@ -18,7 +17,8 @@ using Sentry;
 
 namespace TelegramBot.SenderService.Extensions;
 
-[ExcludeFromCodeCoverage]
+// Justification: This class contains only extension methods and is excluded from code coverage for testability reasons.
+[ExcludeFromCodeCoverage(Justification = "Contains only extension methods; excluded from code coverage for testability reasons.")]
 public static class FanexLibsExtensions
 {
     public static IServiceCollection AddFanexDataWithSqlServer(this IServiceCollection services, IConfiguration configuration)

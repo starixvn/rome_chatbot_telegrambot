@@ -6,7 +6,7 @@ using TelegramBot.SenderService.Jobs;
 
 namespace TelegramBot.SenderService.Extensions;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains extension methods for DI registration and is not intended to be covered by tests.")]
 public static class ServiceCollectionQuartzConfiguratorExtensions
 {
     public static void AddNotificationSenderJob(

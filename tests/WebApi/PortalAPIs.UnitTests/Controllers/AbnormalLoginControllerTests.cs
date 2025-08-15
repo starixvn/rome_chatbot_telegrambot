@@ -1,16 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Newtonsoft.Json;
 using PortalAPIs.Controllers;
 using PortalAPIs.Models;
 using PortalAPIs.Params;
 using PortalAPIs.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Threading.Tasks;
-using Xunit;
-using Newtonsoft.Json;
 
 namespace PortalAPIs.UnitTests.Controllers
 {

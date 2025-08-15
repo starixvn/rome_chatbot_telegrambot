@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using TelegramBot.Importer.Criteria.Announcement;
 using TelegramBot.Importer.Extensions;
 using TelegramBot.Importer.Helpers;
-using TelegramBot.Importer.Models.Announcement;
 
 namespace TelegramBot.Importer.Repositories;
 

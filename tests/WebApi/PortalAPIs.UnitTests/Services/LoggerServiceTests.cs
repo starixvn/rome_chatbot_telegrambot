@@ -1,12 +1,6 @@
-using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Fanex.Data;
 using Fanex.Logging;
 using Moq;
 using PortalAPIs.Services;
-using Xunit;
-using System.Data.SqlClient;
 
 namespace PortalAPIs.UnitTests.Services;
 

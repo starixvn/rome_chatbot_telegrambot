@@ -1,8 +1,5 @@
 using FluentAssertions;
-using MemberAPIs.Constants;
 using MemberAPIs.Models;
-using MemberAPIs.Resources;
-using Xunit;
 
 namespace MemberAPIs.UnitTests.Models;
 

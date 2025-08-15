@@ -12,7 +12,7 @@ WORKDIR /src/WebAPI/MemberAPIs
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet publish -r linux-x64 --self-contained false -o /app
 
-FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0-alpine-25h1 as base
+FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0-alpine-25h1 AS base
 
 RUN adduser --disabled-password \
     --home /app \

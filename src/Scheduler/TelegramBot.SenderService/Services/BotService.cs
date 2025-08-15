@@ -15,7 +15,7 @@ public interface IBotService
     Task SendMessage(int botId, long chatId, string message);
 }
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains extension methods for DI registration and is not intended to be covered by tests.")]
 public class BotService : IBotService
 {
     private readonly string AllBotCacheKey = "TelegramBot.SenderService.Services.AllBot";

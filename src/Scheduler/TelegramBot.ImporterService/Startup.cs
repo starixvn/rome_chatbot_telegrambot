@@ -5,7 +5,7 @@ using TelegramBot.ImporterService.Extensions;
 
 namespace TelegramBot.ImporterService;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains extension methods for DI registration and is not intended to be covered by tests.")]
 public sealed class Startup
 {
     public Startup(IConfiguration configuration)

@@ -1,11 +1,8 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoFixture.Xunit2;
 using NSubstitute;
 using TelegramBot.Modules.Action.Validators;
 using TelegramBot.Modules.Message;
 using TelegramBot.Modules.Setting.Models;
-using TelegramBot.Shared.Constants;
 using TelegramBot.Shared.Models;
 using Xunit;
 

@@ -21,16 +21,16 @@ namespace TelegramBot.Modules.Message
 
         public string Bold(string value) => $"<b>{value}</b>";
 
-        public string FormatRow(string col1, string col2, string language)
+        public string FormatRow(string key, string value, string language)
         {
             var length = language switch
             {
-                LanguageCodes.ChineseSimplified or LanguageCodes.ChineseTraditional => MaxRowLength - col2.Length - col1.Length * 2,
-                LanguageCodes.Thai => MaxRowLength - col2.Length - ThaiLength(col1),
-                _ => MaxRowLength - col2.Length - col1.Length,
+                LanguageCodes.ChineseSimplified or LanguageCodes.ChineseTraditional => MaxRowLength - value.Length - key.Length * 2,
+                LanguageCodes.Thai => MaxRowLength - value.Length - ThaiLength(key),
+                _ => MaxRowLength - value.Length - key.Length,
             };
 
-            return $"{col1}{" ".PadLeft(length > 0 ? length : 0)} {col2}";
+            return $"{key}{" ".PadLeft(length > 0 ? length : 0)} {value}";
         }
 
         public string FormatHeaderRow(string col1, string col2, string language)

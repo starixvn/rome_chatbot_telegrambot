@@ -1,10 +1,9 @@
-using TelegramBot.Shared.Models;
-using TelegramBot.Modules.Setting.Models;
-using TelegramBot.Modules.Message;
-using Alpha.API.Client.Services;
 using Alpha.API.Client.Models.Customers;
+using Alpha.API.Client.Services;
+using TelegramBot.Modules.Message;
+using TelegramBot.Modules.Setting.Models;
+using TelegramBot.Shared.Models;
 using TelegramBot.Shared.Resources;
-using System.Text;
 
 namespace TelegramBot.Modules.Function.Handlers
 {

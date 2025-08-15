@@ -1,9 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
-using Fanex.Data;
 using PortalAPIs.Criteria;
 using PortalAPIs.Models;
-using Xunit;
 
 namespace PortalAPIs.UnitTests.Criteria;
 

@@ -79,17 +79,20 @@ public sealed class ChangeThresholdWinLossJob : ChangeWinLossBaseJob
 
         foreach (var winloss in winLossThresholds)
         {
-            if (winloss.SettingType == GlobalThreshold)
+            switch (winloss.SettingType)
             {
-                agents.Add(winloss.CustId);
-            }
-            else if (winloss.SettingType == PersonalThreshold)
-            {
-                members.Add(winloss.CustId);
-            }
-            else if (winloss.SettingType == SMAThreshold)
-            {
-                smaList.Add(winloss.CustId);
+                case GlobalThreshold:
+                    agents.Add(winloss.CustId);
+                    break;
+                case PersonalThreshold:
+                    members.Add(winloss.CustId);
+                    break;
+                case SMAThreshold:
+                    smaList.Add(winloss.CustId);
+                    break;
+                default:
+                    // No action for unknown SettingType
+                    break;
             }
 
             winLossThresholdDict[winloss.CustId] = winloss;

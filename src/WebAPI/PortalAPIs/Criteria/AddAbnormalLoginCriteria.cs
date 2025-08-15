@@ -1,6 +1,4 @@
-using Fanex.Data;
 using Fanex.Data.Repository;
-using PortalAPIs.Models;
 
 namespace PortalAPIs.Criteria;
 

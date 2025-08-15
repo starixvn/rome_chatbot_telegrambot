@@ -30,7 +30,10 @@ namespace PortalAPIs.UnitTests.Services
                 .Callback((INonQueryCommand criteria, string s, CancellationToken cc) =>
                 {
                     var c = criteria as PrepareAbnormalLoginInsertCriteria;
-                    if (c == null) return;
+                    if (c == null)
+                    {
+                        return;
+                    }
 
                     c.ErrCode = 1;
                     c.ErrMsg = "Test error";
@@ -54,7 +57,10 @@ namespace PortalAPIs.UnitTests.Services
                 .Callback((INonQueryCommand criteria, string s, CancellationToken cc) =>
                 {
                     var c = criteria as PrepareAbnormalLoginInsertCriteria;
-                    if (c == null) return;
+                    if (c == null)
+                    {
+                        return;
+                    }
 
                     c.ErrCode = 0;
                     c.NewBatch = "test-batch";
@@ -65,7 +71,10 @@ namespace PortalAPIs.UnitTests.Services
                 .Callback((INonQueryCommand criteria, string s, CancellationToken cc) =>
                 {
                     var c = criteria as AddAbnormalLoginCriteria;
-                    if (c == null) return;
+                    if (c == null)
+                    {
+                        return;
+                    }
 
                     c.ErrCode = 0;
                 });
@@ -89,7 +98,10 @@ namespace PortalAPIs.UnitTests.Services
                 .Callback((INonQueryCommand criteria, string s, CancellationToken cc) =>
                 {
                     var c = criteria as PrepareAbnormalLoginInsertCriteria;
-                    if (c == null) return;
+                    if (c == null)
+                    {
+                        return;
+                    }
 
                     c.ErrCode = 0;
                     c.NewBatch = expectedBatch;
@@ -113,7 +125,10 @@ namespace PortalAPIs.UnitTests.Services
                 .Callback((INonQueryCommand criteria, string s, CancellationToken cc)=>
                 {
                     var c = criteria as AddAbnormalLoginCriteria;
-                    if (c == null) return;
+                    if (c == null)
+                    {
+                        return;
+                    }
 
                     c.ErrCode = 0;
                 });
@@ -137,7 +152,10 @@ namespace PortalAPIs.UnitTests.Services
                 .Callback((INonQueryCommand criteria, string s, CancellationToken cc) =>
                 {
                     var c = criteria as AddAbnormalLoginCriteria;
-                    if (c == null) return;
+                    if (c == null)
+                    {
+                        return;
+                    }
 
                     c.ErrCode = 0;
                     c.ExitsTransIDs = duplicateIds;
@@ -161,7 +179,10 @@ namespace PortalAPIs.UnitTests.Services
                 .Callback((INonQueryCommand criteria, string s, CancellationToken cc) =>
                 {
                     var c = criteria as AddAbnormalLoginCriteria;
-                    if (c == null) return;
+                    if (c == null)
+                    {
+                        return;
+                    }
 
                     c.ErrCode = 1;
                     c.ErrMsg = "Test error";

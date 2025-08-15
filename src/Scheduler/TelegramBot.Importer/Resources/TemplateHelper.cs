@@ -5,7 +5,7 @@ using TelegramBot.Importer.Constants;
 
 namespace TelegramBot.Importer.Resources;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains extension methods for DI registration and is not intended to be covered by tests.")]
 public static class TemplateHelper
 {
     private const int MaxRowLength = 31;

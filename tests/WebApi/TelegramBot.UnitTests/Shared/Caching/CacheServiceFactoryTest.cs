@@ -1,8 +1,6 @@
 using System;
 using Fanex.Caching.Memory;
-using Fanex.Caching.Redis;
 using NSubstitute;
-using StackExchange.Redis;
 using TelegramBot.Shared.Caching;
 using Xunit;
 

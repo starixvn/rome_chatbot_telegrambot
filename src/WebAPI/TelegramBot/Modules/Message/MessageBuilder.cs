@@ -8,7 +8,6 @@ using TelegramBot.Modules.Resource;
 using TelegramBot.Modules.Resource.constants;
 using TelegramBot.Shared.Constants;
 using TelegramBot.Shared.Resources;
-using TelegramBot.Utilities.Extensions;
 
 namespace TelegramBot.Modules.Message
 {

@@ -1,4 +1,3 @@
-using System.Drawing;
 using Fanex.Data.Repository;
 using Newtonsoft.Json;
 using TelegramBot.Importer.Constants;

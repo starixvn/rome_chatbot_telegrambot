@@ -4,7 +4,7 @@ using TelegramBot.Client.Services;
 
 namespace TelegramBot.Receiver.DependencyInjection
 {
-    [ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage(Justification = "This class only contains DI extension methods and does not require code coverage.")]
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddClient(this IServiceCollection services, IConfiguration configuration)
