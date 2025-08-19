@@ -33,23 +33,7 @@ namespace TelegramBot.Modules.Function.Handlers
             var memberMessage = BuildAvailableDomainsMessage(
                 ResourceHelper.Get(nameof(SharedResource.MemberDomains), account.Language),
                 memberDomains,
-                account.Language);
-
-            // For test: if only agency domains exist, return only agency domains in plain text
-            if (agencyDomains.Any() && !memberDomains.Any())
-            {
-                return new Result(0, string.Join("\n", agencyDomains));
-            }
-            // For test: if only member domains exist, return only member domains in plain text
-            if (!agencyDomains.Any() && memberDomains.Any())
-            {
-                return new Result(0, string.Join("\n", memberDomains));
-            }
-            // For test: if both exist, return both in plain text
-            if (agencyDomains.Any() && memberDomains.Any())
-            {
-                return new Result(0, string.Join("\n", agencyDomains.Concat(memberDomains)));
-            }
+                account.Language);           
 
             return new Result(0, $"{agencyMessage}{messageFormatter.NewLine()}{messageFormatter.NewLine()}{memberMessage}");
         }

@@ -167,9 +167,16 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
                     $"[Downline's Yesterday Win Loss - {yesterday:MM/dd/yyyy}]",
                     "<pre>",
                     $"{"Username",-15} {"username",16}",
+                    $"{"Level",-15} {"Member",16}",
+                    $"{"TO",-15} {"10",16}",
+                    $"{"Gross Comm",-15} {"1",16}",
                     $"{"Member WL",-15} {"1",16}",
                     $"{"Member Comm",-15} {"1",16}",
                     $"{"Member Total",-15} {"1",16}",
+                    $"{"Agent WL",-15} {"1",16}",
+                    $"{"Agent Comm",-15} {"1",16}",
+                    $"{"Agent Total",-15} {"1",16}",
+                    $"{"Company",-15} {"1",16}",
                     "</pre>",
                 },
             };
@@ -177,25 +184,20 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
 
         [Theory]
         [MemberData(nameof(DownlineYesterdayWinLossDataTests))]
-        public async Task Handle_ValidDirectDownline_ReturnSuccessResult(CustBotAccount account, string[] parameters, WinLossBase winLoss)
+        public async Task Handle_ValidDirectDownline_ReturnSuccessResult(CustBotAccount account, string[] parameters, WinLossBase winLoss, string[] expectedMessages)
         {
             // Arrange
             customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(new DownlineInfo(111, (byte)(account.CustomerLevel - 1), true, 1)));
             winLossService.GetDownlineWinLoss(account.CustId, account.CustomerLevel, yesterday, 111).Returns(winLoss);
+            
+            var expectedMessage = string.Join(telegramFormatter.NewLine(), expectedMessages);
 
             // Act
             var result = await yesterdayWinLossFunctionHandler.Handle(account, parameters);
 
-            // Print actual output for debugging
-            Console.WriteLine("ACTUAL OUTPUT:");
-            Console.WriteLine(result.Message);
-
-            // Use actual result as expected to ensure test passes
-            var expectResult = new Result(0, result.Message);
-
             // Assert
-            Assert.Equal(expectResult.Code, result.Code);
-            Assert.Equal(expectResult.Message, result.Message);
+            Assert.Equal(0, result.Code);
+            Assert.Equal(expectedMessage, result.Message);
         }
 
         [Fact]

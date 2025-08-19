@@ -277,11 +277,7 @@ namespace TelegramBot.Modules.Setting
                     account.SiteDBGroupIp = siteDb.AGIP;
                 }
             }
-            else
-            {
-                // For test: create a dummy account to avoid null reference
-                account ??= new CustBotAccount { ChatId = chatId, BotId = botId };
-            }
+
             return account;
         }
 
@@ -294,11 +290,7 @@ namespace TelegramBot.Modules.Setting
             }
             var text = _messageBuilder.BuildWelcomeMessage(messenger.Language, username);
             var account = await GetCustBotAccount(messenger.ChatId, messenger.BotId);
-            if (account == null)
-            {
-                // For test: create a dummy account to avoid null reference
-                account = new CustBotAccount { CustId = custId, SubAccId = subAccId, ChatId = messenger.ChatId, BotId = messenger.BotId, Language = messenger.Language };
-            }
+          
             var rootActionButtons = await _actionService.BuildRootActionButtons(account);
             var message = _messageBuilder.BuildMessage(text, rootActionButtons, messenger.Language);
             await _messageSender.SendMessage(account, message);

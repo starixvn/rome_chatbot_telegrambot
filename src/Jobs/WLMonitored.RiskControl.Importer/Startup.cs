@@ -25,7 +25,7 @@ public sealed class Startup
             .AddHostedService<ChangeThresholdWinLossJob>();
 
 #pragma warning disable S2325
-    public static void Configure(IApplicationBuilder app)
+    public void Configure(IApplicationBuilder app)
 #pragma warning restore S2325
         => app
             .UseRouting()

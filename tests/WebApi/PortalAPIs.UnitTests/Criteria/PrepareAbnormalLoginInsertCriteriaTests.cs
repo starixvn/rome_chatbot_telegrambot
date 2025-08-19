@@ -1,3 +1,4 @@
+using System.Globalization;
 using PortalAPIs.Criteria;
 using PortalAPIs.Models;
 
@@ -61,12 +62,13 @@ public class PrepareAbnormalLoginInsertCriteriaTests
     public void OrgBatch_WhenTransHasItems_ReturnsCorrectXml()
     {
         // Arrange
+        var transTime = new DateTime(2024, 3, 20);
         var trans = new List<AbnormalLoginModel>
         {
             new AbnormalLoginModel(
                 ID: 1,
                 LoginName: "testuser",
-                TransTime: new DateTime(2024, 3, 20),
+                TransTime: transTime,
                 UserAgent: "Mozilla/5.0",
                 IP: "127.0.0.1",
                 OS: "Windows",
@@ -80,7 +82,7 @@ public class PrepareAbnormalLoginInsertCriteriaTests
         var result = criteria.OrgBatch;
 
         // Assert
-        var expectedXml = "<ROOT><r TransID=\"1\" TransTime=\"3/20/2024 12:00:00 AM\" LoginName=\"testuser\" UserAgent=\"Mozilla/5.0\" IP=\"127.0.0.1\" Browser=\"Chrome\" Device=\"Desktop\" OS=\"Windows\" /></ROOT>";
+        var expectedXml = $"<ROOT><r TransID=\"1\" TransTime=\"{transTime}\" LoginName=\"testuser\" UserAgent=\"Mozilla/5.0\" IP=\"127.0.0.1\" Browser=\"Chrome\" Device=\"Desktop\" OS=\"Windows\" /></ROOT>";
         Assert.Equal(expectedXml, result);
     }
 
@@ -88,12 +90,14 @@ public class PrepareAbnormalLoginInsertCriteriaTests
     public void OrgBatch_WhenTransHasMultipleItems_ReturnsCorrectXml()
     {
         // Arrange
+        var transTime1 = new DateTime(2024, 3, 20);
+        var transTime2 = new DateTime(2024, 3, 21);
         var trans = new List<AbnormalLoginModel>
         {
             new AbnormalLoginModel(
                 ID: 1,
                 LoginName: "testuser1",
-                TransTime: new DateTime(2024, 3, 20),
+                TransTime: transTime1,
                 UserAgent: "Mozilla/5.0",
                 IP: "127.0.0.1",
                 OS: "Windows",
@@ -103,7 +107,7 @@ public class PrepareAbnormalLoginInsertCriteriaTests
             new AbnormalLoginModel(
                 ID: 2,
                 LoginName: "testuser2",
-                TransTime: new DateTime(2024, 3, 21),
+                TransTime: transTime2,
                 UserAgent: "Mozilla/5.0",
                 IP: "192.168.1.1",
                 OS: "Android",
@@ -118,8 +122,8 @@ public class PrepareAbnormalLoginInsertCriteriaTests
 
         // Assert
         var expectedXml = "<ROOT>" +
-                         "<r TransID=\"1\" TransTime=\"3/20/2024 12:00:00 AM\" LoginName=\"testuser1\" UserAgent=\"Mozilla/5.0\" IP=\"127.0.0.1\" Browser=\"Chrome\" Device=\"Desktop\" OS=\"Windows\" />" +
-                         "<r TransID=\"2\" TransTime=\"3/21/2024 12:00:00 AM\" LoginName=\"testuser2\" UserAgent=\"Mozilla/5.0\" IP=\"192.168.1.1\" Browser=\"Firefox\" Device=\"Mobile\" OS=\"Android\" />" +
+                         $"<r TransID=\"1\" TransTime=\"{transTime1}\" LoginName=\"testuser1\" UserAgent=\"Mozilla/5.0\" IP=\"127.0.0.1\" Browser=\"Chrome\" Device=\"Desktop\" OS=\"Windows\" />" +
+                         $"<r TransID=\"2\" TransTime=\"{transTime2}\" LoginName=\"testuser2\" UserAgent=\"Mozilla/5.0\" IP=\"192.168.1.1\" Browser=\"Firefox\" Device=\"Mobile\" OS=\"Android\" />" +
                          "</ROOT>";
         Assert.Equal(expectedXml, result);
     }
