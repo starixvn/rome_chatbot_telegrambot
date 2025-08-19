@@ -12,5 +12,5 @@ public record AutoTransferResultModel
     public int CancelledCount { get; set; }
 
     public string FailedCusts { get; set; }
-    public string CancelledCusts { get; set; } 
+    public string CancelledCusts { get; set; }
 }

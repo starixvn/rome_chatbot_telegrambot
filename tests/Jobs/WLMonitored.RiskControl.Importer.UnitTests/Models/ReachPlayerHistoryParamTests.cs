@@ -23,7 +23,7 @@ public class ReachPlayerHistoryParamTests
 
         // Act
         param.AppendCustXml(sb);
-        
+
         // Assert
         Assert.Equal("<Cust CustId=\"23003140\" AccumWL=\"100\" SportType=\"0\" SettingType=\"1\" WinningThreshold=\"200\" LosingThreshold=\"300\" ReachType=\"2\"/>", sb.ToString());
     }

@@ -197,9 +197,9 @@ namespace TelegramBot.Modules.Setting
         }
 
         private async Task<IEnumerable<BotFunction>> GetAccountFunctions(
-            int custId, 
-            int subAccId, 
-            IEnumerable<BotFunction> functions, 
+            int custId,
+            int subAccId,
+            IEnumerable<BotFunction> functions,
             string system,
             byte custLevel)
         {
@@ -212,23 +212,27 @@ namespace TelegramBot.Modules.Setting
                 var customerStatus = await _customerService.GetCustomerStatus(custId, subAccId);
                 var functionPermissions = _webAPIConfiguration.FunctionPermissions;
                 functions = functions.Where(f => IsAllowFunction(f, customerStatus, functionPermissions, isADBT, system, custLevel));
-            } else {
-                functions = functions.Where(f => IsAllowFunction(f, null, new Dictionary<string,string> { }, isADBT, system, custLevel));
+            }
+            else
+            {
+                functions = functions.Where(f => IsAllowFunction(f, null, new Dictionary<string, string> { }, isADBT, system, custLevel));
             }
 
             return functions;
         }
 
-        private bool IsAllowFunction(
-            BotFunction f, 
-            CustomerStatus customerStatus, 
+        private static bool IsAllowFunction(
+            BotFunction f,
+            CustomerStatus customerStatus,
             IDictionary<string, string> functionPermissions,
             bool isADBT,
             string system,
-            byte custLevel) {
+            byte custLevel)
+        {
             var isAllow = !functionPermissions.ContainsKey(f.FunctionKey)
                 || customerStatus.PageAccess.Contains(functionPermissions[f.FunctionKey]);
-            switch(f.FunctionKey) {
+            switch (f.FunctionKey)
+            {
                 case "AutoTransferSettings":
                 case "AutoTransferAlert":
                     return isAllow && !isADBT && system != "789Y";

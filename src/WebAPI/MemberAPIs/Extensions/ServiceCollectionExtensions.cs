@@ -96,7 +96,7 @@ namespace MemberAPIs.Extensions
             {
                 return;
             }
-            
+
             options.ConnectionOptions ??= new ConfigurationOptions();
 
             foreach (string endPoint in endPoints)

@@ -35,7 +35,7 @@ public class AddAbnormalLoginCriteriaTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public void IsValid_WithInvalidBatch_ReturnsFalse(string invalidBatch)
+    public void IsValid_WithInvalidBatch_ReturnsFalse(string? invalidBatch)
     {
         // Arrange
         var criteria = new AddAbnormalLoginCriteria(invalidBatch);
@@ -59,4 +59,4 @@ public class AddAbnormalLoginCriteriaTests
         // Assert
         Assert.Equal("Acc_CustAbnormalLoginIns", result);
     }
-} 
+}

@@ -5,4 +5,4 @@ namespace MemberAPIs.Constants
         public const string Memory = "memory";
         public const string Redis = "redis";
     }
-} 
+}

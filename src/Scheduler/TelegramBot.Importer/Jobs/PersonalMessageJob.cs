@@ -91,7 +91,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
             sitesBuilder.ToString());
     }
 
-    private IEnumerable<PersonalMessageNotification> BuildNormalMessages(
+    private static IEnumerable<PersonalMessageNotification> BuildNormalMessages(
         ScheduleJob job,
         IEnumerable<PersonalMessage> normalMessages,
         IEnumerable<LinkedCustomer> linkedCustomers,
@@ -184,7 +184,7 @@ public sealed class PersonalMessageJob : NotificationBaseJob
         return TemplateHelper.EncodeXml(messageBuilder.ToString());
     }
 
-    private IEnumerable<PersonalMessageNotification> BuildDomainMessages(
+    private static IEnumerable<PersonalMessageNotification> BuildDomainMessages(
         ScheduleJob job,
         IEnumerable<PersonalMessage> domainMessages,
         IEnumerable<LinkedCustomer> linkedCustomers,

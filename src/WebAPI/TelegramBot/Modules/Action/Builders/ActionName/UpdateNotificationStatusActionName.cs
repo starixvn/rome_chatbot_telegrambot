@@ -17,7 +17,7 @@ namespace TelegramBot.Modules.Action.Builders.ActionName
         {
             var resource = await resourceService.GetResource(action.ActionId.ToString(), ResourceType.ActionName, account.Language);
             var function = account.Functions.FirstOrDefault(f => f.FunctionId == short.Parse(action.Command));
- 
+
             return (function.Enabled ? $"{Unicode.Bell}" : $"{Unicode.BellWithSlash}") + resource.Value;
         }
     }

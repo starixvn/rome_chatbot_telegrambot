@@ -27,15 +27,15 @@ namespace MemberAPIs.UnitTests.Controllers
             _serviceMock = new Mock<ILoginFailedNotifierService>();
             _loggerMock = new Mock<ILogger<LoginFailedNotifierController>>();
             _controller = new LoginFailedNotifierController(_serviceMock.Object, _loggerMock.Object);
-            
+
             // Setup HttpContext and Response
             _httpContextMock = new Mock<HttpContext>();
             _responseMock = new Mock<HttpResponse>();
-            
+
             // Setup Response.StatusCode property
             var statusCode = 0;
             _responseMock.SetupProperty(r => r.StatusCode, statusCode);
-            
+
             _httpContextMock.Setup(m => m.Response).Returns(_responseMock.Object);
             _controller.ControllerContext = new ControllerContext
             {
@@ -64,7 +64,7 @@ namespace MemberAPIs.UnitTests.Controllers
 
             // Assert
             result.Should().BeEquivalentTo(expectedResponse);
-            _serviceMock.Verify(x => x.AlertFailedLogin(It.Is<AlertLoginFailedParam>(p => 
+            _serviceMock.Verify(x => x.AlertFailedLogin(It.Is<AlertLoginFailedParam>(p =>
                 p.LoginFailedType == request.LoginFailedType &&
                 p.MemberId == request.MemberId &&
                 p.LastChangedPasswordDate == request.LastChangedPasswordDate)), Times.Once);
@@ -162,4 +162,4 @@ namespace MemberAPIs.UnitTests.Controllers
                 Times.Once);
         }
     }
-} 
+}

@@ -91,4 +91,4 @@ namespace PortalAPIs.UnitTests.Controllers
             _mockService.Verify(x => x.AlertAbnormalLogin(It.IsAny<IEnumerable<AbnormalLoginModel>>()), Times.Once);
         }
     }
-} 
+}

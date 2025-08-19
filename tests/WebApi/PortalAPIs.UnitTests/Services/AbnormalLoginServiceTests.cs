@@ -122,7 +122,7 @@ namespace PortalAPIs.UnitTests.Services
             var batch = "test-batch";
             _mockDynamicRepository
                 .Setup(x => x.ExecuteAsync(It.IsAny<AddAbnormalLoginCriteria>(), "", It.IsAny<CancellationToken>()))
-                .Callback((INonQueryCommand criteria, string s, CancellationToken cc)=>
+                .Callback((INonQueryCommand criteria, string s, CancellationToken cc) =>
                 {
                     var c = criteria as AddAbnormalLoginCriteria;
                     if (c == null)
@@ -196,4 +196,4 @@ namespace PortalAPIs.UnitTests.Services
             _mockLoggerService.Verify(x => x.Error(It.IsAny<Exception>()), Times.Once);
         }
     }
-} 
+}

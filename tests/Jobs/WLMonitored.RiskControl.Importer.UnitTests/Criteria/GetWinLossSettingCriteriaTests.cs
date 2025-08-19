@@ -14,7 +14,7 @@ public class GetWinLossSettingCriteriaTests
         // Act & Assert
         Assert.Equal("Acc_WLMonitored_Service_GetSettingByCust", criteria.GetSettingKey());
     }
-    
+
     [Theory]
     [InlineData("", false)]
     [InlineData("     ", false)]

@@ -74,7 +74,7 @@ public class InsertToastMessageCriteria : NonQueryCommand
     public override string GetSettingKey() => "Age_ToastMessage_Ins";
     public override bool IsValid() => true;
 
-    private string GetMessage(string message, string language)
+    private static string GetMessage(string message, string language)
     {
         var culture = CultureInfo.CreateSpecificCulture(language);
         var content = new ToastContentModel

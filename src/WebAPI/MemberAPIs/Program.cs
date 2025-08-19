@@ -11,7 +11,7 @@ using Microsoft.OpenApi.Models;
 
 [assembly: ApiController]
 
-try 
+try
 {
     var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddControllers();
@@ -31,7 +31,7 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(options =>
     {
-        options.SwaggerDoc("v1", new OpenApiInfo { Title = "Member APIs", Version = "v1" });       
+        options.SwaggerDoc("v1", new OpenApiInfo { Title = "Member APIs", Version = "v1" });
         var xmlFilename = $"{typeof(Program).Assembly.GetName().Name}.xml";
         options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
     });
@@ -76,7 +76,7 @@ try
             throw ex.Error;
         });
     });
-    
+
     app.UseCustomRateLimiter(configuration);
     app.Run();
 }

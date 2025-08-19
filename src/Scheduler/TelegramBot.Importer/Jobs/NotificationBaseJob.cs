@@ -29,7 +29,7 @@ public abstract class NotificationBaseJob : IJob
     }
 
     public async Task Execute(IJobExecutionContext context)
-    {        
+    {
         var job = GetJobDetails(context);
 
         if (await IsUM(job))

@@ -40,7 +40,7 @@ public sealed class AbnormalLoginAlertJob : NotificationBaseJob
 
         var custIds = abnormalLogins.Select(a => a.CustId).Distinct().JoinWithComma();
         var linkedInfo = await customerService.GetLinkedCustomers(FunctionKey.AbnormalLoginAlert, custIds, job.Environment);
-        var linkedAbnormalLogins = abnormalLogins.Where(a => linkedInfo.Any(l => l.CustId == a.CustId && l.SubAccId == a.SubAccId)).ToList();        
+        var linkedAbnormalLogins = abnormalLogins.Where(a => linkedInfo.Any(l => l.CustId == a.CustId && l.SubAccId == a.SubAccId)).ToList();
         if (!linkedAbnormalLogins.Any())
         {
             return;

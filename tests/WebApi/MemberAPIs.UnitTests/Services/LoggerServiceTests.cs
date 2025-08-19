@@ -26,8 +26,8 @@ public class LoggerServiceTests
         await _sut.Error(exception);
 
         // Assert
-        _loggerMock.Verify(x => x.ErrorAsync(It.Is<string>(s => 
-            s.Contains("Test error message") && 
+        _loggerMock.Verify(x => x.ErrorAsync(It.Is<string>(s =>
+            s.Contains("Test error message") &&
             s.Contains("EXCEPTION:") &&
             s.Contains("System.Exception"))), Times.Once);
     }
@@ -46,4 +46,4 @@ public class LoggerServiceTests
         // Assert
         _loggerMock.Verify(x => x.InfoAsync(message), Times.Once);
     }
-} 
+}

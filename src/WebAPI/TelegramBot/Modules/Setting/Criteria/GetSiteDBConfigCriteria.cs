@@ -8,7 +8,7 @@ namespace TelegramBot.Modules.Setting.Criteria
         {
             CustId = custId;
         }
-        
+
         public int CustId { get; }
 
         public override string GetSettingKey() => "Acc_ServerDBConfigSelByCust";

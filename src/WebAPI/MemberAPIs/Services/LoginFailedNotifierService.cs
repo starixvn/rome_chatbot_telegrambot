@@ -45,7 +45,7 @@ namespace MemberAPIs.Services
 
             var (messageKey, messageParams) = GetMessageDetails(param, getCustInfoCriteria);
             var messages = LocalizedMessagesModel.GetLocalizedMessages(messageKey, messageParams);
-            
+
             await InsertPersonalMessage(messages, getCustInfoCriteria);
             await InsertToastMessage(messages, getCustInfoCriteria, param.MemberId);
 
@@ -60,8 +60,8 @@ namespace MemberAPIs.Services
             await dynamicRepository.ExecuteAsync(personalMessageCriteria);
 
             var assignPersonalMessageCriteria = new AssignPersonalMessageCriteria(
-                personalMessageCriteria.MessageIdOutput ?? 0, 
-                getCustInfoCriteria.UplineId, 
+                personalMessageCriteria.MessageIdOutput ?? 0,
+                getCustInfoCriteria.UplineId,
                 getCustInfoCriteria.UplineName);
             await dynamicRepository.ExecuteAsync(assignPersonalMessageCriteria);
         }
@@ -69,20 +69,20 @@ namespace MemberAPIs.Services
         private async Task InsertToastMessage(LocalizedMessagesModel messages, GetCustInfoCriteria getCustInfoCriteria, int memberId)
         {
             var insertToastMessageCriteria = new InsertToastMessageCriteria(
-                getCustInfoCriteria.UplineId, 
+                getCustInfoCriteria.UplineId,
                 memberId,
                 messages.En, messages.Ch, messages.Cs, messages.Th, messages.Vi, messages.Jp, messages.Ko);
             await dynamicRepository.ExecuteAsync(insertToastMessageCriteria);
         }
 
-        private (string messageKey, object[] messageParams) GetMessageDetails(AlertLoginFailedParam param, GetCustInfoCriteria getCustInfoCriteria)
+        private static (string messageKey, object[] messageParams) GetMessageDetails(AlertLoginFailedParam param, GetCustInfoCriteria getCustInfoCriteria)
         {
             return param.LoginFailedType == LoginFailedTypeConstants.ReachFailedCount
                 ? (MESSAGE_KEY_LOGIN_FAILED_EXCEED_COUNT, new object[] { getCustInfoCriteria.CustName })
                 : (MESSAGE_KEY_LOGIN_FAILED_CHANGED_PASSWORD, new object[] { getCustInfoCriteria.CustName, param.LastChangedPasswordDate });
         }
 
-        private APIResultModel ValidateLoginStatus(AlertLoginFailedParam param, GetCustInfoCriteria getCustInfoCriteria)
+        private static APIResultModel ValidateLoginStatus(AlertLoginFailedParam param, GetCustInfoCriteria getCustInfoCriteria)
         {
             if (getCustInfoCriteria.FailedCount == 0)
             {
@@ -99,8 +99,8 @@ namespace MemberAPIs.Services
                 return getCustInfoCriteria.FailedCount == 3
                     ? null
                     : APIResultModel.Failed(ApiMessagesConstants.FailedCountNotThree);
-            }  
-            
+            }
+
             if (param.LoginFailedType == LoginFailedTypeConstants.ChangedPassword)
             {
                 if (string.IsNullOrWhiteSpace(param.LastChangedPasswordDate))

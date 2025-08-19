@@ -103,4 +103,4 @@ public class LocalizedMessagesModelTests
         messages.Jp.Should().BeEmpty();
         messages.Ko.Should().BeEmpty();
     }
-} 
+}

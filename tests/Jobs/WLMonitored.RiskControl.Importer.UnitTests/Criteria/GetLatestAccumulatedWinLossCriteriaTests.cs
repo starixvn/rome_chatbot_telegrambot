@@ -15,7 +15,7 @@ public class GetLatestAccumulatedWinLossCriteriaTests
         // Act & Assert
         Assert.Equal("Acc_WLMonitored_Service_LatestAccumulatedDataSel", criteria.GetSettingKey());
     }
-    
+
     [Theory]
     [InlineData(-100, false)]
     [InlineData(0, false)]

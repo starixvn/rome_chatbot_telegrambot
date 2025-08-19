@@ -46,7 +46,7 @@ namespace PortalAPIs.Services
                 ErrMsg = criteria.ErrMsg
             };
         }
-   
+
         public async Task<bool> InsertData(string batch)
         {
             var criteria = new AddAbnormalLoginCriteria(batch);

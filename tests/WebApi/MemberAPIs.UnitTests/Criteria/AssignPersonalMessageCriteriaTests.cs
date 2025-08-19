@@ -68,4 +68,4 @@ public class AssignPersonalMessageCriteriaTests
         // Assert
         settingKey.Should().Be("Age_Msg_SetUsrMessage");
     }
-} 
+}

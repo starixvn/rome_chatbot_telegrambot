@@ -18,4 +18,4 @@ namespace MemberAPIs.Models
             _ => TimeSpan.FromSeconds(Window)
         };
     }
-} 
+}

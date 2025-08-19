@@ -24,7 +24,7 @@ public class MockHttpMessageHandler : HttpMessageHandler
         NumberOfCalls++;
         if (request.Content != null) // Could be a GET-request without a body
         {
-            Input = await request.Content.ReadAsStringAsync();
+            Input = await request.Content.ReadAsStringAsync(cancellationToken);
         }
         return new HttpResponseMessage
         {

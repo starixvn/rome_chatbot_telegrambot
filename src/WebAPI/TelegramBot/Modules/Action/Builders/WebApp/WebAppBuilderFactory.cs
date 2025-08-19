@@ -17,7 +17,8 @@ public class WebAppBuilderFactory : IWebAppBuilderFactory
 
     public IWebAppBuilder GetBuilder(short actionId)
     {
-        switch(actionId) {
+        switch (actionId)
+        {
             case ActionIds.NewCustomers:
                 return new NewCustomersWebAppBuilder(webAppUrls);
             case ActionIds.ViewAutoTransferMonitor:

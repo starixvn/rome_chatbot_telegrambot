@@ -85,4 +85,4 @@ public class InsertPersonalMessageCriteriaTests
         // Assert
         criteria.MessageIdOutput.Should().Be(messageId);
     }
-} 
+}

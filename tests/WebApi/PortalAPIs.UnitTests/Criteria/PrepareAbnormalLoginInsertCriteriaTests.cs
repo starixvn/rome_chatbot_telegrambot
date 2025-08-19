@@ -123,4 +123,4 @@ public class PrepareAbnormalLoginInsertCriteriaTests
                          "</ROOT>";
         Assert.Equal(expectedXml, result);
     }
-} 
+}

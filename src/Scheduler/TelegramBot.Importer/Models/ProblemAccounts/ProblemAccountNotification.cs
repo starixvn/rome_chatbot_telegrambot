@@ -17,7 +17,7 @@ public record ProblemAccountNotification(
     public override string ToLogXml()
     {
         var sb = new StringBuilder();
-        
+
         foreach (var id in LogIds)
         {
             sb.Append(ToLogXml(id));

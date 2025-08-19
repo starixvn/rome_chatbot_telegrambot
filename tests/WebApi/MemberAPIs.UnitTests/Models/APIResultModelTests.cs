@@ -72,4 +72,4 @@ public class APIResultModelTests
         result.ErrCode.Should().Be(errorCode);
         result.ErrMsg.Should().Be(errorMessage);
     }
-} 
+}

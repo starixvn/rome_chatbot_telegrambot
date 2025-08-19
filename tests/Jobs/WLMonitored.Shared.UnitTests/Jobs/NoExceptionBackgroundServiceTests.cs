@@ -35,7 +35,7 @@ public class NoExceptionBackgroundServiceTests
             globalSettingService
         );
     }
-    
+
     [Fact]
     public async Task ExecuteAsync_IsNotActive_DoesNotCallsLogInfo()
     {
@@ -54,7 +54,7 @@ public class NoExceptionBackgroundServiceTests
 
         // Assert
         await loggerService.DidNotReceive().Info(Arg.Any<string>());
-    }    
+    }
 
     [Fact]
     public void CalculateMultiplier_DelayExecutionTimeInSeconds_ReturnsDelayExecutionTimeInSeconds()

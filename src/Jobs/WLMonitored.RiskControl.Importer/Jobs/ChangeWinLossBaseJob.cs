@@ -32,7 +32,7 @@ public class ChangeWinLossBaseJob : IntervalBackgroundService
         this.winLossService = winLossService;
         this.playerHistoryService = playerHistoryService;
     }
-    
+
     public override Task<bool> ExecuteJob(GlobalSetting globalSetting)
         => throw new NotImplementedException();
 

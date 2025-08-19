@@ -178,7 +178,7 @@ namespace TelegramBot.Modules.UnitTests.Function
 
         [Theory]
         [MemberData(nameof(DownlineWinLossDataTests))]
-        public async Task Handle_ValidDirectDownline_ReturnSuccessResult(CustBotAccount account, string[] parameters, WinLossBase winLoss, string[] messages)
+        public async Task Handle_ValidDirectDownline_ReturnSuccessResult(CustBotAccount account, string[] parameters, WinLossBase winLoss)
         {
             // Arrange
             customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(new DownlineInfo(111, (byte)(account.CustomerLevel - 1), true, 1)));

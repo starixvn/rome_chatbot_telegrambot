@@ -197,7 +197,8 @@ namespace TelegramBot.Modules.Action
 
             foreach (var action in rootActions)
             {
-                switch(action.ActionId ) {
+                switch (action.ActionId)
+                {
                     case ActionIds.TotalBets:
                         var webBuilder = webAppBuilderFactory.GetBuilder(action.ActionId);
                         buttons.Add(new MessageButton(text: Unicode.Soccer + await GetActionName(action, account), webAppInfo: webBuilder.BuildWebAppInfo(account)));

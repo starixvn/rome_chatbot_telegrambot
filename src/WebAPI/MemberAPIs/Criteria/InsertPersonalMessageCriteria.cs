@@ -6,7 +6,7 @@ namespace MemberAPIs.Criteria;
 public class InsertPersonalMessageCriteria : NonQueryCommand
 {
     private const int PersonalMessageType = 1;
-    
+
     public InsertPersonalMessageCriteria(
         string contentEN,
         string contentCH,

@@ -3,7 +3,7 @@ using TelegramBot.Modules.Setting.Models;
 using TelegramBot.Shared.Constants;
 
 namespace TelegramBot.Modules.Action.Builders.WebApp;
- 
+
 public class TotalBetsWebAppBuilder : IWebAppBuilder
 {
     private readonly IDictionary<string, string> webAppUrls;

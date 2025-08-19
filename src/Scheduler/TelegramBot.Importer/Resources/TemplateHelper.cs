@@ -39,7 +39,7 @@ public static class TemplateHelper
         };
         return $"{key}{" ".PadLeft(length > 0 ? length : 0)} {value}";
     }
-    
+
     public static string EncodeXml(string text, bool isAttribute = true, int attrSubStringLength = 5)
         => isAttribute
         ? new XAttribute("__n", text).ToString().Substring(attrSubStringLength).TrimEnd('\"')
@@ -47,13 +47,13 @@ public static class TemplateHelper
 
     public static string FormatRow(string left, string right, int rowLength, string language)
     {
-       var paddingLength = language switch
+        var paddingLength = language switch
         {
             LanguageCode.ChineseSimplified or LanguageCode.ChineseTraditional => rowLength - left.Length * 2 - right.Length * 2,
-            LanguageCode.Thai => rowLength -  TemplateHelper.ThaiLength(left) - TemplateHelper.ThaiLength(right),
+            LanguageCode.Thai => rowLength - TemplateHelper.ThaiLength(left) - TemplateHelper.ThaiLength(right),
             _ => rowLength - left.Length - right.Length,
         };
-            
+
 
         return $"{left}{" ".PadLeft(paddingLength > 0 ? paddingLength : 0)} {right}";
     }
