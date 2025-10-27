@@ -12,7 +12,7 @@ public interface IBotClientFactory
     Task<ITelegramBotClient> GetOrCreate(int botId);
 }
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains DI extension methods and does not require code coverage.")]
 public class BotClientFactory : IBotClientFactory
 {
     private readonly IBotService botService;

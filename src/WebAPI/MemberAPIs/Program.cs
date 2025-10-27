@@ -1,18 +1,17 @@
-using Fanex.Data.Repository;
-using Fanex.Logging;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Fanex.Data.Repository;
+using Fanex.Data.SqlServer;
+using Fanex.Logging;
 using MemberAPIs.Extensions;
 using MemberAPIs.Middlewares;
-using Microsoft.AspNetCore.Diagnostics;
 using MemberAPIs.Services;
-using Fanex.Data.SqlServer;
-using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 
 [assembly: ApiController]
 
-try 
+try
 {
     var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddControllers();
@@ -33,8 +32,7 @@ try
     builder.Services.AddSwaggerGen(options =>
     {
         options.SwaggerDoc("v1", new OpenApiInfo { Title = "Member APIs", Version = "v1" });
-        options.CustomSchemaIds(type => type.FullName);
-        var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlFilename = $"{typeof(Program).Assembly.GetName().Name}.xml";
         options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
     });
 
@@ -58,7 +56,7 @@ try
         builder.WebHost.UseUrls("http://0.0.0.0:5000");
     }
 
-    Logger.Log.Info($"{Assembly.GetExecutingAssembly().GetName().Name} has been started up.");
+    Logger.Log.Info($"{typeof(Program).Assembly.GetName().Name} has been started up.");
 
     app.UseExceptionHandler(appError =>
     {
@@ -78,7 +76,7 @@ try
             throw ex.Error;
         });
     });
-    
+
     app.UseCustomRateLimiter(configuration);
     app.Run();
 }

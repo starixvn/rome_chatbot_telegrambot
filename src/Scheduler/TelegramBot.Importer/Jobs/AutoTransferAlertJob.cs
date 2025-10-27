@@ -27,15 +27,16 @@ public sealed class AutoTransferAlertJob : NotificationBaseJob
 
     public override async Task Execute(ScheduleJob job, SystemSetting systemSetting)
     {
-        var siteDBs = job.SiteDBs.Split("," , StringSplitOptions.RemoveEmptyEntries);
+        var siteDBs = job.SiteDBs.Split(",", StringSplitOptions.RemoveEmptyEntries);
 
-        foreach(var siteDB in siteDBs) {
+        foreach (var siteDB in siteDBs)
+        {
             var autoTransferResult = await service.GetAutoTransferResults(siteDB, job.MonitorEnvironment);
             if (!autoTransferResult.Any())
             {
                 continue;
             }
-            
+
             var custIds = autoTransferResult.Select(a => a.CustId).Distinct().JoinWithComma();
             var linkedInfo = await customerService.GetLinkedCustomers(FunctionKey.AutoTransferAlert, custIds, job.Environment);
             var notifications = new List<AutoTransferAlert>();
@@ -57,7 +58,8 @@ public sealed class AutoTransferAlertJob : NotificationBaseJob
                 }
             }
 
-            if(notifications.Any()) {
+            if (notifications.Any())
+            {
                 var result = await service.Import(notifications, job.Environment);
 
                 if (result.IsFailed)
@@ -70,7 +72,7 @@ public sealed class AutoTransferAlertJob : NotificationBaseJob
         await UpdateJobStatusToCompleted(job, 0);
     }
 
-    private string BuildMessage(AutoTransferResultModel autoTransfer, string language)
+    private static string BuildMessage(AutoTransferResultModel autoTransfer, string language)
     {
         var messageBuilder = new StringBuilder();
         messageBuilder
@@ -84,7 +86,8 @@ public sealed class AutoTransferAlertJob : NotificationBaseJob
         messageBuilder.AppendLine(TemplateHelper.FormatRow(nameof(Template.AutoTransfer_CancelledCount), autoTransfer.CancelledCount.ToString(), language));
         messageBuilder.Append("</pre>");
 
-        if(!string.IsNullOrWhiteSpace(autoTransfer.FailedCusts)) {
+        if (!string.IsNullOrWhiteSpace(autoTransfer.FailedCusts))
+        {
             messageBuilder.AppendLine();
             messageBuilder.AppendLine(TemplateHelper.Get(nameof(Template.AutoTransfer_FailedCusts), language));
             messageBuilder.Append("<pre>");
@@ -92,7 +95,8 @@ public sealed class AutoTransferAlertJob : NotificationBaseJob
             messageBuilder.Append("</pre>");
         }
 
-        if(!string.IsNullOrWhiteSpace(autoTransfer.CancelledCusts)) {
+        if (!string.IsNullOrWhiteSpace(autoTransfer.CancelledCusts))
+        {
             messageBuilder.AppendLine();
             messageBuilder.AppendLine(TemplateHelper.Get(nameof(Template.AutoTransfer_CancelledCusts), language));
             messageBuilder.Append("<pre>");

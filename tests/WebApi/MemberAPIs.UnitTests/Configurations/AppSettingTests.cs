@@ -90,4 +90,4 @@ public class AppSettingTests : IDisposable
         act.Should().Throw<InvalidCastException>()
             .WithMessage("Key: StringValue*");
     }
-} 
+}

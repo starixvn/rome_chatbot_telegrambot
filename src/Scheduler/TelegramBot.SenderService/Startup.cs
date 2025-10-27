@@ -1,12 +1,13 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 using Quartz;
 using TelegramBot.SenderService.Extensions;
-using Microsoft.AspNetCore.Routing;
-using System.Diagnostics.CodeAnalysis;
 
 namespace TelegramBot.SenderService;
 
-[ExcludeFromCodeCoverage]
+// Justification: Startup class is excluded from code coverage as it contains only configuration and no business logic.
+[ExcludeFromCodeCoverage(Justification = "Startup class is excluded from code coverage as it contains only configuration and no business logic.")]
 public class Startup
 {
     public Startup(IConfiguration configuration)

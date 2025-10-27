@@ -12,7 +12,6 @@ using ONEbook.UM.Services;
 using TelegramBot.Modules.Bot;
 using TelegramBot.Modules.Bot.Models;
 using TelegramBot.Modules.Message;
-using TelegramBot.Modules.Message.Models;
 using TelegramBot.Shared.Models;
 using TelegramBot.WebApi.Filters;
 using TelegramBot.WebApi.Params;

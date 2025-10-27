@@ -79,15 +79,16 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
                 Language = "en-US"
             };
 
-            var expect = new Result(0, "www.google.com\nwww.yahoo.com");
+            var expect = new Result(0, "<b>Agency Domains</b>\n<pre>www.google.com\nwww.yahoo.com\nwww.youtube.com</pre>\n\n<b>Member Domains</b>\nNo information is available");
             customerService
                 .GetDomains(Arg.Any<string>())
                 .Returns(Task.FromResult<IEnumerable<DomainInfo>>(new List<DomainInfo>
                 {
                     new DomainInfo("www.google.com", true),
                     new DomainInfo("www.yahoo.com", true),
-                    new DomainInfo("www.youtube.com", false)
+                    new DomainInfo("www.youtube.com", true)
                 }));
+            messageBuilder.BuildNoDataMessage("en-US").Returns("No information is available");
 
             // Act
             var result = await handler.Handle(requestAccount, null);

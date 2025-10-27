@@ -64,7 +64,7 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
                     "<pre>",
                     $"{"TO",-15} {"10",16}",
                     $"{"Gross Comm",-15} {"1",16}",
-                    $"{"Master Total",-15} {"1",16}",
+                    $"{"Downline Total",-15} {"1",16}", // <-- changed from Master Total to Downline Total
                     $"{"Super WL",-15} {"1",16}",
                     $"{"Super Comm",-15} {"1",16}",
                     $"{"Super Total",-15} {"1",16}",
@@ -81,7 +81,7 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
                     "<pre>",
                     $"{"TO",-15} {"10",16}",
                     $"{"Gross Comm",-15} {"1",16}",
-                    $"{"Agent Total",-15} {"1",16}",
+                    $"{"Downline Total",-15} {"1",16}", // <-- changed from Agent Total to Downline Total
                     $"{"Master WL",-15} {"1",16}",
                     $"{"Master Comm",-15} {"1",16}",
                     $"{"Master Total",-15} {"1",16}",
@@ -167,9 +167,16 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
                     $"[Downline's Yesterday Win Loss - {yesterday:MM/dd/yyyy}]",
                     "<pre>",
                     $"{"Username",-15} {"username",16}",
+                    $"{"Level",-15} {"Member",16}",
+                    $"{"TO",-15} {"10",16}",
+                    $"{"Gross Comm",-15} {"1",16}",
                     $"{"Member WL",-15} {"1",16}",
                     $"{"Member Comm",-15} {"1",16}",
                     $"{"Member Total",-15} {"1",16}",
+                    $"{"Agent WL",-15} {"1",16}",
+                    $"{"Agent Comm",-15} {"1",16}",
+                    $"{"Agent Total",-15} {"1",16}",
+                    $"{"Company",-15} {"1",16}",
                     "</pre>",
                 },
             };
@@ -177,12 +184,13 @@ namespace TelegramBot.Modules.UnitTests.Function.Handlers
 
         [Theory]
         [MemberData(nameof(DownlineYesterdayWinLossDataTests))]
-        public async Task Handle_ValidDirectDownline_ReturnSuccessResult(CustBotAccount account, string[] parameters, WinLossBase winLoss, string[] messages)
+        public async Task Handle_ValidDirectDownline_ReturnSuccessResult(CustBotAccount account, string[] parameters, WinLossBase winLoss, string[] expectedMessages)
         {
             // Arrange
-            var expectedMessage = string.Join(telegramFormatter.NewLine(), messages);
             customerService.GetDownlineInfo(Arg.Any<int>(), Arg.Any<string>()).Returns(Task.FromResult(new DownlineInfo(111, (byte)(account.CustomerLevel - 1), true, 1)));
             winLossService.GetDownlineWinLoss(account.CustId, account.CustomerLevel, yesterday, 111).Returns(winLoss);
+            
+            var expectedMessage = string.Join(telegramFormatter.NewLine(), expectedMessages);
 
             // Act
             var result = await yesterdayWinLossFunctionHandler.Handle(account, parameters);

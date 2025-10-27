@@ -1,4 +1,4 @@
-using Fanex.Data;
+using System.Diagnostics.CodeAnalysis;
 using Fanex.Data.Repository;
 using Fanex.Data.SqlServer;
 using Fanex.Logging;
@@ -6,8 +6,8 @@ using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
 using Fanex.Logging.RabbitMQ;
 using Fanex.Logging.Sentry;
-using Microsoft.AspNetCore.Builder;
 using Fanex.RemotingRef;
+using Microsoft.AspNetCore.Builder;
 using ONEbook.UM;
 using ONEbook.UM.AspNetCore;
 using ONEbook.UM.Configurations;
@@ -15,11 +15,11 @@ using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
 using ONEbook.UM.Transport;
 using Sentry;
-using System.Diagnostics.CodeAnalysis;
 
 namespace TelegramBot.ImporterService.Extensions;
 
-[ExcludeFromCodeCoverage]
+// Justification: This class is excluded from code coverage because it only contains extension methods for DI and middleware registration.
+[ExcludeFromCodeCoverage(Justification = "This class is excluded from code coverage because it only contains extension methods for DI and middleware registration.")]
 public static class FanexLibsExtensions
 {
     public static IServiceCollection AddFanexDataWithSqlServer(this IServiceCollection services, IConfiguration configuration)

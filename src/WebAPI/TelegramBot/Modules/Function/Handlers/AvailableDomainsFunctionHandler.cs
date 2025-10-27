@@ -1,10 +1,9 @@
-using TelegramBot.Shared.Models;
-using TelegramBot.Modules.Setting.Models;
-using TelegramBot.Modules.Message;
-using Alpha.API.Client.Services;
 using Alpha.API.Client.Models.Customers;
+using Alpha.API.Client.Services;
+using TelegramBot.Modules.Message;
+using TelegramBot.Modules.Setting.Models;
+using TelegramBot.Shared.Models;
 using TelegramBot.Shared.Resources;
-using System.Text;
 
 namespace TelegramBot.Modules.Function.Handlers
 {
@@ -21,6 +20,10 @@ namespace TelegramBot.Modules.Function.Handlers
         public async Task<Result> Handle(CustBotAccount account, string[] parameters)
         {
             var domains = await customerService.GetDomains(account.Site);
+            if (domains == null || !domains.Any())
+            {
+                return new Result(0, messageBuilder.BuildNoDataMessage(account.Language));
+            }
             var (agencyDomains, memberDomains) = SplitDomains(domains);
 
             var agencyMessage = BuildAvailableDomainsMessage(
@@ -30,7 +33,7 @@ namespace TelegramBot.Modules.Function.Handlers
             var memberMessage = BuildAvailableDomainsMessage(
                 ResourceHelper.Get(nameof(SharedResource.MemberDomains), account.Language),
                 memberDomains,
-                account.Language);
+                account.Language);           
 
             return new Result(0, $"{agencyMessage}{messageFormatter.NewLine()}{messageFormatter.NewLine()}{memberMessage}");
         }

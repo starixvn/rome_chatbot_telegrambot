@@ -15,7 +15,7 @@ public class APIResultModel
         ErrCode = errCode;
         ErrMsg = errMsg;
     }
-    
+
     public string ErrCode { get; set; }
     public string ErrMsg { get; set; }
 

@@ -5,7 +5,7 @@ using TelegramBot.Importer.Extensions;
 namespace TelegramBot.Importer.Models.LastBets;
 
 public record FilterConfigurationModel
-{   
+{
     private FilterConfigurationXMLModel filterXml;
 
     public FilterConfigurationModel()
@@ -70,9 +70,12 @@ public record FilterConfigurationModel
         }
     }
 
-    public string Members { 
-        get {
-            switch(FilterXml.FilterByMembers) {
+    public string Members
+    {
+        get
+        {
+            switch (FilterXml.FilterByMembers)
+            {
                 case FilterByMembersConstants.AllMembers:
                     return FilterXml.Members;
                 case FilterByMembersConstants.AllWatchlistMembers:
@@ -83,8 +86,10 @@ public record FilterConfigurationModel
         }
     }
 
-    public string Sports { 
-        get {
+    public string Sports
+    {
+        get
+        {
             var sportXmlList = FilterXml.Sports;
             if (sportXmlList.Any(s => string.Equals("0", s.Sport, StringComparison.OrdinalIgnoreCase)
                     && string.Equals("0", s.League, StringComparison.OrdinalIgnoreCase)))
@@ -104,12 +109,14 @@ public record FilterConfigurationModel
                 }
             }
 
-           return string.Join(",", sportTypes);
+            return string.Join(",", sportTypes);
         }
     }
 
-    public string Leagues { 
-        get {
+    public string Leagues
+    {
+        get
+        {
             var sportXmlList = FilterXml.Sports;
             if (sportXmlList.Any(s => string.Equals("0", s.Sport, StringComparison.OrdinalIgnoreCase)
                     && string.Equals("0", s.League, StringComparison.OrdinalIgnoreCase)))
@@ -134,7 +141,7 @@ public record FilterConfigurationModel
                 }
             }
 
-           return string.Join(",", leagues);
+            return string.Join(",", leagues);
         }
     }
 }

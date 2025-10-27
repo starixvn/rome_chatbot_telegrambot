@@ -1,9 +1,9 @@
 ﻿
 namespace TelegramBot.Modules.AutoTransfer.Params
 {
-    public class UpdateSingleParam 
+    public class UpdateSingleParam
     {
-         public int CustId { get; set; }
+        public int CustId { get; set; }
 
         public int UplineId { get; set; }
 

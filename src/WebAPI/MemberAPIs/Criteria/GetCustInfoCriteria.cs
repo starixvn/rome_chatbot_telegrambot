@@ -1,4 +1,3 @@
-using Fanex.Data;
 using Fanex.Data.Repository;
 
 namespace MemberAPIs.Criteria;

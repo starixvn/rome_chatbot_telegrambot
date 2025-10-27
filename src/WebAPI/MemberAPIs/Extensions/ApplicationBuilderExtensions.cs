@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Fanex.Data;
-using Fanex.Data.SqlServer;
 using ONEbook.UM;
 using ONEbook.UM.AspNetCore;
 using ONEbook.UM.Configurations;
@@ -9,7 +7,7 @@ using ONEbook.UM.Transport;
 
 namespace MemberAPIs.Extensions
 {
-    [ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage(Justification = "Extension method for middleware registration; tested via integration tests.")]
     public static class ApplicationBuilderExtensions
     {
         public static IApplicationBuilder UseUM(this IApplicationBuilder app, IConfiguration configuration)

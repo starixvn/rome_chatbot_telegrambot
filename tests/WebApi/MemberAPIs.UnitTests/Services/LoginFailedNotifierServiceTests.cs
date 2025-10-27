@@ -43,7 +43,7 @@ namespace MemberAPIs.UnitTests
             _mockDynamicRepository
                 .Setup(repo => repo.ExecuteAsync(It.IsAny<INonQueryCommand>()))
                 .Returns(Task.FromResult(0))
-                .Callback<INonQueryCommand>(cmd => 
+                .Callback<INonQueryCommand>(cmd =>
                 {
                     if (cmd is GetCustInfoCriteria criteria)
                     {
@@ -78,7 +78,7 @@ namespace MemberAPIs.UnitTests
             _mockDynamicRepository
                 .Setup(repo => repo.ExecuteAsync(It.IsAny<INonQueryCommand>()))
                 .Returns(Task.FromResult(0))
-                .Callback<INonQueryCommand>(cmd => 
+                .Callback<INonQueryCommand>(cmd =>
                 {
                     if (cmd is GetCustInfoCriteria criteria)
                     {
@@ -114,7 +114,7 @@ namespace MemberAPIs.UnitTests
             _mockDynamicRepository
                 .Setup(repo => repo.ExecuteAsync(It.IsAny<INonQueryCommand>()))
                 .Returns(Task.FromResult(0))
-                .Callback<INonQueryCommand>(cmd => 
+                .Callback<INonQueryCommand>(cmd =>
                 {
                     if (cmd is GetCustInfoCriteria criteria)
                     {
@@ -154,7 +154,7 @@ namespace MemberAPIs.UnitTests
             _mockDynamicRepository
                 .Setup(repo => repo.ExecuteAsync(It.IsAny<INonQueryCommand>()))
                 .Returns(Task.FromResult(0))
-                .Callback<INonQueryCommand>(cmd => 
+                .Callback<INonQueryCommand>(cmd =>
                 {
                     if (cmd is GetCustInfoCriteria criteria)
                     {
@@ -194,7 +194,7 @@ namespace MemberAPIs.UnitTests
             _mockDynamicRepository
                 .Setup(repo => repo.ExecuteAsync(It.IsAny<INonQueryCommand>()))
                 .Returns(Task.FromResult(0))
-                .Callback<INonQueryCommand>(cmd => 
+                .Callback<INonQueryCommand>(cmd =>
                 {
                     if (cmd is GetCustInfoCriteria criteria)
                     {
@@ -233,7 +233,7 @@ namespace MemberAPIs.UnitTests
             _mockDynamicRepository
                 .Setup(repo => repo.ExecuteAsync(It.IsAny<INonQueryCommand>()))
                 .Returns(Task.FromResult(0))
-                .Callback<INonQueryCommand>(cmd => 
+                .Callback<INonQueryCommand>(cmd =>
                 {
                     if (cmd is GetCustInfoCriteria criteria)
                     {
@@ -274,7 +274,7 @@ namespace MemberAPIs.UnitTests
             _mockDynamicRepository
                 .Setup(repo => repo.ExecuteAsync(It.IsAny<INonQueryCommand>()))
                 .Returns(Task.FromResult(0))
-                .Callback<INonQueryCommand>(cmd => 
+                .Callback<INonQueryCommand>(cmd =>
                 {
                     if (cmd is GetCustInfoCriteria criteria)
                     {
@@ -310,7 +310,7 @@ namespace MemberAPIs.UnitTests
             _mockDynamicRepository
                 .Setup(repo => repo.ExecuteAsync(It.IsAny<INonQueryCommand>()))
                 .Returns(Task.FromResult(0))
-                .Callback<INonQueryCommand>(cmd => 
+                .Callback<INonQueryCommand>(cmd =>
                 {
                     if (cmd is GetCustInfoCriteria criteria)
                     {
@@ -327,4 +327,4 @@ namespace MemberAPIs.UnitTests
             result.ErrMsg.Should().Be(ApiMessagesConstants.LoginFailedTypeMismatchForReach3Attempts);
         }
     }
-} 
+}

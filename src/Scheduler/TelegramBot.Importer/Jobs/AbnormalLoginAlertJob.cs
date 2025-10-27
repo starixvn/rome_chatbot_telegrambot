@@ -40,7 +40,7 @@ public sealed class AbnormalLoginAlertJob : NotificationBaseJob
 
         var custIds = abnormalLogins.Select(a => a.CustId).Distinct().JoinWithComma();
         var linkedInfo = await customerService.GetLinkedCustomers(FunctionKey.AbnormalLoginAlert, custIds, job.Environment);
-        var linkedAbnormalLogins = abnormalLogins.Where(a => linkedInfo.Any(l => l.CustId == a.CustId && l.SubAccId == a.SubAccId)).ToList();        
+        var linkedAbnormalLogins = abnormalLogins.Where(a => linkedInfo.Any(l => l.CustId == a.CustId && l.SubAccId == a.SubAccId)).ToList();
         if (!linkedAbnormalLogins.Any())
         {
             return;
@@ -100,7 +100,7 @@ public sealed class AbnormalLoginAlertJob : NotificationBaseJob
 
         messageBuilder.Append("<pre>");
         messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Near), language), login.City, login.Country, login.IP));
-        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Device), language), string.IsNullOrWhiteSpace(device) ? string.Empty : device + ", ", c.OS.ToString()));
+        messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Device), language), string.IsNullOrWhiteSpace(device) ? string.Empty : device + ", ", c.OS));
 
         var browser = string.IsNullOrWhiteSpace(login.Browser) ? c.UA.Family : login.Browser;
         messageBuilder.AppendLine(string.Format(TemplateHelper.Get(nameof(Template.AbnormalLogin_Browser), language), browser));

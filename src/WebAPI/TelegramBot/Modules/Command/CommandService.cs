@@ -292,7 +292,7 @@ namespace TelegramBot.Modules.Command
 
             if (firstSpaceIndex == -1)
             {
-                return (command, new string[0]);
+                return (command, Array.Empty<string>());
             }
 
             var commandName = command.Substring(0, firstSpaceIndex);

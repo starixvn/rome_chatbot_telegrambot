@@ -132,7 +132,7 @@ namespace TelegramBot.Modules.Function.Handlers
             var toWin = TotalHasToWinValue(data.Outstandings) ? data.Total.ToWin.ToFormattedNumber() : NumberExtensions.NotAvaibleNumber;
             var riskAmout = TotalHasToWinValue(data.Outstandings) ? data.Total.RiskAmount.ToFormattedNumber() : NumberExtensions.NotAvaibleNumber;
 
-            
+
             textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), language));
             textContainer.Add(messageFormatter.FormatRow("", toWin, language));
             textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), language));
@@ -176,7 +176,7 @@ namespace TelegramBot.Modules.Function.Handlers
             textContainer.Add(ResourceHelper.Get(nameof(SharedResource.Total), language).ToUpperInvariant());
             var toWin = TotalHasToWinValue(data.Outstandings) ? data.Total.ToWin.ToFormattedNumber() : NumberExtensions.NotAvaibleNumber;
             var riskAmount = TotalHasToWinValue(data.Outstandings) ? data.Total.RiskAmount.ToFormattedNumber() : NumberExtensions.NotAvaibleNumber;
-            
+
             textContainer.Add(messageFormatter.FormatRow(memberText, data.Total.MemberOutstanding.ToFormattedNumber(), language));
             textContainer.Add(messageFormatter.FormatRow("", toWin, language));
             textContainer.Add(messageFormatter.FormatRow(custLevelText, data.Total.Outstanding.ToFormattedNumber(), language));

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace TelegramBot.SenderService;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains extension methods for DI registration and is not intended to be covered by tests.")]
 public class Program
 {
     public static void Main(string[] args)

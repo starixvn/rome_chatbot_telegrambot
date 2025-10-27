@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using Fanex.Data;
 using Fanex.Data.Repository;
 using Fanex.Data.SqlServer;
 using Fanex.Logging;
@@ -16,7 +15,8 @@ using Sentry;
 
 namespace WLMonitored.Shared.Extensions;
 
-[ExcludeFromCodeCoverage]
+// Justification: This class contains only extension methods and does not require code coverage.
+[ExcludeFromCodeCoverage(Justification = "This class contains only extension methods and does not require code coverage.")]
 public static class FanexLibsExtensions
 {
     public static IServiceCollection AddONEBookUM(this IServiceCollection services, IConfiguration configuration)

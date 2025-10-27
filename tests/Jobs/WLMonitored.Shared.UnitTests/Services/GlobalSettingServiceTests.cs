@@ -28,10 +28,10 @@ public class GlobalSettingServiceTests
         dynamicRepository
             .FetchAsync<GlobalSettingEntity>(Arg.Any<GetGlobalSettingCriteria>())
             .Returns(Task.FromResult(Enumerable.Empty<GlobalSettingEntity>()));
-        
+
         // Act
         var actual = await globalSettingService.GetGlobalSetting(string.Empty);
-        
+
         // Assert
         Assert.Throws<KeyNotFoundException>(() => actual.LastId);
     }
@@ -48,10 +48,10 @@ public class GlobalSettingServiceTests
         dynamicRepository
             .FetchAsync<GlobalSettingEntity>(Arg.Any<GetGlobalSettingCriteria>())
             .Returns(Task.FromResult<IEnumerable<GlobalSettingEntity>>(settings));
-        
+
         // Act
         var actual = await globalSettingService.GetGlobalSetting("UAT");
-        
+
         // Assert
         Assert.True(actual.IsStopJob(jobName));
     }

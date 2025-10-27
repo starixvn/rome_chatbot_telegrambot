@@ -145,4 +145,4 @@ public class InsertToastMessageCriteriaTests
         criteria.ErrCode.Should().Be(errCode);
         criteria.ErrMsg.Should().Be(errMsg);
     }
-} 
+}

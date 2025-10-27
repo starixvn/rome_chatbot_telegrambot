@@ -1,11 +1,9 @@
 using System;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using AutoFixture.Xunit2;
 using Newtonsoft.Json;
-using NSubstitute;
 using TelegramBot.Client.Models;
 using TelegramBot.Client.Services;
 using Xunit;

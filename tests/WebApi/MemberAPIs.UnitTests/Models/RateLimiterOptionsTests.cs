@@ -62,4 +62,4 @@ namespace MemberAPIs.UnitTests.Models
             Assert.Equal(2, options.SegmentsPerWindow);
         }
     }
-} 
+}

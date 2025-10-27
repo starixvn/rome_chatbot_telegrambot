@@ -1,5 +1,6 @@
-﻿using Fanex.Caching;
+﻿using Alpha.API.Client.Models.Customers;
 using Alpha.API.Client.Services;
+using Fanex.Caching;
 using Fanex.Data.Repository;
 using TelegramBot.Modules.Action;
 using TelegramBot.Modules.Function.Models;
@@ -8,12 +9,10 @@ using TelegramBot.Modules.OTP;
 using TelegramBot.Modules.Setting.Constants;
 using TelegramBot.Modules.Setting.Criteria;
 using TelegramBot.Modules.Setting.Models;
+using TelegramBot.Shared.Caching;
 using TelegramBot.Shared.Configurations;
 using TelegramBot.Shared.Constants;
 using TelegramBot.Shared.Models;
-using TelegramBot.Shared.Caching;
-using Alpha.API.Client.Models.Customers;
-using TelegramBot.Modules.AutoTransfer;
 
 namespace TelegramBot.Modules.Setting
 {
@@ -198,9 +197,9 @@ namespace TelegramBot.Modules.Setting
         }
 
         private async Task<IEnumerable<BotFunction>> GetAccountFunctions(
-            int custId, 
-            int subAccId, 
-            IEnumerable<BotFunction> functions, 
+            int custId,
+            int subAccId,
+            IEnumerable<BotFunction> functions,
             string system,
             byte custLevel)
         {
@@ -213,23 +212,27 @@ namespace TelegramBot.Modules.Setting
                 var customerStatus = await _customerService.GetCustomerStatus(custId, subAccId);
                 var functionPermissions = _webAPIConfiguration.FunctionPermissions;
                 functions = functions.Where(f => IsAllowFunction(f, customerStatus, functionPermissions, isADBT, system, custLevel));
-            } else {
-                functions = functions.Where(f => IsAllowFunction(f, null, new Dictionary<string,string> { }, isADBT, system, custLevel));
+            }
+            else
+            {
+                functions = functions.Where(f => IsAllowFunction(f, null, new Dictionary<string, string> { }, isADBT, system, custLevel));
             }
 
             return functions;
         }
 
-        private bool IsAllowFunction(
-            BotFunction f, 
-            CustomerStatus customerStatus, 
+        private static bool IsAllowFunction(
+            BotFunction f,
+            CustomerStatus customerStatus,
             IDictionary<string, string> functionPermissions,
             bool isADBT,
             string system,
-            byte custLevel) {
+            byte custLevel)
+        {
             var isAllow = !functionPermissions.ContainsKey(f.FunctionKey)
                 || customerStatus.PageAccess.Contains(functionPermissions[f.FunctionKey]);
-            switch(f.FunctionKey) {
+            switch (f.FunctionKey)
+            {
                 case "AutoTransferSettings":
                 case "AutoTransferAlert":
                     return isAllow && !isADBT && system != "789Y";
@@ -268,7 +271,11 @@ namespace TelegramBot.Modules.Setting
             if (account != null)
             {
                 account.Functions = await GetAccountFunctions(account.CustId, account.SubAccId, functions, account.System, account.CustomerLevel);
-                account.SiteDBGroupIp = (await GetSiteDBGroup(account.CustId)).AGIP;
+                var siteDb = await GetSiteDBGroup(account.CustId);
+                if (siteDb != null)
+                {
+                    account.SiteDBGroupIp = siteDb.AGIP;
+                }
             }
 
             return account;
@@ -277,8 +284,13 @@ namespace TelegramBot.Modules.Setting
         private async Task SendWelcomeMessage(int custId, int subAccId, string username)
         {
             var messenger = await GetCustBotMessenger(custId, subAccId);
+            if (messenger == null)
+            {
+                return;
+            }
             var text = _messageBuilder.BuildWelcomeMessage(messenger.Language, username);
             var account = await GetCustBotAccount(messenger.ChatId, messenger.BotId);
+          
             var rootActionButtons = await _actionService.BuildRootActionButtons(account);
             var message = _messageBuilder.BuildMessage(text, rootActionButtons, messenger.Language);
             await _messageSender.SendMessage(account, message);

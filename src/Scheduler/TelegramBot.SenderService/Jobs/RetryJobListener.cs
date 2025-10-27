@@ -3,7 +3,7 @@ using Quartz;
 using TelegramBot.SenderService.Constants;
 namespace TelegramBot.SenderService.Jobs;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains extension methods for DI registration and is not intended to be covered by tests.")]
 public class RetryJobListener : IJobListener
 {
     private readonly Fanex.Logging.ILogger logger;

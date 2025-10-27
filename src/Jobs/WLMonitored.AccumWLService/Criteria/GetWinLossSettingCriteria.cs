@@ -5,11 +5,11 @@ namespace WLMonitored.AccumWLService.Criteria;
 public sealed class GetWinLossSettingCriteria : CriteriaBase
 {
     public GetWinLossSettingCriteria(string custIds, string superList, bool isTest)
-     {
+    {
         CustList = custIds;
         SuperList = superList;
         IsTest = isTest;
-     }
+    }
 
     public string CustList { get; }
 

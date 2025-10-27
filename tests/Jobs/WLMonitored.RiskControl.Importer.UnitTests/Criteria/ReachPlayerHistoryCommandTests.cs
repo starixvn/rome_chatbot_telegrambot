@@ -15,7 +15,7 @@ public class ReachPlayerHistoryCommandTests
         // Act & Assert
         Assert.Equal("Acc_WLMonitored_Service_ReachHistoryIns", criteria.GetSettingKey());
     }
-    
+
     [Theory]
     [InlineData("", false)]
     [InlineData("     ", false)]

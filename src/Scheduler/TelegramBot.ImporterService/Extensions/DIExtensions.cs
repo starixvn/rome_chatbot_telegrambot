@@ -6,7 +6,7 @@ using ClientServices = Alpha.API.Client.Services;
 
 namespace TelegramBot.ImporterService.Extensions;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains extension methods for DI registration and is not intended to be covered by tests.")]
 public static class DIExtensions
 {
     public static IServiceCollection AddRepositories(this IServiceCollection services)

@@ -14,9 +14,9 @@ public sealed class ScheduleJob
 
     public string CronExpression { get; init; } = default!;
 
-    public bool IsActive { get; init; } 
+    public bool IsActive { get; init; }
 
-    public string SiteDBs { get; init; } 
+    public string SiteDBs { get; init; }
 
-    public string MonitorEnvironment { get; init; } 
+    public string MonitorEnvironment { get; init; }
 }

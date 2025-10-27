@@ -32,7 +32,7 @@ public class ChangeWinLossBaseJob : IntervalBackgroundService
         this.winLossService = winLossService;
         this.playerHistoryService = playerHistoryService;
     }
-    
+
     public override Task<bool> ExecuteJob(GlobalSetting globalSetting)
         => throw new NotImplementedException();
 
@@ -96,6 +96,10 @@ public class ChangeWinLossBaseJob : IntervalBackgroundService
                 && (IsReachWinning(accumulatedWinLoss, winLossThreshold, lastScanDate) || IsReachLosing(accumulatedWinLoss, winLossThreshold, lastScanDate)))
             {
                 yield return BuildReachPlayerHistoryParam(accumulatedWinLoss, winLossThreshold, lastScanDate);
+            }
+            else
+            {
+                // No action needed if neither personal nor global threshold is found or reached.
             }
         }
     }

@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace TelegramBot.Modules.Command.Models
 {
     public class CallbackData

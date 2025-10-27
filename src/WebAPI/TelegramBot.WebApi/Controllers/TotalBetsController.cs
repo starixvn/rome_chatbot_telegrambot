@@ -19,19 +19,19 @@ namespace TelegramBot.WebApi.Controllers
         [Route("Summary"), HttpPost]
         public async Task<TotalBetsModel> Summary([FromBody] TotalBetsQuery query)
             => await handler.Summary(
-                query.CustId, 
-                query.SubAccId, 
-                query.CustomerLevel, 
+                query.CustId,
+                query.SubAccId,
+                query.CustomerLevel,
                 query.Language,
                 query.IsApplyPT);
 
         [Route("Details"), HttpPost]
         public async Task<TotalBetsDetailsModel> Details([FromBody] TotalBetsDetailsQuery query)
             => await handler.Details(
-                query.CustId, 
-                query.SubAccId, 
-                query.CustomerLevel, 
-                query.Language, 
+                query.CustId,
+                query.SubAccId,
+                query.CustomerLevel,
+                query.Language,
                 query.MatchId,
                 query.IsApplyPT);
     }

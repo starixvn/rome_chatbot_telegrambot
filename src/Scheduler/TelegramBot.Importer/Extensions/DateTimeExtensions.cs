@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace TelegramBot.Importer.Extensions;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains extension methods for DI registration and is not intended to be covered by tests.")]
 public static class DateTimeExtensions
 {
     private const string SimpleDate = "MM/dd/yyyy";

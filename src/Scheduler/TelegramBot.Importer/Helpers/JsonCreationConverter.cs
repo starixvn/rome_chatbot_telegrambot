@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace TelegramBot.Importer.Helpers;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains extension methods for DI registration and is not intended to be covered by tests.")]
 public abstract class JsonCreationConverter<T> : JsonConverter
 {
     protected virtual T Create(Type type, JObject obj)

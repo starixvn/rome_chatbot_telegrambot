@@ -15,7 +15,7 @@ public class GetChangedWinLossThresholdCriteriaTests
         // Act & Assert
         Assert.Equal("Acc_WLMonitored_Service_GetChangedSettingList", criteria.GetSettingKey());
     }
-    
+
     [Fact]
     public void IsValid_Always_ReturnsTrue()
     {

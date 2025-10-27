@@ -38,4 +38,4 @@ public class LoginFailedTypeConstantsTests
         // Assert
         Assert.False(result);
     }
-} 
+}

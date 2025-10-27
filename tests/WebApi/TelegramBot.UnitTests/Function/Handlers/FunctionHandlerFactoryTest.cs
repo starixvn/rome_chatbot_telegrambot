@@ -1,6 +1,5 @@
 using System;
 using Alpha.API.Client.Services;
-using Fanex.Data.Repository;
 using NSubstitute;
 using TelegramBot.Modules.Function.Constants;
 using TelegramBot.Modules.Function.Handlers;

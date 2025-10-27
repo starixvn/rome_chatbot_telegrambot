@@ -1,14 +1,13 @@
-﻿using Alpha.API.Client.Models.Customers;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Alpha.API.Client.Models.Customers;
 using Alpha.API.Client.Services;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Fanex.Data.Repository;
 using NSubstitute;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TelegramBot.Modules.Action;
-using TelegramBot.Modules.AutoTransfer;
 using TelegramBot.Modules.Function.Models;
 using TelegramBot.Modules.Message;
 using TelegramBot.Modules.OTP;
@@ -202,7 +201,10 @@ namespace TelegramBot.Modules.UnitTests.Setting
             _webAPIConfiguration.OtpMaxFailedTimes = 3;
             _dynamicRepository.FetchMultipleAsync<CustBotMessenger, BotFunction>(Arg.Any<CustBotMessengerSelCriteria>()).Returns(Task.FromResult((fixture.Create<IEnumerable<CustBotMessenger>>(), Enumerable.Empty<BotFunction>())));
             _customerService.GetCustomerStatus(Arg.Any<int>(), Arg.Any<int>()).Returns(Task.FromResult(status));
-            _dynamicRepository.FetchMultipleAsync<CustBotAccount, BotFunction>(Arg.Any<CustBotUserSelCriteria>()).Returns(Task.FromResult((fixture.Create<IEnumerable<CustBotAccount>>(), Enumerable.Empty<BotFunction>())));
+            var fakeAccount = fixture.Create<CustBotAccount>();
+            fakeAccount.CustId = custId;
+            fakeAccount.SubAccId = subAccId;
+            _dynamicRepository.FetchMultipleAsync<CustBotAccount, BotFunction>(Arg.Any<CustBotUserSelCriteria>()).Returns(Task.FromResult<(IEnumerable<CustBotAccount>, IEnumerable<BotFunction>)>((new List<CustBotAccount> { fakeAccount }, Enumerable.Empty<BotFunction>())));
             _otpService.VerifyOTP(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>()).Returns(Task.FromResult(Result.CreateSuccessfulResult()));
             // Act
             await _settingService.Link(botId, custId, subAccId, fixture.Create<string>(), username, ip);

@@ -1,4 +1,3 @@
-using System.Text;
 using TelegramBot.Importer.Models.ProblemAccounts;
 
 namespace TelegramBot.Importer.Models.MyWatchlist;

@@ -46,18 +46,18 @@ namespace MemberAPIs.Extensions
                     await httpContext.Response.WriteAsync(ApiMessagesConstants.RateLimitExceeded, token);
                 };
 
-                options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext => 
+                options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
                 {
                     var partitionKey = GetPartitionKey(httpContext);
                     return RateLimitPartition.GetSlidingWindowLimiter(
                         partitionKey: partitionKey,
                         factory: _ => new SlidingWindowRateLimiterOptions
-                            {
-                                AutoReplenishment = rateLimiterOptions.AutoReplenishment,
-                                PermitLimit = rateLimiterOptions.PermitLimit,
-                                Window = rateLimiterOptions.GetWindowTimeSpan(),
-                                SegmentsPerWindow = rateLimiterOptions.SegmentsPerWindow,
-                            });
+                        {
+                            AutoReplenishment = rateLimiterOptions.AutoReplenishment,
+                            PermitLimit = rateLimiterOptions.PermitLimit,
+                            Window = rateLimiterOptions.GetWindowTimeSpan(),
+                            SegmentsPerWindow = rateLimiterOptions.SegmentsPerWindow,
+                        });
                 });
             });
 
@@ -66,7 +66,7 @@ namespace MemberAPIs.Extensions
 
         public static IApplicationBuilder UseCustomRateLimiter(this IApplicationBuilder app, IConfiguration configuration)
         {
-            app.UseWhen(context => 
+            app.UseWhen(context =>
                 context.Request.Path.Value.Trim() != "/" &&
                 !context.Request.Path.Value.ToLower().Trim().Contains("/health"), applicationBuilder =>
             {
@@ -81,4 +81,4 @@ namespace MemberAPIs.Extensions
             return app;
         }
     }
-} 
+}

@@ -90,4 +90,4 @@ public class GetCustInfoCriteriaTests
         criteria.UplineName.Should().Be(uplineName);
         criteria.FailedCount.Should().Be(failedCount);
     }
-} 
+}

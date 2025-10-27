@@ -5,7 +5,7 @@ namespace TelegramBot.Importer.Criteria.LastBets;
 public class GetLastTransIdsCriteria : CriteriaBase
 {
     public GetLastTransIdsCriteria(string environment)
-    {  
+    {
         Environment = environment;
     }
 

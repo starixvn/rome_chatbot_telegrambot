@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Fanex.Data;
-using Fanex.Data.SqlServer;
 using ONEbook.UM;
 using ONEbook.UM.AspNetCore;
 using ONEbook.UM.Configurations;
@@ -9,7 +7,7 @@ using ONEbook.UM.Transport;
 
 namespace PortalAPIs.Extensions
 {
-    [ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage(Justification = "Extension class for middleware registration; tested indirectly via integration tests.")]
     public static class ApplicationBuilderExtensions
     {
         public static IApplicationBuilder UseUM(this IApplicationBuilder app, IConfiguration configuration)

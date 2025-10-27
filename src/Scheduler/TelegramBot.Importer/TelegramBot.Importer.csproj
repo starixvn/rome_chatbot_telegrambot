@@ -32,7 +32,4 @@
       <LastGenOutput>Template.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  
-  <PropertyGroup Label="sonarqube-rules-synchronizer">
-    <CodeAnalysisRuleSet>../../../.sonarlint/alpha-apicsharp.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup></Project>
+  </Project>

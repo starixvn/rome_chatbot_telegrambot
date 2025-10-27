@@ -5,7 +5,7 @@ using Telegram.Bot;
 
 namespace TelegramBot.Utilities;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains extension methods for DI registration and is not intended to be covered by tests.")]
 public static class TelegramBotUtils
 {
     public static ITelegramBotClient InitBotClient(string accessToken, string proxyAddress = "")

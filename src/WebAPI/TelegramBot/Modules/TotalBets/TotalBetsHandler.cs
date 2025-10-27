@@ -18,12 +18,14 @@ namespace TelegramBot.Modules.TotalBets
             this.totalBetsService = totalBetsService;
         }
 
-        public Task<TotalBetsModel> Summary(int custId, int subAccId, int customerLevel, string language, bool isApplyPT) {
+        public Task<TotalBetsModel> Summary(int custId, int subAccId, int customerLevel, string language, bool isApplyPT)
+        {
             return totalBetsService.Summary(custId, subAccId, customerLevel, language, isApplyPT);
         }
 
-      public Task<TotalBetsDetailsModel> Details(int custId, int subAccId, int customerLevel, string language, int matchId, bool isApplyPT) {
+        public Task<TotalBetsDetailsModel> Details(int custId, int subAccId, int customerLevel, string language, int matchId, bool isApplyPT)
+        {
             return totalBetsService.Details(custId, subAccId, customerLevel, language, matchId, isApplyPT);
-      }
+        }
     }
 }

@@ -34,7 +34,7 @@ using TelegramBot.WebApi.Filters;
 
 namespace TelegramBot.WebApi.Extensions
 {
-    [ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage(Justification = "This class only contains DI extension methods and does not require code coverage.")]
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)

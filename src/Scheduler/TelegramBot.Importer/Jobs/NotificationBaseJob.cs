@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using ONEbook.UM.Services;
 using Quartz;
 using TelegramBot.Importer.Configuration;
@@ -31,7 +30,6 @@ public abstract class NotificationBaseJob : IJob
 
     public async Task Execute(IJobExecutionContext context)
     {
-        //var sw = Stopwatch.StartNew();
         var job = GetJobDetails(context);
 
         if (await IsUM(job))
@@ -58,8 +56,6 @@ public abstract class NotificationBaseJob : IJob
         {
             await loggerService.Error(ex, job);
         }
-
-        //sw.Stop();
     }
 
     private static ScheduleJob GetJobDetails(IJobExecutionContext context)
@@ -123,7 +119,7 @@ public abstract class NotificationBaseJob : IJob
 
     public Task UpdateJobStatusToCompleted(ScheduleJob job, long maxLogId)
     {
-        var jobStatus = JobStatusConstants.Completed;
+        const string jobStatus = JobStatusConstants.Completed;
         var lastRunTime = DateTime.Now;
 
         try

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace TelegramBot.Receiver.Extensions;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains DI extension methods and does not require code coverage.")]
 public static class ExceptionMiddlewareExtensions
 {
     public static void ConfigureExceptionHandler(this IApplicationBuilder app)

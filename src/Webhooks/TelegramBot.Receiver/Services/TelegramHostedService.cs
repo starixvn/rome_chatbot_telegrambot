@@ -30,13 +30,13 @@ namespace TelegramBot.Receiver.Services
             {
                 await _logger.InfoAsync($"Worker {typeof(TelegramHostedService).Assembly.GetName().Name} running at: {DateTimeOffset.Now}");
                 var botEntities = await _botService.GetAllAsync();
-                var botClients = new Dictionary<string, ITelegramBotClient>();
-
-                foreach (var botEntity in botEntities)
-                {
-                    var botClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken, _receiverConfiguration.ProxyAddress);
-                    botClients.Add(botEntity.AccessToken, botClient);
-                }
+                var botClients = botEntities
+                    .Select(botEntity => new
+                    {
+                        botEntity.AccessToken,
+                        BotClient = TelegramBotUtils.InitBotClient(botEntity.AccessToken, _receiverConfiguration.ProxyAddress)
+                    })
+                    .ToDictionary(x => x.AccessToken, x => x.BotClient);
 
                 _handleUpdateService.BotClients = botClients;
             }

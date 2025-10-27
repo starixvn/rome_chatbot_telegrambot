@@ -10,7 +10,7 @@ using ONEbook.UM.Transport;
 
 namespace TelegramBot.WebApi.Extensions
 {
-    [ExcludeFromCodeCoverage]
+    [ExcludeFromCodeCoverage(Justification = "This class only contains DI extension methods and does not require code coverage.")]
     public static class ApplicationBuilderExtensions
     {
         public static IApplicationBuilder UseUM(this IApplicationBuilder app, IConfiguration configuration)

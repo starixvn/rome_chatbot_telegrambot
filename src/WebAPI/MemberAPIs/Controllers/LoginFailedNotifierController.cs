@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MemberAPIs.Requests;
-using MemberAPIs.Services;
+﻿using System.Net;
 using System.Net.Mime;
 using MemberAPIs.Configurations;
 using MemberAPIs.Constants;
-using Fanex.Logging;
 using MemberAPIs.Params;
-using System.Net;
+using MemberAPIs.Requests;
+using MemberAPIs.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MemberAPIs.Controllers
 {

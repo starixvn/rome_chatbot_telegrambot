@@ -6,7 +6,8 @@ using TelegramBot.Receiver.Services;
 
 namespace TelegramBot.Receiver;
 
-[ExcludeFromCodeCoverage]
+// S6513: Add a justification.
+[ExcludeFromCodeCoverage(Justification = "Startup class is only used for application configuration and does not contain business logic to be covered by tests.")]
 public class Startup
 {
     public Startup(IConfiguration configuration) =>

@@ -11,7 +11,7 @@ public class GetAutoTransferResultCriteria : CriteriaBase
         Environment = environment;
     }
 
-   [SpParam(Ignored = true)]
+    [SpParam(Ignored = true)]
     public string SiteDB { get; set; }
 
     public string Environment { get; set; }

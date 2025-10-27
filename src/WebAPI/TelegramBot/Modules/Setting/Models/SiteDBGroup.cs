@@ -1,5 +1,3 @@
-using TelegramBot.Modules.Function.Models;
-
 namespace TelegramBot.Modules.Setting.Models
 {
     public class SiteDBGroup
